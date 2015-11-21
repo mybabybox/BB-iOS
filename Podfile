@@ -1,0 +1,8 @@
+use_frameworks!platform :ios, '8.0'
+pod 'JSONModel'
+pod 'ObjectMapper'
+pod 'SwiftyJSON', :git => 'https://github.com/SwiftyJSON/SwiftyJSON.git'
+pod 'SwiftEventBus', :git => 'https://github.com/cesarferreira/SwiftEventBus.git'
+pod 'Alamofire', '~> 3.0'
+pod 'UIScrollView-InfiniteScroll'
+pod 'AlamofireObjectMapper', '~> 2.0'
