@@ -45,8 +45,8 @@ class ViewController: UIViewController,FBSDKLoginButtonDelegate {
             
             //apiController.validateLogin(self.userNameLabel.text!, password: self.passwordLabel.text!);
             
-            apiController.authenticateUser("pitlawarkp@gmail.com", password: "pitlawarkp");
-            //apiController.authenticateUser(self.userNameLabel.text!, password: self.passwordLabel.text!);
+            //apiController.authenticateUser("pitlawarkp@gmail.com", password: "pitlawarkp");
+            apiController.authenticateUser(self.userNameLabel.text!, password: self.passwordLabel.text!);
         }
         
         return self.isUserLoggedIn
