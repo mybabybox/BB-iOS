@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 47;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -187,13 +187,6 @@
 			name = service;
 			sourceTree = "<group>";
 		};
-		045FFED41BF5CD870047FBCA /* New Group */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = "New Group";
-			sourceTree = "<group>";
-		};
 		045FFED51BF5CD900047FBCA /* views */ = {
 			isa = PBXGroup;
 			children = (
@@ -223,10 +216,6 @@
 		714A39FF1BDE2267001D71A3 = {
 			isa = PBXGroup;
 			children = (
-				04B1699B1BE97E79006CF8F4 /* Bolts.framework */,
-				04B1699C1BE97E79006CF8F4 /* FBSDKCoreKit.framework */,
-				04B1699D1BE97E79006CF8F4 /* FBSDKLoginKit.framework */,
-				04B1699E1BE97E79006CF8F4 /* FBSDKShareKit.framework */,
 				714A3A0A1BDE2268001D71A3 /* Baby Box */,
 				714A3A201BDE2268001D71A3 /* Baby BoxTests */,
 				714A3A091BDE2268001D71A3 /* Products */,
@@ -247,7 +236,6 @@
 		714A3A0A1BDE2268001D71A3 /* Baby Box */ = {
 			isa = PBXGroup;
 			children = (
-				045FFED41BF5CD870047FBCA /* New Group */,
 				045FFEC31BF55E6D0047FBCA /* com */,
 				714A3A0D1BDE2268001D71A3 /* AppDelegate.swift */,
 				714A3A0F1BDE2268001D71A3 /* ViewController.swift */,
@@ -297,6 +285,10 @@
 			isa = PBXGroup;
 			children = (
 				5288CF434DB7F2CD76F54EB3 /* Pods.framework */,
+				04B1699B1BE97E79006CF8F4 /* Bolts.framework */,
+				04B1699C1BE97E79006CF8F4 /* FBSDKCoreKit.framework */,
+				04B1699D1BE97E79006CF8F4 /* FBSDKLoginKit.framework */,
+				04B1699E1BE97E79006CF8F4 /* FBSDKShareKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -364,7 +356,7 @@
 				};
 			};
 			buildConfigurationList = 714A3A031BDE2268001D71A3 /* Build configuration list for PBXProject "Baby Box" */;
-			compatibilityVersion = "Xcode 3.2";
+			compatibilityVersion = "Xcode 6.3";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -618,14 +610,15 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../../../Downloads/FacebookSDKs-iOS-20151026\"",
+					"\"$(SRCROOT)/Build/Libs/FacebookSDKs-iOS-20151026\"",
 				);
 				INFOPLIST_FILE = "Baby Box/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.mnt.BabyBox.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.babybox.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -638,14 +631,15 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../../../Downloads/FacebookSDKs-iOS-20151026\"",
+					"\"$(SRCROOT)/Build/Libs/FacebookSDKs-iOS-20151026\"",
 				);
 				INFOPLIST_FILE = "Baby Box/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.mnt.BabyBox.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.babybox.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -663,7 +657,7 @@
 				);
 				INFOPLIST_FILE = "Baby BoxTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.mnt.BabyBox.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.babybox.app.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Baby Box.app/Baby Box";
 			};
@@ -679,7 +673,7 @@
 				);
 				INFOPLIST_FILE = "Baby BoxTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.mnt.BabyBox.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.babybox.app.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Baby Box.app/Baby Box";
 			};
