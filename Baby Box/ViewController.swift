@@ -19,6 +19,7 @@ class ViewController: UIViewController,FBSDKLoginButtonDelegate {
     
     @IBOutlet weak var passwordLabel: UITextField!
     
+    var isUserLoggedIn = false
     let apiController =  ApiControlller();
     
     @IBAction func onClickSignUp(sender: AnyObject) {
@@ -27,6 +28,8 @@ class ViewController: UIViewController,FBSDKLoginButtonDelegate {
     }
     
     override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject!) -> Bool {
+        print(">>>>>>>>>>>>>>>>>>>>>>")
+        print(identifier)
         if identifier == "clickToLogin" {
             if (userNameLabel.text!.isEmpty || passwordLabel.text!.isEmpty) {
                 print("enter details....")
@@ -38,35 +41,55 @@ class ViewController: UIViewController,FBSDKLoginButtonDelegate {
                 return false;
             }
             
-            /*SwiftEventBus.onMainThread(self, name: "getUserLoggedIn") { result in
-                // UI thread
-                let resultDto: ResponseVM = result.object as! ResponseVM
-                self.handleUserLogin()
-            }*/
             
-            SwiftEventBus.onMainThread(self, name: "getUserLoggedUserInfo") { result in
-                // UI thread
-                let resultDto: UserInfoModel = result.object as! UserInfoModel
-                print(resultDto);
-            }
             
             //apiController.validateLogin(self.userNameLabel.text!, password: self.passwordLabel.text!);
-            apiController.authenticateUser("pitlawarkp@gmail.com", password: "pitlawarkp");
             
+            apiController.authenticateUser("pitlawarkp@gmail.com", password: "pitlawarkp");
+            //apiController.authenticateUser(self.userNameLabel.text!, password: self.passwordLabel.text!);
         }
         
-        // by default, transition
-        return true
+        return self.isUserLoggedIn
+        
     }
     
-    func handleUserLogin() {
-        apiController.getUserInfo();
+    func handleUserLogin(resultDto: String) {
+        self.isUserLoggedIn = true
+        constants.accessToken = resultDto
+        self.performSegueWithIdentifier("clickToLogin", sender: nil)
+        //apiController.getUserInfo();
+    }
+    
+    func handleUserLoginFailed(resultDto: String) {
+        self.isUserLoggedIn = false
+        //apiController.getUserInfo();
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.isUserLoggedIn = false
         ApiControlller.init();
         // Do any additional setup after loading the view, typically from a nib.
+        
+        SwiftEventBus.onMainThread(self, name: "loginReceivedSuccess") { result in
+            // UI thread
+            print(result.object)
+            let resultDto: String = result.object as! String
+            print("here got the login result... " + resultDto);
+            self.handleUserLogin(resultDto)
+        }
+        
+        SwiftEventBus.onMainThread(self, name: "loginReceivedFailure") { result in
+            // UI thread
+            let resultDto: String = result.object as! String
+            self.handleUserLoginFailed(resultDto)
+        }
+        
+        SwiftEventBus.onMainThread(self, name: "getUserLoggedUserInfo") { result in
+            // UI thread
+            let resultDto: UserInfoModel = result.object as! UserInfoModel
+            print(resultDto);
+        }
         
         if(FBSDKAccessToken.currentAccessToken()==nil)
         {
