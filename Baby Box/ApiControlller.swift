@@ -204,12 +204,15 @@ class ApiControlller {
 //        request.HTTPBody = argPayLoad.dataUsingEncoding(NSUTF8StringEncoding)
         
         //let paramString = "postId=48&body=this is test comment"
-        request.HTTPBody = arg.body.dataUsingEncoding(NSUTF8StringEncoding)
+        if (arg.body != "") {
+            request.HTTPBody = arg.body.dataUsingEncoding(NSUTF8StringEncoding)
+        }
         
         NSLog("sending string %@", arg.apiUrl)
         
         let session = NSURLSession.sharedSession()
         let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
+            print(response)
             if error != nil {
                 SwiftEventBus.post(arg.failedEventbusName, sender: error)
             } else {
@@ -229,29 +232,40 @@ class ApiControlller {
     func authenticateUser(userName: String, password: String) -> Bool {
         let url = constants.kBaseServerURL + "mobile/login?email=\(userName)&password=\(password)"
         
-        let request: NSMutableURLRequest = NSMutableURLRequest()
+        /*let request: NSMutableURLRequest = NSMutableURLRequest()
         request.URL = NSURL(string: url)
         request.HTTPMethod = "POST"
         NSLog("sending string %@", url)
         
         let response:AutoreleasingUnsafeMutablePointer<NSURLResponse?> = nil;
+        
         do {
-            //let responseError: Error
+            let responseError: Error
             let responseData = try NSURLConnection.sendSynchronousRequest(request, returningResponse: response)
             
             var httpResponse = response as? NSHTTPURLResponse
             print(httpResponse)
-            /*if let httpResponse = response as? NSHTTPURLResponse {
+            if let httpResponse = response as? NSHTTPURLResponse {
                 print(httpResponse.statusCode)
-            }*/
+            }
             print("-------------------------")
-            print(response.debugDescription)
-            print(responseData)
+            print(response)
+            print(responseData.length)
              print("-------------------------")
             handleResult(responseData, arg: ResponseVM())
         } catch let error {
             print(error)
         }
+        */
+        
+        let callEvent = ApiCallEvent()
+        callEvent.method = "mobile/login"
+        callEvent.resultClass = "String"
+        callEvent.successEventbusName = "loginReceivedSuccess"
+        callEvent.failedEventbusName = "loginReceivedFailed"
+        callEvent.apiUrl = url
+        
+        makePostApiCall(callEvent)
         
         //let URL = "https://raw.githubusercontent.com/tristanhimmelman/AlamofireObjectMapper/d8bb95982be8a11a2308e779bb9a9707ebe42ede/sample_json"
         
@@ -276,7 +290,6 @@ class ApiControlller {
         let result: AnyObject = self.parseStr(arg.resultClass, inputStr: responseString as String)
         return result
     }
-
     
     func parseStr(cName: String, inputStr: String) -> AnyObject {
         var result: AnyObject = NSNull();
@@ -286,6 +299,9 @@ class ApiControlller {
             case "ResponseVM": result = Mapper<ResponseVM>().map(inputStr)!
             case "PostModel": result = Mapper<PostModel>().mapArray(inputStr)!
             case "PostCatModel": result = Mapper<PostCatModel>().mapArray(inputStr)!
+            case "String":
+                print(inputStr)
+                result = inputStr
             default:
                 print("calling default object resolver")
         }
