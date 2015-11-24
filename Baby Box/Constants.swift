@@ -13,4 +13,5 @@ struct constants {
     static let kBaseServerURL = "http://192.168.2.18:9000/"
     static let imagesBaseURL = "http://192.168.2.18:9000";
     static let currencySymbol = "$";
+    static var accessToken = "";
 }
