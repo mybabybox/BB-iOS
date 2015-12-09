@@ -12,6 +12,7 @@ import SwiftEventBus
 class HomePageRightTabViewController: UIViewController {
     //this controller will be used to manage category specific products list...
     
+    var pageOffSet: Int = 0
     @IBOutlet weak var homeProductsCollectionView: UICollectionView!
     var apiController: ApiControlller = ApiControlller()
     
@@ -21,21 +22,20 @@ class HomePageRightTabViewController: UIViewController {
         super.viewDidLoad()
         print("loaded HomePageRightTabViewController", terminator: "")
         
-        apiController.getHomeEollowingFeeds("0")
-        apiController.getHomeExploreFeeds("0")
+        apiController.getHomeEollowingFeeds(pageOffSet)
+        
         self.homeProducts = []
-        SwiftEventBus.onMainThread(self, name: "homeExplorePostsReceivedSuccess") { result in
+        /*SwiftEventBus.onMainThread(self, name: "homeExplorePostsReceivedSuccess") { result in
             // UI thread
             let resultDto: [PostModel] = result.object as! [PostModel]
             self.handleHomePosts(resultDto)
-        }
+        }*/
         
         SwiftEventBus.onMainThread(self, name: "homeFollowingPostsReceivedSuccess") { result in
             // UI thread
             let resultDto: [PostModel] = result.object as! [PostModel]
             self.handleHomePosts(resultDto)
         }
-        
     }
     
     func handleHomePosts(resultDto: [PostModel]) {

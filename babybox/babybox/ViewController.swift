@@ -43,8 +43,8 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFieldDel
             }
             self.progressIndicator.hidden = false
             self.progressIndicator.startAnimating()
-            apiController.authenticateUser("pitlawarkp@gmail.com", password: "pitlawarkp");
-           // apiController.authenticateUser(self.userNameTxt.text!, password: self.passwordTxt.text!);
+            //apiController.authenticateUser("pitlawarkp@gmail.com", password: "pitlawarkp");
+            apiController.authenticateUser(self.userNameTxt.text!, password: self.passwordTxt.text!);
             return false
         } else if (identifier == "gotoforgotpassword") {
             return true
@@ -54,12 +54,21 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFieldDel
     }
     
     func handleUserLogin(resultDto: String) {
-        self.isUserLoggedIn = true
-        constants.accessToken = resultDto
         self.progressIndicator.hidden = true
         self.progressIndicator.stopAnimating()
-        self.performSegueWithIdentifier("clickToLogin", sender: nil)
-        //apiController.getUserInfo();
+        if resultDto.isEmpty {
+            //authentication failed.. show error message...
+            let _errorDialog = UIAlertController(title: "Error Message", message: "Invalid UserName or Password", preferredStyle: UIAlertControllerStyle.Alert)
+            let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil);
+            _errorDialog.addAction(okAction)
+            self.presentViewController(_errorDialog, animated: true, completion: nil)
+            
+        } else {
+            self.isUserLoggedIn = true
+            constants.accessToken = resultDto
+            self.performSegueWithIdentifier("clickToLogin", sender: nil)
+        }
+        
     }
     
     func handleUserLoginFailed(resultDto: String) {
@@ -71,7 +80,7 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFieldDel
         let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil);
         _errorDialog.addAction(okAction)
         self.presentViewController(_errorDialog, animated: true, completion: nil)
-        
+        //self.performSegueWithIdentifier("clickToLogin", sender: nil)
         //apiController.getUserInfo();
     }
     
@@ -82,6 +91,7 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFieldDel
     override func viewDidLoad() {
         super.viewDidLoad()
         print("viewDidLoad")
+        
         self.userNameTxt.delegate = self
         self.passwordTxt.delegate = self
         
@@ -137,6 +147,9 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFieldDel
         }
         else{
             
+            self.progressIndicator.hidden = true
+            progressIndicator.stopAnimating()
+            apiController.validateFacebookUser(FBSDKAccessToken.currentAccessToken().tokenString);
             print("Logged in..")
         }
         
@@ -148,7 +161,10 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFieldDel
         if (error == nil) {
             print("Login Complete..", terminator: "")
             self.isUserLoggedIn = true
-            self.performSegueWithIdentifier("clickToFacebookLogin", sender: self)
+            
+            //make API call to authenticate facebook user on server.
+            apiController.validateFacebookUser(result.token.tokenString);
+            //self.performSegueWithIdentifier("clickToFacebookLogin", sender: self)
         } else {
             print(error.localizedDescription, terminator: "")
         }

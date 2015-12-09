@@ -13,7 +13,9 @@ import Kingfisher
 
 class HomePageLeftTabViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
     
-    
+    var pageOffSet: Int = 0
+    //@IBOutlet weak var productViewCell: ProductCollectionViewCell!
+    @IBOutlet weak var poductImage: UIImageView!
     @IBOutlet weak var productsCollectionView: UICollectionView!
     @IBOutlet weak var myCategoryCollectionView: UICollectionView!
     var apiController: ApiControlller = ApiControlller()
@@ -21,26 +23,50 @@ class HomePageLeftTabViewController: UIViewController, UICollectionViewDataSourc
     var categories : [CategoryModel] = []
     var products: [PostModel] = []
     
-    override func viewDidAppear(animated: Bool) {
-    
+    func getSellButton() -> UIBarButtonItem {
+        let sellImage: UIImage = UIImage(named:"ic_info_bubble")!
+        let frameimg: CGRect = CGRectMake(0, 0, 30, 30);
+        let sellButton = UIButton(frame: frameimg)
+        sellButton.setBackgroundImage(sellImage, forState: UIControlState.Normal)
+        sellButton.showsTouchWhenHighlighted = true
+        sellButton.addTarget(self, action: "sellButtonPressed", forControlEvents: UIControlEvents.TouchUpInside)
+        
+        let sellBarButton = UIBarButtonItem()
+        sellBarButton.customView = sellButton
+        
+        return sellBarButton
     }
+    
+    func sellButtonPressed() {
+        NSLog("Sell button Pressed...")
+        //sellProductsViewController
+        
+        /*let sellViewController = self.storyboard?.instantiateViewControllerWithIdentifier("sellProductsViewController") as? SellProductsViewController
+        print(sellViewController)
+        self.presentViewController(sellViewController!, animated: true, completion: nil)
+        */
+        self.performSegueWithIdentifier("sellProductView", sender: nil)
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         
+        //self.navigationController?.setNavigationBarHidden(false, animated: false)
+        //self.navigationItem.rightBarButtonItem = getSellButton()
+        self.tabBarController?.navigationController?.setNavigationBarHidden(true, animated: false)
+        self.navigationItem.rightBarButtonItem = getSellButton()
         print("loaded HomePageLeftTabViewController", terminator: "")
-        var collectionViewLayout = self.myCategoryCollectionView.collectionViewLayout;
-        //collectionViewLayout.sectionInset = UIEdgeInsetsMake(20, 0, 20, 0);
         
-       // self.navigationItem.setHidesBackButton(false, animated:false);
-//        self.navigationItem.setLeftBarButtonItem(nil, animated: true)
-//        let backButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: navigationController, action: nil)
-//        navigationItem.leftBarButtonItem = backButton
+        let layer:CALayer = self.productsCollectionView.layer
+        layer.shadowOffset = CGSizeMake(1,1)
+        layer.shadowRadius = 2.0
+        layer.shadowOpacity = 0.8
+        layer.shadowColor = UIColor.grayColor().CGColor
         
-        
-        //SwiftEventBus.post("getCategories", sender: baseArgVM);
         apiController.getAllCategories();
-        apiController.getAllFeedProducts();
+        apiController.getHomeExploreFeeds(pageOffSet);
         
         SwiftEventBus.onMainThread(self, name: "categoriesReceivedSuccess") { result in
             // UI thread
@@ -48,7 +74,7 @@ class HomePageLeftTabViewController: UIViewController, UICollectionViewDataSourc
             self.handleGetCateogriesSuccess(resultDto)
         }
         
-        SwiftEventBus.onMainThread(self, name: "allPostsReceivedSuccess") { result in
+        SwiftEventBus.onMainThread(self, name: "homeExplorePostsReceivedSuccess") { result in
             // UI thread
             let resultDto: [PostModel] = result.object as! [PostModel]
             self.handleGetAllProductsuccess(resultDto)
@@ -174,6 +200,10 @@ class HomePageLeftTabViewController: UIViewController, UICollectionViewDataSourc
         }
         
         print("User tapped on \(indexPath.row)", terminator: "");
+    }
+    
+    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
+        return true
     }
     
 }

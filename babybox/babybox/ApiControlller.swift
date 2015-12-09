@@ -22,38 +22,6 @@ class ApiControlller {
                 }
     
     init() {
-        
-        /*SwiftEventBus.onBackgroundThread(self, name: "getUserLoggedIn") {
-            result in
-            NSLog("getUserLoggedIn")
-            
-            //let arg: BaseArgVM = result.object as! BaseArgVM
-            let callEvent = ApiCallEvent()
-            callEvent.method = "mobile/login"
-            callEvent.resultClass = "ResponseVM"
-            callEvent.successEventbusName = "userLoginSuccess"
-            callEvent.failedEventbusName = "userLoginFailed"
-            //callEvent.arg = arg
-            callEvent.apiUrl = kBaseServerURL + callEvent.method;
-            
-            self.makeApiCall(callEvent)
-        }*/
-        
-        /*SwiftEventBus.onBackgroundThread(self, name: "getCategories") {
-            result in
-            NSLog("payPalCheckout")
-            
-            let arg: BaseArgVM = result.object as! BaseArgVM
-            let callEvent = ApiCallEvent()
-            callEvent.method = "categories"
-            callEvent.resultClass = "CategoryVM"
-            callEvent.successEventbusName = "categoriesReceivedSuccess"
-            callEvent.failedEventbusName = "categoriesReceivedFailed"
-            callEvent.arg = arg
-            callEvent.apiUrl = kBaseServerURL + callEvent.method;
-            
-            self.makeApiCall(callEvent)
-        }*/
     }
     
     func getAllCategories() {
@@ -67,36 +35,25 @@ class ApiControlller {
         self.makeApiCall(callEvent)
     }
     
-    func getAllFeedProducts() {
-        let callEvent = ApiCallEvent()
-        callEvent.method = "get-all-feed-products"
-        callEvent.resultClass = "PostModel"
-        callEvent.successEventbusName = "allPostsReceivedSuccess"
-        callEvent.failedEventbusName = "allPostsReceivedFailed"
-        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method;
-    
-        self.makeApiCall(callEvent)
-    }
-    
-    //Get the post of type HOME_EXPLORE & HOME_FOLLOWING
-    func getHomeExploreFeeds(offSet: String) {
+    //Get the post of type HOME_FOLLOWING
+    func getHomeExploreFeeds(offSet: Int) {
         let callEvent = ApiCallEvent()
         callEvent.method = "get-home-explore-feed"
         callEvent.resultClass = "PostModel"
         callEvent.successEventbusName = "homeExplorePostsReceivedSuccess"
         callEvent.failedEventbusName = "postsReceivedFailed"
-        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method + "/" + offSet;
+        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method + "/" + String(offSet);
         
         self.makeApiCall(callEvent)
     }
     
-    func getHomeEollowingFeeds(offSet: String) {
+    func getHomeEollowingFeeds(offSet: Int) {
         let callEvent = ApiCallEvent()
         callEvent.method = "get-home-following-feed"
         callEvent.resultClass = "PostModel"
         callEvent.successEventbusName = "homeFollowingPostsReceivedSuccess"
         callEvent.failedEventbusName = "postsReceivedFailed"
-        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method + "/" + offSet
+        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method + "/" + String(offSet)
         
         self.makeApiCall(callEvent)
     }
@@ -164,6 +121,169 @@ class ApiControlller {
         self.makePostApiCall(callEvent)
     }
     
+    func validateFacebookUser(authToken: String) -> Bool {
+        let url = constants.kBaseServerURL + "authenticate/mobile/facebook?access_token=\(authToken)"
+        let callEvent = ApiCallEvent()
+        callEvent.method = "authenticate/mobile/facebook"
+        callEvent.resultClass = "String"
+        callEvent.successEventbusName = "loginReceivedSuccess"
+        callEvent.failedEventbusName = "loginReceivedFailed"
+        callEvent.apiUrl = url
+        
+        makePostApiCall(callEvent)
+        
+        return true
+    }
+    
+    func authenticateUser(userName: String, password: String) -> Bool {
+        
+        let url = constants.kBaseServerURL + "mobile/login?email=\(userName)&password=\(password)"
+        
+        let callEvent = ApiCallEvent()
+        callEvent.method = "mobile/login"
+        callEvent.resultClass = "String"
+        callEvent.successEventbusName = "loginReceivedSuccess"
+        callEvent.failedEventbusName = "loginReceivedFailed"
+        callEvent.apiUrl = url
+        
+        makePostApiCall(callEvent)
+        
+        return true
+    }
+    
+    func forgotPasswordRequest(emailAddress: String) -> Bool {
+        let url = constants.kBaseServerURL + "login/password/forgot?email=\(emailAddress)"
+        
+        let callEvent = ApiCallEvent()
+        callEvent.method = "login/password/forgot"
+        callEvent.resultClass = "String"
+        callEvent.successEventbusName = "forgotPasswordSuccess"
+        callEvent.failedEventbusName = "forgotPasswordFailed"
+        callEvent.apiUrl = url
+        
+        self.makeApiCall(callEvent)
+        
+        return true
+        
+    }
+    
+    //Categories products filter APIs calls
+    func getCategoriesFilterByPopularity(id: Int, offSet: Int) {
+        let callEvent = ApiCallEvent()
+        callEvent.method = "get-category-popular-feed" + String(id)
+        callEvent.resultClass = "PostModel"
+        callEvent.successEventbusName = "categoryProductFeedSuccess"
+        callEvent.failedEventbusName = "categoryProductFeedFailed"
+        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method + "/prodtype/" + String(offSet)
+        self.makeApiCall(callEvent)
+    }
+    
+    func getCategoriesFilterByNewestPrice(id: Int, offSet: Int) {
+        let callEvent = ApiCallEvent()
+        callEvent.method = "get-category-newest-feed" + String(id)
+        callEvent.resultClass = "PostModel"
+        callEvent.successEventbusName = "categoryProductFeedSuccess"
+        callEvent.failedEventbusName = "categoryProductFeedFailed"
+        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method + "/prodtype/" + String(offSet)
+        self.makeApiCall(callEvent)
+    }
+    
+    func getCategoriesFilterByLhPrice(id: Int, offSet: Int) { //filtering by low-high price
+        let callEvent = ApiCallEvent()
+        callEvent.method = "get-category-low-high-feed" + String(id)
+        callEvent.resultClass = "PostModel"
+        callEvent.successEventbusName = "categoryProductFeedSuccess"
+        callEvent.failedEventbusName = "categoryProductFeedFailed"
+        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method  + "/prodtype/" + String(offSet)
+        self.makeApiCall(callEvent)
+    }
+    
+    func getCategoriesFilterByHlPrice(id: Int, offSet: Int) { //filtering by high-low price
+        let callEvent = ApiCallEvent()
+        callEvent.method = "get-category-high-low-feed" + String(id)
+        callEvent.resultClass = "PostModel"
+        callEvent.successEventbusName = "categoryProductFeedSuccess"
+        callEvent.failedEventbusName = "categoryProductFeedFailed"
+        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method + "/prodtype/" + String(offSet)
+        self.makeApiCall(callEvent)
+    }
+    
+    func getUserPostedFeeds(id: Int, offSet: Int) { //filtering by high-low price
+        let callEvent = ApiCallEvent()
+        callEvent.method = "get-user-posted-feed" + String(id)
+        callEvent.resultClass = "PostModel"
+        callEvent.successEventbusName = "userPostFeedSuccess"
+        callEvent.failedEventbusName = "userPostFeedFailed"
+        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method + "/" + String(offSet)
+        self.makeApiCall(callEvent)
+    }
+    
+    func getUserLikedFeeds(id: Int, offSet: Int) { //filtering by high-low price
+        let callEvent = ApiCallEvent()
+        callEvent.method = "get-user-liked-feed" + String(id)
+        callEvent.resultClass = "PostModel"
+        callEvent.successEventbusName = "userPostFeedSuccess"
+        callEvent.failedEventbusName = "userPostFeedFailed"
+        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method + "/" + String(offSet)
+        self.makeApiCall(callEvent)
+    }
+    
+    func getUserCollectionFeeds(id: Int, offSet: Int) { //filtering by high-low price
+        let callEvent = ApiCallEvent()
+        callEvent.method = "get-user-collection-feed" + String(id)
+        callEvent.resultClass = "PostModel"
+        callEvent.successEventbusName = "userPostFeedSuccess"
+        callEvent.failedEventbusName = "userPostFeedFailed"
+        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method + "/" + String(offSet)
+        self.makeApiCall(callEvent)
+    }
+    
+    func getUserFollowings(id: Int, offSet: Int) { //filtering by high-low price
+        let callEvent = ApiCallEvent()
+        callEvent.method = "followings" + String(id)
+        callEvent.resultClass = "PostModel"
+        callEvent.successEventbusName = "userPostFeedSuccess"
+        callEvent.failedEventbusName = "userPostFeedFailed"
+        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method + "/" + String(offSet)
+        self.makeApiCall(callEvent)
+    }
+    
+    
+    func getUserFollowers(id: Int, offSet: Int) { //filtering by high-low price
+        let callEvent = ApiCallEvent()
+        callEvent.method = "followers" + String(id)
+        callEvent.resultClass = "PostModel"
+        callEvent.successEventbusName = "userPostFeedSuccess"
+        callEvent.failedEventbusName = "userPostFeedFailed"
+        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method + "/" + String(offSet)
+        self.makeApiCall(callEvent)
+    }
+    
+    func getAllDistricts() { //filtering by high-low price
+        let callEvent = ApiCallEvent()
+        callEvent.method = "get-all-district"
+        callEvent.resultClass = "LocationModel"
+        callEvent.successEventbusName = "getDistrictSuccess"
+        callEvent.failedEventbusName = "getDistrictFailed"
+        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
+        self.makeApiCall(callEvent)
+    }
+    
+    //User Security APIs
+    func saveUserSignUpInfo(userInfo: UserInfoModel) { //filtering by high-low price
+        let callEvent = ApiCallEvent()
+        callEvent.method = "saveSignupInfo"
+        callEvent.resultClass = "String"
+        callEvent.successEventbusName = "saveSignInfoSuccess"
+        callEvent.failedEventbusName = "saveSignInfoFailed"
+        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
+        //TODO - populate the post data//callEvent.body = userInfo
+        
+        self.makePostApiCall(callEvent)
+    }
+    
+    
+    
     func makeApiCall(arg: ApiCallEvent) {
         //
         NSLog("makeApiCall")
@@ -216,37 +336,6 @@ class ApiControlller {
         task.resume()
     }
     
-    func authenticateUser(userName: String, password: String) -> Bool {
-        
-        let url = constants.kBaseServerURL + "mobile/login?email=\(userName)&password=\(password)"
-        
-        let callEvent = ApiCallEvent()
-        callEvent.method = "mobile/login"
-        callEvent.resultClass = "String"
-        callEvent.successEventbusName = "loginReceivedSuccess"
-        callEvent.failedEventbusName = "loginReceivedFailed"
-        callEvent.apiUrl = url
-        
-        makePostApiCall(callEvent)
-        
-        return true
-    }
-    
-    func forgotPasswordRequest(emailAddress: String) -> Bool {
-        let url = constants.kBaseServerURL + "login/password/forgot?email=\(emailAddress)"
-        
-        let callEvent = ApiCallEvent()
-        callEvent.method = "login/password/forgot"
-        callEvent.resultClass = "String"
-        callEvent.successEventbusName = "forgotPasswordSuccess"
-        callEvent.failedEventbusName = "forgotPasswordFailed"
-        callEvent.apiUrl = url
-        
-        self.makeApiCall(callEvent)
-        
-        return true
-        
-    }
     
     func handleResult(data: NSData, arg: ResponseVM) {
         //print("response")
@@ -276,6 +365,7 @@ class ApiControlller {
             case "ResponseVM": result = Mapper<ResponseVM>().map(inputStr)!
             case "PostModel": result = Mapper<PostModel>().mapArray(inputStr)!
             case "PostCatModel": result = Mapper<PostCatModel>().mapArray(inputStr)!
+            case "LocationModel": result = Mapper<LocationModel>().mapArray(inputStr)!
             case "String":
                 print(inputStr, terminator: "")
                 result = inputStr
