@@ -47,13 +47,13 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate{
         if(self.likeFlag == false){
             self.likeButton.setImage(UIImage(named: "ic_liked_tips.png"), forState: UIControlState.Normal)
             self.likeFlag = true
-            ApiControlller().postLikeButton(String(Int(self.id)))
+            ApiControlller().likePost(String(Int(self.id)))
             self.likeCountLabel.text = String(count! + 1)
             
         }else{
             self.likeButton.setImage(UIImage(named: "ic_like_tips.png"), forState: UIControlState.Normal)
             self.likeFlag = false
-            ApiControlller().postUnlikeButton(String(Int(self.id)))
+            ApiControlller().unlikePost(String(Int(self.id)))
             self.likeCountLabel.text = String(count! - 1)
         }
     }
@@ -65,7 +65,7 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate{
         self.productTitle.text = productModel.title
         self.productPrice.text = "\(constants.currencySymbol) \(String(stringInterpolationSegment: productModel.price))"
         self.likeCountLabel.text = String(productModel.numLikes)
-        self.id = productModel.id
+        self.id = Double(productModel.id)
         self.ownerName.text = productModel.ownerName
         
         if(productModel.isLiked == false){

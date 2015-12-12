@@ -14,7 +14,7 @@ class HomePageRightTabViewController: UIViewController {
     //this controller will be used to manage category specific products list...
     
     var pageOffSet: Int = 0
-    
+    var currentSelProduct: Int = 0
     var apiController: ApiControlller = ApiControlller()
     
     let WINDOW_WIDTH = UIScreen.mainScreen().bounds.width
@@ -32,28 +32,24 @@ class HomePageRightTabViewController: UIViewController {
             let resultDto: [PostModel] = result.object as! [PostModel]
             self.handleHomePosts(resultDto)
         }
-    }
-    
-    func fetchData() {
+        
         apiController.getHomeEollowingFeeds(pageOffSet)
     }
     
     func handleHomePosts(resultDto: [PostModel]) {
         
-        for value in resultDto {
-            self.homeProducts.append(value)
+        self.homeProducts.appendContentsOf(resultDto)
+        if (!self.homeProducts.isEmpty) {
+            self.pageOffSet = Int(self.homeProducts[self.homeProducts.count - 1].offSet)
+            dispatch_async(dispatch_get_main_queue(), {
+                self.followingProductsCollectionView.reloadData()
+            })
         }
-        
-        //self.homeProducts.appendContentsOf(resultDto)
-        dispatch_async(dispatch_get_main_queue(), {
-            self.followingProductsCollectionView.reloadData()
-        })
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         var count = 0;
         count = self.homeProducts.count
-        print("conter of right " + String(self.homeProducts.count), terminator: "")
         return count;
     }
     
@@ -64,10 +60,8 @@ class HomePageRightTabViewController: UIViewController {
         productViewCell.productTitle.text = post.title
             productViewCell.productPrice.text = "\(constants.currencySymbol) \(String(stringInterpolationSegment: post.price))"
             productViewCell.likeCount.text = String(post.numLikes)
-            //print("aaaaaaaaaaaaaaa  \(post.isLiked)")
         
-        
-        productViewCell.layer.borderWidth = 1
+        //productViewCell.layer.borderWidth = 1
         
             //print(productViewCell.buttonLike)
             productViewCell.id = post.id
@@ -97,25 +91,58 @@ class HomePageRightTabViewController: UIViewController {
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        print("click on image..")
+        //let vController = self.storyboard?.instantiateViewControllerWithIdentifier("myProductView") as! ProductDetailsViewController
         
-        let vController = self.storyboard?.instantiateViewControllerWithIdentifier("myProductView") as! ProductDetailsViewController
+        self.currentSelProduct = indexPath.row
+        self.performSegueWithIdentifier("showProductDetail", sender: nil)
+        //vController.productModel = self.homeProducts[indexPath.row]
+        //
+        //self.navigationController?.pushViewController(vController, animated: true)
         
-        vController.productModel = self.homeProducts[indexPath.row]
-        apiController.getProductDetails(String(Int(vController.productModel.id)))
-        self.navigationController?.pushViewController(vController, animated: true)
+        
     }
     
-    /*func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
-        sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-            
-            let size:CGSize = CGSizeMake(WINDOW_WIDTH, (WINDOW_WIDTH)*1)
-            return size
-            
-    }*/
+    //
+    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
+        return true
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if (segue.identifier == "showProductDetail") {
+            let controller = segue.destinationViewController as! UINavigationController
+            let prodController = controller.viewControllers.first as! ProductDetailsViewController
+            prodController.productModel = self.homeProducts[self.currentSelProduct]
+            apiController.getProductDetails(String(Int(prodController.productModel.id)))
+        }
+    }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
         insetForSectionAtIndex section: Int) -> UIEdgeInsets {
             return UIEdgeInsetsMake(0, 0, 0, 0)
+    }
+    
+    @IBAction func onClickLikeProduct(sender: AnyObject) {
+        print(" ---- ")
+        let button = sender as! UIButton
+        let view = button.superview!
+        let cell = view.superview as! HomeProductsCollectionViewCell
+        
+        let indexPath = followingProductsCollectionView.indexPathForCell(cell)
+        print(indexPath)
+        //TODO - logic here require if user has already liked the product... 
+        if (self.homeProducts[(indexPath?.row)!].prodLiked) {
+            self.homeProducts[(indexPath?.row)!].prodLiked = false
+            apiController.unlikePost(String(self.homeProducts[(indexPath?.row)!].id))
+            button.setImage(UIImage(named: "ic_like_tips.png"), forState: UIControlState.Normal)
+            
+        } else {
+            self.homeProducts[(indexPath?.row)!].prodLiked = true
+            apiController.likePost(String(self.homeProducts[(indexPath?.row)!].id))
+            button.setImage(UIImage(named: "ic_liked_tips.png"), forState: UIControlState.Normal)
+            
+        }
+        
     }
     
     func photoForIndexPath(indexPath: NSIndexPath) -> PostModel {
@@ -131,5 +158,7 @@ class HomePageRightTabViewController: UIViewController {
         
         reversePhotoArray(homeProducts, startIndex: startIndex + 1, endIndex: endIndex - 1)
     }
+    
+    
    
 }

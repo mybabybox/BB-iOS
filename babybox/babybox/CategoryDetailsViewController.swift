@@ -25,26 +25,25 @@ class CategoryDetailsViewController: UIViewController {
     @IBAction func onClickHighToLwFilter(sender: AnyObject) {
         self.pageOffSet = 0
         self.catProducts = []
-        ApiControlller.apiController.getCategoriesFilterByPopularity(Int(categories.id), offSet: pageOffSet)
+        ApiControlller.apiController.getCategoriesFilterByHlPrice(Int(categories.id), offSet: pageOffSet)
     }
     
     @IBAction func onClickLwToHighFilter(sender: AnyObject) {
         self.pageOffSet = 0
         self.catProducts = []
-        ApiControlller.apiController.getCategoriesFilterByNewestPrice(Int(categories.id), offSet: pageOffSet)
+        ApiControlller.apiController.getCategoriesFilterByLhPrice(Int(categories.id), offSet: pageOffSet)
     }
     
     @IBAction func onClickFilterByNewest(sender: AnyObject) {
         self.pageOffSet = 0
         self.catProducts = []
-        ApiControlller.apiController.getCategoriesFilterByLhPrice(Int(categories.id), offSet: pageOffSet)
-        
+        ApiControlller.apiController.getCategoriesFilterByNewestPrice(Int(categories.id), offSet: pageOffSet)
     }
     
     @IBAction func onClickPopularFilter(sender: AnyObject) {
         self.pageOffSet = 0
         self.catProducts = []
-        ApiControlller.apiController.getCategoriesFilterByHlPrice(Int(categories.id), offSet: pageOffSet)
+        ApiControlller.apiController.getCategoriesFilterByPopularity(Int(categories.id), offSet: pageOffSet)
         
     }
     

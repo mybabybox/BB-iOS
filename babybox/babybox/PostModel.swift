@@ -12,7 +12,7 @@ import UIKit
 import ObjectMapper
 
 class PostModel: BaseArgModel {
-    var id: Double = 0
+    var id: Int = 0
     var ownerId: Double = 0
     var ownerName: String = ""
     var title: String = ""
@@ -31,6 +31,8 @@ class PostModel: BaseArgModel {
     var offSet: Double = 0
     var baseScore: Double = 0
     var timeScore: Double = 0
+    
+    var prodLiked: Bool = false
     
     override func mapping(map: ObjectMapper.Map) {
         //

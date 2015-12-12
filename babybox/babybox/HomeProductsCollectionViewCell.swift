@@ -19,7 +19,7 @@ class HomeProductsCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var productTitle: UILabel!
     
     var likeFlag: Bool!
-    var id: Double!
+    var id: Int!
     
     @IBAction func onLikeOrUnlinkClick(sender: AnyObject) {
         //print("sender..............\(sender)")
@@ -29,12 +29,12 @@ class HomeProductsCollectionViewCell: UICollectionViewCell {
         if(self.likeFlag == false){
             self.buttonLike.setImage(UIImage(named: "ic_liked_tips.png"), forState: UIControlState.Normal)
             self.likeFlag = true
-            ApiControlller().postLikeButton(String(Int(self.id)))
+            ApiControlller().likePost(String(Int(self.id)))
             self.likeCount.text = String(count + 1)
         }else{
             self.buttonLike.setImage(UIImage(named: "ic_like_tips.png"), forState: UIControlState.Normal)
             self.likeFlag = false
-            ApiControlller().postUnlikeButton(String(Int(self.id)))
+            ApiControlller().unlikePost(String(Int(self.id)))
             self.likeCount.text = String(count - 1)
         }
         

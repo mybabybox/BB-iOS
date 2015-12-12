@@ -69,7 +69,7 @@ class ApiControlller {
         self.makeApiCall(callEvent)
     }
     
-    func postLikeButton(offSet: String) {
+    func likePost(offSet: String) {
         let callEvent = ApiCallEvent()
         callEvent.method = "like-post"
         callEvent.resultClass = "String"
@@ -80,7 +80,7 @@ class ApiControlller {
         self.makeApiCall(callEvent)
     }
     
-    func postUnlikeButton(offSet: String) {
+    func unlikePost(offSet: String) {
         let callEvent = ApiCallEvent()
         callEvent.method = "unlike-post"
         callEvent.resultClass = "String"
@@ -190,7 +190,7 @@ class ApiControlller {
     
     func getCategoriesFilterByLhPrice(id: Int, offSet: Int) { //filtering by low-high price
         let callEvent = ApiCallEvent()
-        callEvent.method = "get-category-low-high-feed/" + String(id)
+        callEvent.method = "get-category-price-low-high-feed/" + String(id)
         callEvent.resultClass = "PostModel"
         callEvent.successEventbusName = "categoryProductFeedSuccess"
         callEvent.failedEventbusName = "categoryProductFeedFailed"
@@ -200,7 +200,7 @@ class ApiControlller {
     
     func getCategoriesFilterByHlPrice(id: Int, offSet: Int) { //filtering by high-low price
         let callEvent = ApiCallEvent()
-        callEvent.method = "get-category-high-low-feed/" + String(id)
+        callEvent.method = "get-category-price-high-low-feed/" + String(id)
         callEvent.resultClass = "PostModel"
         callEvent.successEventbusName = "categoryProductFeedSuccess"
         callEvent.failedEventbusName = "categoryProductFeedFailed"

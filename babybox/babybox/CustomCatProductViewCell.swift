@@ -15,7 +15,7 @@ class CustomCatProductViewCell: UICollectionViewCell {
     @IBOutlet weak var price: UILabel!
     @IBOutlet weak var title: UILabel!
     
-    var id: Double = 0
+    var id: Int = 0
     var likeFlag = false
     
 }
