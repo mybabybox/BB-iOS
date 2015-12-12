@@ -12,11 +12,14 @@ class InitialHomeSegmentedController: UIViewController {
 
     @IBOutlet weak var segController: UISegmentedControl!
     @IBOutlet weak var baseView: UIView!
-    var controller : UIViewController?
+    var exploreController : UIViewController?
+    var followingController : UIViewController?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        self.controller = storyboard.instantiateViewControllerWithIdentifier("ViewController") as! InitialHomeSegmentedController
+        self.exploreController = storyboard.instantiateViewControllerWithIdentifier("HomeExploreViewController") as! HomeExploreViewController
+        self.followingController = storyboard.instantiateViewControllerWithIdentifier("homefollowingViewController") as! HomeFollowingViewController
     }
     override func viewDidAppear(animated: Bool){
         self.segController.selectedSegmentIndex = 0
@@ -29,13 +32,15 @@ class InitialHomeSegmentedController: UIViewController {
     
     @IBAction func segAction(sender: AnyObject) {
         if(self.segController.selectedSegmentIndex == 0){
-            self.baseView.addSubview(self.controller!.view)
-            self.controller?.view.frame = CGRectMake(0, 0, self.baseView.bounds.width, self.baseView.bounds.height-20)
+            self.followingController!.view.removeFromSuperview()
+            self.baseView.addSubview(self.exploreController!.view)
+            self.exploreController?.view.frame = CGRectMake(0, 0, self.baseView.bounds.width, self.baseView.bounds.height-20)
             
-            
-            //self.baseView.addSubview(self.controller!.view)
         }else{
-            self.controller!.view.removeFromSuperview()
+            self.exploreController!.view.removeFromSuperview()
+            self.baseView.addSubview(self.followingController!.view)
+            self.followingController?.view.frame = CGRectMake(0, 0, self.baseView.bounds.width, self.baseView.bounds.height-20)
+            
         }
     }
 
