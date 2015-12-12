@@ -170,7 +170,7 @@ class ApiControlller {
     //Categories products filter APIs calls
     func getCategoriesFilterByPopularity(id: Int, offSet: Int) {
         let callEvent = ApiCallEvent()
-        callEvent.method = "get-category-popular-feed" + String(id)
+        callEvent.method = "get-category-popular-feed/" + String(id)
         callEvent.resultClass = "PostModel"
         callEvent.successEventbusName = "categoryProductFeedSuccess"
         callEvent.failedEventbusName = "categoryProductFeedFailed"
@@ -180,7 +180,7 @@ class ApiControlller {
     
     func getCategoriesFilterByNewestPrice(id: Int, offSet: Int) {
         let callEvent = ApiCallEvent()
-        callEvent.method = "get-category-newest-feed" + String(id)
+        callEvent.method = "get-category-newest-feed/" + String(id)
         callEvent.resultClass = "PostModel"
         callEvent.successEventbusName = "categoryProductFeedSuccess"
         callEvent.failedEventbusName = "categoryProductFeedFailed"
@@ -190,7 +190,7 @@ class ApiControlller {
     
     func getCategoriesFilterByLhPrice(id: Int, offSet: Int) { //filtering by low-high price
         let callEvent = ApiCallEvent()
-        callEvent.method = "get-category-low-high-feed" + String(id)
+        callEvent.method = "get-category-low-high-feed/" + String(id)
         callEvent.resultClass = "PostModel"
         callEvent.successEventbusName = "categoryProductFeedSuccess"
         callEvent.failedEventbusName = "categoryProductFeedFailed"
@@ -200,7 +200,7 @@ class ApiControlller {
     
     func getCategoriesFilterByHlPrice(id: Int, offSet: Int) { //filtering by high-low price
         let callEvent = ApiCallEvent()
-        callEvent.method = "get-category-high-low-feed" + String(id)
+        callEvent.method = "get-category-high-low-feed/" + String(id)
         callEvent.resultClass = "PostModel"
         callEvent.successEventbusName = "categoryProductFeedSuccess"
         callEvent.failedEventbusName = "categoryProductFeedFailed"
@@ -210,7 +210,7 @@ class ApiControlller {
     
     func getUserPostedFeeds(id: Int, offSet: Int) { //filtering by high-low price
         let callEvent = ApiCallEvent()
-        callEvent.method = "get-user-posted-feed" + String(id)
+        callEvent.method = "get-user-posted-feed/" + String(id)
         callEvent.resultClass = "PostModel"
         callEvent.successEventbusName = "userPostFeedSuccess"
         callEvent.failedEventbusName = "userPostFeedFailed"
@@ -220,7 +220,7 @@ class ApiControlller {
     
     func getUserLikedFeeds(id: Int, offSet: Int) { //filtering by high-low price
         let callEvent = ApiCallEvent()
-        callEvent.method = "get-user-liked-feed" + String(id)
+        callEvent.method = "get-user-liked-feed/" + String(id)
         callEvent.resultClass = "PostModel"
         callEvent.successEventbusName = "userPostFeedSuccess"
         callEvent.failedEventbusName = "userPostFeedFailed"
@@ -240,7 +240,7 @@ class ApiControlller {
     
     func getUserFollowings(id: Int, offSet: Int) { //filtering by high-low price
         let callEvent = ApiCallEvent()
-        callEvent.method = "followings" + String(id)
+        callEvent.method = "followings/" + String(id)
         callEvent.resultClass = "PostModel"
         callEvent.successEventbusName = "userPostFeedSuccess"
         callEvent.failedEventbusName = "userPostFeedFailed"
@@ -251,7 +251,7 @@ class ApiControlller {
     
     func getUserFollowers(id: Int, offSet: Int) { //filtering by high-low price
         let callEvent = ApiCallEvent()
-        callEvent.method = "followers" + String(id)
+        callEvent.method = "followers/" + String(id)
         callEvent.resultClass = "PostModel"
         callEvent.successEventbusName = "userPostFeedSuccess"
         callEvent.failedEventbusName = "userPostFeedFailed"
@@ -356,6 +356,7 @@ class ApiControlller {
     
     func parseStr(cName: String, inputStr: String) -> AnyObject {
         var result: AnyObject = NSNull();
+        
         switch cName {
             case "CategoryModel":
                 result = Mapper<CategoryModel>().mapArray(inputStr)!
@@ -410,4 +411,5 @@ class ApiControlller {
         return result
     }
     
+    static let apiController = ApiControlller()
 }

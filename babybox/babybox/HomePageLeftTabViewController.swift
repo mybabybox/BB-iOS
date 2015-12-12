@@ -19,7 +19,7 @@ class HomePageLeftTabViewController: UIViewController, UICollectionViewDataSourc
     @IBOutlet weak var productsCollectionView: UICollectionView!
     @IBOutlet weak var myCategoryCollectionView: UICollectionView!
     var apiController: ApiControlller = ApiControlller()
-    
+    var currentIndex = 0
     var categories : [CategoryModel] = []
     var products: [PostModel] = []
     
@@ -175,28 +175,30 @@ class HomePageLeftTabViewController: UIViewController, UICollectionViewDataSourc
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         print("in selected view......", terminator: "")
+        self.currentIndex = indexPath.row
         
         if (self.productsCollectionView == collectionView) {
             //tapped on specific product to go to detail page..
             
-            let vController = self.storyboard?.instantiateViewControllerWithIdentifier("myProductView") as! ProductDetailsViewController
+            /*let vController = self.storyboard?.instantiateViewControllerWithIdentifier("myProductView") as! ProductDetailsViewController
             print("User tapped on \(indexPath.row)", terminator: "");
             vController.productModel = self.products[indexPath.row]
             
             apiController.getProductDetails(String(Int(self.products[indexPath.row].id)))
-            self.navigationController?.pushViewController(vController, animated: true)
-            
+            self.navigationController?.pushViewController(vController, animated: true)*/
+            self.performSegueWithIdentifier("gotoproductdetail", sender: nil)
             
         } else if(self.myCategoryCollectionView == collectionView) {
             //tapped on specific category item to show list of products within category
             
-            let vController = self.storyboard?.instantiateViewControllerWithIdentifier("myCategoryDetailView") as! CategoryDetailsViewController
+            /*let vController = self.storyboard?.instantiateViewControllerWithIdentifier("myCategoryDetailView") as! CategoryDetailsViewController
             
             vController.categories.id = self.categories[indexPath.row].id
             vController.categories.icon = self.categories[indexPath.row].icon
             vController.categories.name = self.categories[indexPath.row].name
             
-            self.navigationController?.pushViewController(vController, animated: true)
+            self.navigationController?.pushViewController(vController, animated: true)*/
+            self.performSegueWithIdentifier("gotocatogorydetails", sender: nil)
         }
         
         print("User tapped on \(indexPath.row)", terminator: "");
@@ -204,6 +206,26 @@ class HomePageLeftTabViewController: UIViewController, UICollectionViewDataSourc
     
     override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
         return true
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        //var vController = segue.destinationViewController
+        var identifier = segue.identifier
+        let navigationController = segue.destinationViewController as! UINavigationController
+        if (identifier == "gotocatogorydetails") {
+            
+            let vController = navigationController.viewControllers.first as! CategoryDetailsViewController
+            vController.categories.id = self.categories[self.currentIndex].id
+            vController.categories.icon = self.categories[self.currentIndex].icon
+            vController.categories.name = self.categories[self.currentIndex].name
+        } else if (identifier == "gotoproductdetail") {
+            let vController = navigationController.viewControllers.first as! ProductDetailsViewController
+            vController.productModel = self.products[self.currentIndex]
+            
+            apiController.getProductDetails(String(Int(self.products[self.currentIndex].id)))
+        }
+        
     }
     
 }

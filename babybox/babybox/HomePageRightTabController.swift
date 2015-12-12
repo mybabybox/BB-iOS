@@ -8,34 +8,34 @@
 
 import UIKit
 import SwiftEventBus
+import Kingfisher
 
 class HomePageRightTabViewController: UIViewController {
     //this controller will be used to manage category specific products list...
     
     var pageOffSet: Int = 0
-    @IBOutlet weak var homeProductsCollectionView: UICollectionView!
+    
     var apiController: ApiControlller = ApiControlller()
     
+    let WINDOW_WIDTH = UIScreen.mainScreen().bounds.width
+    let WINDOW_HEIGHT = UIScreen.mainScreen().bounds.height
+    
+    @IBOutlet weak var followingProductsCollectionView: UICollectionView!
     var homeProducts: [PostModel] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         print("loaded HomePageRightTabViewController", terminator: "")
         
-        apiController.getHomeEollowingFeeds(pageOffSet)
-        
-        self.homeProducts = []
-        /*SwiftEventBus.onMainThread(self, name: "homeExplorePostsReceivedSuccess") { result in
-            // UI thread
-            let resultDto: [PostModel] = result.object as! [PostModel]
-            self.handleHomePosts(resultDto)
-        }*/
-        
         SwiftEventBus.onMainThread(self, name: "homeFollowingPostsReceivedSuccess") { result in
             // UI thread
             let resultDto: [PostModel] = result.object as! [PostModel]
             self.handleHomePosts(resultDto)
         }
+    }
+    
+    func fetchData() {
+        apiController.getHomeEollowingFeeds(pageOffSet)
     }
     
     func handleHomePosts(resultDto: [PostModel]) {
@@ -46,7 +46,7 @@ class HomePageRightTabViewController: UIViewController {
         
         //self.homeProducts.appendContentsOf(resultDto)
         dispatch_async(dispatch_get_main_queue(), {
-            self.homeProductsCollectionView.reloadData()
+            self.followingProductsCollectionView.reloadData()
         })
     }
     
@@ -83,12 +83,13 @@ class HomePageRightTabViewController: UIViewController {
             if (post.hasImage) {
                 let imagePath =  constants.imagesBaseURL + "/image/get-post-image-by-id/" + String(post.images[0])
                 let imageUrl  = NSURL(string: imagePath);
-                let imageData = NSData(contentsOfURL: imageUrl!)
-                print(imageUrl, terminator: "")
+                print(imageUrl)
+                //let imageData = NSData(contentsOfURL: imageUrl!)
                 dispatch_async(dispatch_get_main_queue(), {
-                    if (imageData != nil) {
+                    productViewCell.productIcon.kf_setImageWithURL(imageUrl!)
+                    /*if (imageData != nil) {
                         productViewCell.productIcon.image = UIImage(data: imageData!)
-                    }
+                    }*/
                 });
             }
         })
@@ -98,12 +99,37 @@ class HomePageRightTabViewController: UIViewController {
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         
         let vController = self.storyboard?.instantiateViewControllerWithIdentifier("myProductView") as! ProductDetailsViewController
-        print("User tapped on \(indexPath.row)", terminator: "");
+        
         vController.productModel = self.homeProducts[indexPath.row]
-        //print("---------------------------")
-        //print(vController.productModel.id)
         apiController.getProductDetails(String(Int(vController.productModel.id)))
         self.navigationController?.pushViewController(vController, animated: true)
+    }
+    
+    /*func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+            
+            let size:CGSize = CGSizeMake(WINDOW_WIDTH, (WINDOW_WIDTH)*1)
+            return size
+            
+    }*/
+    
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+        insetForSectionAtIndex section: Int) -> UIEdgeInsets {
+            return UIEdgeInsetsMake(0, 0, 0, 0)
+    }
+    
+    func photoForIndexPath(indexPath: NSIndexPath) -> PostModel {
+        return homeProducts[indexPath.row]
+    }
+    
+    
+    func reversePhotoArray(photoArray:[PostModel], startIndex:Int, endIndex:Int){
+        if startIndex >= endIndex{
+            return
+        }
+        swap(&homeProducts[startIndex], &homeProducts[endIndex])
+        
+        reversePhotoArray(homeProducts, startIndex: startIndex + 1, endIndex: endIndex - 1)
     }
    
 }

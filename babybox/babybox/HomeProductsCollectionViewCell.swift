@@ -12,11 +12,11 @@ class HomeProductsCollectionViewCell: UICollectionViewCell {
 
     @IBOutlet weak var likeCount: UILabel!
     
-   // @IBOutlet weak var likeImageView: UIImageView!
+    //@IBOutlet weak var likeCount: UILabel!
     @IBOutlet weak var productIcon: UIImageView!
-    @IBOutlet weak var productTitle: UILabel!
     @IBOutlet weak var buttonLike: UIButton!
     @IBOutlet weak var productPrice: UILabel!
+    @IBOutlet weak var productTitle: UILabel!
     
     var likeFlag: Bool!
     var id: Double!

@@ -9,37 +9,43 @@
 import Foundation
 import UIKit
 import SwiftEventBus
+import Kingfisher
 
 class CategoryDetailsViewController: UIViewController {
     
+    @IBOutlet weak var prodCollectionView: UICollectionView!
+    var pageOffSet = 0
+    var catProducts: [PostModel] = []
     @IBOutlet var typesButtonGroup: [UIButton]!
    
     @IBOutlet weak var categoryName: UILabel!
     @IBOutlet weak var categoryImageView: UIImageView!
     var categories : CategoryModel = CategoryModel()
-    @IBAction func touchMyButton(sender: AnyObject) {
-        print(typesButtonGroup, terminator: "")
-        //for (index, element) in enumerate(list) {
-        let counter = typesButtonGroup.count
-        for index in 1...counter {
-            let myButton = typesButtonGroup[index]
-            if(myButton == sender as! NSObject){
-                //sender.titleLabel?.textColor  = UIColor.redColor()
-                self.typesButtonGroup[index].titleLabel?.textColor = UIColor.blueColor()
-            }else{
-                self.typesButtonGroup[index].titleLabel?.textColor = UIColor.grayColor()
-            }
-        }
+    
+    @IBAction func onClickHighToLwFilter(sender: AnyObject) {
+        self.pageOffSet = 0
+        self.catProducts = []
+        ApiControlller.apiController.getCategoriesFilterByPopularity(Int(categories.id), offSet: pageOffSet)
+    }
+    
+    @IBAction func onClickLwToHighFilter(sender: AnyObject) {
+        self.pageOffSet = 0
+        self.catProducts = []
+        ApiControlller.apiController.getCategoriesFilterByNewestPrice(Int(categories.id), offSet: pageOffSet)
+    }
+    
+    @IBAction func onClickFilterByNewest(sender: AnyObject) {
+        self.pageOffSet = 0
+        self.catProducts = []
+        ApiControlller.apiController.getCategoriesFilterByLhPrice(Int(categories.id), offSet: pageOffSet)
         
-        /*for (index, myButton) in typesButtonGroup.enumerate() {
-            if(myButton == sender as! NSObject){
-                //sender.titleLabel?.textColor  = UIColor.redColor()
-                self.typesButtonGroup[index].titleLabel?.textColor = UIColor.blueColor()
-            }else{
-                self.typesButtonGroup[index].titleLabel?.textColor = UIColor.grayColor()
-            }
-        }*/
-        print(sender, terminator: "")
+    }
+    
+    @IBAction func onClickPopularFilter(sender: AnyObject) {
+        self.pageOffSet = 0
+        self.catProducts = []
+        ApiControlller.apiController.getCategoriesFilterByHlPrice(Int(categories.id), offSet: pageOffSet)
+        
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -52,38 +58,96 @@ class CategoryDetailsViewController: UIViewController {
             let categoryVM = self.categories
             let imagePath =  constants.imagesBaseURL + categoryVM.icon;
             let imageUrl  = NSURL(string: imagePath);
-            let imageData = NSData(contentsOfURL: imageUrl!)
-            print(imageUrl, terminator: "")
-            dispatch_async(dispatch_get_main_queue(), {
-                if (imageData != nil) {
-                    self.categoryImageView.image = UIImage(data: imageData!)
-                }
-            });
+            //let imageData = NSData(contentsOfURL: imageUrl!)
             
+            dispatch_async(dispatch_get_main_queue(), {
+                //if (imageData != nil) {
+                //    self.categoryImageView.image = UIImage(data: imageData!)
+                //}
+                self.categoryImageView.kf_setImageWithURL(imageUrl!)
+            });
         })
     }
     
     override func viewDidLoad() {
         print("view loaded", terminator: "");
+        //by default call the first server side call using default filter criteria.
         
+        //getCategoriesFilterByPopularity Event Handler
+        //getCategoriesFilterByNewestPrice Event Handler
+        //getCategoriesFilterByLhPrice Event Handler
+        //getCategoriesFilterByHlPrice Event Handler
+        SwiftEventBus.onMainThread(self, name: "categoryProductFeedSuccess") { result in
+            // UI thread
+            let resultDto: [PostModel] = result.object as! [PostModel]
+            self.handleGetProductDetailsSuccess(resultDto)
+        }
+        
+        ApiControlller.apiController.getCategoriesFilterByPopularity(Int(categories.id), offSet: pageOffSet)
+
     }
     
-    func handleGetProductDetailsSuccess(result: [PostCatModel]) {
+    func handleGetProductDetailsSuccess(result: [PostModel]) {
         print("handling success...", terminator: "")
         print(result, terminator: "")
-        //self.productInfo.appendContentsOf(result)
-        
-//        for comment in self.productInfo[0].latestComments {
-//            self.items.append(comment.body)
-//        }
-//        self.commentTable.reloadData()
-//        
-//        self.productDescriptionLabel.text = self.productInfo[0].body
-//        self.ownerNumProducts.text = String(self.productInfo[0].ownerNumProducts)
-//        self.ownerNumFollowers.text = String(self.productInfo[0].ownerNumFollowers)
+        self.catProducts.appendContentsOf(result)
+        self.prodCollectionView.reloadData()
+        self.pageOffSet = Int(self.catProducts[self.catProducts.count-1].offSet)
     }
     
     override func viewWillDisappear(animated: Bool) {
         print("view disappeared", terminator: "")
     }
+    
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        var count = 0;
+        count = self.catProducts.count
+        return count;
+    }
+    
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        
+        let productViewCell: CustomCatProductViewCell = collectionView.dequeueReusableCellWithReuseIdentifier("catProductViewCell", forIndexPath: indexPath) as! CustomCatProductViewCell
+        
+        let post = self.catProducts[indexPath.row]
+        productViewCell.title.text = post.title
+        productViewCell.price.text = "\(constants.currencySymbol) \(String(stringInterpolationSegment: post.price))"
+        productViewCell.likeCounter.text = String(post.numLikes)
+        productViewCell.layer.borderWidth = 1
+        
+        productViewCell.id = post.id
+        if(post.isLiked == false){
+            productViewCell.likeImg.setImage(UIImage(named: "ic_like_tips.png"), forState: UIControlState.Normal)
+            productViewCell.likeFlag = false
+        }else {
+            productViewCell.likeImg.setImage(UIImage(named: "ic_liked_tips.png"), forState: UIControlState.Normal)
+            productViewCell.likeFlag = true
+        }
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+            
+            if (post.hasImage) {
+                let imagePath =  constants.imagesBaseURL + "/image/get-post-image-by-id/" + String(post.images[0])
+                let imageUrl  = NSURL(string: imagePath);
+                print(imageUrl)
+                //let imageData = NSData(contentsOfURL: imageUrl!)
+                dispatch_async(dispatch_get_main_queue(), {
+                    productViewCell.productImage.kf_setImageWithURL(imageUrl!)
+                    /*if (imageData != nil) {
+                    productViewCell.productIcon.image = UIImage(data: imageData!)
+                    }*/
+                });
+            }
+        })
+        return productViewCell;
+    }
+    
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        
+        let vController = self.storyboard?.instantiateViewControllerWithIdentifier("myProductView") as! ProductDetailsViewController
+        
+        vController.productModel = self.catProducts[indexPath.row]
+        ApiControlller.apiController.getProductDetails(String(Int(vController.productModel.id)))
+        self.navigationController?.pushViewController(vController, animated: true)
+    }
+    
 }
