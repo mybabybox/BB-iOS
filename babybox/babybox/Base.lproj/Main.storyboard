@@ -1401,6 +1401,7 @@ CA
                                             <outlet property="productIcon" destination="IHC-NL-Grj" id="5zs-XB-Q7u"/>
                                             <outlet property="productPrice" destination="Vos-qX-K2N" id="98k-hQ-2BQ"/>
                                             <outlet property="productTitle" destination="eAE-NH-cuS" id="40H-1X-3XM"/>
+                                            <segue destination="6Te-SU-QLX" kind="show" identifier="showProductDetail" id="FMt-er-pSn"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -1424,7 +1425,7 @@ CA
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LDc-Vw-zYn" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5210" y="251"/>
+            <point key="canvasLocation" x="4606" y="207"/>
         </scene>
         <!--Home Dashboard Segmentation-->
         <scene sceneID="68K-Mk-7bz">
@@ -1665,9 +1666,9 @@ CA
         <image name="logo_login" width="350" height="100"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="95B-7F-k8l"/>
-        <segue reference="SCO-1c-aad"/>
+        <segue reference="FMt-er-pSn"/>
         <segue reference="a58-GO-sUe"/>
         <segue reference="QN3-Uj-AU1"/>
+        <segue reference="SCO-1c-aad"/>
     </inferredMetricsTieBreakers>
 </document>
