@@ -11,38 +11,47 @@ import UIKit
 import SwiftEventBus
 import Kingfisher
 
-class CategoryDetailsViewController: UIViewController {
+class CategoryDetailsViewController: UIViewController, UIScrollViewDelegate {
     
     @IBOutlet weak var prodCollectionView: UICollectionView!
     var pageOffSet = 0
     var catProducts: [PostModel] = []
     @IBOutlet var typesButtonGroup: [UIButton]!
-   
+    var filterType: Int = 1
     @IBOutlet weak var categoryName: UILabel!
     @IBOutlet weak var categoryImageView: UIImageView!
     var categories : CategoryModel = CategoryModel()
     
     @IBAction func onClickHighToLwFilter(sender: AnyObject) {
         self.pageOffSet = 0
+        filterType = 1
         self.catProducts = []
+        self.prodCollectionView.reloadData()
         ApiControlller.apiController.getCategoriesFilterByHlPrice(Int(categories.id), offSet: pageOffSet)
+
     }
     
     @IBAction func onClickLwToHighFilter(sender: AnyObject) {
         self.pageOffSet = 0
+        filterType = 2
         self.catProducts = []
+        self.prodCollectionView.reloadData()
         ApiControlller.apiController.getCategoriesFilterByLhPrice(Int(categories.id), offSet: pageOffSet)
     }
     
     @IBAction func onClickFilterByNewest(sender: AnyObject) {
         self.pageOffSet = 0
+        filterType = 3
         self.catProducts = []
+        self.prodCollectionView.reloadData()
         ApiControlller.apiController.getCategoriesFilterByNewestPrice(Int(categories.id), offSet: pageOffSet)
     }
     
     @IBAction func onClickPopularFilter(sender: AnyObject) {
         self.pageOffSet = 0
         self.catProducts = []
+        self.prodCollectionView.reloadData()
+        filterType = 4
         ApiControlller.apiController.getCategoriesFilterByPopularity(Int(categories.id), offSet: pageOffSet)
         
     }
@@ -89,9 +98,13 @@ class CategoryDetailsViewController: UIViewController {
     func handleGetProductDetailsSuccess(result: [PostModel]) {
         print("handling success...", terminator: "")
         print(result, terminator: "")
-        self.catProducts.appendContentsOf(result)
-        self.prodCollectionView.reloadData()
-        self.pageOffSet = Int(self.catProducts[self.catProducts.count-1].offSet)
+        if (result.isEmpty) {
+            
+        } else {
+            self.catProducts.appendContentsOf(result)
+            self.prodCollectionView.reloadData()
+            self.pageOffSet = Int(self.catProducts[self.catProducts.count-1].offSet)
+        }
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -112,7 +125,7 @@ class CategoryDetailsViewController: UIViewController {
         productViewCell.title.text = post.title
         productViewCell.price.text = "\(constants.currencySymbol) \(String(stringInterpolationSegment: post.price))"
         productViewCell.likeCounter.text = String(post.numLikes)
-        productViewCell.layer.borderWidth = 1
+        //productViewCell.layer.borderWidth = 1
         
         productViewCell.id = post.id
         if(post.isLiked == false){
@@ -148,5 +161,23 @@ class CategoryDetailsViewController: UIViewController {
         ApiControlller.apiController.getProductDetails(String(Int(vController.productModel.id)))
         self.navigationController?.pushViewController(vController, animated: true)
     }
+    
+    // MARK: UIScrollview Delegate
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height){
+            switch(filterType) {
+                case 1:
+                    ApiControlller.apiController.getCategoriesFilterByHlPrice(Int(categories.id), offSet: pageOffSet)
+                case 2:
+                    ApiControlller.apiController.getCategoriesFilterByLhPrice(Int(categories.id), offSet: pageOffSet)
+                case 3:
+                    ApiControlller.apiController.getCategoriesFilterByNewestPrice(Int(categories.id), offSet: pageOffSet)
+                case 4:
+                    ApiControlller.apiController.getCategoriesFilterByPopularity(Int(categories.id), offSet: pageOffSet)
+                default: print("Invalid Selection")
+            }
+        }
+    }
+    
     
 }

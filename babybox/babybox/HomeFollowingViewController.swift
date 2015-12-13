@@ -16,7 +16,7 @@ class HomeFollowingViewController: UIViewController {
     var pageOffSet: Int = 0
     var currentSelProduct: Int = 0
     var apiController: ApiControlller = ApiControlller()
-    
+    var isLoading : Bool = false
     let WINDOW_WIDTH = UIScreen.mainScreen().bounds.width
     @IBOutlet weak var likeCountLabel: UILabel!
     let WINDOW_HEIGHT = UIScreen.mainScreen().bounds.height
@@ -41,7 +41,8 @@ class HomeFollowingViewController: UIViewController {
         
         self.homeProducts.appendContentsOf(resultDto)
         if (!self.homeProducts.isEmpty) {
-            self.pageOffSet = Int(self.homeProducts[self.homeProducts.count - 1].offSet)
+            //self.pageOffSet = Int(self.homeProducts[self.homeProducts.count - 1].offSet)
+            self.pageOffSet = self.pageOffSet++
             dispatch_async(dispatch_get_main_queue(), {
                 self.followingProductsCollectionView.reloadData()
             })
@@ -158,6 +159,13 @@ class HomeFollowingViewController: UIViewController {
         swap(&homeProducts[startIndex], &homeProducts[endIndex])
         
         reversePhotoArray(homeProducts, startIndex: startIndex + 1, endIndex: endIndex - 1)
+    }
+    
+    // MARK: UIScrollview Delegate
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height){
+            apiController.getHomeEollowingFeeds(pageOffSet)
+        }
     }
     
     

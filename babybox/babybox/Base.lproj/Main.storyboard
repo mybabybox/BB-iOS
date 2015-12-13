@@ -598,7 +598,7 @@ CA
                                             <constraint firstAttribute="height" constant="20" id="QnU-pe-Fmk"/>
                                             <constraint firstAttribute="width" constant="75" id="hsl-Li-jzU"/>
                                         </constraints>
-                                        <state key="normal" title="Button1"/>
+                                        <state key="normal" title="Popular"/>
                                         <variation key="widthClass=compact" fixedFrame="YES">
                                             <rect key="frame" x="11" y="172" width="90" height="30"/>
                                         </variation>
@@ -615,7 +615,7 @@ CA
                                             <constraint firstAttribute="width" constant="75" id="cYa-5I-8gu"/>
                                             <constraint firstAttribute="height" constant="20" id="g1k-xE-TGk"/>
                                         </constraints>
-                                        <state key="normal" title="Button2"/>
+                                        <state key="normal" title="Newest"/>
                                         <variation key="widthClass=compact" fixedFrame="YES">
                                             <rect key="frame" x="109" y="172" width="90" height="30"/>
                                         </variation>
@@ -632,7 +632,7 @@ CA
                                             <constraint firstAttribute="width" constant="75" id="UyM-k7-kEh"/>
                                             <constraint firstAttribute="height" constant="20" id="uWy-4f-vah"/>
                                         </constraints>
-                                        <state key="normal" title="Button3"/>
+                                        <state key="normal" title="$ -&gt; $$"/>
                                         <variation key="widthClass=compact" fixedFrame="YES">
                                             <rect key="frame" x="207" y="172" width="90" height="30"/>
                                         </variation>
@@ -649,7 +649,7 @@ CA
                                             <constraint firstAttribute="height" constant="20" id="SpX-2f-5m1"/>
                                             <constraint firstAttribute="width" constant="75" id="knP-ra-S2d"/>
                                         </constraints>
-                                        <state key="normal" title="Button4"/>
+                                        <state key="normal" title="$$ -&gt; $"/>
                                         <variation key="widthClass=compact" fixedFrame="YES">
                                             <rect key="frame" x="299" y="173" width="89" height="28"/>
                                         </variation>
@@ -1465,7 +1465,7 @@ CA
                             <constraint firstItem="Tzg-ML-Ezq" firstAttribute="bottom" secondItem="LHF-Zb-kZz" secondAttribute="top" id="tva-mU-Q8G"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Gallery" id="wIH-ed-BwZ"/>
+                    <navigationItem key="navigationItem" title="Explore" id="wIH-ed-BwZ"/>
                     <connections>
                         <outlet property="baseView" destination="Tzg-ML-Ezq" id="B0E-5n-HuU"/>
                         <outlet property="segController" destination="qbf-aK-0bl" id="bhV-gd-qDX"/>
@@ -1624,6 +1624,9 @@ CA
                                         <constraint firstAttribute="bottomMargin" secondItem="dSo-5u-kcp" secondAttribute="bottom" constant="-6" id="dSz-rB-Osf"/>
                                         <constraint firstAttribute="trailing" secondItem="dSo-5u-kcp" secondAttribute="trailing" id="ymd-j6-xKf"/>
                                     </constraints>
+                                    <connections>
+                                        <outlet property="headerViewCollection" destination="dSo-5u-kcp" id="4PX-Ad-V6K"/>
+                                    </connections>
                                 </collectionReusableView>
                                 <connections>
                                     <outlet property="dataSource" destination="heH-bT-r86" id="iv8-lu-mfk"/>

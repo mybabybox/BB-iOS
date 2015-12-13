@@ -1,6 +1,6 @@
 //
 //  ViewController.swift
-//  GallerySwiftApp
+//  
 //
 //  Created by Apple on 11/12/15.
 //  Copyright © 2015 Apple. All rights reserved.
@@ -10,9 +10,10 @@ import UIKit
 import SwiftEventBus
 import Kingfisher
 
-class HomeExploreViewController: UIViewController {
+class HomeExploreViewController: UIViewController, UIScrollViewDelegate {
     
     @IBOutlet weak var collectionView: UICollectionView!
+    
     var reuseIdentifier = "CellType1"
     
     var pageOffSet: Int = 0
@@ -133,7 +134,7 @@ class HomeExploreViewController: UIViewController {
         var reusableView : UICollectionReusableView? = nil
         if (kind == UICollectionElementKindSectionHeader) {
             let headerView : HomeReusableView = collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "HeaderView", forIndexPath: indexPath) as! HomeReusableView
-            
+            headerView.headerViewCollection.reloadData()
             reusableView = headerView
         }
         return reusableView!
@@ -157,20 +158,20 @@ class HomeExploreViewController: UIViewController {
     }
     
     func HeartPressed(button: UIButton){
-        let message = String(format:"Selected Cell: %d", button.tag)
-        let alertController = UIAlertController(title: "Heart Pressed", message:
-            message, preferredStyle: UIAlertControllerStyle.Alert)
-        alertController.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default,handler: nil))
+        //let message = String(format:"Selected Cell: %d", button.tag)
+        //let alertController = UIAlertController(title: "Heart Pressed", message:
+        //    message, preferredStyle: UIAlertControllerStyle.Alert)
+        //alertController.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default,handler: nil))
         
-        self.presentViewController(alertController, animated: true, completion: nil)
+        //self.presentViewController(alertController, animated: true, completion: nil)
     }
     func ImagePressed(button: UIButton){
-        let message = String(format:"Selected Cell: %d", button.tag)
-        let alertController = UIAlertController(title: "ImagePressed", message:
-            message, preferredStyle: UIAlertControllerStyle.Alert)
-        alertController.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default,handler: nil))
+        //let message = String(format:"Selected Cell: %d", button.tag)
+        //let alertController = UIAlertController(title: "ImagePressed", message:
+        //    message, preferredStyle: UIAlertControllerStyle.Alert)
+        //alertController.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default,handler: nil))
         
-        self.presentViewController(alertController, animated: true, completion: nil)
+        //self.presentViewController(alertController, animated: true, completion: nil)
     }
     
     func getSellButton() -> UIBarButtonItem {
@@ -196,10 +197,12 @@ class HomeExploreViewController: UIViewController {
     func handleGetAllProductsuccess(resultDto: [PostModel]) {
         print("got all products...", terminator: "");
         self.products = resultDto
-        dispatch_async(dispatch_get_main_queue(), {
-            self.collectionView.reloadData()
-            print("reloaded the collection view.", terminator: "")
-        })
+        if (!resultDto.isEmpty) {
+            self.pageOffSet = self.pageOffSet++
+            dispatch_async(dispatch_get_main_queue(), {
+                self.collectionView.reloadData()
+            })
+        }
     }
     
     func handleGetCateogriesSuccess(categories: [CategoryModel]) {
@@ -218,7 +221,7 @@ class HomeExploreViewController: UIViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
         //var vController = segue.destinationViewController
-        var identifier = segue.identifier
+        let identifier = segue.identifier
         let navigationController = segue.destinationViewController as! UINavigationController
         if (identifier == "gotocatogorydetails") {
             
@@ -234,6 +237,14 @@ class HomeExploreViewController: UIViewController {
         }
         
     }
+    
+    // MARK: UIScrollview Delegate
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height){
+                apiController.getHomeExploreFeeds(pageOffSet);
+        }
+    }
+    
     
 }
 

@@ -9,5 +9,8 @@
 import UIKit
 
 class HomeReusableView: UICollectionReusableView {
-        
+
+    
+    @IBOutlet weak var headerViewCollection: UICollectionView!
+    
 }
