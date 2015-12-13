@@ -95,16 +95,41 @@ class CategoryDetailsViewController: UIViewController, UIScrollViewDelegate {
 
     }
     
-    func handleGetProductDetailsSuccess(result: [PostModel]) {
+    func handleGetProductDetailsSuccess(resultDto: [PostModel]) {
         print("handling success...", terminator: "")
-        print(result, terminator: "")
-        if (result.isEmpty) {
+        //print(result, terminator: "")
+        /*if (result.isEmpty) {
             
         } else {
             self.catProducts.appendContentsOf(result)
             self.prodCollectionView.reloadData()
             self.pageOffSet = Int(self.catProducts[self.catProducts.count-1].offSet)
+        }*/
+        
+        if (!resultDto.isEmpty) {
+            self.pageOffSet = self.pageOffSet++
+            if (self.self.catProducts.count == 0) {
+                self.catProducts = resultDto
+                self.prodCollectionView.reloadData()
+            } else {
+                var indexPaths = [NSIndexPath]()
+                let firstIndex = self.self.catProducts.count
+                
+                for (i, postModel) in resultDto.enumerate() {
+                    let indexPath = NSIndexPath(forItem: firstIndex + i, inSection: 0)
+                    
+                    self.catProducts.append(postModel)
+                    indexPaths.append(indexPath)
+                }
+                
+                self.prodCollectionView?.performBatchUpdates({ () -> Void in
+                    self.prodCollectionView?.insertItemsAtIndexPaths(indexPaths)
+                    }, completion: { (finished) -> Void in
+                        //completion?()
+                });
+            }
         }
+        
     }
     
     override func viewWillDisappear(animated: Bool) {

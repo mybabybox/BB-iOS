@@ -39,14 +39,35 @@ class HomeFollowingViewController: UIViewController {
     
     func handleHomePosts(resultDto: [PostModel]) {
         
-        self.homeProducts.appendContentsOf(resultDto)
-        if (!self.homeProducts.isEmpty) {
-            //self.pageOffSet = Int(self.homeProducts[self.homeProducts.count - 1].offSet)
+        //self.homeProducts.appendContentsOf(resultDto)
+        if (!resultDto.isEmpty) {
             self.pageOffSet = self.pageOffSet++
-            dispatch_async(dispatch_get_main_queue(), {
+            /*dispatch_async(dispatch_get_main_queue(), {
+            self.collectionView.reloadData()
+            })*/
+            
+            if (self.homeProducts.count == 0) {
+                self.homeProducts = resultDto
                 self.followingProductsCollectionView.reloadData()
-            })
+            } else {
+                var indexPaths = [NSIndexPath]()
+                let firstIndex = self.homeProducts.count
+                
+                for (i, postModel) in resultDto.enumerate() {
+                    let indexPath = NSIndexPath(forItem: firstIndex + i, inSection: 0)
+                    
+                    self.homeProducts.append(postModel)
+                    indexPaths.append(indexPath)
+                }
+                
+                self.followingProductsCollectionView?.performBatchUpdates({ () -> Void in
+                    self.followingProductsCollectionView?.insertItemsAtIndexPaths(indexPaths)
+                    }, completion: { (finished) -> Void in
+                        //completion?()
+                });
+            }
         }
+        
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

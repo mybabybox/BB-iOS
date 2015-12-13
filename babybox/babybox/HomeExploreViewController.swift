@@ -119,6 +119,7 @@ class HomeExploreViewController: UIViewController, UIScrollViewDelegate {
         
     }
     
+    
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         self.currentIndex = indexPath.row
         
@@ -155,6 +156,14 @@ class HomeExploreViewController: UIViewController, UIScrollViewDelegate {
         }else{
             return CGSizeMake(self.view.frame.width, 225.0)
         }
+    }
+    
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
+        return 1
+    }
+    
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
+        return 1
     }
     
     func HeartPressed(button: UIButton){
@@ -196,12 +205,33 @@ class HomeExploreViewController: UIViewController, UIScrollViewDelegate {
     
     func handleGetAllProductsuccess(resultDto: [PostModel]) {
         print("got all products...", terminator: "");
-        self.products = resultDto
+        //self.products = resultDto
         if (!resultDto.isEmpty) {
             self.pageOffSet = self.pageOffSet++
-            dispatch_async(dispatch_get_main_queue(), {
+            /*dispatch_async(dispatch_get_main_queue(), {
                 self.collectionView.reloadData()
-            })
+            })*/
+            
+            if (self.products.count == 0) {
+                self.products = resultDto
+                self.collectionView.reloadData()
+            } else {
+                var indexPaths = [NSIndexPath]()
+                let firstIndex = self.products.count
+                
+                for (i, postModel) in resultDto.enumerate() {
+                    let indexPath = NSIndexPath(forItem: firstIndex + i, inSection: 0)
+                    
+                    self.products.append(postModel)
+                    indexPaths.append(indexPath)
+                }
+                
+                self.collectionView?.performBatchUpdates({ () -> Void in
+                    self.collectionView?.insertItemsAtIndexPaths(indexPaths)
+                    }, completion: { (finished) -> Void in
+                        //completion?()
+                });
+            }
         }
     }
     
