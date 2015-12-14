@@ -204,5 +204,31 @@ class CategoryDetailsViewController: UIViewController, UIScrollViewDelegate {
         }
     }
     
+    @IBAction func onLikedBtnClicked(sender: AnyObject) {
+        print("Clicked...")
+        let button = sender as! UIButton
+        let view = button.superview!
+        let cell = view.superview! as! CustomCatProductViewCell
+        
+        let indexPath = prodCollectionView.indexPathForCell(cell)
+        print(indexPath)
+        
+        if (self.catProducts[(indexPath?.row)!].isLiked) {
+            //if (self.catProducts[(indexPath?.row)!].prodLiked) {
+            self.catProducts[(indexPath?.row)!].numLikes--
+            cell.likeCounter.text = String(self.catProducts[(indexPath?.row)!].numLikes)
+            self.catProducts[(indexPath?.row)!].isLiked = false
+            ApiControlller.apiController.unlikePost(String(self.catProducts[(indexPath?.row)!].id))
+            button.setImage(UIImage(named: "ic_like_tips.png"), forState: UIControlState.Normal)
+            
+        } else {
+            self.catProducts[(indexPath?.row)!].isLiked = true
+            self.catProducts[(indexPath?.row)!].numLikes++
+            cell.likeCounter.text = String(self.catProducts[(indexPath?.row)!].numLikes)
+            ApiControlller.apiController.likePost(String(self.catProducts[(indexPath?.row)!].id))
+            button.setImage(UIImage(named: "ic_liked_tips.png"), forState: UIControlState.Normal)
+            
+        }
+    }
     
 }

@@ -24,6 +24,9 @@ class HomeFollowingViewController: UIViewController {
     @IBOutlet weak var followingProductsCollectionView: UICollectionView!
     var homeProducts: [PostModel] = []
     
+    override func viewDidAppear(animated: Bool) {
+        apiController.getHomeEollowingFeeds(pageOffSet)
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         print("loaded HomeFollowingViewController", terminator: "")
@@ -34,7 +37,6 @@ class HomeFollowingViewController: UIViewController {
             self.handleHomePosts(resultDto)
         }
         
-        apiController.getHomeEollowingFeeds(pageOffSet)
     }
     
     func handleHomePosts(resultDto: [PostModel]) {

@@ -65,6 +65,33 @@ class HomeExploreViewController: UIViewController, UIScrollViewDelegate {
         return count;
     }
     
+    @IBAction func onLikeBtnClick(sender: AnyObject) {
+        let button = sender as! UIButton
+        let view = button.superview!
+        let cell = view.superview! as! CatProductCollectionViewCell
+        
+        let indexPath = collectionView.indexPathForCell(cell)
+        print(indexPath)
+        
+        //TODO - logic here require if user has already liked the product...
+        if (self.products[(indexPath?.row)!].isLiked) {
+        //if (self.products[(indexPath?.row)!].prodLiked) {
+            self.products[(indexPath?.row)!].numLikes--
+            cell.likeCount.text = String(self.products[(indexPath?.row)!].numLikes)
+            self.products[(indexPath?.row)!].isLiked = false
+            apiController.unlikePost(String(self.products[(indexPath?.row)!].id))
+            button.setImage(UIImage(named: "ic_like_tips.png"), forState: UIControlState.Normal)
+            
+        } else {
+            self.products[(indexPath?.row)!].isLiked = true
+            self.products[(indexPath?.row)!].numLikes++
+            cell.likeCount.text = String(self.products[(indexPath?.row)!].numLikes)
+            apiController.likePost(String(self.products[(indexPath?.row)!].id))
+            button.setImage(UIImage(named: "ic_liked_tips.png"), forState: UIControlState.Normal)
+            
+        }
+    }
+    
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
         if (collectionView.tag == 2){
