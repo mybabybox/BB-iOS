@@ -26,8 +26,8 @@ class InitialHomeSegmentedController: UIViewController {
         self.exploreController = storyboard.instantiateViewControllerWithIdentifier("HomeExploreViewController") as! HomeExploreViewController
         self.followingController = storyboard.instantiateViewControllerWithIdentifier("homefollowingViewController") as! HomeFollowingViewController
         
-        self.segController.backgroundColor = UIColor.whiteColor()
-        self.segController.
+        self.segController.backgroundColor = UIColor.purpleColor()
+        //self.segController.
     }
     override func viewDidAppear(animated: Bool){
         self.segController.selectedSegmentIndex = 0
