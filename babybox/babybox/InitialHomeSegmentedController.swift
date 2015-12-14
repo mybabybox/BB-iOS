@@ -34,7 +34,7 @@ class InitialHomeSegmentedController: UIViewController {
         self.segAction(self.segController)
         //self.userName.text = constants.userInfo?.displayName
         
-        let imagePath =  constants.imagesBaseURL + "/image/get-mini-profile-image-by-id/" + String(constants.userInfo?.id)
+        let imagePath = constants.imagesBaseURL + "/image/get-mini-profile-image-by-id/" + String(constants.userInfo?.id)
         let imageUrl  = NSURL(string: imagePath);
         let imageData = NSData(contentsOfURL: imageUrl!)
         if (imageData != nil) {
