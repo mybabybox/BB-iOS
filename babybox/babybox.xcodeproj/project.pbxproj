@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 47;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -56,8 +56,8 @@
 		0408FA521C13699900CC8803 /* UserInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0408FA451C13699900CC8803 /* UserInfoModel.swift */; };
 		0408FA531C13699900CC8803 /* UserInfoVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0408FA461C13699900CC8803 /* UserInfoVM.swift */; };
 		0408FA591C13FB3C00CC8803 /* LandingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0408FA581C13FB3C00CC8803 /* LandingPageViewController.swift */; };
-		04E6F6CE1C15A9FC0057C94E /* ForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E6F6CD1C15A9FC0057C94E /* ForgotPasswordViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		04E6F6D01C15CE5A0057C94E /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E6F6CF1C15CE5A0057C94E /* WebViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		04E6F6CE1C15A9FC0057C94E /* ForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E6F6CD1C15A9FC0057C94E /* ForgotPasswordViewController.swift */; };
+		04E6F6D01C15CE5A0057C94E /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E6F6CF1C15CE5A0057C94E /* WebViewController.swift */; };
 		6CF4E8C6E70F9ACB7F1AF880 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDFD6BE300D70B4AC190D07C /* Pods.framework */; };
 /* End PBXBuildFile section */
 
@@ -323,7 +323,7 @@
 			attributes = {
 				LastSwiftMigration = 0700;
 				LastSwiftUpdateCheck = 0700;
-				LastUpgradeCheck = 0630;
+				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = Mac;
 				TargetAttributes = {
 					0408F9D11C1362AA00CC8803 = {
@@ -336,7 +336,7 @@
 				};
 			};
 			buildConfigurationList = 0408F9CD1C1362AA00CC8803 /* Build configuration list for PBXProject "babybox" */;
-			compatibilityVersion = "Xcode 3.2";
+			compatibilityVersion = "Xcode 6.3";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -533,6 +533,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -600,14 +601,18 @@
 			baseConfigurationReference = 77A57C83714C16BF68A806B6 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
-					"\"$(SRCROOT)/../../../../Downloads/FacebookSDKs-iOS-20150813\"",
+					"\"$(SRCROOT)/../Build/Libs/FacebookSDKs-iOS-20151026\"",
 				);
 				INFOPLIST_FILE = babybox/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.babyox.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -616,14 +621,18 @@
 			baseConfigurationReference = AF8E79F78DE07A9FA9CE80DD /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
-					"\"$(SRCROOT)/../../../../Downloads/FacebookSDKs-iOS-20150813\"",
+					"\"$(SRCROOT)/../Build/Libs/FacebookSDKs-iOS-20151026\"",
 				);
 				INFOPLIST_FILE = babybox/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.babyox.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -641,6 +650,7 @@
 				);
 				INFOPLIST_FILE = babyboxTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.babybox.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/babybox.app/babybox";
 			};
@@ -656,6 +666,7 @@
 				);
 				INFOPLIST_FILE = babyboxTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.babybox.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/babybox.app/babybox";
 			};
