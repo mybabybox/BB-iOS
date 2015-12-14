@@ -15,7 +15,7 @@ struct constants {
     static let currencySymbol = "$";
     static var accessToken = "";
     static var userInfo: UserInfoVM? = nil
-    
+     
     
     //Color 
     //Pink Button color - 0xFF76A4 // RGB - 255 118 164
