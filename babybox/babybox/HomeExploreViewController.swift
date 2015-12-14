@@ -25,7 +25,7 @@ class HomeExploreViewController: UIViewController, UIScrollViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.tabBarController?.navigationController?.setNavigationBarHidden(true, animated: false)
+        //self.tabBarController?.navigationController?.setNavigationBarHidden(true, animated: false)
         self.navigationItem.rightBarButtonItem = getSellButton()
         
         apiController.getAllCategories();

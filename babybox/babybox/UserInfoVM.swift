@@ -7,7 +7,7 @@
 //
 import ObjectMapper
 
-class UserInfoVM: BaseArgVM {
+class UserInfoVM: UserVM {
     
     var email: String = "";
     var aboutMe: String = "";

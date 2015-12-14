@@ -54,20 +54,30 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFieldDel
     }
     
     func handleUserLogin(resultDto: String) {
-        self.progressIndicator.hidden = true
-        self.progressIndicator.stopAnimating()
+        
+        
         if resultDto.isEmpty {
             //authentication failed.. show error message...
             let _errorDialog = UIAlertController(title: "Error Message", message: "Invalid UserName or Password", preferredStyle: UIAlertControllerStyle.Alert)
             let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil);
             _errorDialog.addAction(okAction)
             self.presentViewController(_errorDialog, animated: true, completion: nil)
-            
+            self.progressIndicator.hidden = true
+            self.progressIndicator.stopAnimating()
         } else {
-            self.isUserLoggedIn = true
+            ApiControlller.apiController.getUserInfo()
             constants.accessToken = resultDto
-            self.performSegueWithIdentifier("clickToLogin", sender: nil)
         }
+        //make API call to get the user profile data... 
+        
+    }
+    
+    func handleUserInfo(resultDto: UserInfoVM) {
+        self.isUserLoggedIn = true
+        self.progressIndicator.hidden = true
+        self.progressIndicator.stopAnimating()
+        constants.userInfo = resultDto
+        self.performSegueWithIdentifier("clickToLogin", sender: nil)
         
     }
     
@@ -108,6 +118,15 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFieldDel
             self.handleUserLogin(resultDto)
         }
         
+        SwiftEventBus.onMainThread(self, name: "userInfoSuccess") { result in
+            // UI thread
+            print(result.object)
+            let resultDto: UserInfoVM = result.object as! UserInfoVM
+            self.handleUserInfo(resultDto)
+        }
+        
+        
+        
         SwiftEventBus.onMainThread(self, name: "loginReceivedFailed") { result in
             // UI thread
             var resultDto = ""
@@ -130,7 +149,7 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFieldDel
         
         SwiftEventBus.onMainThread(self, name: "getUserLoggedUserInfo") { result in
             // UI thread
-            let resultDto: UserInfoModel = result.object as! UserInfoModel
+            let resultDto: UserInfoVM = result.object as! UserInfoVM
             print(resultDto);
         }
         //print(FBSDKAccessToken.currentAccessToken())
@@ -193,6 +212,7 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFieldDel
          print("Sign up click");
     }
     
-
+    
+    
 }
 

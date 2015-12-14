@@ -60,11 +60,11 @@ class ApiControlller {
     
     func getUserInfo() {
         let callEvent = ApiCallEvent()
-        callEvent.method = "get-user"
-        callEvent.resultClass = "UserInfoModel"
-        callEvent.successEventbusName = "categoriesReceivedSuccess"
-        callEvent.failedEventbusName = "categoriesReceivedFailed"
-        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method + "/"; //append logged in user id to get the logged in user details.
+        callEvent.method = "get-user-info"
+        callEvent.resultClass = "UserInfoVM"
+        callEvent.successEventbusName = "userInfoSuccess"
+        callEvent.failedEventbusName = "userInfoFailed"
+        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method; //append logged in user id to get the logged in user details.
         
         self.makeApiCall(callEvent)
     }
@@ -289,9 +289,10 @@ class ApiControlller {
         NSLog("makeApiCall")
         
         let request: NSMutableURLRequest = NSMutableURLRequest()
-        request.URL = NSURL(string: arg.apiUrl)
+        var url = arg.apiUrl + "?access_token=\(constants.accessToken)"
+        request.URL = NSURL(string: url)
         request.HTTPMethod = "GET"
-        NSLog("sending string %@", arg.apiUrl)
+        NSLog("sending string %@", url)
         
         let session = NSURLSession.sharedSession()
         let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
@@ -363,6 +364,7 @@ class ApiControlller {
             print(result, terminator: "")
             //result = Mapper<CategoryModel>().mapArray(inputStr)
             case "UserInfoModel": result = Mapper<UserInfoModel>().map(inputStr)!
+            case "UserInfoVM": result = Mapper<UserInfoVM>().map(inputStr)!
             case "ResponseVM": result = Mapper<ResponseVM>().map(inputStr)!
             case "PostModel": result = Mapper<PostModel>().mapArray(inputStr)!
             case "PostCatModel": result = Mapper<PostCatModel>().mapArray(inputStr)!
