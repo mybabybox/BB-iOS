@@ -50,7 +50,6 @@
 		0408FA4C1C13699900CC8803 /* SettingVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0408FA3E1C13699900CC8803 /* SettingVM.swift */; };
 		0408FA4D1C13699900CC8803 /* TabOneCollectionLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0408FA3F1C13699900CC8803 /* TabOneCollectionLayout.swift */; };
 		0408FA4E1C13699900CC8803 /* TabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0408FA401C13699900CC8803 /* TabViewController.swift */; };
-		0408FA4F1C13699900CC8803 /* UIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0408FA411C13699900CC8803 /* UIApplication.swift */; };
 		0408FA511C13699900CC8803 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0408FA441C13699900CC8803 /* User.swift */; };
 		0408FA521C13699900CC8803 /* UserInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0408FA451C13699900CC8803 /* UserInfoModel.swift */; };
 		0408FA531C13699900CC8803 /* UserInfoVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0408FA461C13699900CC8803 /* UserInfoVM.swift */; };
@@ -61,6 +60,7 @@
 		04A2317E1C1C4DCB002FB013 /* StaticCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A2317D1C1C4DCB002FB013 /* StaticCollectionViewCell.swift */; };
 		04A231801C1C5D9D002FB013 /* HomeExploreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A2317F1C1C5D9D002FB013 /* HomeExploreViewController.swift */; };
 		04A231821C1C7444002FB013 /* CatProductCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A231811C1C7444002FB013 /* CatProductCollectionViewCell.swift */; };
+		04AC8C7E1C1F3A4A00B80C53 /* UserVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AC8C7D1C1F3A4A00B80C53 /* UserVM.swift */; };
 		04E6F6CE1C15A9FC0057C94E /* ForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E6F6CD1C15A9FC0057C94E /* ForgotPasswordViewController.swift */; };
 		04E6F6D01C15CE5A0057C94E /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E6F6CF1C15CE5A0057C94E /* WebViewController.swift */; };
 		04E6F70E1C186BCF0057C94E /* BabyboxUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E6F70D1C186BCE0057C94E /* BabyboxUtils.swift */; };
@@ -127,7 +127,6 @@
 		0408FA3E1C13699900CC8803 /* SettingVM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingVM.swift; sourceTree = "<group>"; };
 		0408FA3F1C13699900CC8803 /* TabOneCollectionLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabOneCollectionLayout.swift; sourceTree = "<group>"; };
 		0408FA401C13699900CC8803 /* TabViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabViewController.swift; sourceTree = "<group>"; };
-		0408FA411C13699900CC8803 /* UIApplication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIApplication.swift; sourceTree = "<group>"; };
 		0408FA441C13699900CC8803 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		0408FA451C13699900CC8803 /* UserInfoModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfoModel.swift; sourceTree = "<group>"; };
 		0408FA461C13699900CC8803 /* UserInfoVM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfoVM.swift; sourceTree = "<group>"; };
@@ -138,6 +137,7 @@
 		04A2317D1C1C4DCB002FB013 /* StaticCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StaticCollectionViewCell.swift; sourceTree = "<group>"; };
 		04A2317F1C1C5D9D002FB013 /* HomeExploreViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeExploreViewController.swift; sourceTree = "<group>"; };
 		04A231811C1C7444002FB013 /* CatProductCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CatProductCollectionViewCell.swift; sourceTree = "<group>"; };
+		04AC8C7D1C1F3A4A00B80C53 /* UserVM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserVM.swift; sourceTree = "<group>"; };
 		04E6F6CD1C15A9FC0057C94E /* ForgotPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewController.swift; sourceTree = "<group>"; };
 		04E6F6CF1C15CE5A0057C94E /* WebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		04E6F70D1C186BCE0057C94E /* BabyboxUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BabyboxUtils.swift; sourceTree = "<group>"; };
@@ -196,6 +196,7 @@
 		0408F9D41C1362AA00CC8803 /* babybox */ = {
 			isa = PBXGroup;
 			children = (
+				04AC8C7D1C1F3A4A00B80C53 /* UserVM.swift */,
 				0408FA391C13699900CC8803 /* RequestVM.swift */,
 				0408FA3A1C13699900CC8803 /* ResponseModel.swift */,
 				0408FA3B1C13699900CC8803 /* ResponseVM.swift */,
@@ -204,7 +205,6 @@
 				0408FA3E1C13699900CC8803 /* SettingVM.swift */,
 				0408FA3F1C13699900CC8803 /* TabOneCollectionLayout.swift */,
 				0408FA401C13699900CC8803 /* TabViewController.swift */,
-				0408FA411C13699900CC8803 /* UIApplication.swift */,
 				0408FA441C13699900CC8803 /* User.swift */,
 				0408FA451C13699900CC8803 /* UserInfoModel.swift */,
 				0408FA461C13699900CC8803 /* UserInfoVM.swift */,
@@ -452,7 +452,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0408FA4F1C13699900CC8803 /* UIApplication.swift in Sources */,
 				0408FA0D1C13632300CC8803 /* FlickrPhotosViewController.swift in Sources */,
 				0408FA2A1C13635000CC8803 /* PhotoCell.swift in Sources */,
 				0408FA071C13632300CC8803 /* CategoryVM.swift in Sources */,
@@ -461,6 +460,7 @@
 				0408FA4B1C13699900CC8803 /* SettingModel.swift in Sources */,
 				0408FA281C13635000CC8803 /* LocationModel.swift in Sources */,
 				04A2317C1C1C4D79002FB013 /* HomeReusableView.swift in Sources */,
+				04AC8C7E1C1F3A4A00B80C53 /* UserVM.swift in Sources */,
 				04E6F6CE1C15A9FC0057C94E /* ForgotPasswordViewController.swift in Sources */,
 				0408FA1A1C13633B00CC8803 /* BaseArgModel.swift in Sources */,
 				0408FA101C13632300CC8803 /* HomeProductsCollectionViewCell.swift in Sources */,
