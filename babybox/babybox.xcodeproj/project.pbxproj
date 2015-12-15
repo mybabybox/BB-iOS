@@ -80,14 +80,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0408F9D21C1362AA00CC8803 /* BabyBox.temp_caseinsensitive_rename.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BabyBox.temp_caseinsensitive_rename.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0408F9D21C1362AA00CC8803 /* BabyBox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BabyBox.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0408F9D61C1362AA00CC8803 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0408F9D71C1362AA00CC8803 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0408F9D91C1362AA00CC8803 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		0408F9DC1C1362AA00CC8803 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		0408F9DE1C1362AA00CC8803 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		0408F9E11C1362AA00CC8803 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		0408F9E71C1362AA00CC8803 /* BabyBox.temp_caseinsensitive_rename.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BabyBox.temp_caseinsensitive_rename.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		0408F9E71C1362AA00CC8803 /* BabyBox.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BabyBox.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0408F9EC1C1362AA00CC8803 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0408F9ED1C1362AA00CC8803 /* babyboxTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = babyboxTests.swift; sourceTree = "<group>"; };
 		0408F9F91C13632300CC8803 /* CategoryViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryViewCell.swift; sourceTree = "<group>"; };
@@ -187,8 +187,8 @@
 		0408F9D31C1362AA00CC8803 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				0408F9D21C1362AA00CC8803 /* BabyBox.temp_caseinsensitive_rename.app */,
-				0408F9E71C1362AA00CC8803 /* BabyBox.temp_caseinsensitive_rename.xctest */,
+				0408F9D21C1362AA00CC8803 /* BabyBox.app */,
+				0408F9E71C1362AA00CC8803 /* BabyBox.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -318,7 +318,7 @@
 			);
 			name = babybox;
 			productName = babybox;
-			productReference = 0408F9D21C1362AA00CC8803 /* BabyBox.temp_caseinsensitive_rename.app */;
+			productReference = 0408F9D21C1362AA00CC8803 /* BabyBox.app */;
 			productType = "com.apple.product-type.application";
 		};
 		0408F9E61C1362AA00CC8803 /* babyboxTests */ = {
@@ -336,7 +336,7 @@
 			);
 			name = babyboxTests;
 			productName = babyboxTests;
-			productReference = 0408F9E71C1362AA00CC8803 /* BabyBox.temp_caseinsensitive_rename.xctest */;
+			productReference = 0408F9E71C1362AA00CC8803 /* BabyBox.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -644,7 +644,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.babybox.app;
-				PRODUCT_NAME = BabyBox.temp_caseinsensitive_rename;
+				PRODUCT_NAME = BabyBox;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -666,7 +666,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.babybox.app;
-				PRODUCT_NAME = BabyBox.temp_caseinsensitive_rename;
+				PRODUCT_NAME = BabyBox;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -686,8 +686,8 @@
 				);
 				INFOPLIST_FILE = babyboxTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = BabyBox.temp_caseinsensitive_rename;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BabyBox.temp_caseinsensitive_rename.app/BabyBox.temp_caseinsensitive_rename";
+				PRODUCT_NAME = BabyBox;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BabyBox.app/BabyBox";
 			};
 			name = Debug;
 		};
@@ -701,8 +701,8 @@
 				);
 				INFOPLIST_FILE = babyboxTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = BabyBox.temp_caseinsensitive_rename;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BabyBox.temp_caseinsensitive_rename.app/BabyBox.temp_caseinsensitive_rename";
+				PRODUCT_NAME = BabyBox;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BabyBox.app/BabyBox";
 			};
 			name = Release;
 		};
