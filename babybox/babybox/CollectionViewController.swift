@@ -203,7 +203,7 @@ class CollectionViewController: UICollectionViewController, UICollectionViewDele
         if let items = responseDict?["items"] as? NSArray {
             if let urls = items.valueForKeyPath("media.m") as? [String] {
                 var counter = urls.count
-                for i in 1...count {
+                for i in 1...counter {
                     let url = urls[i]
                     let indexPath = NSIndexPath(forItem: firstIndex + i, inSection: 0)
                     
