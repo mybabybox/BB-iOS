@@ -24,6 +24,9 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
         self.imagePicker.delegate = self
         self.loadDataSource()
         self.collectionView.reloadData()
+            
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "actionbar_bg_pink"), forBarMetrics: UIBarMetrics.Default)
+            
     }
     
     func loadDataSource(){

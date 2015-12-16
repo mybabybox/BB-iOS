@@ -58,6 +58,13 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate{
         }
     }
 
+    @IBAction func onClickBack(sender: AnyObject) {
+        print("inside back button")
+        self.navigationController!.popViewControllerAnimated(true)
+        //self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    @IBOutlet weak var onClickBack: UIBarButtonItem!
     override func viewDidAppear(animated: Bool) {
         print("Show the detail of selected product view.... ", terminator: "");
         print(productModel, terminator: "")
@@ -96,7 +103,7 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate{
         print("view loaded", terminator: "");
         self.commentTextField.delegate=self
         self.commentTable.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        
+        self.navigationController?.toolbar.hidden = true
         SwiftEventBus.onMainThread(self, name: "productDetailsReceivedSuccess") { result in
             // UI thread
             print("catch the event...............", terminator: "")
@@ -104,7 +111,7 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate{
             print(resultDto, terminator: "")
             self.handleGetProductDetailsSuccess(resultDto)
         }
-
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "actionbar_bg_pink"), forBarMetrics: UIBarMetrics.Default)
     }
     
     override func viewWillDisappear(animated: Bool) {

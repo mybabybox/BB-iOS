@@ -8,8 +8,8 @@
 
 import Foundation
 import ObjectMapper
-//import Alamofire
-//import AlamofireObjectMapper
+import Alamofire
+import AlamofireObjectMapper
 import SwiftEventBus
 
 //let kBaseServerURL = "http://192.168.2.18:9000/"
@@ -68,6 +68,17 @@ class ApiControlller {
         
         self.makeApiCall(callEvent)
     }
+    
+    func getUserInfoById(id: Int) { //filtering by high-low price
+        let callEvent = ApiCallEvent()
+        callEvent.method = "get-user/" + String(id)
+        callEvent.resultClass = "UserVMById"
+        callEvent.successEventbusName = "userInfoByIdSuccess"
+        callEvent.failedEventbusName = "userInfoByIdFailed"
+        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
+        self.makeApiCall(callEvent)
+    }
+    
     
     func likePost(offSet: String) {
         let callEvent = ApiCallEvent()
@@ -168,6 +179,17 @@ class ApiControlller {
     }
     
     //Categories products filter APIs calls
+    func logoutUser() {
+        let callEvent = ApiCallEvent()
+        callEvent.method = "logout"
+        callEvent.resultClass = "String"
+        callEvent.successEventbusName = "logoutSuccess"
+        callEvent.failedEventbusName = "logoutFailed"
+        callEvent.apiUrl = constants.kBaseServerURL
+        self.makeApiCall(callEvent)
+    }
+    
+    //Categories products filter APIs calls
     func getCategoriesFilterByPopularity(id: Int, offSet: Int) {
         let callEvent = ApiCallEvent()
         callEvent.method = "get-category-popular-feed/" + String(id)
@@ -241,9 +263,9 @@ class ApiControlller {
     func getUserFollowings(id: Int, offSet: Int) { //filtering by high-low price
         let callEvent = ApiCallEvent()
         callEvent.method = "followings/" + String(id)
-        callEvent.resultClass = "PostModel"
-        callEvent.successEventbusName = "userPostFeedSuccess"
-        callEvent.failedEventbusName = "userPostFeedFailed"
+        callEvent.resultClass = "UserVM"
+        callEvent.successEventbusName = "userFollowingsSuccess"
+        callEvent.failedEventbusName = "userFollowingsFailed"
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method + "/" + String(offSet)
         self.makeApiCall(callEvent)
     }
@@ -252,9 +274,9 @@ class ApiControlller {
     func getUserFollowers(id: Int, offSet: Int) { //filtering by high-low price
         let callEvent = ApiCallEvent()
         callEvent.method = "followers/" + String(id)
-        callEvent.resultClass = "PostModel"
-        callEvent.successEventbusName = "userPostFeedSuccess"
-        callEvent.failedEventbusName = "userPostFeedFailed"
+        callEvent.resultClass = "UserVM"
+        callEvent.successEventbusName = "userFollowersSuccess"
+        callEvent.failedEventbusName = "userFollowersFailed"
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method + "/" + String(offSet)
         self.makeApiCall(callEvent)
     }
@@ -365,10 +387,12 @@ class ApiControlller {
             //result = Mapper<CategoryModel>().mapArray(inputStr)
             case "UserInfoModel": result = Mapper<UserInfoModel>().map(inputStr)!
             case "UserInfoVM": result = Mapper<UserInfoVM>().map(inputStr)!
+            case "UserVM": result = Mapper<UserVM>().mapArray(inputStr)!
             case "ResponseVM": result = Mapper<ResponseVM>().map(inputStr)!
             case "PostModel": result = Mapper<PostModel>().mapArray(inputStr)!
             case "PostCatModel": result = Mapper<PostCatModel>().mapArray(inputStr)!
             case "LocationModel": result = Mapper<LocationModel>().mapArray(inputStr)!
+            case "UserVMById": result = Mapper<UserInfoVM>().map(inputStr)!
             case "String":
                 print(inputStr, terminator: "")
                 result = inputStr

@@ -13,6 +13,16 @@ import Kingfisher
 
 class CategoryDetailsViewController: UIViewController, UIScrollViewDelegate {
     
+    @IBAction func onClickBack(sender: AnyObject) {
+        print("click on back button")
+        print(self.navigationController)
+        //var vController = self.storyboard!.instantiateViewControllerWithIdentifier("initialSegmentViewController") as! InitialHomeSegmentedController
+        //self.navigationController?.pushViewController(vController, animated: true)
+        
+        //self.navigationController?.popViewControllerAnimated(true)
+        //self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
     @IBOutlet weak var prodCollectionView: UICollectionView!
     var pageOffSet = 0
     var catProducts: [PostModel] = []
@@ -79,6 +89,9 @@ class CategoryDetailsViewController: UIViewController, UIScrollViewDelegate {
     
     override func viewDidLoad() {
         print("view loaded", terminator: "");
+        
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "actionbar_bg_pink"), forBarMetrics: UIBarMetrics.Default)
+        
         //by default call the first server side call using default filter criteria.
         
         //getCategoriesFilterByPopularity Event Handler

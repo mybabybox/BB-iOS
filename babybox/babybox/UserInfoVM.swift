@@ -28,7 +28,8 @@ class UserInfoVM: UserVM {
     var isMobile: Bool = false;
     
     override func mapping(map: ObjectMapper.Map) {
-    
+        super.mapping(map)
+        
         email<-map["email"];
         aboutMe<-map["aboutMe"];
         firstName<-map["firstName"];

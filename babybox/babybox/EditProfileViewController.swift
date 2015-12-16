@@ -1,23 +1,19 @@
 //
-//  WebViewController.swift
+//  EditProfileViewController.swift
 //  babybox
 //
-//  Created by Mac on 07/12/15.
+//  Created by Mac on 15/12/15.
 //  Copyright © 2015 Mac. All rights reserved.
 //
 
 import UIKit
 
-class WebViewController: UIViewController {
+class EditProfileViewController: UIViewController {
 
-    var resultString: String = ""
-    
-    @IBOutlet weak var webView: UIWebView!
     override func viewDidLoad() {
-        //super.viewDidLoad()
-        webView.loadHTMLString(resultString, baseURL: nil)
+        super.viewDidLoad()
+
         // Do any additional setup after loading the view.
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "actionbar_bg_pink"), forBarMetrics: UIBarMetrics.Default)
     }
 
     override func didReceiveMemoryWarning() {

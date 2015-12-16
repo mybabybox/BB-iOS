@@ -51,20 +51,6 @@ class HomeExploreViewController: UIViewController, UIScrollViewDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-    //MARK: UICollectionViewDataSource
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        return 1
-    }
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        var count = 0;
-        if (collectionView.tag == 2){
-            count = self.categories.count
-        }else{
-            count = self.products.count
-        }
-        return count;
-    }
-    
     @IBAction func onLikeBtnClick(sender: AnyObject) {
         let button = sender as! UIButton
         let view = button.superview!
@@ -90,6 +76,20 @@ class HomeExploreViewController: UIViewController, UIScrollViewDelegate {
             button.setImage(UIImage(named: "ic_liked_tips.png"), forState: UIControlState.Normal)
             
         }
+    }
+    
+    //MARK: UICollectionViewDataSource
+    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        var count = 0;
+        if (collectionView.tag == 2){
+            count = self.categories.count
+        }else{
+            count = self.products.count
+        }
+        return count;
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {

@@ -65,8 +65,8 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFieldDel
             self.progressIndicator.hidden = true
             self.progressIndicator.stopAnimating()
         } else {
-            ApiControlller.apiController.getUserInfo()
             constants.accessToken = resultDto
+            ApiControlller.apiController.getUserInfo()
         }
         //make API call to get the user profile data... 
         
@@ -101,7 +101,8 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFieldDel
     override func viewDidLoad() {
         super.viewDidLoad()
         print("viewDidLoad")
-        
+        self.navigationController?.toolbar.hidden = true
+        self.navigationController?.navigationBar.hidden = true
         self.userNameTxt.delegate = self
         self.passwordTxt.delegate = self
         

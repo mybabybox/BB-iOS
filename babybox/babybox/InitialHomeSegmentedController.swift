@@ -7,9 +7,10 @@
 //
 
 import UIKit
-
+import SwiftEventBus
 class InitialHomeSegmentedController: UIViewController {
 
+    
     @IBOutlet weak var displayName: UIBarButtonItem!
     @IBOutlet weak var userImage: UIBarButtonItem!
     @IBOutlet weak var Sell: UIBarButtonItem!
@@ -20,37 +21,58 @@ class InitialHomeSegmentedController: UIViewController {
     var exploreController : UIViewController?
     var followingController : UIViewController?
     
+    @IBAction func logoutUser(sender: AnyObject) {
+        print("logout user.")
+        ApiControlller.apiController.logoutUser()
+    }
+    
+    func handleLogout(result: String) {
+        print("handleLogout")
+        constants.accessToken = ""
+        
+        let vController = self.storyboard!.instantiateViewControllerWithIdentifier("loginController") as! ViewController
+        self.navigationController?.pushViewController(vController, animated: true)
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         self.exploreController = storyboard.instantiateViewControllerWithIdentifier("HomeExploreViewController") as! HomeExploreViewController
         self.followingController = storyboard.instantiateViewControllerWithIdentifier("homefollowingViewController") as! HomeFollowingViewController
         
-        self.segController.backgroundColor = UIColor.purpleColor()
-        //self.segController.
+        self.segController.setDividerImage(UIImage(named: "front"), forLeftSegmentState: .Normal, rightSegmentState: .Normal, barMetrics: .Default)
+        //self.segController.remove
+        
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "actionbar_bg_pink"), forBarMetrics: UIBarMetrics.Default)
+        
+        SwiftEventBus.onMainThread(self, name: "logoutSuccess") { result in
+            // UI thread
+            let resultDto: String = result.object as! String
+            self.handleLogout(resultDto)
+        }
+        
+        print("setting the background image for navbar")
+        
     }
+    
+    
     override func viewDidAppear(animated: Bool){
         self.segController.selectedSegmentIndex = 0
         self.segAction(self.segController)
         //self.userName.text = constants.userInfo?.displayName
         
-        let imagePath = constants.imagesBaseURL + "/image/get-mini-profile-image-by-id/" + String(constants.userInfo?.id)
+        let imagePath =  constants.imagesBaseURL + "/image/get-mini-profile-image-by-id/" + String(constants.userInfo?.id)
         let imageUrl  = NSURL(string: imagePath);
         let imageData = NSData(contentsOfURL: imageUrl!)
         if (imageData != nil) {
             dispatch_async(dispatch_get_main_queue(), {
                 self.userImage.image = UIImage(data: imageData!)
             });
-        } else {
-            self.userImage.title = ""
         }
-        print("----------------")
-        print(constants.userInfo?.displayName)
+        
         self.displayName.title = constants.userInfo?.displayName
         
-        /*dispatch_async(dispatch_get_main_queue(), {
-            self.userImage.image.kf_setImageWithURL(imageUrl!)
-        });*/
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -70,5 +92,22 @@ class InitialHomeSegmentedController: UIViewController {
             
         }
     }
+    
+    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
+        return true
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+
+        let identifier = segue.identifier
+        let navigationController = segue.destinationViewController as! UINavigationController
+        print("identifier " + identifier!)
+        if (identifier == "gotoUserProfile") {
+            let vController = navigationController.viewControllers.first as! UserProfileViewController
+            vController.userId = (constants.userInfo?.id)!
+        }
+        
+    }
+    
 
 }
