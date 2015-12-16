@@ -23,7 +23,7 @@ class FollowingViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         //getUserFollowings
-        
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "actionbar_bg_pink"), forBarMetrics: UIBarMetrics.Default)
         SwiftEventBus.onMainThread(self, name: "userFollowingsSuccess") { result in
             // UI thread
             let resultDto: [UserVM] = result.object as! [UserVM]

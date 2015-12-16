@@ -14,8 +14,7 @@ import Kingfisher
 class CategoryDetailsViewController: UIViewController, UIScrollViewDelegate {
     
     @IBAction func onClickBack(sender: AnyObject) {
-        print("click on back button")
-        print(self.navigationController)
+        
         //var vController = self.storyboard!.instantiateViewControllerWithIdentifier("initialSegmentViewController") as! InitialHomeSegmentedController
         //self.navigationController?.pushViewController(vController, animated: true)
         
@@ -178,7 +177,7 @@ class CategoryDetailsViewController: UIViewController, UIScrollViewDelegate {
             if (post.hasImage) {
                 let imagePath =  constants.imagesBaseURL + "/image/get-post-image-by-id/" + String(post.images[0])
                 let imageUrl  = NSURL(string: imagePath);
-                print(imageUrl)
+                
                 //let imageData = NSData(contentsOfURL: imageUrl!)
                 dispatch_async(dispatch_get_main_queue(), {
                     productViewCell.productImage.kf_setImageWithURL(imageUrl!)
@@ -205,13 +204,13 @@ class CategoryDetailsViewController: UIViewController, UIScrollViewDelegate {
         if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height){
             switch(filterType) {
                 case 1:
-                    ApiControlller.apiController.getCategoriesFilterByHlPrice(Int(categories.id), offSet: pageOffSet)
+                    ApiControlller.apiController.getCategoriesFilterByHlPrice(Int(categories.id), offSet: self.pageOffSet)
                 case 2:
-                    ApiControlller.apiController.getCategoriesFilterByLhPrice(Int(categories.id), offSet: pageOffSet)
+                    ApiControlller.apiController.getCategoriesFilterByLhPrice(Int(categories.id), offSet: self.pageOffSet)
                 case 3:
-                    ApiControlller.apiController.getCategoriesFilterByNewestPrice(Int(categories.id), offSet: pageOffSet)
+                    ApiControlller.apiController.getCategoriesFilterByNewestPrice(Int(categories.id), offSet: self.pageOffSet)
                 case 4:
-                    ApiControlller.apiController.getCategoriesFilterByPopularity(Int(categories.id), offSet: pageOffSet)
+                    ApiControlller.apiController.getCategoriesFilterByPopularity(Int(categories.id), offSet: self.pageOffSet)
                 default: print("Invalid Selection")
             }
         }
@@ -224,7 +223,7 @@ class CategoryDetailsViewController: UIViewController, UIScrollViewDelegate {
         let cell = view.superview! as! CustomCatProductViewCell
         
         let indexPath = prodCollectionView.indexPathForCell(cell)
-        print(indexPath)
+        
         
         if (self.catProducts[(indexPath?.row)!].isLiked) {
             //if (self.catProducts[(indexPath?.row)!].prodLiked) {
@@ -244,4 +243,7 @@ class CategoryDetailsViewController: UIViewController, UIScrollViewDelegate {
         }
     }
     
+    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
+        return true
+    }
 }

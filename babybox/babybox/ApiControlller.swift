@@ -394,7 +394,7 @@ class ApiControlller {
             case "LocationModel": result = Mapper<LocationModel>().mapArray(inputStr)!
             case "UserVMById": result = Mapper<UserInfoVM>().map(inputStr)!
             case "String":
-                print(inputStr, terminator: "")
+                
                 result = inputStr
             default:
                 print("calling default object resolver", terminator: "")

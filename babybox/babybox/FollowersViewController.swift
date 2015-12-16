@@ -23,6 +23,7 @@ class FollowersViewController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "actionbar_bg_pink"), forBarMetrics: UIBarMetrics.Default)
         
         SwiftEventBus.onMainThread(self, name: "userFollowersSuccess") { result in
             // UI thread
