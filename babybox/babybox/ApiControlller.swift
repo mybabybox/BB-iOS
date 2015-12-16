@@ -113,6 +113,28 @@ class ApiControlller {
         self.makeApiCall(callEvent)
     }
     
+    func followUser(id: Int) {
+        let callEvent = ApiCallEvent()
+        callEvent.method = "follow-user"
+        callEvent.resultClass = "String"
+        callEvent.successEventbusName = "followUserSuccess"
+        callEvent.failedEventbusName = "followUserFailed"
+        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method + "/" + String(id)
+        
+        self.makeApiCall(callEvent)
+    }
+    
+    func unfollowUser(id: Int) {
+        let callEvent = ApiCallEvent()
+        callEvent.method = "unfollow-user"
+        callEvent.resultClass = "String"
+        callEvent.successEventbusName = "unfollowUserSuccess"
+        callEvent.failedEventbusName = "unfollowUserFailed"
+        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method + "/" + String(id)
+        
+        self.makeApiCall(callEvent)
+    }
+    
     func postComment(id: String, comment: String){
         print("In api call for id \(id) and comment --\(comment)", terminator: "")
         var strData = [String]()

@@ -35,7 +35,7 @@ class InitialHomeSegmentedController: UIViewController {
         let vController = self.storyboard!.instantiateViewControllerWithIdentifier("loginController") as! ViewController
         self.navigationController?.pushViewController(vController, animated: true)
         if (constants.userInfo!.isFBLogin) {
-            FBSDKLoginManager().logOut()
+            FBSDKLoginManager().logOut() 
         }
         
     }

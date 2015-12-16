@@ -16,8 +16,30 @@ class FollowingViewController: UICollectionViewController {
     var reuseIdentifier = "followingCollectionViewCell"
     var userFollowings: [UserVM] = []
     var userId: Int = 0
+    
     @IBAction func onClickFollowings(sender: AnyObject) {
         print(">>>>>")
+        
+        //var cell = sender.superview as! FollowingCollectionViewCell
+        
+        if (self.userFollowings[self.currentIndex].isFollowing) {
+            ApiControlller.apiController.unfollowUser((constants.userInfo?.id)!)
+            self.userFollowings[self.currentIndex].isFollowing = false
+            
+            let indexPath = NSIndexPath(forItem: self.currentIndex, inSection: 0)
+            let cell = self.collectionView?.cellForItemAtIndexPath(indexPath) as! FollowingCollectionViewCell
+            cell.followingsBtn.setTitle("Follow", forState: UIControlState.Normal)
+            cell.followingsBtn.backgroundColor = BabyboxUtils.babyBoxUtils.UIColorFromRGB(0xFF76A4)
+        } else {
+            ApiControlller.apiController.followUser((constants.userInfo?.id)!)
+            self.userFollowings[self.currentIndex].isFollowing = true
+            
+            let indexPath = NSIndexPath(forItem: self.currentIndex, inSection: 0)
+            let cell = self.collectionView?.cellForItemAtIndexPath(indexPath) as! FollowingCollectionViewCell
+            cell.followingsBtn.setTitle("- Unfollow", forState: UIControlState.Normal)
+            cell.followingsBtn.backgroundColor = UIColor.grayColor()
+            
+        }
     }
     
     override func viewDidLoad() {
@@ -83,7 +105,7 @@ class FollowingViewController: UICollectionViewController {
     
     override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         //TODO - goto User Profile page for selected customer
-        self.currentIndex = indexPath.item
+        self.currentIndex = indexPath.row
         print("self.currentIndex" + String(self.currentIndex))
         self.performSegueWithIdentifier("gotoprofile", sender: nil)
     }
