@@ -51,6 +51,13 @@ class HomeExploreViewController: UIViewController, UIScrollViewDelegate {
         // Dispose of any resources that can be recreated.
     }
     
+    override func viewDidDisappear(animated: Bool) {
+        self.products = []
+        self.currentIndex = 0
+        self.pageOffSet = 0
+        
+    }
+    
     @IBAction func onLikeBtnClick(sender: AnyObject) {
         let button = sender as! UIButton
         let view = button.superview!
@@ -185,13 +192,13 @@ class HomeExploreViewController: UIViewController, UIScrollViewDelegate {
         }
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
-        return 1
-    }
-    
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
-        return 1
-    }
+//    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
+//        return 1
+//    }
+//    
+//    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
+//        return 1
+//    }
     
     func HeartPressed(button: UIButton){
         //let message = String(format:"Selected Cell: %d", button.tag)

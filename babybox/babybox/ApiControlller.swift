@@ -24,6 +24,17 @@ class ApiControlller {
     init() {
     }
     
+    func getConversation() {
+        let callEvent = ApiCallEvent()
+        callEvent.method = "get-all-conversations"
+        callEvent.resultClass = "ConversationVM"
+        callEvent.successEventbusName = "conversationsSuccess"
+        callEvent.failedEventbusName = "conversationsFailed"
+        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method;
+        
+        self.makeApiCall(callEvent)
+    }
+    
     func getAllCategories() {
         let callEvent = ApiCallEvent()
         callEvent.method = "categories"
@@ -415,6 +426,7 @@ class ApiControlller {
             case "PostCatModel": result = Mapper<PostCatModel>().mapArray(inputStr)!
             case "LocationModel": result = Mapper<LocationModel>().mapArray(inputStr)!
             case "UserVMById": result = Mapper<UserInfoVM>().map(inputStr)!
+            case "ConversationVM": result = Mapper<ConversationVM>().mapArray(inputStr)!
             case "String":
                 
                 result = inputStr

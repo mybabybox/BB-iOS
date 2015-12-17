@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import FBSDKLoginKit
+import SwiftEventBus
 
 class SettingsViewController: UIViewController {
 
@@ -14,6 +16,14 @@ class SettingsViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "actionbar_bg_pink"), forBarMetrics: UIBarMetrics.Default)
+        
+        SwiftEventBus.onMainThread(self, name: "logoutSuccess") { result in
+            // UI thread
+            let resultDto: String = result.object as! String
+            self.handleLogout(resultDto)
+        }
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -21,6 +31,22 @@ class SettingsViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    @IBAction func logoutUser(sender: AnyObject) {
+        print("logout user.")
+        ApiControlller.apiController.logoutUser()
+    }
+    
+    func handleLogout(result: String) {
+        print("handleLogout")
+        constants.accessToken = ""
+        
+        let vController = self.storyboard!.instantiateViewControllerWithIdentifier("loginController") as! ViewController
+        self.navigationController?.pushViewController(vController, animated: true)
+        if (constants.userInfo!.isFBLogin) {
+            FBSDKLoginManager().logOut()
+        }
+        
+    }
 
     /*
     // MARK: - Navigation
