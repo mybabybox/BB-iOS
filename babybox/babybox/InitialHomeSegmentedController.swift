@@ -114,7 +114,7 @@ class InitialHomeSegmentedController: UIViewController {
             let vController = navigationController.viewControllers.first as! UserProfileViewController
             vController.userId = (constants.userInfo?.id)!
         } else if (identifier == "gotouserchat") {
-            let vController = navigationController.viewControllers.first as! UserProductChatController
+            let vController = navigationController.viewControllers.first as! ConversionViewController
             vController.userId = (constants.userInfo?.id)!
         }
         

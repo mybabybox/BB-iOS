@@ -24,16 +24,7 @@ class ApiControlller {
     init() {
     }
     
-    func getConversation() {
-        let callEvent = ApiCallEvent()
-        callEvent.method = "get-all-conversations"
-        callEvent.resultClass = "ConversationVM"
-        callEvent.successEventbusName = "conversationsSuccess"
-        callEvent.failedEventbusName = "conversationsFailed"
-        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method;
-        
-        self.makeApiCall(callEvent)
-    }
+    
     
     func getAllCategories() {
         let callEvent = ApiCallEvent()
@@ -338,13 +329,36 @@ class ApiControlller {
     }
     
     
+    func getConversation() {
+        let callEvent = ApiCallEvent()
+        callEvent.method = "get-all-conversations"
+        callEvent.resultClass = "ConversationVM"
+        callEvent.successEventbusName = "conversationsSuccess"
+        callEvent.failedEventbusName = "conversationsFailed"
+        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method;
+        
+        self.makeApiCall(callEvent)
+    }
+    
+    func getMessages() {
+        let callEvent = ApiCallEvent()
+        callEvent.method = "/get-messages"
+        callEvent.resultClass = "MessageVM"
+        callEvent.successEventbusName = "getMessagesSuccess"
+        callEvent.failedEventbusName = "getMessagesFailed"
+        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method;
+        
+        self.makeApiCall(callEvent)
+    }
+    
+    
     
     func makeApiCall(arg: ApiCallEvent) {
         //
         NSLog("makeApiCall")
         
         let request: NSMutableURLRequest = NSMutableURLRequest()
-        var url = arg.apiUrl + "?access_token=\(constants.accessToken)"
+        let url = arg.apiUrl + "?access_token=\(constants.accessToken)"
         request.URL = NSURL(string: url)
         request.HTTPMethod = "GET"
         NSLog("sending string %@", url)
@@ -427,6 +441,7 @@ class ApiControlller {
             case "LocationModel": result = Mapper<LocationModel>().mapArray(inputStr)!
             case "UserVMById": result = Mapper<UserInfoVM>().map(inputStr)!
             case "ConversationVM": result = Mapper<ConversationVM>().mapArray(inputStr)!
+            case "MessageVM": result = Mapper<MessageVM>().map(inputStr)!
             case "String":
                 
                 result = inputStr
