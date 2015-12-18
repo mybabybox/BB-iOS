@@ -111,6 +111,9 @@ class InitialHomeSegmentedController: UIViewController {
         let navigationController = segue.destinationViewController as! UINavigationController
         print("identifier " + identifier!)
         if (identifier == "gotoUserProfile") {
+            let vController = navigationController.viewControllers.first as! UserProfileViewController
+            vController.userId = (constants.userInfo?.id)!
+        } else if (identifier == "gotouserchat") {
             let vController = navigationController.viewControllers.first as! UserProductChatController
             vController.userId = (constants.userInfo?.id)!
         }

@@ -8,7 +8,7 @@
 
 import ObjectMapper
 
-class ConversationVM: BaseArgModel{
+class ConversationVM: BaseArgVM {
     var id: Int = 0
     var postId: Int = 0
     var postImage: Int = 0

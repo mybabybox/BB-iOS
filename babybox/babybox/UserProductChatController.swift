@@ -15,6 +15,7 @@ class UserProductChatController: UIViewController {
     
     var viewCellIdentifier: String = "userProductsChatCollectionView"
     var conversations: [ConversationVM] = []
+    var myDate: NSDate = NSDate()
     
     //todo create instance of collectionview
     @IBOutlet weak var collectionView: UICollectionView!
@@ -36,8 +37,7 @@ class UserProductChatController: UIViewController {
                 print(resultDto)
                 self.handleConversation(resultDto)
                 
-                //reload the collectionview
-                self.collectionView.reloadData()
+                
                 
                 
             } else {
@@ -66,11 +66,26 @@ class UserProductChatController: UIViewController {
         //todo - this method called when reloading the colleciton view 
         //set variables of UserProductChatCollectionViewCell 
         cell.productTitle.text = self.conversations[indexPath.row].postTitle
+        cell.userDisplayName.text = self.conversations[indexPath.row].userName
+        cell.userComment.text = self.conversations[indexPath.row].lastMessage
         
+        var time = self.conversations[indexPath.row].lastMessageDate / 1000
+        var date = NSDate(timeIntervalSince1970: NSTimeInterval(time))
+        
+        var time1 = self.myDate.offsetFrom(date)
+
+        cell.comment.text = time1
         
         return cell
     }
     
+        func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
+            return 1
+        }
+    
+        func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
+            return 1
+        }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         print(indexPath.row)
@@ -78,6 +93,44 @@ class UserProductChatController: UIViewController {
     
     func handleConversation(conversation: [ConversationVM]) {
         self.conversations = conversation
+        //reload the collectionview
+        self.collectionView.reloadData()
         
+    }
+}
+
+extension NSDate {
+    func yearsFrom(date:NSDate) -> Int{
+        return NSCalendar.currentCalendar().components(.Year, fromDate: date, toDate: self, options: []).year
+    }
+    func monthsFrom(date:NSDate) -> Int{
+        print("abceefghigjklmnopqrstuwxyz")
+        return NSCalendar.currentCalendar().components(.Month, fromDate: date, toDate: self, options: []).month
+    }
+    func weeksFrom(date:NSDate) -> Int{
+        return NSCalendar.currentCalendar().components(.WeekOfYear, fromDate: date, toDate: self, options: []).weekOfYear
+    }
+    func daysFrom(date:NSDate) -> Int{
+        return NSCalendar.currentCalendar().components(.Day, fromDate: date, toDate: self, options: []).day
+    }
+    func hoursFrom(date:NSDate) -> Int{
+        return NSCalendar.currentCalendar().components(.Hour, fromDate: date, toDate: self, options: []).hour
+    }
+    func minutesFrom(date:NSDate) -> Int{
+        return NSCalendar.currentCalendar().components(.Minute, fromDate: date, toDate: self, options: []).minute
+    }
+    func secondsFrom(date:NSDate) -> Int{
+        return NSCalendar.currentCalendar().components(.Second, fromDate: date, toDate: self, options: []).second
+    }
+    func offsetFrom(date:NSDate) -> String {
+        print("in nsdaate......")
+        if yearsFrom(date)   > 0 { return "\(yearsFrom(date)) years ago"   }
+        if monthsFrom(date)  > 0 { return "\(monthsFrom(date)) months ago"  }
+        if weeksFrom(date)   > 0 { return "\(weeksFrom(date)) weeks ago"   }
+        if daysFrom(date)    > 0 { return "\(daysFrom(date)) days ago"    }
+        if hoursFrom(date)   > 0 { return "\(hoursFrom(date)) hours ago"   }
+        if minutesFrom(date) > 0 { return "\(minutesFrom(date)) minutes ago" }
+        if secondsFrom(date) > 0 { return "\(secondsFrom(date)) seconds ago" }
+        return ""
     }
 }

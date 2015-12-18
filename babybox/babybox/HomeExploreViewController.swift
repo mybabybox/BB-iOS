@@ -242,9 +242,6 @@ class HomeExploreViewController: UIViewController, UIScrollViewDelegate {
         //self.products = resultDto
         if (!resultDto.isEmpty) {
             self.pageOffSet = self.pageOffSet++
-            /*dispatch_async(dispatch_get_main_queue(), {
-                self.collectionView.reloadData()
-            })*/
             
             if (self.products.count == 0) {
                 self.products = resultDto
