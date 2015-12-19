@@ -340,9 +340,10 @@ class ApiControlller {
         self.makeApiCall(callEvent)
     }
     
-    func getMessages() {
+    func getMessages(id: Int, pageOffSet: Int) {
+        print("id of msg is \(id)")
         let callEvent = ApiCallEvent()
-        callEvent.method = "/get-messages"
+        callEvent.method = "get-messages/\(id)/\(pageOffSet)"
         callEvent.resultClass = "MessageVM"
         callEvent.successEventbusName = "getMessagesSuccess"
         callEvent.failedEventbusName = "getMessagesFailed"
@@ -351,7 +352,37 @@ class ApiControlller {
         self.makeApiCall(callEvent)
     }
     
+    func postMessage(id: String, message: String){
+        
+        let callEvent = ApiCallEvent()
+        callEvent.method = "message/new"
+        callEvent.resultClass = "MessageDetailVM"
+        //callEvent.body = parameter
+        //callEvent.successEventbusName = "postMessageSuccess"
+        //callEvent.failedEventbusName = "postMessageFailed"
+        print(message)
+        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
+        
+        Alamofire.upload(
+            .POST,
+            callEvent.apiUrl,
+            multipartFormData: { multipartFormData in
+                //multipartFormData.appendBodyPart(data: UIImagePNGRepresentation(imageData)!, name: "image", fileName: "upload.jpg", mimeType:"jpg")
+                multipartFormData.appendBodyPart(data: id.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!, name :"conversationId")
+                multipartFormData.appendBodyPart(data: message.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!, name :"body")
+                multipartFormData.appendBodyPart(data: "true".dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!, name :"system")
+                
+                multipartFormData.appendBodyPart(data:"ios".dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!, name :"deviceType")
+            },
+            encodingCompletion: { encodingResult in
+                switch encodingResult {
+                case .Success(let _, _, _): break
+                case .Failure(let _): break
+                }
+            }
+        )
     
+    }
     
     func makeApiCall(arg: ApiCallEvent) {
         //
@@ -364,22 +395,39 @@ class ApiControlller {
         NSLog("sending string %@", url)
         
         let session = NSURLSession.sharedSession()
+        
         let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
             if error != nil {
                 SwiftEventBus.post(arg.failedEventbusName, sender: error)
             } else {
                 let result = self.handleResult(data!, arg: arg)
-                //if (!result.success) {
                 SwiftEventBus.post(arg.successEventbusName, sender: result)
-                //} else {
-                //    SwiftEventBus.post(arg.successEventbusName, sender: result)
-                //}
             }
         })
         task.resume()
+        
+        
+        /*Alamofire.request(.GET, request)
+            .responseJSON { response in
+            print(response.request)  // original URL request
+            print(response.response) // URL response
+            print(response.data)     // server data
+            print(response.result)   // result of response serialization
+                
+            if response.data != nil {
+                SwiftEventBus.post(arg.failedEventbusName, sender: nil)
+            } else {
+                let result = self.handleResult(response.data!, arg: arg)
+                SwiftEventBus.post(arg.successEventbusName, sender: result)
+            }
+                
+            if let JSON = response.result.value {
+                print("JSON: \(JSON)")
+            }
+        }*/
+        
     }
-    
-    
+     
     func makePostApiCall(arg: ApiCallEvent) {
         NSLog("makePostApiCall")
         
@@ -442,6 +490,7 @@ class ApiControlller {
             case "UserVMById": result = Mapper<UserInfoVM>().map(inputStr)!
             case "ConversationVM": result = Mapper<ConversationVM>().mapArray(inputStr)!
             case "MessageVM": result = Mapper<MessageVM>().map(inputStr)!
+            case "MessageDetailVM": result = Mapper<MessageDetailVM>().map(inputStr)!
             case "String":
                 
                 result = inputStr

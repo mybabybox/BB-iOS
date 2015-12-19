@@ -1,54 +1,41 @@
-//
-//  ConversionWindowViewController.swift
-//  babybox
-//
-//  Created by Mac on 18/12/15.
-//  Copyright © 2015 Mac. All rights reserved.
-//
 import UIKit
+import SwiftEventBus
 
 class MessagesViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
         
-        @IBOutlet var messageComposingView: UIView!
-        @IBOutlet weak var messageCointainerScroll: UIScrollView!
-        @IBOutlet weak var buttomLayoutConstraint: NSLayoutConstraint!
-        @IBOutlet weak var textField: UITextField!
-        @IBOutlet weak var sendButton: UIButton!
-        
+    @IBOutlet var messageComposingView: UIView!
+    @IBOutlet weak var messageCointainerScroll: UIScrollView!
+    @IBOutlet weak var buttomLayoutConstraint: NSLayoutConstraint!
+    @IBOutlet weak var textField: UITextField!
+    @IBOutlet weak var sendButton: UIButton!
+    var pageOffSet: Int = 0
+    var loadingMessage: Bool = false
     var conversionId: Int = 0
-        var selectedImage : UIImage?
-        var lastChatBubbleY: CGFloat = 10.0
-        var internalPadding: CGFloat = 8.0
-        var lastMessageType: BubbleDataType?
-        
-        var imagePicker = UIImagePickerController()
-        
-        
+    var selectedImage : UIImage?
+    var lastChatBubbleY: CGFloat = 10.0
+    var internalPadding: CGFloat = 8.0
+    var lastMessageType: BubbleDataType?
+    
+    var imagePicker = UIImagePickerController()
+    
         override func viewDidLoad() {
             super.viewDidLoad()
-            // Do any additional setup after loading the view, typically from a nib.
             
             imagePicker.delegate = self
             imagePicker.allowsEditing = false //2
             imagePicker.sourceType = .PhotoLibrary //3
             sendButton.enabled = false
             
-            
-            let chatBubbleData1 = ChatBubbleData(text: "Hey !!!!have a look on that....", image:UIImage(named: "chatImage1.jpg"), date: NSDate(), type: .Mine)
-            addChatBubble(chatBubbleData1)
-            
-            let chatBubbleData2 = ChatBubbleData(text: "Nice.... what about this one", image:UIImage(named: "chatImage3.jpg"), date: NSDate(), type: .Opponent)
-            addChatBubble(chatBubbleData2)
-            
-            let chatBubbleData3 = ChatBubbleData(text: "Great Bro....!!!", image:nil, date: NSDate(), type: .Mine)
-            addChatBubble(chatBubbleData3)
+            ApiControlller.apiController.getMessages(self.conversionId, pageOffSet: pageOffSet)
+            SwiftEventBus.onMainThread(self, name: "getMessagesSuccess") { result in
+                // UI thread
+                let resultDto: MessageVM = result.object as! MessageVM
+                self.handleChatMessageResponse(resultDto)
+            }
             
             self.messageCointainerScroll.contentSize = CGSizeMake(CGRectGetWidth(messageCointainerScroll.frame), lastChatBubbleY + internalPadding)
             self.addKeyboardNotifications()
             
-            /*
-            
-            */
         }
         
         override func didReceiveMemoryWarning() {
@@ -85,8 +72,11 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, UIImagePick
         }
         
         @IBAction func sendButtonClicked(sender: AnyObject) {
-            self.addRandomTypeChatBubble()
+            let bubbleData = ChatBubbleData(text: textField.text, image: selectedImage, date: NSDate(), type: .Mine)
+            addChatBubble(bubbleData)
             textField.resignFirstResponder()
+            
+            ApiControlller.apiController.postMessage(String(self.conversionId), message: bubbleData.text!)
         }
         
         @IBAction func cameraButtonClicked(sender: AnyObject) {
@@ -159,32 +149,52 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, UIImagePick
         func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         
             let chosenImage = info[UIImagePickerControllerOriginalImage] as! UIImage //2
-            let bubbleData = ChatBubbleData(text: textField.text, image: chosenImage, date: NSDate(), type: getRandomChatDataType())
+            let bubbleData = ChatBubbleData(text: textField.text, image: chosenImage, date: NSDate(), type: .Mine)
+            
+            //post new chat message
+            //ApiControlller.apiController.postMessage(String(self.conversionId), message: bubbleData.text!, imageData: bubbleData.image!)
+            
             addChatBubble(bubbleData)
             picker.dismissViewControllerAnimated(true, completion: { () -> Void in
         })
     }
     
-    
+    func handleChatMessageResponse(result: MessageVM){
+        print("name is ......")
+        print(constants.userInfo?.firstName)
+        for var i=0; i<result.messages.count; i++ {
+            if(result.messages[i].senderName == constants.userInfo?.firstName){
+                if(result.messages[i].hasImage == true){
+                    
+                }else{
+                    let chatBubbleData1 = ChatBubbleData(text: result.messages[i].body, image:nil, date: NSDate(), type: .Mine)
+                    addChatBubble(chatBubbleData1)
+                }
+                
+            }else{
+                if(result.messages[i].hasImage == true){
+                    
+                }else{
+                    let chatBubbleData2 = ChatBubbleData(text: result.messages[i].body, image:nil, date: NSDate(), type: .Opponent)
+                    addChatBubble(chatBubbleData2)
+                }
+            }
+        }
+        self.pageOffSet++
+        self.loadingMessage = true
+        
     }
-
-
-    // MARK: TEXT FILED DELEGATE METHODS
-
-    extension ViewController{
-        
-        
-        
-        /*func textFieldShouldReturn(textField: UITextField) -> Bool {
-            // Send button clicked
-            textField.resignFirstResponder()
-            self.addRandomTypeChatBubble()
-            return true
-        }*/
-        
-        
+    
+    // MARK: UIScrollview Delegate
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        print("scrolling in area...")
+        if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height){
+            if (loadingMessage) {
+                ApiControlller.apiController.getMessages(self.conversionId, pageOffSet: pageOffSet)
+                self.loadingMessage = false
+            }
+        }
     }
     
-    extension ViewController {
-        
+    
 }

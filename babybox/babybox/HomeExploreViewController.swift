@@ -15,7 +15,7 @@ class HomeExploreViewController: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var collectionView: UICollectionView!
     
     var reuseIdentifier = "CellType1"
-    
+    var loadingProducts: Bool = false
     var pageOffSet: Int = 0
     var apiController: ApiControlller = ApiControlller()
     var currentIndex = 0
@@ -241,7 +241,6 @@ class HomeExploreViewController: UIViewController, UIScrollViewDelegate {
         print("got all products...", terminator: "");
         //self.products = resultDto
         if (!resultDto.isEmpty) {
-            self.pageOffSet = self.pageOffSet++
             
             if (self.products.count == 0) {
                 self.products = resultDto
@@ -263,6 +262,8 @@ class HomeExploreViewController: UIViewController, UIScrollViewDelegate {
                         //completion?()
                 });
             }
+            self.pageOffSet++
+            self.loadingProducts = true
         }
     }
     
@@ -301,8 +302,12 @@ class HomeExploreViewController: UIViewController, UIScrollViewDelegate {
     
     // MARK: UIScrollview Delegate
     func scrollViewDidScroll(scrollView: UIScrollView) {
+        
         if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height){
+            if (self.loadingProducts) {
                 apiController.getHomeExploreFeeds(pageOffSet);
+                self.loadingProducts = false
+            }
         }
     }
     

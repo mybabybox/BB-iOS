@@ -21,13 +21,15 @@ class ConversionViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     
     override func viewDidAppear(animated: Bool) {
-        
+        self.conversations = []
+        self.myDate = NSDate()
+        ApiControlller.apiController.getConversation()
     }
     
     override func viewDidLoad() {
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "actionbar_bg_pink"), forBarMetrics: UIBarMetrics.Default)
         
-        ApiControlller.apiController.getConversation()
+        
         
         SwiftEventBus.onMainThread(self, name: "conversationsSuccess") { result in
             // UI thread
@@ -50,6 +52,8 @@ class ConversionViewController: UIViewController {
             
             print("fail......")
         }
+        
+        self.automaticallyAdjustsScrollViewInsets = false
     }
     
     //MARK: UICollectionViewDataSource
@@ -101,9 +105,9 @@ class ConversionViewController: UIViewController {
     }
     
     override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
-        if (identifier == "showConversionDetails") {
-            return true
-        }
+//        if (identifier == "showConversionDetails") {
+//            return true
+//        }
         
         return false
     }
