@@ -28,7 +28,7 @@ class PostModel: BaseArgModel {
     var numComments: Int = 0
     var numViews: Int = 0
     var isLiked: Bool = false
-    var offSet: Double = 0
+    var offset: Double = 0
     var baseScore: Double = 0
     var timeScore: Double = 0
     
@@ -50,10 +50,10 @@ class PostModel: BaseArgModel {
         numChats<-map["numChats"]
         numBuys<-map["numBuys"]
         numComments<-map["numComments"]
-        numViews<-map[""]
-        isLiked<-map[""]
-        offSet<-map[""]
-        baseScore<-map[""]
-        timeScore<-map[""]
+        numViews<-map["numViews"]
+        isLiked<-map["isLiked"]
+        offset<-map["offset"]
+        baseScore<-map["baseScore"]
+        timeScore<-map["timeScore"]
     }
 }

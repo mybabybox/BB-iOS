@@ -43,7 +43,7 @@ class HomeFollowingViewController: UIViewController {
         
         //self.homeProducts.appendContentsOf(resultDto)
         if (!resultDto.isEmpty) {
-            self.pageOffSet = self.pageOffSet++
+            
             /*dispatch_async(dispatch_get_main_queue(), {
             self.collectionView.reloadData()
             })*/
@@ -52,7 +52,7 @@ class HomeFollowingViewController: UIViewController {
                 self.homeProducts = resultDto
                 self.followingProductsCollectionView.reloadData()
             } else {
-                var indexPaths = [NSIndexPath]()
+                /*var indexPaths = [NSIndexPath]()
                 let firstIndex = self.homeProducts.count
                 
                 for (i, postModel) in resultDto.enumerate() {
@@ -66,10 +66,14 @@ class HomeFollowingViewController: UIViewController {
                     self.followingProductsCollectionView?.insertItemsAtIndexPaths(indexPaths)
                     }, completion: { (finished) -> Void in
                         //completion?()
-                });
+                });*/
+                self.homeProducts.appendContentsOf(resultDto)
+                self.followingProductsCollectionView.reloadData()
             }
+            self.pageOffSet = Int(self.homeProducts[self.homeProducts.count-1].offset)
         }
         
+        self.isLoading = true
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -112,6 +116,10 @@ class HomeFollowingViewController: UIViewController {
                 });
             }
         })
+        
+        productViewCell.layer.borderColor = CGColorCreate(CGColorSpaceCreateDeviceRGB(), [194/255, 195/255, 200/255, 1.0])
+        productViewCell.layer.borderWidth = 1
+        
         return productViewCell;
     }
     
@@ -187,7 +195,11 @@ class HomeFollowingViewController: UIViewController {
     // MARK: UIScrollview Delegate
     func scrollViewDidScroll(scrollView: UIScrollView) {
         if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height){
-            apiController.getHomeEollowingFeeds(pageOffSet)
+            if (self.isLoading) {
+                apiController.getHomeEollowingFeeds(pageOffSet)
+                self.isLoading = false
+            }
+            
         }
     }
     

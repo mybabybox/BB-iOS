@@ -12,6 +12,8 @@ import SwiftEventBus
 class UserProfileViewController: UIViewController {
 
     
+    @IBOutlet weak var userImgBig: UIImageView!
+    @IBOutlet weak var userImg: UIButton!
     @IBOutlet weak var onClickBackButton: UIBarButtonItem!
     @IBOutlet weak var imageUpload: UIImageView!
     @IBOutlet weak var userImage: UIImageView!
@@ -25,6 +27,14 @@ class UserProfileViewController: UIViewController {
         self.navigationController!.popViewControllerAnimated(true)
     }
     
+    override func viewDidAppear(animated: Bool) {
+        self.userImage.layer.cornerRadius = 18.0
+        self.userImage.layer.masksToBounds = true
+        
+        self.userImg.layer.cornerRadius = 18.0
+        self.userImg.layer.masksToBounds = true
+        
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         print("userid " + String(self.userId))
@@ -34,8 +44,16 @@ class UserProfileViewController: UIViewController {
             // UI thread
             let resultDto: UserInfoVM = result.object as! UserInfoVM
             
-            self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "actionbar_bg_pink"), forBarMetrics: UIBarMetrics.Default)
+            //self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "actionbar_bg_pink"), forBarMetrics: UIBarMetrics.Default)
             self.userName.text = resultDto.displayName
+            let imagePath =  constants.imagesBaseURL + "/image/get-mini-profile-image-by-id/" + String(constants.userInfo?.id)
+            let imageUrl  = NSURL(string: imagePath);
+            let imageData = NSData(contentsOfURL: imageUrl!)
+            if (imageData != nil) {
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.userImg.imageView!.image = UIImage(data: imageData!)
+                });
+            }
             
             if (constants.userInfo?.numFollowers > 0) {
                 self.followers.setTitle("Followers " + String(resultDto.numFollowers), forState: UIControlState.Normal)

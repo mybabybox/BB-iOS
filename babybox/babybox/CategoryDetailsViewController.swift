@@ -13,6 +13,10 @@ import Kingfisher
 
 class CategoryDetailsViewController: UIViewController, UIScrollViewDelegate {
     
+    @IBOutlet weak var highLowbtn: UIButton!
+    @IBOutlet weak var lowHighBtn: UIButton!
+    @IBOutlet weak var newestBtn: UIButton!
+    @IBOutlet weak var popularBtn: UIButton!
     @IBAction func onClickBack(sender: AnyObject) {
         
         //var vController = self.storyboard!.instantiateViewControllerWithIdentifier("initialSegmentViewController") as! InitialHomeSegmentedController
@@ -24,12 +28,15 @@ class CategoryDetailsViewController: UIViewController, UIScrollViewDelegate {
     
     @IBOutlet weak var prodCollectionView: UICollectionView!
     var pageOffSet = 0
+    var isLoading:Bool = false
     var catProducts: [PostModel] = []
     @IBOutlet var typesButtonGroup: [UIButton]!
     var filterType: Int = 1
     @IBOutlet weak var categoryName: UILabel!
     @IBOutlet weak var categoryImageView: UIImageView!
     var categories : CategoryModel = CategoryModel()
+    var collectionViewCellSize : CGSize?
+    var filterButtonSize : CGSize?
     
     @IBAction func onClickHighToLwFilter(sender: AnyObject) {
         self.pageOffSet = 0
@@ -67,9 +74,8 @@ class CategoryDetailsViewController: UIViewController, UIScrollViewDelegate {
     
     override func viewDidAppear(animated: Bool) {
        
-        print("Show the detail of selected product view.... ", terminator: "");
-        
         self.categoryName.text = self.categories.name
+        self.navigationController?.navigationBar.hidden = true
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
             let categoryVM = self.categories
@@ -102,6 +108,8 @@ class CategoryDetailsViewController: UIViewController, UIScrollViewDelegate {
             let resultDto: [PostModel] = result.object as! [PostModel]
             self.handleGetProductDetailsSuccess(resultDto)
         }
+        setCollectionViewSizesInsets()
+        setSizesForFilterButtons()
         
         ApiControlller.apiController.getCategoriesFilterByPopularity(Int(categories.id), offSet: pageOffSet)
 
@@ -119,12 +127,12 @@ class CategoryDetailsViewController: UIViewController, UIScrollViewDelegate {
         }*/
         
         if (!resultDto.isEmpty) {
-            self.pageOffSet = self.pageOffSet++
+            
             if (self.self.catProducts.count == 0) {
                 self.catProducts = resultDto
                 self.prodCollectionView.reloadData()
             } else {
-                var indexPaths = [NSIndexPath]()
+                /*var indexPaths = [NSIndexPath]()
                 let firstIndex = self.self.catProducts.count
                 
                 for (i, postModel) in resultDto.enumerate() {
@@ -138,10 +146,13 @@ class CategoryDetailsViewController: UIViewController, UIScrollViewDelegate {
                     self.prodCollectionView?.insertItemsAtIndexPaths(indexPaths)
                     }, completion: { (finished) -> Void in
                         //completion?()
-                });
+                });*/
+                self.catProducts.appendContentsOf(resultDto)
+                self.prodCollectionView.reloadData()
             }
+            self.pageOffSet = Int(self.catProducts[self.catProducts.count - 1].offset)
         }
-        
+        self.isLoading = true
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -202,7 +213,9 @@ class CategoryDetailsViewController: UIViewController, UIScrollViewDelegate {
     // MARK: UIScrollview Delegate
     func scrollViewDidScroll(scrollView: UIScrollView) {
         if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height){
-            switch(filterType) {
+            
+            if (self.isLoading) {
+                switch(filterType) {
                 case 1:
                     ApiControlller.apiController.getCategoriesFilterByHlPrice(Int(categories.id), offSet: self.pageOffSet)
                 case 2:
@@ -212,6 +225,8 @@ class CategoryDetailsViewController: UIViewController, UIScrollViewDelegate {
                 case 4:
                     ApiControlller.apiController.getCategoriesFilterByPopularity(Int(categories.id), offSet: self.pageOffSet)
                 default: print("Invalid Selection")
+                }
+                self.isLoading = false
             }
         }
     }
@@ -241,6 +256,36 @@ class CategoryDetailsViewController: UIViewController, UIScrollViewDelegate {
             button.setImage(UIImage(named: "ic_liked_tips.png"), forState: UIControlState.Normal)
             
         }
+    }
+    
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+        
+        
+        if let _ = collectionViewCellSize {
+            return collectionViewCellSize!
+        }
+        
+        return CGSizeZero
+    }
+    
+    func setCollectionViewSizesInsets() {
+        let availableWidthForCells:CGFloat = self.view.frame.width - 60
+        let cellWidth :CGFloat = availableWidthForCells / 2
+        let cellHeight = cellWidth * 4/3
+        collectionViewCellSize = CGSizeMake(cellWidth, cellHeight)
+    }
+    
+    func setSizesForFilterButtons() {
+        let availableWidthForButtons:CGFloat = self.view.frame.width - 20
+        let buttonWidth :CGFloat = availableWidthForButtons / 4
+        let buttonHeight = CGFloat(25)
+        filterButtonSize = CGSizeMake(buttonWidth, buttonHeight)
+        self.popularBtn.frame.size = filterButtonSize!
+        self.newestBtn.frame.size = filterButtonSize!
+        self.lowHighBtn.frame.size = filterButtonSize!
+        self.highLowbtn.frame.size = filterButtonSize!
+        
+        
     }
     
     override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {

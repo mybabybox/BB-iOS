@@ -172,6 +172,9 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate{
         return true;
     }
     
+    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
+        return true
+    }
     /*
     @IBOutlet weak var messageTableView: UITableView!
     var comments : [String]? = ["This is my first comments !!!", "This is my second comments !!!"]

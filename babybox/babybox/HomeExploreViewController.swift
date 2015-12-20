@@ -22,6 +22,10 @@ class HomeExploreViewController: UIViewController, UIScrollViewDelegate {
     var categories : [CategoryModel] = []
     var products: [PostModel] = []
     
+    var collectionViewCellSize : CGSize?
+    var collectionViewTopCellSize : CGSize?
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -43,7 +47,9 @@ class HomeExploreViewController: UIViewController, UIScrollViewDelegate {
             self.handleGetAllProductsuccess(resultDto)
         }
         
-        // Do any additional setup after loading the view, typically from a nib.
+        setCollectionViewSizesInsets()
+        setCollectionViewSizesInsetsForTopView()
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -53,8 +59,8 @@ class HomeExploreViewController: UIViewController, UIScrollViewDelegate {
     
     override func viewDidDisappear(animated: Bool) {
         self.products = []
-        self.currentIndex = 0
-        self.pageOffSet = 0
+        //self.currentIndex = 0
+        //self.pageOffSet = 0
         
     }
     
@@ -64,7 +70,7 @@ class HomeExploreViewController: UIViewController, UIScrollViewDelegate {
         let cell = view.superview! as! CatProductCollectionViewCell
         
         let indexPath = collectionView.indexPathForCell(cell)
-        print(indexPath)
+        //print(indexPath)
         
         //TODO - logic here require if user has already liked the product...
         if (self.products[(indexPath?.row)!].isLiked) {
@@ -113,6 +119,9 @@ class HomeExploreViewController: UIViewController, UIScrollViewDelegate {
                     cell.categoryName.text = categoryVM.name;
                 });
             })
+            cell.layer.borderColor = CGColorCreate(CGColorSpaceCreateDeviceRGB(), [194/255, 195/255, 200/255, 1.0])
+            cell.layer.borderWidth = 1
+            //cell.layer.cornerRadius = 8 // optional
             
             return cell
         }
@@ -127,7 +136,7 @@ class HomeExploreViewController: UIViewController, UIScrollViewDelegate {
                 if (post.hasImage) {
                     let imagePath =  constants.imagesBaseURL + "/image/get-post-image-by-id/" + String(post.images[0])
                     let imageUrl  = NSURL(string: imagePath);
-                    print(imageUrl)
+                   // print(imageUrl)
                     //let imageData = NSData(contentsOfURL: imageUrl!)
                     //print(imageUrl, terminator: "")
                     dispatch_async(dispatch_get_main_queue(), {
@@ -147,6 +156,10 @@ class HomeExploreViewController: UIViewController, UIScrollViewDelegate {
             
             //cell.prodImageIns.addTarget(self, action: "ImagePressed:", forControlEvents: UIControlEvents.TouchUpInside)
             cell.likeImageIns.addTarget(self, action: "HeartPressed:", forControlEvents: UIControlEvents.TouchUpInside)
+            
+            cell.layer.borderColor = CGColorCreate(CGColorSpaceCreateDeviceRGB(), [194/255, 195/255, 200/255, 1.0])
+            cell.layer.borderWidth = 1
+            
             return cell
         }
         
@@ -176,45 +189,43 @@ class HomeExploreViewController: UIViewController, UIScrollViewDelegate {
     }
     
     // MARK: UICollectionViewDelegateFlowLayout
+    
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+        
         if (collectionView.tag == 2){
-            return CGSize(width: 96, height: 96)
+            if let _ = collectionViewTopCellSize {
+                return collectionViewTopCellSize!
+            }
         }else{
-            return CGSize(width: 132, height: 170)
+            if let _ = collectionViewCellSize {
+                return collectionViewCellSize!
+            }
         }
+        return CGSizeZero
     }
+    
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         if (collectionView.tag == 2){
             return CGSizeZero
         }else{
-            return CGSizeMake(self.view.frame.width, 225.0)
+            return CGSizeMake(self.view.frame.width, 250)
         }
     }
     
-//    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
-//        return 1
-//    }
-//    
-//    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
-//        return 1
-//    }
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
+        return 1.0
+    }
+    
+    /*func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
+        return UIEdgeInsetsMake(0, 0, 0, 0); // top, left, bottom, right
+    }*/
+    
     
     func HeartPressed(button: UIButton){
-        //let message = String(format:"Selected Cell: %d", button.tag)
-        //let alertController = UIAlertController(title: "Heart Pressed", message:
-        //    message, preferredStyle: UIAlertControllerStyle.Alert)
-        //alertController.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default,handler: nil))
-        
-        //self.presentViewController(alertController, animated: true, completion: nil)
     }
+    
     func ImagePressed(button: UIButton){
-        //let message = String(format:"Selected Cell: %d", button.tag)
-        //let alertController = UIAlertController(title: "ImagePressed", message:
-        //    message, preferredStyle: UIAlertControllerStyle.Alert)
-        //alertController.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default,handler: nil))
-        
-        //self.presentViewController(alertController, animated: true, completion: nil)
     }
     
     func getSellButton() -> UIBarButtonItem {
@@ -238,7 +249,7 @@ class HomeExploreViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func handleGetAllProductsuccess(resultDto: [PostModel]) {
-        print("got all products...", terminator: "");
+        //print("got all products...", terminator: "");
         //self.products = resultDto
         if (!resultDto.isEmpty) {
             
@@ -246,7 +257,7 @@ class HomeExploreViewController: UIViewController, UIScrollViewDelegate {
                 self.products = resultDto
                 self.collectionView.reloadData()
             } else {
-                var indexPaths = [NSIndexPath]()
+                /*var indexPaths = [NSIndexPath]()
                 let firstIndex = self.products.count
                 
                 for (i, postModel) in resultDto.enumerate() {
@@ -260,11 +271,14 @@ class HomeExploreViewController: UIViewController, UIScrollViewDelegate {
                     self.collectionView?.insertItemsAtIndexPaths(indexPaths)
                     }, completion: { (finished) -> Void in
                         //completion?()
-                });
+                });*/
+                self.products.appendContentsOf(resultDto)
+                self.collectionView.reloadData()
             }
-            self.pageOffSet++
-            self.loadingProducts = true
         }
+        
+        self.pageOffSet = Int(self.products[self.products.count-1].offset)
+        self.loadingProducts = true
     }
     
     func handleGetCateogriesSuccess(categories: [CategoryModel]) {
@@ -305,10 +319,23 @@ class HomeExploreViewController: UIViewController, UIScrollViewDelegate {
         
         if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height){
             if (self.loadingProducts) {
-                apiController.getHomeExploreFeeds(pageOffSet);
+                apiController.getHomeExploreFeeds(self.pageOffSet);
                 self.loadingProducts = false
             }
         }
+    }
+    
+    func setCollectionViewSizesInsetsForTopView() {
+        let availableWidthForCells:CGFloat = self.view.frame.width - 40
+        let cellWidth :CGFloat = availableWidthForCells / 3
+        let cellHeight = cellWidth
+        collectionViewTopCellSize = CGSizeMake(cellWidth, cellHeight)
+    }
+    func setCollectionViewSizesInsets() {
+        let availableWidthForCells:CGFloat = self.view.frame.width - 60
+        let cellWidth :CGFloat = availableWidthForCells / 2
+        let cellHeight = cellWidth * 4/3
+        collectionViewCellSize = CGSizeMake(cellWidth, cellHeight)
     }
     
     
