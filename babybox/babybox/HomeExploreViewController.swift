@@ -16,7 +16,7 @@ class HomeExploreViewController: UIViewController, UIScrollViewDelegate {
     
     var reuseIdentifier = "CellType1"
     var loadingProducts: Bool = false
-    var pageOffSet: Int = 0
+    var pageOffSet: Int64 = 0
     var apiController: ApiControlller = ApiControlller()
     var currentIndex = 0
     var categories : [CategoryModel] = []
@@ -25,6 +25,15 @@ class HomeExploreViewController: UIViewController, UIScrollViewDelegate {
     var collectionViewCellSize : CGSize?
     var collectionViewTopCellSize : CGSize?
     
+    override func viewDidAppear(animated: Bool) {
+        self.pageOffSet = 0
+        apiController.getAllCategories();
+        apiController.getHomeExploreFeeds(pageOffSet);
+        
+        //setCollectionViewSizesInsets()
+        //setCollectionViewSizesInsetsForTopView()
+        
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -277,7 +286,7 @@ class HomeExploreViewController: UIViewController, UIScrollViewDelegate {
             }
         }
         
-        self.pageOffSet = Int(self.products[self.products.count-1].offset)
+        self.pageOffSet = Int64(self.products[self.products.count-1].offset)
         self.loadingProducts = true
     }
     

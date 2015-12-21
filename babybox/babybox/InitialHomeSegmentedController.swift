@@ -86,51 +86,84 @@ class InitialHomeSegmentedController: UIViewController {
     @IBAction func segAction(sender: AnyObject) {
         
         if(self.segController.selectedSegmentIndex == 0){
-            self.exploreController!.view.hidden = false
-            self.followingController!.view.hidden = true
+            //self.exploreController!.view.hidden = false
+            //self.followingController!.view.hidden = true
             
-            self.bottomLayer?.removeFromSuperlayer()
-            //self.segController.setBackgroundImage(UIImage(named: "actionbar_bg_pink"), forState: UIControlState.Highlighted, barMetrics: UIBarMetrics.Default)
+//            self.bottomLayer?.removeFromSuperlayer()
+//            //self.segController.setBackgroundImage(UIImage(named: "actionbar_bg_pink"), forState: UIControlState.Highlighted, barMetrics: UIBarMetrics.Default)
+//            
+//            self.bottomLayer = CALayer()
+//            self.bottomLayer?.borderColor = CGColorCreate(CGColorSpaceCreateDeviceRGB(), [255/255, 118/255, 164/255, 1.0])
+//            self.bottomLayer?.borderWidth = 3
+//            
+//            // Calculating frame
+//            
+//            let width = self.segController.frame.size.width/2
+//            let x = self.topbarView.bounds.size.width/3
+//            let y = self.segController.frame.size.height - (self.bottomLayer?.borderWidth)!
+//            self.bottomLayer?.frame = CGRectMake(x, y,width, (self.bottomLayer?.borderWidth)!)
+//            
+//            self.segController.layer.addSublayer(self.bottomLayer!)
             
-            self.bottomLayer = CALayer()
-            self.bottomLayer?.borderColor = CGColorCreate(CGColorSpaceCreateDeviceRGB(), [255/255, 118/255, 164/255, 1.0])
-            self.bottomLayer?.borderWidth = 3
+            let y = CGFloat(self.segController.frame.height)
+            var start: CGPoint = CGPoint(x: 0, y: y)
+            var end: CGPoint = CGPoint(x: self.segController.frame.size.width / 2 , y: y)
+
+            var color: UIColor = UIColor(red: 255/255, green: 118/255, blue: 164/255, alpha: 1.0)
+            self.drawLineFromPoint(start, toPoint: end, ofColor: color, inView: self.segController)
             
-            // Calculating frame
-            
-            let width = self.segController.frame.size.width/2
-            let x = self.topbarView.bounds.size.width/3
-            let y = self.segController.frame.size.height - (self.bottomLayer?.borderWidth)!
-            self.bottomLayer?.frame = CGRectMake(x, y,width, (self.bottomLayer?.borderWidth)!)
-            
-            self.segController.layer.addSublayer(self.bottomLayer!)
-            
-            //self.followingController!.view.removeFromSuperview()
-            //self.baseView.addSubview(self.exploreController!.view)
-            //self.exploreController?.view.frame = CGRectMake(0, 0, self.baseView.bounds.width, self.baseView.bounds.height-20)
+
+            self.followingController!.view.removeFromSuperview()
+            self.baseView.addSubview(self.exploreController!.view)
+            self.exploreController?.view.frame = CGRectMake(0, 0, self.baseView.bounds.width, self.baseView.bounds.height-20)
             
         } else{
-            self.exploreController!.view.hidden = true
-            self.followingController!.view.hidden = false
+            //self.exploreController!.view.hidden = true
+            //self.followingController!.view.hidden = false
     
-            self.bottomLayer?.removeFromSuperlayer()
-            
-            self.bottomLayer = CALayer()
-            self.bottomLayer?.borderColor = CGColorCreate(CGColorSpaceCreateDeviceRGB(), [255/255, 118/255, 164/255, 1.0])
-            self.bottomLayer?.borderWidth = 3
-            
-            // Calculating frame
-            let width = self.segController.frame.size.width/3
-            let x = self.segController.frame.size.width/3;
-            let y = self.segController.frame.size.height - (self.bottomLayer?.borderWidth)!
-            self.bottomLayer?.frame = CGRectMake(x, y,width, (self.bottomLayer?.borderWidth)!)
-            
-            self.segController.layer.addSublayer(self.bottomLayer!)
+//            self.bottomLayer?.removeFromSuperlayer()
+//            
+//            self.bottomLayer = CALayer()
+//            self.bottomLayer?.borderColor = CGColorCreate(CGColorSpaceCreateDeviceRGB(), [255/255, 118/255, 164/255, 1.0])
+//            self.bottomLayer?.borderWidth = 3
+//            
+//            // Calculating frame
+//            let width = self.segController.frame.size.width/3
+//            let x = self.segController.frame.size.width/3;
+//            let y = self.segController.frame.size.height - (self.bottomLayer?.borderWidth)!
+//            self.bottomLayer?.frame = CGRectMake(x, y,width, (self.bottomLayer?.borderWidth)!)
+//            
+//            self.segController.layer.addSublayer(self.bottomLayer!)
     
-            //self.exploreController!.view.removeFromSuperview()
-            //self.baseView.addSubview(self.followingController!.view)
-            //self.followingController?.view.frame = CGRectMake(0, 0, self.baseView.bounds.width, self.baseView.bounds.height-20)
+            let y = CGFloat(self.segController.frame.height)
+            var start: CGPoint = CGPoint(x: self.segController.frame.size.width / 2, y: y)
+            var end: CGPoint = CGPoint(x: self.segController.frame.size.width, y: y)
+            
+            
+            var color: UIColor = UIColor(red: 255/255, green: 118/255, blue: 164/255, alpha: 1.0)
+            self.drawLineFromPoint(start, toPoint: end, ofColor: color, inView: self.segController)
+            
+            
+            self.exploreController!.view.removeFromSuperview()
+            self.baseView.addSubview(self.followingController!.view)
+            self.followingController?.view.frame = CGRectMake(0, 0, self.baseView.bounds.width, self.baseView.bounds.height-20)
         }
+    }
+    
+    var shapeLayer = CAShapeLayer()
+    func drawLineFromPoint(start : CGPoint, toPoint end:CGPoint, ofColor lineColor: UIColor, inView view:UIView) {
+        //design the path
+        var path = UIBezierPath()
+        path.moveToPoint(start)
+        path.addLineToPoint(end)
+
+        //design path in layer
+        
+        shapeLayer.path = path.CGPath
+        shapeLayer.strokeColor = lineColor.CGColor
+        shapeLayer.lineWidth = 3.0
+        
+        view.layer.addSublayer(shapeLayer)
     }
     
     override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
@@ -143,9 +176,13 @@ class InitialHomeSegmentedController: UIViewController {
         //let navigationController = segue.destinationViewController as! UINavigationController
         print("identifier " + identifier!)
         if (identifier == "gotoUserProfile_") {
+            //let navigationController = segue.destinationViewController as! UINavigationController
+            //print(segue.destinationViewController)
+            //print(navigationController.viewControllers)
             let vController = segue.destinationViewController as! UserProfileViewController
             vController.userId = (constants.userInfo?.id)!
         } else if (identifier == "gotoUserProfile") {
+            //let navigationController = segue.destinationViewController as! UINavigationController
             let vController = segue.destinationViewController as! UserProfileViewController
             vController.userId = (constants.userInfo?.id)!
         } else if (identifier == "gotouserchat") {

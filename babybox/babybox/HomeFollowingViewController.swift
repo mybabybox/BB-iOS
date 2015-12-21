@@ -13,7 +13,7 @@ import Kingfisher
 class HomeFollowingViewController: UIViewController {
     //this controller will be used to manage category specific products list...
     
-    var pageOffSet: Int = 0
+    var pageOffSet: Int64 = 0
     var currentSelProduct: Int = 0
     var apiController: ApiControlller = ApiControlller()
     var isLoading : Bool = false
@@ -23,6 +23,8 @@ class HomeFollowingViewController: UIViewController {
     
     @IBOutlet weak var followingProductsCollectionView: UICollectionView!
     var homeProducts: [PostModel] = []
+    
+    var collectionViewCellSize : CGSize?
     
     override func viewDidAppear(animated: Bool) {
         apiController.getHomeEollowingFeeds(pageOffSet)
@@ -36,7 +38,7 @@ class HomeFollowingViewController: UIViewController {
             let resultDto: [PostModel] = result.object as! [PostModel]
             self.handleHomePosts(resultDto)
         }
-        
+        setCollectionViewSizesInsets()
     }
     
     func handleHomePosts(resultDto: [PostModel]) {
@@ -70,7 +72,7 @@ class HomeFollowingViewController: UIViewController {
                 self.homeProducts.appendContentsOf(resultDto)
                 self.followingProductsCollectionView.reloadData()
             }
-            self.pageOffSet = Int(self.homeProducts[self.homeProducts.count-1].offset)
+            self.pageOffSet = Int64(self.homeProducts[self.homeProducts.count-1].offset)
         }
         
         self.isLoading = true
@@ -134,6 +136,17 @@ class HomeFollowingViewController: UIViewController {
         //self.navigationController?.pushViewController(vController, animated: true)
         
         
+    }
+    
+    // MARK: UICollectionViewDelegateFlowLayout
+    
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+        
+        if let _ = collectionViewCellSize {
+                return collectionViewCellSize!
+        }
+        
+        return CGSizeZero
     }
     
     //
@@ -203,6 +216,11 @@ class HomeFollowingViewController: UIViewController {
         }
     }
     
-    
+    func setCollectionViewSizesInsets() {
+        let availableWidthForCells:CGFloat = self.view.frame.width - 60
+        let cellWidth :CGFloat = (availableWidthForCells / 2)
+        let cellHeight = cellWidth * 4/3
+        collectionViewCellSize = CGSizeMake(cellWidth, cellHeight)
+    }
    
 }

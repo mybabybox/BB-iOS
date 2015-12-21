@@ -14,14 +14,16 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate{
     
     var productModel: PostModel = PostModel()
     
+    
     var likeFlag: Bool = false
     var id: Double!
     
     var productInfo: [PostCatModel] = []
     
+    var fromPage: String = ""
     var items: [String] = [] //comment items
     
-    
+    //handling back button from 3 different
    
     //@IBOutlet weak var messageTableView: UITableView!
     
@@ -60,12 +62,6 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate{
         }
     }
 
-    @IBAction func onClickBack(sender: AnyObject) {
-        print("inside back button")
-        self.navigationController!.popViewControllerAnimated(true)
-        //self.dismissViewControllerAnimated(true, completion: nil)
-    }
-    
     @IBOutlet weak var onClickBack: UIBarButtonItem!
     override func viewDidAppear(animated: Bool) {
         print("Show the detail of selected product view.... ", terminator: "");
@@ -145,6 +141,7 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate{
     func submitComment() {
         self.items.append(self.commentTextField.text!)
         //print(self.items)
+        
         self.commentTable.reloadData()
         
         ApiControlller().postComment(String(Int(self.id)), comment: self.commentTextField.text!)
@@ -175,6 +172,10 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate{
     override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
         return true
     }
+    
+    @IBAction func onClickBack(sender: AnyObject) {
+    }
+    
     /*
     @IBOutlet weak var messageTableView: UITableView!
     var comments : [String]? = ["This is my first comments !!!", "This is my second comments !!!"]

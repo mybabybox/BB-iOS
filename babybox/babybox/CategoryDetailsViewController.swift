@@ -27,7 +27,7 @@ class CategoryDetailsViewController: UIViewController, UIScrollViewDelegate {
     }
     
     @IBOutlet weak var prodCollectionView: UICollectionView!
-    var pageOffSet = 0
+    var pageOffSet:Int64 = 0
     var isLoading:Bool = false
     var catProducts: [PostModel] = []
     @IBOutlet var typesButtonGroup: [UIButton]!
@@ -150,7 +150,7 @@ class CategoryDetailsViewController: UIViewController, UIScrollViewDelegate {
                 self.catProducts.appendContentsOf(resultDto)
                 self.prodCollectionView.reloadData()
             }
-            self.pageOffSet = Int(self.catProducts[self.catProducts.count - 1].offset)
+            self.pageOffSet = Int64(self.catProducts[self.catProducts.count - 1].offset)
         }
         self.isLoading = true
     }
