@@ -160,7 +160,8 @@ class HomeExploreViewController: UIViewController, UIScrollViewDelegate {
                 }
                 cell.likeCount.text = String(post.numLikes)
                 cell.title.text = post.title
-                cell.productPrice.text = String(stringInterpolationSegment: post.price)
+                cell.productPrice.text =
+                    "\(constants.currencySymbol) \(String(stringInterpolationSegment: post.price))"
             })
             
             //cell.prodImageIns.addTarget(self, action: "ImagePressed:", forControlEvents: UIControlEvents.TouchUpInside)

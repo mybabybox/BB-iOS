@@ -22,7 +22,7 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate{
     
     var fromPage: String = ""
     var items: [String] = [] //comment items
-    var categoryId: Double = 0.0
+    var category: CategoryModel?
     //handling back button from 3 different
    
     //@IBOutlet weak var messageTableView: UITableView!
@@ -41,11 +41,10 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate{
     @IBOutlet weak var likeButton: UIButton!
     @IBOutlet weak var likeCountLabel: UILabel!
     @IBOutlet weak var productDescriptionLabel: UILabel!
-    
+    @IBOutlet weak var onClickBack: UIBarButtonItem!
     @IBOutlet weak var commentTable: UITableView!
     
     @IBAction func onClickLikeOrUnlikeButton(sender: AnyObject) {
-        print("sender..............\(sender)", terminator: "")
         
          let count = Int((self.likeCountLabel.text!))
         if(self.likeFlag == false){
@@ -62,7 +61,7 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate{
         }
     }
 
-    @IBOutlet weak var onClickBack: UIBarButtonItem!
+    
     override func viewDidAppear(animated: Bool) {
         print("Show the detail of selected product view.... ", terminator: "");
         print(productModel, terminator: "")
@@ -98,7 +97,7 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate{
     }
     
     override func viewDidLoad() {
-        print("view loaded", terminator: "");
+        
         self.commentTextField.delegate=self
         self.commentTable.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
         self.navigationController?.toolbar.hidden = true
@@ -109,11 +108,12 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate{
             print(resultDto, terminator: "")
             self.handleGetProductDetailsSuccess(resultDto)
         }
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "actionbar_bg_pink"), forBarMetrics: UIBarMetrics.Default)
+       
+        //self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "actionbar_bg_pink"), forBarMetrics: UIBarMetrics.Default)
     }
     
     override func viewWillDisappear(animated: Bool) {
-        print("view disappeared", terminator: "")
+        
     }
     
     func handleGetProductDetailsSuccess(result: [PostCatModel]) {
@@ -184,7 +184,7 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate{
             self.navigationController?.pushViewController(secondViewController, animated: true)
         }else if self.fromPage == "categorydetails" {
             let secondViewController = self.storyboard?.instantiateViewControllerWithIdentifier("myCategoryDetailView") as! CategoryDetailsViewController
-            secondViewController.categories.id = self.categoryId
+            secondViewController.categories = self.category!
             self.navigationController?.pushViewController(secondViewController, animated: true)
         }
         

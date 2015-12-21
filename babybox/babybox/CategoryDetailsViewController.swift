@@ -17,6 +17,7 @@ class CategoryDetailsViewController: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var lowHighBtn: UIButton!
     @IBOutlet weak var newestBtn: UIButton!
     @IBOutlet weak var popularBtn: UIButton!
+    
     @IBAction func onClickBack(sender: AnyObject) {
         
         //var vController = self.storyboard!.instantiateViewControllerWithIdentifier("initialSegmentViewController") as! InitialHomeSegmentedController
@@ -198,6 +199,10 @@ class CategoryDetailsViewController: UIViewController, UIScrollViewDelegate {
                 });
             }
         })
+        
+        productViewCell.layer.borderColor = CGColorCreate(CGColorSpaceCreateDeviceRGB(), [194/255, 195/255, 200/255, 1.0])
+        productViewCell.layer.borderWidth = 1
+        
         return productViewCell;
     }
     
@@ -206,7 +211,7 @@ class CategoryDetailsViewController: UIViewController, UIScrollViewDelegate {
         let vController = self.storyboard?.instantiateViewControllerWithIdentifier("myProductView") as! ProductDetailsViewController
         vController.fromPage = "categorydetails"
         vController.productModel = self.catProducts[indexPath.row]
-        vController.categoryId = self.categories.id
+        vController.category = self.categories
         
         ApiControlller.apiController.getProductDetails(String(Int(vController.productModel.id)))
         self.navigationController?.pushViewController(vController, animated: true)

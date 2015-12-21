@@ -33,7 +33,7 @@ class HomeFollowingViewController: UIViewController {
         super.viewDidLoad()
         print("loaded HomeFollowingViewController", terminator: "")
         
-         apiController.getHomeEollowingFeeds(pageOffSet)
+        apiController.getHomeEollowingFeeds(pageOffSet)
         
         SwiftEventBus.onMainThread(self, name: "homeFollowingPostsReceivedSuccess") { result in
             // UI thread
@@ -169,7 +169,10 @@ class HomeFollowingViewController: UIViewController {
     
     //
     override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
-        return true
+        if (identifier == "showProductDetail") {
+            return true
+        }
+        return false
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
