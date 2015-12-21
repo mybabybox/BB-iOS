@@ -18,6 +18,7 @@ class HomeProductsCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var productPrice: UILabel!
     @IBOutlet weak var productTitle: UILabel!
     
+    @IBOutlet weak var userProfileImage: UIImageView!
     var likeFlag: Bool!
     var id: Int!
     

@@ -22,7 +22,7 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate{
     
     var fromPage: String = ""
     var items: [String] = [] //comment items
-    
+    var categoryId: Double = 0.0
     //handling back button from 3 different
    
     //@IBOutlet weak var messageTableView: UITableView!
@@ -174,6 +174,20 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate{
     }
     
     @IBAction func onClickBack(sender: AnyObject) {
+        if self.fromPage == "homeexplore" {
+            let secondViewController = self.storyboard?.instantiateViewControllerWithIdentifier("initialSegmentViewController") as! InitialHomeSegmentedController
+            secondViewController.activeSegment = 0
+            self.navigationController?.pushViewController(secondViewController, animated: true)
+        }else if self.fromPage == "homefollowing" {
+            let secondViewController = self.storyboard?.instantiateViewControllerWithIdentifier("initialSegmentViewController") as! InitialHomeSegmentedController
+            secondViewController.activeSegment = 1
+            self.navigationController?.pushViewController(secondViewController, animated: true)
+        }else if self.fromPage == "categorydetails" {
+            let secondViewController = self.storyboard?.instantiateViewControllerWithIdentifier("myCategoryDetailView") as! CategoryDetailsViewController
+            secondViewController.categories.id = self.categoryId
+            self.navigationController?.pushViewController(secondViewController, animated: true)
+        }
+        
     }
     
     /*

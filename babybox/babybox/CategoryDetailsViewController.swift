@@ -204,8 +204,10 @@ class CategoryDetailsViewController: UIViewController, UIScrollViewDelegate {
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         
         let vController = self.storyboard?.instantiateViewControllerWithIdentifier("myProductView") as! ProductDetailsViewController
-        
+        vController.fromPage = "categorydetails"
         vController.productModel = self.catProducts[indexPath.row]
+        vController.categoryId = self.categories.id
+        
         ApiControlller.apiController.getProductDetails(String(Int(vController.productModel.id)))
         self.navigationController?.pushViewController(vController, animated: true)
     }

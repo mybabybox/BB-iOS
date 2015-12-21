@@ -33,6 +33,8 @@ class HomeFollowingViewController: UIViewController {
         super.viewDidLoad()
         print("loaded HomeFollowingViewController", terminator: "")
         
+         apiController.getHomeEollowingFeeds(pageOffSet)
+        
         SwiftEventBus.onMainThread(self, name: "homeFollowingPostsReceivedSuccess") { result in
             // UI thread
             let resultDto: [PostModel] = result.object as! [PostModel]
@@ -91,6 +93,22 @@ class HomeFollowingViewController: UIViewController {
         productViewCell.productTitle.text = post.title
             productViewCell.productPrice.text = "\(constants.currencySymbol) \(String(stringInterpolationSegment: post.price))"
             productViewCell.likeCount.text = String(post.numLikes)
+        
+        //if(post.ownerId) {
+            productViewCell.userProfileImage.layer.cornerRadius = 20.0
+            productViewCell.userProfileImage.layer.masksToBounds = true
+        
+        let imagePath =  constants.imagesBaseURL + "/image/get-post-image-by-id/" + String(Int(post.ownerId))
+            let imageUrl  = NSURL(string: imagePath);
+            print(imageUrl)
+            //let imageData = NSData(contentsOfURL: imageUrl!)
+            dispatch_async(dispatch_get_main_queue(), {
+                productViewCell.userProfileImage.kf_setImageWithURL(imageUrl!)
+                /*if (imageData != nil) {
+                productViewCell.productIcon.image = UIImage(data: imageData!)
+                }*/
+            });
+      //  }
         
         //productViewCell.layer.borderWidth = 1
         
@@ -158,6 +176,7 @@ class HomeFollowingViewController: UIViewController {
         if (segue.identifier == "showProductDetail") {
             let controller = segue.destinationViewController as! UINavigationController
             let prodController = controller.viewControllers.first as! ProductDetailsViewController
+            prodController.fromPage = "homefollowing"
             prodController.productModel = self.homeProducts[self.currentSelProduct]
             apiController.getProductDetails(String(Int(prodController.productModel.id)))
         }

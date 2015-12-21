@@ -1381,6 +1381,13 @@ CA
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="IHC-NL-Grj" userLabel="Prod Image View">
                                                     <rect key="frame" x="0.0" y="0.0" width="130" height="112"/>
                                                 </imageView>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ttd-9w-i5W" userLabel="User image">
+                                                    <rect key="frame" x="10" y="62" width="40" height="40"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="40" id="Qq1-b8-R4s"/>
+                                                        <constraint firstAttribute="height" constant="40" id="sqJ-k0-drA"/>
+                                                    </constraints>
+                                                </imageView>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
@@ -1392,9 +1399,11 @@ CA
                                             <constraint firstAttribute="trailing" secondItem="IHC-NL-Grj" secondAttribute="trailing" id="9qO-gJ-WzT"/>
                                             <constraint firstItem="eAE-NH-cuS" firstAttribute="top" secondItem="IHC-NL-Grj" secondAttribute="bottom" constant="2" id="LEq-qn-cxx"/>
                                             <constraint firstItem="IHC-NL-Grj" firstAttribute="top" secondItem="jHh-ts-Gps" secondAttribute="top" id="PAD-tc-8Fq"/>
+                                            <constraint firstItem="Ttd-9w-i5W" firstAttribute="bottom" secondItem="IHC-NL-Grj" secondAttribute="bottom" constant="-10" id="Sgi-cC-FeH"/>
                                             <constraint firstItem="IHC-NL-Grj" firstAttribute="leading" secondItem="jHh-ts-Gps" secondAttribute="leading" id="Tgm-yU-Yua"/>
                                             <constraint firstAttribute="bottomMargin" secondItem="IHC-NL-Grj" secondAttribute="bottom" constant="35" id="Vm4-5z-gk4"/>
                                             <constraint firstAttribute="trailing" secondItem="eAE-NH-cuS" secondAttribute="trailing" id="l0n-nK-krL"/>
+                                            <constraint firstItem="Ttd-9w-i5W" firstAttribute="leading" secondItem="IHC-NL-Grj" secondAttribute="leading" constant="10" id="ulR-BO-LWY"/>
                                         </constraints>
                                         <size key="customSize" width="130" height="155"/>
                                         <connections>
@@ -1403,6 +1412,7 @@ CA
                                             <outlet property="productIcon" destination="IHC-NL-Grj" id="5zs-XB-Q7u"/>
                                             <outlet property="productPrice" destination="Vos-qX-K2N" id="98k-hQ-2BQ"/>
                                             <outlet property="productTitle" destination="eAE-NH-cuS" id="40H-1X-3XM"/>
+                                            <outlet property="userProfileImage" destination="Ttd-9w-i5W" id="iUJ-ri-1Ft"/>
                                             <segue destination="6Te-SU-QLX" kind="show" identifier="showProductDetail" id="ODB-Nu-GkY"/>
                                         </connections>
                                     </collectionViewCell>
@@ -2880,14 +2890,14 @@ CA
         <image name="user_thumbnail" width="48" height="48"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="95B-7F-k8l"/>
+        <segue reference="4BL-KC-gUG"/>
+        <segue reference="Ms6-km-jpz"/>
         <segue reference="a58-GO-sUe"/>
         <segue reference="QN3-Uj-AU1"/>
-        <segue reference="Ms6-km-jpz"/>
-        <segue reference="4BL-KC-gUG"/>
-        <segue reference="vxz-IZ-ibC"/>
         <segue reference="1Ot-4E-POw"/>
+        <segue reference="vxz-IZ-ibC"/>
         <segue reference="wFa-oP-hxn"/>
-        <segue reference="95B-7F-k8l"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>

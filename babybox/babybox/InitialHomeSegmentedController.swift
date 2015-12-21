@@ -21,6 +21,8 @@ class InitialHomeSegmentedController: UIViewController {
     var bottomLayer: CALayer? = nil
     var exploreController : UIViewController?
     var followingController : UIViewController?
+    var activeSegment: Int = 0
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,13 +59,14 @@ class InitialHomeSegmentedController: UIViewController {
         self.userName.addGestureRecognizer(_tapGesture)
         self.userImg.addGestureRecognizer(_tapGesture)
         //http://rshankar.com/uigesturerecognizer-in-swift/ swipe gesture
-    
+        
+        //self.segController.selectedSegmentIndex = self.activeSegment
     }
     
     override func viewDidAppear(animated: Bool){
-        self.segController.selectedSegmentIndex = 0
+        self.segController.selectedSegmentIndex = self.activeSegment
         self.segAction(self.segController)
-            
+        
         let imagePath =  constants.imagesBaseURL + "/image/get-mini-profile-image-by-id/" + String(constants.userInfo?.id)
         let imageUrl  = NSURL(string: imagePath);
         let imageData = NSData(contentsOfURL: imageUrl!)
@@ -117,7 +120,7 @@ class InitialHomeSegmentedController: UIViewController {
             self.baseView.addSubview(self.exploreController!.view)
             self.exploreController?.view.frame = CGRectMake(0, 0, self.baseView.bounds.width, self.baseView.bounds.height-20)
             
-        } else{
+        } else if(self.segController.selectedSegmentIndex == 1){
             //self.exploreController!.view.hidden = true
             //self.followingController!.view.hidden = false
     

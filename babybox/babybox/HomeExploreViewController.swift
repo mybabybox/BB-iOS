@@ -317,7 +317,7 @@ class HomeExploreViewController: UIViewController, UIScrollViewDelegate {
         } else if (identifier == "gotoproductdetail") {
             let vController = navigationController.viewControllers.first as! ProductDetailsViewController
             vController.productModel = self.products[self.currentIndex]
-            
+            vController.fromPage = "homeexplore"
             apiController.getProductDetails(String(Int(self.products[self.currentIndex].id)))
         }
         

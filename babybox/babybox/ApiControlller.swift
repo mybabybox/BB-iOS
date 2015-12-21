@@ -38,7 +38,7 @@ class ApiControlller {
     }
     
     //Get the post of type HOME_FOLLOWING
-    func getHomeExploreFeeds(offSet: Int) {
+    func getHomeExploreFeeds(offSet: Int64) {
         let callEvent = ApiCallEvent()
         callEvent.method = "get-home-explore-feed"
         callEvent.resultClass = "PostModel"
@@ -49,7 +49,7 @@ class ApiControlller {
         self.makeApiCall(callEvent)
     }
     
-    func getHomeEollowingFeeds(offSet: Int) {
+    func getHomeEollowingFeeds(offSet: Int64) {
         let callEvent = ApiCallEvent()
         callEvent.method = "get-home-following-feed"
         callEvent.resultClass = "PostModel"
@@ -214,7 +214,7 @@ class ApiControlller {
     }
     
     //Categories products filter APIs calls
-    func getCategoriesFilterByPopularity(id: Int, offSet: Int) {
+    func getCategoriesFilterByPopularity(id: Int, offSet: Int64) {
         let callEvent = ApiCallEvent()
         callEvent.method = "get-category-popular-feed/" + String(id)
         callEvent.resultClass = "PostModel"
@@ -224,7 +224,7 @@ class ApiControlller {
         self.makeApiCall(callEvent)
     }
     
-    func getCategoriesFilterByNewestPrice(id: Int, offSet: Int) {
+    func getCategoriesFilterByNewestPrice(id: Int, offSet: Int64) {
         let callEvent = ApiCallEvent()
         callEvent.method = "get-category-newest-feed/" + String(id)
         callEvent.resultClass = "PostModel"
@@ -234,7 +234,7 @@ class ApiControlller {
         self.makeApiCall(callEvent)
     }
     
-    func getCategoriesFilterByLhPrice(id: Int, offSet: Int) { //filtering by low-high price
+    func getCategoriesFilterByLhPrice(id: Int, offSet: Int64) { //filtering by low-high price
         let callEvent = ApiCallEvent()
         callEvent.method = "get-category-price-low-high-feed/" + String(id)
         callEvent.resultClass = "PostModel"
@@ -244,7 +244,7 @@ class ApiControlller {
         self.makeApiCall(callEvent)
     }
     
-    func getCategoriesFilterByHlPrice(id: Int, offSet: Int) { //filtering by high-low price
+    func getCategoriesFilterByHlPrice(id: Int, offSet: Int64) { //filtering by high-low price
         let callEvent = ApiCallEvent()
         callEvent.method = "get-category-price-high-low-feed/" + String(id)
         callEvent.resultClass = "PostModel"
@@ -478,7 +478,7 @@ class ApiControlller {
         switch cName {
             case "CategoryModel":
                 result = Mapper<CategoryModel>().mapArray(inputStr)!
-            print(result, terminator: "")
+            //print(result, terminator: "")
             //result = Mapper<CategoryModel>().mapArray(inputStr)
             case "UserInfoModel": result = Mapper<UserInfoModel>().map(inputStr)!
             case "UserInfoVM": result = Mapper<UserInfoVM>().map(inputStr)!

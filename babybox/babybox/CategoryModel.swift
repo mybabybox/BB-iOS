@@ -11,7 +11,7 @@ import ObjectMapper
 
 class CategoryModel: BaseArgModel {
     
-    var id: Double = 0;
+    var id: Double = 0.0;
     var icon: String = "";
     var name: String = "";
     var description: String = "";
