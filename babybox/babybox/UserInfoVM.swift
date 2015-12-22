@@ -21,7 +21,7 @@ class UserInfoVM: UserVM {
     var lastLogin: Double = 0;
     var totalLogin: Double = 0;
     var isLoggedIn: Bool = false;
-    var isFBLogin: Bool = false;
+    var isFBLogin: Bool = false; //fbLogin
     var emailValidated: Bool = false;
     var newUser: Bool = false;
     var isAdmin: Bool = false;
@@ -42,7 +42,7 @@ class UserInfoVM: UserVM {
         lastLogin<-map["lastLogin"];
         totalLogin<-map["totalLogin"];
         isLoggedIn<-map["isLoggedIn"];
-        isFBLogin<-map["isFBLogin"];
+        isFBLogin<-map["fbLogin"];
         emailValidated<-map["emailValidated"];
         newUser<-map["newUser"];
         isAdmin<-map["isAdmin"];

@@ -218,14 +218,14 @@ class HomeFollowingViewController: UIViewController {
     }
     
     
-    func reversePhotoArray(photoArray:[PostModel], startIndex:Int, endIndex:Int){
+    /*func reversePhotoArray(photoArray:[PostModel], startIndex:Int, endIndex:Int){
         if startIndex >= endIndex{
             return
         }
         swap(&homeProducts[startIndex], &homeProducts[endIndex])
         
         reversePhotoArray(homeProducts, startIndex: startIndex + 1, endIndex: endIndex - 1)
-    }
+    }*/
     
     // MARK: UIScrollview Delegate
     func scrollViewDidScroll(scrollView: UIScrollView) {
