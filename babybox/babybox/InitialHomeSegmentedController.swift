@@ -31,7 +31,8 @@ class InitialHomeSegmentedController: UIViewController {
         
         self.followingController = storyboard.instantiateViewControllerWithIdentifier("homefollowingViewController") as! HomeFollowingViewController
         
-        //self.segController.setDividerImage(UIImage(named: "front"), forLeftSegmentState: .Normal, rightSegmentState: .Normal, barMetrics: .Default)
+        self.exploreController?.view.hidden = false
+        self.followingController?.view.hidden = false
         
         let normalTextAttributes: [NSObject : AnyObject] = [
             NSForegroundColorAttributeName: UIColor.grayColor(),
@@ -54,12 +55,11 @@ class InitialHomeSegmentedController: UIViewController {
         self.baseView.addSubview(self.followingController!.view)
         self.followingController?.view.frame = CGRectMake(0, 0, self.baseView.bounds.width, self.baseView.bounds.height-20)
         
-        let _tapGesture = UITapGestureRecognizer(target: self, action: "goToProfile:")
-        let tapGesture = UITapGestureRecognizer(target: self, action: "goToProfile:")
-        self.userName.addGestureRecognizer(_tapGesture)
-        self.userImg.addGestureRecognizer(_tapGesture)
+        //let _tapGesture = UITapGestureRecognizer(target: self, action: "goToProfile:")
+        //let tapGesture = UITapGestureRecognizer(target: self, action: "goToProfile:")
+        //self.userName.addGestureRecognizer(_tapGesture)
+        //self.userImg.addGestureRecognizer(_tapGesture)
         //http://rshankar.com/uigesturerecognizer-in-swift/ swipe gesture
-        
         //self.segController.selectedSegmentIndex = self.activeSegment
     }
     
@@ -101,7 +101,7 @@ class InitialHomeSegmentedController: UIViewController {
             self.exploreController?.view.hidden = false
             //self.followingController!.view.removeFromSuperview()
             //self.baseView.addSubview(self.exploreController!.view)
-            self.exploreController?.view.frame = CGRectMake(0, 0, self.baseView.bounds.width, self.baseView.bounds.height-20)
+            //self.exploreController?.view.frame = CGRectMake(0, 0, self.baseView.bounds.width, self.baseView.bounds.height-20)
             
         } else if(self.segController.selectedSegmentIndex == 1){
             let y = CGFloat(self.segController.frame.height)
@@ -116,7 +116,7 @@ class InitialHomeSegmentedController: UIViewController {
             self.exploreController?.view.hidden = false
             //self.exploreController!.view.removeFromSuperview()
             //self.baseView.addSubview(self.followingController!.view)
-            self.followingController?.view.frame = CGRectMake(0, 0, self.baseView.bounds.width, self.baseView.bounds.height-20)
+            //self.followingController?.view.frame = CGRectMake(0, 0, self.baseView.bounds.width, self.baseView.bounds.height-20)
         }
     }
     
