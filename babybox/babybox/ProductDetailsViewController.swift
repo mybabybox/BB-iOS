@@ -12,6 +12,7 @@ import SwiftEventBus
 
 class ProductDetailsViewController: UIViewController, UITextFieldDelegate{
     
+    @IBOutlet weak var uiScrollView: UIScrollView!
     var productModel: PostModel = PostModel()
     
     
@@ -95,6 +96,10 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate{
         })
         
     }
+    
+    /*override func viewDidLayoutSubviews() {
+        self.uiScrollView.contentSize = CGSizeMake(UIScreen.mainScreen().bounds.width, 2000)
+    }*/
     
     override func viewDidLoad() {
         

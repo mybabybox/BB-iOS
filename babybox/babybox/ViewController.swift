@@ -91,7 +91,6 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFieldDel
         _errorDialog.addAction(okAction)
         self.presentViewController(_errorDialog, animated: true, completion: nil)
         //self.performSegueWithIdentifier("clickToLogin", sender: nil)
-        //apiController.getUserInfo();
     }
     
     override func viewDidAppear(animated: Bool) {

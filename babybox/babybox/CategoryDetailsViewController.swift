@@ -39,13 +39,27 @@ class CategoryDetailsViewController: UIViewController, UIScrollViewDelegate {
     var collectionViewCellSize : CGSize?
     var filterButtonSize : CGSize?
     
+    func setWhiteBtnBackground() {
+        let red = CGFloat(255.0)
+        let green = CGFloat(255.0)
+        let blue = CGFloat(255.0)
+        let alpha = CGFloat(1.0)
+        
+        self.highLowbtn.backgroundColor = UIColor(red: red, green: green, blue: blue, alpha: alpha)
+        self.lowHighBtn.backgroundColor = UIColor(red: red, green: green, blue: blue, alpha: alpha)
+        self.newestBtn.backgroundColor =  UIColor(red: red, green: green, blue: blue, alpha: alpha)
+        self.popularBtn.backgroundColor = UIColor(red: red, green: green, blue: blue, alpha: alpha)
+        
+    }
+    
     @IBAction func onClickHighToLwFilter(sender: AnyObject) {
         self.pageOffSet = 0
         filterType = 1
         self.catProducts = []
         self.prodCollectionView.reloadData()
         ApiControlller.apiController.getCategoriesFilterByHlPrice(Int(categories.id), offSet: pageOffSet)
-
+        self.setWhiteBtnBackground()
+        self.highLowbtn.backgroundColor = BabyboxUtils.babyBoxUtils.UIColorFromRGB(0xFF76A4)//UIColor(red:CGFloat(255.0), green: CGFloat(118.0), blue: CGFloat(164.0), alpha: CGFloat(1))
     }
     
     @IBAction func onClickLwToHighFilter(sender: AnyObject) {
@@ -54,6 +68,9 @@ class CategoryDetailsViewController: UIViewController, UIScrollViewDelegate {
         self.catProducts = []
         self.prodCollectionView.reloadData()
         ApiControlller.apiController.getCategoriesFilterByLhPrice(Int(categories.id), offSet: pageOffSet)
+        self.setWhiteBtnBackground()
+        self.lowHighBtn.backgroundColor = BabyboxUtils.babyBoxUtils.UIColorFromRGB(0xFF76A4)//UIColor(red:CGFloat(255.0), green: CGFloat(118.0), blue: CGFloat(164.0), alpha: CGFloat(1))
+        
     }
     
     @IBAction func onClickFilterByNewest(sender: AnyObject) {
@@ -62,6 +79,8 @@ class CategoryDetailsViewController: UIViewController, UIScrollViewDelegate {
         self.catProducts = []
         self.prodCollectionView.reloadData()
         ApiControlller.apiController.getCategoriesFilterByNewestPrice(Int(categories.id), offSet: pageOffSet)
+        self.setWhiteBtnBackground()
+        self.newestBtn.backgroundColor = BabyboxUtils.babyBoxUtils.UIColorFromRGB(0xFF76A4)//UIColor(red:CGFloat(255.0), green: CGFloat(118.0), blue: CGFloat(164.0), alpha: CGFloat(1))
     }
     
     @IBAction func onClickPopularFilter(sender: AnyObject) {
@@ -70,6 +89,8 @@ class CategoryDetailsViewController: UIViewController, UIScrollViewDelegate {
         self.prodCollectionView.reloadData()
         filterType = 4
         ApiControlller.apiController.getCategoriesFilterByPopularity(Int(categories.id), offSet: pageOffSet)
+        self.setWhiteBtnBackground()
+        self.popularBtn.backgroundColor = BabyboxUtils.babyBoxUtils.UIColorFromRGB(0xFF76A4)//UIColor(red:CGFloat(255.0), green: CGFloat(118.0), blue: CGFloat(164.0), alpha: CGFloat(1))
         
     }
     
@@ -98,6 +119,18 @@ class CategoryDetailsViewController: UIViewController, UIScrollViewDelegate {
         
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "actionbar_bg_pink"), forBarMetrics: UIBarMetrics.Default)
         
+        /*self.highLowbtn.layer.borderColor = CGColorCreate(CGColorSpaceCreateDeviceRGB(), [194/255, 195/255, 200/255, 1.0])
+        self.highLowbtn.layer.borderWidth = 1
+        
+        self.lowHighBtn.layer.borderColor = CGColorCreate(CGColorSpaceCreateDeviceRGB(), [194/255, 195/255, 200/255, 1.0])
+        self.lowHighBtn.layer.borderWidth = 1
+        
+        self.newestBtn.layer.borderColor = CGColorCreate(CGColorSpaceCreateDeviceRGB(), [194/255, 195/255, 200/255, 1.0])
+        self.newestBtn.layer.borderWidth = 1
+        
+        self.popularBtn.layer.borderColor = CGColorCreate(CGColorSpaceCreateDeviceRGB(), [194/255, 195/255, 200/255, 1.0])
+        self.popularBtn.layer.borderWidth = 1*/
+        self.popularBtn.backgroundColor = BabyboxUtils.babyBoxUtils.UIColorFromRGB(0xFF76A4)
         //by default call the first server side call using default filter criteria.
         
         //getCategoriesFilterByPopularity Event Handler
@@ -287,12 +320,11 @@ class CategoryDetailsViewController: UIViewController, UIScrollViewDelegate {
         let buttonWidth :CGFloat = availableWidthForButtons / 4
         let buttonHeight = CGFloat(25)
         filterButtonSize = CGSizeMake(buttonWidth, buttonHeight)
+        
         self.popularBtn.frame.size = filterButtonSize!
         self.newestBtn.frame.size = filterButtonSize!
         self.lowHighBtn.frame.size = filterButtonSize!
         self.highLowbtn.frame.size = filterButtonSize!
-        
-        
     }
     
     override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
