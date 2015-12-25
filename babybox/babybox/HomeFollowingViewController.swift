@@ -41,6 +41,19 @@ class HomeFollowingViewController: UIViewController {
             self.handleHomePosts(resultDto)
         }
         setCollectionViewSizesInsets()
+        
+        let cSelector : Selector = "gotoSecondSegmentOne:"
+        let rightSwipe = UISwipeGestureRecognizer(target: self, action: cSelector)
+        rightSwipe.direction = UISwipeGestureRecognizerDirection.Right
+        self.view.addGestureRecognizer(rightSwipe)
+        
+    }
+    
+    @IBAction func gotoSecondSegmentOne(sender: AnyObject) {
+        let vController = self.view.superview?.superview!.nextResponder() as! InitialHomeSegmentedController
+        //let vController = self.storyboard?.instantiateViewControllerWithIdentifier("initialSegmentViewController") as! InitialHomeSegmentedController
+        vController.activeSegment = 0
+        self.navigationController?.presentViewController(vController, animated: false, completion: nil)
     }
     
     func handleHomePosts(resultDto: [PostModel]) {

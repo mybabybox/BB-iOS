@@ -55,10 +55,8 @@ class InitialHomeSegmentedController: UIViewController {
         self.baseView.addSubview(self.followingController!.view)
         self.followingController?.view.frame = CGRectMake(0, 0, self.baseView.bounds.width, self.baseView.bounds.height-20)
         
-        //let _tapGesture = UITapGestureRecognizer(target: self, action: "goToProfile:")
-        //let tapGesture = UITapGestureRecognizer(target: self, action: "goToProfile:")
-        //self.userName.addGestureRecognizer(_tapGesture)
-        //self.userImg.addGestureRecognizer(_tapGesture)
+        
+        
         //http://rshankar.com/uigesturerecognizer-in-swift/ swipe gesture
         //self.segController.selectedSegmentIndex = self.activeSegment
     }
