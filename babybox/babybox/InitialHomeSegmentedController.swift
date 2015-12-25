@@ -156,7 +156,7 @@ class InitialHomeSegmentedController: UIViewController {
             let vController = segue.destinationViewController as! UserProfileViewController
             vController.userId = (constants.userInfo?.id)!
         } else if (identifier == "gotouserchat") {
-            let vController = segue.destinationViewController as! ConversionViewController
+            let vController = segue.destinationViewController as! ConversationsViewController
             vController.userId = (constants.userInfo?.id)!
         } else if (identifier == "sellProduct") {
         } else if (identifier == "badge") {

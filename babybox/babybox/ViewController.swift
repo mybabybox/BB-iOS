@@ -22,7 +22,6 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFieldDel
     
     @IBOutlet weak var signInButton: UIButton!
     
-    
     @IBOutlet weak var passwordTxt: UITextField!
     @IBOutlet weak var userNameTxt: UITextField!
     override func didReceiveMemoryWarning() {
@@ -32,6 +31,8 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFieldDel
     
     override func shouldPerformSegueWithIdentifier(identifier: String?, sender: AnyObject?) -> Bool {
         if identifier == "clickToLogin" {
+            self.signInButton.enabled = false
+            self.signInButton.alpha = 0.75
             if (userNameTxt.text!.isEmpty || passwordTxt.text!.isEmpty) {
                 print("enter details....")
                 
@@ -39,6 +40,8 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFieldDel
                 let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil);
                 _errorDialog.addAction(okAction)
                 self.presentViewController(_errorDialog, animated: true, completion: nil)
+                self.signInButton.enabled = true
+                self.signInButton.alpha = 1.0
                 return false;
             }
             self.progressIndicator.hidden = false
@@ -90,6 +93,8 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFieldDel
         let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil);
         _errorDialog.addAction(okAction)
         self.presentViewController(_errorDialog, animated: true, completion: nil)
+        self.signInButton.enabled = true
+        self.signInButton.alpha = 1.0
         //self.performSegueWithIdentifier("clickToLogin", sender: nil)
     }
     
@@ -99,7 +104,8 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFieldDel
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("viewDidLoad")
+        self.signInButton.enabled = true
+        self.signInButton.alpha = 1.0
         self.navigationController?.toolbar.hidden = true
         self.navigationController?.navigationBar.hidden = true
         self.userNameTxt.delegate = self
@@ -107,8 +113,19 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFieldDel
         
         self.isUserLoggedIn = false
         self.progressIndicator.hidden = true
+        
+        let color = BabyboxUtils.babyBoxUtils.UIColorFromRGB(0xFF76A4).CGColor
+        self.signInButton.layer.cornerRadius = 5
+        self.signInButton.layer.borderWidth = 1
+        self.signInButton.layer.borderColor = color
+        
         ApiControlller.init();
         // Do any additional setup after loading the view, typically from a nib.
+        
+        self.userNameTxt.layer.borderWidth = 0
+        self.passwordTxt.layer.borderWidth = 0
+        self.userNameTxt.layer.borderColor = UIColor.whiteColor().CGColor
+        self.passwordTxt.layer.borderColor = UIColor.whiteColor().CGColor
         
         SwiftEventBus.onMainThread(self, name: "loginReceivedSuccess") { result in
             // UI thread
@@ -124,8 +141,6 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFieldDel
             let resultDto: UserInfoVM = result.object as! UserInfoVM
             self.handleUserInfo(resultDto)
         }
-        
-        
         
         SwiftEventBus.onMainThread(self, name: "loginReceivedFailed") { result in
             // UI thread
@@ -172,6 +187,19 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFieldDel
             print("Logged in..")
         }
         
+        let uImageView = UIImageView()
+        uImageView.image = UIImage(named: "login_user")
+        userNameTxt.leftViewMode = UITextFieldViewMode.Always
+        userNameTxt.leftView = uImageView;
+        uImageView.frame = CGRect(x: 0, y: 0, width: 25, height: 25)
+        self.view.addSubview(uImageView)
+        
+        let pImageView = UIImageView()
+        pImageView.image = UIImage(named: "login_lock")
+        passwordTxt.leftViewMode = UITextFieldViewMode.Always
+        passwordTxt.leftView = pImageView;
+        pImageView.frame = CGRect(x: 0, y: 0, width: 25, height: 25)
+        self.view.addSubview(pImageView)
         
     }
     

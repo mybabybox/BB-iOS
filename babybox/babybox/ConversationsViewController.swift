@@ -9,11 +9,11 @@
 import Foundation
 import UIKit
 import SwiftEventBus
-class ConversionViewController: UIViewController {
-    
+class ConversationsViewController: UIViewController {
+    //showConversationsDetails
     var userId: Int = 0
     var currentIndex: Int = 0
-    var viewCellIdentifier: String = "userProductsChatCollectionView"
+    var viewCellIdentifier: String = "conversationsCollectionViewCell"
     var conversations: [ConversationVM] = []
     var myDate: NSDate = NSDate()
     
@@ -65,10 +65,10 @@ class ConversionViewController: UIViewController {
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(viewCellIdentifier, forIndexPath: indexPath) as! UserProductChatCollectionViewCell
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(viewCellIdentifier, forIndexPath: indexPath) as! ConversationsCollectionViewCell
         
         //todo - this method called when reloading the colleciton view 
-        //set variables of UserProductChatCollectionViewCell 
+        //set variables of ConversationsCollectionViewCell
         cell.productTitle.text = self.conversations[indexPath.row].postTitle
         cell.userDisplayName.text = self.conversations[indexPath.row].userName
         cell.userComment.text = self.conversations[indexPath.row].lastMessage
@@ -83,18 +83,18 @@ class ConversionViewController: UIViewController {
         return cell
     }
     
-        func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
+        /*func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
             return 1
         }
     
         func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
             return 1
-        }
+        }*/
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         print(indexPath.row)
         self.currentIndex = indexPath.row
-        self.performSegueWithIdentifier("showConversionDetails", sender: nil)
+        self.performSegueWithIdentifier("showConversationsDetails", sender: nil)
     }
     
     func handleConversation(conversation: [ConversationVM]) {
@@ -105,17 +105,13 @@ class ConversionViewController: UIViewController {
     }
     
     override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
-//        if (identifier == "showConversionDetails") {
-//            return true
-//        }
-        
         return false
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         //
         var vController = segue.destinationViewController as! MessagesViewController
-        vController.conversionId = self.conversations[self.currentIndex].id
+        vController.conversationId = self.conversations[self.currentIndex].id
     }
 }
 

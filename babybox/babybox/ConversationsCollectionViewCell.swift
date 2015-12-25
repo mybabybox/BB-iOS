@@ -1,5 +1,5 @@
 //
-//  UserProductChatCollectionViewCell.swift
+//  ConversationsCollectionViewCell
 //  babybox
 //
 //  Created by Mac on 15/12/15.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class UserProductChatCollectionViewCell: UICollectionViewCell {
+class ConversationsCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var productImage: UIImageView!
     @IBOutlet weak var productTitle: UILabel!
     @IBOutlet weak var userDisplayName: UILabel!
