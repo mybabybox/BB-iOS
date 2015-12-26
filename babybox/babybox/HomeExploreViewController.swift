@@ -356,13 +356,13 @@ class HomeExploreViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func setCollectionViewSizesInsetsForTopView() {
-        let availableWidthForCells:CGFloat = self.view.bounds.width - 40
+        let availableWidthForCells:CGFloat = self.view.bounds.width - 30
         let cellWidth :CGFloat = availableWidthForCells / 3
-        let cellHeight = cellWidth
+        let cellHeight = CGFloat(95.0)//cellWidth
         collectionViewTopCellSize = CGSizeMake(cellWidth, cellHeight)
     }
     func setCollectionViewSizesInsets() {
-        let availableWidthForCells:CGFloat = self.view.bounds.width - 60
+        let availableWidthForCells:CGFloat = self.view.bounds.width - 15
         let cellWidth :CGFloat = availableWidthForCells / 2
         let cellHeight = cellWidth * 4/3
         collectionViewCellSize = CGSizeMake(cellWidth, cellHeight)

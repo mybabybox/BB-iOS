@@ -28,6 +28,14 @@ class HomeFollowingViewController: UIViewController {
     
     override func viewDidAppear(animated: Bool) {
         apiController.getHomeEollowingFeeds(pageOffSet)
+        
+        var flowLayout = UICollectionViewFlowLayout()
+        flowLayout.itemSize = CGSizeMake(self.view.bounds.width, self.view.bounds.height)
+        flowLayout.scrollDirection = UICollectionViewScrollDirection.Vertical
+        flowLayout.minimumInteritemSpacing = 0
+        flowLayout.minimumLineSpacing = 0
+        self.followingProductsCollectionView.collectionViewLayout = flowLayout
+        
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -117,15 +125,7 @@ class HomeFollowingViewController: UIViewController {
             //let imageData = NSData(contentsOfURL: imageUrl!)
             dispatch_async(dispatch_get_main_queue(), {
                 productViewCell.userProfileImage.kf_setImageWithURL(imageUrl!)
-                /*if (imageData != nil) {
-                productViewCell.productIcon.image = UIImage(data: imageData!)
-                }*/
             });
-      //  }
-        
-        //productViewCell.layer.borderWidth = 1
-        
-            //print(productViewCell.buttonLike)
             productViewCell.id = post.id
             if(post.isLiked == false){
                productViewCell.buttonLike.setImage(UIImage(named: "ic_like_tips.png"), forState: UIControlState.Normal)
@@ -140,12 +140,8 @@ class HomeFollowingViewController: UIViewController {
                 let imagePath =  constants.imagesBaseURL + "/image/get-post-image-by-id/" + String(post.images[0])
                 let imageUrl  = NSURL(string: imagePath);
                 print(imageUrl)
-                //let imageData = NSData(contentsOfURL: imageUrl!)
                 dispatch_async(dispatch_get_main_queue(), {
                     productViewCell.productIcon.kf_setImageWithURL(imageUrl!)
-                    /*if (imageData != nil) {
-                        productViewCell.productIcon.image = UIImage(data: imageData!)
-                    }*/
                 });
             }
         })
@@ -157,16 +153,8 @@ class HomeFollowingViewController: UIViewController {
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        print("click on image..")
-        //let vController = self.storyboard?.instantiateViewControllerWithIdentifier("myProductView") as! ProductDetailsViewController
-        
         self.currentSelProduct = indexPath.row
         self.performSegueWithIdentifier("showProductDetail", sender: nil)
-        //vController.productModel = self.homeProducts[indexPath.row]
-        //
-        //self.navigationController?.pushViewController(vController, animated: true)
-        
-        
     }
     
     // MARK: UICollectionViewDelegateFlowLayout
@@ -198,13 +186,12 @@ class HomeFollowingViewController: UIViewController {
         }
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+    /*func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
         insetForSectionAtIndex section: Int) -> UIEdgeInsets {
             return UIEdgeInsetsMake(0, 0, 0, 0)
-    }
+    }*/
     
     @IBAction func onClickLikeProduct(sender: AnyObject) {
-        print(" ---- ")
         let button = sender as! UIButton
         let view = button.superview!
         let cell = view.superview as! HomeProductsCollectionViewCell
@@ -230,16 +217,6 @@ class HomeFollowingViewController: UIViewController {
         return homeProducts[indexPath.row]
     }
     
-    
-    /*func reversePhotoArray(photoArray:[PostModel], startIndex:Int, endIndex:Int){
-        if startIndex >= endIndex{
-            return
-        }
-        swap(&homeProducts[startIndex], &homeProducts[endIndex])
-        
-        reversePhotoArray(homeProducts, startIndex: startIndex + 1, endIndex: endIndex - 1)
-    }*/
-    
     // MARK: UIScrollview Delegate
     func scrollViewDidScroll(scrollView: UIScrollView) {
         if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height){
@@ -247,12 +224,11 @@ class HomeFollowingViewController: UIViewController {
                 apiController.getHomeEollowingFeeds(pageOffSet)
                 self.isLoading = false
             }
-            
         }
     }
     
     func setCollectionViewSizesInsets() {
-        let availableWidthForCells:CGFloat = self.view.frame.width - 60
+        let availableWidthForCells:CGFloat = self.view.bounds.width - 15
         let cellWidth :CGFloat = (availableWidthForCells / 2)
         let cellHeight = cellWidth * 4/3
         collectionViewCellSize = CGSizeMake(cellWidth, cellHeight)

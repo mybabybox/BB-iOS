@@ -19,12 +19,6 @@ class CategoryDetailsViewController: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var popularBtn: UIButton!
     
     @IBAction func onClickBack(sender: AnyObject) {
-        
-        //var vController = self.storyboard!.instantiateViewControllerWithIdentifier("initialSegmentViewController") as! InitialHomeSegmentedController
-        //self.navigationController?.pushViewController(vController, animated: true)
-        
-        //self.navigationController?.popViewControllerAnimated(true)
-        //self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     @IBOutlet weak var prodCollectionView: UICollectionView!
@@ -39,7 +33,7 @@ class CategoryDetailsViewController: UIViewController, UIScrollViewDelegate {
     var collectionViewCellSize : CGSize?
     var filterButtonSize : CGSize?
     
-    func setWhiteBtnBackground() {
+    func setBtnBackgroundAndText() {
         let red = CGFloat(255.0)
         let green = CGFloat(255.0)
         let blue = CGFloat(255.0)
@@ -50,6 +44,11 @@ class CategoryDetailsViewController: UIViewController, UIScrollViewDelegate {
         self.newestBtn.backgroundColor =  UIColor(red: red, green: green, blue: blue, alpha: alpha)
         self.popularBtn.backgroundColor = UIColor(red: red, green: green, blue: blue, alpha: alpha)
         
+        self.highLowbtn.setTitleColor(UIColor.darkGrayColor(), forState: UIControlState.Normal)
+        self.lowHighBtn.setTitleColor(UIColor.darkGrayColor(), forState: UIControlState.Normal)
+        self.newestBtn.setTitleColor(UIColor.darkGrayColor(), forState: UIControlState.Normal)
+        self.popularBtn.setTitleColor(UIColor.darkGrayColor(), forState: UIControlState.Normal)
+        
     }
     
     @IBAction func onClickHighToLwFilter(sender: AnyObject) {
@@ -58,8 +57,9 @@ class CategoryDetailsViewController: UIViewController, UIScrollViewDelegate {
         self.catProducts = []
         self.prodCollectionView.reloadData()
         ApiControlller.apiController.getCategoriesFilterByHlPrice(Int(categories.id), offSet: pageOffSet)
-        self.setWhiteBtnBackground()
-        self.highLowbtn.backgroundColor = BabyboxUtils.babyBoxUtils.UIColorFromRGB(0xFF76A4)//UIColor(red:CGFloat(255.0), green: CGFloat(118.0), blue: CGFloat(164.0), alpha: CGFloat(1))
+        self.setBtnBackgroundAndText()
+        self.highLowbtn.backgroundColor = BabyboxUtils.babyBoxUtils.UIColorFromRGB(0xFF99B8)
+        self.highLowbtn.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
     }
     
     @IBAction func onClickLwToHighFilter(sender: AnyObject) {
@@ -68,9 +68,9 @@ class CategoryDetailsViewController: UIViewController, UIScrollViewDelegate {
         self.catProducts = []
         self.prodCollectionView.reloadData()
         ApiControlller.apiController.getCategoriesFilterByLhPrice(Int(categories.id), offSet: pageOffSet)
-        self.setWhiteBtnBackground()
-        self.lowHighBtn.backgroundColor = BabyboxUtils.babyBoxUtils.UIColorFromRGB(0xFF76A4)//UIColor(red:CGFloat(255.0), green: CGFloat(118.0), blue: CGFloat(164.0), alpha: CGFloat(1))
-        
+        self.setBtnBackgroundAndText()
+        self.lowHighBtn.backgroundColor = BabyboxUtils.babyBoxUtils.UIColorFromRGB(0xFF99B8)
+        self.lowHighBtn.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
     }
     
     @IBAction func onClickFilterByNewest(sender: AnyObject) {
@@ -79,8 +79,9 @@ class CategoryDetailsViewController: UIViewController, UIScrollViewDelegate {
         self.catProducts = []
         self.prodCollectionView.reloadData()
         ApiControlller.apiController.getCategoriesFilterByNewestPrice(Int(categories.id), offSet: pageOffSet)
-        self.setWhiteBtnBackground()
-        self.newestBtn.backgroundColor = BabyboxUtils.babyBoxUtils.UIColorFromRGB(0xFF76A4)//UIColor(red:CGFloat(255.0), green: CGFloat(118.0), blue: CGFloat(164.0), alpha: CGFloat(1))
+        self.setBtnBackgroundAndText()
+        self.newestBtn.backgroundColor = BabyboxUtils.babyBoxUtils.UIColorFromRGB(0xFF99B8)
+        self.newestBtn.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
     }
     
     @IBAction func onClickPopularFilter(sender: AnyObject) {
@@ -89,9 +90,9 @@ class CategoryDetailsViewController: UIViewController, UIScrollViewDelegate {
         self.prodCollectionView.reloadData()
         filterType = 4
         ApiControlller.apiController.getCategoriesFilterByPopularity(Int(categories.id), offSet: pageOffSet)
-        self.setWhiteBtnBackground()
-        self.popularBtn.backgroundColor = BabyboxUtils.babyBoxUtils.UIColorFromRGB(0xFF76A4)//UIColor(red:CGFloat(255.0), green: CGFloat(118.0), blue: CGFloat(164.0), alpha: CGFloat(1))
-        
+        self.setBtnBackgroundAndText()
+        self.popularBtn.backgroundColor = BabyboxUtils.babyBoxUtils.UIColorFromRGB(0xFF99B8)
+        self.popularBtn.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -112,26 +113,23 @@ class CategoryDetailsViewController: UIViewController, UIScrollViewDelegate {
                 self.categoryImageView.kf_setImageWithURL(imageUrl!)
             });
         })
+        
+        self.popularBtn.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+        
+        var flowLayout = UICollectionViewFlowLayout()
+        flowLayout.itemSize = CGSizeMake(self.view.bounds.width, self.view.bounds.height)
+        flowLayout.scrollDirection = UICollectionViewScrollDirection.Vertical
+        flowLayout.minimumInteritemSpacing = 0
+        flowLayout.minimumLineSpacing = 5
+        self.prodCollectionView.collectionViewLayout = flowLayout
+        
     }
     
     override func viewDidLoad() {
         print("view loaded", terminator: "");
         
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "actionbar_bg_pink"), forBarMetrics: UIBarMetrics.Default)
-        
-        /*self.highLowbtn.layer.borderColor = CGColorCreate(CGColorSpaceCreateDeviceRGB(), [194/255, 195/255, 200/255, 1.0])
-        self.highLowbtn.layer.borderWidth = 1
-        
-        self.lowHighBtn.layer.borderColor = CGColorCreate(CGColorSpaceCreateDeviceRGB(), [194/255, 195/255, 200/255, 1.0])
-        self.lowHighBtn.layer.borderWidth = 1
-        
-        self.newestBtn.layer.borderColor = CGColorCreate(CGColorSpaceCreateDeviceRGB(), [194/255, 195/255, 200/255, 1.0])
-        self.newestBtn.layer.borderWidth = 1
-        
-        self.popularBtn.layer.borderColor = CGColorCreate(CGColorSpaceCreateDeviceRGB(), [194/255, 195/255, 200/255, 1.0])
-        self.popularBtn.layer.borderWidth = 1*/
         self.popularBtn.backgroundColor = BabyboxUtils.babyBoxUtils.UIColorFromRGB(0xFF76A4)
-        //by default call the first server side call using default filter criteria.
         
         //getCategoriesFilterByPopularity Event Handler
         //getCategoriesFilterByNewestPrice Event Handler
@@ -150,16 +148,6 @@ class CategoryDetailsViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func handleGetProductDetailsSuccess(resultDto: [PostModel]) {
-        print("handling success...", terminator: "")
-        //print(result, terminator: "")
-        /*if (result.isEmpty) {
-            
-        } else {
-            self.catProducts.appendContentsOf(result)
-            self.prodCollectionView.reloadData()
-            self.pageOffSet = Int(self.catProducts[self.catProducts.count-1].offSet)
-        }*/
-        
         if (!resultDto.isEmpty) {
             
             if (self.self.catProducts.count == 0) {
@@ -207,7 +195,6 @@ class CategoryDetailsViewController: UIViewController, UIScrollViewDelegate {
         productViewCell.title.text = post.title
         productViewCell.price.text = "\(constants.currencySymbol) \(String(stringInterpolationSegment: post.price))"
         productViewCell.likeCounter.text = String(post.numLikes)
-        //productViewCell.layer.borderWidth = 1
         
         productViewCell.id = post.id
         if(post.isLiked == false){
@@ -272,7 +259,6 @@ class CategoryDetailsViewController: UIViewController, UIScrollViewDelegate {
     }
     
     @IBAction func onLikedBtnClicked(sender: AnyObject) {
-        print("Clicked...")
         let button = sender as! UIButton
         let view = button.superview!
         let cell = view.superview! as! CustomCatProductViewCell
@@ -309,14 +295,14 @@ class CategoryDetailsViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func setCollectionViewSizesInsets() {
-        let availableWidthForCells:CGFloat = self.view.frame.width - 60
+        let availableWidthForCells:CGFloat = self.view.bounds.width - 15
         let cellWidth :CGFloat = availableWidthForCells / 2
         let cellHeight = cellWidth * 4/3
         collectionViewCellSize = CGSizeMake(cellWidth, cellHeight)
     }
     
     func setSizesForFilterButtons() {
-        let availableWidthForButtons:CGFloat = self.view.frame.width - 20
+        let availableWidthForButtons:CGFloat = self.view.bounds.width - 20
         let buttonWidth :CGFloat = availableWidthForButtons / 4
         let buttonHeight = CGFloat(25)
         filterButtonSize = CGSizeMake(buttonWidth, buttonHeight)

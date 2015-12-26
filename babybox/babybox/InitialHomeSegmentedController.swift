@@ -73,7 +73,7 @@ class InitialHomeSegmentedController: UIViewController {
                 self.userImg.image = UIImage(data: imageData!)
             });
         }
-        self.userImg.layer.cornerRadius = 18.0
+        self.userImg.layer.cornerRadius = 20.0
         self.userImg.layer.masksToBounds = true
         self.userName.text = constants.userInfo?.displayName
         
@@ -97,9 +97,6 @@ class InitialHomeSegmentedController: UIViewController {
             
             self.followingController?.view.hidden = true
             self.exploreController?.view.hidden = false
-            //self.followingController!.view.removeFromSuperview()
-            //self.baseView.addSubview(self.exploreController!.view)
-            //self.exploreController?.view.frame = CGRectMake(0, 0, self.baseView.bounds.width, self.baseView.bounds.height-20)
             
         } else if(self.segController.selectedSegmentIndex == 1){
             let y = CGFloat(self.segController.frame.height)
