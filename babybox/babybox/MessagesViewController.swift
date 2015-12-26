@@ -10,7 +10,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, UIImagePick
     @IBOutlet weak var sendButton: UIButton!
     var pageOffSet: Int = 0
     var loadingMessage: Bool = false
-    var conversionId: Int = 0
+    var conversationId: Int = 0
     var selectedImage : UIImage?
     var lastChatBubbleY: CGFloat = 10.0
     var internalPadding: CGFloat = 8.0
@@ -26,7 +26,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, UIImagePick
             imagePicker.sourceType = .PhotoLibrary //3
             sendButton.enabled = false
             
-            ApiControlller.apiController.getMessages(self.conversionId, pageOffSet: pageOffSet)
+            ApiControlller.apiController.getMessages(self.conversationId, pageOffSet: pageOffSet)
             SwiftEventBus.onMainThread(self, name: "getMessagesSuccess") { result in
                 // UI thread
                 let resultDto: MessageVM = result.object as! MessageVM
@@ -76,7 +76,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, UIImagePick
             addChatBubble(bubbleData)
             textField.resignFirstResponder()
             
-            ApiControlller.apiController.postMessage(String(self.conversionId), message: bubbleData.text!)
+            ApiControlller.apiController.postMessage(String(self.conversationId), message: bubbleData.text!)
         }
         
         @IBAction func cameraButtonClicked(sender: AnyObject) {
@@ -152,7 +152,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, UIImagePick
             let bubbleData = ChatBubbleData(text: textField.text, image: chosenImage, date: NSDate(), type: .Mine)
             
             //post new chat message
-            //ApiControlller.apiController.postMessage(String(self.conversionId), message: bubbleData.text!, imageData: bubbleData.image!)
+            //ApiControlller.apiController.postMessage(String(self.conversationId), message: bubbleData.text!, imageData: bubbleData.image!)
             
             addChatBubble(bubbleData)
             picker.dismissViewControllerAnimated(true, completion: { () -> Void in
@@ -190,7 +190,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, UIImagePick
         print("scrolling in area...")
         if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height){
             if (loadingMessage) {
-                ApiControlller.apiController.getMessages(self.conversionId, pageOffSet: pageOffSet)
+                ApiControlller.apiController.getMessages(self.conversationId, pageOffSet: pageOffSet)
                 self.loadingMessage = false
             }
         }

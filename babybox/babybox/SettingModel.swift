@@ -16,7 +16,7 @@ class SettingModel: BaseArgModel {
     var emailNewConversation: Bool = false
     var emailNewComment: Bool = false;
     var emailNewPromotion: Bool = false
-    var pushNewConversion: Bool = false
+    var pushNewConversation: Bool = false
     var pushNewComment: Bool = false
     var pushNewFollow: Bool = false
     var pushNewFeedback: Bool = false
@@ -30,7 +30,7 @@ class SettingModel: BaseArgModel {
         emailNewConversation<-map["firstName"]
         emailNewComment<-map["firstName"]
         emailNewPromotion<-map["firstName"]
-        pushNewConversion<-map["firstName"]
+        pushNewConversation<-map["firstName"]
         pushNewComment<-map["firstName"]
         pushNewFollow<-map["firstName"]
         pushNewFeedback<-map["firstName"]

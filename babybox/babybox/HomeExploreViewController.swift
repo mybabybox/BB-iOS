@@ -12,8 +12,9 @@ import Kingfisher
 
 class HomeExploreViewController: UIViewController, UIScrollViewDelegate {
     
+    @IBOutlet weak var floatingView: UIView!
     @IBOutlet weak var collectionView: UICollectionView!
-    
+    @IBOutlet weak var topConstraint: NSLayoutConstraint!
     var reuseIdentifier = "CellType1"
     var loadingProducts: Bool = false
     var pageOffSet: Int64 = 0
@@ -30,8 +31,12 @@ class HomeExploreViewController: UIViewController, UIScrollViewDelegate {
         apiController.getAllCategories();
         apiController.getHomeExploreFeeds(pageOffSet);
         
-        //setCollectionViewSizesInsets()
-        //setCollectionViewSizesInsetsForTopView()
+        var flowLayout = UICollectionViewFlowLayout()
+        flowLayout.itemSize = CGSizeMake(self.view.bounds.width, self.view.bounds.height)
+        flowLayout.scrollDirection = UICollectionViewScrollDirection.Vertical
+        flowLayout.minimumInteritemSpacing = 0
+        flowLayout.minimumLineSpacing = 0
+        collectionView.collectionViewLayout = flowLayout
         
     }
     
@@ -59,6 +64,21 @@ class HomeExploreViewController: UIViewController, UIScrollViewDelegate {
         setCollectionViewSizesInsets()
         setCollectionViewSizesInsetsForTopView()
         
+        let cSelector : Selector = "gotoSecondSegmentTwo:"
+        let leftSwipe = UISwipeGestureRecognizer(target: self, action: cSelector)
+        leftSwipe.direction = UISwipeGestureRecognizerDirection.Left
+        self.view.addGestureRecognizer(leftSwipe)
+        
+       
+        
+        
+    }
+    
+    @IBAction func gotoSecondSegmentTwo(sender: AnyObject) {
+        let vController = self.view.superview?.superview!.nextResponder() as! InitialHomeSegmentedController
+        //let vController = self.storyboard?.instantiateViewControllerWithIdentifier("initialSegmentViewController") as! InitialHomeSegmentedController
+        vController.activeSegment = 1
+        self.navigationController?.presentViewController(vController, animated: false, completion: nil)
     }
     
     override func didReceiveMemoryWarning() {
@@ -336,18 +356,22 @@ class HomeExploreViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func setCollectionViewSizesInsetsForTopView() {
-        let availableWidthForCells:CGFloat = self.view.frame.width - 40
+        let availableWidthForCells:CGFloat = self.view.bounds.width - 40
         let cellWidth :CGFloat = availableWidthForCells / 3
         let cellHeight = cellWidth
         collectionViewTopCellSize = CGSizeMake(cellWidth, cellHeight)
     }
     func setCollectionViewSizesInsets() {
-        let availableWidthForCells:CGFloat = self.view.frame.width - 60
+        let availableWidthForCells:CGFloat = self.view.bounds.width - 60
         let cellWidth :CGFloat = availableWidthForCells / 2
         let cellHeight = cellWidth * 4/3
         collectionViewCellSize = CGSizeMake(cellWidth, cellHeight)
     }
     
+    @IBAction func btnCancel(sender: AnyObject) {
+        self.floatingView.hidden = true
+        self.topConstraint.constant = 0.0
+    }
     
 }
 
