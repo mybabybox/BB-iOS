@@ -65,7 +65,8 @@ class InitialHomeSegmentedController: UIViewController {
         self.segController.selectedSegmentIndex = self.activeSegment
         self.segAction(self.segController)
         
-        let imagePath =  constants.imagesBaseURL + "/image/get-mini-profile-image-by-id/" + String(constants.userInfo?.id)
+        let imagePath =  constants.imagesBaseURL + "/image/get-thumbnail-profile-image-by-id/" + String(constants.userInfo?.id)
+        //let imagePath = "http://192.168.3.33:9005/image/get-post-image-by-id/2"
         let imageUrl  = NSURL(string: imagePath);
         let imageData = NSData(contentsOfURL: imageUrl!)
         if (imageData != nil) {
@@ -73,7 +74,7 @@ class InitialHomeSegmentedController: UIViewController {
                 self.userImg.image = UIImage(data: imageData!)
             });
         }
-        self.userImg.layer.cornerRadius = 20.0
+        self.userImg.layer.cornerRadius = 18.0
         self.userImg.layer.masksToBounds = true
         self.userName.text = constants.userInfo?.displayName
         
