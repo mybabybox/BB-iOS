@@ -42,7 +42,7 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate{
     @IBOutlet weak var likeButton: UIButton!
     @IBOutlet weak var likeCountLabel: UILabel!
     @IBOutlet weak var productDescriptionLabel: UILabel!
-    @IBOutlet weak var onClickBack: UIBarButtonItem!
+    
     @IBOutlet weak var commentTable: UITableView!
     
     @IBAction func onClickLikeOrUnlikeButton(sender: AnyObject) {
@@ -66,7 +66,8 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate{
     override func viewDidAppear(animated: Bool) {
         print("Show the detail of selected product view.... ", terminator: "");
         print(productModel, terminator: "")
-        
+        self.uiScrollView.pagingEnabled = true
+        self.uiScrollView.contentSize = CGSizeMake(self.uiScrollView.bounds.width, 900)
         self.productTitle.text = productModel.title
         self.productPrice.text = "\(constants.currencySymbol) \(String(stringInterpolationSegment: productModel.price))"
         self.likeCountLabel.text = String(productModel.numLikes)
@@ -87,9 +88,17 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate{
                 let imageUrl  = NSURL(string: imagePath);
                 let imageData = NSData(contentsOfURL: imageUrl!)
                 print(imageUrl, terminator: "")
+                
+                print(self.productImageView.bounds.width)
+                print(self.productImageView.bounds.height)
+                
                 dispatch_async(dispatch_get_main_queue(), {
                     if (imageData != nil) {
                         self.productImageView.image = UIImage(data: imageData!)
+                        print("after")
+                        print(self.productImageView.bounds.width)
+                        print(self.productImageView.bounds.height)
+                        
                     }
                 });
             }
@@ -166,7 +175,7 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate{
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        print("You selected cell #\(indexPath.row)!", terminator: "")
+        print("You selected cell #\(indexPath.row)!" , terminator: "")
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
@@ -192,127 +201,5 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate{
             secondViewController.categories = self.category!
             self.navigationController?.pushViewController(secondViewController, animated: true)
         }
-        
     }
-    
-    /*
-    @IBOutlet weak var messageTableView: UITableView!
-    var comments : [String]? = ["This is my first comments !!!", "This is my second comments !!!"]
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.messageTableView.estimatedRowHeight = 300.0
-        self.messageTableView.rowHeight = UITableViewAutomaticDimension
-        self.messageTableView.reloadData()
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-    
-    //MARK: UITableViewDelegate
-    
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 3
-    }
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        var rows = 0
-        switch section {
-        case 0:
-            rows = 2
-        case 1:
-            rows = 2
-        case 2:
-            rows = (comments?.count)!+1
-            
-        default:
-            rows = 1
-        }
-        return rows
-    }
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var reuseidentifier = ""
-        switch indexPath.section {
-        case 0:
-            if indexPath.row == 0{
-                reuseidentifier = "cell1"
-            }else{
-                reuseidentifier = "cell2"
-            }
-        case 1:
-            reuseidentifier = ""
-            if indexPath.row == 0{
-                reuseidentifier = "cell3"
-            }else{
-                reuseidentifier = "cell4"
-            }
-        case 2:
-            reuseidentifier = ""
-            if indexPath.row != comments?.count{
-                reuseidentifier = "mCell1"
-            }else{
-                reuseidentifier = "mCell2"
-            }
-        default:
-            reuseidentifier = ""
-        }
-        if indexPath.section == 2 {
-            let cell:MessageTableViewCell = tableView.dequeueReusableCellWithIdentifier(reuseidentifier, forIndexPath: indexPath) as!  MessageTableViewCell
-            if indexPath.row == (comments?.count)! {
-                cell.btnPostComments.tag = indexPath.row
-                cell.btnPostComments.addTarget(self, action: "PostComments:", forControlEvents: UIControlEvents.TouchUpInside)
-            }else{
-                cell.lblComments.text = comments![indexPath.row]
-                cell.btnDeleteComments.tag = indexPath.row
-                cell.btnDeleteComments.addTarget(self, action: "DeleteComments:", forControlEvents: UIControlEvents.TouchUpInside)
-            }
-            return cell
-        }else{
-            let cell:DetailsTableViewCell = tableView.dequeueReusableCellWithIdentifier(reuseidentifier, forIndexPath: indexPath) as!  DetailsTableViewCell
-            cell.productImage.image
-                = UIImage(named: "ic_accept")
-            
-            return cell
-        }
-        
-    }
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        if section == 0{
-            return nil
-        }else{
-            let returnedView = UIView(frame: CGRectMake(0, 0, self.messageTableView.bounds.width, 15.0))
-            returnedView.backgroundColor = UIColor.darkGrayColor()
-            return returnedView
-        }
-        
-    }
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if section == 0{
-            return 0.0
-        }else{
-            return 15.0
-        }
-        
-    }
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
-    }
-    //MARK: Button Press Events
-    func DeleteComments(button: UIButton){
-        comments?.removeAtIndex(button.tag)
-        self.messageTableView.reloadData()
-        self.messageTableView.contentInset =  UIEdgeInsetsZero
-    }
-    func PostComments(button: UIButton){
-        let cell: MessageTableViewCell = button.superview!.superview as! MessageTableViewCell
-        comments?.append(cell.txtEnterComments.text!)
-        self.messageTableView.reloadData()
-        cell.txtEnterComments.text = ""
-        messageTableView.contentInset =  UIEdgeInsetsZero
-    }
-    //MARK: UITextfield Delegate
-    func textFieldDidBeginEditing(textField: UITextField){
-        self.messageTableView.contentInset =  UIEdgeInsetsMake(0, 0, 250, 0);
-        self.messageTableView.scrollToRowAtIndexPath(NSIndexPath(forRow: (comments?.count)!, inSection:2), atScrollPosition: UITableViewScrollPosition.Middle, animated: false)
-    }
-    */
 }

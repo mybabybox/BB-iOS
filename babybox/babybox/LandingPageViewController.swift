@@ -19,26 +19,9 @@ class LandingPageViewController: UIViewController, UIScrollViewDelegate, UIImage
         
         
     }
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        let color = BabyboxUtils.babyBoxUtils.UIColorFromRGB(0xFF76A4).CGColor
-        self.signUpBtn.backgroundColor = UIColor.clearColor()
-        self.signUpBtn.layer.cornerRadius = 5
-        self.signUpBtn.layer.borderWidth = 1
-        self.signUpBtn.layer.borderColor = color
-        
-        self.loginBtn.layer.cornerRadius = 5
-        self.loginBtn.layer.borderWidth = 1
-        self.loginBtn.layer.borderColor = color
-        
-        //let availableWidthForCells:CGFloat = self.view.frame.width
-        //let cellWidth :CGFloat = availableWidthForCells / 2
-        
-        
-        //self.signUpBtn.frame.size = CGSizeMake(cellWidth, self.signUpBtn.bounds.height)
-        //self.loginBtn.frame.size = CGSizeMake(cellWidth, self.loginBtn.bounds.height)
-        
+    
+    override func viewDidAppear(animated: Bool) {
+        self.scrollVew.pagingEnabled = true
         self.scrollVew.frame=CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
         let scrollViewWidth:CGFloat = self.scrollVew.frame.width
         let scrollViewHeight:CGFloat = self.scrollVew.frame.height
@@ -58,6 +41,22 @@ class LandingPageViewController: UIViewController, UIScrollViewDelegate, UIImage
         self.scrollVew.contentSize = CGSizeMake(self.scrollVew.frame.width * 6, self.scrollVew.frame.height)
         self.scrollVew.delegate = self
         self.pageControl.currentPage = 0
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        let color = BabyboxUtils.babyBoxUtils.UIColorFromRGB(0xFF76A4).CGColor
+        self.signUpBtn.backgroundColor = UIColor.clearColor()
+        self.signUpBtn.layer.cornerRadius = 5
+        self.signUpBtn.layer.borderWidth = 1
+        self.signUpBtn.layer.borderColor = color
+        
+        self.loginBtn.layer.cornerRadius = 5
+        self.loginBtn.layer.borderWidth = 1
+        self.loginBtn.layer.borderColor = color
+        
+        
         
     }
 
