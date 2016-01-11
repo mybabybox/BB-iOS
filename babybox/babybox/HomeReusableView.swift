@@ -10,7 +10,12 @@ import UIKit
 
 class HomeReusableView: UICollectionReusableView {
 
+    @IBOutlet weak var trailingconstraints: NSLayoutConstraint!
+    @IBOutlet weak var leadingConstrains: NSLayoutConstraint!
     
     @IBOutlet weak var headerViewCollection: UICollectionView!
     
+    override func updateConstraints() {
+        super.updateConstraints()
+    }
 }

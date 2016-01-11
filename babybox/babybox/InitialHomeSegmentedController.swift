@@ -26,14 +26,6 @@ class InitialHomeSegmentedController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        self.exploreController = storyboard.instantiateViewControllerWithIdentifier("HomeExploreViewController") as! HomeExploreViewController
-        
-        self.followingController = storyboard.instantiateViewControllerWithIdentifier("homefollowingViewController") as! HomeFollowingViewController
-        
-        self.exploreController?.view.hidden = false
-        self.followingController?.view.hidden = false
-        
         let normalTextAttributes: [NSObject : AnyObject] = [
             NSForegroundColorAttributeName: UIColor.grayColor(),
             NSFontAttributeName: UIFont.systemFontOfSize(12.0)
@@ -47,18 +39,6 @@ class InitialHomeSegmentedController: UIViewController {
         UISegmentedControl.appearance().setTitleTextAttributes(normalTextAttributes, forState: .Normal)
         UISegmentedControl.appearance().setTitleTextAttributes(activeTextAttributes, forState: .Selected)
         
-        self.navigationController?.navigationBar.hidden = true
-        
-        self.baseView.addSubview(self.exploreController!.view)
-        self.exploreController?.view.frame = CGRectMake(0, 0, self.baseView.bounds.width, self.baseView.bounds.height-20)
-        
-        self.baseView.addSubview(self.followingController!.view)
-        self.followingController?.view.frame = CGRectMake(0, 0, self.baseView.bounds.width, self.baseView.bounds.height-20)
-        
-        
-        
-        //http://rshankar.com/uigesturerecognizer-in-swift/ swipe gesture
-        //self.segController.selectedSegmentIndex = self.activeSegment
     }
     
     override func viewDidAppear(animated: Bool){
@@ -66,7 +46,6 @@ class InitialHomeSegmentedController: UIViewController {
         self.segAction(self.segController)
         
         let imagePath =  constants.imagesBaseURL + "/image/get-thumbnail-profile-image-by-id/" + String(constants.userInfo?.id)
-        //let imagePath = "http://192.168.3.33:9005/image/get-post-image-by-id/2"
         let imageUrl  = NSURL(string: imagePath);
         let imageData = NSData(contentsOfURL: imageUrl!)
         if (imageData != nil) {
@@ -79,6 +58,7 @@ class InitialHomeSegmentedController: UIViewController {
         self.userName.text = constants.userInfo?.displayName
         
     }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -87,6 +67,7 @@ class InitialHomeSegmentedController: UIViewController {
     
     @IBAction func segAction(sender: AnyObject) {
         
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
         if(self.segController.selectedSegmentIndex == 0){
             
             let y = CGFloat(self.segController.frame.height)
@@ -96,8 +77,14 @@ class InitialHomeSegmentedController: UIViewController {
             let color: UIColor = UIColor(red: 255/255, green: 118/255, blue: 164/255, alpha: 1.0)
             self.drawLineFromPoint(start, toPoint: end, ofColor: color, inView: self.segController)
             
-            self.followingController?.view.hidden = true
-            self.exploreController?.view.hidden = false
+            
+            self.followingController?.view.removeFromSuperview()
+            self.exploreController = storyboard.instantiateViewControllerWithIdentifier("HomeExploreViewController") as! HomeExploreViewController
+            self.baseView.addSubview(self.exploreController!.view)
+            self.exploreController!.view.frame = CGRectMake(0, 0, self.baseView.bounds.width, self.baseView.bounds.height-20)
+
+            //self.followingController?.view.hidden = true
+            //self.exploreController?.view.hidden = false
             
         } else if(self.segController.selectedSegmentIndex == 1){
             let y = CGFloat(self.segController.frame.height)
@@ -108,11 +95,12 @@ class InitialHomeSegmentedController: UIViewController {
             let color: UIColor = UIColor(red: 255/255, green: 118/255, blue: 164/255, alpha: 1.0)
             self.drawLineFromPoint(start, toPoint: end, ofColor: color, inView: self.segController)
             
-            self.followingController?.view.hidden = false
-            self.exploreController?.view.hidden = false
-            //self.exploreController!.view.removeFromSuperview()
-            //self.baseView.addSubview(self.followingController!.view)
-            //self.followingController?.view.frame = CGRectMake(0, 0, self.baseView.bounds.width, self.baseView.bounds.height-20)
+            self.exploreController?.view.removeFromSuperview()
+            self.followingController = storyboard.instantiateViewControllerWithIdentifier("homefollowingViewController") as! HomeFollowingViewController
+            self.followingController!.view.frame = CGRectMake(0, 0, self.baseView.bounds.width, self.baseView.bounds.height-20)
+            self.baseView.addSubview(self.followingController!.view)
+            //self.followingController?.view.hidden = false
+            //self.exploreController?.view.hidden = false
         }
     }
     
@@ -140,22 +128,22 @@ class InitialHomeSegmentedController: UIViewController {
 
         let identifier = segue.identifier
         //let navigationController = segue.destinationViewController as! UINavigationController
-        print("identifier " + identifier!)
-        if (identifier == "gotoUserProfile_") {
+        //print("identifier " + identifier!)
+        if (identifier != nil && identifier == "gotoUserProfile_") {
             //let navigationController = segue.destinationViewController as! UINavigationController
             //print(segue.destinationViewController)
             //print(navigationController.viewControllers)
             let vController = segue.destinationViewController as! UserProfileViewController
             vController.userId = (constants.userInfo?.id)!
-        } else if (identifier == "gotoUserProfile") {
+        } else if (identifier != nil && identifier == "gotoUserProfile") {
             //let navigationController = segue.destinationViewController as! UINavigationController
             let vController = segue.destinationViewController as! UserProfileViewController
             vController.userId = (constants.userInfo?.id)!
-        } else if (identifier == "gotouserchat") {
+        } else if (identifier != nil && identifier == "gotouserchat") {
             let vController = segue.destinationViewController as! ConversationsViewController
             vController.userId = (constants.userInfo?.id)!
-        } else if (identifier == "sellProduct") {
-        } else if (identifier == "badge") {
+        } else if (identifier != nil && identifier == "sellProduct") {
+        } else if (identifier != nil && identifier == "badge") {
         }
     }
     

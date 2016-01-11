@@ -53,7 +53,7 @@ class ApiControlller {
         let callEvent = ApiCallEvent()
         callEvent.method = "get-home-following-feed"
         callEvent.resultClass = "PostModel"
-        callEvent.successEventbusName = "homeFollowingPostsReceivedSuccess"
+        callEvent.successEventbusName = "homeExplorePostsReceivedSuccess"
         callEvent.failedEventbusName = "postsReceivedFailed"
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method + "/" + String(offSet)
         
@@ -62,7 +62,7 @@ class ApiControlller {
     
     func getUserInfo() {
         let callEvent = ApiCallEvent()
-        callEvent.method = "get-user-info"
+        callEvent.method = "get-user-info?access_token=" + constants.accessToken
         callEvent.resultClass = "UserInfoVM"
         callEvent.successEventbusName = "userInfoSuccess"
         callEvent.failedEventbusName = "userInfoFailed"
@@ -350,6 +350,9 @@ class ApiControlller {
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method;
         
         self.makeApiCall(callEvent)
+    }
+    
+    func getDistricts() {
     }
     
     func postMessage(id: String, message: String){
