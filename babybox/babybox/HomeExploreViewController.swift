@@ -18,8 +18,8 @@ class HomeExploreViewController: UIViewController {
     var apiController: ApiControlller = ApiControlller()
     
     override func viewDidAppear(animated: Bool) {
-        apiController.getAllCategories();
-        apiController.getHomeExploreFeeds(0);
+        //apiController.getAllCategories();
+        //apiController.getHomeExploreFeeds(0);
         
     }
     

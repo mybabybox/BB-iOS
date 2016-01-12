@@ -38,6 +38,9 @@ class UserProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print("userid " + String(self.userId))
+        if (userId == 0) {
+            userId = (constants.userInfo?.id)!
+        }
         ApiControlller.apiController.getUserInfoById(userId)
         
         SwiftEventBus.onMainThread(self, name: "userInfoByIdSuccess") { result in

@@ -24,13 +24,13 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
     var contentType: String = "explore"
     var collectionViewCellSize : CGSize?
     var collectionViewTopCellSize : CGSize?
-    
+    var tohide = true
     var reuseIdentifier = "CellType1"
     var loadingProducts: Bool = false
-    
+    var isCategoryDetails = true
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.addSubview(self.uiCollectionView)
+        //self.view.addSubview(self.uiCollectionView)
         
         SwiftEventBus.onMainThread(self, name: "categoriesReceivedSuccess") { result in
             // UI thread
@@ -54,6 +54,7 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
         flowLayout.minimumLineSpacing = 5
         uiCollectionView.collectionViewLayout = flowLayout
         
+        //self.view.bringSubviewToFront(customView)
         // Do any additional setup after loading the view.
     }
 
@@ -68,10 +69,8 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
     
     override func viewDidAppear(animated: Bool) {
         self.pageOffSet = 0
-        print("calling this .. ")
         categories = []
         products = []
-        
     }
     
     /*
@@ -91,8 +90,12 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         var count = 0;
-        if (collectionView.tag == 2){
-            count = self.categories.count
+        if (collectionView.tag == 2) {
+            if (isCategoryDetails) {
+                count = 1
+            } else {
+                count = self.categories.count
+            }
         }else{
             count = self.products.count
         }
@@ -102,22 +105,28 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
         if (collectionView.tag == 2){
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier("staticCell", forIndexPath: indexPath) as! CategoryCollectionViewCell
-            
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-                let categoryVM = self.categories[indexPath.row]
-                let imagePath =  constants.imagesBaseURL + categoryVM.icon;
-                let imageUrl  = NSURL(string: imagePath)
-                dispatch_async(dispatch_get_main_queue(), {
-                    cell.categoryIcon.kf_setImageWithURL(imageUrl!)
-                    cell.categoryName.text = categoryVM.name;
-                });
-            })
-            cell.layer.borderColor = CGColorCreate(CGColorSpaceCreateDeviceRGB(), [194/255, 195/255, 200/255, 1.0])
-            cell.layer.borderWidth = 1
-            //cell.layer.cornerRadius = 8 // optional
-            
-            return cell
+            if (isCategoryDetails) {
+                let cell = collectionView.dequeueReusableCellWithReuseIdentifier("categoryCell", forIndexPath: indexPath) as! CategoryCollectionViewCell
+                
+                return cell
+            } else {
+                let cell = collectionView.dequeueReusableCellWithReuseIdentifier("staticCell", forIndexPath: indexPath) as! CategoryCollectionViewCell
+                
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+                    let categoryVM = self.categories[indexPath.row]
+                    let imagePath =  constants.imagesBaseURL + categoryVM.icon;
+                    let imageUrl  = NSURL(string: imagePath)
+                    dispatch_async(dispatch_get_main_queue(), {
+                        cell.categoryIcon.kf_setImageWithURL(imageUrl!)
+                        cell.categoryName.text = categoryVM.name;
+                    });
+                })
+                cell.layer.borderColor = CGColorCreate(CGColorSpaceCreateDeviceRGB(), [194/255, 195/255, 200/255, 1.0])
+                cell.layer.borderWidth = 1
+                //cell.layer.cornerRadius = 8 // optional
+                
+                return cell
+            }
         }
         else{
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! CatProductCollectionViewCell
@@ -130,17 +139,8 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
                 if (post.hasImage) {
                     let imagePath =  constants.imagesBaseURL + "/image/get-post-image-by-id/" + String(post.images[0])
                     let imageUrl  = NSURL(string: imagePath);
-                    // print(imageUrl)
-                    //let imageData = NSData(contentsOfURL: imageUrl!)
-                    //print(imageUrl, terminator: "")
                     dispatch_async(dispatch_get_main_queue(), {
-                        //if (imageData != nil) {
-                        //let resource = Resource(downloadURL: imageUrl!, cacheKey: String(post.id))
-                        //productViewCell.productIcon.kf_setImageWithResource(resource)
-                        //cell.prodImageIns.imageView!.kf_setImageWithURL(imageUrl!)
                         cell.prodImageView.kf_setImageWithURL(imageUrl!)
-                        //productViewCell.productIcon.image = UIImage(data: imageData!)
-                        //}
                     });
                 }
                 cell.likeCount.text = String(post.numLikes)
@@ -184,8 +184,6 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
             reusableView?.hidden = true
             
             //self.uiCollectionView.frame = CGRectMake(self.uiCollectionView.frame.origin.x, 0, self.uiCollectionView.frame.width, self.uiCollectionView.frame.height)
-            print(self.uiCollectionView.frame.origin.x)
-            print(self.uiCollectionView.frame.origin.y)
         }
         return reusableView!
     }
@@ -193,14 +191,11 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
     // MARK: UICollectionViewDelegateFlowLayout
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        print("sizeforitemin index pth")
-        if (collectionView.tag == 2){
+        if (collectionView.tag == 2) {
             if let _ = collectionViewTopCellSize {
-                print("size is --- ")
-                print(collectionViewTopCellSize)
                 return collectionViewTopCellSize!
             }
-        }else{
+        } else {
             if let _ = collectionViewCellSize {
                 return collectionViewCellSize!
             }
@@ -214,8 +209,13 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
             return CGSizeZero
         } else if (collectionView.tag == 2){
             return CGSizeZero
-        }else{
-            return CGSizeMake(self.view.frame.width, 250)
+        } else {
+            if (isCategoryDetails) {
+                return CGSizeMake(self.view.frame.width, 150)
+            } else {
+                return CGSizeMake(self.view.frame.width, 250)
+            }
+            
         }
     }
     
@@ -233,9 +233,6 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
         
         //var vController = segue.destinationViewController
         let identifier = segue.identifier
-        print("<<<")
-        print(self.products)
-        print(">>>")
         if (identifier == "gotocatogorydetails") {
             
             let vController = segue.destinationViewController as! CategoryDetailsViewController
@@ -243,8 +240,6 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
             vController.categories.icon = self.categories[self.currentIndex].icon
             vController.categories.name = self.categories[self.currentIndex].name
         } else if (identifier == "gotoproductdetail") {
-            //var navController = segue.destinationViewController as! UINavigationController
-            //let vController = navController.viewControllers.first as! ProductDetailsViewController
             let vController = segue.destinationViewController as! ProductDetailsViewController
             vController.productModel = self.products[self.currentIndex]
             vController.fromPage = "homeexplore"
@@ -252,7 +247,6 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
         }
     }
 
-    
     // MARK: Custom Implementation methods
     
     func handleGetAllProductsuccess(resultDto: [PostModel]) {
@@ -265,58 +259,28 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
                 self.products.appendContentsOf(resultDto)
                 self.uiCollectionView.reloadData()
             }
-            /*var indexPaths = [NSIndexPath]()
-            let firstIndex = self.products.count
-            
-            for (i, postModel) in resultDto.enumerate() {
-                let indexPath = NSIndexPath(forItem: firstIndex + i, inSection: 1)
-                
-                self.products.append(postModel)
-                indexPaths.append(indexPath)
-            }
-            
-            self.uiCollectionView.reloadItemsAtIndexPaths(indexPaths)
-            */
-            
-            /*var indexPaths = [NSIndexPath]()
-            let firstIndex = self.products.count
-            
-            for (i, postModel) in resultDto.enumerate() {
-                print("index")
-                print(firstIndex + i)
-                let indexPath = NSIndexPath(forItem: firstIndex + i, inSection: 0)
-                var _indexPaths = [NSIndexPath]()
-                self.products.append(postModel)
-                //indexPaths.append(indexPath)
-                _indexPaths.append(indexPath)
-                self.uiCollectionView.performBatchUpdates({ () -> Void in
-                    self.uiCollectionView?.insertItemsAtIndexPaths(_indexPaths)
-                    }, completion: { (finished) -> Void in
-                        //completion?()
-                });
-            }*/
-            /*self.uiCollectionView.performBatchUpdates({ () -> Void in
-                self.uiCollectionView?.insertItemsAtIndexPaths(indexPaths)
-                }, completion: { (finished) -> Void in
-                    //completion?()
-            });*/
-
         }
         self.pageOffSet = Int64(self.products[self.products.count-1].offset)
         self.loadingProducts = true
     }
     
     func handleGetCateogriesSuccess(categories: [CategoryModel]) {
-        self.categories = categories;
-        
-        dispatch_async(dispatch_get_main_queue(), {
+	self.categories = categories;
+        /*dispatch_async(dispatch_get_main_queue(), {
             self.uiCollectionView.reloadData();
-        })
+        })*/
         
     }
     
     // MARK: UIScrollview Delegate
     func scrollViewDidScroll(scrollView: UIScrollView) {
+        UIView.animateWithDuration(0.2, animations: {
+            constants.viewControllerIns!.tabBarController!.tabBar.hidden = true
+            constants.viewControllerIns!.hidesBottomBarWhenPushed = true
+            
+            let tabBarHeight = constants.viewControllerIns!.tabBarController!.tabBar.frame.size.height
+            //self.uiCollectionView.frame.size.height = self.uiCollectionView.frame.size.height + tabBarHeight
+        })
         
         if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height){
             if (self.loadingProducts) {
@@ -338,11 +302,24 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
         }
     }
     
+    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+        UIView.animateWithDuration(0.2, animations: {
+            constants.viewControllerIns!.tabBarController!.tabBar.hidden = false
+            constants.viewControllerIns!.hidesBottomBarWhenPushed = true
+        })
+        let tabBarHeight = constants.viewControllerIns!.tabBarController!.tabBar.frame.size.height
+        //self.uiCollectionView.frame.size.height = self.uiCollectionView.frame.size.height - tabBarHeight
+    }
+    
     func setCollectionViewSizesInsetsForTopView() {
-        let availableWidthForCells:CGFloat = self.view.bounds.width - 35
-        let cellWidth :CGFloat = availableWidthForCells / 3
-        let cellHeight = CGFloat(95.0)//cellWidth
-        collectionViewTopCellSize = CGSizeMake(cellWidth, cellHeight)
+        if (self.isCategoryDetails) {
+            collectionViewTopCellSize = CGSizeMake(self.view.bounds.width, 150)
+        } else {
+            let availableWidthForCells:CGFloat = self.view.bounds.width - 35
+            let cellWidth :CGFloat = availableWidthForCells / 3
+            let cellHeight = CGFloat(95.0)//cellWidth
+            collectionViewTopCellSize = CGSizeMake(cellWidth, cellHeight)
+        }
     }
     
     func setCollectionViewSizesInsets() {
@@ -377,6 +354,4 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
             
         }
     }
-    
-    
 }
