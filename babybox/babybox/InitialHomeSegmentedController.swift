@@ -39,9 +39,17 @@ class InitialHomeSegmentedController: UIViewController {
         UISegmentedControl.appearance().setTitleTextAttributes(normalTextAttributes, forState: .Normal)
         UISegmentedControl.appearance().setTitleTextAttributes(activeTextAttributes, forState: .Selected)
         
+        
+        /*let image = UIImage(named: "game_badge_mascot")
+        image?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+        self.tabBarController?.tabBar.items![0].image = image
+        self.tabBarController?.tabBar.hidden = false*/
+        
+        constants.viewControllerIns = self
+        self.hidesBottomBarWhenPushed = true
     }
     
-    override func viewDidAppear(animated: Bool){
+    override func viewDidAppear(animated: Bool) {
         self.segController.selectedSegmentIndex = self.activeSegment
         self.segAction(self.segController)
         
