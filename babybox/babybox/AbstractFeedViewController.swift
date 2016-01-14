@@ -111,16 +111,12 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
                 return cell
             } else {
                 let cell = collectionView.dequeueReusableCellWithReuseIdentifier("staticCell", forIndexPath: indexPath) as! CategoryCollectionViewCell
+                let categoryVM = self.categories[indexPath.row]
+                let imagePath =  constants.imagesBaseURL + categoryVM.icon;
+                let imageUrl  = NSURL(string: imagePath)
+                cell.categoryIcon.kf_setImageWithURL(imageUrl!)
+                cell.categoryName.text = categoryVM.name;
                 
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-                    let categoryVM = self.categories[indexPath.row]
-                    let imagePath =  constants.imagesBaseURL + categoryVM.icon;
-                    let imageUrl  = NSURL(string: imagePath)
-                    dispatch_async(dispatch_get_main_queue(), {
-                        cell.categoryIcon.kf_setImageWithURL(imageUrl!)
-                        cell.categoryName.text = categoryVM.name;
-                    });
-                })
                 cell.layer.borderColor = CGColorCreate(CGColorSpaceCreateDeviceRGB(), [194/255, 195/255, 200/255, 1.0])
                 cell.layer.borderWidth = 1
                 //cell.layer.cornerRadius = 8 // optional
@@ -130,24 +126,17 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
         }
         else{
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! CatProductCollectionViewCell
-            
             cell.likeImageIns.tag = indexPath.item
             
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-                let post = self.products[indexPath.row]
-                
-                if (post.hasImage) {
-                    let imagePath =  constants.imagesBaseURL + "/image/get-post-image-by-id/" + String(post.images[0])
-                    let imageUrl  = NSURL(string: imagePath);
-                    dispatch_async(dispatch_get_main_queue(), {
-                        cell.prodImageView.kf_setImageWithURL(imageUrl!)
-                    });
-                }
-                cell.likeCount.text = String(post.numLikes)
-                cell.title.text = post.title
-                cell.productPrice.text =
-                "\(constants.currencySymbol) \(String(stringInterpolationSegment: post.price))"
-            })
+            let post = self.products[indexPath.row]
+            if (post.hasImage) {
+                let imagePath =  constants.imagesBaseURL + "/image/get-post-image-by-id/" + String(post.images[0])
+                let imageUrl  = NSURL(string: imagePath)
+                cell.prodImageView.kf_setImageWithURL(imageUrl!)
+            }
+            cell.likeCount.text = String(post.numLikes)
+            cell.title.text = post.title
+            cell.productPrice.text = "\(constants.currencySymbol) \(String(stringInterpolationSegment: post.price))"
             
             //cell.prodImageIns.addTarget(self, action: "ImagePressed:", forControlEvents: UIControlEvents.TouchUpInside)
             cell.likeImageIns.addTarget(self, action: "HeartPressed:", forControlEvents: UIControlEvents.TouchUpInside)
