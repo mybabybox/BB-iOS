@@ -1,10 +1,3 @@
-//
-//  MessageTableViewCell.swift
-//  GallerySwiftApp
-//
-//  Created by Apple on 15/12/15.
-//  Copyright © 2015 Apple. All rights reserved.
-//
 
 import UIKit
 

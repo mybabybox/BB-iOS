@@ -39,9 +39,9 @@ class HomeFollowingViewController: UIViewController {
     
     @IBAction func gotoSecondSegmentOne(sender: AnyObject) {
         let vController = self.view.superview?.superview!.nextResponder() as! InitialHomeSegmentedController
-        //let vController = self.storyboard?.instantiateViewControllerWithIdentifier("initialSegmentViewController") as! InitialHomeSegmentedController
         vController.activeSegment = 0
         self.navigationController?.presentViewController(vController, animated: false, completion: nil)
     }
+
    
 }

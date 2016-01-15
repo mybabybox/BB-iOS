@@ -111,10 +111,10 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate{
     }*/
     
     override func viewDidLoad() {
-        
+        super.viewDidLoad()
         self.commentTextField.delegate=self
         self.commentTable.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        self.navigationController?.toolbar.hidden = true
+        
         SwiftEventBus.onMainThread(self, name: "productDetailsReceivedSuccess") { result in
             // UI thread
             print("catch the event...............", terminator: "")
@@ -122,8 +122,7 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate{
             print(resultDto, terminator: "")
             self.handleGetProductDetailsSuccess(resultDto)
         }
-       
-        //self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "actionbar_bg_pink"), forBarMetrics: UIBarMetrics.Default)
+        
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -188,6 +187,8 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate{
     }
     
     @IBAction func onClickBack(sender: AnyObject) {
+        /*var btn = sender as! UIButton
+        
         if self.fromPage == "homeexplore" {
             let secondViewController = self.storyboard?.instantiateViewControllerWithIdentifier("initialSegmentViewController") as! InitialHomeSegmentedController
             secondViewController.activeSegment = 0
@@ -200,6 +201,6 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate{
             let secondViewController = self.storyboard?.instantiateViewControllerWithIdentifier("myCategoryDetailView") as! CategoryDetailsViewController
             secondViewController.categories = self.category!
             self.navigationController?.pushViewController(secondViewController, animated: true)
-        }
+        }*/
     }
 }

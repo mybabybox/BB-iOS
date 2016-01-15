@@ -1,23 +1,7 @@
-//
-//  ChatBubble.swift
-//  ChatBubbleScratch
-//
-//  Created by Sauvik Dolui on 02/09/15.
-//  Copyright (c) 2015 Innofied Solution Pvt. Ltd. All rights reserved.
-//
-
 import UIKit
 
 class ChatBubble: UIView {
 
-    /*
-    // Only override drawRect: if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func drawRect(rect: CGRect) {
-        // Drawing code
-    }
-    */
-    // Properties
     var imageViewChat: UIImageView?
     var imageViewBG: UIImageView?
     var text: String?
@@ -69,6 +53,7 @@ class ChatBubble: UIView {
             labelChatText?.sizeToFit() // Getting fullsize of it
             self.addSubview(labelChatText!)
         }
+        
         // 4. Calculation of new width and height of the chat bubble view
         var viewHeight: CGFloat = 0.0
         var viewWidth: CGFloat = 0.0

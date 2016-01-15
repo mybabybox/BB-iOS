@@ -12,9 +12,7 @@ import SwiftEventBus
 class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var uiCollectionView: UICollectionView!
     
-    @IBOutlet weak var suggestedLbl: UILabel!
     @IBOutlet weak var bConstraint: NSLayoutConstraint!
-    @IBOutlet weak var categoryLbl: UILabel!
     var pageOffSet: Int64 = 0
     var apiController: ApiControlller = ApiControlller()
     var currentIndex = 0
@@ -27,7 +25,7 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
     var tohide = true
     var reuseIdentifier = "CellType1"
     var loadingProducts: Bool = false
-    var isCategoryDetails = true
+    var isCategoryDetails = false
     override func viewDidLoad() {
         super.viewDidLoad()
         //self.view.addSubview(self.uiCollectionView)
@@ -126,6 +124,7 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
         }
         else{
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! CatProductCollectionViewCell
+            
             cell.likeImageIns.tag = indexPath.item
             
             let post = self.products[indexPath.row]
@@ -225,9 +224,9 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
         if (identifier == "gotocatogorydetails") {
             
             let vController = segue.destinationViewController as! CategoryDetailsViewController
-            vController.categories.id = self.categories[self.currentIndex].id
+            /*vController.categories.id = self.categories[self.currentIndex].id
             vController.categories.icon = self.categories[self.currentIndex].icon
-            vController.categories.name = self.categories[self.currentIndex].name
+            vController.categories.name = self.categories[self.currentIndex].name*/
         } else if (identifier == "gotoproductdetail") {
             let vController = segue.destinationViewController as! ProductDetailsViewController
             vController.productModel = self.products[self.currentIndex]
@@ -248,13 +247,14 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
                 self.products.appendContentsOf(resultDto)
                 self.uiCollectionView.reloadData()
             }
+            self.pageOffSet = Int64(self.products[self.products.count-1].offset)
         }
-        self.pageOffSet = Int64(self.products[self.products.count-1].offset)
+        
         self.loadingProducts = true
     }
     
     func handleGetCateogriesSuccess(categories: [CategoryModel]) {
-	self.categories = categories;
+        self.categories = categories;
         /*dispatch_async(dispatch_get_main_queue(), {
             self.uiCollectionView.reloadData();
         })*/
@@ -267,7 +267,7 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
             constants.viewControllerIns!.tabBarController!.tabBar.hidden = true
             constants.viewControllerIns!.hidesBottomBarWhenPushed = true
             
-            let tabBarHeight = constants.viewControllerIns!.tabBarController!.tabBar.frame.size.height
+            //let tabBarHeight = constants.viewControllerIns!.tabBarController!.tabBar.frame.size.height
             //self.uiCollectionView.frame.size.height = self.uiCollectionView.frame.size.height + tabBarHeight
         })
         
@@ -296,7 +296,7 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
             constants.viewControllerIns!.tabBarController!.tabBar.hidden = false
             constants.viewControllerIns!.hidesBottomBarWhenPushed = true
         })
-        let tabBarHeight = constants.viewControllerIns!.tabBarController!.tabBar.frame.size.height
+        //let tabBarHeight = constants.viewControllerIns!.tabBarController!.tabBar.frame.size.height
         //self.uiCollectionView.frame.size.height = self.uiCollectionView.frame.size.height - tabBarHeight
     }
     

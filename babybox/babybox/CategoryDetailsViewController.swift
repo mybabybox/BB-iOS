@@ -13,307 +13,31 @@ import Kingfisher
 
 class CategoryDetailsViewController: UIViewController, UIScrollViewDelegate {
     
-    @IBOutlet weak var highLowbtn: UIButton!
-    @IBOutlet weak var lowHighBtn: UIButton!
-    @IBOutlet weak var newestBtn: UIButton!
-    @IBOutlet weak var popularBtn: UIButton!
     
-    @IBAction func onClickBack(sender: AnyObject) {
-    }
-    
-    @IBOutlet weak var prodCollectionView: UICollectionView!
-    var pageOffSet:Int64 = 0
-    var isLoading:Bool = false
-    var catProducts: [PostModel] = []
-    @IBOutlet var typesButtonGroup: [UIButton]!
-    var filterType: Int = 1
-    @IBOutlet weak var categoryName: UILabel!
-    @IBOutlet weak var categoryImageView: UIImageView!
     var categories : CategoryModel = CategoryModel()
-    var collectionViewCellSize : CGSize?
-    var filterButtonSize : CGSize?
-    
-    func setBtnBackgroundAndText() {
-        let red = CGFloat(255.0)
-        let green = CGFloat(255.0)
-        let blue = CGFloat(255.0)
-        let alpha = CGFloat(1.0)
-        
-        self.highLowbtn.backgroundColor = UIColor(red: red, green: green, blue: blue, alpha: alpha)
-        self.lowHighBtn.backgroundColor = UIColor(red: red, green: green, blue: blue, alpha: alpha)
-        self.newestBtn.backgroundColor =  UIColor(red: red, green: green, blue: blue, alpha: alpha)
-        self.popularBtn.backgroundColor = UIColor(red: red, green: green, blue: blue, alpha: alpha)
-        
-        self.highLowbtn.setTitleColor(UIColor.darkGrayColor(), forState: UIControlState.Normal)
-        self.lowHighBtn.setTitleColor(UIColor.darkGrayColor(), forState: UIControlState.Normal)
-        self.newestBtn.setTitleColor(UIColor.darkGrayColor(), forState: UIControlState.Normal)
-        self.popularBtn.setTitleColor(UIColor.darkGrayColor(), forState: UIControlState.Normal)
-        
-    }
-    
-    @IBAction func onClickHighToLwFilter(sender: AnyObject) {
-        self.pageOffSet = 0
-        filterType = 1
-        self.catProducts = []
-        self.prodCollectionView.reloadData()
-        ApiControlller.apiController.getCategoriesFilterByHlPrice(Int(categories.id), offSet: pageOffSet)
-        self.setBtnBackgroundAndText()
-        self.highLowbtn.backgroundColor = BabyboxUtils.babyBoxUtils.UIColorFromRGB(0xFF99B8)
-        self.highLowbtn.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-    }
-    
-    @IBAction func onClickLwToHighFilter(sender: AnyObject) {
-        self.pageOffSet = 0
-        filterType = 2
-        self.catProducts = []
-        self.prodCollectionView.reloadData()
-        ApiControlller.apiController.getCategoriesFilterByLhPrice(Int(categories.id), offSet: pageOffSet)
-        self.setBtnBackgroundAndText()
-        self.lowHighBtn.backgroundColor = BabyboxUtils.babyBoxUtils.UIColorFromRGB(0xFF99B8)
-        self.lowHighBtn.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-    }
-    
-    @IBAction func onClickFilterByNewest(sender: AnyObject) {
-        self.pageOffSet = 0
-        filterType = 3
-        self.catProducts = []
-        self.prodCollectionView.reloadData()
-        ApiControlller.apiController.getCategoriesFilterByNewestPrice(Int(categories.id), offSet: pageOffSet)
-        self.setBtnBackgroundAndText()
-        self.newestBtn.backgroundColor = BabyboxUtils.babyBoxUtils.UIColorFromRGB(0xFF99B8)
-        self.newestBtn.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-    }
-    
-    @IBAction func onClickPopularFilter(sender: AnyObject) {
-        self.pageOffSet = 0
-        self.catProducts = []
-        self.prodCollectionView.reloadData()
-        filterType = 4
-        ApiControlller.apiController.getCategoriesFilterByPopularity(Int(categories.id), offSet: pageOffSet)
-        self.setBtnBackgroundAndText()
-        self.popularBtn.backgroundColor = BabyboxUtils.babyBoxUtils.UIColorFromRGB(0xFF99B8)
-        self.popularBtn.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-    }
     
     override func viewDidAppear(animated: Bool) {
-       
-        self.categoryName.text = self.categories.name
-        self.navigationController?.navigationBar.hidden = true
-        
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-            let categoryVM = self.categories
-            let imagePath =  constants.imagesBaseURL + categoryVM.icon;
-            let imageUrl  = NSURL(string: imagePath);
-            //let imageData = NSData(contentsOfURL: imageUrl!)
-            
-            dispatch_async(dispatch_get_main_queue(), {
-                //if (imageData != nil) {
-                //    self.categoryImageView.image = UIImage(data: imageData!)
-                //}
-                self.categoryImageView.kf_setImageWithURL(imageUrl!)
-            });
-        })
-        
-        self.popularBtn.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-        
-        var flowLayout = UICollectionViewFlowLayout()
-        flowLayout.itemSize = CGSizeMake(self.view.bounds.width, self.view.bounds.height)
-        flowLayout.scrollDirection = UICollectionViewScrollDirection.Vertical
-        flowLayout.minimumInteritemSpacing = 0
-        flowLayout.minimumLineSpacing = 5
-        self.prodCollectionView.collectionViewLayout = flowLayout
-        
+    
     }
     
     override func viewDidLoad() {
-        print("view loaded", terminator: "");
         
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "actionbar_bg_pink"), forBarMetrics: UIBarMetrics.Default)
-        self.popularBtn.backgroundColor = BabyboxUtils.babyBoxUtils.UIColorFromRGB(0xFF76A4)
+        super.viewDidLoad()
         
-        //getCategoriesFilterByPopularity Event Handler
-        //getCategoriesFilterByNewestPrice Event Handler
-        //getCategoriesFilterByLhPrice Event Handler
-        //getCategoriesFilterByHlPrice Event Handler
-        SwiftEventBus.onMainThread(self, name: "categoryProductFeedSuccess") { result in
-            // UI thread
-            let resultDto: [PostModel] = result.object as! [PostModel]
-            self.handleGetProductDetailsSuccess(resultDto)
-        }
-        setCollectionViewSizesInsets()
-        setSizesForFilterButtons()
-        
-        ApiControlller.apiController.getCategoriesFilterByPopularity(Int(categories.id), offSet: pageOffSet)
+        let _controller = self.storyboard?.instantiateViewControllerWithIdentifier("abstractFeedController") as! AbstractFeedViewController
+        _controller.view.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
+        _controller.isHeaderView = true
+        _controller.isCategoryDetails = true
+        self.view.addSubview((_controller.view)!)
 
-    }
-    
-    func handleGetProductDetailsSuccess(resultDto: [PostModel]) {
-        if (!resultDto.isEmpty) {
-            
-            if (self.self.catProducts.count == 0) {
-                self.catProducts = resultDto
-                self.prodCollectionView.reloadData()
-            } else {
-                /*var indexPaths = [NSIndexPath]()
-                let firstIndex = self.self.catProducts.count
-                
-                for (i, postModel) in resultDto.enumerate() {
-                    let indexPath = NSIndexPath(forItem: firstIndex + i, inSection: 0)
-                    
-                    self.catProducts.append(postModel)
-                    indexPaths.append(indexPath)
-                }
-                
-                self.prodCollectionView?.performBatchUpdates({ () -> Void in
-                    self.prodCollectionView?.insertItemsAtIndexPaths(indexPaths)
-                    }, completion: { (finished) -> Void in
-                        //completion?()
-                });*/
-                self.catProducts.appendContentsOf(resultDto)
-                self.prodCollectionView.reloadData()
-            }
-            self.pageOffSet = Int64(self.catProducts[self.catProducts.count - 1].offset)
-        }
-        self.isLoading = true
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "actionbar_bg_pink"), forBarMetrics: UIBarMetrics.Default)
+        
+        ApiControlller.apiController.getCategoriesFilterByPopularity(Int(categories.id), offSet: 0)
+
     }
     
     override func viewWillDisappear(animated: Bool) {
         print("view disappeared", terminator: "")
     }
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        var count = 0;
-        count = self.catProducts.count
-        return count;
-    }
-    
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        
-        let productViewCell: CustomCatProductViewCell = collectionView.dequeueReusableCellWithReuseIdentifier("catProductViewCell", forIndexPath: indexPath) as! CustomCatProductViewCell
-        
-        let post = self.catProducts[indexPath.row]
-        productViewCell.title.text = post.title
-        productViewCell.price.text = "\(constants.currencySymbol) \(String(stringInterpolationSegment: post.price))"
-        productViewCell.likeCounter.text = String(post.numLikes)
-        
-        productViewCell.id = post.id
-        if(post.isLiked == false){
-            productViewCell.likeImg.setImage(UIImage(named: "ic_like_tips.png"), forState: UIControlState.Normal)
-            productViewCell.likeFlag = false
-        }else {
-            productViewCell.likeImg.setImage(UIImage(named: "ic_liked_tips.png"), forState: UIControlState.Normal)
-            productViewCell.likeFlag = true
-        }
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-            
-            if (post.hasImage) {
-                let imagePath =  constants.imagesBaseURL + "/image/get-post-image-by-id/" + String(post.images[0])
-                let imageUrl  = NSURL(string: imagePath);
-                
-                //let imageData = NSData(contentsOfURL: imageUrl!)
-                dispatch_async(dispatch_get_main_queue(), {
-                    productViewCell.productImage.kf_setImageWithURL(imageUrl!)
-                    /*if (imageData != nil) {
-                    productViewCell.productIcon.image = UIImage(data: imageData!)
-                    }*/
-                });
-            }
-        })
-        
-        productViewCell.layer.borderColor = CGColorCreate(CGColorSpaceCreateDeviceRGB(), [194/255, 195/255, 200/255, 1.0])
-        productViewCell.layer.borderWidth = 1
-        
-        return productViewCell;
-    }
-    
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        
-        let vController = self.storyboard?.instantiateViewControllerWithIdentifier("myProductView") as! ProductDetailsViewController
-        vController.fromPage = "categorydetails"
-        vController.productModel = self.catProducts[indexPath.row]
-        vController.category = self.categories
-        
-        ApiControlller.apiController.getProductDetails(String(Int(vController.productModel.id)))
-        self.navigationController?.pushViewController(vController, animated: true)
-    }
-    
-    // MARK: UIScrollview Delegate
-    func scrollViewDidScroll(scrollView: UIScrollView) {
-        if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height){
-            
-            if (self.isLoading) {
-                switch(filterType) {
-                case 1:
-                    ApiControlller.apiController.getCategoriesFilterByHlPrice(Int(categories.id), offSet: self.pageOffSet)
-                case 2:
-                    ApiControlller.apiController.getCategoriesFilterByLhPrice(Int(categories.id), offSet: self.pageOffSet)
-                case 3:
-                    ApiControlller.apiController.getCategoriesFilterByNewestPrice(Int(categories.id), offSet: self.pageOffSet)
-                case 4:
-                    ApiControlller.apiController.getCategoriesFilterByPopularity(Int(categories.id), offSet: self.pageOffSet)
-                default: print("Invalid Selection")
-                }
-                self.isLoading = false
-            }
-        }
-    }
-    
-    @IBAction func onLikedBtnClicked(sender: AnyObject) {
-        let button = sender as! UIButton
-        let view = button.superview!
-        let cell = view.superview! as! CustomCatProductViewCell
-        
-        let indexPath = prodCollectionView.indexPathForCell(cell)
-        
-        
-        if (self.catProducts[(indexPath?.row)!].isLiked) {
-            //if (self.catProducts[(indexPath?.row)!].prodLiked) {
-            self.catProducts[(indexPath?.row)!].numLikes--
-            cell.likeCounter.text = String(self.catProducts[(indexPath?.row)!].numLikes)
-            self.catProducts[(indexPath?.row)!].isLiked = false
-            ApiControlller.apiController.unlikePost(String(self.catProducts[(indexPath?.row)!].id))
-            button.setImage(UIImage(named: "ic_like_tips.png"), forState: UIControlState.Normal)
-            
-        } else {
-            self.catProducts[(indexPath?.row)!].isLiked = true
-            self.catProducts[(indexPath?.row)!].numLikes++
-            cell.likeCounter.text = String(self.catProducts[(indexPath?.row)!].numLikes)
-            ApiControlller.apiController.likePost(String(self.catProducts[(indexPath?.row)!].id))
-            button.setImage(UIImage(named: "ic_liked_tips.png"), forState: UIControlState.Normal)
-            
-        }
-    }
-    
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        
-        
-        if let _ = collectionViewCellSize {
-            return collectionViewCellSize!
-        }
-        
-        return CGSizeZero
-    }
-    
-    func setCollectionViewSizesInsets() {
-        let availableWidthForCells:CGFloat = self.view.bounds.width - 15
-        let cellWidth :CGFloat = availableWidthForCells / 2
-        let cellHeight = cellWidth * 4/3
-        collectionViewCellSize = CGSizeMake(cellWidth, cellHeight)
-    }
-    
-    func setSizesForFilterButtons() {
-        let availableWidthForButtons:CGFloat = self.view.bounds.width - 20
-        let buttonWidth :CGFloat = availableWidthForButtons / 4
-        let buttonHeight = CGFloat(25)
-        filterButtonSize = CGSizeMake(buttonWidth, buttonHeight)
-        
-        self.popularBtn.frame.size = filterButtonSize!
-        self.newestBtn.frame.size = filterButtonSize!
-        self.lowHighBtn.frame.size = filterButtonSize!
-        self.highLowbtn.frame.size = filterButtonSize!
-    }
-    
-    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
-        return true
-    }
 }

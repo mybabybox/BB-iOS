@@ -1,10 +1,3 @@
-//
-//  ChatBubbleData.swift
-//  ChatBubble
-//
-//  Created by Sauvik Dolui on 8/21/15.
-//  Copyright (c) 2015 Innofied Solution Pvt. Ltd. All rights reserved.
-//
 
 import Foundation
 import UIKit // For using UIImage
