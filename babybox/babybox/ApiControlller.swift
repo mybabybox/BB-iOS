@@ -218,7 +218,7 @@ class ApiControlller {
         let callEvent = ApiCallEvent()
         callEvent.method = "get-category-popular-feed/" + String(id)
         callEvent.resultClass = "PostModel"
-        callEvent.successEventbusName = "categoryProductFeedSuccess"
+        callEvent.successEventbusName = "homeExplorePostsReceivedSuccess"
         callEvent.failedEventbusName = "categoryProductFeedFailed"
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method + "/prodtype/" + String(offSet)
         self.makeApiCall(callEvent)

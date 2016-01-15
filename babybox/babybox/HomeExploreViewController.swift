@@ -54,10 +54,6 @@ class HomeExploreViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    
-    
-    
-    
     func getSellButton() -> UIBarButtonItem {
         let sellImage: UIImage = UIImage(named:"ic_info_bubble")!
         let frameimg: CGRect = CGRectMake(0, 0, 30, 30);
@@ -77,10 +73,6 @@ class HomeExploreViewController: UIViewController {
         self.performSegueWithIdentifier("sellProductView", sender: nil)
         
     }
-    
-    
-    
-    
     
     @IBAction func btnCancel(sender: AnyObject) {
         self.floatingView.hidden = true

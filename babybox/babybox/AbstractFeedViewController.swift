@@ -138,7 +138,7 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
             cell.productPrice.text = "\(constants.currencySymbol) \(String(stringInterpolationSegment: post.price))"
             
             //cell.prodImageIns.addTarget(self, action: "ImagePressed:", forControlEvents: UIControlEvents.TouchUpInside)
-            cell.likeImageIns.addTarget(self, action: "HeartPressed:", forControlEvents: UIControlEvents.TouchUpInside)
+            cell.likeImageIns.addTarget(self, action: "onLikeBtnClick:", forControlEvents: UIControlEvents.TouchUpInside)
             
             cell.layer.borderColor = CGColorCreate(CGColorSpaceCreateDeviceRGB(), [194/255, 195/255, 200/255, 1.0])
             cell.layer.borderWidth = 1
