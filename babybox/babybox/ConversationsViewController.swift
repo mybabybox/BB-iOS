@@ -16,20 +16,32 @@ class ConversationsViewController: UIViewController {
     var viewCellIdentifier: String = "conversationsCollectionViewCell"
     var conversations: [ConversationVM] = []
     var myDate: NSDate = NSDate()
+    var id: Double!
+    @IBOutlet weak var productImage: UIImageView!
     
+   
+    
+    
+
     //todo create instance of collectionview
     @IBOutlet weak var collectionView: UICollectionView!
+    
     
     override func viewDidAppear(animated: Bool) {
         self.conversations = []
         self.myDate = NSDate()
         ApiControlller.apiController.getConversation()
+
+        
+        print("--------------");
+       // print(ApiControlller.apiController.getConversation())
+        
     }
     
     override func viewDidLoad() {
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "actionbar_bg_pink"), forBarMetrics: UIBarMetrics.Default)
         
-        
+
         
         SwiftEventBus.onMainThread(self, name: "conversationsSuccess") { result in
             // UI thread
@@ -67,21 +79,83 @@ class ConversationsViewController: UIViewController {
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(viewCellIdentifier, forIndexPath: indexPath) as! ConversationsCollectionViewCell
         
+        
+        
         //todo - this method called when reloading the colleciton view 
         //set variables of ConversationsCollectionViewCell
         cell.productTitle.text = self.conversations[indexPath.row].postTitle
         cell.userDisplayName.text = self.conversations[indexPath.row].userName
         cell.userComment.text = self.conversations[indexPath.row].lastMessage
         
-        let time = self.conversations[indexPath.row].lastMessageDate / 1000
-        var date = NSDate(timeIntervalSince1970: NSTimeInterval(time))
+        if(self.conversations[indexPath.row].postOwner == false){
+           
+            
+            //cell.SellText.text = self.conversations[indexPath.row].postTitle
+            cell.BuyText.hidden = true
+            cell.SellText.hidden=false
+            
+        }else if(self.conversations[indexPath.row].postOwner == true){
+            //cell.BuyText.text = self.conversations[indexPath.row].postTitle
+            cell.SellText.hidden = true
+            cell.BuyText.hidden = false
+        }
         
-        var time1 = self.myDate.offsetFrom(date)
+        
+        
+        let time = self.conversations[indexPath.row].lastMessageDate / 1000
+        let date = NSDate(timeIntervalSinceNow: NSTimeInterval(time))
+        
+        let time1 = self.myDate.offsetFrom(date)
 
         cell.comment.text = time1
         
+            let imagePath =  constants.imagesBaseURL + "/image/get-post-image-by-id/" + String(self.conversations[indexPath.row].postImage)
+           //"/image/get-post-image-by-id
+            let imageUrl  = NSURL(string: imagePath);
+            let imageData = NSData(contentsOfURL: imageUrl!)
+            //"/image/get-thumbnail-image-by-id/"
+            //print("-----------------")
+            print(imageUrl)
+            //print(imageData)
+            if (imageData != nil) {
+                dispatch_async(dispatch_get_main_queue(), {
+                    // self.productImage.imageView!.image = UIImage(data: imageData!)
+                    
+                    cell.productImage.image = UIImage(data: imageData!)
+                    //cell.postImage.image = UIImage(data: imageData!)
+                    
+                    
+                });
+            }
+        
+        let imagePaths =  constants.imagesBaseURL + "/image/get-thumbnail-profile-image-by-id/"
+ + String(self.conversations[indexPath.row].postImage)
+        //"/image/get-post-image-by-id
+        let imageUrls  = NSURL(string: imagePaths);
+        let imageDatas = NSData(contentsOfURL: imageUrls!)
+        //"/image/get-thumbnail-image-by-id/"
+        //print("-----------------")
+        print(imageUrls)
+        //print(imageData)
+        if (imageDatas != nil) {
+            dispatch_async(dispatch_get_main_queue(), {
+                // self.productImage.imageView!.image = UIImage(data: imageData!)
+                
+                
+                cell.postImage.image = UIImage(data: imageDatas!)
+                cell.postImage.layer.cornerRadius=70.0
+                cell.postImage.layer.masksToBounds = true
+                
+                
+                
+            });
+        }
+        
         return cell
-    }
+        
+        
+        
+            }
     
         /*func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
             return 1
@@ -99,8 +173,13 @@ class ConversationsViewController: UIViewController {
     
     func handleConversation(conversation: [ConversationVM]) {
         self.conversations = conversation
+        print("----------------------------")
+        print(conversations)
         //reload the collectionview
         self.collectionView.reloadData()
+        
+        print("---------------")
+        print(collectionView)
         
     }
     
@@ -114,7 +193,7 @@ class ConversationsViewController: UIViewController {
         vController.conversationId = self.conversations[self.currentIndex].id
     }
 }
-
+/*
 extension NSDate {
     func yearsFrom(date:NSDate) -> Int{
         return NSCalendar.currentCalendar().components(.Year, fromDate: date, toDate: self, options: []).year
@@ -149,4 +228,4 @@ extension NSDate {
         if secondsFrom(date) > 0 { return "\(secondsFrom(date)) seconds ago" }
         return ""
     }
-}
+}*/

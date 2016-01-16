@@ -339,6 +339,18 @@ class ApiControlller {
         
         self.makeApiCall(callEvent)
     }
+    func getSellProduct(){
+        let callEvent=ApiCallEvent()
+        callEvent.method="post/new"
+        callEvent.resultClass="SellVm"
+        callEvent.successEventbusName="getSellSucess"
+        callEvent.failedEventbusName="gerSellFailed"
+        callEvent.apiUrl=constants.kBaseServerURL + callEvent.method;
+        
+        self.makeApiCall(callEvent)
+        
+        
+    }
     
     func getMessages(id: Int, pageOffSet: Int) {
         print("id of msg is \(id)")
@@ -352,9 +364,43 @@ class ApiControlller {
         self.makeApiCall(callEvent)
     }
     
-    func getDistricts() {
+    func savesell(producttxt :String,sellingtext :String,ActionButton1 :String,ActionButton:String, setpricetxt : String){
+        
+        let callEvent=ApiCallEvent()
+        callEvent.method="post/new"
+        callEvent.resultClass="SellVm"
+        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
+        
+        Alamofire.upload(
+            .POST,
+            callEvent.apiUrl,
+            multipartFormData: { multipartFormData in
+                //multipartFormData.appendBodyPart(data: UIImagePNGRepresentation(imageData)!, name: "image", fileName: "upload.jpg", mimeType:"jpg")
+                multipartFormData.appendBodyPart(data: producttxt.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!, name :"title")
+                multipartFormData.appendBodyPart(data:sellingtext.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!, name :"body")
+                multipartFormData.appendBodyPart(data: setpricetxt.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!, name :"price")
+                
+                
+               
+                 multipartFormData.appendBodyPart(data:ActionButton1.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!, name :"deviceType")
+                 //multipartFormData.appendBodyPart(data:ActionButton.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!, name :"image")
+               
+            },
+            encodingCompletion: { encodingResult in
+                print(encodingResult)
+                switch encodingResult {
+                case .Success(let _, _, _): break
+                case .Failure(let _): break
+                }
+            }
+        )
+        
     }
-    
+
+func getDistricts() {
+    }
+
+
     func postMessage(id: String, message: String){
         
         let callEvent = ApiCallEvent()
@@ -494,6 +540,8 @@ class ApiControlller {
             case "ConversationVM": result = Mapper<ConversationVM>().mapArray(inputStr)!
             case "MessageVM": result = Mapper<MessageVM>().map(inputStr)!
             case "MessageDetailVM": result = Mapper<MessageDetailVM>().map(inputStr)!
+            case "SellVm": result = Mapper<SellVM>().map(inputStr)!
+            
             case "String":
                 
                 result = inputStr

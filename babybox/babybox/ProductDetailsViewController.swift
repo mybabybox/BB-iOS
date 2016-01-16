@@ -12,12 +12,25 @@ import SwiftEventBus
 
 class ProductDetailsViewController: UIViewController, UITextFieldDelegate{
     
-    @IBOutlet weak var uiScrollView: UIScrollView!
-    var productModel: PostModel = PostModel()
+    @IBOutlet var imageuser: UIImageView!
     
+    @IBOutlet var month: UILabel!
+    @IBOutlet var conditionvalue: UILabel!
+    @IBOutlet var likeButtonMonth: UIButton!
+    @IBOutlet var likeMonths: UILabel!
+    @IBOutlet var titletext: UILabel!
+    @IBOutlet var monthTime: UILabel!
+    @IBOutlet var buynow: UIButton!
+    @IBOutlet weak var uiScrollView: UIScrollView!
+    @IBOutlet var viewbtn: UIButton!
+    var productModel: PostModel = PostModel()
+    var myDate: NSDate = NSDate()
+    var conversations: [ConversationVM] = []
+
     
     var likeFlag: Bool = false
     var id: Double!
+    
     
     var productInfo: [PostCatModel] = []
     
@@ -45,6 +58,9 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate{
     
     @IBOutlet weak var commentTable: UITableView!
     
+    @IBAction func onClickb(sender: AnyObject) {
+        print("<><><><><>")
+    }
     @IBAction func onClickLikeOrUnlikeButton(sender: AnyObject) {
         
          let count = Int((self.likeCountLabel.text!))
@@ -61,17 +77,52 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate{
             self.likeCountLabel.text = String(count! - 1)
         }
     }
+    @IBAction func MonthLikeOrUnlike1(sender: AnyObject) {
+        
+        
+        print("Hello")
+    }
 
+    
+    /*@IBAction func MonthLikeOrUnlike(sender: AnyObject) {
+    
+        let count1 = Int((self.likeMonths.text!))
+        if(self.likeFlag == false){
+            self.likeButtonMonth.setImage(UIImage(named: "ic_like_tips.png"), forState: UIControlState.Normal)
+            self.likeFlag = true
+            ApiControlller().likePost(String(Int(self.id)))
+            self.likeMonths.text = String(count1! + 1)
+            
+        }else{
+            self.likeButtonMonth.setImage(UIImage(named: "ic_like_tips.png"), forState: UIControlState.Normal)
+            self.likeFlag = false
+            ApiControlller().unlikePost(String(Int(self.id)))
+            self.likeMonths.text = String(count1! - 1)
+            
+        }
+    }*/
     
     override func viewDidAppear(animated: Bool) {
         print("Show the detail of selected product view.... ", terminator: "");
         print(productModel, terminator: "")
+        self.myDate = NSDate()
+        self.conversations = []
+        
+        ApiControlller.apiController.getConversation()
         self.uiScrollView.pagingEnabled = true
         self.uiScrollView.contentSize = CGSizeMake(self.uiScrollView.bounds.width, 900)
         self.productTitle.text = productModel.title
         self.productPrice.text = "\(constants.currencySymbol) \(String(stringInterpolationSegment: productModel.price))"
         self.likeCountLabel.text = String(productModel.numLikes)
+        self.likeMonths.text = String(productModel.numLikes)
         self.id = Double(productModel.id)
+       
+        print("productModel.conditionType")
+        print(productModel.conditionType)
+        self.conditionvalue.text = productModel.conditionType
+        self.titletext.text = productModel.conditionType
+        
+    
         self.ownerName.text = productModel.ownerName
         
         if(productModel.isLiked == false){
@@ -104,17 +155,105 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate{
             }
         })
         
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+            if (self.productModel.hasImage) {
+                let imagePath =  constants.imagesBaseURL + "/image/get-post-image-by-id/" + String(self.productModel.images[0])
+                let imageUrl  = NSURL(string: imagePath);
+                let imageData = NSData(contentsOfURL: imageUrl!)
+                print(imageUrl, terminator: "")
+                
+                print(self.imageuser.bounds.width)
+                print(self.imageuser.bounds.height)
+                
+                dispatch_async(dispatch_get_main_queue(), {
+                    if (imageData != nil) {
+                        self.imageuser.image = UIImage(data: imageData!)
+                        print("after")
+                        print(self.imageuser.bounds.width)
+                        print(self.imageuser.bounds.height)
+                        
+                    }
+                });
+            }
+        })
+
+       
+        
+        SwiftEventBus.onMainThread(self, name: "conversationsSuccess") { result in
+            // UI thread
+            if result != nil {
+                let resultDto: [ConversationVM] = result.object as! [ConversationVM]
+                print("success")
+                print(resultDto)
+                self.handleConversation(resultDto)
+                
+                
+                
+                
+            } else {
+                print("null value")
+            }
+        }
+        
+        SwiftEventBus.onMainThread(self, name: "conversationsFailed") { result in
+            // UI thread
+            
+            print("fail......")
+        }
+        
     }
     
     /*override func viewDidLayoutSubviews() {
         self.uiScrollView.contentSize = CGSizeMake(UIScreen.mainScreen().bounds.width, 2000)
     }*/
     
+    func handleConversation(conversation: [ConversationVM]) {
+        self.conversations = conversation
+        
+        
+        let time = (self.conversations.last?.lastMessageDate)! / 1000
+        
+        
+        
+        
+        //print(time)
+       // let date = NSDate(timeIntervalSince1970: NSTimeInterval(time))
+        let date = NSDate(timeIntervalSinceNow: NSTimeInterval(time))
+        print(date)
+        self.monthTime.text = self.myDate.offsetFrom(date)
+        self.month.text = self.myDate.offsetFrom(date)
+        //reload the collectionview
+       // self.collectionView.reloadData()
+        
+    }
+
+    
     override func viewDidLoad() {
-        super.viewDidLoad()
+        
+        
+        self.onClickCancel.layer.cornerRadius = 5.0
+        self.onClickCancel.layer.masksToBounds = true
+        self.imageuser.layer.cornerRadius=15.0
+        self.imageuser.layer.masksToBounds = true
+        
+        self.viewbtn.layer.cornerRadius = 5.0
+        self.viewbtn.layer.masksToBounds = true
+        self.viewbtn.layer.borderWidth = CGFloat(1)
+        self.viewbtn.layer.borderColor=UIColor.magentaColor().CGColor
+        self.postCommentButton.layer.cornerRadius = 5.0
+        self.postCommentButton.layer.masksToBounds = true
+        self.postCommentButton.layer.borderWidth = CGFloat(1)
+        self.postCommentButton.layer.borderColor = UIColor.lightGrayColor().CGColor
+        self.buynow.layer.cornerRadius = 5.0
+        self.buynow.layer.masksToBounds = true
         self.commentTextField.delegate=self
         self.commentTable.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        self.navigationController?.toolbar.hidden = true
         
+        
+       // let time = self.conversations[].lastMessageDate / 1000
+        
+               
         SwiftEventBus.onMainThread(self, name: "productDetailsReceivedSuccess") { result in
             // UI thread
             print("catch the event...............", terminator: "")
@@ -122,7 +261,8 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate{
             print(resultDto, terminator: "")
             self.handleGetProductDetailsSuccess(resultDto)
         }
-        
+       
+        //self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "actionbar_bg_pink"), forBarMetrics: UIBarMetrics.Default)
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -170,6 +310,7 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate{
         
         cell.textLabel?.text = self.items[indexPath.row]
         
+        
         return cell
     }
     
@@ -187,8 +328,6 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate{
     }
     
     @IBAction func onClickBack(sender: AnyObject) {
-        /*var btn = sender as! UIButton
-        
         if self.fromPage == "homeexplore" {
             let secondViewController = self.storyboard?.instantiateViewControllerWithIdentifier("initialSegmentViewController") as! InitialHomeSegmentedController
             secondViewController.activeSegment = 0
@@ -201,6 +340,42 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate{
             let secondViewController = self.storyboard?.instantiateViewControllerWithIdentifier("myCategoryDetailView") as! CategoryDetailsViewController
             secondViewController.categories = self.category!
             self.navigationController?.pushViewController(secondViewController, animated: true)
-        }*/
+        }
+    }
+}
+
+extension NSDate {
+    func yearsFrom(date:NSDate) -> Int{
+        return NSCalendar.currentCalendar().components(.Year, fromDate: date, toDate: self, options: []).year
+    }
+    func monthsFrom(date:NSDate) -> Int{
+        print("abceefghigjklmnopqrstuwxyz")
+        return NSCalendar.currentCalendar().components(.Month, fromDate: date, toDate: self, options: []).month
+    }
+    func weeksFrom(date:NSDate) -> Int{
+        return NSCalendar.currentCalendar().components(.WeekOfYear, fromDate: date, toDate: self, options: []).weekOfYear
+    }
+    func daysFrom(date:NSDate) -> Int{
+        return NSCalendar.currentCalendar().components(.Day, fromDate: date, toDate: self, options: []).day
+    }
+    func hoursFrom(date:NSDate) -> Int{
+        return NSCalendar.currentCalendar().components(.Hour, fromDate: date, toDate: self, options: []).hour
+    }
+    func minutesFrom(date:NSDate) -> Int{
+        return NSCalendar.currentCalendar().components(.Minute, fromDate: date, toDate: self, options: []).minute
+    }
+    func secondsFrom(date:NSDate) -> Int{
+        return NSCalendar.currentCalendar().components(.Second, fromDate: date, toDate: self, options: []).second
+    }
+    func offsetFrom(date:NSDate) -> String {
+        print("in nsdaate......")
+        if yearsFrom(date)   > 0 { return "\(yearsFrom(date)) years ago"   }
+        if monthsFrom(date)  > 0 { return "\(monthsFrom(date)) months ago"  }
+        if weeksFrom(date)   > 0 { return "\(weeksFrom(date)) weeks ago"   }
+        if daysFrom(date)    > 0 { return "\(daysFrom(date)) days ago"    }
+        if hoursFrom(date)   > 0 { return "\(hoursFrom(date)) hours ago"   }
+        if minutesFrom(date) > 0 { return "\(minutesFrom(date)) minutes ago" }
+        if secondsFrom(date) > 0 { return "\(secondsFrom(date)) seconds ago" }
+        return ""
     }
 }

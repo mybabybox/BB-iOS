@@ -18,4 +18,6 @@ class ConversationsCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var comment: UILabel!
     @IBOutlet weak var userComment: UILabel!
+    @IBOutlet weak var SellText: UILabel!
+    @IBOutlet weak var BuyText: UILabel!
 }
