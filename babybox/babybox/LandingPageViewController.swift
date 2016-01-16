@@ -65,6 +65,11 @@ class LandingPageViewController: UIViewController, UIScrollViewDelegate, UIImage
         // Dispose of any resources that can be recreated.
     }
     
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        print("scrollViewDidScroll")
+    }
+    
+    
     override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
         print("going to login..", terminator: "")
         return true

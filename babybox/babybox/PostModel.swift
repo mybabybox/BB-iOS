@@ -17,6 +17,7 @@ class PostModel: BaseArgModel {
     var ownerName: String = ""
     var title: String = ""
     var price: Double = 0
+    var originalPrice: Int = 0
     var sold: Bool = false
     var postType: String = ""
     var conditionType: String = ""
@@ -41,6 +42,7 @@ class PostModel: BaseArgModel {
         ownerName<-map["ownerName"]
         title<-map["title"]
         price<-map["price"]
+        originalPrice<-map["originalPrice"]
         sold<-map["sold"]
         postType<-map["postType"]
         conditionType<-map["conditionType"]

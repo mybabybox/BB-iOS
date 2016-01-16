@@ -16,4 +16,5 @@ class CatProductCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var title: UILabel!
     @IBOutlet weak var likeImageIns: UIButton!
     @IBOutlet weak var prodImageIns: UIButton!
+    @IBOutlet weak var originalPrice: UILabel!
 }

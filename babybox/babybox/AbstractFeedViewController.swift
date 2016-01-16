@@ -30,6 +30,7 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
         super.viewDidLoad()
         //self.view.addSubview(self.uiCollectionView)
         
+        
         SwiftEventBus.onMainThread(self, name: "categoriesReceivedSuccess") { result in
             // UI thread
             let resultDto: [CategoryModel] = result.object as! [CategoryModel]
@@ -40,6 +41,7 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
             // UI thread
             let resultDto: [PostModel] = result.object as! [PostModel]
             self.handleGetAllProductsuccess(resultDto)
+            
         }
         
         setCollectionViewSizesInsets()
@@ -122,7 +124,7 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
                 return cell
             }
         }
-        else{
+        else {
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! CatProductCollectionViewCell
             
             cell.likeImageIns.tag = indexPath.item
@@ -135,9 +137,13 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
             }
             cell.likeCount.text = String(post.numLikes)
             cell.title.text = post.title
-            cell.productPrice.text = "\(constants.currencySymbol) \(String(stringInterpolationSegment: post.price))"
             
-            //cell.prodImageIns.addTarget(self, action: "ImagePressed:", forControlEvents: UIControlEvents.TouchUpInside)
+            cell.productPrice.text = "\(constants.currencySymbol) \(String(stringInterpolationSegment: post.price))"
+           // cell.originalPrice.text = "\(constants.currencySymbol) \(String(stringInterpolationSegment:post.originalPrice))"
+            
+            let attrString = NSAttributedString(string: "\(constants.currencySymbol) \(String(stringInterpolationSegment:post.originalPrice))", attributes: [NSStrikethroughStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue])
+            cell.originalPrice.attributedText = attrString
+            
             cell.likeImageIns.addTarget(self, action: "onLikeBtnClick:", forControlEvents: UIControlEvents.TouchUpInside)
             
             cell.layer.borderColor = CGColorCreate(CGColorSpaceCreateDeviceRGB(), [194/255, 195/255, 200/255, 1.0])

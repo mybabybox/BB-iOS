@@ -40,10 +40,10 @@ class InitialHomeSegmentedController: UIViewController {
         UISegmentedControl.appearance().setTitleTextAttributes(activeTextAttributes, forState: .Selected)
         
         
-        /*let image = UIImage(named: "game_badge_mascot")
+        let image = UIImage(named: "mn_home_sel")
         image?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
         self.tabBarController?.tabBar.items![0].image = image
-        self.tabBarController?.tabBar.hidden = false*/
+        self.tabBarController?.tabBar.hidden = false
         
         constants.viewControllerIns = self
         self.hidesBottomBarWhenPushed = true
