@@ -10,6 +10,8 @@ import UIKit
 
 class HomeReusableView: UICollectionReusableView {
 
+    @IBOutlet weak var categoryLbl: UILabel!
+    @IBOutlet weak var suggestedFor: UILabel!
     @IBOutlet weak var trailingconstraints: NSLayoutConstraint!
     @IBOutlet weak var leadingConstrains: NSLayoutConstraint!
     

@@ -12,23 +12,23 @@ import SwiftEventBus
 class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var uiCollectionView: UICollectionView!
     
-    @IBOutlet weak var bConstraint: NSLayoutConstraint!
     var pageOffSet: Int64 = 0
+    @IBOutlet weak var activityLoading: UIActivityIndicatorView!
     var apiController: ApiControlller = ApiControlller()
     var currentIndex = 0
-    var isHeaderView: Bool = false
+    var isHeaderView: Bool = true
     var categories : [CategoryModel] = []
     var products: [PostModel] = []
-    var contentType: String = "explore"
     var collectionViewCellSize : CGSize?
     var collectionViewTopCellSize : CGSize?
     var tohide = true
     var reuseIdentifier = "CellType1"
     var loadingProducts: Bool = false
-    var isCategoryDetails = false
+    
+    var feedFilter: FeedFilter.FeedType? = FeedFilter.FeedType.HOME_EXPLORE
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        //self.view.addSubview(self.uiCollectionView)
         
         
         SwiftEventBus.onMainThread(self, name: "categoriesReceivedSuccess") { result in
@@ -47,6 +47,8 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
         setCollectionViewSizesInsets()
         setCollectionViewSizesInsetsForTopView()
         
+        self.uiCollectionView.registerClass(HomeReusableView.self, forSupplementaryViewOfKind: "CategoryHeaderView", withReuseIdentifier: "HeaderView")
+        
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.itemSize = CGSizeMake(self.view.bounds.width, self.view.bounds.height)
         flowLayout.scrollDirection = UICollectionViewScrollDirection.Vertical
@@ -64,13 +66,10 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
     }
     
     override func viewDidDisappear(animated: Bool) {
-        self.products = []
+        
     }
     
     override func viewDidAppear(animated: Bool) {
-        self.pageOffSet = 0
-        categories = []
-        products = []
     }
     
     /*
@@ -91,11 +90,17 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         var count = 0;
         if (collectionView.tag == 2) {
-            if (isCategoryDetails) {
-                count = 1
-            } else {
-                count = self.categories.count
+            switch feedFilter! {
+                case .HOME_EXPLORE:
+                    count = self.categories.count
+                    break
+                case .HOME_FOLLOWING:
+                    count = 0
+                    break
+                default:
+                    count = 1
             }
+            
         }else{
             count = self.products.count
         }
@@ -105,23 +110,30 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
         if (collectionView.tag == 2){
-            if (isCategoryDetails) {
-                let cell = collectionView.dequeueReusableCellWithReuseIdentifier("categoryCell", forIndexPath: indexPath) as! CategoryCollectionViewCell
+            
+            switch feedFilter! {
+                case .HOME_EXPLORE:
+                    let cell = collectionView.dequeueReusableCellWithReuseIdentifier("staticCell", forIndexPath: indexPath) as! CategoryCollectionViewCell
+                    let categoryVM = self.categories[indexPath.row]
+                    let imagePath =  constants.imagesBaseURL + categoryVM.icon;
+                    let imageUrl  = NSURL(string: imagePath)
+                    cell.categoryIcon.kf_setImageWithURL(imageUrl!)
+                    cell.categoryName.text = categoryVM.name;
+                    
+                    cell.layer.borderColor = CGColorCreate(CGColorSpaceCreateDeviceRGB(), [194/255, 195/255, 200/255, 1.0])
+                    cell.layer.borderWidth = 1
+                    
+                    return cell
                 
-                return cell
-            } else {
-                let cell = collectionView.dequeueReusableCellWithReuseIdentifier("staticCell", forIndexPath: indexPath) as! CategoryCollectionViewCell
-                let categoryVM = self.categories[indexPath.row]
-                let imagePath =  constants.imagesBaseURL + categoryVM.icon;
-                let imageUrl  = NSURL(string: imagePath)
-                cell.categoryIcon.kf_setImageWithURL(imageUrl!)
-                cell.categoryName.text = categoryVM.name;
-                
-                cell.layer.borderColor = CGColorCreate(CGColorSpaceCreateDeviceRGB(), [194/255, 195/255, 200/255, 1.0])
-                cell.layer.borderWidth = 1
-                //cell.layer.cornerRadius = 8 // optional
-                
-                return cell
+                case .CATEGORY_POPULAR,
+                     .CATEGORY_NEWEST,
+                     .CATEGORY_PRICE_HIGH_LOW,
+                     .CATEGORY_PRICE_LOW_HIGH:
+                    let cell = collectionView.dequeueReusableCellWithReuseIdentifier("categoryCell", forIndexPath: indexPath) as! CategoryCollectionViewCell
+                    
+                    return cell
+                default:
+                    return collectionView.dequeueReusableCellWithReuseIdentifier("staticCell", forIndexPath: indexPath) as! CategoryCollectionViewCell
             }
         }
         else {
@@ -166,8 +178,20 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
     
     func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
         var reusableView : UICollectionReusableView? = nil
+        
+        
         if (kind == UICollectionElementKindSectionHeader) {
+            
             let headerView : HomeReusableView = collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "HeaderView", forIndexPath: indexPath) as! HomeReusableView
+            
+            switch feedFilter! {
+                case FeedFilter.FeedType.CATEGORY_POPULAR:
+                    headerView.suggestedFor.hidden = true
+                    headerView.categoryLbl.hidden = true
+                    break;
+                default: break
+                    //do nothing.
+            }
             headerView.headerViewCollection.reloadData()
             reusableView = headerView
         }
@@ -175,8 +199,8 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
         if (!isHeaderView) {
             reusableView?.frame = CGRectZero
             reusableView?.hidden = true
+        } else {
             
-            //self.uiCollectionView.frame = CGRectMake(self.uiCollectionView.frame.origin.x, 0, self.uiCollectionView.frame.width, self.uiCollectionView.frame.height)
         }
         return reusableView!
     }
@@ -203,12 +227,16 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
         } else if (collectionView.tag == 2){
             return CGSizeZero
         } else {
-            if (isCategoryDetails) {
+            switch feedFilter! {
+                case .CATEGORY_PRICE_LOW_HIGH,
+                    .CATEGORY_PRICE_HIGH_LOW,
+                    .CATEGORY_POPULAR,
+                    .CATEGORY_NEWEST:
                 return CGSizeMake(self.view.frame.width, 150)
-            } else {
-                return CGSizeMake(self.view.frame.width, 250)
+                default:
+                    return CGSizeMake(self.view.frame.width, 250)
+                
             }
-            
         }
     }
     
@@ -254,7 +282,7 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
             }
             self.pageOffSet = Int64(self.products[self.products.count-1].offset)
         }
-        
+        self.activityLoading.stopAnimating()
         self.loadingProducts = true
     }
     
@@ -278,19 +306,23 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
         
         if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height){
             if (self.loadingProducts) {
-                if (self.contentType == "explore") {
-                    apiController.getHomeExploreFeeds(self.pageOffSet);
-                } else if (self.contentType == "following") {
-                    apiController.getHomeEollowingFeeds(self.pageOffSet);
-                } else if (self.contentType == "categoryprods") {
-                    //High To low
-                    //Low to High
-                    //Popular
-                    //Newest
-                    
-                    //apiController.getCategoriesFilterByPopularity(<#T##id: Int##Int#>, offSet: <#T##Int64#>)(self.pageOffSet);
-                }
                 
+                switch feedFilter! {
+                    case FeedFilter.FeedType.HOME_EXPLORE:
+                        apiController.getHomeExploreFeeds(self.pageOffSet)
+                    case FeedFilter.FeedType.HOME_FOLLOWING:
+                        apiController.getHomeEollowingFeeds(self.pageOffSet)
+                    case FeedFilter.FeedType.CATEGORY_POPULAR:
+                        apiController.getCategoriesFilterByPopularity(0, offSet: self.pageOffSet)
+                    case FeedFilter.FeedType.CATEGORY_NEWEST:
+                        apiController.getCategoriesFilterByNewestPrice(0, offSet: self.pageOffSet)
+                    case FeedFilter.FeedType.CATEGORY_PRICE_LOW_HIGH:
+                        apiController.getCategoriesFilterByLhPrice(0, offSet: self.pageOffSet)
+                    case FeedFilter.FeedType.CATEGORY_PRICE_HIGH_LOW:
+                        apiController.getCategoriesFilterByHlPrice(0, offSet: self.pageOffSet)
+                    default: break
+                }
+            
                 self.loadingProducts = false
             }
         }
@@ -306,14 +338,21 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func setCollectionViewSizesInsetsForTopView() {
-        if (self.isCategoryDetails) {
+        
+        switch feedFilter! {
+            case .CATEGORY_PRICE_LOW_HIGH,
+            .CATEGORY_PRICE_HIGH_LOW,
+            .CATEGORY_POPULAR,
+            .CATEGORY_NEWEST:
             collectionViewTopCellSize = CGSizeMake(self.view.bounds.width, 150)
-        } else {
+        default:
             let availableWidthForCells:CGFloat = self.view.bounds.width - 35
             let cellWidth :CGFloat = availableWidthForCells / 3
             let cellHeight = CGFloat(95.0)//cellWidth
             collectionViewTopCellSize = CGSizeMake(cellWidth, cellHeight)
+            
         }
+        
     }
     
     func setCollectionViewSizesInsets() {
@@ -321,6 +360,10 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
         let cellWidth :CGFloat = availableWidthForCells / 2
         let cellHeight = cellWidth * 4/3
         collectionViewCellSize = CGSizeMake(cellWidth, cellHeight)
+    }
+    
+    func setFeedtype(feedType: FeedFilter.FeedType) {
+        self.feedFilter = feedType
     }
     
     @IBAction func onLikeBtnClick(sender: AnyObject) {
@@ -348,4 +391,5 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
             
         }
     }
+
 }

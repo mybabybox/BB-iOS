@@ -26,8 +26,7 @@ class CategoryDetailsViewController: UIViewController, UIScrollViewDelegate {
         
         let _controller = self.storyboard?.instantiateViewControllerWithIdentifier("abstractFeedController") as! AbstractFeedViewController
         _controller.view.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
-        _controller.isHeaderView = true
-        _controller.isCategoryDetails = true
+        _controller.setFeedtype(FeedFilter.FeedType.CATEGORY_POPULAR)
         self.view.addSubview((_controller.view)!)
 
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "actionbar_bg_pink"), forBarMetrics: UIBarMetrics.Default)

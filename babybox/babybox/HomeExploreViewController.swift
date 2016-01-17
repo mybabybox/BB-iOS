@@ -18,9 +18,7 @@ class HomeExploreViewController: UIViewController {
     var apiController: ApiControlller = ApiControlller()
     
     override func viewDidAppear(animated: Bool) {
-        //apiController.getAllCategories();
-        //apiController.getHomeExploreFeeds(0);
-        
+        super.viewDidAppear(animated)
     }
     
     override func viewDidLoad() {
@@ -29,9 +27,9 @@ class HomeExploreViewController: UIViewController {
         let _controller = self.storyboard?.instantiateViewControllerWithIdentifier("abstractFeedController") as! AbstractFeedViewController
         _controller.view.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
         _controller.isHeaderView = true
-        _controller.isCategoryDetails = false
+        _controller.setFeedtype(FeedFilter.FeedType.HOME_EXPLORE)
+        _controller.activityLoading.startAnimating()
         self.view.addSubview((_controller.view)!)
-        self.navigationItem.rightBarButtonItem = getSellButton()
         
         apiController.getAllCategories();
         apiController.getHomeExploreFeeds(0);
@@ -44,7 +42,6 @@ class HomeExploreViewController: UIViewController {
     
     @IBAction func gotoSecondSegmentTwo(sender: AnyObject) {
         let vController = self.view.superview?.superview!.nextResponder() as! InitialHomeSegmentedController
-        //let vController = self.storyboard?.instantiateViewControllerWithIdentifier("initialSegmentViewController") as! InitialHomeSegmentedController
         vController.activeSegment = 1
         self.navigationController?.presentViewController(vController, animated: false, completion: nil)
     }

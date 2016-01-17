@@ -15,19 +15,21 @@ class HomeFollowingViewController: UIViewController {
     var currentSelProduct: Int = 0
     var apiController: ApiControlller = ApiControlller()
     
-    
     override func viewDidAppear(animated: Bool) {
-        print("Calling this .. ")
-        apiController.getHomeEollowingFeeds(0)
+        
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        //apiController.getHomeEollowingFeeds(0)
+        apiController.getHomeEollowingFeeds(0)
         
         let _controller = self.storyboard?.instantiateViewControllerWithIdentifier("abstractFeedController") as! AbstractFeedViewController
+        
+        //put condition here to check if the tips section is visible or not and accordingly set x,y coordinates for 
+        //CollectionView
+        
         _controller.view.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
         _controller.isHeaderView = false
-        _controller.contentType = "following"
+        _controller.setFeedtype(FeedFilter.FeedType.HOME_FOLLOWING)
         self.view.addSubview((_controller.view)!)
         
         let cSelector : Selector = "gotoSecondSegmentOne:"

@@ -47,11 +47,12 @@ class InitialHomeSegmentedController: UIViewController {
         
         constants.viewControllerIns = self
         self.hidesBottomBarWhenPushed = true
+        
+        self.segController.selectedSegmentIndex = self.activeSegment
+        self.segAction(self.segController)
     }
     
     override func viewDidAppear(animated: Bool) {
-        self.segController.selectedSegmentIndex = self.activeSegment
-        self.segAction(self.segController)
         
         let imagePath =  constants.imagesBaseURL + "/image/get-thumbnail-profile-image-by-id/" + String(constants.userInfo?.id)
         let imageUrl  = NSURL(string: imagePath);
