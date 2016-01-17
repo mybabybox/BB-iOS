@@ -15,11 +15,6 @@ class LandingPageViewController: UIViewController, UIScrollViewDelegate, UIImage
     @IBOutlet weak var scrollVew: UIScrollView!
     @IBOutlet var pageControl: UIPageControl!
     
-    override func viewDidLayoutSubviews() {
-        
-        
-    }
-    
     override func viewDidAppear(animated: Bool) {
         self.scrollVew.pagingEnabled = true
         self.scrollVew.frame=CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
@@ -64,11 +59,6 @@ class LandingPageViewController: UIViewController, UIScrollViewDelegate, UIImage
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    func scrollViewDidScroll(scrollView: UIScrollView) {
-        print("scrollViewDidScroll")
-    }
-    
     
     override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
         print("going to login..", terminator: "")

@@ -139,7 +139,6 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
             cell.title.text = post.title
             
             cell.productPrice.text = "\(constants.currencySymbol) \(String(stringInterpolationSegment: post.price))"
-           // cell.originalPrice.text = "\(constants.currencySymbol) \(String(stringInterpolationSegment:post.originalPrice))"
             
             let attrString = NSAttributedString(string: "\(constants.currencySymbol) \(String(stringInterpolationSegment:post.originalPrice))", attributes: [NSStrikethroughStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue])
             cell.originalPrice.attributedText = attrString
@@ -230,9 +229,9 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
         if (identifier == "gotocatogorydetails") {
             
             let vController = segue.destinationViewController as! CategoryDetailsViewController
-            /*vController.categories.id = self.categories[self.currentIndex].id
+            vController.categories.id = self.categories[self.currentIndex].id
             vController.categories.icon = self.categories[self.currentIndex].icon
-            vController.categories.name = self.categories[self.currentIndex].name*/
+            vController.categories.name = self.categories[self.currentIndex].name
         } else if (identifier == "gotoproductdetail") {
             let vController = segue.destinationViewController as! ProductDetailsViewController
             vController.productModel = self.products[self.currentIndex]

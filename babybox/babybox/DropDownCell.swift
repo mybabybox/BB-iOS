@@ -1,10 +1,3 @@
-//
-//  DropDownCellTableViewCell.swift
-//  DropDown
-//
-//Created by Mac on 07/01/16.
-//  Copyright © 2015 Mac. All rights reserved.
-
 import UIKit
 
 internal final class DropDownCell: UITableViewCell {

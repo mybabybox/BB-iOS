@@ -1,25 +1,13 @@
-//
-//  Constants.swift
-//  DropDown
-//
-//Created by Mac on 07/01/16.
-//  Copyright © 2015 Mac. All rights reserved.
-//
 
 import UIKit
 
 internal struct DPDConstant {
-	
 	internal struct KeyPath {
-		
 		static let Frame = "frame"
-		
 	}
 	
 	internal struct ReusableIdentifier {
-		
 		static let DropDownCell = "DropDownCell"
-		
 	}
 	
 	internal struct UI {
