@@ -10,24 +10,10 @@ import UIKit
 import SwiftEventBus
 
 class SellProductsViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
     @IBOutlet var actionButton: UIButton!
-    let dropDown = DropDown()
+    let conditionTypeDropDown = DropDown()
     @IBOutlet var sellingtext: UITextField!
-    @IBOutlet weak var textFieldKeyboardType: UITextField!{
-        didSet{
-            textFieldKeyboardType.keyboardType = UIKeyboardType.NumberPad
-        }
-    }
-    var keyboardType: UIKeyboardType {
-        get{
-            return textFieldKeyboardType.keyboardType
-        }
-        set{
-            if newValue != UIKeyboardType.NumberPad{
-                self.keyboardType = UIKeyboardType.NumberPad
-            }
-        } 
-    }
     var categories : [CategoryModel] = []
     
     var save:String = "";
@@ -40,7 +26,7 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
     @IBOutlet var selectdropdown: UIButton!
     @IBOutlet var actionButton1: UIButton!
     @IBOutlet var categorytxt: NSLayoutConstraint!
-    let xyz = DropDown()
+    let categoryOptions = DropDown()
     @IBOutlet var pricetxt: UITextField!
     @IBOutlet var producttxt: UITextField!
     var collectionViewCellSize : CGSize?
@@ -52,54 +38,62 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
     
     let imagePicker = UIImagePickerController()
     
+    var keyboardType: UIKeyboardType {
+        get{
+            return textFieldKeyboardType.keyboardType
+        }
+        set{
+            if newValue != UIKeyboardType.NumberPad{
+                self.keyboardType = UIKeyboardType.NumberPad
+            }
+        }
+    }
+    
+    @IBOutlet weak var textFieldKeyboardType: UITextField!{
+        didSet{
+            textFieldKeyboardType.keyboardType = UIKeyboardType.NumberPad
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.imagePicker.delegate = self
         self.loadDataSource()
-        //self.collectionView.reloadData()
         setCollectionViewSizesInsets();
             
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "actionbar_bg_pink"), forBarMetrics: UIBarMetrics.Default)
         ApiControlller.apiController.getAllCategories();
-        print(ApiControlller.apiController.getAllCategories())
         
         SwiftEventBus.onMainThread(self, name: "categoriesReceivedSuccess") { result in
             // UI thread
-            print("inside categories success................")
             let resultDto: [CategoryModel] = result.object as! [CategoryModel]
             self.handleGetCateogriesSuccess(resultDto)
         }
         
-        dropDown.dataSource = [
+        self.conditionTypeDropDown.dataSource = [
             "-Select-",
             "New(Sealed/with tags)",
             "New(unsealed/without tags)",
             "Used"
         ]
         
-        dropDown.selectionAction = { [unowned self] (index, item) in
+        self.conditionTypeDropDown.selectionAction = { [unowned self] (index, item) in
             self.actionButton.setTitle(item, forState: .Normal)
-            
-            //xyz.selectionAction = { [unowned self] (index, item) in
-            
-            
         }
         
-        xyz.selectionAction = { [unowned self] (index, item) in
+        self.categoryOptions.selectionAction = { [unowned self] (index, item) in
             self.actionButton1.setTitle(item, forState: .Normal)
         }
         
-        dropDown.anchorView = actionButton
-        dropDown.bottomOffset = CGPoint(x: 0, y:actionButton.bounds.height)
-        dropDown.direction = .Top
-        xyz.anchorView=actionButton1
-        xyz.bottomOffset = CGPoint(x: 0, y:actionButton.bounds.height)
-        xyz.direction = .Top
+        self.conditionTypeDropDown.anchorView = actionButton
+        self.conditionTypeDropDown.bottomOffset = CGPoint(x: 0, y:actionButton.bounds.height)
+        self.conditionTypeDropDown.direction = .Top
+        self.categoryOptions.anchorView=actionButton1
+        self.categoryOptions.bottomOffset = CGPoint(x: 0, y:actionButton.bounds.height)
+        self.categoryOptions.direction = .Top
         
         
         NSNotificationCenter.defaultCenter().addObserverForName("CroppedImage", object: nil, queue: NSOperationQueue.mainQueue()) { (notification) -> Void in
-            print(notification.object)
             self.imageCollection.removeAtIndex(self.selectedIndex!)
             self.imageCollection.insert(notification.object!, atIndex: self.selectedIndex!)
             self.collectionView.reloadData()
@@ -118,46 +112,33 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
     
     func handleGetCateogriesSuccess(categories: [CategoryModel]) {
         self.categories = categories;
-        print("here...............")
-        print(categories.count)
         var x : [String] = []
-        for var i = 0 ; i < categories.count ; i++
-        {
-            //x[i] = categories[i].description
-            print("<><><><>")
-            //print(x[i])
+        for (var i = 0 ; i < categories.count ; i++) {
             x.append(categories[i].description)
-            print("<><><><>")
         }
         
-        xyz.dataSource = x
+        self.categoryOptions.dataSource = x
         dispatch_async(dispatch_get_main_queue(), {
-            //self.xyz.reloadAllComponents()
-            //self.xyz.reloadAllComponents();
-            self.xyz.reloadAllComponents()
-            
-            
-            print(self.xyz)
+            self.categoryOptions.reloadAllComponents()
         })
 
     }
 
     @IBAction func ShoworDismiss(sender: AnyObject) {
         
-        if dropDown.hidden {
-            dropDown.show()
+        if self.conditionTypeDropDown.hidden {
+            self.conditionTypeDropDown.show()
         } else {
-            dropDown.hide()
+            self.conditionTypeDropDown.hide()
         }
-
     }
 
-    @IBAction func sssss(sender: AnyObject) {
+    @IBAction func categirySelDropDown(sender: AnyObject) {
         
-        if xyz.hidden {
-            xyz.show()
+        if self.categoryOptions.hidden {
+            self.categoryOptions.show()
         } else {
-            xyz.hide()
+            self.categoryOptions.hide()
         }
     }
     
@@ -171,19 +152,6 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
     
     @IBAction func btnSave(sender: AnyObject) {
         
-        //self.setpricetxt.text=save;
-        //self.sellingtext.text=save;
-        //self.pricetxt.text=save;
-        //self.producttxt.text=save;
-        //self.conditiontxt.text=save;
-        print(setpricetxt.text);
-        print(sellingtext.text);
-        print(producttxt.text);
-       // print(conditiontxt.text);
-        //print(pricetxt.text);
-        print(categorydropdown.titleLabel);
-        print(selectdropdown.titleLabel);
-        
         ApiControlller.apiController.savesell(producttxt.text!,sellingtext: sellingtext.text!, ActionButton1: (categorydropdown.titleLabel?.text!)!,ActionButton: (selectdropdown.titleLabel?.text!)!,setpricetxt: setpricetxt.text!);
     }
     
@@ -192,6 +160,7 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
         
         return true;
     }
+    
     //MARK: UICollectionViewDataSource
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return 1
@@ -259,8 +228,7 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
         SRWebClient.POST("Your Url to upload image")
             .data(self.imageCollection, fieldName: "Your Key to link Image", data: nil)
             .send({(response:AnyObject!, status:Int) -> Void in
-                print(response)
-                },failure:{(error:NSError!) -> Void in
+            },failure:{(error:NSError!) -> Void in
                     print(error)
             })
     }
@@ -270,7 +238,6 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
         let cellWidth :CGFloat = availableWidthForCells / 4
         let cellHeight = cellWidth * 4/3
         collectionViewCellSize = CGSizeMake(cellWidth, 750)
-        print(availableWidthForCells);
     }
         
     // MARK: UIImagePickerControllerDelegate Methods
