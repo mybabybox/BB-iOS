@@ -10,19 +10,15 @@ import UIKit
 import SwiftEventBus
 import FBSDKLoginKit
 
-class InitialHomeSegmentedController: UIViewController {
+class InitialHomeSegmentedController: CustomNavigationController {
 
-    @IBOutlet weak var userName: UILabel!
-    @IBOutlet weak var userImg: UIImageView!
-    
-    @IBOutlet weak var topbarView: UIView!
     @IBOutlet weak var segController: UISegmentedControl!
     @IBOutlet weak var baseView: UIView!
     var bottomLayer: CALayer? = nil
     var exploreController : UIViewController?
     var followingController : UIViewController?
     var activeSegment: Int = 0
-    
+    var shapeLayer = CAShapeLayer()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,6 +35,11 @@ class InitialHomeSegmentedController: UIViewController {
         UISegmentedControl.appearance().setTitleTextAttributes(normalTextAttributes, forState: .Normal)
         UISegmentedControl.appearance().setTitleTextAttributes(activeTextAttributes, forState: .Selected)
         
+        self.exploreController = self.storyboard!.instantiateViewControllerWithIdentifier("HomeExploreViewController") as! HomeExploreViewController
+        self.exploreController!.view.frame = CGRectMake(0, 0, self.baseView.bounds.width, self.baseView.bounds.height-20)
+        
+        self.followingController = self.storyboard!.instantiateViewControllerWithIdentifier("homefollowingViewController") as! HomeFollowingViewController
+        self.followingController!.view.frame = CGRectMake(0, 0, self.baseView.bounds.width, self.baseView.bounds.height-20)
         
         let image = UIImage(named: "mn_home_sel")
         image?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
@@ -47,24 +48,19 @@ class InitialHomeSegmentedController: UIViewController {
         
         constants.viewControllerIns = self
         self.hidesBottomBarWhenPushed = true
-        
+        self.segController.backgroundColor = UIColor.whiteColor()
         self.segController.selectedSegmentIndex = self.activeSegment
         self.segAction(self.segController)
     }
     
     override func viewDidAppear(animated: Bool) {
         
-        let imagePath =  constants.imagesBaseURL + "/image/get-thumbnail-profile-image-by-id/" + String(constants.userInfo?.id)
-        let imageUrl  = NSURL(string: imagePath);
-        let imageData = NSData(contentsOfURL: imageUrl!)
-        if (imageData != nil) {
-            dispatch_async(dispatch_get_main_queue(), {
-                self.userImg.image = UIImage(data: imageData!)
-            });
-        }
-        self.userImg.layer.cornerRadius = 18.0
-        self.userImg.layer.masksToBounds = true
-        self.userName.text = constants.userInfo?.displayName
+        let y = CGFloat(self.segController.frame.height)
+        let start: CGPoint = CGPoint(x: 0, y: y)
+        let end: CGPoint = CGPoint(x: self.segController.frame.size.width / 2, y: y)
+        
+        let color: UIColor = UIColor(red: 255/255, green: 118/255, blue: 164/255, alpha: 1.0)
+        self.drawLineFromPoint(start, toPoint: end, ofColor: color, inView: self.segController)
         
     }
     
@@ -76,56 +72,48 @@ class InitialHomeSegmentedController: UIViewController {
     
     @IBAction func segAction(sender: AnyObject) {
         
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        //let storyboard = UIStoryboard(name: "Main", bundle: nil)
         if(self.segController.selectedSegmentIndex == 0){
             
             let y = CGFloat(self.segController.frame.height)
             let start: CGPoint = CGPoint(x: 0, y: y)
-            let end: CGPoint = CGPoint(x: self.segController.frame.size.width / 2 , y: y)
+            let end: CGPoint = CGPoint(x: self.segController.frame.size.width / 2, y: y)
 
             let color: UIColor = UIColor(red: 255/255, green: 118/255, blue: 164/255, alpha: 1.0)
             self.drawLineFromPoint(start, toPoint: end, ofColor: color, inView: self.segController)
             
-            
             self.followingController?.view.removeFromSuperview()
-            self.exploreController = storyboard.instantiateViewControllerWithIdentifier("HomeExploreViewController") as! HomeExploreViewController
             self.baseView.addSubview(self.exploreController!.view)
-            self.exploreController!.view.frame = CGRectMake(0, 0, self.baseView.bounds.width, self.baseView.bounds.height-20)
-
-            //self.followingController?.view.hidden = true
-            //self.exploreController?.view.hidden = false
             
         } else if(self.segController.selectedSegmentIndex == 1){
             let y = CGFloat(self.segController.frame.height)
-            let start: CGPoint = CGPoint(x: self.segController.frame.size.width / 2, y: y)
+            let start: CGPoint = CGPoint(x: self.segController.frame.size.width / 2 , y: y)
             let end: CGPoint = CGPoint(x: self.segController.frame.size.width, y: y)
-            
             
             let color: UIColor = UIColor(red: 255/255, green: 118/255, blue: 164/255, alpha: 1.0)
             self.drawLineFromPoint(start, toPoint: end, ofColor: color, inView: self.segController)
             
             self.exploreController?.view.removeFromSuperview()
-            self.followingController = storyboard.instantiateViewControllerWithIdentifier("homefollowingViewController") as! HomeFollowingViewController
-            self.followingController!.view.frame = CGRectMake(0, 0, self.baseView.bounds.width, self.baseView.bounds.height-20)
             self.baseView.addSubview(self.followingController!.view)
-            //self.followingController?.view.hidden = false
-            //self.exploreController?.view.hidden = false
         }
     }
     
-    var shapeLayer = CAShapeLayer()
     func drawLineFromPoint(start : CGPoint, toPoint end:CGPoint, ofColor lineColor: UIColor, inView view:UIView) {
         //design the path
         let path = UIBezierPath()
         path.moveToPoint(start)
         path.addLineToPoint(end)
-
+        path.lineJoinStyle = CGLineJoin.Round
+        path.lineCapStyle = CGLineCap.Square
+        path.miterLimit = CGFloat(0.0)
         //design path in layer
-        
+        shapeLayer.fillColor = UIColor.whiteColor().CGColor
         shapeLayer.path = path.CGPath
         shapeLayer.strokeColor = lineColor.CGColor
         shapeLayer.lineWidth = 3.0
-        
+        shapeLayer.allowsEdgeAntialiasing = false
+        shapeLayer.allowsGroupOpacity = false
+        shapeLayer.autoreverses = false
         view.layer.addSublayer(shapeLayer)
     }
     
@@ -136,8 +124,6 @@ class InitialHomeSegmentedController: UIViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 
         let identifier = segue.identifier
-        //let navigationController = segue.destinationViewController as! UINavigationController
-        //print("identifier " + identifier!)
         if (identifier != nil && identifier == "gotoUserProfile_") {
             //let navigationController = segue.destinationViewController as! UINavigationController
             //print(segue.destinationViewController)

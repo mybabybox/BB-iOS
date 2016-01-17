@@ -29,7 +29,7 @@ class CategoryDetailsViewController: UIViewController, UIScrollViewDelegate {
         _controller.setFeedtype(FeedFilter.FeedType.CATEGORY_POPULAR)
         self.view.addSubview((_controller.view)!)
 
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "actionbar_bg_pink"), forBarMetrics: UIBarMetrics.Default)
+        //self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "actionbar_bg_pink"), forBarMetrics: UIBarMetrics.Default)
         
         ApiControlller.apiController.getCategoriesFilterByPopularity(Int(categories.id), offSet: 0)
 

@@ -168,12 +168,26 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         self.currentIndex = indexPath.row
         
+        print("pushing another controller.. from here..")
         if (collectionView.tag == 2){
             self.performSegueWithIdentifier("gotocatogorydetails", sender: nil)
             
         } else {
             self.performSegueWithIdentifier("gotoproductdetail", sender: nil)
         }
+        
+        /*if (collectionView.tag == 2) {
+            
+            let vController = self.storyboard?.instantiateViewControllerWithIdentifier("myCategoryDetailView") as! CategoryDetailsViewController
+            vController.categories = self.categories[self.currentIndex]
+            self.navigationController?.pushViewController(vController, animated: true)
+            self.performSegueWithIdentifier("gotocatogorydetails", sender: nil)
+        } else {
+            apiController.getProductDetails(String(Int(self.products[self.currentIndex].id)))
+            let vController = self.storyboard?.instantiateViewControllerWithIdentifier("ProductViewController")
+            as! ProductDetailsViewController
+            self.navigationController?.presentViewController(vController, animated: true, completion: nil)
+        }*/
     }
     
     func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
@@ -257,9 +271,9 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
         if (identifier == "gotocatogorydetails") {
             
             let vController = segue.destinationViewController as! CategoryDetailsViewController
-            vController.categories.id = self.categories[self.currentIndex].id
-            vController.categories.icon = self.categories[self.currentIndex].icon
-            vController.categories.name = self.categories[self.currentIndex].name
+            vController.categories = self.categories[self.currentIndex]
+            //vController.categories.icon = self.categories[self.currentIndex].icon
+            //vController.categories.name = self.categories[self.currentIndex].name
         } else if (identifier == "gotoproductdetail") {
             let vController = segue.destinationViewController as! ProductDetailsViewController
             vController.productModel = self.products[self.currentIndex]

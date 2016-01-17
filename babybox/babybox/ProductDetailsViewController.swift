@@ -349,7 +349,6 @@ extension NSDate {
         return NSCalendar.currentCalendar().components(.Year, fromDate: date, toDate: self, options: []).year
     }
     func monthsFrom(date:NSDate) -> Int{
-        print("abceefghigjklmnopqrstuwxyz")
         return NSCalendar.currentCalendar().components(.Month, fromDate: date, toDate: self, options: []).month
     }
     func weeksFrom(date:NSDate) -> Int{

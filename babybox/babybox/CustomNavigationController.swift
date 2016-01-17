@@ -23,19 +23,25 @@ class CustomNavigationController: UIViewController {
         super.didReceiveMemoryWarning()
     }
     
-    public func onClickSellBtn(sender: AnyObject?) {
+    func onClickUserBtn(sender: AnyObject?) {
+        let vController = self.storyboard?.instantiateViewControllerWithIdentifier("UserProfileController")
+        self.navigationController?.pushViewController(vController!, animated: true)
+    }
+    
+    func onClickSellBtn(sender: AnyObject?) {
         print("calling here...onClickSellBtn")
-        self.storyboard?.instantiateViewControllerWithIdentifier("ViewController1")
+        let vController = self.storyboard?.instantiateViewControllerWithIdentifier("sellProductsViewController")
+        self.navigationController?.pushViewController(vController!, animated: true)
     }
     
-    public func onClickChatBtn(sender: AnyObject?) {
-        print("calling here...onClickChatBtn")
-        self.storyboard?.instantiateViewControllerWithIdentifier("ViewController1")
+    func onClickChatBtn(sender: AnyObject?) {
+        let vController = self.storyboard?.instantiateViewControllerWithIdentifier("ConversationsController")
+        self.navigationController?.pushViewController(vController!, animated: true)
     }
     
-    public func onClickBadgebtn(sender: AnyObject?) {
-        print("calling here...onClickBadgebtn")
-        self.storyboard?.instantiateViewControllerWithIdentifier("ViewController1")
+    func onClickBadgebtn(sender: AnyObject?) {
+        //let vController = self.storyboard?.instantiateViewControllerWithIdentifier("sellProductsViewController")
+        //self.navigationController?.pushViewController(vController!, animated: true)
     }
     
     /*
@@ -57,48 +63,55 @@ class CustomNavigationController: UIViewController {
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "actionbar_bg_pink"), forBarMetrics: UIBarMetrics.Default)
         
         let userThumbnailImg: UIButton = UIButton()
-        userThumbnailImg.setImage(UIImage(named: "game_badge_mascot"), forState: UIControlState.Normal)
-        userThumbnailImg.addTarget(self, action: "onClickSellBtn", forControlEvents: UIControlEvents.TouchUpInside)
+        userThumbnailImg.addTarget(self, action: "onClickUserBtn:", forControlEvents: UIControlEvents.TouchUpInside)
         userThumbnailImg.frame = CGRectMake(0, 0, 35, 35)
+        userThumbnailImg.layer.cornerRadius = 18.0
+        userThumbnailImg.layer.masksToBounds = true
+        let imagePath =  constants.imagesBaseURL + "/image/get-thumbnail-profile-image-by-id/" + String(constants.userInfo?.id)
+        let imageUrl  = NSURL(string: imagePath);
+        let imageData = NSData(contentsOfURL: imageUrl!)
+        if (imageData != nil) {
+            userThumbnailImg.setImage(UIImage(data: imageData!), forState: UIControlState.Normal)
+        }
         
         let userNameImg: UIButton = UIButton()
-        userNameImg.setTitle("Vinod", forState: UIControlState.Normal)
-        //userNameImg.setImage(UIImage(named: "game_badge_mascot"), forState: UIControlState.Normal)
-        userNameImg.addTarget(self, action: "onClickSellBtn", forControlEvents: UIControlEvents.TouchUpInside)
-        userNameImg.frame = CGRectMake(0, 0, 10, 35)
+        userNameImg.setTitle(constants.userInfo?.displayName, forState: UIControlState.Normal)
+        userNameImg.addTarget(self, action: "onClickUserBtn:", forControlEvents: UIControlEvents.TouchUpInside)
+        userNameImg.frame = CGRectMake(0, 0, 60, 35)
         
-        let button: UIButton = UIButton()
-        button.setImage(UIImage(named: "game_badge_mascot"), forState: UIControlState.Normal)
-        button.addTarget(self, action: "onClickSellBtn", forControlEvents: UIControlEvents.TouchUpInside)
-        button.frame = CGRectMake(0, 0, 35, 35)
+        let sellBtn: UIButton = UIButton()
+        sellBtn.setImage(UIImage(named: "ic_chat_s"), forState: UIControlState.Normal)
+        sellBtn.addTarget(self, action: "onClickSellBtn:", forControlEvents: UIControlEvents.TouchUpInside)
+        sellBtn.frame = CGRectMake(0, 0, 35, 35)
         
-        let button_1: UIButton = UIButton()
-        button_1.setImage(UIImage(named: "game_badge_mascot"), forState: UIControlState.Normal)
-        button_1.addTarget(self, action: "onClickChatBtn", forControlEvents: UIControlEvents.TouchUpInside)
-        button_1.frame = CGRectMake(0, 0, 35, 35)
+        let chatBtn: UIButton = UIButton()
+        chatBtn.setImage(UIImage(named: "ic_chat_s"), forState: UIControlState.Normal)
+        chatBtn.addTarget(self, action: "onClickChatBtn:", forControlEvents: UIControlEvents.TouchUpInside)
+        chatBtn.frame = CGRectMake(0, 0, 35, 35)
         
-        let button_2: UIButton = UIButton()
-        button_2.setImage(UIImage(named: "game_badge_mascot"), forState: UIControlState.Normal)
-        button_2.addTarget(self, action: "onClickBadgebtn", forControlEvents: UIControlEvents.TouchUpInside)
-        button_2.frame = CGRectMake(0, 0, 35, 35)
+        let gameBadgeBtn: UIButton = UIButton()
+        gameBadgeBtn.setImage(UIImage(named: "game_badge"), forState: UIControlState.Normal)
+        gameBadgeBtn.addTarget(self, action: "onClickBadgebtn:", forControlEvents: UIControlEvents.TouchUpInside)
+        gameBadgeBtn.frame = CGRectMake(0, 0, 35, 35)
         
-        let sellBarBtn = UIBarButtonItem(customView: button)
-        let chatBarBtn = UIBarButtonItem(customView: button_1)
-        let badgeBarBtn = UIBarButtonItem(customView: button_2)
+        let sellBarBtn = UIBarButtonItem(customView: sellBtn)
+        let chatBarBtn = UIBarButtonItem(customView: chatBtn)
+        let badgeBarBtn = UIBarButtonItem(customView: gameBadgeBtn)
         
         let userImgBarBtn = UIBarButtonItem(customView: userThumbnailImg)
-        let userNameBarBtn : UIBarButtonItem = UIBarButtonItem(title: "Vinod", style: UIBarButtonItemStyle.Plain, target: self, action: "onClickSellBtn")
+        let userNameBarBtn = UIBarButtonItem(customView: userNameImg)
         
         //var image = UIImage(named: "game_badge_mascot")
         //image?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
         
-        self.navigationItem.rightBarButtonItems = [badgeBarBtn, chatBarBtn, sellBarBtn]
+        self.navigationItem.rightBarButtonItems = [sellBarBtn, chatBarBtn ]
         self.navigationItem.leftItemsSupplementBackButton = true;
-        self.navigationItem.leftBarButtonItems = [userImgBarBtn, userNameBarBtn]
+        self.navigationItem.leftBarButtonItems = [userImgBarBtn, userNameBarBtn, badgeBarBtn]
         
         let backbtn = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
         backbtn.setBackgroundImage(UIImage(named: "game_badge_mascot"), forState: UIControlState.Normal, barMetrics: UIBarMetrics.Default)
         self.navigationItem.backBarButtonItem = backbtn
+        
     }
     
     func initBottomStatusBarComponent() {

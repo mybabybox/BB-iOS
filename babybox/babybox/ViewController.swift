@@ -107,7 +107,7 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFieldDel
         self.signInButton.enabled = true
         self.signInButton.alpha = 1.0
         self.navigationController?.toolbar.hidden = true
-        self.navigationController?.navigationBar.hidden = true
+        //self.navigationController?.navigationBar.hidden = true
         self.userNameTxt.delegate = self
         self.passwordTxt.delegate = self
         
