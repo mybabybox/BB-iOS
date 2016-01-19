@@ -122,6 +122,21 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
                     cell.layer.borderColor = CGColorCreate(CGColorSpaceCreateDeviceRGB(), [194/255, 195/255, 200/255, 1.0])
                     cell.layer.borderWidth = 1
                     
+                    //var arrayOfColors: [AnyObject] = arrayOfColorsAt(indexPath)
+                    
+                    let gradientLayer = CAGradientLayer()
+                    gradientLayer.frame = cell.bounds
+                    gradientLayer.locations = [0.0, 1.0]
+                        
+                    gradientLayer.colors = [
+                        UIColor(white: 0, alpha: 0.10).CGColor,
+                        UIColor(white: 0, alpha: 0.15).CGColor,
+                        UIColor.lightGrayColor().CGColor
+                    ]
+                        
+                    cell.categoryIcon.layer.insertSublayer(gradientLayer, atIndex: 0)
+                    
+                    
                     return cell
                 
                 case .CATEGORY_POPULAR,
