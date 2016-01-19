@@ -130,7 +130,7 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
                         
                     gradientLayer.colors = [
                         UIColor(white: 0, alpha: 0.10).CGColor,
-                        UIColor(white: 0, alpha: 0.15).CGColor,
+                        UIColor(white: 0, alpha: 0.10).CGColor,
                         UIColor.lightGrayColor().CGColor
                     ]
                         
