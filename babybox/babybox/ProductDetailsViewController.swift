@@ -59,7 +59,7 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate{
     @IBOutlet weak var commentTable: UITableView!
     
     @IBAction func onClickb(sender: AnyObject) {
-        print("<><><><><>")
+        
     }
     @IBAction func onClickLikeOrUnlikeButton(sender: AnyObject) {
         
@@ -77,30 +77,6 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate{
             self.likeCountLabel.text = String(count! - 1)
         }
     }
-    @IBAction func MonthLikeOrUnlike1(sender: AnyObject) {
-        
-        
-        print("Hello")
-    }
-
-    
-    /*@IBAction func MonthLikeOrUnlike(sender: AnyObject) {
-    
-        let count1 = Int((self.likeMonths.text!))
-        if(self.likeFlag == false){
-            self.likeButtonMonth.setImage(UIImage(named: "ic_like_tips.png"), forState: UIControlState.Normal)
-            self.likeFlag = true
-            ApiControlller().likePost(String(Int(self.id)))
-            self.likeMonths.text = String(count1! + 1)
-            
-        }else{
-            self.likeButtonMonth.setImage(UIImage(named: "ic_like_tips.png"), forState: UIControlState.Normal)
-            self.likeFlag = false
-            ApiControlller().unlikePost(String(Int(self.id)))
-            self.likeMonths.text = String(count1! - 1)
-            
-        }
-    }*/
     
     override func viewDidAppear(animated: Bool) {
         print("Show the detail of selected product view.... ", terminator: "");
@@ -117,8 +93,6 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate{
         self.likeMonths.text = String(productModel.numLikes)
         self.id = Double(productModel.id)
        
-        print("productModel.conditionType")
-        print(productModel.conditionType)
         self.conditionvalue.text = productModel.conditionType
         self.titletext.text = productModel.conditionType
         
@@ -133,7 +107,6 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate{
             self.likeFlag = true
         }
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
             if (self.productModel.hasImage) {
                 let imagePath =  constants.imagesBaseURL + "/image/get-post-image-by-id/" + String(self.productModel.images[0])
                 let imageUrl  = NSURL(string: imagePath);
@@ -146,88 +119,33 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate{
                 dispatch_async(dispatch_get_main_queue(), {
                     if (imageData != nil) {
                         self.productImageView.image = UIImage(data: imageData!)
-                        print("after")
-                        print(self.productImageView.bounds.width)
-                        print(self.productImageView.bounds.height)
-                        
                     }
                 });
             }
-        })
-        
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-            if (self.productModel.hasImage) {
-                let imagePath =  constants.imagesBaseURL + "/image/get-post-image-by-id/" + String(self.productModel.images[0])
-                let imageUrl  = NSURL(string: imagePath);
-                let imageData = NSData(contentsOfURL: imageUrl!)
-                print(imageUrl, terminator: "")
-                
-                print(self.imageuser.bounds.width)
-                print(self.imageuser.bounds.height)
-                
-                dispatch_async(dispatch_get_main_queue(), {
-                    if (imageData != nil) {
-                        self.imageuser.image = UIImage(data: imageData!)
-                        print("after")
-                        print(self.imageuser.bounds.width)
-                        print(self.imageuser.bounds.height)
-                        
-                    }
-                });
-            }
-        })
-
-       
         
         SwiftEventBus.onMainThread(self, name: "conversationsSuccess") { result in
             // UI thread
             if result != nil {
                 let resultDto: [ConversationVM] = result.object as! [ConversationVM]
-                print("success")
-                print(resultDto)
                 self.handleConversation(resultDto)
-                
-                
-                
-                
             } else {
                 print("null value")
             }
         }
         
         SwiftEventBus.onMainThread(self, name: "conversationsFailed") { result in
-            // UI thread
-            
-            print("fail......")
         }
         
     }
     
-    /*override func viewDidLayoutSubviews() {
-        self.uiScrollView.contentSize = CGSizeMake(UIScreen.mainScreen().bounds.width, 2000)
-    }*/
-    
     func handleConversation(conversation: [ConversationVM]) {
         self.conversations = conversation
-        
-        
         let time = (self.conversations.last?.lastMessageDate)! / 1000
-        
-        
-        
-        
-        //print(time)
-       // let date = NSDate(timeIntervalSince1970: NSTimeInterval(time))
         let date = NSDate(timeIntervalSinceNow: NSTimeInterval(time))
-        print(date)
         self.monthTime.text = self.myDate.offsetFrom(date)
         self.month.text = self.myDate.offsetFrom(date)
-        //reload the collectionview
-       // self.collectionView.reloadData()
-        
     }
 
-    
     override func viewDidLoad() {
         
         
@@ -248,12 +166,8 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate{
         self.buynow.layer.masksToBounds = true
         self.commentTextField.delegate=self
         self.commentTable.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        self.navigationController?.toolbar.hidden = true
         
-        
-       // let time = self.conversations[].lastMessageDate / 1000
-        
-               
+        //self.navigationController?.toolbar.hidden = true
         SwiftEventBus.onMainThread(self, name: "productDetailsReceivedSuccess") { result in
             // UI thread
             print("catch the event...............", terminator: "")
@@ -262,7 +176,17 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate{
             self.handleGetProductDetailsSuccess(resultDto)
         }
        
-        //self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "actionbar_bg_pink"), forBarMetrics: UIBarMetrics.Default)
+        let backImg: UIButton = UIButton()
+        backImg.addTarget(self, action: "onClickBackBtn:", forControlEvents: UIControlEvents.TouchUpInside)
+        backImg.frame = CGRectMake(0, 0, 35, 35)
+        backImg.layer.cornerRadius = 18.0
+        backImg.layer.masksToBounds = true
+        backImg.setImage(UIImage(named: "back"), forState: UIControlState.Normal)
+        
+        let backBarBtn = UIBarButtonItem(customView: backImg)
+        self.navigationItem.leftBarButtonItems = [backBarBtn]
+        
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "actionbar_bg_pink"), forBarMetrics: UIBarMetrics.Default)
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -327,7 +251,25 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate{
         return true
     }
     
-    @IBAction func onClickBack(sender: AnyObject) {
+    func onClickBackBtn(sender: AnyObject?) {
+        if self.fromPage == "homeexplore" {
+            let secondViewController = self.storyboard?.instantiateViewControllerWithIdentifier("initialSegmentViewController") as! InitialHomeSegmentedController
+            secondViewController.activeSegment = 0
+            self.navigationController?.pushViewController(secondViewController, animated: true)
+        }else if self.fromPage == "homefollowing" {
+            let secondViewController = self.storyboard?.instantiateViewControllerWithIdentifier("initialSegmentViewController") as! InitialHomeSegmentedController
+            secondViewController.activeSegment = 1
+            self.navigationController?.pushViewController(secondViewController, animated: true)
+        }else if self.fromPage == "categorydetails" {
+            let secondViewController = self.storyboard?.instantiateViewControllerWithIdentifier("myCategoryDetailView") as! CategoryDetailsViewController
+            secondViewController.categories = self.category!
+            
+            self.navigationController?.pushViewController(secondViewController, animated: true)
+        }
+    }
+    
+    /*@IBAction func onClickBack(sender: AnyObject) {
+        
         if self.fromPage == "homeexplore" {
             let secondViewController = self.storyboard?.instantiateViewControllerWithIdentifier("initialSegmentViewController") as! InitialHomeSegmentedController
             secondViewController.activeSegment = 0
@@ -341,7 +283,7 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate{
             secondViewController.categories = self.category!
             self.navigationController?.pushViewController(secondViewController, animated: true)
         }
-    }
+    }*/
 }
 
 extension NSDate {

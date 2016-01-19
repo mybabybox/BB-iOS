@@ -51,6 +51,9 @@ class InitialHomeSegmentedController: CustomNavigationController {
         self.segController.backgroundColor = UIColor.whiteColor()
         self.segController.selectedSegmentIndex = self.activeSegment
         self.segAction(self.segController)
+        self.navigationItem.hidesBackButton = true
+        
+        
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -61,6 +64,10 @@ class InitialHomeSegmentedController: CustomNavigationController {
         
         let color: UIColor = UIColor(red: 255/255, green: 118/255, blue: 164/255, alpha: 1.0)
         self.drawLineFromPoint(start, toPoint: end, ofColor: color, inView: self.segController)
+        
+        self.exploreController!.view.frame = CGRectMake(0, 0, self.baseView.bounds.width, self.baseView.bounds.height-20)
+        self.followingController!.view.frame = CGRectMake(0, 0, self.baseView.bounds.width, self.baseView.bounds.height-20)
+        
         
     }
     

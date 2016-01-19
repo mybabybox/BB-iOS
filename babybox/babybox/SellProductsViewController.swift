@@ -102,14 +102,7 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
         self.collectionView.reloadData()
         
     }
-    
-    
-
-        func categorydropdown(sender: UIButton) {
-            //ApiControlller.apiController.getAllCategories();
-            // self.categorydropdown=categories;
-        }
-    
+        
     func handleGetCateogriesSuccess(categories: [CategoryModel]) {
         self.categories = categories;
         var x : [String] = []
@@ -133,7 +126,7 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
         }
     }
 
-    @IBAction func categirySelDropDown(sender: AnyObject) {
+    @IBAction func categorySellDropDown(sender: AnyObject) {
         
         if self.categoryOptions.hidden {
             self.categoryOptions.show()

@@ -16,6 +16,7 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var activityLoading: UIActivityIndicatorView!
     var apiController: ApiControlller = ApiControlller()
     var currentIndex = 0
+    
     var isHeaderView: Bool = true
     var categories : [CategoryModel] = []
     var products: [PostModel] = []
@@ -24,24 +25,22 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
     var tohide = true
     var reuseIdentifier = "CellType1"
     var loadingProducts: Bool = false
+    var selCategory: CategoryModel? = nil
     
     var feedFilter: FeedFilter.FeedType? = FeedFilter.FeedType.HOME_EXPLORE
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
         SwiftEventBus.onMainThread(self, name: "categoriesReceivedSuccess") { result in
             // UI thread
             let resultDto: [CategoryModel] = result.object as! [CategoryModel]
             self.handleGetCateogriesSuccess(resultDto)
         }
         
-        SwiftEventBus.onMainThread(self, name: "homeExplorePostsReceivedSuccess") { result in
+        SwiftEventBus.onMainThread(self, name: "feedReceivedSuccess") { result in
             // UI thread
             let resultDto: [PostModel] = result.object as! [PostModel]
             self.handleGetAllProductsuccess(resultDto)
-            
         }
         
         setCollectionViewSizesInsets()
@@ -131,6 +130,14 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
                      .CATEGORY_PRICE_LOW_HIGH:
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier("categoryCell", forIndexPath: indexPath) as! CategoryCollectionViewCell
                     
+                    cell.categoryName.text = self.selCategory?.name
+                    let imagePath =  constants.imagesBaseURL + (self.selCategory?.icon)!;
+                    let imageUrl  = NSURL(string: imagePath);
+                    
+                    dispatch_async(dispatch_get_main_queue(), {
+                        cell.categoryIcon.kf_setImageWithURL(imageUrl!)
+                    });
+                    
                     return cell
                 default:
                     return collectionView.dequeueReusableCellWithReuseIdentifier("staticCell", forIndexPath: indexPath) as! CategoryCollectionViewCell
@@ -181,12 +188,12 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
             let vController = self.storyboard?.instantiateViewControllerWithIdentifier("myCategoryDetailView") as! CategoryDetailsViewController
             vController.categories = self.categories[self.currentIndex]
             self.navigationController?.pushViewController(vController, animated: true)
-            self.performSegueWithIdentifier("gotocatogorydetails", sender: nil)
+            //self.performSegueWithIdentifier("gotocatogorydetails", sender: nil)
         } else {
             apiController.getProductDetails(String(Int(self.products[self.currentIndex].id)))
             let vController = self.storyboard?.instantiateViewControllerWithIdentifier("ProductViewController")
             as! ProductDetailsViewController
-            self.navigationController?.presentViewController(vController, animated: true, completion: nil)
+            self.navigationController?.pushViewController(vController, animated: true)
         }*/
     }
     
@@ -224,7 +231,19 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         if (collectionView.tag == 2) {
             if let _ = collectionViewTopCellSize {
-                return collectionViewTopCellSize!
+                
+                switch feedFilter! {
+                case .CATEGORY_PRICE_LOW_HIGH,
+                .CATEGORY_PRICE_HIGH_LOW,
+                .CATEGORY_POPULAR,
+                .CATEGORY_NEWEST:
+                    setCollectionViewSizesInsetsForTopView()
+                    return collectionViewTopCellSize!
+                default:
+                    return collectionViewTopCellSize!
+                    
+                }
+                
             }
         } else {
             if let _ = collectionViewCellSize {
@@ -246,7 +265,7 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
                     .CATEGORY_PRICE_HIGH_LOW,
                     .CATEGORY_POPULAR,
                     .CATEGORY_NEWEST:
-                return CGSizeMake(self.view.frame.width, 150)
+                return CGSizeMake(self.view.frame.width, 190)
                 default:
                     return CGSizeMake(self.view.frame.width, 250)
                 
@@ -269,15 +288,29 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
         //var vController = segue.destinationViewController
         let identifier = segue.identifier
         if (identifier == "gotocatogorydetails") {
-            
-            let vController = segue.destinationViewController as! CategoryDetailsViewController
+            let navController = segue.destinationViewController as! UINavigationController
+            let vController = navController.viewControllers.first as! CategoryDetailsViewController
+            //let vController = segue.destinationViewController as! CategoryDetailsViewController
             vController.categories = self.categories[self.currentIndex]
-            //vController.categories.icon = self.categories[self.currentIndex].icon
-            //vController.categories.name = self.categories[self.currentIndex].name
         } else if (identifier == "gotoproductdetail") {
-            let vController = segue.destinationViewController as! ProductDetailsViewController
+            let navController = segue.destinationViewController as! UINavigationController
+            let vController = navController.viewControllers.first as! ProductDetailsViewController
             vController.productModel = self.products[self.currentIndex]
-            vController.fromPage = "homeexplore"
+            
+            switch feedFilter! {
+            case .CATEGORY_PRICE_LOW_HIGH,
+            .CATEGORY_PRICE_HIGH_LOW,
+            .CATEGORY_POPULAR,
+            .CATEGORY_NEWEST:
+                vController.category = self.selCategory
+                vController.fromPage = "categorydetails"
+            case .HOME_FOLLOWING:
+                vController.fromPage = "homefollowing"
+            default:
+                vController.fromPage = "homeexplore"
+                
+            }
+            
             apiController.getProductDetails(String(Int(self.products[self.currentIndex].id)))
         }
     }
@@ -311,7 +344,7 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
     // MARK: UIScrollview Delegate
     func scrollViewDidScroll(scrollView: UIScrollView) {
         UIView.animateWithDuration(0.2, animations: {
-            constants.viewControllerIns!.tabBarController!.tabBar.hidden = true
+            //constants.viewControllerIns!.tabBarController!.tabBar.hidden = true
             constants.viewControllerIns!.hidesBottomBarWhenPushed = true
             
             //let tabBarHeight = constants.viewControllerIns!.tabBarController!.tabBar.frame.size.height
@@ -344,7 +377,7 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
     
     func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
         UIView.animateWithDuration(0.2, animations: {
-            constants.viewControllerIns!.tabBarController!.tabBar.hidden = false
+            //constants.viewControllerIns!.tabBarController!.tabBar.hidden = false
             constants.viewControllerIns!.hidesBottomBarWhenPushed = true
         })
         //let tabBarHeight = constants.viewControllerIns!.tabBarController!.tabBar.frame.size.height
@@ -352,13 +385,13 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func setCollectionViewSizesInsetsForTopView() {
-        
+        print(feedFilter)
         switch feedFilter! {
             case .CATEGORY_PRICE_LOW_HIGH,
             .CATEGORY_PRICE_HIGH_LOW,
             .CATEGORY_POPULAR,
             .CATEGORY_NEWEST:
-            collectionViewTopCellSize = CGSizeMake(self.view.bounds.width, 150)
+            collectionViewTopCellSize = CGSizeMake(self.view.bounds.width, 190)
         default:
             let availableWidthForCells:CGFloat = self.view.bounds.width - 35
             let cellWidth :CGFloat = availableWidthForCells / 3
@@ -366,7 +399,6 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
             collectionViewTopCellSize = CGSizeMake(cellWidth, cellHeight)
             
         }
-        
     }
     
     func setCollectionViewSizesInsets() {
@@ -405,5 +437,37 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
             
         }
     }
+    
+    @IBAction func onClickPopulated(sender: AnyObject) {
+        self.pageOffSet = 0
+        self.setFeedtype(FeedFilter.FeedType.CATEGORY_POPULAR)
+        self.products = []
+        
+        ApiControlller.apiController.getCategoriesFilterByPopularity(Int(self.selCategory!.id), offSet: 0)
+    }
+    
+    @IBAction func onClickNewest(sender: AnyObject) {
+        self.pageOffSet = 0
+        self.setFeedtype(FeedFilter.FeedType.CATEGORY_NEWEST)
+        self.products = []
+        ApiControlller.apiController.getCategoriesFilterByNewestPrice(Int(self.selCategory!.id), offSet: 0)
+    }
+    
+    @IBAction func onClickHighLow(sender: AnyObject) {
+        self.pageOffSet = 0
+        self.setFeedtype(FeedFilter.FeedType.CATEGORY_PRICE_HIGH_LOW)
+        self.products = []
+        ApiControlller.apiController.getCategoriesFilterByHlPrice(Int(self.selCategory!.id), offSet: 0)
+    }
+    
+    @IBAction func onClickLowHigh(sender: AnyObject) {
+        self.pageOffSet = 0
+        self.setFeedtype(FeedFilter.FeedType.CATEGORY_PRICE_LOW_HIGH)
+        self.products = []
+        ApiControlller.apiController.getCategoriesFilterByLhPrice(Int(self.selCategory!.id), offSet: 0)
+    }
+    
+    
+    
 
 }
