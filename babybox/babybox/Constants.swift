@@ -14,7 +14,7 @@ struct constants {
     static let imagesBaseURL = "http://192.168.1.152:9005";
     static let currencySymbol = "$";
     static var accessToken = "";
-    static var userInfo: UserInfoVM? = nil
+    static var userInfo: UserInfoVM = UserInfoVM()
     
     static var viewControllerIns: UIViewController? = nil
     

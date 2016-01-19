@@ -14,7 +14,9 @@ class HomeFollowingViewController: UIViewController {
     
     var currentSelProduct: Int = 0
     var apiController: ApiControlller = ApiControlller()
+    var _controller: AbstractFeedViewController? = nil
     
+    @IBOutlet weak var followingTips: UIView!
     override func viewDidAppear(animated: Bool) {
         
     }
@@ -22,15 +24,19 @@ class HomeFollowingViewController: UIViewController {
         super.viewDidLoad()
         apiController.getHomeEollowingFeeds(0)
         
-        let _controller = self.storyboard?.instantiateViewControllerWithIdentifier("abstractFeedController") as! AbstractFeedViewController
+        //Get the preferences for Explore Tip and if present hide the tip.
+        _controller = self.storyboard?.instantiateViewControllerWithIdentifier("abstractFeedController") as? AbstractFeedViewController
+        if (!SharedPreferencesUtil.getInstance().isScreenViewed(SharedPreferencesUtil.Screen.HOME_FOLLOWING_TIPS)) {
+            self.followingTips.hidden = false
+            _controller!.view.frame = CGRectMake(0, followingTips.frame.height + 20, self.view.frame.width, self.view.frame.height)
+            SharedPreferencesUtil.getInstance().setScreenViewed(SharedPreferencesUtil.Screen.HOME_FOLLOWING_TIPS)
+        } else {
+            _controller!.view.frame = CGRectMake(0, 5, self.view.frame.width, self.view.frame.height)
+        }
         
-        //put condition here to check if the tips section is visible or not and accordingly set x,y coordinates for 
-        //CollectionView
-        
-        _controller.view.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
-        _controller.isHeaderView = false
-        _controller.setFeedtype(FeedFilter.FeedType.HOME_FOLLOWING)
-        self.view.addSubview((_controller.view)!)
+        _controller!.isHeaderView = false
+        _controller!.setFeedtype(FeedFilter.FeedType.HOME_FOLLOWING)
+        self.view.addSubview((_controller!.view)!)
         
         let cSelector : Selector = "gotoSecondSegmentOne:"
         let rightSwipe = UISwipeGestureRecognizer(target: self, action: cSelector)
@@ -44,6 +50,9 @@ class HomeFollowingViewController: UIViewController {
         vController.activeSegment = 0
         self.navigationController?.presentViewController(vController, animated: false, completion: nil)
     }
-
    
+    @IBAction func onCloseTips(sender: AnyObject) {
+        self.followingTips.hidden = true
+        _controller!.view.frame = CGRectMake(0, 5, self.view.frame.width, self.view.frame.height)
+    }
 }

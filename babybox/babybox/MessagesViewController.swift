@@ -160,10 +160,8 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, UIImagePick
     }
     
     func handleChatMessageResponse(result: MessageVM){
-        print("name is ......")
-        print(constants.userInfo?.firstName)
         for var i=0; i<result.messages.count; i++ {
-            if(result.messages[i].senderName == constants.userInfo?.firstName){
+            if(result.messages[i].senderName == constants.userInfo.firstName){
                 if(result.messages[i].hasImage == true){
                     
                 }else{

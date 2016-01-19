@@ -13,6 +13,7 @@ import Kingfisher
 
 class CategoryDetailsViewController: UIViewController, UIScrollViewDelegate {
     
+    @IBOutlet weak var categoryTips: UIView!
     @IBOutlet weak var popularBtnIns: UIButton!
     @IBOutlet weak var newestBtnIns: UIButton!
     @IBOutlet weak var lowToHighBtnIns: UIButton!
@@ -20,23 +21,13 @@ class CategoryDetailsViewController: UIViewController, UIScrollViewDelegate {
     
     @IBOutlet weak var categoryTitle: UILabel!
     @IBOutlet weak var categoryImg: UIImageView!
-    @IBOutlet weak var subViewIns: UIScrollView!
     @IBOutlet weak var catInfoView: UIView!
     
     var categories : CategoryModel = CategoryModel()
     var _controller: AbstractFeedViewController? = nil
     
     override func viewDidAppear(animated: Bool) {
-        self.categoryTitle.text = self.categories.name
-        
-        let imagePath =  constants.imagesBaseURL + self.categories.icon;
-        let imageUrl  = NSURL(string: imagePath);
-        
-        dispatch_async(dispatch_get_main_queue(), {
-            self.categoryImg.kf_setImageWithURL(imageUrl!)
-        });
-        
-        self.popularBtnIns.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+        //self.popularBtnIns.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
     }
     
     override func viewDidLoad() {
@@ -44,13 +35,22 @@ class CategoryDetailsViewController: UIViewController, UIScrollViewDelegate {
         super.viewDidLoad()
         self.setSizesForFilterButtons()
         
+        //Get the preferences for Explore Tip and if present hide the tip.
         self._controller = self.storyboard?.instantiateViewControllerWithIdentifier("abstractFeedController") as? AbstractFeedViewController
-        self._controller!.view.frame = CGRectMake(0, 0, subViewIns.frame.width, subViewIns.frame.height)
+        if (!SharedPreferencesUtil.getInstance().isScreenViewed(SharedPreferencesUtil.Screen.CATEGORY_TIPS)) {
+            self.categoryTips.hidden = false
+            _controller!.view.frame = CGRectMake(0, categoryTips.frame.height, self.view.frame.width, self.view.frame.height)
+            SharedPreferencesUtil.getInstance().setScreenViewed(SharedPreferencesUtil.Screen.CATEGORY_TIPS)
+        } else {
+            self._controller!.view.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
+        }
+        
+        
         self._controller!.setFeedtype(FeedFilter.FeedType.CATEGORY_POPULAR)
         self._controller?.isHeaderView = true
         self._controller?.pageOffSet = 0
         self._controller?.selCategory = self.categories
-        subViewIns.addSubview(self._controller!.view)
+        self.view.addSubview(self._controller!.view)
         self.navigationItem.hidesBackButton = true
         ApiControlller.apiController.getCategoriesFilterByPopularity(Int(categories.id), offSet: 0)
         
@@ -63,8 +63,15 @@ class CategoryDetailsViewController: UIViewController, UIScrollViewDelegate {
         backImg.layer.masksToBounds = true
         backImg.setImage(UIImage(named: "back"), forState: UIControlState.Normal)
         
+        let sellBtn: UIButton = UIButton()
+        sellBtn.setImage(UIImage(named: "new_post"), forState: UIControlState.Normal)
+        sellBtn.addTarget(self, action: "onClickSellBtn:", forControlEvents: UIControlEvents.TouchUpInside)
+        sellBtn.frame = CGRectMake(0, 0, 35, 35)
+        let sellBarBtn = UIBarButtonItem(customView: sellBtn)
+        
         let backBarBtn = UIBarButtonItem(customView: backImg)
         self.navigationItem.leftBarButtonItems = [backBarBtn]
+        self.navigationItem.rightBarButtonItems = [sellBarBtn]
         
     }
     
@@ -141,10 +148,10 @@ class CategoryDetailsViewController: UIViewController, UIScrollViewDelegate {
         let buttonHeight = CGFloat(25)
         let filterButtonSize = CGSizeMake(buttonWidth, buttonHeight)
         
-        self.popularBtnIns.frame.size = filterButtonSize
+        /*self.popularBtnIns.frame.size = filterButtonSize
         self.newestBtnIns.frame.size = filterButtonSize
         self.lowToHighBtnIns.frame.size = filterButtonSize
-        self.highToLowBtnIns.frame.size = filterButtonSize
+        self.highToLowBtnIns.frame.size = filterButtonSize*/
     }
     
     func onClickBackBtn(sender: AnyObject?) {
@@ -153,5 +160,14 @@ class CategoryDetailsViewController: UIViewController, UIScrollViewDelegate {
         self.navigationController?.pushViewController(secondViewController, animated: true)
     }
     
+    func onClickSellBtn(sender: AnyObject?) {
+        print("calling here...onClickSellBtn")
+        let vController = self.storyboard?.instantiateViewControllerWithIdentifier("sellProductsViewController")
+        self.navigationController?.pushViewController(vController!, animated: true)
+    }
     
+    @IBAction func onClickCloseTip(sender: AnyObject) {
+        self.categoryTips.hidden = true
+        _controller!.view.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
+    }
 }

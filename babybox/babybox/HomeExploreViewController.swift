@@ -12,11 +12,10 @@ import Kingfisher
 
 class HomeExploreViewController: UIViewController {
     
-    @IBOutlet weak var floatingView: UIView!
-    
-    @IBOutlet weak var topConstraint: NSLayoutConstraint!
     var apiController: ApiControlller = ApiControlller()
+    var _controller: AbstractFeedViewController? = nil
     
+    @IBOutlet weak var exploreTip: UIView!
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
     }
@@ -24,12 +23,20 @@ class HomeExploreViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let _controller = self.storyboard?.instantiateViewControllerWithIdentifier("abstractFeedController") as! AbstractFeedViewController
-        _controller.view.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
-        _controller.isHeaderView = true
-        _controller.setFeedtype(FeedFilter.FeedType.HOME_EXPLORE)
-        _controller.activityLoading.startAnimating()
-        self.view.addSubview((_controller.view)!)
+        //Get the preferences for Explore Tip and if present hide the tip.
+        _controller = self.storyboard?.instantiateViewControllerWithIdentifier("abstractFeedController") as? AbstractFeedViewController
+        if (!SharedPreferencesUtil.getInstance().isScreenViewed(SharedPreferencesUtil.Screen.HOME_EXPLORE_TIPS)) {
+            self.exploreTip.hidden = false
+            _controller!.view.frame = CGRectMake(0, exploreTip.frame.height, self.view.frame.width, self.view.frame.height)
+            SharedPreferencesUtil.getInstance().setScreenViewed(SharedPreferencesUtil.Screen.HOME_EXPLORE_TIPS)
+        } else {
+            _controller!.view.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
+        }
+        
+        _controller!.isHeaderView = true
+        _controller!.setFeedtype(FeedFilter.FeedType.HOME_EXPLORE)
+        _controller!.activityLoading.startAnimating()
+        self.view.addSubview((_controller!.view)!)
         
         apiController.getAllCategories();
         apiController.getHomeExploreFeeds(0);
@@ -71,10 +78,9 @@ class HomeExploreViewController: UIViewController {
         
     }
     
-    @IBAction func btnCancel(sender: AnyObject) {
-        self.floatingView.hidden = true
-        self.topConstraint.constant = 0.0
+    @IBAction func onClicTipClose(sender: AnyObject) {
+        self.exploreTip.hidden = true
+        _controller!.view.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
     }
-    
 }
 

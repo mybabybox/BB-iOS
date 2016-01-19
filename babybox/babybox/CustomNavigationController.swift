@@ -67,7 +67,7 @@ class CustomNavigationController: UIViewController {
         userThumbnailImg.frame = CGRectMake(0, 0, 35, 35)
         userThumbnailImg.layer.cornerRadius = 18.0
         userThumbnailImg.layer.masksToBounds = true
-        let imagePath =  constants.imagesBaseURL + "/image/get-thumbnail-profile-image-by-id/" + String(constants.userInfo?.id)
+        let imagePath =  constants.imagesBaseURL + "/image/get-thumbnail-profile-image-by-id/" + String(constants.userInfo.id)
         let imageUrl  = NSURL(string: imagePath);
         let imageData = NSData(contentsOfURL: imageUrl!)
         if (imageData != nil) {
@@ -75,12 +75,12 @@ class CustomNavigationController: UIViewController {
         }
         
         let userNameImg: UIButton = UIButton()
-        userNameImg.setTitle(constants.userInfo?.displayName, forState: UIControlState.Normal)
+        userNameImg.setTitle(constants.userInfo.displayName, forState: UIControlState.Normal)
         userNameImg.addTarget(self, action: "onClickUserBtn:", forControlEvents: UIControlEvents.TouchUpInside)
         userNameImg.frame = CGRectMake(0, 0, 60, 35)
         
         let sellBtn: UIButton = UIButton()
-        sellBtn.setImage(UIImage(named: "ic_chat_s"), forState: UIControlState.Normal)
+        sellBtn.setImage(UIImage(named: "new_post"), forState: UIControlState.Normal)
         sellBtn.addTarget(self, action: "onClickSellBtn:", forControlEvents: UIControlEvents.TouchUpInside)
         sellBtn.frame = CGRectMake(0, 0, 35, 35)
         

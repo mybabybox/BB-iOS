@@ -157,10 +157,12 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
             cell.likeCount.text = String(post.numLikes)
             cell.title.text = post.title
             
-            cell.productPrice.text = "\(constants.currencySymbol) \(String(stringInterpolationSegment: post.price))"
+            cell.productPrice.text = "\(constants.currencySymbol) \(String(stringInterpolationSegment: Int(post.price)))"
             
-            let attrString = NSAttributedString(string: "\(constants.currencySymbol) \(String(stringInterpolationSegment:post.originalPrice))", attributes: [NSStrikethroughStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue])
-            cell.originalPrice.attributedText = attrString
+            if (post.originalPrice != 0 && post.originalPrice != -1 && post.originalPrice != Int(post.price)) {
+                let attrString = NSAttributedString(string: "\(constants.currencySymbol) \(String(stringInterpolationSegment:Int(post.originalPrice)))", attributes: [NSStrikethroughStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue])
+                cell.originalPrice.attributedText = attrString
+            }
             
             cell.likeImageIns.addTarget(self, action: "onLikeBtnClick:", forControlEvents: UIControlEvents.TouchUpInside)
             
@@ -182,19 +184,6 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
         } else {
             self.performSegueWithIdentifier("gotoproductdetail", sender: nil)
         }
-        
-        /*if (collectionView.tag == 2) {
-            
-            let vController = self.storyboard?.instantiateViewControllerWithIdentifier("myCategoryDetailView") as! CategoryDetailsViewController
-            vController.categories = self.categories[self.currentIndex]
-            self.navigationController?.pushViewController(vController, animated: true)
-            //self.performSegueWithIdentifier("gotocatogorydetails", sender: nil)
-        } else {
-            apiController.getProductDetails(String(Int(self.products[self.currentIndex].id)))
-            let vController = self.storyboard?.instantiateViewControllerWithIdentifier("ProductViewController")
-            as! ProductDetailsViewController
-            self.navigationController?.pushViewController(vController, animated: true)
-        }*/
     }
     
     func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
@@ -267,7 +256,9 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
                     .CATEGORY_NEWEST:
                 return CGSizeMake(self.view.frame.width, 190)
                 default:
-                    return CGSizeMake(self.view.frame.width, 250)
+                    let availableWidthForCells:CGFloat = self.view.bounds.width - 35
+                    let cellWidth :CGFloat = availableWidthForCells / 3
+                    return CGSizeMake(self.view.frame.width, (cellWidth * 2) + 60)
                 
             }
         }
@@ -395,17 +386,15 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
         default:
             let availableWidthForCells:CGFloat = self.view.bounds.width - 35
             let cellWidth :CGFloat = availableWidthForCells / 3
-            let cellHeight = CGFloat(95.0)//cellWidth
-            collectionViewTopCellSize = CGSizeMake(cellWidth, cellHeight)
-            
+            collectionViewTopCellSize = CGSizeMake(cellWidth, cellWidth)
+        
         }
     }
     
     func setCollectionViewSizesInsets() {
         let availableWidthForCells:CGFloat = self.view.bounds.width - 15
         let cellWidth :CGFloat = availableWidthForCells / 2
-        let cellHeight = cellWidth * 4/3
-        collectionViewCellSize = CGSizeMake(cellWidth, cellHeight)
+        collectionViewCellSize = CGSizeMake(cellWidth, cellWidth)
     }
     
     func setFeedtype(feedType: FeedFilter.FeedType) {

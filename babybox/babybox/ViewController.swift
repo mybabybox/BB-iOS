@@ -34,8 +34,6 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFieldDel
             self.signInButton.enabled = false
             self.signInButton.alpha = 0.75
             if (userNameTxt.text!.isEmpty || passwordTxt.text!.isEmpty) {
-                print("enter details....")
-                
                 let _errorDialog = UIAlertController(title: "Warning Message", message: "Please Enter UserName & Password", preferredStyle: UIAlertControllerStyle.Alert)
                 let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil);
                 _errorDialog.addAction(okAction)
@@ -67,6 +65,8 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFieldDel
             self.presentViewController(_errorDialog, animated: true, completion: nil)
             self.progressIndicator.hidden = true
             self.progressIndicator.stopAnimating()
+            self.signInButton.enabled = true
+            self.signInButton.alpha = 1.0
         } else {
             constants.accessToken = resultDto
             ApiControlller.apiController.getUserInfo()
@@ -204,13 +204,14 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFieldDel
     }
     
     func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
-        print("login in progress")
+        
         if (error == nil) {
-            print("Login Complete..", terminator: "")
             self.isUserLoggedIn = true
-            
+            if (!result.isCancelled) {
+                self.apiController.validateFacebookUser(result.token.tokenString)
+            }
             //make API call to authenticate facebook user on server.
-            apiController.validateFacebookUser(result.token.tokenString);
+            
             //self.performSegueWithIdentifier("clickToFacebookLogin", sender: self)
         } else {
             print(error.localizedDescription, terminator: "")

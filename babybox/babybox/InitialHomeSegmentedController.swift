@@ -36,10 +36,10 @@ class InitialHomeSegmentedController: CustomNavigationController {
         UISegmentedControl.appearance().setTitleTextAttributes(activeTextAttributes, forState: .Selected)
         
         self.exploreController = self.storyboard!.instantiateViewControllerWithIdentifier("HomeExploreViewController") as! HomeExploreViewController
-        self.exploreController!.view.frame = CGRectMake(0, 0, self.baseView.bounds.width, self.baseView.bounds.height-20)
+        self.exploreController!.view.frame = CGRectMake(0, 0, self.baseView.bounds.width, self.baseView.bounds.height)
         
         self.followingController = self.storyboard!.instantiateViewControllerWithIdentifier("homefollowingViewController") as! HomeFollowingViewController
-        self.followingController!.view.frame = CGRectMake(0, 0, self.baseView.bounds.width, self.baseView.bounds.height-20)
+        self.followingController!.view.frame = CGRectMake(0, 0, self.baseView.bounds.width, self.baseView.bounds.height)
         
         let image = UIImage(named: "mn_home_sel")
         image?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
@@ -65,8 +65,8 @@ class InitialHomeSegmentedController: CustomNavigationController {
         let color: UIColor = UIColor(red: 255/255, green: 118/255, blue: 164/255, alpha: 1.0)
         self.drawLineFromPoint(start, toPoint: end, ofColor: color, inView: self.segController)
         
-        self.exploreController!.view.frame = CGRectMake(0, 0, self.baseView.bounds.width, self.baseView.bounds.height-20)
-        self.followingController!.view.frame = CGRectMake(0, 0, self.baseView.bounds.width, self.baseView.bounds.height-20)
+        self.exploreController!.view.frame = CGRectMake(0, 0, self.baseView.bounds.width, self.baseView.bounds.height)
+        self.followingController!.view.frame = CGRectMake(0, 0, self.baseView.bounds.width, self.baseView.bounds.height)
         
         
     }
@@ -136,14 +136,14 @@ class InitialHomeSegmentedController: CustomNavigationController {
             //print(segue.destinationViewController)
             //print(navigationController.viewControllers)
             let vController = segue.destinationViewController as! UserProfileViewController
-            vController.userId = (constants.userInfo?.id)!
+            vController.userId = (constants.userInfo.id)
         } else if (identifier != nil && identifier == "gotoUserProfile") {
             //let navigationController = segue.destinationViewController as! UINavigationController
             let vController = segue.destinationViewController as! UserProfileViewController
-            vController.userId = (constants.userInfo?.id)!
+            vController.userId = (constants.userInfo.id)
         } else if (identifier != nil && identifier == "gotouserchat") {
             let vController = segue.destinationViewController as! ConversationsViewController
-            vController.userId = (constants.userInfo?.id)!
+            vController.userId = (constants.userInfo.id)
         } else if (identifier != nil && identifier == "sellProduct") {
         } else if (identifier != nil && identifier == "badge") {
         }

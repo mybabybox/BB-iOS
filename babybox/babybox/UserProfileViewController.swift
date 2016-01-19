@@ -39,7 +39,7 @@ class UserProfileViewController: UIViewController {
         super.viewDidLoad()
         print("userid " + String(self.userId))
         if (userId == 0) {
-            userId = (constants.userInfo?.id)!
+            userId = constants.userInfo.id
         }
         ApiControlller.apiController.getUserInfoById(userId)
         
@@ -49,7 +49,7 @@ class UserProfileViewController: UIViewController {
             
             //self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "actionbar_bg_pink"), forBarMetrics: UIBarMetrics.Default)
             self.userName.text = resultDto.displayName
-            let imagePath =  constants.imagesBaseURL + "/image/get-mini-profile-image-by-id/" + String(constants.userInfo?.id)
+            let imagePath =  constants.imagesBaseURL + "/image/get-mini-profile-image-by-id/" + String(constants.userInfo.id)
             let imageUrl  = NSURL(string: imagePath);
             let imageData = NSData(contentsOfURL: imageUrl!)
             if (imageData != nil) {
@@ -58,13 +58,13 @@ class UserProfileViewController: UIViewController {
                 });
             }
             
-            if (constants.userInfo?.numFollowers > 0) {
+            if (constants.userInfo.numFollowers > 0) {
                 self.followers.setTitle("Followers " + String(resultDto.numFollowers), forState: UIControlState.Normal)
             } else {
                 self.followers.setTitle("Followers", forState: UIControlState.Normal)
             }
             
-            if (constants.userInfo?.numFollowings > 0) {
+            if (constants.userInfo.numFollowings > 0) {
                 self.followings.setTitle("Following " + String(resultDto.numFollowings), forState: UIControlState.Normal)
             } else {
                 self.followings.setTitle("Following", forState: UIControlState.Normal)
