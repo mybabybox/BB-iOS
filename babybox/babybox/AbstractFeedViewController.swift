@@ -184,6 +184,20 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
             cell.layer.borderColor = CGColorCreate(CGColorSpaceCreateDeviceRGB(), [194/255, 195/255, 200/255, 1.0])
             cell.layer.borderWidth = 1
             
+            if (feedFilter == FeedFilter.FeedType.HOME_FOLLOWING) {
+                cell.userCircleImg.layer.cornerRadius = 20.0
+                cell.userCircleImg.layer.masksToBounds = true
+                cell.userCircleImg.layer.borderColor = UIColor.whiteColor().CGColor
+                cell.userCircleImg.layer.borderWidth = CGFloat(1.0)
+                
+                let imagePath =  constants.imagesBaseURL + "/image/get-post-image-by-id/" + String(Int(post.ownerId))
+                let imageUrl  = NSURL(string: imagePath);
+                
+                dispatch_async(dispatch_get_main_queue(), {
+                    cell.userCircleImg.kf_setImageWithURL(imageUrl!)
+                });
+                
+            }
             return cell
         }
     }

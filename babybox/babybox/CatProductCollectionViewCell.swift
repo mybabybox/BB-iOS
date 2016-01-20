@@ -10,6 +10,7 @@ import UIKit
 
 class CatProductCollectionViewCell: UICollectionViewCell {
     
+    @IBOutlet weak var userCircleImg: UIImageView!
     @IBOutlet weak var prodImageView: UIImageView!
     @IBOutlet weak var productPrice: UILabel!
     @IBOutlet weak var likeCount: UILabel!
