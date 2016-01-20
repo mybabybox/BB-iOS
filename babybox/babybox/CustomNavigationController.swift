@@ -15,8 +15,6 @@ class CustomNavigationController: UIViewController {
         /** Creating Custom Navigation Controller Component */
         
         initNavigationComponent()
-        //initBottomStatusBarComponent()
-        
     }
     
     override func didReceiveMemoryWarning() {

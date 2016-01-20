@@ -10,15 +10,19 @@ import Foundation
 import UIKit
 import SwiftEventBus
 
-class ProductDetailsViewController: UIViewController, UITextFieldDelegate{
+class ProductDetailsViewController: UIViewController, UITextFieldDelegate {
     
+    @IBOutlet weak var commentsCount: UILabel!
+    @IBOutlet weak var prodCondition: UILabel!
     @IBOutlet var imageuser: UIImageView!
     
+    @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet var month: UILabel!
-    @IBOutlet var conditionvalue: UILabel!
+    @IBOutlet weak var conditionType: UILabel!
+    
     @IBOutlet var likeButtonMonth: UIButton!
     @IBOutlet var likeMonths: UILabel!
-    @IBOutlet var titletext: UILabel!
+    
     @IBOutlet var monthTime: UILabel!
     @IBOutlet var buynow: UIButton!
     @IBOutlet weak var uiScrollView: UIScrollView!
@@ -33,7 +37,7 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate{
     
     
     var productInfo: [PostCatModel] = []
-    
+    var noOfComments: Int = 0
     var fromPage: String = ""
     var items: [String] = [] //comment items
     var category: CategoryModel?
@@ -85,20 +89,23 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate{
         self.conversations = []
         
         ApiControlller.apiController.getConversation()
+        
         self.uiScrollView.pagingEnabled = true
         self.uiScrollView.contentSize = CGSizeMake(self.uiScrollView.bounds.width, 900)
+        
         self.productTitle.text = productModel.title
-        self.productPrice.text = "\(constants.currencySymbol) \(String(stringInterpolationSegment: productModel.price))"
+        self.productPrice.text = "\(constants.currencySymbol) \(String(stringInterpolationSegment: Int(productModel.price)))"
         self.likeCountLabel.text = String(productModel.numLikes)
         self.likeMonths.text = String(productModel.numLikes)
         self.id = Double(productModel.id)
-       
-        self.conditionvalue.text = productModel.conditionType
-        self.titletext.text = productModel.conditionType
         
-    
+        self.conditionType.text = productModel.postType
+        self.prodCondition.text = productModel.conditionType
+        
+        //need to put condition here to show relevant button as per owner status
         self.ownerName.text = productModel.ownerName
         
+        print(self.productImageView.frame.width)
         if(productModel.isLiked == false){
             self.likeButton.setImage(UIImage(named: "ic_like_tips.png"), forState: UIControlState.Normal)
             self.likeFlag = false
@@ -107,35 +114,16 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate{
             self.likeFlag = true
         }
         
-            if (self.productModel.hasImage) {
-                let imagePath =  constants.imagesBaseURL + "/image/get-post-image-by-id/" + String(self.productModel.images[0])
-                let imageUrl  = NSURL(string: imagePath);
-                let imageData = NSData(contentsOfURL: imageUrl!)
-                print(imageUrl, terminator: "")
-                
-                print(self.productImageView.bounds.width)
-                print(self.productImageView.bounds.height)
-                
-                dispatch_async(dispatch_get_main_queue(), {
-                    if (imageData != nil) {
-                        self.productImageView.image = UIImage(data: imageData!)
-                    }
-                });
-            }
-        
-        SwiftEventBus.onMainThread(self, name: "conversationsSuccess") { result in
-            // UI thread
-            if result != nil {
-                let resultDto: [ConversationVM] = result.object as! [ConversationVM]
-                self.handleConversation(resultDto)
-            } else {
-                print("null value")
-            }
+        if (self.productModel.hasImage) {
+            let imagePath =  constants.imagesBaseURL + "/image/get-post-image-by-id/" + String(self.productModel.images[0])
+            let imageUrl  = NSURL(string: imagePath);
+            let imageData = NSData(contentsOfURL: imageUrl!)
+            dispatch_async(dispatch_get_main_queue(), {
+                if (imageData != nil) {
+                    self.productImageView.image = UIImage(data: imageData!)
+                }
+            });
         }
-        
-        SwiftEventBus.onMainThread(self, name: "conversationsFailed") { result in
-        }
-        
     }
     
     func handleConversation(conversation: [ConversationVM]) {
@@ -151,13 +139,14 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate{
         
         self.onClickCancel.layer.cornerRadius = 5.0
         self.onClickCancel.layer.masksToBounds = true
-        self.imageuser.layer.cornerRadius=15.0
+        self.imageuser.layer.cornerRadius = 20.0
         self.imageuser.layer.masksToBounds = true
         
         self.viewbtn.layer.cornerRadius = 5.0
         self.viewbtn.layer.masksToBounds = true
         self.viewbtn.layer.borderWidth = CGFloat(1)
-        self.viewbtn.layer.borderColor=UIColor.magentaColor().CGColor
+        self.viewbtn.layer.borderColor = BabyboxUtils.babyBoxUtils.UIColorFromRGB(0xFF99B8).CGColor
+            
         self.postCommentButton.layer.cornerRadius = 5.0
         self.postCommentButton.layer.masksToBounds = true
         self.postCommentButton.layer.borderWidth = CGFloat(1)
@@ -166,6 +155,12 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate{
         self.buynow.layer.masksToBounds = true
         self.commentTextField.delegate=self
         self.commentTable.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        //self.productImageView.frame =
+            //CGRectMake(
+             //   self.productImageView.frame.origin.x,
+             //   self.productImageView.frame.origin.x,
+              //  self.productImageView.frame.width,
+              //  300)
         
         //self.navigationController?.toolbar.hidden = true
         SwiftEventBus.onMainThread(self, name: "productDetailsReceivedSuccess") { result in
@@ -175,6 +170,20 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate{
             print(resultDto, terminator: "")
             self.handleGetProductDetailsSuccess(resultDto)
         }
+        
+        SwiftEventBus.onMainThread(self, name: "conversationsSuccess") { result in
+            // UI thread
+            if result != nil {
+                let resultDto: [ConversationVM] = result.object as! [ConversationVM]
+                self.handleConversation(resultDto)
+            } else {
+                print("null value")
+            }
+        }
+        
+        SwiftEventBus.onMainThread(self, name: "conversationsFailed") { result in
+        }
+
        
         let backImg: UIButton = UIButton()
         backImg.addTarget(self, action: "onClickBackBtn:", forControlEvents: UIControlEvents.TouchUpInside)
@@ -195,33 +204,40 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate{
     
     func handleGetProductDetailsSuccess(result: [PostCatModel]) {
         print("handling success...", terminator: "")
-        for value in result {
-            self.productInfo.append(value)
-        }
-        
-        for comment in self.productInfo[0].latestComments {
+        if (result.count > 0) {
+            self.productInfo.append(result[0])
+            
+            for comment in self.productInfo[0].latestComments {
                 self.items.append(comment.body)
+            }
+            self.noOfComments = self.items.count
+            self.updateCommentTxt()
+            self.commentTable.reloadData()
+            self.productDescriptionLabel.text = self.productInfo[0].body
+            self.ownerNumProducts.text = String(self.productInfo[0].ownerNumProducts)
+            self.ownerNumFollowers.text = String(self.productInfo[0].ownerNumFollowers)
+            
+            if (self.productModel.ownerId != -1) {
+                let imagePath =  constants.imagesBaseURL + "/image/get-post-image-by-id/" + String(self.productInfo[0].ownerId)
+                
+                let imageUrl  = NSURL(string: imagePath);
+                let imageData = NSData(contentsOfURL: imageUrl!)
+                dispatch_async(dispatch_get_main_queue(), {
+                    if (imageData != nil) {
+                        self.imageuser.image = UIImage(data: imageData!)
+                    }
+                });
+            }
         }
-        self.commentTable.reloadData()
-        
-        self.productDescriptionLabel.text = self.productInfo[0].body
-        self.ownerNumProducts.text = String(self.productInfo[0].ownerNumProducts)
-        self.ownerNumFollowers.text = String(self.productInfo[0].ownerNumFollowers)
     }
     
     @IBAction func postComment(sender: AnyObject) {
-        print("comment is....", terminator: "")
-        print(self.commentTextField.text, terminator: "")
-        self.submitComment()
-    }
-    
-    func submitComment() {
         self.items.append(self.commentTextField.text!)
-        //print(self.items)
-        
         self.commentTable.reloadData()
         
         ApiControlller().postComment(String(Int(self.id)), comment: self.commentTextField.text!)
+        self.noOfComments++
+        self.updateCommentTxt()
         self.commentTextField.text = ""
     }
     
@@ -232,9 +248,8 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate{
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell:UITableViewCell = self.commentTable.dequeueReusableCellWithIdentifier("cell")! 
         
+        cell.textLabel?.font = UIFont.systemFontOfSize(12.0)
         cell.textLabel?.text = self.items[indexPath.row]
-        
-        
         return cell
     }
     
@@ -268,22 +283,22 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate{
         }
     }
     
-    /*@IBAction func onClickBack(sender: AnyObject) {
-        
-        if self.fromPage == "homeexplore" {
-            let secondViewController = self.storyboard?.instantiateViewControllerWithIdentifier("initialSegmentViewController") as! InitialHomeSegmentedController
-            secondViewController.activeSegment = 0
-            self.navigationController?.pushViewController(secondViewController, animated: true)
-        }else if self.fromPage == "homefollowing" {
-            let secondViewController = self.storyboard?.instantiateViewControllerWithIdentifier("initialSegmentViewController") as! InitialHomeSegmentedController
-            secondViewController.activeSegment = 1
-            self.navigationController?.pushViewController(secondViewController, animated: true)
-        }else if self.fromPage == "categorydetails" {
-            let secondViewController = self.storyboard?.instantiateViewControllerWithIdentifier("myCategoryDetailView") as! CategoryDetailsViewController
-            secondViewController.categories = self.category!
-            self.navigationController?.pushViewController(secondViewController, animated: true)
-        }
-    }*/
+    func updateCommentTxt() {
+        //self.calculateTableViewHeight()
+        self.commentsCount.text = String(noOfComments) + " Comments"
+    }
+    
+    func calculateTableViewHeight() {
+        let height = self.commentTable.contentSize.height
+        UIView.animateWithDuration(0.2, animations: {
+            //self.tableViewHeightConstraint.constant = height;
+            
+            self.commentTable.frame = CGRectMake(self.commentTable.frame.origin.x, self.commentTable.frame.origin.y, self.commentTable.frame.width, height)
+            self.view.setNeedsUpdateConstraints()
+            self.view.needsUpdateConstraints()
+        })
+    }
+    
 }
 
 extension NSDate {

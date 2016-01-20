@@ -28,7 +28,7 @@ class PostCatModel: PostModel {
     var deviceType: String = ""
     
     override func mapping(map: ObjectMapper.Map) {
-        
+        ownerId<-map["ownerId"]
         createdDate<-map["createdDate"]
         updatedDate<-map["updatedDate"]
         ownerNumProducts<-map["ownerNumProducts"]
@@ -42,7 +42,6 @@ class PostCatModel: PostModel {
         isOwner<-map["isOwner"]
         isFollowingOwner<-map["isFollowingOwner"]
         deviceType<-map["deviceType"]
-        
         
     }
 }

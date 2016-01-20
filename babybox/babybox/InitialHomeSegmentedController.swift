@@ -82,7 +82,7 @@ class InitialHomeSegmentedController: CustomNavigationController {
         //let storyboard = UIStoryboard(name: "Main", bundle: nil)
         if(self.segController.selectedSegmentIndex == 0){
             
-            let y = CGFloat(self.segController.frame.height)
+            let y = CGFloat(self.segController.frame.size.height)
             let start: CGPoint = CGPoint(x: 0, y: y)
             let end: CGPoint = CGPoint(x: self.segController.frame.size.width / 2, y: y)
 
@@ -93,7 +93,7 @@ class InitialHomeSegmentedController: CustomNavigationController {
             self.baseView.addSubview(self.exploreController!.view)
             
         } else if(self.segController.selectedSegmentIndex == 1){
-            let y = CGFloat(self.segController.frame.height)
+            let y = CGFloat(self.segController.frame.size.height)
             let start: CGPoint = CGPoint(x: self.segController.frame.size.width / 2 , y: y)
             let end: CGPoint = CGPoint(x: self.segController.frame.size.width, y: y)
             
@@ -117,11 +117,16 @@ class InitialHomeSegmentedController: CustomNavigationController {
         shapeLayer.fillColor = UIColor.whiteColor().CGColor
         shapeLayer.path = path.CGPath
         shapeLayer.strokeColor = lineColor.CGColor
-        shapeLayer.lineWidth = 3.0
+        shapeLayer.lineWidth = 2.0
         shapeLayer.allowsEdgeAntialiasing = false
         shapeLayer.allowsGroupOpacity = false
         shapeLayer.autoreverses = false
-        view.layer.addSublayer(shapeLayer)
+        
+       // self.segController.layer.cornerRadius = 15.0;
+       // self.segController.layer.masksToBounds = true;
+        
+        self.view.layer.addSublayer(shapeLayer)
+        
     }
     
     override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
@@ -132,9 +137,6 @@ class InitialHomeSegmentedController: CustomNavigationController {
 
         let identifier = segue.identifier
         if (identifier != nil && identifier == "gotoUserProfile_") {
-            //let navigationController = segue.destinationViewController as! UINavigationController
-            //print(segue.destinationViewController)
-            //print(navigationController.viewControllers)
             let vController = segue.destinationViewController as! UserProfileViewController
             vController.userId = (constants.userInfo.id)
         } else if (identifier != nil && identifier == "gotoUserProfile") {

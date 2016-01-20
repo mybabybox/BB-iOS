@@ -13,7 +13,7 @@ import ObjectMapper
 
 class PostModel: BaseArgModel {
     var id: Int = 0
-    var ownerId: Double = 0
+    var ownerId: Int = 0
     var ownerName: String = ""
     var title: String = ""
     var price: Double = 0

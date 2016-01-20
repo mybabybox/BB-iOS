@@ -310,6 +310,7 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
         if (identifier == "gotocatogorydetails") {
             let navController = segue.destinationViewController as! UINavigationController
             let vController = navController.viewControllers.first as! CategoryDetailsViewController
+            
             //let vController = segue.destinationViewController as! CategoryDetailsViewController
             vController.categories = self.categories[self.currentIndex]
         } else if (identifier == "gotoproductdetail") {
@@ -364,7 +365,15 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
     // MARK: UIScrollview Delegate
     func scrollViewDidScroll(scrollView: UIScrollView) {
         UIView.animateWithDuration(0.2, animations: {
-            //constants.viewControllerIns!.tabBarController!.tabBar.hidden = true
+            
+            /*let currentLocation = scrollView.contentOffset.y
+            if (scrollView.frame.origin.y > currentLocation) {
+                constants.viewControllerIns!.tabBarController?.tabBar.hidden = false
+            } else {
+                constants.viewControllerIns!.tabBarController?.tabBar.hidden = true
+            }
+            */
+	    constants.viewControllerIns!.tabBarController?.tabBar.hidden = true
             constants.viewControllerIns!.hidesBottomBarWhenPushed = true
             
             //let tabBarHeight = constants.viewControllerIns!.tabBarController!.tabBar.frame.size.height
@@ -397,7 +406,7 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
     
     func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
         UIView.animateWithDuration(0.2, animations: {
-            //constants.viewControllerIns!.tabBarController!.tabBar.hidden = false
+            constants.viewControllerIns!.tabBarController?.tabBar.hidden = false
             constants.viewControllerIns!.hidesBottomBarWhenPushed = true
         })
         //let tabBarHeight = constants.viewControllerIns!.tabBarController!.tabBar.frame.size.height
