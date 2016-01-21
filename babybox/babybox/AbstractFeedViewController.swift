@@ -309,7 +309,7 @@ class AbstractFeedViewController: UIViewController, UIScrollViewDelegate {
         let identifier = segue.identifier
         if (identifier == "gotocatogorydetails") {
             let navController = segue.destinationViewController as! UINavigationController
-            let vController = navController.viewControllers.first as! CategoryDetailsViewController
+            let vController = navController.viewControllers.first as! CategoryFeedViewController
             
             //let vController = segue.destinationViewController as! CategoryDetailsViewController
             vController.categories = self.categories[self.currentIndex]
