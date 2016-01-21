@@ -276,7 +276,7 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate {
             secondViewController.activeSegment = 1
             self.navigationController?.pushViewController(secondViewController, animated: true)
         }else if self.fromPage == "categorydetails" {
-            let secondViewController = self.storyboard?.instantiateViewControllerWithIdentifier("myCategoryDetailView") as! CategoryDetailsViewController
+            let secondViewController = self.storyboard?.instantiateViewControllerWithIdentifier("CategoryFeedViewController") as! CategoryFeedViewController
             secondViewController.categories = self.category!
             
             self.navigationController?.pushViewController(secondViewController, animated: true)

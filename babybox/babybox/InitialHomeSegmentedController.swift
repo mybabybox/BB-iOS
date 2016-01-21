@@ -35,10 +35,10 @@ class InitialHomeSegmentedController: CustomNavigationController {
         UISegmentedControl.appearance().setTitleTextAttributes(normalTextAttributes, forState: .Normal)
         UISegmentedControl.appearance().setTitleTextAttributes(activeTextAttributes, forState: .Selected)
         
-        self.exploreController = self.storyboard!.instantiateViewControllerWithIdentifier("HomeExploreViewController") as! HomeExploreViewController
+        self.exploreController = self.storyboard!.instantiateViewControllerWithIdentifier("HomeFeedViewController") as! HomeFeedViewController
         self.exploreController!.view.frame = CGRectMake(0, 0, self.baseView.bounds.width, self.baseView.bounds.height)
         
-        self.followingController = self.storyboard!.instantiateViewControllerWithIdentifier("homefollowingViewController") as! HomeFollowingViewController
+        self.followingController = self.storyboard!.instantiateViewControllerWithIdentifier("FollowingFeedViewController") as! FollowingFeedViewController
         self.followingController!.view.frame = CGRectMake(0, 0, self.baseView.bounds.width, self.baseView.bounds.height)
         
         let image = UIImage(named: "mn_home_sel")

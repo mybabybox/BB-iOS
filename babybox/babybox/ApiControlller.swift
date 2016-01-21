@@ -42,7 +42,7 @@ class ApiControlller {
         let callEvent = ApiCallEvent()
         callEvent.method = "get-home-explore-feed"
         callEvent.resultClass = "PostModel"
-        callEvent.successEventbusName = "feedReceivedSuccess"
+        callEvent.successEventbusName = "homeFeedReceivedSuccess"
         callEvent.failedEventbusName = "feedReceivedFailed"
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method + "/" + String(offSet);
         
