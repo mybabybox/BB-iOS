@@ -21,6 +21,10 @@ class SharedPreferencesUtil {
         case MY_PROFILE_TIPS = "MY_PROFILE_TIPS"
     }
     
+    enum User: String {
+        case ACCESS_TOKEN = "accessToken"
+        case USER_INFO = "userInfo"
+    }
     private static let sharedPreferencesUtil = SharedPreferencesUtil()
     var prefs: NSUserDefaults = NSUserDefaults.standardUserDefaults()
     
@@ -40,6 +44,22 @@ class SharedPreferencesUtil {
     
     func setScreenViewed(screen: Screen) {
         self.prefs.setBool(true, forKey: screen.rawValue)
+    }
+    
+    func setUserAccessToken(accessToken: String) {
+        self.prefs.setValue(accessToken, forKey: User.ACCESS_TOKEN.rawValue)
+    }
+    
+    func getUserAccessToken(accessToken: String) -> String {
+        return String(self.prefs.valueForKey(User.ACCESS_TOKEN.rawValue))
+    }
+    
+    func saveUserInfo(userInfo: UserInfoVM) {
+        self.prefs.setValue(userInfo, forKey: User.USER_INFO.rawValue)
+    }
+    
+    func getUserInfo() -> UserInfoVM {
+        return self.prefs.valueForKey(User.USER_INFO.rawValue) as! UserInfoVM
     }
     
 }

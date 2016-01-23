@@ -66,23 +66,12 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
         
         ApiControlller.apiController.getCategoriesFilterByPopularity(Int(categories.id), offSet: 0)
         
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "actionbar_bg_pink"), forBarMetrics: UIBarMetrics.Default)
-        
-        let backImg: UIButton = UIButton()
-        backImg.addTarget(self, action: "onClickBackBtn:", forControlEvents: UIControlEvents.TouchUpInside)
-        backImg.frame = CGRectMake(0, 0, 35, 35)
-        backImg.layer.cornerRadius = 18.0
-        backImg.layer.masksToBounds = true
-        backImg.setImage(UIImage(named: "back"), forState: UIControlState.Normal)
-        
         let sellBtn: UIButton = UIButton()
         sellBtn.setImage(UIImage(named: "new_post"), forState: UIControlState.Normal)
         sellBtn.addTarget(self, action: "onClickSellBtn:", forControlEvents: UIControlEvents.TouchUpInside)
         sellBtn.frame = CGRectMake(0, 0, 35, 35)
         let sellBarBtn = UIBarButtonItem(customView: sellBtn)
         
-        let backBarBtn = UIBarButtonItem(customView: backImg)
-        self.navigationItem.leftBarButtonItems = [backBarBtn]
         self.navigationItem.rightBarButtonItems = [sellBarBtn]
         
     }
@@ -190,7 +179,15 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
         
         if (collectionView.tag == 2){
         } else {
-            self.performSegueWithIdentifier("gotoproductdetail", sender: nil)
+            //self.performSegueWithIdentifier("gotoproductdetail", sender: nil)
+            let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("ProductViewController") as! ProductDetailsViewController
+            
+            vController.productModel = self.products[self.currentIndex]
+            vController.category = self.selCategory
+            apiController.getProductDetails(String(Int(self.products[self.currentIndex].id)))
+            
+            self.navigationController?.pushViewController(vController, animated: true)
+            
         }
     }
     
@@ -243,18 +240,6 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        
-        //var vController = segue.destinationViewController
-        let identifier = segue.identifier
-        if (identifier == "gotoproductdetail") {
-            let navController = segue.destinationViewController as! UINavigationController
-            let vController = navController.viewControllers.first as! ProductDetailsViewController
-            vController.productModel = self.products[self.currentIndex]
-            vController.category = self.selCategory
-            vController.fromPage = "categorydetails"
-            
-            apiController.getProductDetails(String(Int(self.products[self.currentIndex].id)))
-        }
     }
     
     // MARK: Custom Implementation methods
@@ -319,9 +304,7 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func setCollectionViewSizesInsets() {
-        let availableWidthForCells:CGFloat = self.view.bounds.width - 15
-        let cellWidth :CGFloat = availableWidthForCells / 2
-        collectionViewCellSize = CGSizeMake(cellWidth, cellWidth)
+        collectionViewCellSize = BabyboxUtils.babyBoxUtils.getProductItemCellSize(self.view.bounds.width)
     }
     
     func setFeedtype(feedType: FeedFilter.FeedType) {
@@ -337,7 +320,6 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
         
         //TODO - logic here require if user has already liked the product...
         if (self.products[(indexPath?.row)!].isLiked) {
-            //if (self.products[(indexPath?.row)!].prodLiked) {
             self.products[(indexPath?.row)!].numLikes--
             cell.likeCount.text = String(self.products[(indexPath?.row)!].numLikes)
             self.products[(indexPath?.row)!].isLiked = false
@@ -358,7 +340,6 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
         self.pageOffSet = 0
         self.setFeedtype(FeedFilter.FeedType.CATEGORY_POPULAR)
         self.products = []
-        //setClickedBtnBackgroundAndText(sender as! UIButton)
         ApiControlller.apiController.getCategoriesFilterByPopularity(Int(self.selCategory!.id), offSet: 0)
     }
     
@@ -366,7 +347,6 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
         self.pageOffSet = 0
         self.setFeedtype(FeedFilter.FeedType.CATEGORY_NEWEST)
         self.products = []
-        //setClickedBtnBackgroundAndText(sender as! UIButton)
         ApiControlller.apiController.getCategoriesFilterByNewestPrice(Int(self.selCategory!.id), offSet: 0)
     }
     
@@ -374,7 +354,6 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
         self.pageOffSet = 0
         self.setFeedtype(FeedFilter.FeedType.CATEGORY_PRICE_HIGH_LOW)
         self.products = []
-        //setClickedBtnBackgroundAndText(sender as! UIButton)
         ApiControlller.apiController.getCategoriesFilterByHlPrice(Int(self.selCategory!.id), offSet: 0)
     }
     
@@ -382,19 +361,7 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
         self.pageOffSet = 0
         self.setFeedtype(FeedFilter.FeedType.CATEGORY_PRICE_LOW_HIGH)
         self.products = []
-        //setClickedBtnBackgroundAndText(sender as! UIButton)
         ApiControlller.apiController.getCategoriesFilterByLhPrice(Int(self.selCategory!.id), offSet: 0)
-    }
-    
-    func onClickBackBtn(sender: AnyObject?) {
-        let secondViewController = self.storyboard?.instantiateViewControllerWithIdentifier("initialSegmentViewController") as! InitialHomeSegmentedController
-        secondViewController.activeSegment = 0
-        self.navigationController?.pushViewController(secondViewController, animated: true)
-    }
-    
-    func onClickSellBtn(sender: AnyObject?) {
-        let vController = self.storyboard?.instantiateViewControllerWithIdentifier("sellProductsViewController")
-        self.navigationController?.pushViewController(vController!, animated: true)
     }
     
     @IBAction func onClickCloseTip(sender: AnyObject) {

@@ -12,8 +12,8 @@ import FBSDKLoginKit
 
 class InitialHomeSegmentedController: CustomNavigationController {
 
+    @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var segController: UISegmentedControl!
-    @IBOutlet weak var baseView: UIView!
     var bottomLayer: CALayer? = nil
     var exploreController : UIViewController?
     var followingController : UIViewController?
@@ -36,15 +36,8 @@ class InitialHomeSegmentedController: CustomNavigationController {
         UISegmentedControl.appearance().setTitleTextAttributes(activeTextAttributes, forState: .Selected)
         
         self.exploreController = self.storyboard!.instantiateViewControllerWithIdentifier("HomeFeedViewController") as! HomeFeedViewController
-        self.exploreController!.view.frame = CGRectMake(0, 0, self.baseView.bounds.width, self.baseView.bounds.height)
         
         self.followingController = self.storyboard!.instantiateViewControllerWithIdentifier("FollowingFeedViewController") as! FollowingFeedViewController
-        self.followingController!.view.frame = CGRectMake(0, 0, self.baseView.bounds.width, self.baseView.bounds.height)
-        
-        let image = UIImage(named: "mn_home_sel")
-        image?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
-        self.tabBarController?.tabBar.items![0].image = image
-        self.tabBarController?.tabBar.hidden = false
         
         constants.viewControllerIns = self
         self.hidesBottomBarWhenPushed = true
@@ -62,12 +55,11 @@ class InitialHomeSegmentedController: CustomNavigationController {
         let start: CGPoint = CGPoint(x: 0, y: y)
         let end: CGPoint = CGPoint(x: self.segController.frame.size.width / 2, y: y)
         
-        let color: UIColor = UIColor(red: 255/255, green: 118/255, blue: 164/255, alpha: 1.0)
-        self.drawLineFromPoint(start, toPoint: end, ofColor: color, inView: self.segController)
         
-        self.exploreController!.view.frame = CGRectMake(0, 0, self.baseView.bounds.width, self.baseView.bounds.height)
-        self.followingController!.view.frame = CGRectMake(0, 0, self.baseView.bounds.width, self.baseView.bounds.height)
-        
+        if(self.segController.selectedSegmentIndex == 0){
+            let color: UIColor = UIColor(red: 255/255, green: 118/255, blue: 164/255, alpha: 1.0)
+            self.drawLineFromPoint(start, toPoint: end, ofColor: color, inView: self.segController)
+        }
         
     }
     
@@ -78,8 +70,6 @@ class InitialHomeSegmentedController: CustomNavigationController {
     
     
     @IBAction func segAction(sender: AnyObject) {
-        
-        //let storyboard = UIStoryboard(name: "Main", bundle: nil)
         if(self.segController.selectedSegmentIndex == 0){
             
             let y = CGFloat(self.segController.frame.size.height)
@@ -89,8 +79,14 @@ class InitialHomeSegmentedController: CustomNavigationController {
             let color: UIColor = UIColor(red: 255/255, green: 118/255, blue: 164/255, alpha: 1.0)
             self.drawLineFromPoint(start, toPoint: end, ofColor: color, inView: self.segController)
             
+            self.followingController?.willMoveToParentViewController(nil)
             self.followingController?.view.removeFromSuperview()
-            self.baseView.addSubview(self.exploreController!.view)
+            self.followingController?.removeFromParentViewController()
+
+            addChildViewController(self.exploreController!)
+            self.exploreController!.view.frame = self.containerView.bounds
+            self.containerView.addSubview((self.exploreController?.view)!)
+            self.exploreController?.didMoveToParentViewController(self)
             
         } else if(self.segController.selectedSegmentIndex == 1){
             let y = CGFloat(self.segController.frame.size.height)
@@ -100,8 +96,14 @@ class InitialHomeSegmentedController: CustomNavigationController {
             let color: UIColor = UIColor(red: 255/255, green: 118/255, blue: 164/255, alpha: 1.0)
             self.drawLineFromPoint(start, toPoint: end, ofColor: color, inView: self.segController)
             
+            self.exploreController?.willMoveToParentViewController(nil)
             self.exploreController?.view.removeFromSuperview()
-            self.baseView.addSubview(self.followingController!.view)
+            self.exploreController?.removeFromParentViewController()
+            
+            addChildViewController(self.followingController!)
+            self.followingController!.view.frame = self.containerView.bounds
+            self.containerView.addSubview((self.followingController?.view)!)
+            self.followingController?.didMoveToParentViewController(self)
         }
     }
     
@@ -121,10 +123,6 @@ class InitialHomeSegmentedController: CustomNavigationController {
         shapeLayer.allowsEdgeAntialiasing = false
         shapeLayer.allowsGroupOpacity = false
         shapeLayer.autoreverses = false
-        
-       // self.segController.layer.cornerRadius = 15.0;
-       // self.segController.layer.masksToBounds = true;
-        
         self.view.layer.addSublayer(shapeLayer)
         
     }
@@ -140,7 +138,6 @@ class InitialHomeSegmentedController: CustomNavigationController {
             let vController = segue.destinationViewController as! UserProfileViewController
             vController.userId = (constants.userInfo.id)
         } else if (identifier != nil && identifier == "gotoUserProfile") {
-            //let navigationController = segue.destinationViewController as! UINavigationController
             let vController = segue.destinationViewController as! UserProfileViewController
             vController.userId = (constants.userInfo.id)
         } else if (identifier != nil && identifier == "gotouserchat") {
@@ -151,11 +148,4 @@ class InitialHomeSegmentedController: CustomNavigationController {
         }
     }
     
-    func goToProfile(sender:UITapGestureRecognizer) {
-        self.performSegueWithIdentifier("gotoUserProfile", sender: nil)
-    }
-    
-    func goToProfile() {
-        self.performSegueWithIdentifier("gotoUserProfile", sender: nil)
-    }
 }

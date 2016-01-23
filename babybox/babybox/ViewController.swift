@@ -129,9 +129,7 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFieldDel
         
         SwiftEventBus.onMainThread(self, name: "loginReceivedSuccess") { result in
             // UI thread
-            print(result.object)
             let resultDto: String = result.object as! String
-            print("here got the login result... " + resultDto);
             self.handleUserLogin(resultDto)
         }
         
@@ -208,6 +206,7 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFieldDel
         if (error == nil) {
             self.isUserLoggedIn = true
             if (!result.isCancelled) {
+                constants.accessToken = result.token.tokenString
                 self.apiController.validateFacebookUser(result.token.tokenString)
             }
             //make API call to authenticate facebook user on server.

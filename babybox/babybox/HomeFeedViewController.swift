@@ -85,7 +85,6 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         var count = 0;
-print(collectionView.tag)
         if (collectionView.tag == 2) {
             count = self.categories.count
         }else{
@@ -159,10 +158,18 @@ print(collectionView.tag)
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         self.currentIndex = indexPath.row
         if (collectionView.tag == 2){
-            self.performSegueWithIdentifier("gotocatogorydetails", sender: nil)
-            
+            //self.performSegueWithIdentifier("gotocatogorydetails", sender: nil)
+            let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("CategoryFeedViewController") as! CategoryFeedViewController
+            vController.selCategory = self.categories[self.currentIndex]
+            vController.categories = self.categories[self.currentIndex]
+            self.navigationController?.pushViewController(vController, animated: true)
         } else {
-            self.performSegueWithIdentifier("gotoproductdetail", sender: nil)
+            //self.performSegueWithIdentifier("gotoproductdetail", sender: nil)
+            let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("ProductViewController") as! ProductDetailsViewController
+            vController.productModel = self.products[self.currentIndex]
+            apiController.getProductDetails(String(Int(self.products[self.currentIndex].id)))
+            self.navigationController?.pushViewController(vController, animated: true)
+            
         }
     }
     
@@ -216,23 +223,6 @@ print(collectionView.tag)
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        
-        let identifier = segue.identifier
-        if (identifier == "gotocatogorydetails") {
-            let navController = segue.destinationViewController as! UINavigationController
-            let vController = navController.viewControllers.first as! CategoryFeedViewController
-            vController.selCategory = self.categories[self.currentIndex]
-            //let vController = segue.destinationViewController as! CategoryFeedViewController
-            vController.categories = self.categories[self.currentIndex]
-        } else if (identifier == "gotoproductdetail") {
-            let navController = segue.destinationViewController as! UINavigationController
-            let vController = navController.viewControllers.first as! ProductDetailsViewController
-            //let vController = segue.destinationViewController as! ProductDetailsViewController
-            vController.productModel = self.products[self.currentIndex]
-            vController.fromPage = "homeexplore"
-            
-            apiController.getProductDetails(String(Int(self.products[self.currentIndex].id)))
-        }
     }
     
     // MARK: Custom Implementation methods
@@ -286,9 +276,7 @@ print(collectionView.tag)
     }
     
     func setCollectionViewSizesInsets() {
-        let availableWidthForCells:CGFloat = self.view.bounds.width - 15
-        let cellWidth :CGFloat = availableWidthForCells / 2
-        collectionViewCellSize = CGSizeMake(cellWidth, cellWidth)
+        collectionViewCellSize = BabyboxUtils.babyBoxUtils.getProductItemCellSize(self.view.bounds.width)
     }
     
     @IBAction func onLikeBtnClick(sender: AnyObject) {
@@ -300,7 +288,6 @@ print(collectionView.tag)
         
         //TODO - logic here require if user has already liked the product...
         if (self.products[(indexPath?.row)!].isLiked) {
-            //if (self.products[(indexPath?.row)!].prodLiked) {
             self.products[(indexPath?.row)!].numLikes--
             cell.likeCount.text = String(self.products[(indexPath?.row)!].numLikes)
             self.products[(indexPath?.row)!].isLiked = false

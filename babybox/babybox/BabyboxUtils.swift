@@ -21,4 +21,21 @@ class BabyboxUtils {
             alpha: CGFloat(1.0)
         )
     }
+    
+    func getProductItemCellSize(width: CGFloat) -> CGSize {
+        let availableWidthForCells:CGFloat = width - 15
+        let cellWidth :CGFloat = availableWidthForCells / 2
+        let cellHeight = cellWidth + 35
+        return CGSizeMake(cellWidth, cellHeight)
+    }
+    
+    func setButtonRoundBorder(view: UIView) {
+        view.layer.cornerRadius = 5.0
+        view.layer.masksToBounds = true
+    }
+    
+    func setCircularImgStyle(view: UIView) {
+        view.layer.cornerRadius = 20.0
+        view.layer.masksToBounds = true
+    }
 }

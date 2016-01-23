@@ -12,13 +12,13 @@ import Kingfisher
 
 class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
     
-    var apiController: ApiControlller = ApiControlller()
     @IBOutlet weak var uiCollectionView: UICollectionView!
     @IBOutlet weak var topSpaceConstraint: NSLayoutConstraint!
     @IBOutlet weak var followingTips: UIView!
+    @IBOutlet weak var activityLoading: UIActivityIndicatorView!
+    var apiController: ApiControlller = ApiControlller()
     var products: [PostModel] = []
     var pageOffSet: Int64 = 0
-    @IBOutlet weak var activityLoading: UIActivityIndicatorView!
     var currentIndex = 0
     var collectionViewCellSize : CGSize?
     var collectionViewTopCellSize : CGSize?
@@ -107,9 +107,8 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
             
         cell.layer.borderColor = CGColorCreate(CGColorSpaceCreateDeviceRGB(), [194/255, 195/255, 200/255, 1.0])
         cell.layer.borderWidth = 1
-            
-        cell.userCircleImg.layer.cornerRadius = 20.0
-        cell.userCircleImg.layer.masksToBounds = true
+        
+        BabyboxUtils.babyBoxUtils.setCircularImgStyle(cell.userCircleImg)
         cell.userCircleImg.layer.borderColor = UIColor.whiteColor().CGColor
         cell.userCircleImg.layer.borderWidth = CGFloat(1.0)
                 
@@ -124,7 +123,10 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         self.currentIndex = indexPath.row
-        self.performSegueWithIdentifier("gotoproductdetail", sender: nil)
+        let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("ProductViewController") as! ProductDetailsViewController
+        vController.productModel = self.products[self.currentIndex]
+        apiController.getProductDetails(String(Int(self.products[self.currentIndex].id)))
+        self.navigationController?.pushViewController(vController, animated: true)
     }
     
     // MARK: UICollectionViewDelegateFlowLayout
@@ -146,17 +148,6 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        
-        //var vController = segue.destinationViewController
-        let identifier = segue.identifier
-        if (identifier == "gotoproductdetail") {
-            let navController = segue.destinationViewController as! UINavigationController
-            let vController = navController.viewControllers.first as! ProductDetailsViewController
-            vController.productModel = self.products[self.currentIndex]
-            vController.fromPage = "homefollowing"
-            
-            apiController.getProductDetails(String(Int(self.products[self.currentIndex].id)))
-        }
     }
     
     // MARK: Custom Implementation methods
@@ -200,9 +191,7 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func setCollectionViewSizesInsets() {
-        let availableWidthForCells:CGFloat = self.view.bounds.width - 15
-        let cellWidth :CGFloat = availableWidthForCells / 2
-        collectionViewCellSize = CGSizeMake(cellWidth, cellWidth)
+        collectionViewCellSize = BabyboxUtils.babyBoxUtils.getProductItemCellSize(self.view.bounds.width)
     }
     
     @IBAction func onLikeBtnClick(sender: AnyObject) {
