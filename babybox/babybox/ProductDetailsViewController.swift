@@ -224,7 +224,7 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate {
         let _nComment = CommentModel()
         _nComment.ownerId = constants.userInfo.id
         _nComment.body = self.commentTextField.text!
-        _nComment.body = constants.userInfo.displayName
+        _nComment.ownerName = constants.userInfo.displayName
         self.items.append(_nComment)
         self.commentTable.reloadData()
         
