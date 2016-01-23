@@ -13,11 +13,12 @@ class CustomTabViewController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        var imageInsets = UIEdgeInsetsMake(15, -50, 0, 50)
-        self.tabBar.layer.backgroundColor = BabyboxUtils.babyBoxUtils.UIColorFromRGB(0xFCFAF8).CGColor
+        let imageInsets = UIEdgeInsetsMake(18, -50, 0, 50)
+        let titleFont : UIFont = UIFont.systemFontOfSize(12.0)
         
-        UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.blackColor()], forState:.Normal)
-        UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: BabyboxUtils.babyBoxUtils.UIColorFromRGB(0xFF76A4)], forState:.Selected)
+        self.tabBar.layer.backgroundColor = BabyboxUtils.babyBoxUtils.UIColorFromRGB(0xFCFAF8).CGColor
+        UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.blackColor(), NSFontAttributeName: titleFont], forState:.Normal)
+        UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: BabyboxUtils.babyBoxUtils.UIColorFromRGB(0xFF76A4), NSFontAttributeName: titleFont], forState:.Selected)
         UITabBarItem.appearance().titlePositionAdjustment = UIOffsetMake(50.0, -15.0)
         
         let image = UIImage(named: "mn_home")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)

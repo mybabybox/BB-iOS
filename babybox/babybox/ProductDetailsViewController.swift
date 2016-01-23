@@ -20,7 +20,6 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var prodCondition: UILabel!
     @IBOutlet var imageuser: UIImageView!
     
-    @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet var month: UILabel!
     @IBOutlet weak var conditionType: UILabel!
     
@@ -53,7 +52,7 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate {
     
     var productInfo: [PostCatModel] = []
     var noOfComments: Int = 0
-    var items: [String] = [] //comment items
+    var items: [CommentModel] = [] //comment items
     var category: CategoryModel?
     
     @IBAction func onClickOk(sender: AnyObject) {
@@ -123,15 +122,14 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate {
         }
     
         if (self.productModel.hasImage) {
-            self.heightConstraint.constant = self.view.bounds.width
             let imagePath =  constants.imagesBaseURL + "/image/get-post-image-by-id/" + String(self.productModel.images[0])
             let imageUrl  = NSURL(string: imagePath);
             let imageData = NSData(contentsOfURL: imageUrl!)
-            dispatch_async(dispatch_get_main_queue(), {
-                if (imageData != nil) {
-                    self.productImageView.image = UIImage(data: imageData!)
-                }
-            });
+            
+            if (imageData != nil) {
+                self.productImageView.image = UIImage(data: imageData!)
+            }
+            
         }
     }
     
@@ -152,6 +150,9 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate {
         
         self.commentTextField.delegate=self
         self.commentTable.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        self.commentTextField.layer.cornerRadius = 18.0
+        self.commentTextField.layer.borderWidth = 0.0
+        self.commentTextField.layer.masksToBounds = true
         
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
         
@@ -194,11 +195,11 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate {
             self.productInfo.append(result[0])
             
             for comment in self.productInfo[0].latestComments {
-                self.items.append(comment.body)
+                self.items.append(comment)
             }
             self.noOfComments = self.items.count
-            self.updateCommentTxt()
             self.commentTable.reloadData()
+            self.updateCommentTxt()
             self.productDescriptionLabel.text = self.productInfo[0].body
             self.ownerNumProducts.text = String(self.productInfo[0].ownerNumProducts)
             self.ownerNumFollowers.text = String(self.productInfo[0].ownerNumFollowers)
@@ -208,17 +209,23 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate {
                 
                 let imageUrl  = NSURL(string: imagePath);
                 let imageData = NSData(contentsOfURL: imageUrl!)
-                dispatch_async(dispatch_get_main_queue(), {
-                    if (imageData != nil) {
-                        self.imageuser.image = UIImage(data: imageData!)
-                    }
-                });
+                
+                if (imageData != nil) {
+                    self.imageuser.image = UIImage(data: imageData!)
+                }
+                
             }
         }
     }
     
     @IBAction func postComment(sender: AnyObject) {
-        self.items.append(self.commentTextField.text!)
+        //self.items.append(self.commentTextField.text!)
+        
+        let _nComment = CommentModel()
+        _nComment.ownerId = constants.userInfo.id
+        _nComment.body = self.commentTextField.text!
+        _nComment.body = constants.userInfo.displayName
+        self.items.append(_nComment)
         self.commentTable.reloadData()
         
         ApiControlller().postComment(String(Int(self.id)), comment: self.commentTextField.text!)
@@ -227,15 +234,33 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate {
         self.commentTextField.text = ""
     }
     
+    @IBAction func deleteComment(sender: AnyObject) {
+        print("delete comment")
+    }
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.items.count;
+        return self.items.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell:UITableViewCell = self.commentTable.dequeueReusableCellWithIdentifier("cell")! 
+        let cell:CommentTableViewCell = (self.commentTable.dequeueReusableCellWithIdentifier("commentCell") as? CommentTableViewCell)!
         
-        cell.textLabel?.font = UIFont.systemFontOfSize(12.0)
-        cell.textLabel?.text = self.items[indexPath.row]
+        //cell.comment.font = UIFont.systemFontOfSize(9.0)
+        cell.comment.text = self.items[indexPath.row].body
+        cell.userLbl.text = self.items[indexPath.row].ownerName
+        let time = self.items[indexPath.row].createdDate
+       // cell.createTime.text = self.myDate.offsetFrom(NSDate(timeIntervalSinceNow: NSTimeInterval(time)))
+        
+        let imagePath =  constants.imagesBaseURL + "/image/get-thumbnail-profile-image-by-id/" + String(self.items[indexPath.row].ownerId)
+        let imageUrl  = NSURL(string: imagePath);
+        let imageData = NSData(contentsOfURL: imageUrl!)
+        if (imageData != nil) {
+            //BabyboxUtils.babyBoxUtils.setCircularImgStyle((cell.userImage)!)
+            cell.userImage.layer.cornerRadius = 15.0
+            cell.userImage.layer.masksToBounds = true
+            cell.userImage.image = UIImage(data: imageData!)?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+        }
+        //});
         return cell
     }
     
@@ -253,18 +278,15 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate {
     }
     
     func updateCommentTxt() {
-        //self.calculateTableViewHeight()
+        self.calculateTableViewHeight()
         self.commentsCount.text = String(noOfComments) + " Comments"
     }
     
     func calculateTableViewHeight() {
         let height = self.commentTable.contentSize.height
         UIView.animateWithDuration(0.2, animations: {
-            //self.tableViewHeightConstraint.constant = height;
+           self.heightConstraint.constant = height;
             
-            self.commentTable.frame = CGRectMake(self.commentTable.frame.origin.x, self.commentTable.frame.origin.y, self.commentTable.frame.width, height)
-            self.view.setNeedsUpdateConstraints()
-            self.view.needsUpdateConstraints()
         })
     }
     
