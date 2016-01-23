@@ -16,7 +16,7 @@ struct constants {
     static var accessToken = "";
     static var userInfo: UserInfoVM = UserInfoVM()
     
-    static var viewControllerIns: UIViewController? = nil
+    //static var viewControllerIns: UIViewController? = nil
     
     //Color 
     //Pink Button color - 0xFF76A4 // RGB - 255 118 164

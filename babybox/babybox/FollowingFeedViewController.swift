@@ -24,6 +24,7 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
     var collectionViewTopCellSize : CGSize?
     var reuseIdentifier = "CellType1"
     var loadingProducts: Bool = false
+    var isHeightSet: Bool = false
     
     override func viewDidAppear(animated: Bool) {
         
@@ -126,6 +127,7 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
         let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("ProductViewController") as! ProductDetailsViewController
         vController.productModel = self.products[self.currentIndex]
         apiController.getProductDetails(String(Int(self.products[self.currentIndex].id)))
+        self.tabBarController!.tabBar.hidden = true
         self.navigationController?.pushViewController(vController, animated: true)
     }
     
@@ -170,23 +172,37 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
     
     // MARK: UIScrollview Delegate
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        UIView.animateWithDuration(0.2, animations: {
-            constants.viewControllerIns!.tabBarController?.tabBar.hidden = true
-            constants.viewControllerIns!.hidesBottomBarWhenPushed = true
-        })
-        
-        if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height){
-            if (self.loadingProducts) {
-                apiController.getHomeEollowingFeeds(self.pageOffSet)
-                self.loadingProducts = false
+        UIView.animateWithDuration(0.5, animations: {
+            self.tabBarController?.tabBar.hidden = true
+            self.hidesBottomBarWhenPushed = false
+            if (!self.isHeightSet) {
+                let tabBarHeight = self.tabBarController!.tabBar.frame.size.height
+                self.view.frame.size.height = self.view.frame.size.height + tabBarHeight
+                self.isHeightSet = true
             }
-        }
+            if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height){
+                if (self.loadingProducts) {
+                    self.apiController.getHomeEollowingFeeds(self.pageOffSet)
+                    self.loadingProducts = false
+                }
+            }
+        })
     }
     
-    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
-        UIView.animateWithDuration(0.2, animations: {
-            constants.viewControllerIns!.tabBarController?.tabBar.hidden = false
-            constants.viewControllerIns!.hidesBottomBarWhenPushed = true
+    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        self.enableBottonToolBar()
+    }
+    
+    func enableBottonToolBar() {
+        UIView.animateWithDuration(0.5, animations: {
+            self.tabBarController?.tabBar.hidden = false
+            self.hidesBottomBarWhenPushed = false
+            
+            if (self.isHeightSet) {
+                let tabBarHeight = self.tabBarController!.tabBar.frame.size.height
+                self.view.frame.size.height = self.view.frame.size.height - tabBarHeight
+                self.isHeightSet = false
+            }
         })
     }
     

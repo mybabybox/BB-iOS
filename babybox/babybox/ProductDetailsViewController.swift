@@ -293,7 +293,6 @@ extension NSDate {
         return NSCalendar.currentCalendar().components(.Second, fromDate: date, toDate: self, options: []).second
     }
     func offsetFrom(date:NSDate) -> String {
-        print("in nsdaate......")
         if yearsFrom(date)   > 0 { return "\(yearsFrom(date)) years ago"   }
         if monthsFrom(date)  > 0 { return "\(monthsFrom(date)) months ago"  }
         if weeksFrom(date)   > 0 { return "\(weeksFrom(date)) weeks ago"   }

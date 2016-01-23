@@ -120,8 +120,7 @@ class CustomNavigationController: UIViewController {
         destination1.title = "view1"
         destination2.title = "view2"
         tabBarController.viewControllers = [destination1, destination2]
-        //self.hidesBottomBarWhenPushed = true
-        //self.showViewController(tabBarController, sender: self)
+        
     }
 
 }

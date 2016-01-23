@@ -21,12 +21,15 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
     var reuseIdentifier = "CellType1"
     var loadingProducts: Bool = false
     var products: [PostModel] = []
+    
+    var isHeightSet: Bool = false
     @IBOutlet weak var topSpaceConstraint: NSLayoutConstraint!
     @IBOutlet weak var exploreTip: UIView!
     @IBOutlet weak var uiCollectionView: UICollectionView!
     @IBOutlet weak var activityLoading: UIActivityIndicatorView!
     
     override func viewDidAppear(animated: Bool) {
+        self.tabBarController!.tabBar.hidden = false
     }
     
     override func viewDidLoad() {
@@ -162,12 +165,14 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
             let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("CategoryFeedViewController") as! CategoryFeedViewController
             vController.selCategory = self.categories[self.currentIndex]
             vController.categories = self.categories[self.currentIndex]
+            self.tabBarController!.tabBar.hidden = true
             self.navigationController?.pushViewController(vController, animated: true)
         } else {
             //self.performSegueWithIdentifier("gotoproductdetail", sender: nil)
             let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("ProductViewController") as! ProductDetailsViewController
             vController.productModel = self.products[self.currentIndex]
             apiController.getProductDetails(String(Int(self.products[self.currentIndex].id)))
+            self.tabBarController!.tabBar.hidden = true
             self.navigationController?.pushViewController(vController, animated: true)
             
         }
@@ -249,23 +254,41 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
     
     // MARK: UIScrollview Delegate
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        UIView.animateWithDuration(0.2, animations: {
-            constants.viewControllerIns!.tabBarController?.tabBar.hidden = true
-            constants.viewControllerIns!.hidesBottomBarWhenPushed = true
-        })
-        
-        if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height){
-            if (self.loadingProducts) {
-                apiController.getHomeExploreFeeds(self.pageOffSet)
-                self.loadingProducts = false
+        UIView.animateWithDuration(0.5, animations: {
+            self.tabBarController?.tabBar.hidden = true
+            self.hidesBottomBarWhenPushed = true
+            if (!self.isHeightSet) {
+                let tabBarHeight = self.tabBarController!.tabBar.frame.size.height
+                self.view.frame.size.height = self.view.frame.size.height + tabBarHeight
+                self.isHeightSet = true
             }
-        }
+            if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height){
+                if (self.loadingProducts) {
+                    self.apiController.getHomeExploreFeeds(self.pageOffSet)
+                    self.loadingProducts = false
+                }
+            }
+        })
     }
     
     func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
-        UIView.animateWithDuration(0.2, animations: {
-            constants.viewControllerIns!.tabBarController?.tabBar.hidden = false
-            constants.viewControllerIns!.hidesBottomBarWhenPushed = true
+        self.enableBottonToolBar()
+    }
+    
+    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        self.enableBottonToolBar()
+    }
+    
+    func enableBottonToolBar() {
+        UIView.animateWithDuration(0.5, animations: {
+            self.tabBarController?.tabBar.hidden = false
+            self.hidesBottomBarWhenPushed = true
+            
+            if (self.isHeightSet) {
+                let tabBarHeight = self.tabBarController!.tabBar.frame.size.height
+                self.view.frame.size.height = self.view.frame.size.height - tabBarHeight
+                self.isHeightSet = false
+            }
         })
     }
     

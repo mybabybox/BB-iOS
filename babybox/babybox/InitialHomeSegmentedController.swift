@@ -39,8 +39,6 @@ class InitialHomeSegmentedController: CustomNavigationController {
         
         self.followingController = self.storyboard!.instantiateViewControllerWithIdentifier("FollowingFeedViewController") as! FollowingFeedViewController
         
-        constants.viewControllerIns = self
-        self.hidesBottomBarWhenPushed = true
         self.segController.backgroundColor = UIColor.whiteColor()
         self.segController.selectedSegmentIndex = self.activeSegment
         self.segAction(self.segController)

@@ -262,14 +262,6 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
     
     // MARK: UIScrollview Delegate
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        UIView.animateWithDuration(0.2, animations: {
-            constants.viewControllerIns!.tabBarController?.tabBar.hidden = true
-            constants.viewControllerIns!.hidesBottomBarWhenPushed = true
-            
-            //let tabBarHeight = constants.viewControllerIns!.tabBarController!.tabBar.frame.size.height
-            //self.uiCollectionView.frame.size.height = self.uiCollectionView.frame.size.height + tabBarHeight
-        })
-        
         if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height){
             if (self.loadingProducts) {
                 
@@ -291,12 +283,6 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
-        UIView.animateWithDuration(0.2, animations: {
-            constants.viewControllerIns!.tabBarController?.tabBar.hidden = false
-            constants.viewControllerIns!.hidesBottomBarWhenPushed = true
-        })
-        //let tabBarHeight = constants.viewControllerIns!.tabBarController!.tabBar.frame.size.height
-        //self.uiCollectionView.frame.size.height = self.uiCollectionView.frame.size.height - tabBarHeight
     }
     
     func setCollectionViewSizesInsetsForTopView() {
