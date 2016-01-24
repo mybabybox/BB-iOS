@@ -13,7 +13,6 @@ class CustomNavigationController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         /** Creating Custom Navigation Controller Component */
-        
         initNavigationComponent()
     }
     
@@ -22,17 +21,20 @@ class CustomNavigationController: UIViewController {
     }
     
     func onClickUserBtn(sender: AnyObject?) {
+        self.tabBarController!.tabBar.hidden = true
         let vController = self.storyboard?.instantiateViewControllerWithIdentifier("UserProfileController")
         self.navigationController?.pushViewController(vController!, animated: true)
     }
     
     func onClickSellBtn(sender: AnyObject?) {
         print("calling here...onClickSellBtn")
+        self.tabBarController!.tabBar.hidden = true
         let vController = self.storyboard?.instantiateViewControllerWithIdentifier("sellProductsViewController")
         self.navigationController?.pushViewController(vController!, animated: true)
     }
     
     func onClickChatBtn(sender: AnyObject?) {
+        self.tabBarController!.tabBar.hidden = true
         let vController = self.storyboard?.instantiateViewControllerWithIdentifier("ConversationsController")
         self.navigationController?.pushViewController(vController!, animated: true)
     }

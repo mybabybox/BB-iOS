@@ -29,7 +29,7 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
     let categoryOptions = DropDown()
     @IBOutlet var pricetxt: UITextField!
     @IBOutlet var producttxt: UITextField!
-    var collectionViewCellSize : CGSize?
+    //var collectionViewCellSize : CGSize?
     var collectionViewInsets : UIEdgeInsets?
     var reuseIdentifier = "CustomCell"
     var imageCollection = [AnyObject]()
@@ -59,8 +59,7 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
         super.viewDidLoad()
         self.imagePicker.delegate = self
         self.loadDataSource()
-        setCollectionViewSizesInsets();
-            
+
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "actionbar_bg_pink"), forBarMetrics: UIBarMetrics.Default)
         ApiControlller.apiController.getAllCategories();
         
@@ -68,6 +67,11 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
             // UI thread
             let resultDto: [CategoryModel] = result.object as! [CategoryModel]
             self.handleGetCateogriesSuccess(resultDto)
+        }
+        
+        SwiftEventBus.onMainThread(self, name: "productSavedSuccess") { result in
+            // UI thread
+            self.navigationController?.popViewControllerAnimated(true)
         }
         
         self.conditionTypeDropDown.dataSource = [
@@ -100,6 +104,13 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
         }
 
         self.collectionView.reloadData()
+        
+        let saveProductImg: UIButton = UIButton()
+        saveProductImg.setTitle("Save", forState: UIControlState.Normal)
+        saveProductImg.addTarget(self, action: "saveProduct:", forControlEvents: UIControlEvents.TouchUpInside)
+        saveProductImg.frame = CGRectMake(0, 0, 60, 35)
+        let saveProductBarBtn = UIBarButtonItem(customView: saveProductImg)
+        self.navigationItem.rightBarButtonItems = [saveProductBarBtn]
         
     }
         
@@ -143,9 +154,8 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
         super.didReceiveMemoryWarning()
     }
     
-    @IBAction func btnSave(sender: AnyObject) {
-        
-        ApiControlller.apiController.savesell(producttxt.text!,sellingtext: sellingtext.text!, ActionButton1: (categorydropdown.titleLabel?.text!)!,ActionButton: (selectdropdown.titleLabel?.text!)!,setpricetxt: setpricetxt.text!);
+    func saveProduct(sender: AnyObject) {
+        ApiControlller.apiController.saveSellProduct(producttxt.text!,sellingtext: sellingtext.text!, ActionButton1: (categorydropdown.titleLabel?.text!)!,ActionButton: (selectdropdown.titleLabel?.text!)!,setpricetxt: setpricetxt.text!);
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
@@ -161,19 +171,15 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
     }
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.imageCollection.count
-        
-      
     }
   
-    
-   
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! CustomCollectionViewCell
         if(self.imageCollection[indexPath.row].isKindOfClass(UIImage)){
             let image = self.imageCollection[indexPath.row] as! UIImage
             cell.imageHolder.setBackgroundImage(image, forState: UIControlState.Normal)
        }else{
-            let image = UIImage(named:"cat_toys")
+            let image = UIImage(named:"img_camera")
             cell.imageHolder.setBackgroundImage(image, forState: UIControlState.Normal)
             
         }
@@ -182,6 +188,14 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
         cell.imageHolder.addTarget(self, action:"choosePhotoOption:" , forControlEvents: UIControlEvents.TouchUpInside)
         return cell
     }
+    
+    /*func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+        if let _ = collectionViewCellSize {
+            return collectionViewCellSize!
+        }
+        return CGSizeZero
+    }*/
+    
     
     //MARK: Button Action
     func choosePhotoOption(selectedButton: UIButton){
@@ -226,12 +240,11 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
             })
     }
     
-    func setCollectionViewSizesInsets() {
+    /*func setCollectionViewSizesInsets() {
         let availableWidthForCells:CGFloat = self.view.bounds.width - 15
         let cellWidth :CGFloat = availableWidthForCells / 4
-        let cellHeight = cellWidth * 4/3
-        collectionViewCellSize = CGSizeMake(cellWidth, 750)
-    }
+        collectionViewCellSize = CGSizeMake(cellWidth, cellWidth)
+    }*/
         
     // MARK: UIImagePickerControllerDelegate Methods
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {

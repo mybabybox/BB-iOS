@@ -377,13 +377,14 @@ class ApiControlller {
     }
     
     
-    func savesell(producttxt :String,sellingtext :String,ActionButton1 :String,ActionButton:String, setpricetxt : String){
+    func saveSellProduct(producttxt :String,sellingtext :String,ActionButton1 :String,ActionButton:String, setpricetxt : String){
         
         let callEvent=ApiCallEvent()
         callEvent.method="post/new"
         callEvent.resultClass="SellVm"
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
-        
+        callEvent.successEventbusName = "productSavedSuccess"
+        callEvent.failedEventbusName = "productSavedFailed"
         Alamofire.upload(
             .POST,
             callEvent.apiUrl,
@@ -392,12 +393,7 @@ class ApiControlller {
                 multipartFormData.appendBodyPart(data: producttxt.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!, name :"title")
                 multipartFormData.appendBodyPart(data:sellingtext.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!, name :"body")
                 multipartFormData.appendBodyPart(data: setpricetxt.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!, name :"price")
-                
-                
-               
-                 multipartFormData.appendBodyPart(data:ActionButton1.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!, name :"deviceType")
-                 //multipartFormData.appendBodyPart(data:ActionButton.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!, name :"image")
-               
+                multipartFormData.appendBodyPart(data:ActionButton1.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!, name :"deviceType")
             },
             encodingCompletion: { encodingResult in
                 print(encodingResult)
