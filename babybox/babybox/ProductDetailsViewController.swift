@@ -12,6 +12,7 @@ import SwiftEventBus
 
 class ProductDetailsViewController: UIViewController, UITextFieldDelegate {
     
+    @IBOutlet weak var prodImgHtConstraint: NSLayoutConstraint!
     @IBOutlet weak var chatbtn: UIButton!
     @IBOutlet weak var timeLikeCount: UIButton!
     @IBOutlet weak var likeCountValue: UILabel!
@@ -55,6 +56,7 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate {
     var items: [CommentModel] = [] //comment items
     var category: CategoryModel?
     
+    @IBOutlet weak var commentSectionSize: UIView!
     @IBAction func onClickOk(sender: AnyObject) {
     }
     
@@ -89,7 +91,18 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate {
         ApiControlller.apiController.getConversation()
         
         self.uiScrollView.pagingEnabled = true
-        self.uiScrollView.contentSize = CGSizeMake(self.uiScrollView.bounds.width, 900)
+        
+        var contentRect: CGRect = CGRectZero
+        var ht: CGFloat = 0.0
+        for view in self.uiScrollView.subviews as [UIView] {
+            ht += view.frame.height
+        }
+        
+        self.uiScrollView.contentSize = CGSizeMake(self.uiScrollView.bounds.width, ht + self.view.frame.size.width - self.prodImgHtConstraint.constant)
+        self.prodImgHtConstraint.constant = self.uiScrollView.frame.size.width
+        
+        self.uiScrollView.setNeedsUpdateConstraints()
+        self.view.setNeedsUpdateConstraints()
         
         self.productTitle.text = productModel.title
         self.productPrice.text = "\(constants.currencySymbol)\(String(stringInterpolationSegment: Int(productModel.price)))"
@@ -150,10 +163,10 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate {
         
         self.commentTextField.delegate=self
         self.commentTable.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        self.commentTextField.layer.cornerRadius = 18.0
-        self.commentTextField.layer.borderWidth = 0.0
+        self.commentTextField.layer.cornerRadius = 15.0
+        //self.commentTextField.frame.size = CGSizeMake(self.commentTextField.frame.width, 40)
         self.commentTextField.layer.masksToBounds = true
-        
+        self.commentTextField.borderStyle = UITextBorderStyle.None
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
         
         SwiftEventBus.onMainThread(self, name: "productDetailsReceivedSuccess") { result in
@@ -199,7 +212,7 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate {
             }
             self.noOfComments = self.items.count
             self.commentTable.reloadData()
-            self.updateCommentTxt()
+            
             self.productDescriptionLabel.text = self.productInfo[0].body
             self.ownerNumProducts.text = String(self.productInfo[0].ownerNumProducts)
             self.ownerNumFollowers.text = String(self.productInfo[0].ownerNumFollowers)
@@ -215,6 +228,7 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate {
                 }
                 
             }
+            self.updateCommentTxt()
         }
     }
     
@@ -225,6 +239,8 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate {
         _nComment.ownerId = constants.userInfo.id
         _nComment.body = self.commentTextField.text!
         _nComment.ownerName = constants.userInfo.displayName
+        //_nComment.createdDate = NSDate()
+        _nComment.id = -1
         self.items.append(_nComment)
         self.commentTable.reloadData()
         
@@ -236,6 +252,17 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func deleteComment(sender: AnyObject) {
         print("delete comment")
+        let button = sender as! UIButton
+        let view = button.superview!
+        let cell = view.superview! as! CommentTableViewCell
+        
+        let indexPath = self.commentTable.indexPathForCell(cell)
+        ApiControlller.apiController.deleteComment(self.items[(indexPath?.row)!].id)
+        self.items.removeAtIndex((indexPath?.row)!)
+        self.noOfComments--
+        self.updateCommentTxt()
+        self.commentTable.reloadData()
+        self.view.makeToast(message: "Comment Deleted Successfully", duration: 0.5, position: "bottom")
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -248,8 +275,13 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate {
         //cell.comment.font = UIFont.systemFontOfSize(9.0)
         cell.comment.text = self.items[indexPath.row].body
         cell.userLbl.text = self.items[indexPath.row].ownerName
+        if (self.items[indexPath.row].id == -1) {
+            cell.delCommentBtn.hidden = true
+        } else {
+            cell.delCommentBtn.hidden = false
+        }
         let time = self.items[indexPath.row].createdDate
-       // cell.createTime.text = self.myDate.offsetFrom(NSDate(timeIntervalSinceNow: NSTimeInterval(time)))
+        cell.createTime.text = self.myDate.offsetFrom(NSDate(timeIntervalSinceNow: NSTimeInterval(time)))
         
         let imagePath =  constants.imagesBaseURL + "/image/get-thumbnail-profile-image-by-id/" + String(self.items[indexPath.row].ownerId)
         let imageUrl  = NSURL(string: imagePath);
@@ -285,11 +317,10 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate {
     func calculateTableViewHeight() {
         let height = self.commentTable.contentSize.height
         UIView.animateWithDuration(0.2, animations: {
-           self.heightConstraint.constant = height;
-            
+            self.heightConstraint.constant = height
+            self.commentSectionSize.frame.size = CGSizeMake(self.commentSectionSize.frame.width, self.commentTable.frame.height + 120)
         })
     }
-    
 }
 
 extension NSDate {

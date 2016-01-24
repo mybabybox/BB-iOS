@@ -364,6 +364,19 @@ class ApiControlller {
         self.makeApiCall(callEvent)
     }
     
+    func deleteComment(id: Int) {
+        print("id of msg is \(id)")
+        let callEvent = ApiCallEvent()
+        callEvent.method = "comment/delete/\(id)"
+        callEvent.resultClass = "String"
+        callEvent.successEventbusName = "onSuccessDeleteComment"
+        callEvent.failedEventbusName = "onFailureDeleteComment"
+        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method;
+        
+        self.makeApiCall(callEvent)
+    }
+    
+    
     func savesell(producttxt :String,sellingtext :String,ActionButton1 :String,ActionButton:String, setpricetxt : String){
         
         let callEvent=ApiCallEvent()

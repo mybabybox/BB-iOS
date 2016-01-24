@@ -2270,15 +2270,15 @@ CEVudGVyIFBhc3N3b3JkA
                         <viewControllerLayoutGuide type="top" id="PxB-RC-LU6"/>
                         <viewControllerLayoutGuide type="bottom" id="lMt-EX-ufy"/>
                     </layoutGuides>
-                    <view key="view" multipleTouchEnabled="YES" contentMode="scaleToFill" id="hm6-p4-eJy" userLabel="PageView">
+                    <view key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="hm6-p4-eJy" userLabel="PageView">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="drq-m5-Eug">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="664"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="964"/>
                                 <subviews>
                                     <view multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CPF-aZ-kQW" userLabel="InsideView">
-                                        <rect key="frame" x="0.0" y="0.0" width="600" height="688"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="988"/>
                                         <subviews>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6nf-0s-5zC">
                                                 <rect key="frame" x="0.0" y="0.0" width="600" height="250"/>
@@ -2572,10 +2572,10 @@ CEVudGVyIFBhc3N3b3JkA
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <tableView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="40" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="5ad-w8-4WZ">
-                                                        <rect key="frame" x="0.0" y="30" width="580" height="52"/>
+                                                        <rect key="frame" x="0.0" y="30" width="580" height="0.0"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="52" id="HZB-Bq-otJ"/>
+                                                            <constraint firstAttribute="height" id="HZB-Bq-otJ"/>
                                                         </constraints>
                                                         <color key="separatorColor" red="0.92549019610000005" green="0.92549019610000005" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
                                                         <color key="sectionIndexBackgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -2658,13 +2658,16 @@ CEVudGVyIFBhc3N3b3JkA
                                                         </connections>
                                                     </tableView>
                                                     <textField opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Comment" clearsOnBeginEditing="YES" minimumFontSize="17" disabledBackground="ic_reply" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="WzI-em-ud2">
-                                                        <rect key="frame" x="10" y="87" width="478" height="30"/>
+                                                        <rect key="frame" x="10" y="35" width="478" height="30"/>
                                                         <color key="backgroundColor" red="0.96470588235294119" green="0.96470588235294119" blue="0.96470588235294119" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="30" id="jwl-B1-Iag"/>
+                                                        </constraints>
                                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                         <textInputTraits key="textInputTraits"/>
                                                     </textField>
                                                     <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F6E-Qs-exx">
-                                                        <rect key="frame" x="503" y="90" width="65" height="28"/>
+                                                        <rect key="frame" x="503" y="38" width="65" height="28"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="65" id="IPr-rQ-fxx"/>
                                                             <constraint firstAttribute="height" constant="28" id="dCf-HI-oRG"/>
@@ -2723,7 +2726,7 @@ CEVudGVyIFBhc3N3b3JkA
                         </subviews>
                         <color key="backgroundColor" red="0.92549019610000005" green="0.92549019610000005" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="drq-m5-Eug" secondAttribute="bottom" constant="-64" id="7IP-6Y-CeX"/>
+                            <constraint firstAttribute="bottom" secondItem="drq-m5-Eug" secondAttribute="bottom" constant="-364" id="7IP-6Y-CeX"/>
                             <constraint firstAttribute="trailing" secondItem="drq-m5-Eug" secondAttribute="trailing" id="EN9-Ez-86g"/>
                             <constraint firstItem="drq-m5-Eug" firstAttribute="top" secondItem="hm6-p4-eJy" secondAttribute="top" id="Gm3-dz-Drg"/>
                             <constraint firstItem="drq-m5-Eug" firstAttribute="leading" secondItem="hm6-p4-eJy" secondAttribute="leading" id="aa0-P5-nWE"/>
@@ -2735,6 +2738,7 @@ CEVudGVyIFBhc3N3b3JkA
                     <connections>
                         <outlet property="buynow" destination="iNF-uV-wzm" id="1P2-CF-zSu"/>
                         <outlet property="chatbtn" destination="w1o-lL-FkI" id="vBe-cZ-T2f"/>
+                        <outlet property="commentSectionSize" destination="o0F-uD-PF8" id="8HR-2D-wl8"/>
                         <outlet property="commentTable" destination="5ad-w8-4WZ" id="cG3-Ht-Kn4"/>
                         <outlet property="commentTextField" destination="WzI-em-ud2" id="1Hs-QA-S0h"/>
                         <outlet property="commentsCount" destination="146-vW-SDf" id="cfU-c5-hQL"/>
@@ -2752,6 +2756,7 @@ CEVudGVyIFBhc3N3b3JkA
                         <outlet property="ownerNumProducts" destination="srS-Xp-otV" id="YYP-5C-YSY"/>
                         <outlet property="postCommentButton" destination="F6E-Qs-exx" id="eti-2M-w4L"/>
                         <outlet property="prodCondition" destination="hcJ-fk-hs1" id="jqK-Pv-zjD"/>
+                        <outlet property="prodImgHtConstraint" destination="h6M-fW-cUU" id="rYw-ez-ZDX"/>
                         <outlet property="productDescriptionLabel" destination="oW5-Ey-Kg1" id="sMX-Mx-jhD"/>
                         <outlet property="productImageView" destination="6nf-0s-5zC" id="pI4-Wz-V7Z"/>
                         <outlet property="productPrice" destination="79m-HK-oCD" id="FfH-lF-hcG"/>
