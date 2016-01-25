@@ -365,6 +365,15 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
         sender.setTitleColor(UIColor.darkGrayColor(), forState: UIControlState.Normal)
     }
     
+    func onClickSellBtn(sender: AnyObject?) {
+        print("calling here...onClickSellBtn")
+        self.tabBarController!.tabBar.hidden = true
+        let vController = self.storyboard?.instantiateViewControllerWithIdentifier("sellProductsViewController")
+        as! SellProductsViewController
+        vController.selCategory = Int((selCategory?.id)!)
+        self.navigationController?.pushViewController(vController, animated: true)
+    }
+    
     func setSizesForFilterButtons(cell: CategoryCollectionViewCell) {
         isWidthSet = true
         let availableWidthForButtons:CGFloat = self.view.bounds.width - 30
@@ -381,7 +390,6 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
         
         cell.highToLow.layer.borderColor = UIColor.lightGrayColor().CGColor
         cell.highToLow.layer.borderWidth = 1.0
-        
         
     }
 

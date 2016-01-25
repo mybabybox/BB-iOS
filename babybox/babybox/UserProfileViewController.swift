@@ -90,16 +90,13 @@ class UserProfileViewController: UIViewController {
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
-        var nController = segue.destinationViewController as! UINavigationController
-        print(nController)
         if (segue.identifier == "followingCalls") {
-            var vController = nController.viewControllers.first as! FollowingViewController
+            var vController = segue.destinationViewController as! FollowingViewController
             vController.userId = userId
         } else if (segue.identifier == "followersCall") {
-            var vController = nController.viewControllers.first as! FollowersViewController
+            var vController = segue.destinationViewController as! FollowersViewController
             vController.userId = userId
         }
-        
     }
     /*
     // MARK: - Navigation

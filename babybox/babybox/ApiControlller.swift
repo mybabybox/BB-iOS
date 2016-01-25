@@ -376,8 +376,7 @@ class ApiControlller {
         self.makeApiCall(callEvent)
     }
     
-    
-    func saveSellProduct(producttxt :String,sellingtext :String,ActionButton1 :String,ActionButton:String, setpricetxt : String){
+    func saveSellProduct(producttxt :String,sellingtext :String, categoryId:String, conditionType:String, pricetxt : String, imageCollection: [AnyObject]){
         
         let callEvent=ApiCallEvent()
         callEvent.method="post/new"
@@ -385,21 +384,44 @@ class ApiControlller {
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
         callEvent.successEventbusName = "productSavedSuccess"
         callEvent.failedEventbusName = "productSavedFailed"
+        
         Alamofire.upload(
             .POST,
             callEvent.apiUrl,
             multipartFormData: { multipartFormData in
-                //multipartFormData.appendBodyPart(data: UIImagePNGRepresentation(imageData)!, name: "image", fileName: "upload.jpg", mimeType:"jpg")
-                multipartFormData.appendBodyPart(data: producttxt.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!, name :"title")
-                multipartFormData.appendBodyPart(data:sellingtext.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!, name :"body")
-                multipartFormData.appendBodyPart(data: setpricetxt.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!, name :"price")
-                multipartFormData.appendBodyPart(data:ActionButton1.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!, name :"deviceType")
+                var index = 0
+                
+                for _image in imageCollection {
+                    if let str = _image as? String {
+                    } else {
+                        if let image: UIImage? = _image as? UIImage {
+                            if (image != nil) {
+                                multipartFormData.appendBodyPart(data: UIImagePNGRepresentation(imageCollection[0] as! UIImage)!, name: "image\(index)", fileName: "upload.jpg", mimeType:"jpg")
+                                index++
+                            }
+                        }
+                    }
+                }
+
+                
+                //multipartFormData.appendBodyPart(data: UIImagePNGRepresentation(imageCollection[0] as! UIImage)!, name: "image", fileName: "upload.jpg", mimeType:"jpg")
+                multipartFormData.appendBodyPart(data: categoryId.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!, name :"catId")
+                multipartFormData.appendBodyPart(data: sellingtext.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!, name :"title")
+                multipartFormData.appendBodyPart(data:producttxt.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!, name :"body")
+                multipartFormData.appendBodyPart(data: pricetxt.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!, name :"price")
+                multipartFormData.appendBodyPart(data:conditionType.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!, name :"conditionType")
+                multipartFormData.appendBodyPart(data: "ios".dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!, name :"deviceType")
+                
             },
             encodingCompletion: { encodingResult in
                 print(encodingResult)
                 switch encodingResult {
-                case .Success(let _, _, _): break
-                case .Failure(let _): break
+                case .Success( _, _, _):
+                    SwiftEventBus.post(callEvent.successEventbusName, sender: "")
+                    break
+                case .Failure( _):
+                    SwiftEventBus.post(callEvent.failedEventbusName, sender: "")
+                    break
                 }
             }
         )
@@ -429,7 +451,6 @@ func getDistricts() {
                 multipartFormData.appendBodyPart(data: id.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!, name :"conversationId")
                 multipartFormData.appendBodyPart(data: message.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!, name :"body")
                 multipartFormData.appendBodyPart(data: "true".dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!, name :"system")
-                
                 multipartFormData.appendBodyPart(data:"ios".dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!, name :"deviceType")
             },
             encodingCompletion: { encodingResult in

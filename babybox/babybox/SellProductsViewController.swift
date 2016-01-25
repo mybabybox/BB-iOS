@@ -9,8 +9,10 @@
 import UIKit
 import SwiftEventBus
 
-class SellProductsViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class SellProductsViewController: UIViewController, UIImagePickerControllerDelegate,
+    UINavigationControllerDelegate, UITextFieldDelegate {
     
+    @IBOutlet weak var hrBarHtConstraint: UIView!
     @IBOutlet var actionButton: UIButton!
     let conditionTypeDropDown = DropDown()
     @IBOutlet var sellingtext: UITextField!
@@ -18,27 +20,23 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
     
     var save:String = "";
     
-    @IBOutlet var categotytext: UITextField!
-   
-    @IBOutlet var setpricetxt: UITextField!
-    @IBOutlet var conditiontxt: UITextField!
+    @IBOutlet weak var collectionViewHtConstraint: NSLayoutConstraint!
     @IBOutlet var categorydropdown: UIButton!
-    @IBOutlet var selectdropdown: UIButton!
-    @IBOutlet var actionButton1: UIButton!
-    @IBOutlet var categorytxt: NSLayoutConstraint!
+    @IBOutlet var conditionDropDown: UIButton!
+    
     let categoryOptions = DropDown()
     @IBOutlet var pricetxt: UITextField!
     @IBOutlet var producttxt: UITextField!
-    //var collectionViewCellSize : CGSize?
+    var collectionViewCellSize : CGSize?
     var collectionViewInsets : UIEdgeInsets?
     var reuseIdentifier = "CustomCell"
     var imageCollection = [AnyObject]()
     var selectedIndex :Int?
     @IBOutlet weak var collectionView: UICollectionView!
-    
+    var selCategory: Int = -1
     let imagePicker = UIImagePickerController()
     
-    var keyboardType: UIKeyboardType {
+    /*var keyboardType: UIKeyboardType {
         get{
             return textFieldKeyboardType.keyboardType
         }
@@ -47,13 +45,13 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
                 self.keyboardType = UIKeyboardType.NumberPad
             }
         }
-    }
+    }*/
     
-    @IBOutlet weak var textFieldKeyboardType: UITextField!{
+    /*@IBOutlet weak var textFieldKeyboardType: UITextField!{
         didSet{
             textFieldKeyboardType.keyboardType = UIKeyboardType.NumberPad
         }
-    }
+    }*/
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,6 +69,8 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
         
         SwiftEventBus.onMainThread(self, name: "productSavedSuccess") { result in
             // UI thread
+            NSLog("Product Saved Successfully")
+            self.view.makeToast(message: "Product Added Successfully", duration: 1.0, position: "bottom")
             self.navigationController?.popViewControllerAnimated(true)
         }
         
@@ -86,16 +86,17 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
         }
         
         self.categoryOptions.selectionAction = { [unowned self] (index, item) in
-            self.actionButton1.setTitle(item, forState: .Normal)
+            self.categorydropdown.setTitle(item, forState: .Normal)
         }
         
         self.conditionTypeDropDown.anchorView = actionButton
         self.conditionTypeDropDown.bottomOffset = CGPoint(x: 0, y:actionButton.bounds.height)
         self.conditionTypeDropDown.direction = .Top
-        self.categoryOptions.anchorView=actionButton1
+        self.categoryOptions.anchorView=categorydropdown
         self.categoryOptions.bottomOffset = CGPoint(x: 0, y:actionButton.bounds.height)
         self.categoryOptions.direction = .Top
         
+        self.setCollectionViewSizesInsets()
         
         NSNotificationCenter.defaultCenter().addObserverForName("CroppedImage", object: nil, queue: NSOperationQueue.mainQueue()) { (notification) -> Void in
             self.imageCollection.removeAtIndex(self.selectedIndex!)
@@ -116,12 +117,12 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
         
     func handleGetCateogriesSuccess(categories: [CategoryModel]) {
         self.categories = categories;
-        var x : [String] = []
+        var catDataSource : [String] = []
         for (var i = 0 ; i < categories.count ; i++) {
-            x.append(categories[i].description)
+            catDataSource.append(categories[i].description)
         }
         
-        self.categoryOptions.dataSource = x
+        self.categoryOptions.dataSource = catDataSource
         dispatch_async(dispatch_get_main_queue(), {
             self.categoryOptions.reloadAllComponents()
         })
@@ -148,14 +149,22 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
     
     @IBOutlet var sssss: UIButton!
     func loadDataSource(){
-        self.imageCollection = ["cat_toys","cat_utils","cat_toys","cat_toys"];
+        self.imageCollection = ["","","",""];
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
     func saveProduct(sender: AnyObject) {
-        ApiControlller.apiController.saveSellProduct(producttxt.text!,sellingtext: sellingtext.text!, ActionButton1: (categorydropdown.titleLabel?.text!)!,ActionButton: (selectdropdown.titleLabel?.text!)!,setpricetxt: setpricetxt.text!);
+        var selCategoryId: String = ""
+        //iterate through categories to get the selected category as only name are shown in dropdown.
+        for category in self.categories as [CategoryModel] {
+            if (category.description == (categorydropdown.titleLabel?.text!)!) {
+                selCategoryId = String(category.id)
+            }
+        }
+        
+        ApiControlller.apiController.saveSellProduct(producttxt.text!,sellingtext: sellingtext.text!, categoryId: selCategoryId,conditionType: (conditionDropDown.titleLabel?.text!)!, pricetxt: pricetxt.text!, imageCollection: self.imageCollection);
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
@@ -181,7 +190,6 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
        }else{
             let image = UIImage(named:"img_camera")
             cell.imageHolder.setBackgroundImage(image, forState: UIControlState.Normal)
-            
         }
         
         cell.imageHolder.tag = indexPath.row
@@ -189,16 +197,16 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
         return cell
     }
     
-    /*func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         if let _ = collectionViewCellSize {
             return collectionViewCellSize!
         }
         return CGSizeZero
-    }*/
+    }
     
     
     //MARK: Button Action
-    func choosePhotoOption(selectedButton: UIButton){
+    func choosePhotoOption(selectedButton: UIButton) {
         self.selectedIndex = selectedButton.tag
         
         let optionMenu = UIAlertController(title: nil, message: "Take Photo:", preferredStyle: .ActionSheet)
@@ -240,11 +248,13 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
             })
     }
     
-    /*func setCollectionViewSizesInsets() {
-        let availableWidthForCells:CGFloat = self.view.bounds.width - 15
+    func setCollectionViewSizesInsets() {
+        let availableWidthForCells:CGFloat = self.view.bounds.width - 35
         let cellWidth :CGFloat = availableWidthForCells / 4
         collectionViewCellSize = CGSizeMake(cellWidth, cellWidth)
-    }*/
+        self.collectionViewHtConstraint.constant = cellWidth + 5
+        
+    }
         
     // MARK: UIImagePickerControllerDelegate Methods
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
@@ -254,6 +264,7 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
             self.navigationController?.pushViewController(controller, animated: true)
 
             self.imageCollection.removeAtIndex(selectedIndex!)
+            
             self.imageCollection.insert(pickedImage, atIndex: selectedIndex!)
         }
         self.collectionView.reloadData()
@@ -261,11 +272,10 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
     }
     
     
-    func handleCroppedImage(notification: NSNotification){
+    func handleCroppedImage(notification: NSNotification) {
         self.imageCollection.removeAtIndex(selectedIndex!)
         self.imageCollection.insert(notification.object!, atIndex: selectedIndex!)
         self.collectionView.reloadData()
-        
     }
 
 }
