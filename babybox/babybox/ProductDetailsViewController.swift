@@ -218,7 +218,7 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate {
             self.ownerNumFollowers.text = String(self.productInfo[0].ownerNumFollowers)
             
             if (self.productModel.ownerId != -1) {
-                let imagePath =  constants.imagesBaseURL + "/image/get-post-image-by-id/" + String(self.productInfo[0].ownerId)
+                let imagePath =  constants.imagesBaseURL + "/image/get-original-post-image-by-id/" + String(self.productInfo[0].ownerId)
                 
                 let imageUrl  = NSURL(string: imagePath);
                 let imageData = NSData(contentsOfURL: imageUrl!)

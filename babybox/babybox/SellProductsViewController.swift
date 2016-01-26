@@ -36,7 +36,7 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
     var selCategory: Int = -1
     let imagePicker = UIImagePickerController()
     
-    /*var keyboardType: UIKeyboardType {
+    var keyboardType: UIKeyboardType {
         get{
             return textFieldKeyboardType.keyboardType
         }
@@ -45,13 +45,13 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
                 self.keyboardType = UIKeyboardType.NumberPad
             }
         }
-    }*/
+    }
     
-    /*@IBOutlet weak var textFieldKeyboardType: UITextField!{
+    @IBOutlet weak var textFieldKeyboardType: UITextField!{
         didSet{
             textFieldKeyboardType.keyboardType = UIKeyboardType.NumberPad
         }
-    }*/
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -155,18 +155,6 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
         super.didReceiveMemoryWarning()
     }
     
-    func saveProduct(sender: AnyObject) {
-        var selCategoryId: String = ""
-        //iterate through categories to get the selected category as only name are shown in dropdown.
-        for category in self.categories as [CategoryModel] {
-            if (category.description == (categorydropdown.titleLabel?.text!)!) {
-                selCategoryId = String(category.id)
-            }
-        }
-        
-        ApiControlller.apiController.saveSellProduct(producttxt.text!,sellingtext: sellingtext.text!, categoryId: selCategoryId,conditionType: (conditionDropDown.titleLabel?.text!)!, pricetxt: pricetxt.text!, imageCollection: self.imageCollection);
-    }
-    
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         
@@ -233,20 +221,6 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
         self.presentViewController(optionMenu, animated: true, completion: nil)
         
     }
-    @IBAction func btnImageUpload(sender: AnyObject) {
-        
-        let mutableImageCollection = NSMutableArray(array: self.imageCollection)
-        mutableImageCollection.removeObject("")
-        self.imageCollection.removeAll(keepCapacity: true)
-        self.imageCollection = mutableImageCollection as [AnyObject]
-        
-        SRWebClient.POST("Your Url to upload image")
-            .data(self.imageCollection, fieldName: "Your Key to link Image", data: nil)
-            .send({(response:AnyObject!, status:Int) -> Void in
-            },failure:{(error:NSError!) -> Void in
-                    print(error)
-            })
-    }
     
     func setCollectionViewSizesInsets() {
         let availableWidthForCells:CGFloat = self.view.bounds.width - 35
@@ -263,11 +237,11 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
              let controller = ImageCropViewController.init(image: pickedImage)
             self.navigationController?.pushViewController(controller, animated: true)
 
-            self.imageCollection.removeAtIndex(selectedIndex!)
+            /*self.imageCollection.removeAtIndex(selectedIndex!)
             
-            self.imageCollection.insert(pickedImage, atIndex: selectedIndex!)
+            self.imageCollection.insert(pickedImage, atIndex: selectedIndex!)*/
         }
-        self.collectionView.reloadData()
+        //self.collectionView.reloadData()
         dismissViewControllerAnimated(true, completion: nil)
     }
     
@@ -276,6 +250,64 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
         self.imageCollection.removeAtIndex(selectedIndex!)
         self.imageCollection.insert(notification.object!, atIndex: selectedIndex!)
         self.collectionView.reloadData()
+    }
+    
+    
+    func saveProduct(sender: AnyObject) {
+        
+        //Validate whether all values are selected by user...
+        var selCategoryId: String = ""
+        //iterate through categories to get the selected category as only name are shown in dropdown.
+        for category in self.categories as [CategoryModel] {
+            if (category.description == (categorydropdown.titleLabel?.text!)!) {
+                selCategoryId = String(category.id)
+            }
+        }
+        
+        if (validateSaveForm()) {
+            ApiControlller.apiController.saveSellProduct(producttxt.text!,sellingtext: sellingtext.text!, categoryId: selCategoryId,conditionType: (conditionDropDown.titleLabel?.text!)!, pricetxt: pricetxt.text!, imageCollection: self.imageCollection);
+        }
+    }
+    
+    func validateSaveForm() -> Bool {
+        var isValidated = true
+        var isImageUploaded = false
+        for _image in imageCollection {
+            if let str = _image as? String {
+            } else {
+                if let image: UIImage? = _image as? UIImage {
+                    if (image != nil) {
+                        isImageUploaded = true
+                        break
+                    }
+                }
+            }
+        }
+        
+        print(self.conditionDropDown.titleLabel?.text)
+        print(self.categorydropdown.titleLabel!.text)
+        
+        if (!isImageUploaded) {
+            self.view.makeToast(message: "Please Upload Photo", duration: 1.5, position: "bottom")
+            isValidated = false
+        } else if (self.sellingtext.text == nil || self.sellingtext.text == "" ) {
+            self.view.makeToast(message: "Please fill title", duration: 1.5, position: "bottom")
+            isValidated = false
+        } else if (self.producttxt.text == nil || self.producttxt.text == "") {
+            self.view.makeToast(message: "Please fill description", duration: 1.5, position: "bottom")
+            isValidated = false
+        } else if (self.pricetxt.text == nil || self.pricetxt.text == "") {
+            self.view.makeToast(message: "Please enter a price", duration: 1.5, position: "bottom")
+            isValidated = false
+        } else if (self.conditionDropDown.titleLabel?.text == nil || self.conditionDropDown.titleLabel?.text == "-Select-") {
+            self.view.makeToast(message: "Please select condition type", duration: 1.5, position: "bottom")
+            isValidated = false
+        } else if (self.categorydropdown.titleLabel!.text == nil || self.categorydropdown.titleLabel!.text == "Choose a Category:") {
+            self.view.makeToast(message: "Please select category", duration: 1.5, position: "bottom")
+            isValidated = false
+        }
+        
+        return isValidated
     }
 
 }

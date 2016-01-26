@@ -1029,7 +1029,7 @@ CEVudGVyIFBhc3N3b3JkA
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WIS-vR-yfH">
-                                <rect key="frame" x="0.0" y="194" width="600" height="138"/>
+                                <rect key="frame" x="0.0" y="194" width="600" height="140"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Price($):" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VSi-HF-R07">
                                         <rect key="frame" x="8" y="4" width="101" height="38"/>
@@ -1037,7 +1037,7 @@ CEVudGVyIFBhc3N3b3JkA
                                             <constraint firstAttribute="width" constant="101" id="jag-4i-6QQ"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pap-AC-Kyz">
@@ -1053,18 +1053,18 @@ CEVudGVyIFBhc3N3b3JkA
                                             <constraint firstAttribute="width" constant="91" id="q4B-cV-b9c"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Category:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tm9-7E-njC">
                                         <rect key="frame" x="8" y="106" width="91" height="17"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uR9-g6-h0i" userLabel="categoryBtn">
-                                        <rect key="frame" x="449" y="104" width="136" height="29"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uR9-g6-h0i" userLabel="categoryBtn">
+                                        <rect key="frame" x="449" y="103" width="136" height="29"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <state key="normal" title="Choose a Category:">
                                             <color key="titleColor" red="1" green="0.46274509803921571" blue="0.64313725490196072" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
@@ -1074,7 +1074,7 @@ CEVudGVyIFBhc3N3b3JkA
                                     </button>
                                     <button contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mG2-ZN-k9U" userLabel="ConditionBtn">
                                         <rect key="frame" x="360" y="54" width="224" height="29"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <state key="normal" title="-Select-">
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -1115,7 +1115,8 @@ CEVudGVyIFBhc3N3b3JkA
                                     <constraint firstAttribute="trailing" secondItem="Lif-dz-waa" secondAttribute="trailing" constant="5" id="NAL-D0-ffy"/>
                                     <constraint firstItem="5fQ-TB-uDC" firstAttribute="trailing" secondItem="tm9-7E-njC" secondAttribute="trailing" id="QjS-5s-Q58"/>
                                     <constraint firstItem="mG2-ZN-k9U" firstAttribute="top" secondItem="9aE-Yp-Cim" secondAttribute="bottom" constant="17" id="SBa-LS-0Rw"/>
-                                    <constraint firstItem="uR9-g6-h0i" firstAttribute="top" secondItem="tm9-7E-njC" secondAttribute="top" constant="-2" id="V4i-Cd-fjh"/>
+                                    <constraint firstItem="uR9-g6-h0i" firstAttribute="top" secondItem="tm9-7E-njC" secondAttribute="top" constant="-3" id="V4i-Cd-fjh"/>
+                                    <constraint firstAttribute="height" constant="140" id="Yos-df-NXB"/>
                                     <constraint firstItem="5fQ-TB-uDC" firstAttribute="top" secondItem="VSi-HF-R07" secondAttribute="bottom" constant="17" id="cOi-66-JbI"/>
                                     <constraint firstItem="mG2-ZN-k9U" firstAttribute="leading" secondItem="9aE-Yp-Cim" secondAttribute="leading" constant="-100" id="dkY-Xg-bD9"/>
                                     <constraint firstItem="Lif-dz-waa" firstAttribute="top" secondItem="mG2-ZN-k9U" secondAttribute="bottom" constant="9" id="eIc-qT-kg0"/>
@@ -1128,7 +1129,6 @@ CEVudGVyIFBhc3N3b3JkA
                         </subviews>
                         <color key="backgroundColor" red="0.92549019610000005" green="0.92549019610000005" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="U6F-k1-xwG" firstAttribute="top" secondItem="WIS-vR-yfH" secondAttribute="bottom" constant="268" id="0hq-e8-5wf"/>
                             <constraint firstItem="APP-GB-MSj" firstAttribute="leading" secondItem="BM0-RW-alN" secondAttribute="leading" id="8y2-BL-Z1m"/>
                             <constraint firstItem="WIS-vR-yfH" firstAttribute="leading" secondItem="paQ-X9-HRt" secondAttribute="leading" id="Bky-ZP-2iX"/>
                             <constraint firstItem="WIS-vR-yfH" firstAttribute="top" secondItem="paQ-X9-HRt" secondAttribute="bottom" constant="10" id="OxO-zl-dih"/>
@@ -1744,11 +1744,11 @@ CEVudGVyIFBhc3N3b3JkA
                         <viewControllerLayoutGuide type="bottom" id="LHF-Zb-kZz"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="d6t-Wa-j1l">
-                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WXY-oa-Wrt">
-                                <rect key="frame" x="0.0" y="28" width="600" height="508"/>
+                                <rect key="frame" x="0.0" y="28" width="600" height="572"/>
                                 <connections>
                                     <segue destination="QJs-h1-0rx" kind="embed" id="AEd-Dk-b7P"/>
                                 </connections>
@@ -2815,7 +2815,7 @@ CEVudGVyIFBhc3N3b3JkA
                         <viewControllerLayoutGuide type="bottom" id="eLn-Xi-cJo"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="kno-7d-zXL">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="508"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="572"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -2851,9 +2851,9 @@ CEVudGVyIFBhc3N3b3JkA
         <image name="welcome_1" width="730" height="1100"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="xlr-H1-EYH"/>
+        <segue reference="yTh-A9-rQj"/>
+        <segue reference="QRU-NP-Pbp"/>
         <segue reference="Jn7-mT-U02"/>
-        <segue reference="S7D-r4-scN"/>
         <segue reference="G3v-am-D0z"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

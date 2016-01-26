@@ -67,6 +67,7 @@ float IMAGE_MIN_WIDTH = 400;
     if ([self.delegate respondsToSelector:@selector(ImageCropViewControllerDidCancel:)])
     {
         [self.delegate ImageCropViewControllerDidCancel:self];
+        [self.navigationController popViewControllerAnimated:YES];
     }
     
 }
@@ -82,21 +83,6 @@ float IMAGE_MIN_WIDTH = 400;
         CGImageRelease(imageRef);
         [self.navigationController popViewControllerAnimated:YES];
     }
-
-    
-    
-    /*if ([self.delegate respondsToSelector:@selector(ImageCropViewController:didFinishCroppingImage:)])
-    {
-        UIImage *cropped;
-        if (self.image != nil){
-            CGRect CropRect = self.cropView.cropAreaInImage;
-            CGImageRef imageRef = CGImageCreateWithImageInRect([self.image CGImage], CropRect) ;
-            cropped = [UIImage imageWithCGImage:imageRef];
-            CGImageRelease(imageRef);
-        }
-        [self.delegate ImageCropViewController:self didFinishCroppingImage:cropped];
-    }*/
-    
 }
 @end
 

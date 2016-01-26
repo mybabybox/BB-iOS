@@ -76,7 +76,7 @@ extension UIView {
     class func hr_toastThemeColor() -> UIColor {
         var color = objc_getAssociatedObject(self, &HRToastThemeColor) as! UIColor?
         if color == nil {
-            color = UIColor.lightGrayColor()
+            color = UIColor.darkGrayColor()
             UIView.hr_setToastThemeColor(color: color!)
         }
         return color!
