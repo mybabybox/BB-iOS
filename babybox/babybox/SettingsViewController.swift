@@ -40,7 +40,7 @@ class SettingsViewController: UIViewController {
         print("handleLogout")
         constants.accessToken = ""
         
-        let vController = self.storyboard!.instantiateViewControllerWithIdentifier("loginController") as! ViewController
+        let vController = self.storyboard!.instantiateViewControllerWithIdentifier("loginController") as! LoginViewController
         self.navigationController?.pushViewController(vController, animated: true)
         if (constants.userInfo.isFBLogin) {
             FBSDKLoginManager().logOut()

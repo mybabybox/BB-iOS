@@ -123,7 +123,7 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
             return cell
                 
         } else {
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! CatProductCollectionViewCell
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! FeedProductCollectionViewCell
             
             cell.likeImageIns.tag = indexPath.item
             
@@ -328,7 +328,7 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
     @IBAction func onLikeBtnClick(sender: AnyObject) {
         let button = sender as! UIButton
         let view = button.superview!
-        let cell = view.superview! as! CatProductCollectionViewCell
+        let cell = view.superview! as! FeedProductCollectionViewCell
         
         let indexPath = self.uiCollectionView.indexPathForCell(cell)
         

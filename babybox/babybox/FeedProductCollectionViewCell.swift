@@ -1,5 +1,5 @@
 //
-//  CatProductCollectionViewCell.swift
+//  FeedProductCollectionViewCell.swift
 //  babybox
 //
 //  Created by Mac on 12/12/15.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CatProductCollectionViewCell: UICollectionViewCell {
+class FeedProductCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var userCircleImg: UIImageView!
     @IBOutlet weak var prodImageView: UIImageView!

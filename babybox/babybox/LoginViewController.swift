@@ -11,7 +11,7 @@ import FBSDKCoreKit
 import FBSDKLoginKit
 import SwiftEventBus
 
-class ViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFieldDelegate {
+class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFieldDelegate {
     
     @IBAction func onBackButton(sender: AnyObject) {
         navigationController?.popViewControllerAnimated(true)
@@ -44,8 +44,8 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFieldDel
             }
             self.progressIndicator.hidden = false
             self.progressIndicator.startAnimating()
-            //apiController.authenticateUser("pitlawarkp@gmail.com", password: "pitlawarkp");
-            apiController.authenticateUser(self.userNameTxt.text!, password: self.passwordTxt.text!);
+            apiController.authenticateUser("pitlawarkp@gmail.com", password: "pitlawarkp");
+            //apiController.authenticateUser(self.userNameTxt.text!, password: self.passwordTxt.text!);
             return false
         } else if (identifier == "gotoforgotpassword") {
             return true
