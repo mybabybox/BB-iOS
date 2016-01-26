@@ -172,7 +172,22 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
     
     // MARK: UIScrollview Delegate
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        UIView.animateWithDuration(0.5, animations: {
+        let velocity: CGFloat = scrollView.panGestureRecognizer.velocityInView(scrollView).y
+        
+        if (velocity > 0) {
+            NSLog("Up");
+            UIView.animateWithDuration(0.5, animations: {
+                self.tabBarController?.tabBar.hidden = false
+                self.hidesBottomBarWhenPushed = false
+                
+                if (self.isHeightSet) {
+                    let tabBarHeight = self.tabBarController!.tabBar.frame.size.height
+                    self.view.frame.size.height = self.view.frame.size.height - tabBarHeight
+                    self.isHeightSet = false
+                }
+            })
+        } else if (velocity < 0) {
+            NSLog("Down")
             self.tabBarController?.tabBar.hidden = true
             self.hidesBottomBarWhenPushed = false
             if (!self.isHeightSet) {
@@ -180,6 +195,13 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
                 self.view.frame.size.height = self.view.frame.size.height + tabBarHeight
                 self.isHeightSet = true
             }
+        } else {
+            NSLog("Can't determine direction as velocity is 0")
+        }
+        
+        
+        UIView.animateWithDuration(0.5, animations: {
+            
             if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height){
                 if (self.loadingProducts) {
                     self.apiController.getHomeEollowingFeeds(self.pageOffSet)
@@ -189,22 +211,10 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
         })
     }
     
-    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+    /*func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         self.enableBottonToolBar()
-    }
+    }*/
     
-    func enableBottonToolBar() {
-        UIView.animateWithDuration(0.5, animations: {
-            self.tabBarController?.tabBar.hidden = false
-            self.hidesBottomBarWhenPushed = false
-            
-            if (self.isHeightSet) {
-                let tabBarHeight = self.tabBarController!.tabBar.frame.size.height
-                self.view.frame.size.height = self.view.frame.size.height - tabBarHeight
-                self.isHeightSet = false
-            }
-        })
-    }
     
     func setCollectionViewSizesInsets() {
         collectionViewCellSize = BabyboxUtils.babyBoxUtils.getProductItemCellSize(self.view.bounds.width)

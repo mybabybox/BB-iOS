@@ -254,32 +254,55 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
     
     // MARK: UIScrollview Delegate
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        UIView.animateWithDuration(0.5, animations: {
-            self.tabBarController?.tabBar.hidden = true
-            self.hidesBottomBarWhenPushed = true
-            if (!self.isHeightSet) {
-                let tabBarHeight = self.tabBarController!.tabBar.frame.size.height
-                self.view.frame.size.height = self.view.frame.size.height + tabBarHeight
-                self.isHeightSet = true
-            }
-            if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height){
-                if (self.loadingProducts) {
-                    self.apiController.getHomeExploreFeeds(self.pageOffSet)
-                    self.loadingProducts = false
+        let velocity: CGFloat = scrollView.panGestureRecognizer.velocityInView(scrollView).y
+        
+        if (velocity > 0) {
+            NSLog("Up");
+            UIView.animateWithDuration(0.5, animations: {
+                self.tabBarController?.tabBar.hidden = false
+                self.hidesBottomBarWhenPushed = true
+                
+                if (self.isHeightSet) {
+                    let tabBarHeight = self.tabBarController!.tabBar.frame.size.height
+                    self.view.frame.size.height = self.view.frame.size.height - tabBarHeight
+                    self.isHeightSet = false
                 }
+            })
+        } else if (velocity < 0) {
+            NSLog("Down")
+            UIView.animateWithDuration(0.5, animations: {
+                self.tabBarController?.tabBar.hidden = true
+                self.hidesBottomBarWhenPushed = true
+                if (!self.isHeightSet) {
+                    let tabBarHeight = self.tabBarController!.tabBar.frame.size.height
+                    self.view.frame.size.height = self.view.frame.size.height + tabBarHeight
+                    self.isHeightSet = true
+                }
+                
+            })
+        } else {
+            NSLog("Can't determine direction as velocity is 0")
+        }
+        
+        if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height){
+            if (self.loadingProducts) {
+                self.apiController.getHomeExploreFeeds(self.pageOffSet)
+                self.loadingProducts = false
             }
-        })
+        }
+        
     }
     
-    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+    
+    /*func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
         self.enableBottonToolBar()
     }
     
     func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         self.enableBottonToolBar()
-    }
+    }*/
     
-    func enableBottonToolBar() {
+    /*func enableBottonToolBar() {
         UIView.animateWithDuration(0.5, animations: {
             self.tabBarController?.tabBar.hidden = false
             self.hidesBottomBarWhenPushed = true
@@ -290,7 +313,7 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
                 self.isHeightSet = false
             }
         })
-    }
+    }*/
     
     func setCollectionViewSizesInsetsForTopView() {
         let availableWidthForCells:CGFloat = self.view.bounds.width - 35
