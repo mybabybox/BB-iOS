@@ -34,9 +34,6 @@
 		0408FA2F1C13635000CC8803 /* ProductCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0408FA261C13635000CC8803 /* ProductCollectionViewCell.swift */; };
 		0408FA301C13635000CC8803 /* ProductDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0408FA271C13635000CC8803 /* ProductDetailsViewController.swift */; };
 		0408FA321C1363EB00CC8803 /* de.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 0408FA311C1363EB00CC8803 /* de.lproj */; };
-		0408FA361C13663200CC8803 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
-		0408FA371C13663200CC8803 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
-		0408FA381C13663200CC8803 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		0408FA471C13699900CC8803 /* RequestVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0408FA391C13699900CC8803 /* RequestVM.swift */; };
 		0408FA491C13699900CC8803 /* ResponseVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0408FA3B1C13699900CC8803 /* ResponseVM.swift */; };
 		0408FA4A1C13699900CC8803 /* ResultDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0408FA3C1C13699900CC8803 /* ResultDto.swift */; };
@@ -65,6 +62,9 @@
 		04D1844A1C3B4D8500A6C35B /* CategoryCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D184491C3B4D8500A6C35B /* CategoryCache.swift */; };
 		04D1844C1C3B53DD00A6C35B /* DistrictCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D1844B1C3B53DD00A6C35B /* DistrictCache.swift */; };
 		04D184581C3EF04200A6C35B /* CustomNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D184571C3EF04200A6C35B /* CustomNavigationController.swift */; };
+		04DCF9581C589703005C465C /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DCF9551C589703005C465C /* FBSDKCoreKit.framework */; };
+		04DCF9591C589703005C465C /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DCF9561C589703005C465C /* FBSDKLoginKit.framework */; };
+		04DCF95A1C589703005C465C /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DCF9571C589703005C465C /* FBSDKShareKit.framework */; };
 		04E1A9F71C4A0D8C0052FEED /* FeedFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E1A9F61C4A0D8C0052FEED /* FeedFilter.swift */; };
 		04E1AA0A1C4A52B00052FEED /* DPDConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E1A9F91C4A52B00052FEED /* DPDConstants.swift */; };
 		04E1AA0B1C4A52B00052FEED /* DPDKeyboardListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E1A9FA1C4A52B00052FEED /* DPDKeyboardListener.swift */; };
@@ -107,7 +107,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0408F9D21C1362AA00CC8803 /* babybox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = babybox.app; path = BabyBox.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0408F9D21C1362AA00CC8803 /* BabyBox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BabyBox.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0408F9D61C1362AA00CC8803 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0408F9D71C1362AA00CC8803 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0408F9D91C1362AA00CC8803 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -166,6 +166,9 @@
 		04D184491C3B4D8500A6C35B /* CategoryCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryCache.swift; sourceTree = "<group>"; };
 		04D1844B1C3B53DD00A6C35B /* DistrictCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistrictCache.swift; sourceTree = "<group>"; };
 		04D184571C3EF04200A6C35B /* CustomNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomNavigationController.swift; sourceTree = "<group>"; };
+		04DCF9551C589703005C465C /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
+		04DCF9561C589703005C465C /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
+		04DCF9571C589703005C465C /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
 		04E1A9F61C4A0D8C0052FEED /* FeedFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedFilter.swift; sourceTree = "<group>"; };
 		04E1A9F81C4A52B00052FEED /* babybox-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "babybox-Bridging-Header.h"; path = "babybox/babybox-Bridging-Header.h"; sourceTree = "<group>"; };
 		04E1A9F91C4A52B00052FEED /* DPDConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DPDConstants.swift; sourceTree = "<group>"; };
@@ -207,10 +210,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0408FA381C13663200CC8803 /* (null) in Frameworks */,
+				04DCF9581C589703005C465C /* FBSDKCoreKit.framework in Frameworks */,
+				04DCF9591C589703005C465C /* FBSDKLoginKit.framework in Frameworks */,
+				04DCF95A1C589703005C465C /* FBSDKShareKit.framework in Frameworks */,
 				6CF4E8C6E70F9ACB7F1AF880 /* Pods.framework in Frameworks */,
-				0408FA361C13663200CC8803 /* (null) in Frameworks */,
-				0408FA371C13663200CC8803 /* (null) in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -239,7 +242,7 @@
 		0408F9D31C1362AA00CC8803 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				0408F9D21C1362AA00CC8803 /* babybox.app */,
+				0408F9D21C1362AA00CC8803 /* BabyBox.app */,
 				0408F9E71C1362AA00CC8803 /* babyboxTests.xctest */,
 			);
 			name = Products;
@@ -470,6 +473,9 @@
 		34FE2032942976E730A334CC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				04DCF9551C589703005C465C /* FBSDKCoreKit.framework */,
+				04DCF9561C589703005C465C /* FBSDKLoginKit.framework */,
+				04DCF9571C589703005C465C /* FBSDKShareKit.framework */,
 				BDFD6BE300D70B4AC190D07C /* Pods.framework */,
 			);
 			name = Frameworks;
@@ -495,7 +501,7 @@
 			);
 			name = babybox;
 			productName = babybox;
-			productReference = 0408F9D21C1362AA00CC8803 /* babybox.app */;
+			productReference = 0408F9D21C1362AA00CC8803 /* BabyBox.app */;
 			productType = "com.apple.product-type.application";
 		};
 		0408F9E61C1362AA00CC8803 /* babyboxTests */ = {
@@ -529,7 +535,7 @@
 				TargetAttributes = {
 					0408F9D11C1362AA00CC8803 = {
 						CreatedOnToolsVersion = 6.3;
-						DevelopmentTeam = C6C2EZ4W7R;
+						DevelopmentTeam = 42KTL66JNW;
 					};
 					0408F9E61C1362AA00CC8803 = {
 						CreatedOnToolsVersion = 6.3;
@@ -839,17 +845,21 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
-					"$(SRCROOT)/../Build/Libs/FacebookSDKs-iOS-20151111",
+					"$(SRCROOT)/../Build/Libs/FacebookSDKs-iOS-20151111/**",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
 				);
 				INFOPLIST_FILE = babybox/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.babybox.app;
 				PRODUCT_NAME = BabyBox;
-				SWIFT_OBJC_BRIDGING_HEADER = "";
+				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/babybox/babybox-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -860,18 +870,21 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
-					"$(SRCROOT)/../Build/Libs/FacebookSDKs-iOS-20151111",
+					"$(SRCROOT)/../Build/Libs/FacebookSDKs-iOS-20151111/**",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
 				);
 				INFOPLIST_FILE = babybox/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.babybox.app;
 				PRODUCT_NAME = BabyBox;
-				SWIFT_OBJC_BRIDGING_HEADER = "";
+				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/babybox/babybox-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
