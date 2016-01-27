@@ -34,9 +34,9 @@
 		0408FA2F1C13635000CC8803 /* ProductCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0408FA261C13635000CC8803 /* ProductCollectionViewCell.swift */; };
 		0408FA301C13635000CC8803 /* ProductDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0408FA271C13635000CC8803 /* ProductDetailsViewController.swift */; };
 		0408FA321C1363EB00CC8803 /* de.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 0408FA311C1363EB00CC8803 /* de.lproj */; };
-		0408FA361C13663200CC8803 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0408FA331C13663200CC8803 /* FBSDKCoreKit.framework */; };
-		0408FA371C13663200CC8803 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0408FA341C13663200CC8803 /* FBSDKLoginKit.framework */; };
-		0408FA381C13663200CC8803 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0408FA351C13663200CC8803 /* FBSDKShareKit.framework */; };
+		0408FA361C13663200CC8803 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
+		0408FA371C13663200CC8803 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
+		0408FA381C13663200CC8803 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		0408FA471C13699900CC8803 /* RequestVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0408FA391C13699900CC8803 /* RequestVM.swift */; };
 		0408FA491C13699900CC8803 /* ResponseVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0408FA3B1C13699900CC8803 /* ResponseVM.swift */; };
 		0408FA4A1C13699900CC8803 /* ResultDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0408FA3C1C13699900CC8803 /* ResultDto.swift */; };
@@ -65,9 +65,6 @@
 		04D1844A1C3B4D8500A6C35B /* CategoryCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D184491C3B4D8500A6C35B /* CategoryCache.swift */; };
 		04D1844C1C3B53DD00A6C35B /* DistrictCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D1844B1C3B53DD00A6C35B /* DistrictCache.swift */; };
 		04D184581C3EF04200A6C35B /* CustomNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D184571C3EF04200A6C35B /* CustomNavigationController.swift */; };
-		04E1A9F21C496D1E0052FEED /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E1A9EF1C496D1E0052FEED /* FBSDKCoreKit.framework */; };
-		04E1A9F31C496D1E0052FEED /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E1A9F01C496D1E0052FEED /* FBSDKLoginKit.framework */; };
-		04E1A9F41C496D1E0052FEED /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E1A9F11C496D1E0052FEED /* FBSDKShareKit.framework */; };
 		04E1A9F71C4A0D8C0052FEED /* FeedFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E1A9F61C4A0D8C0052FEED /* FeedFilter.swift */; };
 		04E1AA0A1C4A52B00052FEED /* DPDConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E1A9F91C4A52B00052FEED /* DPDConstants.swift */; };
 		04E1AA0B1C4A52B00052FEED /* DPDKeyboardListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E1A9FA1C4A52B00052FEED /* DPDKeyboardListener.swift */; };
@@ -110,7 +107,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0408F9D21C1362AA00CC8803 /* babybox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = babybox.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0408F9D21C1362AA00CC8803 /* babybox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = babybox.app; path = BabyBox.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0408F9D61C1362AA00CC8803 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0408F9D71C1362AA00CC8803 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0408F9D91C1362AA00CC8803 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -169,11 +166,8 @@
 		04D184491C3B4D8500A6C35B /* CategoryCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryCache.swift; sourceTree = "<group>"; };
 		04D1844B1C3B53DD00A6C35B /* DistrictCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistrictCache.swift; sourceTree = "<group>"; };
 		04D184571C3EF04200A6C35B /* CustomNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomNavigationController.swift; sourceTree = "<group>"; };
-		04E1A9EF1C496D1E0052FEED /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
-		04E1A9F01C496D1E0052FEED /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
-		04E1A9F11C496D1E0052FEED /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
 		04E1A9F61C4A0D8C0052FEED /* FeedFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedFilter.swift; sourceTree = "<group>"; };
-		04E1A9F81C4A52B00052FEED /* babybox-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "babybox-Bridging-Header.h"; sourceTree = "<group>"; };
+		04E1A9F81C4A52B00052FEED /* babybox-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "babybox-Bridging-Header.h"; path = "babybox/babybox-Bridging-Header.h"; sourceTree = "<group>"; };
 		04E1A9F91C4A52B00052FEED /* DPDConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DPDConstants.swift; sourceTree = "<group>"; };
 		04E1A9FA1C4A52B00052FEED /* DPDKeyboardListener.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DPDKeyboardListener.swift; sourceTree = "<group>"; };
 		04E1A9FB1C4A52B00052FEED /* DPDUIView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DPDUIView+Extension.swift"; sourceTree = "<group>"; };
@@ -213,10 +207,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0408FA381C13663200CC8803 /* FBSDKShareKit.framework in Frameworks */,
+				0408FA381C13663200CC8803 /* (null) in Frameworks */,
 				6CF4E8C6E70F9ACB7F1AF880 /* Pods.framework in Frameworks */,
-				0408FA361C13663200CC8803 /* FBSDKCoreKit.framework in Frameworks */,
-				0408FA371C13663200CC8803 /* FBSDKLoginKit.framework in Frameworks */,
+				0408FA361C13663200CC8803 /* (null) in Frameworks */,
+				0408FA371C13663200CC8803 /* (null) in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -233,10 +227,8 @@
 		0408F9C91C1362AA00CC8803 = {
 			isa = PBXGroup;
 			children = (
-				0408FA331C13663200CC8803 /* FBSDKCoreKit.framework */,
-				0408FA341C13663200CC8803 /* FBSDKLoginKit.framework */,
-				0408FA351C13663200CC8803 /* FBSDKShareKit.framework */,
 				0408F9D41C1362AA00CC8803 /* babybox */,
+				04E1A9F81C4A52B00052FEED /* babybox-Bridging-Header.h */,
 				0408F9EA1C1362AA00CC8803 /* babyboxTests */,
 				0408F9D31C1362AA00CC8803 /* Products */,
 				2B6A0A6388BBC35AE5F1A3F2 /* Pods */,
@@ -256,18 +248,16 @@
 		0408F9D41C1362AA00CC8803 /* babybox */ = {
 			isa = PBXGroup;
 			children = (
-				046BB6A51C579C3F0007CCE6 /* res */,
-				046BB6A41C5795220007CCE6 /* viewcell */,
-				04E1A9F81C4A52B00052FEED /* babybox-Bridging-Header.h */,
-				046BB6A31C57945A0007CCE6 /* extension */,
+				046BB69D1C5794190007CCE6 /* app */,
 				046BB6A21C5794530007CCE6 /* cache */,
 				046BB6A11C57944A0007CCE6 /* util */,
-				046BB6A01C57943F0007CCE6 /* viewmodel */,
-				046BB69F1C5794320007CCE6 /* viewcontroller */,
 				046BB69E1C5794250007CCE6 /* view */,
-				046BB69D1C5794190007CCE6 /* app */,
+				046BB6A41C5795220007CCE6 /* viewcell */,
+				046BB69F1C5794320007CCE6 /* viewcontroller */,
+				046BB6A01C57943F0007CCE6 /* viewmodel */,
+				046BB6A31C57945A0007CCE6 /* extension */,
+				046BB6A51C579C3F0007CCE6 /* res */,
 				0408F9D51C1362AA00CC8803 /* Supporting Files */,
-				04E1A9F61C4A0D8C0052FEED /* FeedFilter.swift */,
 			);
 			path = babybox;
 			sourceTree = "<group>";
@@ -308,9 +298,9 @@
 		046BB69D1C5794190007CCE6 /* app */ = {
 			isa = PBXGroup;
 			children = (
-				0408F9FF1C13632300CC8803 /* Constants.swift */,
 				0408FA121C13633B00CC8803 /* ApiControlller.swift */,
 				0408F9D71C1362AA00CC8803 /* AppDelegate.swift */,
+				0408F9FF1C13632300CC8803 /* Constants.swift */,
 			);
 			name = app;
 			sourceTree = "<group>";
@@ -318,10 +308,10 @@
 		046BB69E1C5794250007CCE6 /* view */ = {
 			isa = PBXGroup;
 			children = (
-				0408F9DB1C1362AA00CC8803 /* Main.storyboard */,
-				0408F9E01C1362AA00CC8803 /* LaunchScreen.xib */,
-				04A2317B1C1C4D79002FB013 /* HomeReusableView.swift */,
 				047706F71C24900200E851D3 /* ChatBubble.swift */,
+				04A2317B1C1C4D79002FB013 /* HomeReusableView.swift */,
+				0408F9E01C1362AA00CC8803 /* LaunchScreen.xib */,
+				0408F9DB1C1362AA00CC8803 /* Main.storyboard */,
 			);
 			name = view;
 			sourceTree = "<group>";
@@ -329,26 +319,26 @@
 		046BB69F1C5794320007CCE6 /* viewcontroller */ = {
 			isa = PBXGroup;
 			children = (
-				047706F51C2485FC00E851D3 /* MessagesViewController.swift */,
-				04E6F6CF1C15CE5A0057C94E /* WebViewController.swift */,
-				04A2317F1C1C5D9D002FB013 /* HomeFeedViewController.swift */,
+				0408FA161C13633B00CC8803 /* CategoryFeedViewController.swift */,
 				04EB21751C1F4A11001A14DB /* ConversationsViewController.swift */,
-				04EB21791C1FDB80001A14DB /* UserProfileViewController.swift */,
-				04EB217B1C1FFE1F001A14DB /* FollowersViewController.swift */,
-				04EB217D1C1FFE32001A14DB /* FollowingViewController.swift */,
-				04EB217F1C1FFE4D001A14DB /* EditProfileViewController.swift */,
-				04EB21811C1FFE98001A14DB /* UserActivityViewController.swift */,
-				04EB21831C1FFFF9001A14DB /* SettingsViewController.swift */,
 				04D184571C3EF04200A6C35B /* CustomNavigationController.swift */,
 				044DC84C1C51EBB700B9FD49 /* CustomTabViewController.swift */,
-				0408FA161C13633B00CC8803 /* CategoryFeedViewController.swift */,
-				0408FA271C13635000CC8803 /* ProductDetailsViewController.swift */,
-				0408FA581C13FB3C00CC8803 /* LandingPageViewController.swift */,
+				04EB217F1C1FFE4D001A14DB /* EditProfileViewController.swift */,
+				04EB217B1C1FFE1F001A14DB /* FollowersViewController.swift */,
 				0408FA031C13632300CC8803 /* FollowingFeedViewController.swift */,
-				0408F9D91C1362AA00CC8803 /* LoginViewController.swift */,
+				04EB217D1C1FFE32001A14DB /* FollowingViewController.swift */,
 				04E6F6CD1C15A9FC0057C94E /* ForgotPasswordViewController.swift */,
-				04E6F70F1C18795D0057C94E /* SellProductsViewController.swift */,
+				04A2317F1C1C5D9D002FB013 /* HomeFeedViewController.swift */,
 				04A231791C1C4D0E002FB013 /* InitialHomeSegmentedController.swift */,
+				0408FA581C13FB3C00CC8803 /* LandingPageViewController.swift */,
+				0408F9D91C1362AA00CC8803 /* LoginViewController.swift */,
+				047706F51C2485FC00E851D3 /* MessagesViewController.swift */,
+				0408FA271C13635000CC8803 /* ProductDetailsViewController.swift */,
+				04E6F70F1C18795D0057C94E /* SellProductsViewController.swift */,
+				04EB21831C1FFFF9001A14DB /* SettingsViewController.swift */,
+				04EB21811C1FFE98001A14DB /* UserActivityViewController.swift */,
+				04EB21791C1FDB80001A14DB /* UserProfileViewController.swift */,
+				04E6F6CF1C15CE5A0057C94E /* WebViewController.swift */,
 			);
 			name = viewcontroller;
 			sourceTree = "<group>";
@@ -356,31 +346,31 @@
 		046BB6A01C57943F0007CCE6 /* viewmodel */ = {
 			isa = PBXGroup;
 			children = (
+				0408FA111C13633B00CC8803 /* ApiCallEvent.swift */,
+				0408FA131C13633B00CC8803 /* BaseArgModel.swift */,
+				0408FA141C13633B00CC8803 /* BaseArgVM.swift */,
+				0408FA171C13633B00CC8803 /* CategoryModel.swift */,
 				0408F9FB1C13632300CC8803 /* CategoryVM.swift */,
+				047706F81C24900200E851D3 /* ChatBubbleData.swift */,
 				0408F9FD1C13632300CC8803 /* CommentModel.swift */,
 				0408F9FE1C13632300CC8803 /* CommentVM.swift */,
 				04A25A971C22E920008A1DB1 /* ConversationVM.swift */,
-				047706F11C23EA0E00E851D3 /* MessageDetailVM.swift */,
-				047706F31C23EB9400E851D3 /* MessageVM.swift */,
-				0408FA171C13633B00CC8803 /* CategoryModel.swift */,
-				0408FA141C13633B00CC8803 /* BaseArgVM.swift */,
-				0408FA131C13633B00CC8803 /* BaseArgModel.swift */,
-				0408FA111C13633B00CC8803 /* ApiCallEvent.swift */,
 				0408FA1F1C13635000CC8803 /* LocationModel.swift */,
 				0408FA201C13635000CC8803 /* LocationVM.swift */,
+				047706F11C23EA0E00E851D3 /* MessageDetailVM.swift */,
+				047706F31C23EB9400E851D3 /* MessageVM.swift */,
 				0408FA231C13635000CC8803 /* Post.swift */,
 				0408FA241C13635000CC8803 /* PostCatModel.swift */,
 				0408FA251C13635000CC8803 /* PostModel.swift */,
-				047706F81C24900200E851D3 /* ChatBubbleData.swift */,
-				04E1AA081C4A52B00052FEED /* SellVM.swift */,
 				0408FA391C13699900CC8803 /* RequestVM.swift */,
 				0408FA3B1C13699900CC8803 /* ResponseVM.swift */,
+				0408FA3C1C13699900CC8803 /* ResultDto.swift */,
+				04E1AA081C4A52B00052FEED /* SellVM.swift */,
 				0408FA3D1C13699900CC8803 /* SettingModel.swift */,
 				0408FA3E1C13699900CC8803 /* SettingVM.swift */,
-				0408FA441C13699900CC8803 /* UserVM.swift */,
 				0408FA451C13699900CC8803 /* UserInfoModel.swift */,
 				0408FA461C13699900CC8803 /* UserInfoVM.swift */,
-				0408FA3C1C13699900CC8803 /* ResultDto.swift */,
+				0408FA441C13699900CC8803 /* UserVM.swift */,
 			);
 			name = viewmodel;
 			sourceTree = "<group>";
@@ -389,6 +379,7 @@
 			isa = PBXGroup;
 			children = (
 				04E6F70D1C186BCE0057C94E /* BabyboxUtils.swift */,
+				04E1A9F61C4A0D8C0052FEED /* FeedFilter.swift */,
 				04691A021C4E4A4600A3EC56 /* SharedPreferencesUtil.swift */,
 			);
 			name = util;
@@ -397,9 +388,9 @@
 		046BB6A21C5794530007CCE6 /* cache */ = {
 			isa = PBXGroup;
 			children = (
-				04D184471C3B414A00A6C35B /* UserInfoCache.swift */,
 				04D184491C3B4D8500A6C35B /* CategoryCache.swift */,
 				04D1844B1C3B53DD00A6C35B /* DistrictCache.swift */,
+				04D184471C3B414A00A6C35B /* UserInfoCache.swift */,
 			);
 			name = cache;
 			sourceTree = "<group>";
@@ -417,18 +408,18 @@
 		046BB6A41C5795220007CCE6 /* viewcell */ = {
 			isa = PBXGroup;
 			children = (
-				04E6F7111C1879F80057C94E /* CustomCollectionViewCell.swift */,
-				04A2317D1C1C4DCB002FB013 /* StaticCollectionViewCell.swift */,
-				04A231811C1C7444002FB013 /* FeedProductCollectionViewCell.swift */,
+				0408FA151C13633B00CC8803 /* CategoryCollectionViewCell.swift */,
+				0408F9F91C13632300CC8803 /* CategoryViewCell.swift */,
+				044DC84E1C54033900B9FD49 /* CommentTableViewCell.swift */,
 				04EB21771C1F4C7C001A14DB /* ConversationsCollectionViewCell.swift */,
+				04E6F7111C1879F80057C94E /* CustomCollectionViewCell.swift */,
+				04F11EC41C213AE000414CD3 /* DetailsTableViewCell.swift */,
+				04A231811C1C7444002FB013 /* FeedProductCollectionViewCell.swift */,
 				04F11EBE1C20914900414CD3 /* FollowersCollectionViewCell.swift */,
 				04F11EC01C20915E00414CD3 /* FollowingCollectionViewCell.swift */,
-				0408FA151C13633B00CC8803 /* CategoryCollectionViewCell.swift */,
-				0408FA261C13635000CC8803 /* ProductCollectionViewCell.swift */,
-				04F11EC41C213AE000414CD3 /* DetailsTableViewCell.swift */,
 				04F11EC21C212FD100414CD3 /* MessageTableViewCell.swift */,
-				044DC84E1C54033900B9FD49 /* CommentTableViewCell.swift */,
-				0408F9F91C13632300CC8803 /* CategoryViewCell.swift */,
+				0408FA261C13635000CC8803 /* ProductCollectionViewCell.swift */,
+				04A2317D1C1C4DCB002FB013 /* StaticCollectionViewCell.swift */,
 			);
 			name = viewcell;
 			sourceTree = "<group>";
@@ -445,11 +436,11 @@
 		04E1AA191C4A540F0052FEED /* cropImage */ = {
 			isa = PBXGroup;
 			children = (
-				04E1AA091C4A52B00052FEED /* SRWebClient.swift */,
 				04E1AA001C4A52B00052FEED /* FXBlurView.h */,
 				04E1AA011C4A52B00052FEED /* FXBlurView.m */,
 				04E1AA031C4A52B00052FEED /* ImageCropView.h */,
 				04E1AA041C4A52B00052FEED /* ImageCropView.m */,
+				04E1AA091C4A52B00052FEED /* SRWebClient.swift */,
 			);
 			name = cropImage;
 			sourceTree = "<group>";
@@ -546,7 +537,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 0408F9CD1C1362AA00CC8803 /* Build configuration list for PBXProject "babybox" */;
+			buildConfigurationList = 0408F9CD1C1362AA00CC8803 /* Build configuration list for PBXProject "BabyBox" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -922,7 +913,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		0408F9CD1C1362AA00CC8803 /* Build configuration list for PBXProject "babybox" */ = {
+		0408F9CD1C1362AA00CC8803 /* Build configuration list for PBXProject "BabyBox" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0408F9EF1C1362AA00CC8803 /* Debug */,
