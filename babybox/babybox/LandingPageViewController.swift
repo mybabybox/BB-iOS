@@ -16,6 +16,12 @@ class LandingPageViewController: UIViewController, UIScrollViewDelegate, UIImage
     @IBOutlet var pageControl: UIPageControl!
     
     override func viewDidAppear(animated: Bool) {
+        
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
         self.scrollVew.pagingEnabled = true
         self.scrollVew.frame=CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
         let scrollViewWidth:CGFloat = self.scrollVew.frame.width
@@ -36,10 +42,6 @@ class LandingPageViewController: UIViewController, UIScrollViewDelegate, UIImage
         self.scrollVew.contentSize = CGSizeMake(self.scrollVew.frame.width * 6, self.scrollVew.frame.height)
         self.scrollVew.delegate = self
         self.pageControl.currentPage = 0
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
         
         let color = BabyboxUtils.babyBoxUtils.UIColorFromRGB(0xFF76A4).CGColor
         self.signUpBtn.backgroundColor = UIColor.clearColor()

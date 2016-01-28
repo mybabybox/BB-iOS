@@ -18,7 +18,7 @@ class FollowingViewController: UICollectionViewController {
     var userId: Int = 0
     
     @IBAction func onClickFollowings(sender: AnyObject) {
-        print(">>>>>")
+        
         
         let button = sender as! UIButton
         let view = button.superview!

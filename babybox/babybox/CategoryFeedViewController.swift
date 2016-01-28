@@ -147,7 +147,9 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
             if (post.hasImage) {
                 let imagePath =  constants.imagesBaseURL + "/image/get-post-image-by-id/" + String(post.images[0])
                 let imageUrl  = NSURL(string: imagePath)
-                cell.prodImageView.kf_setImageWithURL(imageUrl!)
+                cell.prodImageView.kf_setImageWithURL(imageUrl!,
+                    placeholderImage: nil,
+                    optionsInfo: [.Transition(ImageTransition.Fade(0.5))])
             }
             cell.likeCount.text = String(post.numLikes)
             if (!post.isLiked) {
@@ -163,6 +165,8 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
             if (post.originalPrice != 0 && post.originalPrice != -1 && post.originalPrice != Int(post.price)) {
                 let attrString = NSAttributedString(string: "\(constants.currencySymbol) \(String(stringInterpolationSegment:Int(post.originalPrice)))", attributes: [NSStrikethroughStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue])
                 cell.originalPrice.attributedText = attrString
+            } else {
+                cell.originalPrice.attributedText = NSAttributedString(string: "")
             }
             
             cell.likeImageIns.addTarget(self, action: "onLikeBtnClick:", forControlEvents: UIControlEvents.TouchUpInside)
@@ -262,7 +266,7 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
     
     // MARK: UIScrollview Delegate
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height){
+        if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - constants.prodImgLoadThresold){
             if (self.loadingProducts) {
                 
                 switch feedFilter! {

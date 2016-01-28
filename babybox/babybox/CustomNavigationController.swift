@@ -27,7 +27,6 @@ class CustomNavigationController: UIViewController {
     }
     
     func onClickSellBtn(sender: AnyObject?) {
-        print("calling here...onClickSellBtn")
         self.tabBarController!.tabBar.hidden = true
         let vController = self.storyboard?.instantiateViewControllerWithIdentifier("sellProductsViewController")
         self.navigationController?.pushViewController(vController!, animated: true)
@@ -77,7 +76,9 @@ class CustomNavigationController: UIViewController {
         let userNameImg: UIButton = UIButton()
         userNameImg.setTitle(constants.userInfo.displayName, forState: UIControlState.Normal)
         userNameImg.addTarget(self, action: "onClickUserBtn:", forControlEvents: UIControlEvents.TouchUpInside)
-        userNameImg.frame = CGRectMake(0, 0, 60, 35)
+        userNameImg.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
+        userNameImg.titleLabel!.lineBreakMode = NSLineBreakMode.ByWordWrapping
+        userNameImg.frame = CGRectMake(0, 0, 100, 35)
         
         let sellBtn: UIButton = UIButton()
         sellBtn.setImage(UIImage(named: "new_post"), forState: UIControlState.Normal)

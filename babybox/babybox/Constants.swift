@@ -12,10 +12,12 @@ import UIKit
 struct constants {
     static let kBaseServerURL = "http://192.168.1.152:9005/"
     static let imagesBaseURL = "http://192.168.1.152:9005";
-    static let currencySymbol = "$";
-    static var accessToken = "";
+    static let currencySymbol = "$"
+    static var accessToken = ""
     static var userInfo: UserInfoVM = UserInfoVM()
+    static var imgFadeInInterval = 200
     
+    static var prodImgLoadThresold = CGFloat(40.0)
     //static var viewControllerIns: UIViewController? = nil
     
     //Color 

@@ -55,7 +55,7 @@ class SharedPreferencesUtil {
     }
     
     func saveUserInfo(userInfo: UserInfoVM) {
-        self.prefs.setValue(userInfo, forKey: User.USER_INFO.rawValue)
+        //self.prefs.setValue(userInfo, forKey: User.USER_INFO.rawValue)
     }
     
     func getUserInfo() -> UserInfoVM {
