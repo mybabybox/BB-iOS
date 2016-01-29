@@ -37,7 +37,7 @@ class SettingsViewController: UIViewController {
     }
     
     func handleLogout(result: String) {
-        print("handleLogout")
+        self.navigationController?.navigationBar.hidden = true
         constants.accessToken = ""
         
         let vController = self.storyboard!.instantiateViewControllerWithIdentifier("loginController") as! LoginViewController

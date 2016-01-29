@@ -8,7 +8,7 @@
 
 import UIKit
 
-class UserActivityViewController: UIViewController {
+class UserActivityViewController: CustomNavigationController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

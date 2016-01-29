@@ -80,7 +80,12 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate {
             self.likeButton.setImage(UIImage(named: "ic_like_tips.png"), forState: UIControlState.Normal)
             self.likeFlag = false
             ApiControlller().unlikePost(String(Int(self.id)))
-            self.likeCountLabel.text = String(count! - 1)
+            if (count == nil) {
+                self.likeCountLabel.text = String(0)
+            } else {
+                self.likeCountLabel.text = String(count! - 1)
+            }
+            
         }
     }
     

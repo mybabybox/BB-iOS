@@ -34,6 +34,7 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
     var txtPinkColor = BabyboxUtils.babyBoxUtils.UIColorFromRGB(0xFF76A4)
     
     override func viewDidAppear(animated: Bool) {
+        self.tabBarController!.tabBar.hidden = false
     }
     
     override func viewDidLoad() {
@@ -189,7 +190,7 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
             vController.productModel = self.products[self.currentIndex]
             vController.category = self.selCategory
             apiController.getProductDetails(String(Int(self.products[self.currentIndex].id)))
-            
+            self.tabBarController!.tabBar.hidden = true
             self.navigationController?.pushViewController(vController, animated: true)
             
         }

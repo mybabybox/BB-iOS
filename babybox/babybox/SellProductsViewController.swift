@@ -49,7 +49,7 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
     
     @IBOutlet weak var textFieldKeyboardType: UITextField!{
         didSet{
-            textFieldKeyboardType.keyboardType = UIKeyboardType.NumberPad
+            //textFieldKeyboardType.keyboardType = UIKeyboardType.NumberPad
         }
     }
     
@@ -57,7 +57,9 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
         super.viewDidLoad()
         self.imagePicker.delegate = self
         self.loadDataSource()
-
+        self.pricetxt.delegate = self
+        self.pricetxt.keyboardType = .NumberPad
+        
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "actionbar_bg_pink"), forBarMetrics: UIBarMetrics.Default)
         ApiControlller.apiController.getAllCategories();
         

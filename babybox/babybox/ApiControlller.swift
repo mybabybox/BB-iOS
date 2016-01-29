@@ -32,7 +32,7 @@ class ApiControlller {
         callEvent.resultClass = "CategoryModel"
         callEvent.successEventbusName = "categoriesReceivedSuccess"
         callEvent.failedEventbusName = "categoriesReceivedFailed"
-        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method;
+        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
         
         self.makeApiCall(callEvent)
     }
@@ -469,6 +469,7 @@ func getDistricts() {
         
         let request: NSMutableURLRequest = NSMutableURLRequest()
         let url = arg.apiUrl + "?access_token=\(constants.accessToken)"
+        
         request.URL = NSURL(string: url)
         request.HTTPMethod = "GET"
         NSLog("sending string %@", url)
@@ -484,27 +485,6 @@ func getDistricts() {
             }
         })
         task.resume()
-        
-        
-        /*Alamofire.request(.GET, request)
-            .responseJSON { response in
-            print(response.request)  // original URL request
-            print(response.response) // URL response
-            print(response.data)     // server data
-            print(response.result)   // result of response serialization
-                
-            if response.data != nil {
-                SwiftEventBus.post(arg.failedEventbusName, sender: nil)
-            } else {
-                let result = self.handleResult(response.data!, arg: arg)
-                SwiftEventBus.post(arg.successEventbusName, sender: result)
-            }
-                
-            if let JSON = response.result.value {
-                print("JSON: \(JSON)")
-            }
-        }*/
-        
     }
      
     func makePostApiCall(arg: ApiCallEvent) {

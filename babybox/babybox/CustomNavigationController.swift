@@ -9,11 +9,17 @@
 import UIKit
 
 class CustomNavigationController: UIViewController {
-
+    
+    var isProfileView = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         /** Creating Custom Navigation Controller Component */
         initNavigationComponent()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        //initNavigationComponent()
     }
     
     override func didReceiveMemoryWarning() {
@@ -21,9 +27,7 @@ class CustomNavigationController: UIViewController {
     }
     
     func onClickUserBtn(sender: AnyObject?) {
-        self.tabBarController!.tabBar.hidden = true
-        let vController = self.storyboard?.instantiateViewControllerWithIdentifier("UserProfileController")
-        self.navigationController?.pushViewController(vController!, animated: true)
+        self.tabBarController!.selectedIndex = 2
     }
     
     func onClickSellBtn(sender: AnyObject?) {
@@ -62,7 +66,7 @@ class CustomNavigationController: UIViewController {
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "actionbar_bg_pink"), forBarMetrics: UIBarMetrics.Default)
         
         let userThumbnailImg: UIButton = UIButton()
-        userThumbnailImg.addTarget(self, action: "onClickUserBtn:", forControlEvents: UIControlEvents.TouchUpInside)
+        
         userThumbnailImg.frame = CGRectMake(0, 0, 35, 35)
         userThumbnailImg.layer.cornerRadius = 18.0
         userThumbnailImg.layer.masksToBounds = true
@@ -74,11 +78,16 @@ class CustomNavigationController: UIViewController {
         }
         
         let userNameImg: UIButton = UIButton()
-        userNameImg.setTitle(constants.userInfo.displayName, forState: UIControlState.Normal)
-        userNameImg.addTarget(self, action: "onClickUserBtn:", forControlEvents: UIControlEvents.TouchUpInside)
+	userNameImg.setTitle(constants.userInfo.displayName, forState: UIControlState.Normal)
+        
         userNameImg.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
         userNameImg.titleLabel!.lineBreakMode = NSLineBreakMode.ByWordWrapping
         userNameImg.frame = CGRectMake(0, 0, 100, 35)
+        
+        if (!isProfileView) {
+            userThumbnailImg.addTarget(self, action: "onClickUserBtn:", forControlEvents: UIControlEvents.TouchUpInside)
+            userNameImg.addTarget(self, action: "onClickUserBtn:", forControlEvents: UIControlEvents.TouchUpInside)
+        }
         
         let sellBtn: UIButton = UIButton()
         sellBtn.setImage(UIImage(named: "new_post"), forState: UIControlState.Normal)
@@ -101,10 +110,7 @@ class CustomNavigationController: UIViewController {
         
         let userImgBarBtn = UIBarButtonItem(customView: userThumbnailImg)
         let userNameBarBtn = UIBarButtonItem(customView: userNameImg)
-        
-        //var image = UIImage(named: "game_badge_mascot")
-        //image?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
-        
+       
         self.navigationItem.rightBarButtonItems = [sellBarBtn, chatBarBtn ]
         self.navigationItem.leftItemsSupplementBackButton = true;
         self.navigationItem.leftBarButtonItems = [userImgBarBtn, userNameBarBtn, badgeBarBtn]

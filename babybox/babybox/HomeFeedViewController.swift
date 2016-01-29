@@ -98,6 +98,7 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
+        
         if (collectionView.tag == 2){
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier("staticCell", forIndexPath: indexPath) as! CategoryCollectionViewCell
             let categoryVM = self.categories[indexPath.row]
@@ -166,20 +167,17 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         self.currentIndex = indexPath.row
         if (collectionView.tag == 2){
-            //self.performSegueWithIdentifier("gotocatogorydetails", sender: nil)
             let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("CategoryFeedViewController") as! CategoryFeedViewController
             vController.selCategory = self.categories[self.currentIndex]
             vController.categories = self.categories[self.currentIndex]
-            //self.tabBarController!.tabBar.hidden = true
+            self.tabBarController!.tabBar.hidden = true
             self.navigationController?.pushViewController(vController, animated: true)
         } else {
-            //self.performSegueWithIdentifier("gotoproductdetail", sender: nil)
             let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("ProductViewController") as! ProductDetailsViewController
             vController.productModel = self.products[self.currentIndex]
             apiController.getProductDetails(String(Int(self.products[self.currentIndex].id)))
             self.tabBarController!.tabBar.hidden = true
             self.navigationController?.pushViewController(vController, animated: true)
-            
         }
     }
     
@@ -219,7 +217,8 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
         } else {
             let availableWidthForCells:CGFloat = self.view.bounds.width - 35
             let cellWidth :CGFloat = availableWidthForCells / 3
-            return CGSizeMake(self.view.frame.width, (cellWidth * 2) + 60)
+            let ht = cellWidth * CGFloat(Int(self.categories.count / 3))
+            return CGSizeMake(self.view.frame.width, ht + 60)
         }
     }
     
@@ -255,6 +254,7 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
     
     func handleGetCateogriesSuccess(categories: [CategoryModel]) {
         self.categories = categories
+        self.uiCollectionView.reloadData()
     }
     
     // MARK: UIScrollview Delegate
