@@ -11,17 +11,10 @@ import SwiftEventBus
 
 class UserInfoCache {
     
-    internal static let USER_INFO = "userInfo"
     internal static var userInfoVM: UserInfoVM? = nil
     
     init() {
-        SwiftEventBus.onMainThread(self, name: "userInfoSuccess") { result in
-            // UI thread
-            print(result.object)
-            UserInfoCache.userInfoVM = result.object as? UserInfoVM
-            let sharedPref: NSUserDefaults = NSUserDefaults.standardUserDefaults()
-            sharedPref.setObject(UserInfoCache.userInfoVM, forKey: UserInfoCache.USER_INFO)
-        }
+        
     }
     
     public static func refresh() {
@@ -30,9 +23,9 @@ class UserInfoCache {
     
     public static func getUser() -> UserInfoVM {
         if (userInfoVM == nil) {
-            let sharedPref: NSUserDefaults = NSUserDefaults.standardUserDefaults()
-            userInfoVM = sharedPref.objectForKey(USER_INFO) as? UserInfoVM
-            
+            //let sharedPref: NSUserDefaults = NSUserDefaults.standardUserDefaults()
+            //userInfoVM = sharedPref.objectForKey(USER_INFO) as? UserInfoVM
+            userInfoVM = SharedPreferencesUtil.getInstance().getUserInfo()
         }
         return userInfoVM!
     }
@@ -51,11 +44,6 @@ class UserInfoCache {
     
     public static func decrementNumLikes() {
         getUser().numLikes--;
-    }
-    
-    public static func clear() {
-        let sharedPref: NSUserDefaults = NSUserDefaults.standardUserDefaults()
-        sharedPref.setObject(nil, forKey: UserInfoCache.USER_INFO)
     }
     
 }

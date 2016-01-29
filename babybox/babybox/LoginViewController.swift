@@ -69,7 +69,8 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFie
             self.signInButton.alpha = 1.0
         } else {
             constants.accessToken = resultDto
-            ApiControlller.apiController.getUserInfo()
+            SharedPreferencesUtil.getInstance().setUserAccessToken(resultDto)
+            UserInfoCache.refresh()
         }
         //make API call to get the user profile data... 
         
@@ -81,7 +82,6 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFie
         self.progressIndicator.stopAnimating()
         constants.userInfo = resultDto
         self.performSegueWithIdentifier("clickToLogin", sender: nil)
-        
     }
     
     func handleUserLoginFailed(resultDto: String) {
@@ -133,13 +133,6 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFie
             self.handleUserLogin(resultDto)
         }
         
-        SwiftEventBus.onMainThread(self, name: "userInfoSuccess") { result in
-            // UI thread
-            print(result.object)
-            let resultDto: UserInfoVM = result.object as! UserInfoVM
-            self.handleUserInfo(resultDto)
-        }
-        
         SwiftEventBus.onMainThread(self, name: "loginReceivedFailed") { result in
             // UI thread
             var resultDto = ""
@@ -151,20 +144,15 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFie
                 resultDto = "Connection Failure"
             }
             
-            //if let result.object is NSString {
-            // /   resultDto = result.object as! String
-            //} else {
-            //    resultDto = "Connection Failure"
-            //}
-            
             self.handleUserLoginFailed(resultDto)
         }
         
-        SwiftEventBus.onMainThread(self, name: "getUserLoggedUserInfo") { result in
-            // UI thread
+        SwiftEventBus.onMainThread(self, name: "userInfoSuccess") { result in
             let resultDto: UserInfoVM = result.object as! UserInfoVM
-            print(resultDto);
+            self.handleUserInfo(resultDto)
         }
+        
+        
         //print(FBSDKAccessToken.currentAccessToken())
         if(FBSDKAccessToken.currentAccessToken() == nil) {
             
@@ -172,7 +160,6 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFie
             self.view.addSubview(loginButton)
             
             loginButton.center=self.view.center
-            //loginButton.center.x = signInButton.center.x
             loginButton.center.y = signInButton.center.y + 150
             loginButton.readPermissions=["public_profile","email","user_friends"]
             loginButton.delegate=self
@@ -182,7 +169,6 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFie
             self.progressIndicator.hidden = true
             progressIndicator.stopAnimating()
             apiController.validateFacebookUser(FBSDKAccessToken.currentAccessToken().tokenString);
-            print("Logged in..")
         }
         
         let uImageView = UIImageView()

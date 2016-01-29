@@ -51,15 +51,24 @@ class SharedPreferencesUtil {
     }
     
     func getUserAccessToken(accessToken: String) -> String {
-        return String(self.prefs.valueForKey(User.ACCESS_TOKEN.rawValue))
+        return (self.prefs.valueForKey(User.ACCESS_TOKEN.rawValue) as? String)!
     }
     
     func saveUserInfo(userInfo: UserInfoVM) {
-        //self.prefs.setValue(userInfo, forKey: User.USER_INFO.rawValue)
+        self.prefs.setObject(userInfo, forKey: User.USER_INFO.rawValue)
     }
     
-    func getUserInfo() -> UserInfoVM {
-        return self.prefs.valueForKey(User.USER_INFO.rawValue) as! UserInfoVM
+    func getUserInfo() -> UserInfoVM? {
+        var userInfo: UserInfoVM? = nil
+        let _userInfo = self.prefs.objectForKey(User.USER_INFO.rawValue)
+        if (_userInfo != nil) {
+            userInfo = _userInfo as? UserInfoVM
+        }
+        return userInfo
     }
     
+    
+    func clear() {
+        self.prefs.setObject(nil, forKey: User.USER_INFO.rawValue)
+    }
 }

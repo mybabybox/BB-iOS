@@ -14,34 +14,28 @@ class SplashViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBar.hidden = true
-        /*SwiftEventBus.onMainThread(self, name: "userInfoSuccess") { result in
-            // UI thread
-            print(result.object)
-            let resultDto: UserInfoVM = result.object as! UserInfoVM
-            self.handleUserInfo(resultDto)
-        }
         
-        SwiftEventBus.onMainThread(self, name: "userInfoFailed") { result in
-            // UI thread
-            print(result.object)
-            self.showLoginPage()
-        }*/
+        let sessionId: String? = SharedPreferencesUtil.getInstance().getUserAccessToken(SharedPreferencesUtil.User.ACCESS_TOKEN.rawValue)
         
-        /*var sessionId: String! = SharedPreferencesUtil.getInstance().getUserAccessToken(SharedPreferencesUtil.User.ACCESS_TOKEN.rawValue)
+        print(SharedPreferencesUtil.getInstance().getUserInfo())
         
-        if ( sessionId != nil && sessionId != "") {
+        if ( sessionId != "nil") {
             constants.accessToken = sessionId!
-            ApiControlller.apiController.getUserInfo()
+            SwiftEventBus.onMainThread(self, name: "userInfoSuccess") { result in
+                let resultDto: UserInfoVM = result.object as! UserInfoVM
+                self.handleUserInfo_(resultDto)
+            }
+                
+            SwiftEventBus.onMainThread(self, name: "userInfoFailed") { result in
+                self.showLoginPage()
+            }
+            UserInfoCache.refresh()
+            
         } else {
             //Modify later to pick this from SharedPreferences instead of reloading again.
             NSThread.sleepForTimeInterval(0.3)
             showLoginPage()
-        }*/
-        
-        NSThread.sleepForTimeInterval(0.3)
-        showLoginPage()
-        
-        // Do any additional setup after loading the view.
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -55,12 +49,19 @@ class SplashViewController: UIViewController {
     
     func handleUserInfo_(resultDto: UserInfoVM?) {
         if (resultDto != nil) {
-            constants.userInfo = resultDto!
-            constants.accessToken = SharedPreferencesUtil.getInstance().getUserAccessToken(SharedPreferencesUtil.User.ACCESS_TOKEN.rawValue)
-            SharedPreferencesUtil.getInstance().saveUserInfo(resultDto!)
-            let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("LandingPageViewController") as! LandingPageViewController
-            self.navigationController?.pushViewController(vController, animated: true)
             self.navigationController?.navigationBar.hidden = true
+            
+            constants.accessToken = (SharedPreferencesUtil.getInstance().getUserAccessToken(SharedPreferencesUtil.User.ACCESS_TOKEN.rawValue) as? String)!
+            constants.userInfo = resultDto!
+            if (constants.userInfo.id == -1) {
+            //invalid user
+                SwiftEventBus.unregister(self)
+                self.showLoginPage()
+            } else {
+                self.performSegueWithIdentifier("homefeed", sender: nil)
+            }
+            
+            
         } else {
             self.showLoginPage()
         }
@@ -68,9 +69,11 @@ class SplashViewController: UIViewController {
     }
     
     func showLoginPage() {
-        let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("LandingPageViewController") as! LandingPageViewController
+        /*let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("LandingPageViewController") as! LandingPageViewController
         self.navigationController?.pushViewController(vController, animated: true)
+        */
         self.navigationController?.navigationBar.hidden = true
+        self.performSegueWithIdentifier("loginpage", sender: nil)
     }
     /*
     // MARK: - Navigation
