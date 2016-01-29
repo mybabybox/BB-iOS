@@ -24,9 +24,9 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
     @IBOutlet var categorydropdown: UIButton!
     @IBOutlet var conditionDropDown: UIButton!
     
+    @IBOutlet weak var prodDescription: UITextView!
     let categoryOptions = DropDown()
     @IBOutlet var pricetxt: UITextField!
-    @IBOutlet var producttxt: UITextField!
     var collectionViewCellSize : CGSize?
     var collectionViewInsets : UIEdgeInsets?
     var reuseIdentifier = "CustomCell"
@@ -74,6 +74,12 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
             self.navigationController?.popViewControllerAnimated(true)
         }
         
+        SwiftEventBus.onMainThread(self, name: "productSavedFailed") { result in
+            // UI thread
+            NSLog("Product Saved Successfully")
+            self.view.makeToast(message: "Error Saving product", duration: 0.5, position: "bottom")
+        }
+        
         self.conditionTypeDropDown.dataSource = [
             "-Select-",
             "New(Sealed/with tags)",
@@ -117,16 +123,21 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
         
     func handleGetCateogriesSuccess(categories: [CategoryModel]) {
         self.categories = categories;
+        var selCategoryValue = "Choose a Category:"
         var catDataSource : [String] = []
         for (var i = 0 ; i < categories.count ; i++) {
             catDataSource.append(categories[i].description)
+            if (Int(categories[i].id) == self.selCategory) {
+                selCategoryValue = categories[i].description
+            }
         }
         
         self.categoryOptions.dataSource = catDataSource
         dispatch_async(dispatch_get_main_queue(), {
             self.categoryOptions.reloadAllComponents()
         })
-
+        
+        self.categorydropdown.setTitle(selCategoryValue, forState: UIControlState.Normal)
     }
 
     @IBAction func ShoworDismiss(sender: AnyObject) {
@@ -147,7 +158,6 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
         }
     }
     
-    @IBOutlet var sssss: UIButton!
     func loadDataSource(){
         self.imageCollection = ["","","",""];
     }
@@ -210,7 +220,7 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
             self.imagePicker.allowsEditing = true
             self.imagePicker.sourceType = .PhotoLibrary
             
-            self.presentViewController(self.imagePicker, animated: true, completion: nil)
+            self.navigationController!.presentViewController(self.imagePicker, animated: true, completion: nil)
         })
         let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: {
             (alert: UIAlertAction!) -> Void in
@@ -218,7 +228,7 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
         optionMenu.addAction(cameraAction)
         optionMenu.addAction(photoGalleryAction)
         optionMenu.addAction(cancelAction)
-        self.presentViewController(optionMenu, animated: true, completion: nil)
+        self.navigationController!.presentViewController(optionMenu, animated: true, completion: nil)
         
     }
     
@@ -227,7 +237,6 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
         let cellWidth :CGFloat = availableWidthForCells / 4
         collectionViewCellSize = CGSizeMake(cellWidth, cellWidth)
         self.collectionViewHtConstraint.constant = cellWidth + 5
-        
     }
         
     // MARK: UIImagePickerControllerDelegate Methods
@@ -236,15 +245,9 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
         if let pickedImage = info[UIImagePickerControllerEditedImage] as? UIImage {
              let controller = ImageCropViewController.init(image: pickedImage)
             self.navigationController?.pushViewController(controller, animated: true)
-
-            /*self.imageCollection.removeAtIndex(selectedIndex!)
-            
-            self.imageCollection.insert(pickedImage, atIndex: selectedIndex!)*/
         }
-        //self.collectionView.reloadData()
         dismissViewControllerAnimated(true, completion: nil)
     }
-    
     
     func handleCroppedImage(notification: NSNotification) {
         self.imageCollection.removeAtIndex(selectedIndex!)
@@ -265,7 +268,7 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
         }
         
         if (validateSaveForm()) {
-            ApiControlller.apiController.saveSellProduct(producttxt.text!,sellingtext: sellingtext.text!, categoryId: selCategoryId,conditionType: (conditionDropDown.titleLabel?.text!)!, pricetxt: pricetxt.text!, imageCollection: self.imageCollection);
+            ApiControlller.apiController.saveSellProduct(prodDescription.text!,sellingtext: sellingtext.text!, categoryId: selCategoryId,conditionType: (conditionDropDown.titleLabel?.text!)!, pricetxt: pricetxt.text!, imageCollection: self.imageCollection);
         }
     }
     
@@ -293,7 +296,7 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
         } else if (self.sellingtext.text == nil || self.sellingtext.text == "" ) {
             self.view.makeToast(message: "Please fill title", duration: 1.5, position: "bottom")
             isValidated = false
-        } else if (self.producttxt.text == nil || self.producttxt.text == "") {
+        } else if (self.prodDescription.text == nil || self.prodDescription.text == "") {
             self.view.makeToast(message: "Please fill description", duration: 1.5, position: "bottom")
             isValidated = false
         } else if (self.pricetxt.text == nil || self.pricetxt.text == "") {

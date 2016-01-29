@@ -135,7 +135,8 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
                     placeholderImage: nil,
                     optionsInfo: [.Transition(ImageTransition.Fade(0.5))])
             }
-            cell.likeCount.text = String(post.numLikes)
+            cell.likeCountIns.setTitle(String(post.numLikes), forState: UIControlState.Normal)
+            
             if (!post.isLiked) {
                 cell.likeImageIns.setImage(UIImage(named: "ic_like_tips.png"), forState: UIControlState.Normal)
             } else {
@@ -169,7 +170,7 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
             let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("CategoryFeedViewController") as! CategoryFeedViewController
             vController.selCategory = self.categories[self.currentIndex]
             vController.categories = self.categories[self.currentIndex]
-            self.tabBarController!.tabBar.hidden = true
+            //self.tabBarController!.tabBar.hidden = true
             self.navigationController?.pushViewController(vController, animated: true)
         } else {
             //self.performSegueWithIdentifier("gotoproductdetail", sender: nil)
@@ -319,18 +320,16 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
         //TODO - logic here require if user has already liked the product...
         if (self.products[(indexPath?.row)!].isLiked) {
             self.products[(indexPath?.row)!].numLikes--
-            cell.likeCount.text = String(self.products[(indexPath?.row)!].numLikes)
+            cell.likeCountIns.setTitle(String(self.products[(indexPath?.row)!].numLikes), forState: UIControlState.Normal)
             self.products[(indexPath?.row)!].isLiked = false
             apiController.unlikePost(String(self.products[(indexPath?.row)!].id))
-            button.setImage(UIImage(named: "ic_like_tips.png"), forState: UIControlState.Normal)
-            
+            cell.likeImageIns.setImage(UIImage(named: "ic_like_tips.png"), forState: UIControlState.Normal)
         } else {
             self.products[(indexPath?.row)!].isLiked = true
             self.products[(indexPath?.row)!].numLikes++
-            cell.likeCount.text = String(self.products[(indexPath?.row)!].numLikes)
+            cell.likeCountIns.setTitle(String(self.products[(indexPath?.row)!].numLikes), forState: UIControlState.Normal)
             apiController.likePost(String(self.products[(indexPath?.row)!].id))
-            button.setImage(UIImage(named: "ic_liked_tips.png"), forState: UIControlState.Normal)
-            
+            cell.likeImageIns.setImage(UIImage(named: "ic_liked_tips.png"), forState: UIControlState.Normal)
         }
     }
     
