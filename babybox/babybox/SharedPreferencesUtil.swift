@@ -51,7 +51,12 @@ class SharedPreferencesUtil {
     }
     
     func getUserAccessToken(accessToken: String) -> String {
-        return (self.prefs.valueForKey(User.ACCESS_TOKEN.rawValue) as? String)!
+        if (self.prefs.valueForKey(User.ACCESS_TOKEN.rawValue) != nil) {
+            return (self.prefs.valueForKey(User.ACCESS_TOKEN.rawValue) as? String)!
+        } else {
+            return "-1"
+        }
+        
     }
     
     func saveUserInfo(userInfo: UserInfoVM) {

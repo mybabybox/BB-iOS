@@ -93,7 +93,7 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
         }else{
             count = self.products.count
         }
-        return count;
+        return count
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
@@ -102,7 +102,7 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
         if (collectionView.tag == 2){
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier("staticCell", forIndexPath: indexPath) as! CategoryCollectionViewCell
             let categoryVM = self.categories[indexPath.row]
-            let imagePath = categoryVM.icon;
+            let imagePath = categoryVM.icon
             let imageUrl  = NSURL(string: imagePath)
             cell.categoryIcon.kf_setImageWithURL(imageUrl!)
             cell.categoryName.text = categoryVM.name;

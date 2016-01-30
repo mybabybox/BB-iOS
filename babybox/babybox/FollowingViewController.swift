@@ -124,8 +124,8 @@ class FollowingViewController: UICollectionViewController {
         //let navigationController = segue.destinationViewController as! UINavigationController
         print(identifier)
         if (identifier == "gotoprofile") {
-            let vController = segue.destinationViewController as! UserProfileViewController
-            vController.userId = self.userFollowings[self.currentIndex].id
+            //let vController = segue.destinationViewController as! UserProfileViewController
+            //vController.userId = self.userFollowings[self.currentIndex].id
         }
     }
     

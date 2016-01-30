@@ -254,7 +254,7 @@ class ApiControlller {
         self.makeApiCall(callEvent)
     }
     
-    func getUserPostedFeeds(id: Int, offSet: Int) { //filtering by high-low price
+    func getUserPostedFeeds(id: Int, offSet: Int64) { //filtering by high-low price
         let callEvent = ApiCallEvent()
         callEvent.method = "get-user-posted-feed/" + String(id)
         callEvent.resultClass = "PostModel"
@@ -264,12 +264,12 @@ class ApiControlller {
         self.makeApiCall(callEvent)
     }
     
-    func getUserLikedFeeds(id: Int, offSet: Int) { //filtering by high-low price
+    func getUserLikedFeeds(id: Int, offSet: Int64) { //filtering by high-low price
         let callEvent = ApiCallEvent()
         callEvent.method = "get-user-liked-feed/" + String(id)
         callEvent.resultClass = "PostModel"
-        callEvent.successEventbusName = "userPostFeedSuccess"
-        callEvent.failedEventbusName = "userPostFeedFailed"
+        callEvent.successEventbusName = "userLikedFeedSuccess"
+        callEvent.failedEventbusName = "userLikedFeedFailed"
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method + "/" + String(offSet)
         self.makeApiCall(callEvent)
     }

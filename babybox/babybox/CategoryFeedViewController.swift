@@ -98,7 +98,7 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
         }else{
             count = self.products.count
         }
-        return count;
+        return count
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
@@ -107,8 +107,8 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier("categoryCell", forIndexPath: indexPath) as! CategoryCollectionViewCell
             
             cell.categoryName.text = self.selCategory?.name
-            let imagePath = (self.selCategory?.icon)!;
-            let imageUrl = NSURL(string: imagePath);
+            let imagePath = (self.selCategory?.icon)!
+            let imageUrl  = NSURL(string: imagePath)
             
             dispatch_async(dispatch_get_main_queue(), {
                 cell.categoryIcon.kf_setImageWithURL(imageUrl!)

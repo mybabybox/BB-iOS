@@ -130,20 +130,6 @@ class InitialHomeSegmentedController: CustomNavigationController {
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-
-        let identifier = segue.identifier
-        if (identifier != nil && identifier == "gotoUserProfile_") {
-            let vController = segue.destinationViewController as! UserProfileViewController
-            vController.userId = (constants.userInfo.id)
-        } else if (identifier != nil && identifier == "gotoUserProfile") {
-            let vController = segue.destinationViewController as! UserProfileViewController
-            vController.userId = (constants.userInfo.id)
-        } else if (identifier != nil && identifier == "gotouserchat") {
-            let vController = segue.destinationViewController as! ConversationsViewController
-            vController.userId = (constants.userInfo.id)
-        } else if (identifier != nil && identifier == "sellProduct") {
-        } else if (identifier != nil && identifier == "badge") {
-        }
     }
     
 }

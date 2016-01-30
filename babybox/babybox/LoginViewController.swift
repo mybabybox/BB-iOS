@@ -81,6 +81,7 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFie
         self.progressIndicator.hidden = true
         self.progressIndicator.stopAnimating()
         constants.userInfo = resultDto
+        SwiftEventBus.unregister(self)
         self.performSegueWithIdentifier("clickToLogin", sender: nil)
     }
     

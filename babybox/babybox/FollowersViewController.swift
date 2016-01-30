@@ -95,8 +95,8 @@ class FollowersViewController: UICollectionViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         let identifier = segue.identifier
         if (identifier == "gotoprofile") {
-            let vController = segue.destinationViewController as! UserProfileViewController
-            vController.userId = self.userFollowers[self.currentIndex].id
+            //let vController = segue.destinationViewController as! UserProfileViewController
+            //vController.userId = self.userFollowers[self.currentIndex].id
         }
     }
     
