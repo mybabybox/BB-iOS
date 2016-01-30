@@ -107,8 +107,8 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier("categoryCell", forIndexPath: indexPath) as! CategoryCollectionViewCell
             
             cell.categoryName.text = self.selCategory?.name
-            let imagePath =  constants.imagesBaseURL + (self.selCategory?.icon)!;
-            let imageUrl  = NSURL(string: imagePath);
+            let imagePath = (self.selCategory?.icon)!;
+            let imageUrl = NSURL(string: imagePath);
             
             dispatch_async(dispatch_get_main_queue(), {
                 cell.categoryIcon.kf_setImageWithURL(imageUrl!)
