@@ -31,7 +31,7 @@ class UserFeedViewController: CustomNavigationController {
     var userId: Int = 0
     var userInfo: UserInfoVM? = nil
     var isHeightSet: Bool = false
-    
+    var isHtCalculated = false
     override func viewDidAppear(animated: Bool) {
         self.tabBarController!.tabBar.hidden = false
     }
@@ -43,7 +43,6 @@ class UserFeedViewController: CustomNavigationController {
         if (self.userId == 0) {
             self.userId = constants.userInfo.id
         }
-        
         
         /*if (!SharedPreferencesUtil.getInstance().isScreenViewed(SharedPreferencesUtil.Screen.MY_PROFILE_TIPS)) {
             self.userFeedTips.hidden = false
@@ -171,7 +170,7 @@ class UserFeedViewController: CustomNavigationController {
                  //   optionsInfo: [.Transition(ImageTransition.Fade(0.5))])
                 cell.prodImageView.kf_setImageWithURL(imageUrl!)
             }
-           // cell.likeCount.text = String(post.numLikes)
+            cell.likeCountIns.setTitle(String(post.numLikes), forState: UIControlState.Normal)
             if (!post.isLiked) {
                 cell.likeImageIns.setImage(UIImage(named: "ic_like_tips.png"), forState: UIControlState.Normal)
             } else {
@@ -251,12 +250,16 @@ class UserFeedViewController: CustomNavigationController {
             for view in collectionView.subviews as [UIView] {
                 ht += view.frame.height
             }*/
-            return CGSizeMake(self.view.frame.width, 305)
+            if (self.isTipVisible()) {
+                return CGSizeMake(self.view.frame.width, 305)
+            } else {
+                return CGSizeMake(self.view.frame.width, 200)
+            }
         }
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
-        return 5.0
+        return 1.0
     }
     
     //MARK Segue handling methods.
@@ -303,9 +306,9 @@ class UserFeedViewController: CustomNavigationController {
             } else {
                 self.userLikedProducts.appendContentsOf(resultDto)
             }
-            if (feedFilter == FeedFilter.FeedType.USER_LIKED) {
+            //if (feedFilter == FeedFilter.FeedType.USER_LIKED) {
                 self.uiCollectionView.reloadData()
-            }
+            //}
             self.pageOffSet = Int64(self.userLikedProducts[self.userLikedProducts.count-1].offset)
         }
         
@@ -391,18 +394,17 @@ class UserFeedViewController: CustomNavigationController {
         var products = self.getTypeProductInstance()
         if (products[(indexPath?.row)!].isLiked) {
             products[(indexPath?.row)!].numLikes--
-            cell.likeCount.text = String(products[(indexPath?.row)!].numLikes)
+            cell.likeCountIns.setTitle(String(products[(indexPath?.row)!].numLikes), forState: UIControlState.Normal)
             products[(indexPath?.row)!].isLiked = false
             ApiControlller.apiController.unlikePost(String(products[(indexPath?.row)!].id))
-            button.setImage(UIImage(named: "ic_like_tips.png"), forState: UIControlState.Normal)
+            cell.likeImageIns.setImage(UIImage(named: "ic_like_tips.png"), forState: UIControlState.Normal)
             
         } else {
             products[(indexPath?.row)!].isLiked = true
             products[(indexPath?.row)!].numLikes++
-            cell.likeCount.text = String(products[(indexPath?.row)!].numLikes)
+            cell.likeCountIns.setTitle(String(products[(indexPath?.row)!].numLikes), forState: UIControlState.Normal)
             ApiControlller.apiController.likePost(String(products[(indexPath?.row)!].id))
-            button.setImage(UIImage(named: "ic_liked_tips.png"), forState: UIControlState.Normal)
-            
+            cell.likeImageIns.setImage(UIImage(named: "ic_liked_tips.png"), forState: UIControlState.Normal)
         }
     }
     
@@ -413,6 +415,7 @@ class UserFeedViewController: CustomNavigationController {
         cell.tipsView.hidden = true
         cell.tipsConstraint.constant = 6
         redrawSegControlBorder(cell.segmentControl)
+        self.uiCollectionView.reloadData()
     }
 
     @IBAction func onClickBrowse(sender: AnyObject) {
@@ -433,10 +436,18 @@ class UserFeedViewController: CustomNavigationController {
     }
     
     func redrawSegControlBorder(segControl: UISegmentedControl) {
+        
+        var extraHt = CGFloat(0.0)
+        if (!isTipVisible() && !isHtCalculated) {
+            extraHt = CGFloat(114.0)
+            self.isHtCalculated = true
+        } else {
+        }
+        
         if(segControl.selectedSegmentIndex == 0){
             let y = CGFloat(segControl.frame.size.height)
-            let start: CGPoint = CGPoint(x: 0, y: (segControl.frame.origin.y) + y)
-            let end: CGPoint = CGPoint(x: self.view.frame.size.width / 2, y: (segControl.frame.origin.y) + y)
+            let start: CGPoint = CGPoint(x: 0, y: (segControl.frame.origin.y) + y - extraHt)
+            let end: CGPoint = CGPoint(x: self.view.frame.size.width / 2, y: (segControl.frame.origin.y) + y - extraHt)
             
             let color: UIColor = UIColor(red: 255/255, green: 118/255, blue: 164/255, alpha: 1.0)
             self.drawLineFromPoint(start, toPoint: end, ofColor: color, inView: segControl)
@@ -444,8 +455,8 @@ class UserFeedViewController: CustomNavigationController {
         } else if(segControl.selectedSegmentIndex == 1){
             
             let y = CGFloat(segControl.frame.size.height)
-            let start: CGPoint = CGPoint(x: segControl.frame.size.width / 2 , y: (segControl.frame.origin.y) + y)
-            let end: CGPoint = CGPoint(x: segControl.frame.size.width, y: (segControl.frame.origin.y) + y)
+            let start: CGPoint = CGPoint(x: segControl.frame.size.width / 2 , y: (segControl.frame.origin.y) + y - extraHt)
+            let end: CGPoint = CGPoint(x: segControl.frame.size.width, y: (segControl.frame.origin.y) + y - extraHt)
             
             let color: UIColor = UIColor(red: 255/255, green: 118/255, blue: 164/255, alpha: 1.0)
             self.drawLineFromPoint(start, toPoint: end, ofColor: color, inView: segControl)
@@ -471,6 +482,21 @@ class UserFeedViewController: CustomNavigationController {
         cell.editProfile.layer.borderColor = UIColor.lightGrayColor().CGColor
         cell.editProfile.layer.borderWidth = 1.0
         
+        if (!SharedPreferencesUtil.getInstance().isScreenViewed(SharedPreferencesUtil.Screen.MY_PROFILE_TIPS)) {
+            cell.tipsView.hidden = false
+        } else {
+            cell.tipsView.hidden = true
+            cell.tipsConstraint.constant = 6
+        }
+    }
+    
+    func isTipVisible() -> Bool {
+        if (!SharedPreferencesUtil.getInstance().isScreenViewed(SharedPreferencesUtil.Screen.MY_PROFILE_TIPS)) {
+            SharedPreferencesUtil.getInstance().setScreenViewed(SharedPreferencesUtil.Screen.MY_PROFILE_TIPS)
+            return true
+        } else {
+            return false
+        }
     }
     
     func drawLineFromPoint(start : CGPoint, toPoint end:CGPoint, ofColor lineColor: UIColor, inView view: UIView) {
