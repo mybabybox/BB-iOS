@@ -270,6 +270,7 @@ class UserFeedViewController: CustomNavigationController {
     
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        self.tabBarController!.tabBar.hidden = true
         if (segue.identifier == "followingCalls") {
             let vController = segue.destinationViewController as! FollowingViewController
             vController.userId = userId
