@@ -11,7 +11,7 @@ import SwiftEventBus
 
 private let reuseIdentifier = "Cell"
 
-class UserFeedViewController: CustomNavigationController {
+class UserFeedViewController: CustomNavigationController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     //@IBOutlet weak var userFeedTips: UIView!
     //@IBOutlet weak var tipSection: NSLayoutConstraint!
@@ -32,6 +32,9 @@ class UserFeedViewController: CustomNavigationController {
     var userInfo: UserInfoVM? = nil
     var isHeightSet: Bool = false
     var isHtCalculated = false
+    var activeHeaderViewCell: UserFeedHeaderViewCell?  = nil
+    let imagePicker = UIImagePickerController()
+    
     override func viewDidAppear(animated: Bool) {
         self.tabBarController!.tabBar.hidden = false
     }
@@ -39,7 +42,7 @@ class UserFeedViewController: CustomNavigationController {
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        
+        self.imagePicker.delegate = self
         if (self.userId == 0) {
             self.userId = constants.userInfo.id
         }
@@ -84,6 +87,14 @@ class UserFeedViewController: CustomNavigationController {
             //TODO
         }
         
+        SwiftEventBus.onMainThread(self, name: "profileImgUploadSuccess") { result in
+            self.view.makeToast(message: "Profile image uploaded successfully!")
+        }
+        
+        SwiftEventBus.onMainThread(self, name: "profileImgUploadFailed") { result in
+            self.view.makeToast(message: "Error uploading profile image!")
+        }
+        
         ApiControlller.apiController.getUserInfoById(self.userId)
         setCollectionViewSizesInsets()
         setCollectionViewSizesInsetsForTopView()
@@ -125,13 +136,14 @@ class UserFeedViewController: CustomNavigationController {
         
         if (collectionView.tag == 2){
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier("headerCell", forIndexPath: indexPath) as! UserFeedHeaderViewCell
+            self.activeHeaderViewCell = cell
             
             //Divide the width equally among buttons..
             if (!isWidthSet) {
                 setSizesForFilterButtons(cell)
             }
+            
             if (self.userInfo != nil) {
-                
                 cell.displayName.text = self.userInfo?.displayName
                 let imagePath =  constants.imagesBaseURL + "/image/get-profile-image-by-id/" + String(self.userInfo!.id)
                 let imageUrl  = NSURL(string: imagePath)
@@ -307,9 +319,10 @@ class UserFeedViewController: CustomNavigationController {
             } else {
                 self.userLikedProducts.appendContentsOf(resultDto)
             }
-            //if (feedFilter == FeedFilter.FeedType.USER_LIKED) {
+            if (feedFilter == FeedFilter.FeedType.USER_LIKED) {
                 self.uiCollectionView.reloadData()
-            //}
+            }
+            activeHeaderViewCell?.segmentControl.setTitle("Likes " + String(self.userLikedProducts.count), forSegmentAtIndex: 1)
             self.pageOffSet = Int64(self.userLikedProducts[self.userLikedProducts.count-1].offset)
         }
         
@@ -420,6 +433,10 @@ class UserFeedViewController: CustomNavigationController {
     }
 
     @IBAction func onClickBrowse(sender: AnyObject) {
+        //upload image.
+        self.imagePicker.allowsEditing = true
+        self.imagePicker.sourceType = .PhotoLibrary
+        self.navigationController!.presentViewController(self.imagePicker, animated: true, completion: nil)
     }
     
     @IBAction func segAction(sender: AnyObject) {
@@ -434,6 +451,16 @@ class UserFeedViewController: CustomNavigationController {
             ApiControlller.apiController.getUserLikedFeeds(self.userId, offSet: 0)
         }
         redrawSegControlBorder(segControl!)
+    }
+    
+    // MARK: UIImagePickerControllerDelegate Methods
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+        
+        if let pickedImage = info[UIImagePickerControllerEditedImage] as? UIImage {
+            self.activeHeaderViewCell?.userImg.image = pickedImage
+            ApiControlller.apiController.uploadUserProfileImg(pickedImage)
+        }
+        dismissViewControllerAnimated(true, completion: nil)
     }
     
     func redrawSegControlBorder(segControl: UISegmentedControl) {

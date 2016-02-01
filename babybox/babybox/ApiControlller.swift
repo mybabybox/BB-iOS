@@ -328,6 +328,33 @@ class ApiControlller {
         self.makePostApiCall(callEvent)
     }
     
+    func uploadUserProfileImg(profileImg: UIImage) {
+        let callEvent=ApiCallEvent()
+        callEvent.method="upload-cover-photo"
+        callEvent.resultClass="String"
+        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
+        callEvent.successEventbusName = "profileImgUploadSuccess"
+        callEvent.failedEventbusName = "profileImgUploadFailed"
+        
+        Alamofire.upload(
+            .POST,
+            callEvent.apiUrl,
+            multipartFormData: { multipartFormData in
+                multipartFormData.appendBodyPart(data: UIImagePNGRepresentation(profileImg)!, name: "profile-photo", fileName: "upload.jpg", mimeType:"*")
+            },
+            encodingCompletion: { encodingResult in
+                print(encodingResult)
+                switch encodingResult {
+                case .Success( _, _, _):
+                    SwiftEventBus.post(callEvent.successEventbusName, sender: "")
+                    break
+                case .Failure( _):
+                    SwiftEventBus.post(callEvent.failedEventbusName, sender: "")
+                    break
+                }
+            }
+        )
+    }
     
     func getConversation() {
         let callEvent = ApiCallEvent()
@@ -375,6 +402,7 @@ class ApiControlller {
         
         self.makeApiCall(callEvent)
     }
+    
     
     func saveSellProduct(producttxt :String,sellingtext :String, categoryId:String, conditionType:String, pricetxt : String, imageCollection: [AnyObject]){
         
