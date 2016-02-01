@@ -37,6 +37,8 @@ class UserFeedViewController: CustomNavigationController, UIImagePickerControlle
     
     override func viewDidAppear(animated: Bool) {
         self.tabBarController!.tabBar.hidden = false
+        ApiControlller.apiController.getUserInfoById(self.userId)
+        
     }
     
     override func viewDidLoad() {
@@ -47,16 +49,10 @@ class UserFeedViewController: CustomNavigationController, UIImagePickerControlle
             self.userId = constants.userInfo.id
         }
         
-        /*if (!SharedPreferencesUtil.getInstance().isScreenViewed(SharedPreferencesUtil.Screen.MY_PROFILE_TIPS)) {
-            self.userFeedTips.hidden = false
-            SharedPreferencesUtil.getInstance().setScreenViewed(SharedPreferencesUtil.Screen.MY_PROFILE_TIPS)
-        } else {
-            self.userFeedTips.hidden = true
-            self.tipSection.constant = -5
-        }*/
-        
         SwiftEventBus.onMainThread(self, name: "userInfoByIdSuccess") { result in
             self.userInfo = result.object as? UserInfoVM
+            self.userLikedProducts = []
+            self.userPostedProducts = []
             ApiControlller.apiController.getUserPostedFeeds(self.userId, offSet: 0)
             ApiControlller.apiController.getUserLikedFeeds(self.userId, offSet: 0)
         }
@@ -64,6 +60,7 @@ class UserFeedViewController: CustomNavigationController, UIImagePickerControlle
         SwiftEventBus.onMainThread(self, name: "userInfoByIdFailed") { result in
             // UI thread
             //TODO
+            self.view.makeToast(message: "Error getting User Profile Information!")
         }
         
         SwiftEventBus.onMainThread(self, name: "userLikedFeedSuccess") { result in
@@ -72,8 +69,7 @@ class UserFeedViewController: CustomNavigationController, UIImagePickerControlle
         }
         
         SwiftEventBus.onMainThread(self, name: "userLikedFeedFailed") { result in
-            // UI thread
-            //TODO
+            self.view.makeToast(message: "Error getting User Liked feeds!")
         }
         
         SwiftEventBus.onMainThread(self, name: "userPostFeedSuccess") { result in
@@ -83,8 +79,7 @@ class UserFeedViewController: CustomNavigationController, UIImagePickerControlle
         }
         
         SwiftEventBus.onMainThread(self, name: "userPostFeedFailed") { result in
-            // UI thread
-            //TODO
+            self.view.makeToast(message: "Error getting User Posted feeds!")
         }
         
         SwiftEventBus.onMainThread(self, name: "profileImgUploadSuccess") { result in
@@ -95,7 +90,7 @@ class UserFeedViewController: CustomNavigationController, UIImagePickerControlle
             self.view.makeToast(message: "Error uploading profile image!")
         }
         
-        ApiControlller.apiController.getUserInfoById(self.userId)
+        
         setCollectionViewSizesInsets()
         setCollectionViewSizesInsetsForTopView()
         
@@ -263,9 +258,9 @@ class UserFeedViewController: CustomNavigationController, UIImagePickerControlle
                 ht += view.frame.height
             }*/
             if (self.isTipVisible()) {
-                return CGSizeMake(self.view.frame.width, 305)
+                return CGSizeMake(self.view.frame.width, 295)
             } else {
-                return CGSizeMake(self.view.frame.width, 200)
+                return CGSizeMake(self.view.frame.width, 190)
             }
         }
     }
@@ -285,10 +280,13 @@ class UserFeedViewController: CustomNavigationController, UIImagePickerControlle
         self.tabBarController!.tabBar.hidden = true
         if (segue.identifier == "followingCalls") {
             let vController = segue.destinationViewController as! FollowingViewController
-            vController.userId = userId
+            vController.userId = self.userId
         } else if (segue.identifier == "followersCall") {
             let vController = segue.destinationViewController as! FollowersViewController
-            vController.userId = userId
+            vController.userId = self.userId
+        } else {
+            let vController = segue.destinationViewController as! EditProfileViewController
+            vController.userId = self.userId
         }
     }
     
@@ -501,11 +499,11 @@ class UserFeedViewController: CustomNavigationController, UIImagePickerControlle
         redrawSegControlBorder(cell.segmentControl)
         
         cell.btnWidthConsttraint.constant = buttonWidth
-        cell.followersBtn.layer.borderColor = UIColor.lightGrayColor().CGColor
+        /*cell.followersBtn.layer.borderColor = UIColor.lightGrayColor().CGColor
         cell.followersBtn.layer.borderWidth = 1.0
         
         cell.followingBtn.layer.borderColor = UIColor.lightGrayColor().CGColor
-        cell.followingBtn.layer.borderWidth = 1.0
+        cell.followingBtn.layer.borderWidth = 1.0        */
         
         cell.editProfile.layer.borderColor = UIColor.lightGrayColor().CGColor
         cell.editProfile.layer.borderWidth = 1.0
@@ -516,6 +514,13 @@ class UserFeedViewController: CustomNavigationController, UIImagePickerControlle
             cell.tipsView.hidden = true
             cell.tipsConstraint.constant = 6
         }
+        
+        if (constants.userInfo.id != self.userId) {
+            cell.editProfile.hidden = true
+        } else {
+            BabyboxUtils.babyBoxUtils.setButtonRoundBorder(cell.editProfile)
+        }
+        
     }
     
     func isTipVisible() -> Bool {

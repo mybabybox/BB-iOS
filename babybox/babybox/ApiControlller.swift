@@ -330,7 +330,7 @@ class ApiControlller {
     
     func uploadUserProfileImg(profileImg: UIImage) {
         let callEvent=ApiCallEvent()
-        callEvent.method="upload-cover-photo"
+        callEvent.method="upload-profile-photo"
         callEvent.resultClass="String"
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
         callEvent.successEventbusName = "profileImgUploadSuccess"

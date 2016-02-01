@@ -9,7 +9,7 @@
 import UIKit
 
 class EditProfileViewController: UIViewController {
-
+    var userId = -1
     override func viewDidLoad() {
         super.viewDidLoad()
 
