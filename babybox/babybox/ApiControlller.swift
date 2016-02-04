@@ -12,9 +12,6 @@ import Alamofire
 import AlamofireObjectMapper
 import SwiftEventBus
 
-//let kBaseServerURL = "http://192.168.2.18:9000/"
-//let imagesBaseURL = "http://192.168.2.18:9000";
-
 class ApiControlller {
     struct Payload {
                     var postId : Int = 0

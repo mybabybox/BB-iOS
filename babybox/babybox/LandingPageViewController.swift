@@ -16,7 +16,8 @@ class LandingPageViewController: UIViewController, UIScrollViewDelegate, UIImage
     @IBOutlet var pageControl: UIPageControl!
     
     override func viewDidAppear(animated: Bool) {
-        
+        self.navigationController?.toolbar.hidden = true
+        self.navigationController?.navigationBar.hidden = true
     }
     
     override func viewDidLoad() {

@@ -11,10 +11,7 @@ import SwiftEventBus
 
 class SplashViewController: UIViewController {
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.navigationController?.navigationBar.hidden = true
-        
+    override func viewDidAppear(animated: Bool) {
         let sessionId: String? = SharedPreferencesUtil.getInstance().getUserAccessToken(SharedPreferencesUtil.User.ACCESS_TOKEN.rawValue)
         
         print(SharedPreferencesUtil.getInstance().getUserInfo())
@@ -36,6 +33,12 @@ class SplashViewController: UIViewController {
             NSThread.sleepForTimeInterval(0.3)
             showLoginPage()
         }
+    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.navigationController?.navigationBar.hidden = true
+        self.view.makeToast(message: "Checking token...")
+        
     }
 
     override func didReceiveMemoryWarning() {

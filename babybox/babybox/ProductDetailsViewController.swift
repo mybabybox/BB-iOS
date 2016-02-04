@@ -169,7 +169,6 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate {
         self.commentTextField.delegate=self
         self.commentTable.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
         self.commentTextField.layer.cornerRadius = 15.0
-        //self.commentTextField.frame.size = CGSizeMake(self.commentTextField.frame.width, 40)
         self.commentTextField.layer.masksToBounds = true
         self.commentTextField.borderStyle = UITextBorderStyle.None
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)

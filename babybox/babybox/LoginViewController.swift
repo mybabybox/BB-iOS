@@ -49,6 +49,8 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFie
             return false
         } else if (identifier == "gotoforgotpassword") {
             return true
+        } else if (identifier == "showSignupView") {
+            return true
         }
         return self.isUserLoggedIn
         
@@ -100,7 +102,8 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFie
     }
     
     override func viewDidAppear(animated: Bool) {
-        print("viewDidAppear")
+        self.navigationController?.toolbar.hidden = true
+        self.navigationController?.navigationBar.hidden = true
     }
     
     override func viewDidLoad() {
