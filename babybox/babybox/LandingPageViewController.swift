@@ -65,6 +65,9 @@ class LandingPageViewController: UIViewController, UIScrollViewDelegate, UIImage
     
     override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
         print("going to login..", terminator: "")
+        if (identifier == "signup") {
+            self.navigationController?.navigationBar.hidden = false
+        }
         return true
     }
     

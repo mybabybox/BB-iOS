@@ -16,7 +16,7 @@ class SplashViewController: UIViewController {
         
         print(SharedPreferencesUtil.getInstance().getUserInfo())
         
-        if ( sessionId != "nil" && sessionId != "-1") {
+        if ( sessionId != nil && sessionId != "nil" && sessionId != "-1") {
             constants.accessToken = sessionId!
             SwiftEventBus.onMainThread(self, name: "userInfoSuccess") { result in
                 let resultDto: UserInfoVM = result.object as! UserInfoVM

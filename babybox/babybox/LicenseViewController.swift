@@ -1,5 +1,5 @@
 //
-//  SecondViewController.swift
+//  LicenseViewController.swift
 //  BabyBox
 //
 //  Created by Anshul Gupta on 2/4/16.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SecondViewController: UIViewController {
+class LicenseViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

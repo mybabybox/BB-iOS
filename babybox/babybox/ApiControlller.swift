@@ -59,7 +59,7 @@ class ApiControlller {
     
     func getUserInfo() {
         let callEvent = ApiCallEvent()
-        callEvent.method = "get-user-info?access_token=" + constants.accessToken
+        callEvent.method = "get-user-info"
         callEvent.resultClass = "UserInfoVM"
         callEvent.successEventbusName = "userInfoSuccess"
         callEvent.failedEventbusName = "userInfoFailed"

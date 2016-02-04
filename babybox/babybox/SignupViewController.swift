@@ -6,8 +6,15 @@
 //  Copyright © 2016 Mac. All rights reserved.
 //
 
-import Foundation
+import UIKit
+
 class SignupViewController: UIViewController {
+    
+    
+    @IBOutlet weak var policyBtn: UIButton!
+    @IBOutlet weak var licenseBtn: UIButton!
+    var isLicenseDisplay = true
+    var isPolicyDisplay = true
     
     @IBOutlet weak var firstNameText: UITextField!
     
@@ -27,6 +34,11 @@ class SignupViewController: UIViewController {
    
     override func viewDidLoad() {
         self.navigationController?.navigationBar.hidden = false
+        self.licenseBtn.layer.borderWidth = 1.0
+        self.licenseBtn.layer.borderColor = UIColor.darkGrayColor().CGColor
+        
+        self.policyBtn.layer.borderWidth = 1.0
+        self.policyBtn.layer.borderColor = UIColor.darkGrayColor().CGColor
         
         
         let color = BabyboxUtils.babyBoxUtils.UIColorFromRGB(0xFF76A4).CGColor
@@ -97,4 +109,33 @@ class SignupViewController: UIViewController {
         
         return isValidated
     }
+    
+    @IBAction func onClickLicenseBtn(sender: AnyObject) {
+        isLicenseDisplay = !isLicenseDisplay
+        if (isLicenseDisplay) {
+            //show another controller
+            self.licenseBtn.setImage(UIImage(named: "ic_accept"), forState: UIControlState.Normal)
+            let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("LicenseViewController") as! LicenseViewController
+            self.navigationController?.pushViewController(vController, animated: true)
+            
+        } else {
+            //change the image to show unselected.
+            self.licenseBtn.setImage(UIImage(named: ""), forState: UIControlState.Normal)
+        }
+    }
+    
+    @IBAction func onClickPolicyBtm(sender: AnyObject) {
+        isPolicyDisplay = !isPolicyDisplay
+        if (isPolicyDisplay) {
+            //show another controller
+            self.policyBtn.setImage(UIImage(named: "ic_accept"), forState: UIControlState.Normal)
+            let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("LicenseViewController") as! LicenseViewController
+            self.navigationController?.pushViewController(vController, animated: true)
+        } else {
+            //change the image to show unselected.
+            self.policyBtn.setImage(UIImage(named: ""), forState: UIControlState.Normal)
+        }
+    }
+    
+    
 }
