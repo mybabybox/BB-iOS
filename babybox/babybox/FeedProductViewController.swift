@@ -299,14 +299,17 @@ class FeedProductViewController: UIViewController {
         _nComment.ownerId = constants.userInfo.id
         _nComment.body = cell.commentTxt.text!
         _nComment.ownerName = constants.userInfo.displayName
+        _nComment.deviceType = "iOS"
         //_nComment.createdDate = NSDate()
         _nComment.id = -1
+        ApiControlller().postComment(String(Int(productModel.id)), comment: cell.commentTxt.text!)
+        
         self.items.append(_nComment)
         self.detailTableView.reloadData()
         cell.txtEnterComments.text = ""
         detailTableView.contentInset =  UIEdgeInsetsZero
         cell.commentTxt.text = ""
-        ApiControlller().postComment(String(Int(productModel.id)), comment: cell.commentTxt.text!)
+        
         
         self.noOfComments++
     }
