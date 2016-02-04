@@ -173,7 +173,7 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
             self.tabBarController!.tabBar.hidden = true
             self.navigationController?.pushViewController(vController, animated: true)
         } else {
-            let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("ProductViewController") as! ProductDetailsViewController
+            let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("FeedProductViewController") as! FeedProductViewController
             vController.productModel = self.products[self.currentIndex]
             apiController.getProductDetails(String(Int(self.products[self.currentIndex].id)))
             self.tabBarController!.tabBar.hidden = true

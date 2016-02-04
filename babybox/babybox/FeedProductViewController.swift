@@ -23,7 +23,6 @@ class FeedProductViewController: UIViewController {
     var conversations: [ConversationVM] = []
     
     var likeFlag: Bool = false
-    var id: Double!
     
     var productInfo: [PostCatModel] = []
     var noOfComments: Int = 0
@@ -59,6 +58,10 @@ class FeedProductViewController: UIViewController {
         
         SwiftEventBus.onMainThread(self, name: "conversationsFailed") { result in
         }
+        
+        self.detailTableView.estimatedRowHeight = 300.0
+        self.detailTableView.rowHeight = UITableViewAutomaticDimension
+        self.detailTableView.reloadData()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -141,7 +144,7 @@ class FeedProductViewController: UIViewController {
                 
                 cell.commentTxt.layer.cornerRadius = 15.0
                 cell.commentTxt.layer.masksToBounds = true
-                cell.commentTxt.borderStyle = UITextBorderStyle.None
+                //cell.commentTxt.borderStyle = UITextBorderStyle.None
                 
             }else{
                 let comment:CommentModel = self.items[indexPath.row] 
@@ -190,10 +193,19 @@ class FeedProductViewController: UIViewController {
                 }
                 
             case 1:
-                cell.productDesc.text = "e"
+                if (self.productInfo.count > 0) {
+                    cell.productDesc.text = self.productInfo[0].body
+                }
                 cell.productTitle.text = productModel.title
                 cell.prodCondition.text = self.productModel.conditionType
-                cell.prodOriginalPrice.text = "\(constants.currencySymbol)\(String(stringInterpolationSegment: Int(productModel.price)))"
+                
+                if (productModel.originalPrice != 0 && productModel.originalPrice != -1 && productModel.originalPrice != Int(productModel.price)) {
+                    let attrString = NSAttributedString(string: "\(constants.currencySymbol) \(String(stringInterpolationSegment:Int(productModel.originalPrice)))", attributes: [NSStrikethroughStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue])
+                    cell.prodOriginalPrice.attributedText = attrString
+                } else {
+                    cell.prodOriginalPrice.attributedText = NSAttributedString(string: "")
+                }
+                
                 cell.prodPrice.text = "\(constants.currencySymbol)\(String(stringInterpolationSegment: Int(productModel.price)))"
                 cell.prodCategory.text = ""
                 cell.prodTimer.image = UIImage(named: "")
@@ -256,13 +268,14 @@ class FeedProductViewController: UIViewController {
         
     }
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        print(UITableViewAutomaticDimension)
         
         switch indexPath.section {
         case 1:
             return CGFloat(220.0)
         case 2:
             return CGFloat(105.0)
+        case 3:
+            return CGFloat(60.0)
         default:
             return UITableViewAutomaticDimension
         }
@@ -293,7 +306,7 @@ class FeedProductViewController: UIViewController {
         cell.txtEnterComments.text = ""
         detailTableView.contentInset =  UIEdgeInsetsZero
         cell.commentTxt.text = ""
-        ApiControlller().postComment(String(Int(self.id)), comment: cell.commentTxt.text!)
+        ApiControlller().postComment(String(Int(productModel.id)), comment: cell.commentTxt.text!)
         
         self.noOfComments++
     }
@@ -311,7 +324,7 @@ class FeedProductViewController: UIViewController {
     }
     
     func setSizesForFilterButtons() {
-        let availableWidthForButtons:CGFloat = self.view.bounds.width - 60
+        let availableWidthForButtons:CGFloat = self.view.bounds.width - 50
         let buttonWidth :CGFloat = availableWidthForButtons / 2
         self.btnWidthConstraint.constant = buttonWidth
         
@@ -328,14 +341,14 @@ class FeedProductViewController: UIViewController {
             self.productModel.numLikes--
             self.productModel.isLiked = false
             self.likeImgBtn.setImage(UIImage(named: "ic_liked_tips.png"), forState: UIControlState.Normal)
-            ApiControlller().likePost(String(Int(self.id)))
+            ApiControlller().likePost(String(Int(productModel.id)))
             self.likeCountTxt.setTitle(String(self.productModel.numLikes), forState: UIControlState.Normal)
             
         } else {
             self.productModel.numLikes++
             self.productModel.isLiked = true
             self.likeImgBtn.setImage(UIImage(named: "ic_like_tips.png"), forState: UIControlState.Normal)
-            ApiControlller().unlikePost(String(Int(self.id)))
+            ApiControlller().unlikePost(String(Int(productModel.id)))
             self.likeCountTxt.setTitle(String(self.productModel.numLikes), forState: UIControlState.Normal)
             
         }

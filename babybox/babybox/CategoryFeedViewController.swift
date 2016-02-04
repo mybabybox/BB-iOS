@@ -185,7 +185,7 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
         if (collectionView.tag == 2){
         } else {
             //self.performSegueWithIdentifier("gotoproductdetail", sender: nil)
-            let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("ProductViewController") as! ProductDetailsViewController
+            let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("FeedProductViewController") as! FeedProductViewController
             
             vController.productModel = self.products[self.currentIndex]
             vController.category = self.selCategory

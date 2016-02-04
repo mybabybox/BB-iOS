@@ -128,7 +128,7 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         self.currentIndex = indexPath.row
-        let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("ProductViewController") as! ProductDetailsViewController
+        let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("FeedProductViewController") as! FeedProductViewController
         vController.productModel = self.products[self.currentIndex]
         apiController.getProductDetails(String(Int(self.products[self.currentIndex].id)))
         self.tabBarController!.tabBar.hidden = true
