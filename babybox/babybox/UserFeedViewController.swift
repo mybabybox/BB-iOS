@@ -284,9 +284,11 @@ class UserFeedViewController: CustomNavigationController, UIImagePickerControlle
         } else if (segue.identifier == "followersCall") {
             let vController = segue.destinationViewController as! FollowersViewController
             vController.userId = self.userId
-        } else {
+        } else if (segue.identifier == "editProfile"){
             let vController = segue.destinationViewController as! EditProfileViewController
             vController.userId = self.userId
+        } else if (segue.identifier == "settings") {
+           // let vController = segue.destinationViewController as! SettingsViewController
         }
     }
     
