@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftEventBus
 
 class SignupViewController: UIViewController {
     
@@ -15,6 +16,7 @@ class SignupViewController: UIViewController {
     @IBOutlet weak var licenseBtn: UIButton!
     var isLicenseDisplay = true
     var isPolicyDisplay = true
+     var categories : [CategoryModel] = []
     
     @IBOutlet weak var firstNameText: UITextField!
     
@@ -30,6 +32,8 @@ class SignupViewController: UIViewController {
     @IBOutlet var signUp: UIButton!
     override func viewDidAppear(animated: Bool) {
         self.navigationController?.navigationBar.hidden = false
+        
+        
     }
    
     override func viewDidLoad() {
@@ -66,12 +70,9 @@ class SignupViewController: UIViewController {
         self.signUp.layer.borderWidth = 1
         self.signUp.layer.borderColor = color
         
-       /* let cb = Checkbox(frame: CGRect(x: 20, y: 100, width: 50, height: 50))
-        cb.borderColor = UIColor.redColor()
-        cb.borderWidth = 3
-        cb.checkColor = UIColor.redColor()
-        cb.checkWidth = 3
-        view.addSubview(cb)*/
+        
+        
+       
 
     }
     
@@ -81,8 +82,23 @@ class SignupViewController: UIViewController {
     @IBAction func onSignup(sender: AnyObject) {
         if(validateSignup()){
             
-        }
+            print(firstNameText.text)
+            print(lastNameText.text)
+            
+            ApiControlller.apiController.signIn(firstNameText.text!, lastNameText: lastNameText.text!, emailText: emailText.text!, passwordText: passwordText.text!, confirmPasswordText: confirmPasswordText.text!);
+            
+            print("------------------")
+          //print(ApiControlller.apiController.signIn(firstNameText.text!, lastNameText: lastNameText.text!, emailText: emailText.text!, passwordText: passwordText.text!, confirmPasswordText: confirmPasswordText.text!))
+           
+}
     }
+    
+    func handleGetCateogriesSuccess(categories: [CategoryModel]) {
+        self.categories = categories;
+       
+        
+    }
+
     
     func validateSignup() -> Bool {
         var isValidated = true

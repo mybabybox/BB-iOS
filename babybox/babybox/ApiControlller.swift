@@ -376,6 +376,45 @@ class ApiControlller {
         
     }
     
+    func signup(){
+        let callEvent=ApiCallEvent()
+        callEvent.method="signup"
+        callEvent.resultClass="signingin"
+        callEvent.successEventbusName="getSignUpSucess"
+        callEvent.failedEventbusName="getSignUpFailed"
+        callEvent.apiUrl=constants.kBaseServerURL + callEvent.method;
+        
+        self.makeApiCall(callEvent)
+        
+    }
+    
+    func signIn(firstNameText: String, lastNameText: String , emailText: String , passwordText: String , confirmPasswordText: String){
+        
+        print("**************")
+        print("In api call for fname --\(firstNameText) ,lname--\(lastNameText) , email --\(emailText) , password --\(passwordText) and repeatpassword --\(confirmPasswordText)", terminator: "")
+        var strData = [String]()
+        strData.append("fname=\(firstNameText)")
+        strData.append("lname=\(lastNameText)")
+        strData.append("email=\(emailText)")
+        strData.append("password=\(passwordText)")
+        strData.append("repeatpassword=\(confirmPasswordText)")
+        let parameter = self.makeBodyString(strData)
+        
+        let callEvent = ApiCallEvent()
+        callEvent.method = "signup"
+        callEvent.resultClass = "signingin"
+        callEvent.body = parameter
+        //callEvent.successEventbusName = "productDetailsReceivedSuccess"
+        //callEvent.failedEventbusName = "productDetailsFailed"
+        
+        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
+        
+        self.makePostApiCall(callEvent)
+
+        
+            }
+    
+    
     func getMessages(id: Int, pageOffSet: Int) {
         print("id of msg is \(id)")
         let callEvent = ApiCallEvent()
