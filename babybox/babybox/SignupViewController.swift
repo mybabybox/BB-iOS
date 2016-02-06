@@ -82,15 +82,8 @@ class SignupViewController: UIViewController {
     @IBAction func onSignup(sender: AnyObject) {
         if(validateSignup()){
             
-            print(firstNameText.text)
-            print(lastNameText.text)
-            
-            ApiControlller.apiController.signIn(firstNameText.text!, lastNameText: lastNameText.text!, emailText: emailText.text!, passwordText: passwordText.text!, confirmPasswordText: confirmPasswordText.text!);
-            
-            print("------------------")
-          //print(ApiControlller.apiController.signIn(firstNameText.text!, lastNameText: lastNameText.text!, emailText: emailText.text!, passwordText: passwordText.text!, confirmPasswordText: confirmPasswordText.text!))
-           
-}
+       		ApiControlller.apiController.signIn(firstNameText.text!, lastNameText: lastNameText.text!, emailText: emailText.text!, passwordText: passwordText.text!, confirmPasswordText: confirmPasswordText.text!);       
+	}
     }
     
     func handleGetCateogriesSuccess(categories: [CategoryModel]) {

@@ -498,7 +498,7 @@ CEVudGVyIFBhc3N3b3JkA
                                                                     <constraint firstAttribute="width" constant="80" id="QDP-1S-W8a"/>
                                                                 </constraints>
                                                             </imageView>
-                                                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="j8B-8y-pYx" userLabel="hrbar">
+                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="j8B-8y-pYx" userLabel="hrbar">
                                                                 <rect key="frame" x="0.0" y="129" width="396" height="0.0"/>
                                                                 <color key="backgroundColor" red="0.92941176470588238" green="0.92941176470588238" blue="0.92941176470588238" alpha="1" colorSpace="calibratedRGB"/>
                                                             </view>
@@ -510,7 +510,7 @@ CEVudGVyIFBhc3N3b3JkA
                                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                                                                 <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             </label>
-                                                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wXI-uP-HmK">
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wXI-uP-HmK">
                                                                 <rect key="frame" x="0.0" y="105" width="50" height="27"/>
                                                                 <color key="backgroundColor" red="1" green="0.46274509800000002" blue="0.64313725489999995" alpha="1" colorSpace="calibratedRGB"/>
                                                                 <constraints>
@@ -524,7 +524,7 @@ CEVudGVyIFBhc3N3b3JkA
                                                                     <action selector="onClickPopulated:" destination="sRG-sa-2YS" eventType="touchUpInside" id="IQ6-Gd-27X"/>
                                                                 </connections>
                                                             </button>
-                                                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DQ1-Pd-KFi" userLabel="Newest">
+                                                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DQ1-Pd-KFi" userLabel="Newest">
                                                                 <rect key="frame" x="51" y="105" width="49" height="28"/>
                                                                 <color key="backgroundColor" red="1" green="0.46274509800000002" blue="0.64313725489999995" alpha="1" colorSpace="calibratedRGB"/>
                                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
@@ -535,7 +535,7 @@ CEVudGVyIFBhc3N3b3JkA
                                                                     <action selector="onClickNewest:" destination="sRG-sa-2YS" eventType="touchUpInside" id="Obi-st-6Ca"/>
                                                                 </connections>
                                                             </button>
-                                                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a7K-e9-t4L" userLabel="LowToHigh">
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a7K-e9-t4L" userLabel="LowToHigh">
                                                                 <rect key="frame" x="101" y="105" width="49" height="28"/>
                                                                 <color key="backgroundColor" red="1" green="0.46274509800000002" blue="0.64313725489999995" alpha="1" colorSpace="calibratedRGB"/>
                                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
@@ -546,7 +546,7 @@ CEVudGVyIFBhc3N3b3JkA
                                                                     <action selector="onClickLowHigh:" destination="sRG-sa-2YS" eventType="touchUpInside" id="D9p-O8-vEG"/>
                                                                 </connections>
                                                             </button>
-                                                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IRE-b0-GLf" userLabel="HighToLow">
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IRE-b0-GLf" userLabel="HighToLow">
                                                                 <rect key="frame" x="151" y="105" width="49" height="28"/>
                                                                 <color key="backgroundColor" red="1" green="0.46274509800000002" blue="0.64313725489999995" alpha="1" colorSpace="calibratedRGB"/>
                                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
@@ -588,6 +588,7 @@ CEVudGVyIFBhc3N3b3JkA
                                                         <constraint firstItem="DQ1-Pd-KFi" firstAttribute="width" secondItem="a7K-e9-t4L" secondAttribute="width" id="w99-dp-jgx"/>
                                                         <constraint firstAttribute="trailing" secondItem="Dtg-Kv-vlw" secondAttribute="trailing" id="yll-eI-f6O"/>
                                                     </constraints>
+                                                    <edgeInsets key="layoutMargins" top="0.0" left="0.0" bottom="0.0" right="0.0"/>
                                                     <size key="customSize" width="396" height="130"/>
                                                     <connections>
                                                         <outlet property="btnWidthConstraint" destination="QO7-XA-ZMK" id="Cxc-ch-WD9"/>
@@ -1310,7 +1311,7 @@ CEVudGVyIFBhc3N3b3JkA
                                 <rect key="frame" x="0.0" y="0.0" width="86" height="30"/>
                                 <state key="normal" title="gotoproduct"/>
                                 <connections>
-                                    <segue destination="lWK-br-WnW" kind="show" identifier="gotoproductdetail" id="3cS-2g-F45"/>
+                                    <segue destination="a39-f0-7jx" kind="show" id="v1I-qE-Ya6"/>
                                 </connections>
                             </button>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="xej-gO-WEH">
@@ -2045,7 +2046,7 @@ CEVudGVyIFBhc3N3b3JkA
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="62"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Whv-l5-2Um">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Whv-l5-2Um">
                                                     <rect key="frame" x="0.0" y="0.0" width="600" height="62"/>
                                                 </imageView>
                                             </subviews>
@@ -2544,7 +2545,7 @@ CEVudGVyIFBhc3N3b3JkA
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="L58-hr-Tbh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3171" y="2263"/>
+            <point key="canvasLocation" x="2311" y="2107"/>
         </scene>
         <!--Messages View Controller-->
         <scene sceneID="4Hd-6h-dko">
@@ -2880,7 +2881,7 @@ CEVudGVyIFBhc3N3b3JkA
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="display name:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tbj-js-3WX">
                                 <rect key="frame" x="9" y="135" width="110" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="SYP-4s-mgT">
@@ -2898,13 +2899,13 @@ Before filling your name and e-mail never displayed to the outside.</string>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="living Area:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pRj-kq-j1L">
                                 <rect key="frame" x="14" y="299" width="94" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="You are :" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X4q-zh-EcM">
                                 <rect key="frame" x="14" y="418" width="78" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="NOTE : babybox will be your information &amp; your area Available" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ffj-zr-llZ">
@@ -3276,7 +3277,7 @@ there is  a commom topic that parents can
                                                         <color key="separatorColor" red="0.92549019610000005" green="0.92549019610000005" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
                                                         <color key="sectionIndexBackgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <prototypes>
-                                                            <tableViewCell clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="commentCell" rowHeight="40" id="V10-sw-q7z" customClass="CommentTableViewCell" customModule="BabyBox" customModuleProvider="target">
+                                                            <tableViewCell clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="commentCell" rowHeight="40" id="V10-sw-q7z" customClass="CommentTableViewCell" customModule="babybox" customModuleProvider="target">
                                                                 <rect key="frame" x="0.0" y="28" width="580" height="40"/>
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="V10-sw-q7z" id="K5H-ba-riZ">
@@ -3464,12 +3465,12 @@ there is  a commom topic that parents can
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CAQ-3D-dWn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2301" y="2238"/>
+            <point key="canvasLocation" x="2981" y="2826"/>
         </scene>
         <!--User Profile Feed Controller-->
         <scene sceneID="0S4-XO-reF">
             <objects>
-                <viewController id="VTn-13-657" userLabel="User Profile Feed Controller" customClass="UserFeedViewController" customModule="BabyBox" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="VTn-13-657" userLabel="User Profile Feed Controller" customClass="UserFeedViewController" customModule="babybox" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="P2h-9k-Foi"/>
                         <viewControllerLayoutGuide type="bottom" id="QAe-WR-ziL"/>
@@ -3488,7 +3489,7 @@ there is  a commom topic that parents can
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CellType" id="RG0-eu-GqS" customClass="FeedProductCollectionViewCell" customModule="BabyBox" customModuleProvider="target">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CellType" id="RG0-eu-GqS" customClass="FeedProductCollectionViewCell" customModule="babybox" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="312" width="129" height="169"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -3583,7 +3584,7 @@ there is  a commom topic that parents can
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
-                                <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="1" contentMode="center" reuseIdentifier="HeaderView" id="vo9-e7-dEg" customClass="ProfileFeedReusableView" customModule="BabyBox" customModuleProvider="target">
+                                <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="1" contentMode="center" reuseIdentifier="HeaderView" id="vo9-e7-dEg" customClass="ProfileFeedReusableView" customModule="babybox" customModuleProvider="target">
                                     <rect key="frame" x="0.0" y="0.0" width="590" height="312"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
@@ -3597,7 +3598,7 @@ there is  a commom topic that parents can
                                                 <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                             </collectionViewFlowLayout>
                                             <cells>
-                                                <collectionViewCell clipsSubviews="YES" contentMode="center" reuseIdentifier="headerCell" id="EWH-be-qu4" customClass="UserFeedHeaderViewCell" customModule="BabyBox" customModuleProvider="target">
+                                                <collectionViewCell clipsSubviews="YES" contentMode="center" reuseIdentifier="headerCell" id="EWH-be-qu4" customClass="UserFeedHeaderViewCell" customModule="babybox" customModuleProvider="target">
                                                     <rect key="frame" x="103" y="0.0" width="396" height="305"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -3712,7 +3713,7 @@ there is  a commom topic that parents can
                                                                     <action selector="onClickBrowse:" destination="VTn-13-657" eventType="touchUpInside" id="Lpu-7E-Aa9"/>
                                                                 </connections>
                                                             </button>
-                                                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fzY-G6-3iN" userLabel="settings">
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fzY-G6-3iN" userLabel="settings">
                                                                 <rect key="frame" x="351" y="15" width="25" height="25"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="25" id="A7i-Cv-3vr"/>
@@ -3720,7 +3721,7 @@ there is  a commom topic that parents can
                                                                 </constraints>
                                                                 <state key="normal" image="ic_settings"/>
                                                                 <connections>
-                                                                    <segue destination="GgU-Ie-MVr" kind="show" id="7Wq-Ub-66p"/>
+                                                                    <segue destination="GgU-Ie-MVr" kind="show" identifier="settings" id="7Wq-Ub-66p"/>
                                                                 </connections>
                                                             </button>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YM6-cl-31m">
@@ -3789,6 +3790,7 @@ there is  a commom topic that parents can
                                                         <constraint firstItem="nBs-14-n79" firstAttribute="top" secondItem="xgR-gJ-ab2" secondAttribute="bottom" constant="120" id="xbS-UB-mJE"/>
                                                         <constraint firstItem="e51-2b-F99" firstAttribute="leading" secondItem="EWH-be-qu4" secondAttribute="leading" constant="10" id="yFg-rb-YI3"/>
                                                     </constraints>
+                                                    <edgeInsets key="layoutMargins" top="0.0" left="0.0" bottom="0.0" right="0.0"/>
                                                     <size key="customSize" width="396" height="305"/>
                                                     <connections>
                                                         <outlet property="browseBtn" destination="M7q-ld-1Av" id="Wuj-GL-QK1"/>
@@ -3965,6 +3967,7 @@ there is  a commom topic that parents can
     <inferredMetricsTieBreakers>
         <segue reference="xlr-H1-EYH"/>
         <segue reference="ac7-3L-0vi"/>
+        <segue reference="v1I-qE-Ya6"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>
