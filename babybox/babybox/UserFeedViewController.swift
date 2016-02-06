@@ -445,11 +445,13 @@ class UserFeedViewController: CustomNavigationController, UIImagePickerControlle
             self.feedFilter = FeedFilter.FeedType.USER_POSTED
             self.userPostedProducts = []
             ApiControlller.apiController.getUserPostedFeeds(self.userId, offSet: 0)
+            
         } else if(segControl!.selectedSegmentIndex == 1){
             self.feedFilter = FeedFilter.FeedType.USER_LIKED
             self.userLikedProducts = []
             ApiControlller.apiController.getUserLikedFeeds(self.userId, offSet: 0)
         }
+       
         redrawSegControlBorder(segControl!)
     }
     
@@ -489,6 +491,8 @@ class UserFeedViewController: CustomNavigationController, UIImagePickerControlle
             let color: UIColor = UIColor(red: 255/255, green: 118/255, blue: 164/255, alpha: 1.0)
             self.drawLineFromPoint(start, toPoint: end, ofColor: color, inView: segControl)
         }
+        segControl.setTitleTextAttributes([NSForegroundColorAttributeName: BabyboxUtils.babyBoxUtils.UIColorFromRGB(0xFF76A4)],
+            forState: UIControlState.Selected)
     }
     
     func setSizesForFilterButtons(cell: UserFeedHeaderViewCell) {

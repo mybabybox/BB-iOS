@@ -84,9 +84,9 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
         
         self.conditionTypeDropDown.dataSource = [
             "-Select-",
-            "New(Sealed/with tags)",
-            "New(unsealed/without tags)",
-            "Used"
+            ViewUtil.PostConditionType.NEW_WITH_TAG.rawValue,
+            ViewUtil.PostConditionType.NEW_WITHOUT_TAG.rawValue,
+            ViewUtil.PostConditionType.USED.rawValue
         ]
         
         self.conditionTypeDropDown.selectionAction = { [unowned self] (index, item) in
@@ -270,7 +270,8 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
         }
         
         if (validateSaveForm()) {
-            ApiControlller.apiController.saveSellProduct(prodDescription.text!,sellingtext: sellingtext.text!, categoryId: selCategoryId,conditionType: (conditionDropDown.titleLabel?.text!)!, pricetxt: pricetxt.text!, imageCollection: self.imageCollection);
+            var conditionType = ViewUtil.parsePostConditionTypeFromValue((conditionDropDown.titleLabel?.text!)!)
+            ApiControlller.apiController.saveSellProduct(prodDescription.text!,sellingtext: sellingtext.text!, categoryId: selCategoryId,conditionType: String(conditionType), pricetxt: pricetxt.text!, imageCollection: self.imageCollection)
         }
     }
     

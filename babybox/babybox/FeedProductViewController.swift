@@ -283,8 +283,8 @@ class FeedProductViewController: UIViewController {
     
     //MARK: Button Press Events
     func DeleteComments(button: UIButton){
-        items.removeAtIndex(button.tag)
         ApiControlller.apiController.deleteComment(self.items[button.tag].id)
+        items.removeAtIndex(button.tag)
         self.detailTableView.reloadData()
         detailTableView.contentInset =  UIEdgeInsetsZero
         
