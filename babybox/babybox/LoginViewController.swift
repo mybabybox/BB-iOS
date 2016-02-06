@@ -120,7 +120,7 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFie
         
         let color = ImageUtil.imageUtil.UIColorFromRGB(0xFF76A4).CGColor
         //self.signInButton.layer.cornerRadius = 5
-        ImageUtil.imageUtil.setButtonRoundBorder(self.signInButton)
+        ImageUtil.displayButtonRoundBorder(self.signInButton)
         //self.signInButton.layer.borderWidth = 1
         self.signInButton.layer.borderColor = color
         

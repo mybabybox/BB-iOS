@@ -87,12 +87,15 @@ class FollowingViewController: UICollectionViewController {
         
         let userInfo = self.userFollowings[indexPath.row]
         cell.userName.text = userInfo.displayName + String(userInfo.id)
-        let imagePath =  constants.imagesBaseURL + "/image/get-mini-profile-image-by-id/" + String(userInfo.id)
+        /*let imagePath =  constants.imagesBaseURL + "/image/get-mini-profile-image-by-id/" + String(userInfo.id)
         let imageUrl  = NSURL(string: imagePath);
         
         dispatch_async(dispatch_get_main_queue(), {
             cell.userImage.kf_setImageWithURL(imageUrl!)
-        });
+        }); 
+        */
+        ImageUtil.displayThumbnailProfileImage(userInfo.id, imageView: cell.userImage)
+
         if (userInfo.isFollowing) {
             cell.followingsBtn.backgroundColor = UIColor.grayColor()
             cell.followingsBtn.setTitle("- Unfollow", forState: UIControlState.Normal)

@@ -68,18 +68,19 @@ class CustomNavigationController: UIViewController {
         let userThumbnailImg: UIButton = UIButton()
         
         userThumbnailImg.frame = CGRectMake(0, 0, 35, 35)
-        ImageUtil.imageUtil.setCircularImgStyle(userThumbnailImg)
+        //ImageUtil.imageUtil.setCircularImgStyle(userThumbnailImg)
         //userThumbnailImg.layer.cornerRadius = 18.0
         //userThumbnailImg.layer.masksToBounds = true
-        let imagePath =  constants.imagesBaseURL + "/image/get-thumbnail-profile-image-by-id/" + String(constants.userInfo.id)
+        /*let imagePath =  constants.imagesBaseURL + "/image/get-thumbnail-profile-image-by-id/" + String(constants.userInfo.id)
         let imageUrl  = NSURL(string: imagePath);
         let imageData = NSData(contentsOfURL: imageUrl!)
         if (imageData != nil) {
             userThumbnailImg.setImage(UIImage(data: imageData!), forState: UIControlState.Normal)
-        }
+        }*/
+        ImageUtil.displayThumbnailProfileImage(constants.userInfo.id, buttonView: userThumbnailImg)
         
         let userNameImg: UIButton = UIButton()
-	userNameImg.setTitle(constants.userInfo.displayName, forState: UIControlState.Normal)
+        userNameImg.setTitle(constants.userInfo.displayName, forState: UIControlState.Normal)
         
         userNameImg.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
         userNameImg.titleLabel!.lineBreakMode = NSLineBreakMode.ByWordWrapping

@@ -48,12 +48,12 @@ class LandingPageViewController: UIViewController, UIScrollViewDelegate, UIImage
         self.signUpBtn.backgroundColor = UIColor.clearColor()
         //self.signUpBtn.layer.cornerRadius = 5
         //self.signUpBtn.layer.borderWidth = 1
-        ImageUtil.imageUtil.setButtonRoundBorder(self.signUpBtn)
+        ImageUtil.displayButtonRoundBorder(self.signUpBtn)
         self.signUpBtn.layer.borderColor = color
         
         //self.loginBtn.layer.cornerRadius = 5
         //self.loginBtn.layer.borderWidth = 1
-        ImageUtil.imageUtil.setButtonRoundBorder(self.loginBtn)
+        ImageUtil.displayButtonRoundBorder(self.loginBtn)
         self.loginBtn.layer.borderColor = color
         
         

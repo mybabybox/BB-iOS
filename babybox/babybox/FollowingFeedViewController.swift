@@ -85,11 +85,12 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
         let post = self.products[indexPath.row]
         //need carosuel here.
         if (post.hasImage) {
-            let imagePath =  constants.imagesBaseURL + "/image/get-post-image-by-id/" + String(post.images[0])
+            /*let imagePath =  constants.imagesBaseURL + "/image/get-post-image-by-id/" + String(post.images[0])
             let imageUrl  = NSURL(string: imagePath)
             cell.prodImageView.kf_setImageWithURL(imageUrl!,
                 placeholderImage: nil,
-                optionsInfo: [.Transition(ImageTransition.Fade(0.5))])
+                optionsInfo: [.Transition(ImageTransition.Fade(0.5))])*/
+            ImageUtil.displayOriginalPostImage(post.images[0], imageView: cell.prodImageView)
         }
         cell.likeCount.text = String(post.numLikes)
         if (!post.isLiked) {
@@ -113,7 +114,10 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
         cell.layer.borderColor = CGColorCreate(CGColorSpaceCreateDeviceRGB(), [194/255, 195/255, 200/255, 1.0])
         cell.layer.borderWidth = 1
         
-        ImageUtil.imageUtil.setCircularImgStyle(cell.userCircleImg)
+        cell.userCircleImg.layer.borderColor = UIColor.whiteColor().CGColor
+        cell.userCircleImg.layer.borderWidth = CGFloat(1.0)
+        ImageUtil.displayThumbnailProfileImage(post.ownerId, imageView: cell.userCircleImg)
+        /*ImageUtil.imageUtil.setCircularImgStyle(cell.userCircleImg)
         cell.userCircleImg.layer.borderColor = UIColor.whiteColor().CGColor
         cell.userCircleImg.layer.borderWidth = CGFloat(1.0)
                 
@@ -122,7 +126,8 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
                 
         dispatch_async(dispatch_get_main_queue(), {
             cell.userCircleImg.kf_setImageWithURL(imageUrl!)
-        })
+        })*/
+        
         return cell
     }
     
@@ -237,14 +242,14 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
             cell.likeCount.text = String(self.products[(indexPath?.row)!].numLikes)
             self.products[(indexPath?.row)!].isLiked = false
             apiController.unlikePost(String(self.products[(indexPath?.row)!].id))
-            button.setImage(UIImage(named: "ic_like_tips.png"), forState: UIControlState.Normal)
+            cell.likeImageIns.setImage(UIImage(named: "ic_like_tips.png"), forState: UIControlState.Normal)
             
         } else {
             self.products[(indexPath?.row)!].isLiked = true
             self.products[(indexPath?.row)!].numLikes++
             cell.likeCount.text = String(self.products[(indexPath?.row)!].numLikes)
             apiController.likePost(String(self.products[(indexPath?.row)!].id))
-            button.setImage(UIImage(named: "ic_liked_tips.png"), forState: UIControlState.Normal)
+            cell.likeImageIns.setImage(UIImage(named: "ic_liked_tips.png"), forState: UIControlState.Normal)
             
         }
     }

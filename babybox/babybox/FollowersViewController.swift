@@ -61,12 +61,14 @@ class FollowersViewController: UICollectionViewController {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! FollowersCollectionViewCell
         let userInfo = self.userFollowers[indexPath.row]
         cell.userName.text = userInfo.displayName
-        let imagePath =  constants.imagesBaseURL + "/image/get-mini-profile-image-by-id/" + String(userInfo.id)
+        
+        /*let imagePath =  constants.imagesBaseURL + "/image/get-mini-profile-image-by-id/" + String(userInfo.id)
         let imageUrl  = NSURL(string: imagePath);
         print(imageUrl)
         dispatch_async(dispatch_get_main_queue(), {
             cell.userImage.kf_setImageWithURL(imageUrl!)
-        })
+        })*/
+        ImageUtil.displayThumbnailProfileImage(userInfo.id, imageView: cell.userImage)
         
         if (userInfo.isFollowing) {
             cell.followingBtn.backgroundColor = UIColor.grayColor()

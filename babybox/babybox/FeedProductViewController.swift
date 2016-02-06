@@ -138,7 +138,7 @@ class FeedProductViewController: UIViewController {
             if indexPath.row == (items.count) {
                 cell.btnPostComments.tag = indexPath.row
                 cell.btnPostComments.addTarget(self, action: "PostComments:", forControlEvents: UIControlEvents.TouchUpInside)
-                ImageUtil.imageUtil.setButtonRoundBorder(cell.btnPostComments)
+                ImageUtil.displayButtonRoundBorder(cell.btnPostComments)
                 //cell.btnPostComments.layer.borderWidth = CGFloat(1)
                 cell.btnPostComments.layer.borderColor = UIColor.lightGrayColor().CGColor
                 
@@ -157,16 +157,19 @@ class FeedProductViewController: UIViewController {
                 } else {
                     cell.btnDeleteComments.hidden = false
                 }
-                let imagePath =  constants.imagesBaseURL + "/image/get-thumbnail-profile-image-by-id/" + String(self.items[indexPath.row].ownerId)
+                
+                /*let imagePath =  constants.imagesBaseURL + "/image/get-thumbnail-profile-image-by-id/" + String(self.items[indexPath.row].ownerId)
                 let imageUrl  = NSURL(string: imagePath);
                 let imageData = NSData(contentsOfURL: imageUrl!)
                 if (imageData != nil) {
                     cell.postedUserImg.image = UIImage(data: imageData!)?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
                     //cell.postedUserImg.layer.cornerRadius = cell.postedUserImg.frame.height / 2
                     //cell.postedUserImg.layer.masksToBounds = true
-                    ImageUtil.imageUtil.setCircularImgStyle((cell.postedUserImg)!)
+                    //ImageUtil.imageUtil.setCircularImgStyle((cell.postedUserImg)!)
                     
-                }
+                }*/
+                ImageUtil.displayThumbnailProfileImage(self.items[indexPath.row].ownerId, imageView: cell.postedUserImg)
+                
                 
                 cell.btnDeleteComments.addTarget(self, action: "DeleteComments:", forControlEvents: UIControlEvents.TouchUpInside)
                 //BabyboxUtils.babyBoxUtils.setButtonRoundBorder(cell.postedUserImg)
@@ -184,13 +187,14 @@ class FeedProductViewController: UIViewController {
             switch indexPath.section {
             case 0:
                 if (self.productModel.hasImage) {
-                    let imagePath =  constants.imagesBaseURL + "/image/get-post-image-by-id/" + String(self.productModel.images[0])
+                    /*let imagePath =  constants.imagesBaseURL + "/image/get-post-image-by-id/" + String(self.productModel.images[0])
                     let imageUrl  = NSURL(string: imagePath);
                     let imageData = NSData(contentsOfURL: imageUrl!)
                     
                     if (imageData != nil) {
                         cell.productImage.image = UIImage(data: imageData!)
-                    }
+                    }*/
+                    ImageUtil.displayPostImage(self.productModel.images[0], imageView: cell.productImage)
                 }
                 
             case 1:
@@ -228,25 +232,26 @@ class FeedProductViewController: UIViewController {
                     cell.postedUserImg.image = UIImage(named: "")
                     
                     if (self.productInfo[0].ownerId != -1) {
-                        let imagePath =  constants.imagesBaseURL + "/image/get-original-post-image-by-id/" + String(self.productInfo[0].ownerId)
+                        /*let imagePath =  constants.imagesBaseURL + "/image/get-original-post-image-by-id/" + String(self.productInfo[0].ownerId)
                         
                         let imageUrl  = NSURL(string: imagePath);
                         let imageData = NSData(contentsOfURL: imageUrl!)
                         
                         if (imageData != nil) {
-                            //cell.postedUserImg.layer.cornerRadius = 20.0
-                            //cell.postedUserImg.layer.masksToBounds = true
                             cell.postedUserImg.image = UIImage(data: imageData!)
+                            ImageUtil.displayCircleImage(<#T##url: String##String#>, view: <#T##UIImageView#>)
                             ImageUtil.imageUtil.setCircularImgStyle(cell.postedUserImg)
-                        }
-                        
+                        }*/
+                        //ImageUtil.displayThumbnailProfileImage(self.productInfo[0].ownerId, imageView: cell.postedUserImg)
+                        ImageUtil.displayOriginalPostImage(self.productInfo[0].ownerId, imageView: cell.postedUserImg)
+                        cell.postedUserImg.layer.cornerRadius = cell.postedUserImg.frame.height/2
+                        cell.postedUserImg.layer.masksToBounds = true
                     }
                 }
                 
-                
                 cell.viewBtnIns.layer.borderWidth = CGFloat(1)
                 cell.viewBtnIns.layer.borderColor = ImageUtil.imageUtil.UIColorFromRGB(0xFF76A4).CGColor
-                ImageUtil.imageUtil.setButtonRoundBorder(cell.viewBtnIns)
+                ImageUtil.displayButtonRoundBorder(cell.viewBtnIns)
             default:
                 reuseidentifier = ""
             }

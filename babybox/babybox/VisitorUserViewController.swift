@@ -11,10 +11,8 @@ import SwiftEventBus
 
 private let reuseIdentifier = "Cell"
 
-class UserFeedViewController: CustomNavigationController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-
-    //@IBOutlet weak var userFeedTips: UIView!
-    //@IBOutlet weak var tipSection: NSLayoutConstraint!
+class VisitorUserViewController: CustomNavigationController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
     @IBOutlet weak var uiCollectionView: UICollectionView!
     
     var pageOffSet: Int64 = 0
@@ -255,7 +253,7 @@ class UserFeedViewController: CustomNavigationController, UIImagePickerControlle
         } else {
             /*var ht: CGFloat = 0.0
             for view in collectionView.subviews as [UIView] {
-                ht += view.frame.height
+            ht += view.frame.height
             }*/
             if (self.isTipVisible()) {
                 return CGSizeMake(self.view.frame.width, 295)
@@ -288,7 +286,7 @@ class UserFeedViewController: CustomNavigationController, UIImagePickerControlle
             let vController = segue.destinationViewController as! EditProfileViewController
             vController.userId = self.userId
         } else if (segue.identifier == "settings") {
-           // let vController = segue.destinationViewController as! SettingsViewController
+            // let vController = segue.destinationViewController as! SettingsViewController
         }
     }
     
@@ -329,7 +327,7 @@ class UserFeedViewController: CustomNavigationController, UIImagePickerControlle
         self.loadingProducts = true
     }
     
-        
+    
     // MARK: UIScrollview Delegate
     func scrollViewDidScroll(scrollView: UIScrollView) {
         let velocity: CGFloat = scrollView.panGestureRecognizer.velocityInView(scrollView).y
@@ -431,7 +429,7 @@ class UserFeedViewController: CustomNavigationController, UIImagePickerControlle
         redrawSegControlBorder(cell.segmentControl)
         self.uiCollectionView.reloadData()
     }
-
+    
     @IBAction func onClickBrowse(sender: AnyObject) {
         //upload image.
         self.imagePicker.allowsEditing = true
@@ -451,7 +449,7 @@ class UserFeedViewController: CustomNavigationController, UIImagePickerControlle
             self.userLikedProducts = []
             ApiControlller.apiController.getUserLikedFeeds(self.userId, offSet: 0)
         }
-       
+        
         redrawSegControlBorder(segControl!)
     }
     

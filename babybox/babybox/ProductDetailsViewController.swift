@@ -153,11 +153,12 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         
-        ImageUtil.imageUtil.setCircularImgStyle(imageuser)
-        ImageUtil.imageUtil.setButtonRoundBorder(self.viewbtn)
-        ImageUtil.imageUtil.setButtonRoundBorder(self.buynow)
-        ImageUtil.imageUtil.setButtonRoundBorder(self.chatbtn)
-        ImageUtil.imageUtil.setButtonRoundBorder(self.postCommentButton)
+        //ImageUtil.imageUtil.setCircularImgStyle(imageuser)
+        //ImageUtil.displayThumbnailProfileImage(<#T##id: Int##Int#>, buttonView: <#T##UIButton#>)
+        ImageUtil.displayButtonRoundBorder(self.viewbtn)
+        ImageUtil.displayButtonRoundBorder(self.buynow)
+        ImageUtil.displayButtonRoundBorder(self.chatbtn)
+        ImageUtil.displayButtonRoundBorder(self.postCommentButton)
         
         self.viewbtn.layer.borderWidth = CGFloat(1)
         self.viewbtn.layer.borderColor = ImageUtil.imageUtil.UIColorFromRGB(0xFF76A4).CGColor
@@ -222,14 +223,15 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate {
             self.ownerNumFollowers.text = String(self.productInfo[0].ownerNumFollowers)
             
             if (self.productModel.ownerId != -1) {
-                let imagePath =  constants.imagesBaseURL + "/image/get-original-post-image-by-id/" + String(self.productInfo[0].ownerId)
+                /*let imagePath =  constants.imagesBaseURL + "/image/get-original-post-image-by-id/" + String(self.productInfo[0].ownerId)
                 
                 let imageUrl  = NSURL(string: imagePath);
                 let imageData = NSData(contentsOfURL: imageUrl!)
                 
                 if (imageData != nil) {
                     self.imageuser.image = UIImage(data: imageData!)
-                }
+                }*/
+                ImageUtil.displayOriginalPostImage(self.productInfo[0].ownerId, imageView: self.imageuser)
                 
             }
             self.updateCommentTxt()
@@ -286,18 +288,19 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate {
         }
         let time = self.items[indexPath.row].createdDate
         cell.createTime.text = self.myDate.offsetFrom(NSDate(timeIntervalSinceNow: NSTimeInterval(time)))
-        
-        let imagePath =  constants.imagesBaseURL + "/image/get-thumbnail-profile-image-by-id/" + String(self.items[indexPath.row].ownerId)
+        ImageUtil.displayThumbnailProfileImage(self.items[indexPath.row].ownerId, imageView: cell.userImage)
+        /*let imagePath =  constants.imagesBaseURL + "/image/get-thumbnail-profile-image-by-id/" + String(self.items[indexPath.row].ownerId)
         let imageUrl  = NSURL(string: imagePath);
         let imageData = NSData(contentsOfURL: imageUrl!)
         if (imageData != nil) {
             //BabyboxUtils.babyBoxUtils.setCircularImgStyle((cell.userImage)!)
             //cell.userImage.layer.cornerRadius = 15.0
             //cell.userImage.layer.masksToBounds = true
-            ImageUtil.imageUtil.setCircularImgStyle(cell.userImage)
-            cell.userImage.image = UIImage(data: imageData!)?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
-        }
+            //ImageUtil.imageUtil.setCircularImgStyle(cell.userImage)
+            //cell.userImage.image = UIImage(data: imageData!)?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+        }*/
         //});
+        
         return cell
     }
     

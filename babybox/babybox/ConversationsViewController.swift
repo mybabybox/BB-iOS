@@ -76,17 +76,17 @@ class ConversationsViewController: CustomNavigationController {
         let time1 = self.myDate.offsetFrom(date)
 
         cell.comment.text = time1
-        
-            let imagePath =  constants.imagesBaseURL + "/image/get-post-image-by-id/" + String(self.conversations[indexPath.row].postImage)
+        ImageUtil.displayPostImage(self.conversations[indexPath.row].postImage, imageView: cell.productImage)
+            /*let imagePath =  constants.imagesBaseURL + "/image/get-post-image-by-id/" + String(self.conversations[indexPath.row].postImage)
             let imageUrl  = NSURL(string: imagePath);
             let imageData = NSData(contentsOfURL: imageUrl!)
             if (imageData != nil) {
                 dispatch_async(dispatch_get_main_queue(), {
                     cell.productImage.image = UIImage(data: imageData!)
                 });
-            }
+            }*/
         
-        let imagePaths =  constants.imagesBaseURL + "/image/get-thumbnail-profile-image-by-id/"
+        /*let imagePaths =  constants.imagesBaseURL + "/image/get-thumbnail-profile-image-by-id/"
  + String(self.conversations[indexPath.row].postImage)
         let imageUrls  = NSURL(string: imagePaths);
         let imageDatas = NSData(contentsOfURL: imageUrls!)
@@ -96,7 +96,8 @@ class ConversationsViewController: CustomNavigationController {
             dispatch_async(dispatch_get_main_queue(), {
                 cell.postImage.image = UIImage(data: imageDatas!)
             });
-        }
+        }*/
+        ImageUtil.displayThumbnailProfileImage(self.conversations[indexPath.row].postImage, imageView: cell.postImage)
         return cell
     }
 
@@ -117,7 +118,7 @@ class ConversationsViewController: CustomNavigationController {
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         //
-        var vController = segue.destinationViewController as! MessagesViewController
+        let vController = segue.destinationViewController as! MessagesViewController
         vController.conversationId = self.conversations[self.currentIndex].id
     }
 }

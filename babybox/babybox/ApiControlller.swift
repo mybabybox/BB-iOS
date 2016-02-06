@@ -14,12 +14,10 @@ import SwiftEventBus
 
 class ApiControlller {
     
-    static let BASE_URL = "http://192.168.3.5:9005/"
-    static let APP_NAME = "Babybox"
     struct Payload {
-                    var postId : Int = 0
-                    var body = ""
-                }
+        var postId : Int = 0
+        var body = ""
+    }
     
     init() {
     }
