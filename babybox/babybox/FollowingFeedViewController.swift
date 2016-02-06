@@ -113,7 +113,7 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
         cell.layer.borderColor = CGColorCreate(CGColorSpaceCreateDeviceRGB(), [194/255, 195/255, 200/255, 1.0])
         cell.layer.borderWidth = 1
         
-        BabyboxUtils.babyBoxUtils.setCircularImgStyle(cell.userCircleImg)
+        ImageUtil.imageUtil.setCircularImgStyle(cell.userCircleImg)
         cell.userCircleImg.layer.borderColor = UIColor.whiteColor().CGColor
         cell.userCircleImg.layer.borderWidth = CGFloat(1.0)
                 
@@ -221,7 +221,7 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
     
     
     func setCollectionViewSizesInsets() {
-        collectionViewCellSize = BabyboxUtils.babyBoxUtils.getProductItemCellSize(self.view.bounds.width)
+        collectionViewCellSize = ImageUtil.imageUtil.getProductItemCellSize(self.view.bounds.width)
     }
     
     @IBAction func onLikeBtnClick(sender: AnyObject) {

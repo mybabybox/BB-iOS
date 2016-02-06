@@ -16,6 +16,7 @@ class DetailsTableViewCell: UITableViewCell {
     
     //MASK User Info Section
     
+    @IBOutlet weak var categoryBtn: UIButton!
     @IBOutlet weak var followersCount: UILabel!
     @IBOutlet weak var noOfProducts: UILabel!
     @IBOutlet weak var postTime: UILabel!
@@ -34,4 +35,5 @@ class DetailsTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
+    
 }

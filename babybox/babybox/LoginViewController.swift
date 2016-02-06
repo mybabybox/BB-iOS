@@ -118,9 +118,10 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFie
         self.isUserLoggedIn = false
         self.progressIndicator.hidden = true
         
-        let color = BabyboxUtils.babyBoxUtils.UIColorFromRGB(0xFF76A4).CGColor
-        self.signInButton.layer.cornerRadius = 5
-        self.signInButton.layer.borderWidth = 1
+        let color = ImageUtil.imageUtil.UIColorFromRGB(0xFF76A4).CGColor
+        //self.signInButton.layer.cornerRadius = 5
+        ImageUtil.imageUtil.setButtonRoundBorder(self.signInButton)
+        //self.signInButton.layer.borderWidth = 1
         self.signInButton.layer.borderColor = color
         
         ApiControlller.init();

@@ -28,7 +28,7 @@ class FeedProductViewController: UIViewController {
     var noOfComments: Int = 0
     var items: [CommentModel] = [] //comment items
     var category: CategoryModel?
-    
+    var customDate: NSDate = NSDate()
     //var comments : [String]? = []
     
     override func viewDidLoad() {
@@ -138,8 +138,8 @@ class FeedProductViewController: UIViewController {
             if indexPath.row == (items.count) {
                 cell.btnPostComments.tag = indexPath.row
                 cell.btnPostComments.addTarget(self, action: "PostComments:", forControlEvents: UIControlEvents.TouchUpInside)
-                BabyboxUtils.babyBoxUtils.setButtonRoundBorder(cell.btnPostComments)
-                cell.btnPostComments.layer.borderWidth = CGFloat(1)
+                ImageUtil.imageUtil.setButtonRoundBorder(cell.btnPostComments)
+                //cell.btnPostComments.layer.borderWidth = CGFloat(1)
                 cell.btnPostComments.layer.borderColor = UIColor.lightGrayColor().CGColor
                 
                 cell.commentTxt.layer.cornerRadius = 15.0
@@ -151,7 +151,7 @@ class FeedProductViewController: UIViewController {
                 cell.lblComments.text = comment.body
                 cell.postedUserName.text = comment.ownerName
                 cell.btnDeleteComments.tag = indexPath.row
-                
+                cell.postedTime.text = self.myDate.offsetFrom(NSDate(timeIntervalSinceNow: NSTimeInterval(comment.createdDate)))
                 if (comment.ownerId == -1) {
                     cell.btnDeleteComments.hidden = true
                 } else {
@@ -161,14 +161,15 @@ class FeedProductViewController: UIViewController {
                 let imageUrl  = NSURL(string: imagePath);
                 let imageData = NSData(contentsOfURL: imageUrl!)
                 if (imageData != nil) {
-                    //BabyboxUtils.babyBoxUtils.setCircularImgStyle((cell.userImage)!)
-                    cell.postedUserImg.layer.cornerRadius = 18.0
-                    cell.postedUserImg.layer.masksToBounds = true
                     cell.postedUserImg.image = UIImage(data: imageData!)?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+                    //cell.postedUserImg.layer.cornerRadius = cell.postedUserImg.frame.height / 2
+                    //cell.postedUserImg.layer.masksToBounds = true
+                    ImageUtil.imageUtil.setCircularImgStyle((cell.postedUserImg)!)
+                    
                 }
                 
                 cell.btnDeleteComments.addTarget(self, action: "DeleteComments:", forControlEvents: UIControlEvents.TouchUpInside)
-                BabyboxUtils.babyBoxUtils.setButtonRoundBorder(cell.postedUserImg)
+                //BabyboxUtils.babyBoxUtils.setButtonRoundBorder(cell.postedUserImg)
                 
                 let time = comment.createdDate
                 cell.postedTime.text = self.myDate.offsetFrom(NSDate(timeIntervalSinceNow: NSTimeInterval(time)))
@@ -197,7 +198,7 @@ class FeedProductViewController: UIViewController {
                     cell.productDesc.text = self.productInfo[0].body
                 }
                 cell.productTitle.text = productModel.title
-                cell.prodCondition.text = self.productModel.conditionType
+                cell.prodCondition.text = ViewUtil.parsePostConditionTypeFromType(self.productModel.conditionType)
                 
                 if (productModel.originalPrice != 0 && productModel.originalPrice != -1 && productModel.originalPrice != Int(productModel.price)) {
                     let attrString = NSAttributedString(string: "\(constants.currencySymbol) \(String(stringInterpolationSegment:Int(productModel.originalPrice)))", attributes: [NSStrikethroughStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue])
@@ -207,9 +208,15 @@ class FeedProductViewController: UIViewController {
                 }
                 
                 cell.prodPrice.text = "\(constants.currencySymbol)\(String(stringInterpolationSegment: Int(productModel.price)))"
-                cell.prodCategory.text = ""
-                cell.prodTimer.image = UIImage(named: "")
-                cell.prodTimerCount.text = ""
+                
+                if (self.productInfo.count > 0) {
+                    cell.prodCategory.text = self.productInfo[0].categoryName
+                    //cell.prodTimerCount.text = String(self.productInfo[0].numComments)
+                    cell.categoryBtn.hidden = false
+                    cell.prodTimerCount.text = customDate.offsetFrom(NSDate(timeIntervalSinceNow: NSTimeInterval(self.productInfo[0].createdDate)))
+                } else {
+                    cell.categoryBtn.hidden = true
+                }
                 
             case 2:
                 if (self.productInfo.count > 0) {
@@ -227,12 +234,10 @@ class FeedProductViewController: UIViewController {
                         let imageData = NSData(contentsOfURL: imageUrl!)
                         
                         if (imageData != nil) {
+                            //cell.postedUserImg.layer.cornerRadius = 20.0
+                            //cell.postedUserImg.layer.masksToBounds = true
                             cell.postedUserImg.image = UIImage(data: imageData!)
-                            
-                            cell.postedUserImg.layer.cornerRadius = 18.0
-                            cell.postedUserImg.layer.masksToBounds = true
-                            
-                            //BabyboxUtils.babyBoxUtils.setCircularImgStyle(cell.postedUserImg)
+                            ImageUtil.imageUtil.setCircularImgStyle(cell.postedUserImg)
                         }
                         
                     }
@@ -240,8 +245,8 @@ class FeedProductViewController: UIViewController {
                 
                 
                 cell.viewBtnIns.layer.borderWidth = CGFloat(1)
-                cell.viewBtnIns.layer.borderColor = BabyboxUtils.babyBoxUtils.UIColorFromRGB(0xFF76A4).CGColor
-                BabyboxUtils.babyBoxUtils.setButtonRoundBorder(cell.viewBtnIns)
+                cell.viewBtnIns.layer.borderColor = ImageUtil.imageUtil.UIColorFromRGB(0xFF76A4).CGColor
+                ImageUtil.imageUtil.setButtonRoundBorder(cell.viewBtnIns)
             default:
                 reuseidentifier = ""
             }
@@ -257,8 +262,8 @@ class FeedProductViewController: UIViewController {
             returnedView.backgroundColor = UIColor.darkGrayColor()
             return returnedView
         }
-        
     }
+    
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if section == 0{
             return 0.0
@@ -273,11 +278,26 @@ class FeedProductViewController: UIViewController {
         case 1:
             return CGFloat(220.0)
         case 2:
-            return CGFloat(105.0)
+            return CGFloat(95.0)
         case 3:
-            return CGFloat(60.0)
+            return CGFloat(50.0)
         default:
             return UITableViewAutomaticDimension
+        }
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        //on click of User section show the User profile screen.
+        if (indexPath.section == 2) {
+            if (self.productInfo[0].isOwner) {
+                let vController = self.storyboard?.instantiateViewControllerWithIdentifier("UserFeedViewController") as! UserFeedViewController
+                vController.userId = constants.userInfo.id
+                self.navigationController?.pushViewController(vController, animated: true)
+            } else {
+                let vController = self.storyboard?.instantiateViewControllerWithIdentifier("UserFeedViewController") as! UserFeedViewController
+                vController.userId = self.productInfo[0].ownerId
+                self.navigationController?.pushViewController(vController, animated: true)
+            }
         }
     }
     
@@ -300,7 +320,7 @@ class FeedProductViewController: UIViewController {
         _nComment.body = cell.commentTxt.text!
         _nComment.ownerName = constants.userInfo.displayName
         _nComment.deviceType = "iOS"
-        //_nComment.createdDate = NSDate()
+        _nComment.createdDate = Int(NSDate().timeIntervalSince1970)
         _nComment.id = -1
         ApiControlller().postComment(String(Int(productModel.id)), comment: cell.commentTxt.text!)
         
@@ -375,5 +395,46 @@ class FeedProductViewController: UIViewController {
         self.detailTableView.reloadData()
     }
     
+    @IBAction func onSelectCategory(sender: AnyObject) {
+        let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("CategoryFeedViewController") as! CategoryFeedViewController
+        
+        vController.selCategory = CategoryCache.getCategoryById(self.productInfo[0].categoryId)
+        self.tabBarController!.tabBar.hidden = true
+        self.navigationController?.pushViewController(vController, animated: true)
+    }
 }
 
+
+extension NSDate {
+    func yearsFrom(date:NSDate) -> Int{
+        return NSCalendar.currentCalendar().components(.Year, fromDate: date, toDate: self, options: []).year
+    }
+    func monthsFrom(date:NSDate) -> Int{
+        return NSCalendar.currentCalendar().components(.Month, fromDate: date, toDate: self, options: []).month
+    }
+    func weeksFrom(date:NSDate) -> Int{
+        return NSCalendar.currentCalendar().components(.WeekOfYear, fromDate: date, toDate: self, options: []).weekOfYear
+    }
+    func daysFrom(date:NSDate) -> Int{
+        return NSCalendar.currentCalendar().components(.Day, fromDate: date, toDate: self, options: []).day
+    }
+    func hoursFrom(date:NSDate) -> Int{
+        return NSCalendar.currentCalendar().components(.Hour, fromDate: date, toDate: self, options: []).hour
+    }
+    func minutesFrom(date:NSDate) -> Int{
+        return NSCalendar.currentCalendar().components(.Minute, fromDate: date, toDate: self, options: []).minute
+    }
+    func secondsFrom(date:NSDate) -> Int{
+        return NSCalendar.currentCalendar().components(.Second, fromDate: date, toDate: self, options: []).second
+    }
+    func offsetFrom(date:NSDate) -> String {
+        if yearsFrom(date)   > 0 { return "\(yearsFrom(date)) years ago"   }
+        if monthsFrom(date)  > 0 { return "\(monthsFrom(date)) months ago"  }
+        if weeksFrom(date)   > 0 { return "\(weeksFrom(date)) weeks ago"   }
+        if daysFrom(date)    > 0 { return "\(daysFrom(date)) days ago"    }
+        if hoursFrom(date)   > 0 { return "\(hoursFrom(date)) hours ago"   }
+        if minutesFrom(date) > 0 { return "\(minutesFrom(date)) minutes ago" }
+        if secondsFrom(date) > 0 { return "\(secondsFrom(date)) seconds ago" }
+        return ""
+    }
+}

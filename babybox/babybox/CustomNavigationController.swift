@@ -68,8 +68,9 @@ class CustomNavigationController: UIViewController {
         let userThumbnailImg: UIButton = UIButton()
         
         userThumbnailImg.frame = CGRectMake(0, 0, 35, 35)
-        userThumbnailImg.layer.cornerRadius = 18.0
-        userThumbnailImg.layer.masksToBounds = true
+        ImageUtil.imageUtil.setCircularImgStyle(userThumbnailImg)
+        //userThumbnailImg.layer.cornerRadius = 18.0
+        //userThumbnailImg.layer.masksToBounds = true
         let imagePath =  constants.imagesBaseURL + "/image/get-thumbnail-profile-image-by-id/" + String(constants.userInfo.id)
         let imageUrl  = NSURL(string: imagePath);
         let imageData = NSData(contentsOfURL: imageUrl!)

@@ -27,4 +27,18 @@ class ViewUtil {
                 return PostConditionType.USED
         }
     }
+    
+    static func parsePostConditionTypeFromType(type: String) -> String {
+        
+        if (type == String(PostConditionType.USED)) {
+            return PostConditionType.USED.rawValue
+        } else if (type == String(PostConditionType.NEW_WITHOUT_TAG)) {
+            return PostConditionType.NEW_WITHOUT_TAG.rawValue
+        } else if (type == String(PostConditionType.NEW_WITH_TAG)) {
+            return PostConditionType.NEW_WITH_TAG.rawValue
+        } else {
+            return ""
+        }
+    }
+    
 }

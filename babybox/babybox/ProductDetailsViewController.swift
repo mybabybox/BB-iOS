@@ -153,15 +153,15 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         
-        BabyboxUtils.babyBoxUtils.setCircularImgStyle(imageuser)
-        BabyboxUtils.babyBoxUtils.setButtonRoundBorder(self.viewbtn)
-        BabyboxUtils.babyBoxUtils.setButtonRoundBorder(self.buynow)
-        BabyboxUtils.babyBoxUtils.setButtonRoundBorder(self.chatbtn)
-        BabyboxUtils.babyBoxUtils.setButtonRoundBorder(self.postCommentButton)
+        ImageUtil.imageUtil.setCircularImgStyle(imageuser)
+        ImageUtil.imageUtil.setButtonRoundBorder(self.viewbtn)
+        ImageUtil.imageUtil.setButtonRoundBorder(self.buynow)
+        ImageUtil.imageUtil.setButtonRoundBorder(self.chatbtn)
+        ImageUtil.imageUtil.setButtonRoundBorder(self.postCommentButton)
         
         self.viewbtn.layer.borderWidth = CGFloat(1)
-        self.viewbtn.layer.borderColor = BabyboxUtils.babyBoxUtils.UIColorFromRGB(0xFF76A4).CGColor
-        self.timeLikeCount.layer.borderColor = BabyboxUtils.babyBoxUtils.UIColorFromRGB(0xFF76A4).CGColor
+        self.viewbtn.layer.borderColor = ImageUtil.imageUtil.UIColorFromRGB(0xFF76A4).CGColor
+        self.timeLikeCount.layer.borderColor = ImageUtil.imageUtil.UIColorFromRGB(0xFF76A4).CGColor
         
         self.postCommentButton.layer.borderWidth = CGFloat(1)
         self.postCommentButton.layer.borderColor = UIColor.lightGrayColor().CGColor
@@ -292,8 +292,9 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate {
         let imageData = NSData(contentsOfURL: imageUrl!)
         if (imageData != nil) {
             //BabyboxUtils.babyBoxUtils.setCircularImgStyle((cell.userImage)!)
-            cell.userImage.layer.cornerRadius = 15.0
-            cell.userImage.layer.masksToBounds = true
+            //cell.userImage.layer.cornerRadius = 15.0
+            //cell.userImage.layer.masksToBounds = true
+            ImageUtil.imageUtil.setCircularImgStyle(cell.userImage)
             cell.userImage.image = UIImage(data: imageData!)?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
         }
         //});
@@ -327,36 +328,3 @@ class ProductDetailsViewController: UIViewController, UITextFieldDelegate {
     }
 }
 
-extension NSDate {
-    func yearsFrom(date:NSDate) -> Int{
-        return NSCalendar.currentCalendar().components(.Year, fromDate: date, toDate: self, options: []).year
-    }
-    func monthsFrom(date:NSDate) -> Int{
-        return NSCalendar.currentCalendar().components(.Month, fromDate: date, toDate: self, options: []).month
-    }
-    func weeksFrom(date:NSDate) -> Int{
-        return NSCalendar.currentCalendar().components(.WeekOfYear, fromDate: date, toDate: self, options: []).weekOfYear
-    }
-    func daysFrom(date:NSDate) -> Int{
-        return NSCalendar.currentCalendar().components(.Day, fromDate: date, toDate: self, options: []).day
-    }
-    func hoursFrom(date:NSDate) -> Int{
-        return NSCalendar.currentCalendar().components(.Hour, fromDate: date, toDate: self, options: []).hour
-    }
-    func minutesFrom(date:NSDate) -> Int{
-        return NSCalendar.currentCalendar().components(.Minute, fromDate: date, toDate: self, options: []).minute
-    }
-    func secondsFrom(date:NSDate) -> Int{
-        return NSCalendar.currentCalendar().components(.Second, fromDate: date, toDate: self, options: []).second
-    }
-    func offsetFrom(date:NSDate) -> String {
-        if yearsFrom(date)   > 0 { return "\(yearsFrom(date)) years ago"   }
-        if monthsFrom(date)  > 0 { return "\(monthsFrom(date)) months ago"  }
-        if weeksFrom(date)   > 0 { return "\(weeksFrom(date)) weeks ago"   }
-        if daysFrom(date)    > 0 { return "\(daysFrom(date)) days ago"    }
-        if hoursFrom(date)   > 0 { return "\(hoursFrom(date)) hours ago"   }
-        if minutesFrom(date) > 0 { return "\(minutesFrom(date)) minutes ago" }
-        if secondsFrom(date) > 0 { return "\(secondsFrom(date)) seconds ago" }
-        return ""
-    }
-}

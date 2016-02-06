@@ -31,7 +31,7 @@ class FollowingViewController: UICollectionViewController {
             self.userFollowings[self.currentIndex].isFollowing = false
             
             cell.followingsBtn.setTitle("+ Follow", forState: UIControlState.Normal)
-            cell.followingsBtn.backgroundColor = BabyboxUtils.babyBoxUtils.UIColorFromRGB(0xFF76A4)
+            cell.followingsBtn.backgroundColor = ImageUtil.imageUtil.UIColorFromRGB(0xFF76A4)
         } else {
             ApiControlller.apiController.followUser(constants.userInfo.id)
             self.userFollowings[self.currentIndex].isFollowing = true
@@ -97,7 +97,7 @@ class FollowingViewController: UICollectionViewController {
             cell.followingsBtn.backgroundColor = UIColor.grayColor()
             cell.followingsBtn.setTitle("- Unfollow", forState: UIControlState.Normal)
         } else {
-            cell.followingsBtn.backgroundColor = BabyboxUtils.babyBoxUtils.UIColorFromRGB(0xFF76A4)
+            cell.followingsBtn.backgroundColor = ImageUtil.imageUtil.UIColorFromRGB(0xFF76A4)
             cell.followingsBtn.setTitle("+ Follow", forState: UIControlState.Normal)
         }
         

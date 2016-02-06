@@ -28,10 +28,10 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
     var reuseIdentifier = "CellType1"
     var loadingProducts: Bool = false
     var selCategory: CategoryModel? = nil
-    var categories : CategoryModel = CategoryModel()
+    //var categories : CategoryModel = CategoryModel()
     var feedFilter: FeedFilter.FeedType? = FeedFilter.FeedType.CATEGORY_POPULAR
     var txtWhiteColor = UIColor(red: CGFloat(255.0), green: CGFloat(255.0), blue: CGFloat(255.0), alpha: CGFloat(1.0))
-    var txtPinkColor = BabyboxUtils.babyBoxUtils.UIColorFromRGB(0xFF76A4)
+    var txtPinkColor = ImageUtil.imageUtil.UIColorFromRGB(0xFF76A4)
     
     override func viewDidAppear(animated: Bool) {
         self.tabBarController!.tabBar.hidden = false
@@ -65,7 +65,7 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
         flowLayout.minimumLineSpacing = 5
         uiCollectionView.collectionViewLayout = flowLayout
         
-        ApiControlller.apiController.getCategoriesFilterByPopularity(Int(categories.id), offSet: 0)
+        ApiControlller.apiController.getCategoriesFilterByPopularity(Int(self.selCategory!.id), offSet: 0)
         
         let sellBtn: UIButton = UIButton()
         sellBtn.setImage(UIImage(named: "new_post"), forState: UIControlState.Normal)
@@ -295,7 +295,7 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func setCollectionViewSizesInsets() {
-        collectionViewCellSize = BabyboxUtils.babyBoxUtils.getProductItemCellSize(self.view.bounds.width)
+        collectionViewCellSize = ImageUtil.imageUtil.getProductItemCellSize(self.view.bounds.width)
     }
     
     func setFeedtype(feedType: FeedFilter.FeedType) {

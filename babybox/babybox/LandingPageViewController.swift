@@ -44,14 +44,16 @@ class LandingPageViewController: UIViewController, UIScrollViewDelegate, UIImage
         self.scrollVew.delegate = self
         self.pageControl.currentPage = 0
         
-        let color = BabyboxUtils.babyBoxUtils.UIColorFromRGB(0xFF76A4).CGColor
+        let color = ImageUtil.imageUtil.UIColorFromRGB(0xFF76A4).CGColor
         self.signUpBtn.backgroundColor = UIColor.clearColor()
-        self.signUpBtn.layer.cornerRadius = 5
-        self.signUpBtn.layer.borderWidth = 1
+        //self.signUpBtn.layer.cornerRadius = 5
+        //self.signUpBtn.layer.borderWidth = 1
+        ImageUtil.imageUtil.setButtonRoundBorder(self.signUpBtn)
         self.signUpBtn.layer.borderColor = color
         
-        self.loginBtn.layer.cornerRadius = 5
-        self.loginBtn.layer.borderWidth = 1
+        //self.loginBtn.layer.cornerRadius = 5
+        //self.loginBtn.layer.borderWidth = 1
+        ImageUtil.imageUtil.setButtonRoundBorder(self.loginBtn)
         self.loginBtn.layer.borderColor = color
         
         

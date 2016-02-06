@@ -11,7 +11,7 @@ import UIKit
 
 class BabyboxUtils {
     
-    static var babyBoxUtils: BabyboxUtils = BabyboxUtils()
+    /*static var babyBoxUtils: BabyboxUtils = BabyboxUtils()
     func UIColorFromRGB(rgbValue: UInt) -> UIColor {
         
         return UIColor(
@@ -35,7 +35,7 @@ class BabyboxUtils {
     }
     
     func setCircularImgStyle(view: UIView) {
-        view.layer.cornerRadius = 20.0
+        view.layer.cornerRadius = view.frame.height/2
         view.layer.masksToBounds = true
-    }
+    }*/
 }

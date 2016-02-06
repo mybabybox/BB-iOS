@@ -169,7 +169,7 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
         if (collectionView.tag == 2){
             let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("CategoryFeedViewController") as! CategoryFeedViewController
             vController.selCategory = self.categories[self.currentIndex]
-            vController.categories = self.categories[self.currentIndex]
+            //vController.categories = self.categories[self.currentIndex]
             self.tabBarController!.tabBar.hidden = true
             self.navigationController?.pushViewController(vController, animated: true)
         } else {
@@ -254,6 +254,7 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
     
     func handleGetCateogriesSuccess(categories: [CategoryModel]) {
         self.categories = categories
+        CategoryCache.setCategories(self.categories)
         self.uiCollectionView.reloadData()
     }
     
@@ -291,7 +292,7 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
             NSLog("Can't determine direction as velocity is 0")
         }
         
-        if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - constants.prodImgLoadThresold){
+        if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height ){
             if (self.loadingProducts) {
                 self.apiController.getHomeExploreFeeds(self.pageOffSet)
                 self.loadingProducts = false
@@ -307,7 +308,7 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func setCollectionViewSizesInsets() {
-        collectionViewCellSize = BabyboxUtils.babyBoxUtils.getProductItemCellSize(self.view.bounds.width)
+        collectionViewCellSize = ImageUtil.imageUtil.getProductItemCellSize(self.view.bounds.width)
     }
     
     @IBAction func onLikeBtnClick(sender: AnyObject) {

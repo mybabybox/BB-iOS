@@ -15,9 +15,9 @@ class CustomTabViewController: UITabBarController {
         
         let titleFont : UIFont = UIFont.systemFontOfSize(12.0)
         
-        self.tabBar.layer.backgroundColor = BabyboxUtils.babyBoxUtils.UIColorFromRGB(0xFCFAF8).CGColor
+        self.tabBar.layer.backgroundColor = ImageUtil.imageUtil.UIColorFromRGB(0xFCFAF8).CGColor
         UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.blackColor(), NSFontAttributeName: titleFont], forState:.Normal)
-        UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: BabyboxUtils.babyBoxUtils.UIColorFromRGB(0xFF76A4), NSFontAttributeName: titleFont], forState:.Selected)
+        UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: ImageUtil.imageUtil.UIColorFromRGB(0xFF76A4), NSFontAttributeName: titleFont], forState:.Selected)
         
         let image = UIImage(named: "mn_home")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
         let selImage = UIImage(named: "mn_home_sel")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)

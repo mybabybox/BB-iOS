@@ -39,7 +39,52 @@ class ImageUtil {
     //static let CAMERA_IMAGE_TEMP_PATH = IMAGE_FOLDER_PATH + "/" + "camera.jpg"
 
     
-
+    static var imageUtil: ImageUtil = ImageUtil()
+    func UIColorFromRGB(rgbValue: UInt) -> UIColor {
+        
+        return UIColor(
+            red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
+            green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
+            blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
+            alpha: CGFloat(1.0)
+        )
+    }
+    
+    func getProductItemCellSize(width: CGFloat) -> CGSize {
+        let availableWidthForCells:CGFloat = width - 15
+        let cellWidth :CGFloat = availableWidthForCells / 2
+        let cellHeight = cellWidth + 35
+        return CGSizeMake(cellWidth, cellHeight)
+    }
+    
+    func setButtonRoundBorder(view: UIView) {
+        view.layer.cornerRadius = 5.0
+        view.layer.masksToBounds = true
+        view.layer.borderWidth = 1
+    }
+    
+    func setCircularImgStyle(view: UIView) {
+        view.layer.cornerRadius = view.frame.height/2
+        view.layer.masksToBounds = true
+    }
+    
+    func displayCornerView(view: UIView) {
+        let color = UIColorFromRGB(0xFF76A4).CGColor
+        view.layer.cornerRadius = 5.0
+        view.layer.masksToBounds = true
+        view.layer.borderWidth = 1
+        view.layer.borderColor = color
+    }
+    
+    func getPinkColor() -> UIColor {
+        let rgbValue: UInt = 0xFF76A4
+        return UIColor(
+            red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
+            green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
+            blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
+            alpha: CGFloat(1.0)
+        )
+    }
     
     
 }

@@ -72,7 +72,7 @@ class FollowersViewController: UICollectionViewController {
             cell.followingBtn.backgroundColor = UIColor.grayColor()
             cell.followingBtn.setTitle("- Unfollow", forState: UIControlState.Normal)
         } else {
-            cell.followingBtn.backgroundColor = BabyboxUtils.babyBoxUtils.UIColorFromRGB(0xFF76A4)
+            cell.followingBtn.backgroundColor = ImageUtil.imageUtil.UIColorFromRGB(0xFF76A4)
             cell.followingBtn.setTitle("+ Follow", forState: UIControlState.Normal)
         }
         return cell
