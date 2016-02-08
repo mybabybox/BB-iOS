@@ -1493,7 +1493,7 @@ CEVudGVyIFBhc3N3b3JkA
                         </collectionViewFlowLayout>
                         <cells>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="followersViewController" id="eAs-ce-tWd" customClass="FollowersCollectionViewCell" customModule="babybox" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="64" width="320" height="103"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="103"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="103"/>
@@ -1976,7 +1976,7 @@ CEVudGVyIFBhc3N3b3JkA
                         </collectionViewFlowLayout>
                         <cells>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="followingCollectionViewCell" id="Cz6-lU-wkd" customClass="FollowingCollectionViewCell" customModule="babybox" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="64" width="320" height="103"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="103"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="103"/>
@@ -2263,9 +2263,6 @@ CEVudGVyIFBhc3N3b3JkA
                                                             </imageView>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kPJ-Rz-FVf" userLabel="ChangeImage">
                                                                 <rect key="frame" x="10" y="10" width="70" height="70"/>
-                                                                <connections>
-                                                                    <action selector="onClickBrowse:" destination="VTn-13-657" eventType="touchUpInside" id="LXO-aZ-Q6M"/>
-                                                                </connections>
                                                             </button>
                                                             <label clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ULa-kB-l9a" userLabel="displayName">
                                                                 <rect key="frame" x="100" y="15" width="36" height="16"/>
@@ -2284,10 +2281,6 @@ CEVudGVyIFBhc3N3b3JkA
                                                                     <constraint firstAttribute="width" constant="25" id="mbB-2r-BIc"/>
                                                                 </constraints>
                                                                 <state key="normal" title="Button" image="browse"/>
-                                                                <connections>
-                                                                    <action selector="onClickBrowse:" destination="VTn-13-657" eventType="touchUpInside" id="33i-IM-gjV"/>
-                                                                    <action selector="onClickBrowse:" destination="aa6-dY-vf5" eventType="touchUpInside" id="LVx-rH-jWB"/>
-                                                                </connections>
                                                             </button>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xcm-kD-oFv" userLabel="settings">
                                                                 <rect key="frame" x="351" y="15" width="25" height="25"/>
@@ -3874,11 +3867,11 @@ there is  a commom topic that parents can
         <image name="welcome_1" width="730" height="1100"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="xlr-H1-EYH"/>
         <segue reference="eQ1-SO-xr2"/>
-        <segue reference="7Wq-Ub-66p"/>
-        <segue reference="f1D-EY-plH"/>
-        <segue reference="L4S-zN-3bb"/>
+        <segue reference="xlr-H1-EYH"/>
+        <segue reference="qBf-83-ilp"/>
+        <segue reference="iep-h6-EQ3"/>
+        <segue reference="vwB-o5-bTl"/>
         <segue reference="v1I-qE-Ya6"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

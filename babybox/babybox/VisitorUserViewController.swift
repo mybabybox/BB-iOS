@@ -43,9 +43,6 @@ class VisitorUserViewController: CustomNavigationController, UIImagePickerContro
         
         super.viewDidLoad()
         self.imagePicker.delegate = self
-        if (self.userId == 0) {
-            self.userId = constants.userInfo.id
-        }
         
         SwiftEventBus.onMainThread(self, name: "userInfoByIdSuccess") { result in
             self.userInfo = result.object as? UserInfoVM
@@ -518,12 +515,12 @@ class VisitorUserViewController: CustomNavigationController, UIImagePickerContro
             cell.tipsView.hidden = true
             cell.tipsConstraint.constant = 6
         }
-        
-        if (constants.userInfo.id != self.userId) {
-            cell.editProfile.hidden = true
-        } else {
-            ImageUtil.displayButtonRoundBorder(cell.editProfile)
-        }
+        ImageUtil.displayButtonRoundBorder(cell.editProfile)
+        //if (constants.userInfo.id != self.userId) {
+        //    cell.editProfile.hidden = true
+        //} else {
+        //    ImageUtil.displayButtonRoundBorder(cell.editProfile)
+        //}
         
     }
     

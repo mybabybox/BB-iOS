@@ -299,7 +299,7 @@ class FeedProductViewController: UIViewController {
                 vController.userId = constants.userInfo.id
                 self.navigationController?.pushViewController(vController, animated: true)
             } else {
-                let vController = self.storyboard?.instantiateViewControllerWithIdentifier("UserFeedViewController") as! UserFeedViewController
+                let vController = self.storyboard?.instantiateViewControllerWithIdentifier("VisitorUserViewController") as! VisitorUserViewController
                 vController.userId = self.productInfo[0].ownerId
                 self.navigationController?.pushViewController(vController, animated: true)
             }
