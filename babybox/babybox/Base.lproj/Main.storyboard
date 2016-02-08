@@ -3215,6 +3215,7 @@ CEVudGVyIFBhc3N3b3JkA
                                 <state key="normal" title="Sign Up"/>
                                 <connections>
                                     <action selector="onSignup:" destination="aC0-aF-LDK" eventType="touchUpInside" id="ANA-VU-5Uu"/>
+                                    <segue destination="7xL-U6-oa5" kind="show" id="RZy-Id-bM0"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -3344,6 +3345,11 @@ there is  a commom topic that parents can
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Lbb-dL-aIh">
+                                <rect key="frame" x="133" y="295" width="195" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
