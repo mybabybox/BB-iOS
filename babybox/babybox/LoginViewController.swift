@@ -50,8 +50,10 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFie
         } else if (identifier == "gotoforgotpassword") {
             return true
         } else if (identifier == "showSignupView") {
+            self.navigationController?.navigationBar.hidden = false
             return true
         }
+        
         return self.isUserLoggedIn
         
     }

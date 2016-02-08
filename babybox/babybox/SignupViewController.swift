@@ -12,6 +12,8 @@ import SwiftEventBus
 class SignupViewController: UIViewController {
     
     
+    @IBOutlet weak var firstNametxtWidth: NSLayoutConstraint!
+    @IBOutlet weak var widthConstraint: NSLayoutConstraint!
     @IBOutlet weak var policyBtn: UIButton!
     @IBOutlet weak var licenseBtn: UIButton!
     var isLicenseDisplay = true
@@ -60,6 +62,12 @@ class SignupViewController: UIViewController {
         ImageUtil.imageUtil.displayCornerView(self.signUp)
         
         DistrictCache.refresh()
+        
+        let availableWidthForButtons:CGFloat = self.view.bounds.width - 100
+        let buttonWidth :CGFloat = availableWidthForButtons / 2
+        
+        self.firstNametxtWidth.constant = buttonWidth
+        self.widthConstraint.constant = buttonWidth
 
     }
     
