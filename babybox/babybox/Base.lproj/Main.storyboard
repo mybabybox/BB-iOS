@@ -107,6 +107,7 @@ CEVudGVyIFBhc3N3b3JkA
                                 <state key="normal" title="Sign Up"/>
                                 <connections>
                                     <action selector="onSignUpClick:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="cys-EE-3r7"/>
+                                    <segue destination="ph2-TD-09V" kind="show" identifier="showSignupView" id="NRf-cI-JqS"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TLm-wy-VMl">
@@ -1649,11 +1650,11 @@ CEVudGVyIFBhc3N3b3JkA
                         <viewControllerLayoutGuide type="bottom" id="LHF-Zb-kZz"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="d6t-Wa-j1l">
-                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WXY-oa-Wrt">
-                                <rect key="frame" x="0.0" y="40" width="600" height="496"/>
+                                <rect key="frame" x="0.0" y="40" width="600" height="560"/>
                             </containerView>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" apportionsSegmentWidthsByContent="YES" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="qbf-aK-0bl">
                                 <rect key="frame" x="1" y="0.0" width="600" height="41"/>
@@ -2166,8 +2167,8 @@ CEVudGVyIFBhc3N3b3JkA
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="312"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
-                                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" tag="2" contentMode="scaleToFill" misplaced="YES" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="PKz-uP-gqh" userLabel="HeaderViewCollection">
-                                            <rect key="frame" x="-6" y="0.0" width="602" height="312"/>
+                                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" tag="2" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="PKz-uP-gqh" userLabel="HeaderViewCollection">
+                                            <rect key="frame" x="-6" y="0.0" width="612" height="312"/>
                                             <color key="backgroundColor" red="0.92941176469999998" green="0.92941176469999998" blue="0.92941176469999998" alpha="1" colorSpace="calibratedRGB"/>
                                             <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="xEV-Xu-eWB">
                                                 <size key="itemSize" width="396" height="305"/>
@@ -2177,7 +2178,7 @@ CEVudGVyIFBhc3N3b3JkA
                                             </collectionViewFlowLayout>
                                             <cells>
                                                 <collectionViewCell clipsSubviews="YES" contentMode="center" reuseIdentifier="headerCell" id="1zp-3t-bGH" customClass="UserFeedHeaderViewCell" customModule="babybox" customModuleProvider="target">
-                                                    <rect key="frame" x="103" y="0.0" width="396" height="305"/>
+                                                    <rect key="frame" x="108" y="0.0" width="396" height="305"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                                         <rect key="frame" x="0.0" y="0.0" width="396" height="305"/>
@@ -3867,8 +3868,9 @@ there is  a commom topic that parents can
         <image name="welcome_1" width="730" height="1100"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="eQ1-SO-xr2"/>
-        <segue reference="xlr-H1-EYH"/>
+        <segue reference="ac7-3L-0vi"/>
+        <segue reference="QRU-NP-Pbp"/>
+        <segue reference="NRf-cI-JqS"/>
         <segue reference="qBf-83-ilp"/>
         <segue reference="iep-h6-EQ3"/>
         <segue reference="vwB-o5-bTl"/>

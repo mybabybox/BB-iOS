@@ -18,26 +18,20 @@ class DistrictCache {
             // UI thread
             print(result.object)
             DistrictCache.districts = result.object as? [LocationVM]
-            let sharedPref: NSUserDefaults = NSUserDefaults.standardUserDefaults()
-            sharedPref.setObject(DistrictCache.districts, forKey: DistrictCache.DISTRICTS)
+            
         }
     }
     
-    public static func refresh() {
+    static func refresh() {
         ApiControlller.apiController.getDistricts()
     }
     
-    public static func getDistricts() -> [LocationVM] {
+    static func getDistricts() -> [LocationVM] {
         if (districts == nil || districts!.count == 0) {
-            let sharedPref: NSUserDefaults = NSUserDefaults.standardUserDefaults()
-            districts = sharedPref.arrayForKey(DISTRICTS) as? [LocationVM]
+            refresh()
         }
         
         return districts!;
     }
     
-    public static func clear() {
-        let sharedPref: NSUserDefaults = NSUserDefaults.standardUserDefaults()
-        sharedPref.setObject(nil, forKey: DISTRICTS)
-    }
 }
