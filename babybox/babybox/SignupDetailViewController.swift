@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftEventBus
 
 class SignupDetailViewController: UIViewController, UITextFieldDelegate, SSRadioButtonControllerDelegate {
 
@@ -24,8 +25,25 @@ class SignupDetailViewController: UIViewController, UITextFieldDelegate, SSRadio
     let locationDropDown = DropDown()
     let childDropDown = DropDown()
     
+    override func viewDidAppear(animated: Bool) {
+        print(DistrictCache.getDistricts())
+        print(DistrictCache.getDistricts().count)
+        if DistrictCache.getDistricts().count > 0 {
+            self.refreshLocations(DistrictCache.getDistricts())
+        } else {
+            DistrictCache.getDistricts()
+        }
+    }
+        
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        SwiftEventBus.onMainThread(self, name: "getDistrictSuccess") { result in
+            // UI thread
+            //DistrictCache.set = result.object as? [LocationVM]
+            self.refreshLocations((result.object as? [LocationVM])!)
+        }
+        
         self.navigationController?.navigationBar.hidden = false
         self.locationDropDown.selectionAction = { [unowned self] (index, item) in
             self.location.setTitle(item, forState: .Normal)
@@ -47,10 +65,6 @@ class SignupDetailViewController: UIViewController, UITextFieldDelegate, SSRadio
         radioButtonController!.shouldLetDeSelect = true
         
         self.locationDropDown.dataSource = []
-        
-        //for index in 0...DistrictCache.getDistricts().count {
-         //   self.locationDropDown.dataSource.append(DistrictCache.getDistricts()[0].displayName)
-        //}
         
         self.childDropDown.dataSource = [
             "0", "1", "2", "3", "4", "More than 5"
@@ -86,12 +100,32 @@ class SignupDetailViewController: UIViewController, UITextFieldDelegate, SSRadio
         // Pass the selected object to the new view controller.
     }
     */
+    @IBAction func saveSignUpInfo(sender: AnyObject) {
+        print(radioButtonController!.selectedButton())
+        print(self.displayName.text)
+        print(childrenList) //no. of childrens
+        print(location) //location
+        
+    }
+    
     @IBAction func ShoworDismiss(sender: AnyObject) {
         
         if self.locationDropDown.hidden {
             self.locationDropDown.show()
         } else {
             self.locationDropDown.hide()
+        }
+    }
+    
+    func refreshLocations(locations: [LocationVM]) {
+        if locations.count > 0 {
+            var districtLocations : [String] = []
+            print(locations.count)
+            for index in 0...locations.count {
+                //print(locations[index].displayName)
+            }
+            self.locationDropDown.dataSource = districtLocations
+            self.locationDropDown.reloadAllComponents()
         }
     }
 }

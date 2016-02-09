@@ -303,7 +303,7 @@ class ApiControlller {
     
     func getAllDistricts() { //filtering by high-low price
         let callEvent = ApiCallEvent()
-        callEvent.method = "get-all-district"
+        callEvent.method = "get-all-districts"
         callEvent.resultClass = "LocationModel"
         callEvent.successEventbusName = "getDistrictSuccess"
         callEvent.failedEventbusName = "getDistrictFailed"
@@ -371,26 +371,22 @@ class ApiControlller {
         callEvent.apiUrl=constants.kBaseServerURL + callEvent.method;
         
         self.makeApiCall(callEvent)
-        
-        
     }
     
-    func signup(){
+    /*func signup(){
         let callEvent=ApiCallEvent()
         callEvent.method="signup"
-        callEvent.resultClass="signingin"
+        callEvent.resultClass="String"
         callEvent.successEventbusName="getSignUpSucess"
         callEvent.failedEventbusName="getSignUpFailed"
         callEvent.apiUrl=constants.kBaseServerURL + callEvent.method;
         
         self.makeApiCall(callEvent)
         
-    }
+    }*/
     
     func signIn(firstNameText: String, lastNameText: String , emailText: String , passwordText: String , confirmPasswordText: String){
         
-        print("**************")
-        print("In api call for fname --\(firstNameText) ,lname--\(lastNameText) , email --\(emailText) , password --\(passwordText) and repeatpassword --\(confirmPasswordText)", terminator: "")
         var strData = [String]()
         strData.append("fname=\(firstNameText)")
         strData.append("lname=\(lastNameText)")
@@ -409,10 +405,7 @@ class ApiControlller {
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
         
         self.makePostApiCall(callEvent)
-
-        
-            }
-    
+    }
     
     func getMessages(id: Int, pageOffSet: Int) {
         print("id of msg is \(id)")
@@ -491,8 +484,16 @@ class ApiControlller {
         
     }
 
-    func getDistricts() {
-    }
+    /*func getDistricts() {
+        let callEvent = ApiCallEvent()
+        callEvent.method = "get-all-districts"
+        callEvent.resultClass = "LocationVM"
+        callEvent.successEventbusName = "getDistrictSuccess"
+        callEvent.failedEventbusName = "getDistrictFailed"
+        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method;
+        
+        self.makeApiCall(callEvent)
+    }*/
 
 
     func postMessage(id: String, message: String){
@@ -590,6 +591,9 @@ class ApiControlller {
     func handleResult(data: NSData, arg: ApiCallEvent) -> AnyObject {
         let responseString: String = NSString(data: data, encoding: NSUTF8StringEncoding) as! String
         NSLog("responseString %@", responseString)
+        if (responseString == "") {
+            return ""
+        }
         let result: AnyObject = self.parseStr(arg.resultClass, inputStr: responseString as String)
         return result
     }
@@ -614,9 +618,8 @@ class ApiControlller {
             case "MessageVM": result = Mapper<MessageVM>().map(inputStr)!
             case "MessageDetailVM": result = Mapper<MessageDetailVM>().map(inputStr)!
             case "SellVm": result = Mapper<SellVM>().map(inputStr)!
-            
+            case "LocationVM": result = Mapper<LocationVM>().map(inputStr)!
             case "String":
-                
                 result = inputStr
             default:
                 print("calling default object resolver", terminator: "")

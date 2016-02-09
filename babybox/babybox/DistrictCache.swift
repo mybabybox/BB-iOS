@@ -10,20 +10,20 @@ import Foundation
 import SwiftEventBus
 
 class DistrictCache {
+    
     private static let DISTRICTS = "districts"
     private static var districts: [LocationVM]?  = [];
     
     init() {
-        SwiftEventBus.onMainThread(self, name: "districtsSuccess") { result in
+        SwiftEventBus.onMainThread(self, name: "getDistrictSuccess") { result in
             // UI thread
             print(result.object)
             DistrictCache.districts = result.object as? [LocationVM]
-            
         }
     }
     
     static func refresh() {
-        ApiControlller.apiController.getDistricts()
+        ApiControlller.apiController.getAllDistricts()
     }
     
     static func getDistricts() -> [LocationVM] {
@@ -32,6 +32,10 @@ class DistrictCache {
         }
         
         return DistrictCache.districts!;
+    }
+    
+    static func setDistrict(locations: [LocationVM]) {
+        DistrictCache.districts = locations
     }
     
 }
