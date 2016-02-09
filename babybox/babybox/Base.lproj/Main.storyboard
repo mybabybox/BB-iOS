@@ -6,7 +6,6 @@
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
-        <capability name="Unknown constraint types" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--Login View Controller-->
@@ -3309,134 +3308,266 @@ CEVudGVyIFBhc3N3b3JkA
                         <viewControllerLayoutGuide type="top" id="OzL-c4-nlw"/>
                         <viewControllerLayoutGuide type="bottom" id="B9r-8N-RQl"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="hV2-Ti-H1G">
+                    <view key="view" contentMode="scaleToFill" id="hV2-Ti-H1G" userLabel="MainView">
                         <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Display Name:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tbj-js-3WX">
-                                <rect key="frame" x="9" y="135" width="110" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="SYP-4s-mgT">
-                                <rect key="frame" x="133" y="131" width="195" height="30"/>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zXG-7t-TFy">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LP9-Za-aDL">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                                        <subviews>
+                                            <textView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FkB-y4-cS3">
+                                                <rect key="frame" x="35" y="24" width="515" height="65"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="65" id="Y1K-mQ-zRM"/>
+                                                </constraints>
+                                                <string key="text">We hope that Hong Kong parents to have a platform one more choice,
+there is  a commom topic that parents can get together , share information and fun experience</string>
+                                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                            </textView>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i1R-Yz-5fu" userLabel="Area">
+                                                <rect key="frame" x="137" y="182" width="433" height="29"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <state key="normal" title="Area">
+                                                    <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="ShoworDismiss:" destination="7xL-U6-oa5" eventType="touchUpInside" id="gAR-RU-2Di"/>
+                                                </connections>
+                                            </button>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="A Baby" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MiF-04-iNF">
+                                                <rect key="frame" x="244" y="370" width="49" height="18"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="i1R-Yz-5fu" secondAttribute="trailing" constant="30" id="34J-A1-aWx"/>
+                                            <constraint firstAttribute="trailing" secondItem="FkB-y4-cS3" secondAttribute="trailing" constant="50" id="AOf-dq-rS3"/>
+                                            <constraint firstItem="FkB-y4-cS3" firstAttribute="leading" secondItem="LP9-Za-aDL" secondAttribute="leading" constant="35" id="Jmw-0z-Vb3"/>
+                                            <constraint firstItem="FkB-y4-cS3" firstAttribute="top" secondItem="LP9-Za-aDL" secondAttribute="top" constant="24" id="chc-c2-tId"/>
+                                        </constraints>
+                                    </view>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Display Name:" textAlignment="natural" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tbj-js-3WX">
+                                        <rect key="frame" x="27" y="101" width="99" height="18"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="WhB-sm-6Sd">
+                                        <rect key="frame" x="137" y="135" width="419" height="32"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="32" id="yKG-LU-Z9F"/>
+                                        </constraints>
+                                        <string key="text">Note: Other users will only see your display name, Please choose one of your favourite nickname. Before filling your name and e-mail never displayed to the outside.</string>
+                                        <color key="textColor" red="1" green="0.23137254900000001" blue="0.3294117647" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Living Area:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pRj-kq-j1L">
+                                        <rect key="frame" x="27" y="182" width="81" height="18"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You are :" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X4q-zh-EcM">
+                                        <rect key="frame" x="27" y="261" width="60" height="18"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="NOTE : babybox will be your information &amp; your area Available" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ffj-zr-llZ">
+                                        <rect key="frame" x="137" y="216" width="426" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="7b3-Ke-JPK"/>
+                                        </constraints>
+                                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Lbb-dL-aIh">
+                                        <rect key="frame" x="137" y="101" width="413" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="d0x-Nw-C7v">
+                                        <rect key="frame" x="50" y="407" width="500" height="48"/>
+                                        <color key="backgroundColor" red="1" green="0.86726590351461852" blue="0.086221959486371125" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="48" id="mWc-vh-1Ms"/>
+                                        </constraints>
+                                        <state key="normal" title="Complete! Immediately enter a baby box">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="onSubmit:" destination="7xL-U6-oa5" eventType="touchUpInside" id="c7F-wf-gRd"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CGt-UM-en2" customClass="SSRadioButton" customModule="babybox" customModuleProvider="target">
+                                        <rect key="frame" x="137" y="261" width="58" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="58" id="Ay6-VW-0fe"/>
+                                        </constraints>
+                                        <state key="normal" title="mom">
+                                            <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="circleColor">
+                                                <color key="value" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IMv-GT-up6" customClass="SSRadioButton" customModule="babybox" customModuleProvider="target">
+                                        <rect key="frame" x="203" y="261" width="60" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="60" id="TaC-IC-Alm"/>
+                                        </constraints>
+                                        <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        <state key="normal" title="father">
+                                            <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="circleColor">
+                                                <color key="value" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YdH-V7-Cyf" customClass="SSRadioButton" customModule="babybox" customModuleProvider="target">
+                                        <rect key="frame" x="137" y="295" width="111" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="111" id="C4F-nV-mgL"/>
+                                        </constraints>
+                                        <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        <state key="normal" title="mother-to-be">
+                                            <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="circleColor">
+                                                <color key="value" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e9a-pP-v5F" customClass="SSRadioButton" customModule="babybox" customModuleProvider="target">
+                                        <rect key="frame" x="258" y="295" width="72" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="72" id="uFi-Nb-hOi"/>
+                                        </constraints>
+                                        <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        <state key="normal" title="fathers">
+                                            <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="circleColor">
+                                                <color key="value" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="calibratedRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uUq-s5-hcq" customClass="SSRadioButton" customModule="babybox" customModuleProvider="target">
+                                        <rect key="frame" x="137" y="330" width="77" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="77" id="TQS-cv-Wt2"/>
+                                        </constraints>
+                                        <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        <state key="normal" title="No Baby">
+                                            <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="circleColor">
+                                                <color key="value" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You have" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wua-vu-IjD">
+                                        <rect key="frame" x="137" y="370" width="62" height="18"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EK8-2m-qfz">
+                                        <rect key="frame" x="209" y="364" width="35" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="35" id="quq-cV-s0Z"/>
+                                        </constraints>
+                                        <state key="normal" title="0">
+                                            <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="195" id="M0l-Sl-DBs"/>
+                                    <constraint firstItem="d0x-Nw-C7v" firstAttribute="top" secondItem="wua-vu-IjD" secondAttribute="bottom" constant="19" id="0Zt-4b-cGa"/>
+                                    <constraint firstItem="EK8-2m-qfz" firstAttribute="leading" secondItem="wua-vu-IjD" secondAttribute="trailing" constant="10" id="2m3-yq-30p"/>
+                                    <constraint firstItem="e9a-pP-v5F" firstAttribute="leading" secondItem="YdH-V7-Cyf" secondAttribute="trailing" constant="10" id="54c-2J-42m"/>
+                                    <constraint firstItem="LP9-Za-aDL" firstAttribute="top" secondItem="zXG-7t-TFy" secondAttribute="top" id="5Nj-Kx-XIw"/>
+                                    <constraint firstItem="Lbb-dL-aIh" firstAttribute="leading" secondItem="tbj-js-3WX" secondAttribute="trailing" constant="11" id="5ba-wg-0ZU"/>
+                                    <constraint firstAttribute="trailing" secondItem="WhB-sm-6Sd" secondAttribute="trailing" constant="44" id="660-ah-bLO"/>
+                                    <constraint firstItem="WhB-sm-6Sd" firstAttribute="leading" secondItem="Lbb-dL-aIh" secondAttribute="leading" id="9YA-pX-K16"/>
+                                    <constraint firstItem="YdH-V7-Cyf" firstAttribute="top" secondItem="IMv-GT-up6" secondAttribute="bottom" constant="4" id="AqS-de-94e"/>
+                                    <constraint firstItem="tbj-js-3WX" firstAttribute="leading" secondItem="zXG-7t-TFy" secondAttribute="leading" constant="27" id="D9Z-tY-dRh"/>
+                                    <constraint firstItem="d0x-Nw-C7v" firstAttribute="leading" secondItem="zXG-7t-TFy" secondAttribute="leading" constant="50" id="DrP-JT-phi"/>
+                                    <constraint firstItem="uUq-s5-hcq" firstAttribute="leading" secondItem="wua-vu-IjD" secondAttribute="leading" id="GwN-i8-r5i"/>
+                                    <constraint firstItem="Lbb-dL-aIh" firstAttribute="top" secondItem="FkB-y4-cS3" secondAttribute="bottom" constant="12" id="HqD-9h-5zx"/>
+                                    <constraint firstItem="pRj-kq-j1L" firstAttribute="leading" secondItem="tbj-js-3WX" secondAttribute="leading" id="KES-R8-nla"/>
+                                    <constraint firstItem="X4q-zh-EcM" firstAttribute="top" secondItem="ffj-zr-llZ" secondAttribute="bottom" constant="15" id="Kaf-Wl-6ka"/>
+                                    <constraint firstItem="uUq-s5-hcq" firstAttribute="top" secondItem="YdH-V7-Cyf" secondAttribute="bottom" constant="5" id="L6P-x5-Jql"/>
+                                    <constraint firstItem="YdH-V7-Cyf" firstAttribute="leading" secondItem="uUq-s5-hcq" secondAttribute="leading" id="MVq-xu-85r"/>
+                                    <constraint firstItem="wua-vu-IjD" firstAttribute="top" secondItem="uUq-s5-hcq" secondAttribute="bottom" constant="10" id="Mf2-oK-vui"/>
+                                    <constraint firstAttribute="trailing" secondItem="d0x-Nw-C7v" secondAttribute="trailing" constant="50" id="Npp-20-RFr"/>
+                                    <constraint firstItem="WhB-sm-6Sd" firstAttribute="top" secondItem="Lbb-dL-aIh" secondAttribute="bottom" constant="4" id="Oas-tq-leq"/>
+                                    <constraint firstItem="LP9-Za-aDL" firstAttribute="leading" secondItem="zXG-7t-TFy" secondAttribute="leading" id="Pd0-pH-VWG"/>
+                                    <constraint firstAttribute="trailing" secondItem="LP9-Za-aDL" secondAttribute="trailing" id="Q8O-JG-WVQ"/>
+                                    <constraint firstItem="MiF-04-iNF" firstAttribute="centerY" secondItem="EK8-2m-qfz" secondAttribute="centerY" id="Vuj-Xz-fdt"/>
+                                    <constraint firstItem="pRj-kq-j1L" firstAttribute="top" secondItem="WhB-sm-6Sd" secondAttribute="bottom" constant="15" id="XhQ-4d-hNT"/>
+                                    <constraint firstItem="YdH-V7-Cyf" firstAttribute="leading" secondItem="CGt-UM-en2" secondAttribute="leading" id="YlD-r6-CTt"/>
+                                    <constraint firstItem="i1R-Yz-5fu" firstAttribute="leading" secondItem="WhB-sm-6Sd" secondAttribute="leading" id="ax0-F7-hz3"/>
+                                    <constraint firstItem="IMv-GT-up6" firstAttribute="top" secondItem="ffj-zr-llZ" secondAttribute="bottom" constant="15" id="d0C-GJ-ge9"/>
+                                    <constraint firstItem="CGt-UM-en2" firstAttribute="top" secondItem="X4q-zh-EcM" secondAttribute="top" id="elp-gm-5uu"/>
+                                    <constraint firstItem="LP9-Za-aDL" firstAttribute="height" secondItem="zXG-7t-TFy" secondAttribute="height" id="hIZ-hQ-0Ur"/>
+                                    <constraint firstItem="MiF-04-iNF" firstAttribute="leading" secondItem="EK8-2m-qfz" secondAttribute="trailing" id="nTn-Jc-iwX"/>
+                                    <constraint firstItem="ffj-zr-llZ" firstAttribute="leading" secondItem="WhB-sm-6Sd" secondAttribute="leading" id="oG4-oR-5DS"/>
+                                    <constraint firstItem="X4q-zh-EcM" firstAttribute="leading" secondItem="pRj-kq-j1L" secondAttribute="leading" id="oPd-zP-8gt"/>
+                                    <constraint firstItem="ffj-zr-llZ" firstAttribute="top" secondItem="i1R-Yz-5fu" secondAttribute="bottom" constant="5" id="qa5-tL-rgm"/>
+                                    <constraint firstAttribute="trailing" secondItem="Lbb-dL-aIh" secondAttribute="trailing" constant="50" id="rtr-zD-4je"/>
+                                    <constraint firstAttribute="bottom" secondItem="LP9-Za-aDL" secondAttribute="bottom" id="sCD-eu-nVB"/>
+                                    <constraint firstItem="IMv-GT-up6" firstAttribute="leading" secondItem="CGt-UM-en2" secondAttribute="trailing" constant="8" symbolic="YES" id="tVS-La-uKI"/>
+                                    <constraint firstItem="LP9-Za-aDL" firstAttribute="width" secondItem="zXG-7t-TFy" secondAttribute="width" id="tyL-NF-khw"/>
+                                    <constraint firstItem="YdH-V7-Cyf" firstAttribute="baseline" secondItem="e9a-pP-v5F" secondAttribute="baseline" id="vMb-Fj-KGP"/>
+                                    <constraint firstItem="CGt-UM-en2" firstAttribute="leading" secondItem="ffj-zr-llZ" secondAttribute="leading" id="x5h-wE-kAs"/>
+                                    <constraint firstItem="i1R-Yz-5fu" firstAttribute="top" secondItem="WhB-sm-6Sd" secondAttribute="bottom" constant="15" id="yOV-MQ-mAn"/>
+                                    <constraint firstAttribute="trailing" secondItem="ffj-zr-llZ" secondAttribute="trailing" constant="37" id="ym4-zX-Vh3"/>
+                                    <constraint firstItem="EK8-2m-qfz" firstAttribute="centerY" secondItem="wua-vu-IjD" secondAttribute="centerY" id="zJB-bl-Dna"/>
+                                    <constraint firstItem="tbj-js-3WX" firstAttribute="top" secondItem="FkB-y4-cS3" secondAttribute="bottom" constant="12" id="zcN-YO-saY"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="WhB-sm-6Sd">
-                                <rect key="frame" x="41" y="169" width="405" height="81"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="81" id="PHO-XB-XTe"/>
-                                    <constraint firstAttribute="width" constant="405" id="Xai-Qg-mEq"/>
-                                </constraints>
-                                <string key="text">Note: Other users will only see your display name
- , Please choose one of your favourite nickname. 
-Before filling your name
- and e-mail never displayed to the outside.</string>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Living Area:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pRj-kq-j1L">
-                                <rect key="frame" x="18" y="299" width="90" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="You are :" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X4q-zh-EcM">
-                                <rect key="frame" x="18" y="418" width="78" height="21"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="78" id="1bZ-qJ-x7d"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" text="NOTE : babybox will be your information &amp; your area Available" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ffj-zr-llZ">
-                                <rect key="frame" x="41" y="337" width="312" height="51"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="51" id="7b3-Ke-JPK"/>
-                                    <constraint firstAttribute="width" constant="312" id="skx-aa-pAh"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d0x-Nw-C7v">
-                                <rect key="frame" x="86" y="531" width="280" height="30"/>
-                                <color key="backgroundColor" red="1" green="0.86726590351461852" blue="0.086221959486371125" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="280" id="NZi-VG-Yee"/>
-                                </constraints>
-                                <state key="normal" title="Complete ! Immediately enter a baby box">
-                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z1i-AO-Ugk">
-                                <rect key="frame" x="182" y="263" width="12" height="15"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="15" id="N9C-Tp-lDS"/>
-                                    <constraint firstAttribute="width" constant="12" id="Z5X-Xj-Uxw"/>
-                                </constraints>
-                                <state key="normal" title="Button"/>
-                            </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Lbb-dL-aIh">
-                                <rect key="frame" x="133" y="295" width="195" height="30"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="9gl-W1-HuM">
-                                <rect key="frame" x="50" y="28" width="500" height="81"/>
-                                <string key="text">We hope that Hong Kong parents to have a 
-platform one more choice,
-there is  a commom topic that parents can
- get together , share information and fun experience</string>
-                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Lbb-dL-aIh1">
-                                <rect key="frame" x="0.0" y="0.0" width="25" height="30"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailingMargin" secondItem="9gl-W1-HuM" secondAttribute="trailing" constant="30" id="2zq-d9-I5h"/>
-                            <constraint firstItem="SYP-4s-mgT" firstAttribute="leading" secondItem="hV2-Ti-H1G" secondAttribute="leading" constant="133" id="3j4-dE-ZqE"/>
-                            <constraint firstItem="d0x-Nw-C7v" firstAttribute="top" secondItem="X4q-zh-EcM" secondAttribute="bottom" constant="92" id="4h8-ub-ice"/>
-                            <constraint firstItem="WhB-sm-6Sd" firstAttribute="top" secondItem="SYP-4s-mgT" secondAttribute="bottom" constant="8" symbolic="YES" id="55I-Vl-XpS"/>
-                            <constraint firstItem="9gl-W1-HuM" firstAttribute="leading" secondItem="hV2-Ti-H1G" secondAttribute="leadingMargin" constant="30" id="598-Ev-23f"/>
-                            <constraint firstItem="WhB-sm-6Sd" firstAttribute="top" secondItem="tbj-js-3WX" secondAttribute="bottom" constant="13" id="5Ri-Lr-kNq"/>
-                            <constraint firstItem="Lbb-dL-aIh" firstAttribute="top" secondItem="z1i-AO-Ugk" secondAttribute="bottom" constant="17" id="7Yr-r1-GV8"/>
-                            <constraint firstItem="X4q-zh-EcM" firstAttribute="leading" secondItem="pRj-kq-j1L" secondAttribute="leading" id="BZM-oR-bfg"/>
-                            <constraint firstItem="Lbb-dL-aIh" firstAttribute="leading" secondItem="SYP-4s-mgT" secondAttribute="leading" id="H7u-sR-yX1"/>
-                            <constraint firstItem="9gl-W1-HuM" firstAttribute="top" secondItem="OzL-c4-nlw" secondAttribute="bottom" constant="-36" id="Kh2-Qh-1kf"/>
-                            <constraint firstItem="X4q-zh-EcM" firstAttribute="top" secondItem="ffj-zr-llZ" secondAttribute="bottom" constant="30" id="M2V-MA-2ac"/>
-                            <constraint firstItem="z1i-AO-Ugk" firstAttribute="top" secondItem="WhB-sm-6Sd" secondAttribute="bottom" constant="13" id="MWe-Ol-82Z"/>
-                            <constraint firstItem="SYP-4s-mgT" firstAttribute="top" secondItem="9gl-W1-HuM" secondAttribute="bottom" constant="22" id="RQR-5A-63z"/>
-                            <constraint firstItem="WhB-sm-6Sd" firstAttribute="leading" secondItem="ffj-zr-llZ" secondAttribute="leading" id="Sr8-4y-9Km"/>
-                            <constraint firstItem="ffj-zr-llZ" firstAttribute="top" secondItem="Lbb-dL-aIh" secondAttribute="bottom" constant="12" id="UYH-AP-Lf2"/>
-                            <constraint firstAttribute="leading" secondItem="hV2-Ti-H1G" secondAttribute="leadingMargin" constant="30" id="d4V-1U-f5w"/>
-                            <constraint firstAttribute="bottom" secondItem="ffj-zr-llZ" secondAttribute="bottom" constant="212" id="hBr-Gf-e5w"/>
-                            <constraint firstItem="SYP-4s-mgT" firstAttribute="leading" secondItem="tbj-js-3WX" secondAttribute="trailing" constant="14" id="hlw-oP-tzh"/>
-                            <constraint firstItem="d0x-Nw-C7v" firstAttribute="leading" secondItem="hV2-Ti-H1G" secondAttribute="leadingMargin" constant="66" id="oze-ve-mVV"/>
-                            <constraint firstItem="pRj-kq-j1L" firstAttribute="centerY" secondItem="Lbb-dL-aIh" secondAttribute="centerY" id="rhR-PV-mm1"/>
-                            <constraint firstItem="tbj-js-3WX" firstAttribute="top" secondItem="9gl-W1-HuM" secondAttribute="bottom" constant="26" id="s0v-3k-KH4"/>
-                            <constraint firstItem="Lbb-dL-aIh" firstAttribute="trailing" secondItem="SYP-4s-mgT" secondAttribute="trailing" id="uK3-ve-XP6"/>
-                            <constraint firstItem="z1i-AO-Ugk" firstAttribute="leading" secondItem="hV2-Ti-H1G" secondAttribute="leading" constant="182" id="vKy-xJ-e3w"/>
-                            <constraint firstItem="WhB-sm-6Sd" firstAttribute="leading" secondItem="hV2-Ti-H1G" secondAttribute="leadingMargin" constant="21" id="vcw-84-hsM"/>
-                            <constraint firstItem="Lbb-dL-aIh" firstAttribute="leading" secondItem="pRj-kq-j1L" secondAttribute="trailing" constant="25" id="zY7-Yn-dGY"/>
+                            <constraint firstAttribute="bottom" secondItem="zXG-7t-TFy" secondAttribute="bottom" id="JTW-48-VBl"/>
+                            <constraint firstAttribute="trailing" secondItem="zXG-7t-TFy" secondAttribute="trailing" id="Lgn-7T-soH"/>
+                            <constraint firstItem="zXG-7t-TFy" firstAttribute="top" secondItem="hV2-Ti-H1G" secondAttribute="top" id="ZEX-co-EBn"/>
+                            <constraint firstItem="zXG-7t-TFy" firstAttribute="leading" secondItem="hV2-Ti-H1G" secondAttribute="leading" id="n3q-Mk-L9F"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="d4V-1U-f5w"/>
-                            </mask>
-                        </variation>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
+                    <connections>
+                        <outlet property="children" destination="zJB-bl-Dna" id="9NY-GT-3IW"/>
+                        <outlet property="childrenList" destination="EK8-2m-qfz" id="dmP-Ir-oba"/>
+                        <outlet property="displayName" destination="Lbb-dL-aIh" id="LI1-7p-pJ9"/>
+                        <outlet property="father" destination="IMv-GT-up6" id="axc-c8-wg3"/>
+                        <outlet property="fathers" destination="e9a-pP-v5F" id="1Ud-dv-D5t"/>
+                        <outlet property="headingTxt" destination="FkB-y4-cS3" id="ooJ-Nf-8V2"/>
+                        <outlet property="location" destination="i1R-Yz-5fu" id="5Yi-RI-ZO6"/>
+                        <outlet property="mom" destination="CGt-UM-en2" id="ptg-qV-g8u"/>
+                        <outlet property="motherToBe" destination="YdH-V7-Cyf" id="mp7-Hw-Boh"/>
+                        <outlet property="noBaby" destination="uUq-s5-hcq" id="NiB-sk-2Bv"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ScY-rO-vRh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
