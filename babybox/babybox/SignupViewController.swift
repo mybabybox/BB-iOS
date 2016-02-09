@@ -8,8 +8,10 @@
 
 import UIKit
 import SwiftEventBus
+import FBSDKCoreKit
+import FBSDKLoginKit
 
-class SignupViewController: UIViewController {
+class SignupViewController: FbLoginViewController {
     
     
     @IBOutlet weak var firstNametxtWidth: NSLayoutConstraint!
@@ -18,7 +20,8 @@ class SignupViewController: UIViewController {
     @IBOutlet weak var licenseBtn: UIButton!
     var isLicenseDisplay = true
     var isPolicyDisplay = true
-     var categories : [CategoryModel] = []
+    var categories : [CategoryModel] = []
+    var isValidForm: Bool = false
     
     @IBOutlet weak var firstNameText: UITextField!
     
@@ -33,13 +36,11 @@ class SignupViewController: UIViewController {
    
     @IBOutlet var signUp: UIButton!
     override func viewDidAppear(animated: Bool) {
-        self.navigationController?.navigationBar.hidden = false
-        
+        //self.navigationController?.navigationBar.hidden = true
         
     }
    
     override func viewDidLoad() {
-        self.navigationController?.navigationBar.hidden = false
         self.licenseBtn.layer.borderWidth = 1.0
         self.licenseBtn.layer.borderColor = UIColor.darkGrayColor().CGColor
         
@@ -47,7 +48,6 @@ class SignupViewController: UIViewController {
         self.policyBtn.layer.borderColor = UIColor.darkGrayColor().CGColor
         
         
-        //let color = BabyboxUtils.babyBoxUtils.UIColorFromRGB(0xFF76A4).CGColor
         self.firstNameText.backgroundColor = UIColor.clearColor()
         self.lastNameText.backgroundColor = UIColor.clearColor()
         self.passwordText.backgroundColor = UIColor.clearColor()
@@ -72,21 +72,25 @@ class SignupViewController: UIViewController {
     }
     
     override func viewDidDisappear(animated: Bool) {
-        self.navigationController?.navigationBar.hidden = true
+        //self.navigationController?.navigationBar.hidden = true
     }
+    
     @IBAction func onSignup(sender: AnyObject) {
         if(validateSignup()){
+            ApiControlller.apiController.signIn(firstNameText.text!, lastNameText: lastNameText.text!,
+                emailText: emailText.text!, passwordText: passwordText.text!, confirmPasswordText: confirmPasswordText.text!);
+            self.isValidForm = true;
+            //self.performSegueWithIdentifier("signinInfo", sender: nil)
+            let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("SignupDetailViewController") as! SignupDetailViewController
+            self.navigationController?.pushViewController(vController, animated: true)
             
-       		ApiControlller.apiController.signIn(firstNameText.text!, lastNameText: lastNameText.text!, emailText: emailText.text!, passwordText: passwordText.text!, confirmPasswordText: confirmPasswordText.text!);       
-	}
+        }
     }
     
     func handleGetCateogriesSuccess(categories: [CategoryModel]) {
         self.categories = categories;
        
-        
     }
-
     
     func validateSignup() -> Bool {
         var isValidated = true
@@ -141,5 +145,28 @@ class SignupViewController: UIViewController {
         }
     }
     
+    //MARK Segue handling methods.
+    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
+        return self.isValidForm
+    }
+
     
+    @IBAction func onSignInByfb(sender: AnyObject) {
+        /*print("onSignInByfb")
+        var fbLoginManager = FBSDKLoginManager()
+        fbLoginManager.logInWithReadPermissions(["public_profile"], fromViewController: self) {
+            (result: FBSDKLoginManagerLoginResult!, error: NSError!) -> Void in
+            
+            if (error != nil) {
+                NSLog("User Logged In.")
+                print(result)
+            } else if (result.isCancelled) {
+                   NSLog("User Cancelled")
+            } else {
+                NSLog("User Not Logged In.")
+            }
+        }*/
+        self.loginWithFacebook()
+    }
+
 }

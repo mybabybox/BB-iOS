@@ -11,37 +11,42 @@ import SwiftEventBus
 
 class SignupDetailViewController: UIViewController, UITextFieldDelegate, SSRadioButtonControllerDelegate {
 
-    @IBOutlet weak var headingTxt: UITextView!
-    @IBOutlet weak var noBaby: UIButton!
-    @IBOutlet weak var fathers: UIButton!
-    @IBOutlet weak var motherToBe: UIButton!
-    @IBOutlet weak var children: NSLayoutConstraint!
-    @IBOutlet weak var father: UIButton!
-    @IBOutlet weak var mom: UIButton!
+    @IBOutlet weak var submitBtn: UIButton!
     @IBOutlet weak var displayName: UITextField!
     @IBOutlet weak var location: UIButton!
-    @IBOutlet weak var childrenList: UIButton!
-    var radioButtonController: SSRadioButtonsController?
     let locationDropDown = DropDown()
-    let childDropDown = DropDown()
+    var locations: [LocationModel] = []
     
     override func viewDidAppear(animated: Bool) {
-        print(DistrictCache.getDistricts())
-        print(DistrictCache.getDistricts().count)
+        
+        self.navigationController?.navigationBar.hidden = true
         if DistrictCache.getDistricts().count > 0 {
-            self.refreshLocations(DistrictCache.getDistricts())
+            locations = DistrictCache.getDistricts()
+            self.refreshLocations()
         } else {
-            DistrictCache.getDistricts()
+            DistrictCache.refresh()
         }
     }
         
     override func viewDidLoad() {
         super.viewDidLoad()
+        //ImageUtil.displayCornerView(self.submitBtn)
+        self.navigationController?.navigationBar.hidden = true
+        
+        SwiftEventBus.onMainThread(self, name: "saveSignInfoSuccess") { result in
+            // UI thread
+            self.view.makeToast(message: "User Registered successfully!")
+        }
+        
+        SwiftEventBus.onMainThread(self, name: "saveSignInfoFailed") { result in
+            self.view.makeToast(message: (result.object as? String)!)
+        }
         
         SwiftEventBus.onMainThread(self, name: "getDistrictSuccess") { result in
             // UI thread
             //DistrictCache.set = result.object as? [LocationVM]
-            self.refreshLocations((result.object as? [LocationVM])!)
+            self.locations = (result.object as? [LocationModel])!
+            self.refreshLocations()
         }
         
         self.navigationController?.navigationBar.hidden = false
@@ -51,29 +56,6 @@ class SignupDetailViewController: UIViewController, UITextFieldDelegate, SSRadio
         self.locationDropDown.anchorView = self.location
         self.locationDropDown.bottomOffset = CGPoint(x: 0, y:self.location.bounds.height)
         self.locationDropDown.direction = .Top
-        
-        self.childDropDown.selectionAction = { [unowned self] (index, item) in
-            self.childrenList.setTitle(item, forState: .Normal)
-        }
-        self.childDropDown.anchorView = self.childrenList
-        self.childDropDown.bottomOffset = CGPoint(x: 0, y:self.childrenList.bounds.height)
-        self.childDropDown.direction = .Top
-        
-        // Do any additional setup after loading the view.
-        radioButtonController = SSRadioButtonsController(buttons: mom, father, motherToBe, fathers, noBaby)
-        radioButtonController!.delegate = self
-        radioButtonController!.shouldLetDeSelect = true
-        
-        self.locationDropDown.dataSource = []
-        
-        self.childDropDown.dataSource = [
-            "0", "1", "2", "3", "4", "More than 5"
-        ]
-        //self.location.layer.borderColor = UIColor.darkGrayColor().CGColor
-        //self.location.layer.borderWidth = 1.0
-        
-        //self.childrenList.layer.borderColor = UIColor.darkGrayColor().CGColor
-        //self.childrenList.layer.borderWidth = 1.0
         
     }
 
@@ -89,8 +71,6 @@ class SignupDetailViewController: UIViewController, UITextFieldDelegate, SSRadio
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func onSubmit(sender: AnyObject) {
-    }
     /*
     // MARK: - Navigation
 
@@ -101,10 +81,20 @@ class SignupDetailViewController: UIViewController, UITextFieldDelegate, SSRadio
     }
     */
     @IBAction func saveSignUpInfo(sender: AnyObject) {
-        print(radioButtonController!.selectedButton())
+        
         print(self.displayName.text)
-        print(childrenList) //no. of childrens
-        print(location) //location
+        var locationId = 0.0
+        for (index, element) in locations.enumerate() {
+            if (self.location.titleLabel?.text == element.displayName) {
+                locationId = element.id
+            }
+        }
+        
+        if (isValid()) {
+            ApiControlller.apiController.saveUserSignUpInfo(self.displayName.text!, locationId: Int(locationId))
+        } else {
+            print("error")
+        }
         
     }
     
@@ -117,15 +107,28 @@ class SignupDetailViewController: UIViewController, UITextFieldDelegate, SSRadio
         }
     }
     
-    func refreshLocations(locations: [LocationVM]) {
+    func refreshLocations() {
         if locations.count > 0 {
             var districtLocations : [String] = []
-            print(locations.count)
-            for index in 0...locations.count {
-                //print(locations[index].displayName)
+            for (index, element) in locations.enumerate() {
+                print(element.displayName)
+                districtLocations.append(element.displayName)
             }
             self.locationDropDown.dataSource = districtLocations
             self.locationDropDown.reloadAllComponents()
         }
+    }
+    
+    func isValid() -> Bool {
+        var isValidated = true
+        if (self.displayName.text == nil || self.displayName.text == "") {
+            self.view.makeToast(message: "Please enter displayname", duration: 1.5, position: "bottom")
+            isValidated = false
+        } else if (self.location.titleLabel?.text == nil || self.location.titleLabel?.text == "Area") {
+            self.view.makeToast(message: "Please select location", duration: 1.5, position: "bottom")
+            isValidated = false
+        }
+        return isValidated
+        
     }
 }

@@ -68,6 +68,14 @@ class ImageUtil {
         view.layer.masksToBounds = true
     }*/
     
+    func displayCornerView(view: UIButton) {
+        let color = UIColorFromRGB(0xFF76A4).CGColor
+        view.layer.cornerRadius = 5.0
+        view.layer.masksToBounds = true
+        view.layer.borderWidth = 1
+        view.layer.borderColor = color
+    }
+    
     func displayCornerView(view: UIView) {
         let color = UIColorFromRGB(0xFF76A4).CGColor
         view.layer.cornerRadius = 5.0

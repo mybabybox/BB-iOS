@@ -312,16 +312,25 @@ class ApiControlller {
     }
     
     //User Security APIs
-    func saveUserSignUpInfo(userInfo: UserInfoModel) { //filtering by high-low price
+    func saveUserSignUpInfo(displayName: String, locationId: Int) { //filtering by high-low price
+        
+        
+        var strData = [String]()
+        strData.append("parent_displayname=\(displayName)")
+        strData.append("parent_location=\(locationId)")
+        let parameter = self.makeBodyString(strData)
+        
         let callEvent = ApiCallEvent()
         callEvent.method = "saveSignupInfo"
         callEvent.resultClass = "String"
+        callEvent.body = parameter
         callEvent.successEventbusName = "saveSignInfoSuccess"
         callEvent.failedEventbusName = "saveSignInfoFailed"
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
         //TODO - populate the post data//callEvent.body = userInfo
         
         self.makePostApiCall(callEvent)
+        
     }
     
     func uploadUserProfileImg(profileImg: UIImage) {
@@ -618,7 +627,7 @@ class ApiControlller {
             case "MessageVM": result = Mapper<MessageVM>().map(inputStr)!
             case "MessageDetailVM": result = Mapper<MessageDetailVM>().map(inputStr)!
             case "SellVm": result = Mapper<SellVM>().map(inputStr)!
-            case "LocationVM": result = Mapper<LocationVM>().map(inputStr)!
+            //case "LocationVM": result = Mapper<LocationVM>().map(inputStr)!
             case "String":
                 result = inputStr
             default:
