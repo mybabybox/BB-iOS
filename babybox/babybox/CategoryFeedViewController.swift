@@ -34,7 +34,7 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
     var txtPinkColor = ImageUtil.imageUtil.UIColorFromRGB(0xFF76A4)
     
     override func viewDidAppear(animated: Bool) {
-        self.tabBarController!.tabBar.hidden = false
+        self.tabBarController!.tabBar.hidden = true
     }
     
     override func viewDidLoad() {

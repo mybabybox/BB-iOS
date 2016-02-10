@@ -3,6 +3,7 @@ import UIKit
 
 class DetailsTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var imageHt: NSLayoutConstraint!
     @IBOutlet weak var productDesc: UILabel!
     @IBOutlet weak var productTitle: UILabel!
     @IBOutlet weak var productImage: UIImageView!

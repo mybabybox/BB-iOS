@@ -30,7 +30,7 @@ class SignupDetailViewController: UIViewController, UITextFieldDelegate, SSRadio
         
     override func viewDidLoad() {
         super.viewDidLoad()
-        //ImageUtil.displayCornerView(self.submitBtn)
+        
         self.navigationController?.navigationBar.hidden = true
         
         SwiftEventBus.onMainThread(self, name: "saveSignInfoSuccess") { result in

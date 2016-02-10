@@ -59,9 +59,9 @@ class FeedProductViewController: UIViewController {
         SwiftEventBus.onMainThread(self, name: "conversationsFailed") { result in
         }
         
-        self.detailTableView.estimatedRowHeight = 300.0
-        self.detailTableView.rowHeight = UITableViewAutomaticDimension
-        self.detailTableView.reloadData()
+        //self.detailTableView.estimatedRowHeight = 300.0
+        //self.detailTableView.rowHeight = UITableViewAutomaticDimension
+        //self.detailTableView.reloadData()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -187,14 +187,8 @@ class FeedProductViewController: UIViewController {
             switch indexPath.section {
             case 0:
                 if (self.productModel.hasImage) {
-                    /*let imagePath =  constants.imagesBaseURL + "/image/get-post-image-by-id/" + String(self.productModel.images[0])
-                    let imageUrl  = NSURL(string: imagePath);
-                    let imageData = NSData(contentsOfURL: imageUrl!)
-                    
-                    if (imageData != nil) {
-                        cell.productImage.image = UIImage(data: imageData!)
-                    }*/
                     ImageUtil.displayPostImage(self.productModel.images[0], imageView: cell.productImage)
+                    cell.imageHt.constant = ViewUtil.getScreenWidth(self.view) //calculate the screen width...
                 }
                 
             case 1:
@@ -362,6 +356,7 @@ class FeedProductViewController: UIViewController {
         self.chatNowBtn.layer.borderWidth = 1.0
         
     }
+    
     
     @IBAction func onClickLikeOrUnlikeButton(sender: AnyObject) {
         

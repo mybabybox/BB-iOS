@@ -2471,6 +2471,9 @@ CEVudGVyIFBhc3N3b3JkA
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Whv-l5-2Um">
                                                     <rect key="frame" x="0.0" y="0.0" width="600" height="62"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="62" id="ZwF-IP-EDB"/>
+                                                    </constraints>
                                                 </imageView>
                                             </subviews>
                                             <constraints>
@@ -2481,6 +2484,7 @@ CEVudGVyIFBhc3N3b3JkA
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="imageHt" destination="ZwF-IP-EDB" id="1Ab-zb-EcX"/>
                                             <outlet property="productImage" destination="Whv-l5-2Um" id="xd9-lP-Q0f"/>
                                         </connections>
                                     </tableViewCell>
@@ -2869,16 +2873,15 @@ CEVudGVyIFBhc3N3b3JkA
                                                 <constraint firstAttribute="trailing" secondItem="2D6-o7-q7c" secondAttribute="trailing" constant="10" id="0kj-vx-UWN"/>
                                                 <constraint firstAttribute="trailing" secondItem="wTh-IX-7vG" secondAttribute="trailing" id="AbG-Fu-1mB"/>
                                                 <constraint firstItem="2D6-o7-q7c" firstAttribute="leading" secondItem="Uge-mn-IFa" secondAttribute="leading" constant="10" id="HJg-Xw-6PU"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="2D6-o7-q7c" secondAttribute="bottom" constant="4" id="Itd-vk-vdf"/>
-                                                <constraint firstAttribute="bottom" secondItem="wTh-IX-7vG" secondAttribute="bottom" id="OUg-s2-VVg"/>
-                                                <constraint firstItem="2D6-o7-q7c" firstAttribute="top" secondItem="Uge-mn-IFa" secondAttribute="topMargin" constant="-17" id="RQR-ji-Otl"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="2D6-o7-q7c" secondAttribute="bottom" constant="7" id="Itd-vk-vdf"/>
+                                                <constraint firstAttribute="bottom" secondItem="wTh-IX-7vG" secondAttribute="bottom" constant="3" id="OUg-s2-VVg"/>
+                                                <constraint firstItem="2D6-o7-q7c" firstAttribute="top" secondItem="Uge-mn-IFa" secondAttribute="topMargin" constant="-18" id="RQR-ji-Otl"/>
                                                 <constraint firstItem="ZxP-an-QyH" firstAttribute="top" secondItem="Uge-mn-IFa" secondAttribute="top" constant="1" id="UlB-D4-dFM"/>
-                                                <constraint firstAttribute="bottom" secondItem="l9q-W5-jbB" secondAttribute="bottom" constant="18" id="YVO-LF-dpb"/>
                                                 <constraint firstItem="l9q-W5-jbB" firstAttribute="top" secondItem="Uge-mn-IFa" secondAttribute="top" constant="4" id="am3-CZ-o4S"/>
-                                                <constraint firstItem="wTh-IX-7vG" firstAttribute="top" secondItem="Uge-mn-IFa" secondAttribute="top" constant="-18" id="cSz-cU-Vap"/>
+                                                <constraint firstItem="wTh-IX-7vG" firstAttribute="top" secondItem="Uge-mn-IFa" secondAttribute="top" constant="-19" id="cSz-cU-Vap"/>
                                                 <constraint firstItem="l9q-W5-jbB" firstAttribute="leading" secondItem="ZxP-an-QyH" secondAttribute="trailing" constant="15" id="g6D-lg-TuN"/>
                                                 <constraint firstItem="ZxP-an-QyH" firstAttribute="leading" secondItem="Uge-mn-IFa" secondAttribute="leading" constant="20" id="h2H-kL-xCA"/>
-                                                <constraint firstAttribute="bottom" secondItem="ZxP-an-QyH" secondAttribute="bottom" constant="17" id="oaQ-bM-efu"/>
+                                                <constraint firstAttribute="bottom" secondItem="ZxP-an-QyH" secondAttribute="bottom" constant="20" id="oaQ-bM-efu"/>
                                                 <constraint firstItem="wTh-IX-7vG" firstAttribute="leading" secondItem="Uge-mn-IFa" secondAttribute="leading" id="x1f-ZT-J5k"/>
                                                 <constraint firstAttribute="trailing" secondItem="l9q-W5-jbB" secondAttribute="trailing" constant="25" id="z1F-Hi-vgD"/>
                                             </constraints>
@@ -3337,7 +3340,7 @@ CEVudGVyIFBhc3N3b3JkA
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Babybox" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vLr-Lx-Buc">
                                                 <rect key="frame" x="267" y="27" width="67" height="21"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="babybox" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qPm-JV-97W">

@@ -41,4 +41,10 @@ class ViewUtil {
         }
     }
     
+    
+    static func getScreenWidth(view: UIView) -> CGFloat {
+        let screenWidth:CGFloat = view.bounds.width
+        return screenWidth
+    }
+    
 }
