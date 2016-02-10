@@ -5,7 +5,7 @@
 //  Created by Mac on 06/11/15.
 //  Copyright © 2015 MIndNerves. All rights reserved.
 //
-
+ 
 import Foundation
 import ObjectMapper
 import Alamofire
@@ -493,16 +493,16 @@ class ApiControlller {
         
     }
 
-    /*func getDistricts() {
+    func loginWithFacebook() {
         let callEvent = ApiCallEvent()
-        callEvent.method = "get-all-districts"
-        callEvent.resultClass = "LocationVM"
-        callEvent.successEventbusName = "getDistrictSuccess"
-        callEvent.failedEventbusName = "getDistrictFailed"
+        callEvent.method = "/authenticate/mobile/facebook"
+        callEvent.resultClass = "String"
+        callEvent.successEventbusName = "onSuccessFbLogin"
+        callEvent.failedEventbusName = "onFailedFbLogin"
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method;
         
         self.makeApiCall(callEvent)
-    }*/
+    }
 
 
     func postMessage(id: String, message: String){

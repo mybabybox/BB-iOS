@@ -9,12 +9,25 @@
 import UIKit
 import FBSDKCoreKit
 import FBSDKLoginKit
+import SwiftEventBus
 
 class FbLoginViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        SwiftEventBus.onMainThread(self, name: "onSuccessFbLogin") { result in
+            // UI thread
+            self.view.makeToast(message: "User Registered successfully!")
+            
+            let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("SignupDetailViewController") as! SignupDetailViewController
+            self.navigationController?.pushViewController(vController, animated: true)
+        }
+        
+        SwiftEventBus.onMainThread(self, name: "onFailedFbLogin") { result in
+            // UI thread
+            self.view.makeToast(message: "User Registration failed!")
+        }
         // Do any additional setup after loading the view.
     }
 
@@ -41,10 +54,40 @@ class FbLoginViewController: UIViewController {
             if (error != nil) {
                 NSLog("User Logged In.")
                 print(result)
+                
+                /*AppController.getApiService().loginByFacebook(access_token, new Callback<Response>() {
+                    @Override
+                    public void success(Response responseObject, Response response) {
+                        stopSpinner();
+                        
+                        Log.d(this.getClass().getSimpleName(), "fbLogin: success");
+                        if (saveToSession(responseObject)) {
+                            onSuccessLogin();
+                        } else {
+                            ViewUtil.alert(AbstractLoginActivity.this,
+                                getString(R.string.login_error_title),
+                                getString(R.string.login_error_message));
+                        }
+                    }
+                    
+                    @Override
+                    public void failure(RetrofitError error) {
+                        stopSpinner();
+                        ViewUtil.alert(AbstractLoginActivity.this,
+                            getString(R.string.login_error_title),
+                            getString(R.string.login_error_message)
+                                + "\n" + ViewUtil.getResponseBody(error.getResponse()));
+                        Log.e(AbstractLoginActivity.class.getSimpleName(), "fbLogin: failure", error);
+                    }
+                });*/
+                
             } else if (result.isCancelled) {
                 NSLog("User Cancelled")
             } else {
                 NSLog("User Not Logged In.")
+                print(result.token)
+                constants.accessToken = result.token.tokenString
+                ApiControlller.apiController.loginWithFacebook()
             }
         }
     }
