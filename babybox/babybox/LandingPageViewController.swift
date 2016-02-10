@@ -23,6 +23,8 @@ class LandingPageViewController: UIViewController, UIScrollViewDelegate, UIImage
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.navigationController?.interactivePopGestureRecognizer?.enabled = false
+        
         self.scrollVew.pagingEnabled = true
         self.scrollVew.frame=CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
         let scrollViewWidth:CGFloat = self.scrollVew.frame.width
@@ -55,7 +57,6 @@ class LandingPageViewController: UIViewController, UIScrollViewDelegate, UIImage
         //self.loginBtn.layer.borderWidth = 1
         ImageUtil.displayButtonRoundBorder(self.loginBtn)
         self.loginBtn.layer.borderColor = color
-        self.navigationController?.interactivePopGestureRecognizer?.enabled = false
     }
 
     override func didReceiveMemoryWarning() {

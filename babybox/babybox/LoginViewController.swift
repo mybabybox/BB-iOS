@@ -110,10 +110,13 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFie
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         self.signInButton.enabled = true
         self.signInButton.alpha = 1.0
         self.navigationController?.toolbar.hidden = true
         //self.navigationController?.navigationBar.hidden = true
+        self.navigationController?.interactivePopGestureRecognizer?.enabled = false
+        
         self.userNameTxt.delegate = self
         self.passwordTxt.delegate = self
         
