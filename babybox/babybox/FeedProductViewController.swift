@@ -157,22 +157,10 @@ class FeedProductViewController: UIViewController {
                 } else {
                     cell.btnDeleteComments.hidden = false
                 }
-                
-                /*let imagePath =  constants.imagesBaseURL + "/image/get-thumbnail-profile-image-by-id/" + String(self.items[indexPath.row].ownerId)
-                let imageUrl  = NSURL(string: imagePath);
-                let imageData = NSData(contentsOfURL: imageUrl!)
-                if (imageData != nil) {
-                    cell.postedUserImg.image = UIImage(data: imageData!)?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
-                    //cell.postedUserImg.layer.cornerRadius = cell.postedUserImg.frame.height / 2
-                    //cell.postedUserImg.layer.masksToBounds = true
-                    //ImageUtil.imageUtil.setCircularImgStyle((cell.postedUserImg)!)
-                    
-                }*/
                 ImageUtil.displayThumbnailProfileImage(self.items[indexPath.row].ownerId, imageView: cell.postedUserImg)
                 
                 
                 cell.btnDeleteComments.addTarget(self, action: "DeleteComments:", forControlEvents: UIControlEvents.TouchUpInside)
-                //BabyboxUtils.babyBoxUtils.setButtonRoundBorder(cell.postedUserImg)
                 
                 let time = comment.createdDate
                 cell.postedTime.text = self.myDate.offsetFrom(NSDate(timeIntervalSinceNow: NSTimeInterval(time)))
@@ -189,6 +177,9 @@ class FeedProductViewController: UIViewController {
                 if (self.productModel.hasImage) {
                     ImageUtil.displayPostImage(self.productModel.images[0], imageView: cell.productImage)
                     cell.imageHt.constant = ViewUtil.getScreenWidth(self.view) //calculate the screen width...
+                }
+                if (self.productModel.sold) {
+                    cell.soldImage.hidden = false
                 }
                 
             case 1:

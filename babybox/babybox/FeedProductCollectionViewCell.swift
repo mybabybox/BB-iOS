@@ -10,6 +10,7 @@ import UIKit
 
 class FeedProductCollectionViewCell: UICollectionViewCell {
     
+    @IBOutlet weak var soldImage: UIImageView!
     @IBOutlet weak var likeCountIns: UIButton!
     @IBOutlet weak var userCircleImg: UIImageView!
     @IBOutlet weak var prodImageView: UIImageView!

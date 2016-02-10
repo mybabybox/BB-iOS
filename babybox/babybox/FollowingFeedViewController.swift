@@ -85,12 +85,10 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
         let post = self.products[indexPath.row]
         //need carosuel here.
         if (post.hasImage) {
-            /*let imagePath =  constants.imagesBaseURL + "/image/get-post-image-by-id/" + String(post.images[0])
-            let imageUrl  = NSURL(string: imagePath)
-            cell.prodImageView.kf_setImageWithURL(imageUrl!,
-                placeholderImage: nil,
-                optionsInfo: [.Transition(ImageTransition.Fade(0.5))])*/
             ImageUtil.displayOriginalPostImage(post.images[0], imageView: cell.prodImageView)
+        }
+        if (post.sold) {
+            cell.soldImage.hidden = true
         }
         cell.likeCount.text = String(post.numLikes)
         if (!post.isLiked) {

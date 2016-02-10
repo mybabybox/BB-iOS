@@ -35,10 +35,13 @@ class VisitorUserViewController: CustomNavigationController, UIImagePickerContro
     
     override func viewDidAppear(animated: Bool) {
         self.tabBarController!.tabBar.hidden = false
-        ApiControlller.apiController.getUserInfoById(self.userId)
+        self.navigationItem.setHidesBackButton(true, animated: true)
         
     }
     
+    override func viewDidDisappear(animated: Bool) {
+        //self.navigationController?.viewControllers.removeAtIndex(<#T##index: Int##Int#>)
+    }
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -85,6 +88,7 @@ class VisitorUserViewController: CustomNavigationController, UIImagePickerContro
             self.view.makeToast(message: "Error uploading profile image!")
         }
         
+        ApiControlller.apiController.getUserInfoById(self.userId)
         
         setCollectionViewSizesInsets()
         setCollectionViewSizesInsetsForTopView()
@@ -210,6 +214,7 @@ class VisitorUserViewController: CustomNavigationController, UIImagePickerContro
             ApiControlller.apiController.getProductDetails(String(Int(self.getTypeProductInstance()[self.currentIndex].id)))
             self.tabBarController!.tabBar.hidden = true
             self.navigationController?.pushViewController(vController, animated: true)
+            SwiftEventBus.unregister(self)
         }
     }
     

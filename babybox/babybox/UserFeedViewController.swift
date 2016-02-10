@@ -37,13 +37,16 @@ class UserFeedViewController: CustomNavigationController, UIImagePickerControlle
     
     override func viewDidAppear(animated: Bool) {
         self.tabBarController!.tabBar.hidden = false
-        ApiControlller.apiController.getUserInfoById(self.userId)
+        
         
     }
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        
+        ApiControlller.apiController.getUserInfoById(self.userId)
+        
         self.imagePicker.delegate = self
         if (self.userId == 0) {
             self.userId = constants.userInfo.id
@@ -172,10 +175,10 @@ class UserFeedViewController: CustomNavigationController, UIImagePickerControlle
             
             let post = self.getTypeProductInstance()[indexPath.row]
             if (post.hasImage) {
-                /*let imagePath =  constants.imagesBaseURL + "/image/get-post-image-by-id/" + String(post.images[0])
-                let imageUrl  = NSURL(string: imagePath)
-                cell.prodImageView.kf_setImageWithURL(imageUrl!)*/
                 ImageUtil.displayOriginalPostImage(post.images[0], imageView: cell.prodImageView)
+            }
+            if (post.sold) {
+                cell.soldImage.hidden = false
             }
             cell.likeCountIns.setTitle(String(post.numLikes), forState: UIControlState.Normal)
             if (!post.isLiked) {
