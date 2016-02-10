@@ -55,9 +55,7 @@ class LandingPageViewController: UIViewController, UIScrollViewDelegate, UIImage
         //self.loginBtn.layer.borderWidth = 1
         ImageUtil.displayButtonRoundBorder(self.loginBtn)
         self.loginBtn.layer.borderColor = color
-        
-        
-        
+        self.navigationController?.interactivePopGestureRecognizer?.enabled = false
     }
 
     override func didReceiveMemoryWarning() {
