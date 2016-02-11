@@ -175,7 +175,7 @@ class FeedProductViewController: UIViewController {
             switch indexPath.section {
             case 0:
                 if (self.productModel.hasImage) {
-                    ImageUtil.displayPostImage(self.productModel.images[0], imageView: cell.productImage)
+                    ImageUtil.displayOriginalPostImage(self.productModel.images[0], imageView: cell.productImage)
                     cell.imageHt.constant = ViewUtil.getScreenWidth(self.view) //calculate the screen width...
                 }
                 if (self.productModel.sold) {
@@ -228,7 +228,7 @@ class FeedProductViewController: UIViewController {
                             ImageUtil.imageUtil.setCircularImgStyle(cell.postedUserImg)
                         }*/
                         //ImageUtil.displayThumbnailProfileImage(self.productInfo[0].ownerId, imageView: cell.postedUserImg)
-                        ImageUtil.displayOriginalPostImage(self.productInfo[0].ownerId, imageView: cell.postedUserImg)
+                        ImageUtil.displayThumbnailProfileImage(self.productInfo[0].ownerId, imageView: cell.postedUserImg)
                         cell.postedUserImg.layer.cornerRadius = cell.postedUserImg.frame.height/2
                         cell.postedUserImg.layer.masksToBounds = true
                     }
@@ -370,8 +370,8 @@ class FeedProductViewController: UIViewController {
     
     func handleConversation(conversation: [ConversationVM]) {
         self.conversations = conversation
-        let time = (self.conversations.last?.lastMessageDate)! / 1000
-        let date = NSDate(timeIntervalSinceNow: NSTimeInterval(time))
+        //let time = (self.conversations.last?.lastMessageDate)! / 1000
+        //let date = NSDate(timeIntervalSinceNow: NSTimeInterval(time))
     }
     
     func handleGetProductDetailsSuccess(result: [PostCatModel]) {
