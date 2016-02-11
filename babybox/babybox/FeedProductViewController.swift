@@ -35,7 +35,7 @@ class FeedProductViewController: UIViewController {
         super.viewDidLoad()
         setSizesForFilterButtons()
         self.detailTableView.separatorColor = UIColor.whiteColor()
-        
+        self.navigationController?.interactivePopGestureRecognizer?.enabled = false
         self.detailTableView.estimatedRowHeight = 300.0
         self.detailTableView.rowHeight = UITableViewAutomaticDimension
         self.detailTableView.reloadData()
@@ -59,9 +59,6 @@ class FeedProductViewController: UIViewController {
         SwiftEventBus.onMainThread(self, name: "conversationsFailed") { result in
         }
         
-        //self.detailTableView.estimatedRowHeight = 300.0
-        //self.detailTableView.rowHeight = UITableViewAutomaticDimension
-        //self.detailTableView.reloadData()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -167,6 +164,7 @@ class FeedProductViewController: UIViewController {
                 
             }
             cell.separatorInset = UIEdgeInsetsMake(0, 0, 0, cell.bounds.size.width)
+            cell.selectionStyle = UITableViewCellSelectionStyle.None
             return cell
         } else {
             let cell = tableView.dequeueReusableCellWithIdentifier(reuseidentifier, forIndexPath: indexPath)
@@ -240,6 +238,7 @@ class FeedProductViewController: UIViewController {
             default:
                 reuseidentifier = ""
             }
+            cell.selectionStyle = UITableViewCellSelectionStyle.None
             return cell
         }
     }
@@ -279,15 +278,15 @@ class FeedProductViewController: UIViewController {
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         //on click of User section show the User profile screen.
         if (indexPath.section == 2) {
-            if (self.productInfo[0].isOwner) {
-                let vController = self.storyboard?.instantiateViewControllerWithIdentifier("UserFeedViewController") as! UserFeedViewController
+            //if (self.productInfo[0].isOwner) {
+            //    let vController = self.storyboard?.instantiateViewControllerWithIdentifier("UserFeedViewController") as! UserFeedViewController
                 //vController.userId = constants.userInfo.id
-                self.navigationController?.pushViewController(vController, animated: true)
-            } else {
+            //    self.navigationController?.pushViewController(vController, animated: true)
+            //} else {
                 let vController = self.storyboard?.instantiateViewControllerWithIdentifier("VisitorUserViewController") as! VisitorUserViewController
                 vController.userId = self.productInfo[0].ownerId
                 self.navigationController?.pushViewController(vController, animated: true)
-            }
+            //}
         }
     }
     

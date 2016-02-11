@@ -35,33 +35,20 @@ class VisitorUserViewController: UIViewController, UIImagePickerControllerDelega
     
     override func viewDidAppear(animated: Bool) {
         self.tabBarController!.tabBar.hidden = true
-        //self.navigationItem.setHidesBackButton(true, animated: true)
+        self.navigationItem.setHidesBackButton(false, animated: true)
         self.userLikedProducts = []
         self.userPostedProducts = []
-        
-        ApiControlller.apiController.getUserInfoById(self.userId)
-        
-    }
-    
-    override func viewDidDisappear(animated: Bool) {
-        //self.navigationController?.viewControllers.removeAtIndex(index: Int)
-        self.userLikedProducts = []
-        self.userPostedProducts = []
-        self.uiCollectionView.reloadData()
-        SwiftEventBus.unregister(self)
-    }
-    
-    override func viewDidLoad() {
-        
-        super.viewDidLoad()
-        self.imagePicker.delegate = self
         
         SwiftEventBus.onMainThread(self, name: "userInfoByIdSuccess") { result in
             self.userInfo = result.object as? UserInfoVM
+            var userImg = self.navigationItem.leftBarButtonItems![0] as UIBarButtonItem
+            (userImg.customView as? UIButton)?.setTitle(self.userInfo?.displayName, forState: UIControlState.Normal)
             self.userLikedProducts = []
             self.userPostedProducts = []
+            
             ApiControlller.apiController.getUserPostedFeeds(self.userId, offSet: 0)
             ApiControlller.apiController.getUserLikedFeeds(self.userId, offSet: 0)
+            
         }
         
         SwiftEventBus.onMainThread(self, name: "userInfoByIdFailed") { result in
@@ -97,6 +84,22 @@ class VisitorUserViewController: UIViewController, UIImagePickerControllerDelega
             self.view.makeToast(message: "Error uploading profile image!")
         }
         
+        ApiControlller.apiController.getUserInfoById(self.userId)
+        
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        //self.navigationController?.viewControllers.removeAtIndex(index: Int)
+        self.userLikedProducts = []
+        self.userPostedProducts = []
+        self.uiCollectionView.reloadData()
+        SwiftEventBus.unregister(self)
+    }
+    
+    override func viewDidLoad() {
+        
+        super.viewDidLoad()
+        self.imagePicker.delegate = self
         
         setCollectionViewSizesInsets()
         setCollectionViewSizesInsetsForTopView()
@@ -108,6 +111,20 @@ class VisitorUserViewController: UIViewController, UIImagePickerControllerDelega
         flowLayout.minimumLineSpacing = 5
         uiCollectionView.collectionViewLayout = flowLayout
         
+        let userNameImg: UIButton = UIButton()
+        //userNameImg.setTitle(constants.userInfo.displayName, forState: UIControlState.Normal)
+        
+        userNameImg.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
+        userNameImg.titleLabel!.lineBreakMode = NSLineBreakMode.ByWordWrapping
+        userNameImg.frame = CGRectMake(0, 0, 150, 35)
+        
+        let userNameBarBtn = UIBarButtonItem(customView: userNameImg)
+        self.navigationItem.hidesBackButton = true
+        self.navigationItem.leftBarButtonItems = [userNameBarBtn]
+        
+        self.navigationItem.leftItemsSupplementBackButton = true
+        
+        self.navigationItem.backBarButtonItem?.title = ""
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -530,11 +547,12 @@ class VisitorUserViewController: UIViewController, UIImagePickerControllerDelega
             cell.tipsConstraint.constant = 6
         }
         ImageUtil.displayButtonRoundBorder(cell.editProfile)
-        //if (constants.userInfo.id != self.userId) {
-        //    cell.editProfile.hidden = true
-        //} else {
-        //    ImageUtil.displayButtonRoundBorder(cell.editProfile)
-        //}
+        
+        if (constants.userInfo.id != self.userId) {
+            cell.editProfile.hidden = true
+        } else {
+            ImageUtil.displayButtonRoundBorder(cell.editProfile)
+        }
         
     }
     
@@ -575,4 +593,5 @@ class VisitorUserViewController: UIViewController, UIImagePickerControllerDelega
         }
         
     }
+    
 }
