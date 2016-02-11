@@ -13,7 +13,7 @@ class SplashViewController: UIViewController {
 
     override func viewDidAppear(animated: Bool) {
         let sessionId: String? = SharedPreferencesUtil.getInstance().getUserAccessToken(SharedPreferencesUtil.User.ACCESS_TOKEN.rawValue)
-        
+         
         if ( sessionId != nil && sessionId != "nil" && sessionId != "-1") {
             constants.accessToken = sessionId!
             SwiftEventBus.onMainThread(self, name: "userInfoSuccess") { result in

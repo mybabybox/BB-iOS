@@ -45,7 +45,8 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFie
             self.progressIndicator.hidden = false
             self.progressIndicator.startAnimating()
             //apiController.authenticateUser("pitlawarkp@gmail.com", password: "pitlawarkp");
-            apiController.authenticateUser(self.userNameTxt.text!, password: self.passwordTxt.text!);
+            apiController.authenticateUser("mybabybox.test@gmail.com", password: "baby");
+            //apiController.authenticateUser(self.userNameTxt.text!, password: self.passwordTxt.text!);
             return false
         } else if (identifier == "gotoforgotpassword") {
             return true
