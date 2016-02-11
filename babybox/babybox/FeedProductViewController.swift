@@ -370,8 +370,8 @@ class FeedProductViewController: UIViewController {
     
     func handleConversation(conversation: [ConversationVM]) {
         self.conversations = conversation
-        let time = (self.conversations.last?.lastMessageDate)! / 1000
-        let date = NSDate(timeIntervalSinceNow: NSTimeInterval(time))
+        //let time = (self.conversations.last?.lastMessageDate)! / 1000
+        //let date = NSDate(timeIntervalSinceNow: NSTimeInterval(time))
     }
     
     func handleGetProductDetailsSuccess(result: [PostCatModel]) {
