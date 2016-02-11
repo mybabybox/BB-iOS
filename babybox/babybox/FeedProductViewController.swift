@@ -281,7 +281,7 @@ class FeedProductViewController: UIViewController {
         if (indexPath.section == 2) {
             if (self.productInfo[0].isOwner) {
                 let vController = self.storyboard?.instantiateViewControllerWithIdentifier("UserFeedViewController") as! UserFeedViewController
-                vController.userId = constants.userInfo.id
+                //vController.userId = constants.userInfo.id
                 self.navigationController?.pushViewController(vController, animated: true)
             } else {
                 let vController = self.storyboard?.instantiateViewControllerWithIdentifier("VisitorUserViewController") as! VisitorUserViewController

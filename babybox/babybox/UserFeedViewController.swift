@@ -28,7 +28,7 @@ class UserFeedViewController: CustomNavigationController, UIImagePickerControlle
     var isWidthSet = false
     let shapeLayer = CAShapeLayer()
     var feedFilter: FeedFilter.FeedType? = FeedFilter.FeedType.USER_POSTED
-    var userId: Int = 0
+    //var userId: Int = 0
     var userInfo: UserInfoVM? = nil
     var isHeightSet: Bool = false
     var isHtCalculated = false
@@ -45,8 +45,8 @@ class UserFeedViewController: CustomNavigationController, UIImagePickerControlle
             self.userInfo = result.object as? UserInfoVM
             self.userLikedProducts = []
             self.userPostedProducts = []
-            ApiControlller.apiController.getUserPostedFeeds(self.userId, offSet: 0)
-            ApiControlller.apiController.getUserLikedFeeds(self.userId, offSet: 0)
+            ApiControlller.apiController.getUserPostedFeeds(constants.userInfo.id, offSet: 0)
+            ApiControlller.apiController.getUserLikedFeeds(constants.userInfo.id, offSet: 0)
         }
         
         SwiftEventBus.onMainThread(self, name: "userInfoByIdFailed") { result in
@@ -82,7 +82,7 @@ class UserFeedViewController: CustomNavigationController, UIImagePickerControlle
             self.view.makeToast(message: "Error uploading profile image!")
         }
         
-        ApiControlller.apiController.getUserInfoById(self.userId)
+        ApiControlller.apiController.getUserInfoById(constants.userInfo.id)
         
     }
     
@@ -91,9 +91,6 @@ class UserFeedViewController: CustomNavigationController, UIImagePickerControlle
         super.viewDidLoad()
         
         self.imagePicker.delegate = self
-        if (self.userId == 0) {
-            self.userId = constants.userInfo.id
-        }
         
         setCollectionViewSizesInsets()
         setCollectionViewSizesInsetsForTopView()
@@ -301,13 +298,13 @@ class UserFeedViewController: CustomNavigationController, UIImagePickerControlle
         self.tabBarController!.tabBar.hidden = true
         if (segue.identifier == "followingCalls") {
             let vController = segue.destinationViewController as! FollowingViewController
-            vController.userId = self.userId
+            vController.userId = constants.userInfo.id
         } else if (segue.identifier == "followersCall") {
             let vController = segue.destinationViewController as! FollowersViewController
-            vController.userId = self.userId
+            vController.userId = constants.userInfo.id
         } else if (segue.identifier == "editProfile"){
             let vController = segue.destinationViewController as! EditProfileViewController
-            vController.userId = self.userId
+            vController.userId = constants.userInfo.id
         } else if (segue.identifier == "settings") {
            // let vController = segue.destinationViewController as! SettingsViewController
         }
@@ -466,12 +463,12 @@ class UserFeedViewController: CustomNavigationController, UIImagePickerControlle
         if(segControl!.selectedSegmentIndex == 0){
             self.feedFilter = FeedFilter.FeedType.USER_POSTED
             self.userPostedProducts = []
-            ApiControlller.apiController.getUserPostedFeeds(self.userId, offSet: 0)
+            ApiControlller.apiController.getUserPostedFeeds(constants.userInfo.id, offSet: 0)
             
         } else if(segControl!.selectedSegmentIndex == 1){
             self.feedFilter = FeedFilter.FeedType.USER_LIKED
             self.userLikedProducts = []
-            ApiControlller.apiController.getUserLikedFeeds(self.userId, offSet: 0)
+            ApiControlller.apiController.getUserLikedFeeds(constants.userInfo.id, offSet: 0)
         }
        
         redrawSegControlBorder(segControl!)
@@ -543,11 +540,11 @@ class UserFeedViewController: CustomNavigationController, UIImagePickerControlle
             cell.tipsConstraint.constant = 6
         }
         
-        if (constants.userInfo.id != self.userId) {
-            cell.editProfile.hidden = true
-        } else {
+        //if (constants.userInfo.id != self.userId) {
+         //   cell.editProfile.hidden = true
+        //} else {
             ImageUtil.displayButtonRoundBorder(cell.editProfile)
-        }
+        //}
         
     }
     

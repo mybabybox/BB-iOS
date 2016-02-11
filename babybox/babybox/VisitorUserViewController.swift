@@ -11,7 +11,7 @@ import SwiftEventBus
 
 private let reuseIdentifier = "Cell"
 
-class VisitorUserViewController: CustomNavigationController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class VisitorUserViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     @IBOutlet weak var uiCollectionView: UICollectionView!
     
@@ -34,8 +34,8 @@ class VisitorUserViewController: CustomNavigationController, UIImagePickerContro
     let imagePicker = UIImagePickerController()
     
     override func viewDidAppear(animated: Bool) {
-        self.tabBarController!.tabBar.hidden = false
-        self.navigationItem.setHidesBackButton(true, animated: true)
+        self.tabBarController!.tabBar.hidden = true
+        //self.navigationItem.setHidesBackButton(true, animated: true)
         self.userLikedProducts = []
         self.userPostedProducts = []
         
