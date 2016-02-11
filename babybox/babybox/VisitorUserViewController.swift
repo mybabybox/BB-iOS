@@ -36,12 +36,21 @@ class VisitorUserViewController: CustomNavigationController, UIImagePickerContro
     override func viewDidAppear(animated: Bool) {
         self.tabBarController!.tabBar.hidden = false
         self.navigationItem.setHidesBackButton(true, animated: true)
+        self.userLikedProducts = []
+        self.userPostedProducts = []
+        
+        ApiControlller.apiController.getUserInfoById(self.userId)
         
     }
     
     override func viewDidDisappear(animated: Bool) {
-        //self.navigationController?.viewControllers.removeAtIndex(<#T##index: Int##Int#>)
+        //self.navigationController?.viewControllers.removeAtIndex(index: Int)
+        self.userLikedProducts = []
+        self.userPostedProducts = []
+        self.uiCollectionView.reloadData()
+        SwiftEventBus.unregister(self)
     }
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -88,7 +97,6 @@ class VisitorUserViewController: CustomNavigationController, UIImagePickerContro
             self.view.makeToast(message: "Error uploading profile image!")
         }
         
-        ApiControlller.apiController.getUserInfoById(self.userId)
         
         setCollectionViewSizesInsets()
         setCollectionViewSizesInsetsForTopView()
@@ -103,7 +111,8 @@ class VisitorUserViewController: CustomNavigationController, UIImagePickerContro
     }
     
     override func viewWillDisappear(animated: Bool) {
-        
+        self.userLikedProducts = []
+        self.userPostedProducts = []
     }
     
     override func didReceiveMemoryWarning() {
@@ -208,6 +217,7 @@ class VisitorUserViewController: CustomNavigationController, UIImagePickerContro
         
         if (collectionView.tag == 2){
         } else {
+            
             let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("FeedProductViewController") as! FeedProductViewController
             
             vController.productModel = self.getTypeProductInstance()[self.currentIndex]
@@ -274,8 +284,6 @@ class VisitorUserViewController: CustomNavigationController, UIImagePickerContro
         return true
     }
     
-    
-    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         self.tabBarController!.tabBar.hidden = true
         if (segue.identifier == "followingCalls") {
@@ -290,6 +298,7 @@ class VisitorUserViewController: CustomNavigationController, UIImagePickerContro
         } else if (segue.identifier == "settings") {
             // let vController = segue.destinationViewController as! SettingsViewController
         }
+        //
     }
     
     // MARK: Custom Implementation methods

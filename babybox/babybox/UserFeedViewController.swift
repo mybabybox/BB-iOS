@@ -38,19 +38,8 @@ class UserFeedViewController: CustomNavigationController, UIImagePickerControlle
     override func viewDidAppear(animated: Bool) {
         self.tabBarController!.tabBar.hidden = false
         
-        
-    }
-    
-    override func viewDidLoad() {
-        
-        super.viewDidLoad()
-        
-        ApiControlller.apiController.getUserInfoById(self.userId)
-        
-        self.imagePicker.delegate = self
-        if (self.userId == 0) {
-            self.userId = constants.userInfo.id
-        }
+        self.userLikedProducts = []
+        self.userPostedProducts = []
         
         SwiftEventBus.onMainThread(self, name: "userInfoByIdSuccess") { result in
             self.userInfo = result.object as? UserInfoVM
@@ -93,6 +82,18 @@ class UserFeedViewController: CustomNavigationController, UIImagePickerControlle
             self.view.makeToast(message: "Error uploading profile image!")
         }
         
+        ApiControlller.apiController.getUserInfoById(self.userId)
+        
+    }
+    
+    override func viewDidLoad() {
+        
+        super.viewDidLoad()
+        
+        self.imagePicker.delegate = self
+        if (self.userId == 0) {
+            self.userId = constants.userInfo.id
+        }
         
         setCollectionViewSizesInsets()
         setCollectionViewSizesInsetsForTopView()
@@ -107,6 +108,10 @@ class UserFeedViewController: CustomNavigationController, UIImagePickerControlle
     }
     
     override func viewWillDisappear(animated: Bool) {
+        self.userLikedProducts = []
+        self.userPostedProducts = []
+        self.uiCollectionView.reloadData()
+        SwiftEventBus.unregister(self)
         
     }
     
@@ -212,12 +217,14 @@ class UserFeedViewController: CustomNavigationController, UIImagePickerControlle
         
         if (collectionView.tag == 2){
         } else {
+            //self.uiCollectionView.delegate = nil
             let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("FeedProductViewController") as! FeedProductViewController
             
             vController.productModel = self.getTypeProductInstance()[self.currentIndex]
             ApiControlller.apiController.getProductDetails(String(Int(self.getTypeProductInstance()[self.currentIndex].id)))
             self.tabBarController!.tabBar.hidden = true
             self.navigationController?.pushViewController(vController, animated: true)
+            SwiftEventBus.unregister(self)
         }
     }
     
@@ -274,12 +281,23 @@ class UserFeedViewController: CustomNavigationController, UIImagePickerControlle
     
     //MARK Segue handling methods.
     override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
-        return true
+        if (identifier == "followingCalls") {
+            return true
+        } else if (identifier == "followersCall") {
+            return true
+        } else if (identifier == "editProfile"){
+            return true
+        } else if (identifier == "settings") {
+            return true
+        }
+        
+        return false
     }
     
     
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        //self.uiCollectionView.delegate = nil
         self.tabBarController!.tabBar.hidden = true
         if (segue.identifier == "followingCalls") {
             let vController = segue.destinationViewController as! FollowingViewController
@@ -293,6 +311,7 @@ class UserFeedViewController: CustomNavigationController, UIImagePickerControlle
         } else if (segue.identifier == "settings") {
            // let vController = segue.destinationViewController as! SettingsViewController
         }
+        SwiftEventBus.unregister(self)
     }
     
     // MARK: Custom Implementation methods
@@ -561,6 +580,12 @@ class UserFeedViewController: CustomNavigationController, UIImagePickerControlle
         self.uiCollectionView.layer.addSublayer(shapeLayer)
     }
     
+    @IBAction func onClickSettings(sender: AnyObject) {
+        self.uiCollectionView.delegate = nil
+        let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("SettingsViewController") as! SettingsViewController
+        self.navigationController?.pushViewController(vController, animated: true)
+        
+    }
     func getTypeProductInstance() -> [PostModel] {
         if (feedFilter == FeedFilter.FeedType.USER_POSTED) {
             return self.userPostedProducts

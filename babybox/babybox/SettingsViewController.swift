@@ -14,7 +14,8 @@ class SettingsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        self.tabBarController?.tabBar.hidden = true
         // Do any additional setup after loading the view.
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "actionbar_bg_pink"), forBarMetrics: UIBarMetrics.Default)
         
@@ -39,12 +40,14 @@ class SettingsViewController: UIViewController {
     func handleLogout(result: String) {
         self.navigationController?.navigationBar.hidden = true
         constants.accessToken = ""
+        constants.userInfo = UserInfoVM()
         SharedPreferencesUtil.getInstance().setUserAccessToken("")
         let vController = self.storyboard!.instantiateViewControllerWithIdentifier("loginController") as! LoginViewController
         self.navigationController?.pushViewController(vController, animated: true)
         if (constants.userInfo.isFBLogin) {
             FBSDKLoginManager().logOut()
         }
+        SwiftEventBus.unregister(self)
         
     }
 
