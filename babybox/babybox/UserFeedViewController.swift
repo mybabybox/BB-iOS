@@ -29,7 +29,7 @@ class UserFeedViewController: CustomNavigationController, UIImagePickerControlle
     let shapeLayer = CAShapeLayer()
     var feedFilter: FeedFilter.FeedType? = FeedFilter.FeedType.USER_POSTED
     //var userId: Int = 0
-    var userInfo: UserInfoVM? = nil
+    //var userInfo: UserInfoVM? = nil
     var isHeightSet: Bool = false
     var isHtCalculated = false
     var activeHeaderViewCell: UserFeedHeaderViewCell?  = nil
@@ -38,20 +38,16 @@ class UserFeedViewController: CustomNavigationController, UIImagePickerControlle
     override func viewDidAppear(animated: Bool) {
         self.tabBarController!.tabBar.hidden = false
         
-        self.userLikedProducts = []
-        self.userPostedProducts = []
         
-        SwiftEventBus.onMainThread(self, name: "userInfoByIdSuccess") { result in
-            self.userInfo = result.object as? UserInfoVM
-            self.userLikedProducts = []
-            self.userPostedProducts = []
-            ApiControlller.apiController.getUserPostedFeeds(constants.userInfo.id, offSet: 0)
-            ApiControlller.apiController.getUserLikedFeeds(constants.userInfo.id, offSet: 0)
-        }
+    }
+    
+    override func viewDidLoad() {
+        
+        super.viewDidLoad()
+        
+        self.imagePicker.delegate = self
         
         SwiftEventBus.onMainThread(self, name: "userInfoByIdFailed") { result in
-            // UI thread
-            //TODO
             self.view.makeToast(message: "Error getting User Profile Information!")
         }
         
@@ -82,15 +78,8 @@ class UserFeedViewController: CustomNavigationController, UIImagePickerControlle
             self.view.makeToast(message: "Error uploading profile image!")
         }
         
-        ApiControlller.apiController.getUserInfoById(constants.userInfo.id)
-        
-    }
-    
-    override func viewDidLoad() {
-        
-        super.viewDidLoad()
-        
-        self.imagePicker.delegate = self
+        ApiControlller.apiController.getUserPostedFeeds(constants.userInfo.id, offSet: 0)
+        ApiControlller.apiController.getUserLikedFeeds(constants.userInfo.id, offSet: 0)
         
         setCollectionViewSizesInsets()
         setCollectionViewSizesInsetsForTopView()
@@ -105,10 +94,6 @@ class UserFeedViewController: CustomNavigationController, UIImagePickerControlle
     }
     
     override func viewWillDisappear(animated: Bool) {
-        self.userLikedProducts = []
-        self.userPostedProducts = []
-        self.uiCollectionView.reloadData()
-        SwiftEventBus.unregister(self)
         
     }
     
@@ -143,30 +128,24 @@ class UserFeedViewController: CustomNavigationController, UIImagePickerControlle
                 setSizesForFilterButtons(cell)
             }
             
-            if (self.userInfo != nil) {
-                cell.displayName.text = self.userInfo?.displayName
+            cell.displayName.text = constants.userInfo.displayName
                 
-                /*let imagePath =  constants.imagesBaseURL + "/image/get-profile-image-by-id/" + String(self.userInfo!.id)
-                let imageUrl  = NSURL(string: imagePath)
-                cell.userImg.kf_setImageWithURL(imageUrl!)
-                */
-                ImageUtil.displayThumbnailProfileImage(self.userInfo!.id, imageView: cell.userImg)
-                if (self.userInfo!.numFollowers > 0) {
-                    cell.followersBtn.setTitle("Followers " + String(self.userInfo!.numFollowers), forState: UIControlState.Normal)
-                } else {
-                    cell.followersBtn.setTitle("Followers", forState: UIControlState.Normal)
-                }
-                
-                if (self.userInfo!.numFollowings > 0) {
-                    cell.followingBtn.setTitle("Following " + String(self.userInfo!.numFollowings), forState: UIControlState.Normal)
-                } else {
-                    cell.followingBtn.setTitle("Following", forState: UIControlState.Normal)
-                }
-                
-                cell.segmentControl.setTitle("Products " + String(self.userPostedProducts.count), forSegmentAtIndex: 0)
-                cell.segmentControl.setTitle("Likes " + String(self.userLikedProducts.count), forSegmentAtIndex: 1)
-                
+            ImageUtil.displayThumbnailProfileImage(constants.userInfo.id, imageView: cell.userImg)
+            if (constants.userInfo.numFollowers > 0) {
+                cell.followersBtn.setTitle("Followers " + String(constants.userInfo.numFollowers), forState:UIControlState.Normal)
+            } else {
+                cell.followersBtn.setTitle("Followers", forState: UIControlState.Normal)
             }
+                
+            if (constants.userInfo.numFollowings > 0) {
+                cell.followingBtn.setTitle("Following " + String(constants.userInfo.numFollowings), forState: UIControlState.Normal)
+            } else {
+                cell.followingBtn.setTitle("Following", forState: UIControlState.Normal)
+            }
+                
+            cell.segmentControl.setTitle("Products " + String(self.userPostedProducts.count), forSegmentAtIndex: 0)
+            cell.segmentControl.setTitle("Likes " + String(self.userLikedProducts.count), forSegmentAtIndex: 1)
+                
             
             return cell
         }
@@ -388,9 +367,9 @@ class UserFeedViewController: CustomNavigationController, UIImagePickerControlle
                 
                 switch feedFilter! {
                 case FeedFilter.FeedType.USER_LIKED:
-                    ApiControlller.apiController.getUserLikedFeeds(self.userInfo!.id, offSet: self.pageOffSet)
+                    ApiControlller.apiController.getUserLikedFeeds(constants.userInfo.id, offSet: self.pageOffSet)
                 case FeedFilter.FeedType.USER_POSTED:
-                    ApiControlller.apiController.getUserPostedFeeds(self.userInfo!.id, offSet: self.pageOffSet)
+                    ApiControlller.apiController.getUserPostedFeeds(constants.userInfo.id, offSet: self.pageOffSet)
                 default: break
                 }
                 
@@ -462,15 +441,22 @@ class UserFeedViewController: CustomNavigationController, UIImagePickerControlle
         let segControl = sender as? UISegmentedControl
         if(segControl!.selectedSegmentIndex == 0){
             self.feedFilter = FeedFilter.FeedType.USER_POSTED
-            self.userPostedProducts = []
-            ApiControlller.apiController.getUserPostedFeeds(constants.userInfo.id, offSet: 0)
+            self.userPostedProducts.removeAll()
+            if (self.loadingProducts) {
+                ApiControlller.apiController.getUserPostedFeeds(constants.userInfo.id, offSet: 0)
+                self.loadingProducts = false
+            }
+            
             
         } else if(segControl!.selectedSegmentIndex == 1){
             self.feedFilter = FeedFilter.FeedType.USER_LIKED
-            self.userLikedProducts = []
-            ApiControlller.apiController.getUserLikedFeeds(constants.userInfo.id, offSet: 0)
+            self.userLikedProducts.removeAll()
+            if (self.loadingProducts) {
+                ApiControlller.apiController.getUserLikedFeeds(constants.userInfo.id, offSet: 0)
+                self.loadingProducts = false
+            }
         }
-       
+        //self.uiCollectionView.reloadData()
         redrawSegControlBorder(segControl!)
     }
     

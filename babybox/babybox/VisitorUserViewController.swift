@@ -36,24 +36,17 @@ class VisitorUserViewController: UIViewController, UIImagePickerControllerDelega
     override func viewDidAppear(animated: Bool) {
         self.tabBarController!.tabBar.hidden = true
         self.navigationItem.setHidesBackButton(false, animated: true)
-        self.userLikedProducts = []
-        self.userPostedProducts = []
+        //ApiControlller.apiController.getUserInfoById(self.userId)
         
         SwiftEventBus.onMainThread(self, name: "userInfoByIdSuccess") { result in
             self.userInfo = result.object as? UserInfoVM
-            var userImg = self.navigationItem.leftBarButtonItems![0] as UIBarButtonItem
+            let userImg = self.navigationItem.leftBarButtonItems![0] as UIBarButtonItem
             (userImg.customView as? UIButton)?.setTitle(self.userInfo?.displayName, forState: UIControlState.Normal)
-            self.userLikedProducts = []
-            self.userPostedProducts = []
-            
             ApiControlller.apiController.getUserPostedFeeds(self.userId, offSet: 0)
             ApiControlller.apiController.getUserLikedFeeds(self.userId, offSet: 0)
-            
         }
         
         SwiftEventBus.onMainThread(self, name: "userInfoByIdFailed") { result in
-            // UI thread
-            //TODO
             self.view.makeToast(message: "Error getting User Profile Information!")
         }
         
@@ -84,15 +77,13 @@ class VisitorUserViewController: UIViewController, UIImagePickerControllerDelega
             self.view.makeToast(message: "Error uploading profile image!")
         }
         
-        ApiControlller.apiController.getUserInfoById(self.userId)
-        
     }
     
     override func viewDidDisappear(animated: Bool) {
         //self.navigationController?.viewControllers.removeAtIndex(index: Int)
-        self.userLikedProducts = []
-        self.userPostedProducts = []
-        self.uiCollectionView.reloadData()
+        ///self.userLikedProducts.removeAll()
+        //self.userPostedProducts.removeAll()
+        //self.uiCollectionView.reloadData()
         SwiftEventBus.unregister(self)
     }
     
@@ -100,9 +91,60 @@ class VisitorUserViewController: UIViewController, UIImagePickerControllerDelega
         
         super.viewDidLoad()
         self.imagePicker.delegate = self
+        self.userPostedProducts.removeAll()
+        self.userLikedProducts.removeAll()
+        self.uiCollectionView.reloadData()
+        
+        SwiftEventBus.onMainThread(self, name: "userInfoByIdSuccess") { result in
+            self.userInfo = result.object as? UserInfoVM
+            let userImg = self.navigationItem.leftBarButtonItems![0] as UIBarButtonItem
+            (userImg.customView as? UIButton)?.setTitle(self.userInfo?.displayName, forState: UIControlState.Normal)
+            ApiControlller.apiController.getUserPostedFeeds(self.userId, offSet: 0)
+            ApiControlller.apiController.getUserLikedFeeds(self.userId, offSet: 0)
+        }
+        
+        /*SwiftEventBus.onMainThread(self, name: "userInfoByIdSuccess") { result in
+            self.userInfo = result.object as? UserInfoVM
+            let userImg = self.navigationItem.leftBarButtonItems![0] as UIBarButtonItem
+            (userImg.customView as? UIButton)?.setTitle(self.userInfo?.displayName, forState: UIControlState.Normal)
+            ApiControlller.apiController.getUserPostedFeeds(self.userId, offSet: 0)
+            ApiControlller.apiController.getUserLikedFeeds(self.userId, offSet: 0)
+        }
+        
+        SwiftEventBus.onMainThread(self, name: "userInfoByIdFailed") { result in
+            self.view.makeToast(message: "Error getting User Profile Information!")
+        }
+        
+        SwiftEventBus.onMainThread(self, name: "userLikedFeedSuccess") { result in
+            let resultDto: [PostModel] = result.object as! [PostModel]
+            self.handleUserLikedProductsuccess(resultDto)
+        }
+        
+        SwiftEventBus.onMainThread(self, name: "userLikedFeedFailed") { result in
+            self.view.makeToast(message: "Error getting User Liked feeds!")
+        }
+        
+        SwiftEventBus.onMainThread(self, name: "userPostFeedSuccess") { result in
+            // UI thread
+            let resultDto: [PostModel] = result.object as! [PostModel]
+            self.handleUserPostedProductsuccess(resultDto)
+        }
+        
+        SwiftEventBus.onMainThread(self, name: "userPostFeedFailed") { result in
+            self.view.makeToast(message: "Error getting User Posted feeds!")
+        }
+        
+        SwiftEventBus.onMainThread(self, name: "profileImgUploadSuccess") { result in
+            self.view.makeToast(message: "Profile image uploaded successfully!")
+        }
+        
+        SwiftEventBus.onMainThread(self, name: "profileImgUploadFailed") { result in
+            self.view.makeToast(message: "Error uploading profile image!")
+        }*/
         
         setCollectionViewSizesInsets()
         setCollectionViewSizesInsetsForTopView()
+        
         
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.itemSize = CGSizeMake(self.view.bounds.width, self.view.bounds.height)
@@ -123,13 +165,7 @@ class VisitorUserViewController: UIViewController, UIImagePickerControllerDelega
         self.navigationItem.leftBarButtonItems = [userNameBarBtn]
         
         self.navigationItem.leftItemsSupplementBackButton = true
-        
         self.navigationItem.backBarButtonItem?.title = ""
-    }
-    
-    override func viewWillDisappear(animated: Bool) {
-        self.userLikedProducts = []
-        self.userPostedProducts = []
     }
     
     override func didReceiveMemoryWarning() {
@@ -166,10 +202,6 @@ class VisitorUserViewController: UIViewController, UIImagePickerControllerDelega
             if (self.userInfo != nil) {
                 cell.displayName.text = self.userInfo?.displayName
                 
-                /*let imagePath =  constants.imagesBaseURL + "/image/get-profile-image-by-id/" + String(self.userInfo!.id)
-                let imageUrl  = NSURL(string: imagePath)
-                cell.userImg.kf_setImageWithURL(imageUrl!)
-                */
                 ImageUtil.displayThumbnailProfileImage(self.userInfo!.id, imageView: cell.userImg)
                 if (self.userInfo!.numFollowers > 0) {
                     cell.followersBtn.setTitle("Followers " + String(self.userInfo!.numFollowers), forState: UIControlState.Normal)
@@ -244,7 +276,7 @@ class VisitorUserViewController: UIViewController, UIImagePickerControllerDelega
             ApiControlller.apiController.getProductDetails(String(Int(self.getTypeProductInstance()[self.currentIndex].id)))
             self.tabBarController!.tabBar.hidden = true
             self.navigationController?.pushViewController(vController, animated: true)
-            SwiftEventBus.unregister(self)
+            //SwiftEventBus.unregister(self)
         }
     }
     
@@ -331,12 +363,13 @@ class VisitorUserViewController: UIViewController, UIImagePickerControllerDelega
             } else {
                 self.userPostedProducts.appendContentsOf(resultDto)
             }
-            if (feedFilter == FeedFilter.FeedType.USER_POSTED) {
-                self.uiCollectionView.reloadData()
-            }
+            
+            activeHeaderViewCell?.segmentControl.setTitle("Products " + String(self.userPostedProducts.count), forSegmentAtIndex: 0)
             self.pageOffSet = Int64(self.userPostedProducts[self.userPostedProducts.count-1].offset)
         }
-        
+        if (feedFilter == FeedFilter.FeedType.USER_POSTED) {
+            self.uiCollectionView.reloadData()
+        }
         self.loadingProducts = true
     }
     
@@ -348,13 +381,13 @@ class VisitorUserViewController: UIViewController, UIImagePickerControllerDelega
             } else {
                 self.userLikedProducts.appendContentsOf(resultDto)
             }
-            if (feedFilter == FeedFilter.FeedType.USER_LIKED) {
-                self.uiCollectionView.reloadData()
-            }
+            
             activeHeaderViewCell?.segmentControl.setTitle("Likes " + String(self.userLikedProducts.count), forSegmentAtIndex: 1)
             self.pageOffSet = Int64(self.userLikedProducts[self.userLikedProducts.count-1].offset)
         }
-        
+        if (feedFilter == FeedFilter.FeedType.USER_LIKED) {
+            self.uiCollectionView.reloadData()
+        }
         self.loadingProducts = true
     }
     
@@ -470,15 +503,20 @@ class VisitorUserViewController: UIViewController, UIImagePickerControllerDelega
     
     @IBAction func segAction(sender: AnyObject) {
         let segControl = sender as? UISegmentedControl
-        if(segControl!.selectedSegmentIndex == 0){
+        if(segControl!.selectedSegmentIndex == 0) {
             self.feedFilter = FeedFilter.FeedType.USER_POSTED
-            self.userPostedProducts = []
-            ApiControlller.apiController.getUserPostedFeeds(self.userId, offSet: 0)
-            
-        } else if(segControl!.selectedSegmentIndex == 1){
+            self.userPostedProducts.removeAll()
+            if (self.loadingProducts) {
+                ApiControlller.apiController.getUserPostedFeeds(self.userId, offSet: 0)
+                self.loadingProducts = false
+            }
+        } else if(segControl!.selectedSegmentIndex == 1) {
             self.feedFilter = FeedFilter.FeedType.USER_LIKED
-            self.userLikedProducts = []
-            ApiControlller.apiController.getUserLikedFeeds(self.userId, offSet: 0)
+            self.userLikedProducts.removeAll()
+            if (self.loadingProducts) {
+                ApiControlller.apiController.getUserLikedFeeds(self.userId, offSet: 0)
+                self.loadingProducts = false
+            }
         }
         
         redrawSegControlBorder(segControl!)
@@ -594,7 +632,6 @@ class VisitorUserViewController: UIViewController, UIImagePickerControllerDelega
         } else {
             return self.userLikedProducts
         }
-        
     }
     
 }

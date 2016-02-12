@@ -150,7 +150,7 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
             }
             
             cell.soldImage.hidden = !post.sold
-            cell.likeCount.text = String(post.numLikes)
+            cell.likeCountIns.setTitle(String(post.numLikes), forState: UIControlState.Normal)
             
             if (!post.isLiked) {
                 cell.likeImageIns.setImage(UIImage(named: "ic_like_tips.png"), forState: UIControlState.Normal)
@@ -311,7 +311,8 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
         //TODO - logic here require if user has already liked the product...
         if (self.products[(indexPath?.row)!].isLiked) {
             self.products[(indexPath?.row)!].numLikes--
-            cell.likeCount.text = String(self.products[(indexPath?.row)!].numLikes)
+            //cell.likeCount.text =
+            cell.likeCountIns.setTitle(String(self.products[(indexPath?.row)!].numLikes), forState: UIControlState.Normal)
             self.products[(indexPath?.row)!].isLiked = false
             apiController.unlikePost(String(self.products[(indexPath?.row)!].id))
             cell.likeImageIns.setImage(UIImage(named: "ic_like_tips.png"), forState: UIControlState.Normal)
@@ -319,10 +320,10 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
         } else {
             self.products[(indexPath?.row)!].isLiked = true
             self.products[(indexPath?.row)!].numLikes++
-            cell.likeCount.text = String(self.products[(indexPath?.row)!].numLikes)
+            //cell.likeCount.text = String(self.products[(indexPath?.row)!].numLikes)
+            cell.likeCountIns.setTitle(String(self.products[(indexPath?.row)!].numLikes), forState: UIControlState.Normal)
             apiController.likePost(String(self.products[(indexPath?.row)!].id))
             cell.likeImageIns.setImage(UIImage(named: "ic_liked_tips.png"), forState: UIControlState.Normal)
-        
         }
     }
     
