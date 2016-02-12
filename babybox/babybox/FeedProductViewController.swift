@@ -35,7 +35,6 @@ class FeedProductViewController: UIViewController {
         super.viewDidLoad()
         setSizesForFilterButtons()
         self.detailTableView.separatorColor = UIColor.whiteColor()
-        self.navigationController?.interactivePopGestureRecognizer?.enabled = false
         self.detailTableView.estimatedRowHeight = 300.0
         self.detailTableView.rowHeight = UITableViewAutomaticDimension
         self.detailTableView.reloadData()
@@ -149,14 +148,12 @@ class FeedProductViewController: UIViewController {
                 cell.postedUserName.text = comment.ownerName
                 cell.btnDeleteComments.tag = indexPath.row
                 cell.postedTime.text = self.myDate.offsetFrom(NSDate(timeIntervalSinceNow: NSTimeInterval(comment.createdDate)))
-                if (comment.ownerId == -1) {
+                if (comment.ownerId == -1 && comment.ownerId != constants.userInfo.id) {
                     cell.btnDeleteComments.hidden = true
                 } else {
                     cell.btnDeleteComments.hidden = false
                 }
                 ImageUtil.displayThumbnailProfileImage(self.items[indexPath.row].ownerId, imageView: cell.postedUserImg)
-                
-                
                 cell.btnDeleteComments.addTarget(self, action: "DeleteComments:", forControlEvents: UIControlEvents.TouchUpInside)
                 
                 let time = comment.createdDate
