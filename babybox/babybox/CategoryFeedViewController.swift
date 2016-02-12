@@ -148,10 +148,10 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
             if (post.hasImage) {
                 ImageUtil.displayOriginalPostImage(post.images[0], imageView: cell.prodImageView)
             }
-            if (post.sold) {
-                cell.soldImage.hidden = false
-            }
+            
+            cell.soldImage.hidden = !post.sold
             cell.likeCount.text = String(post.numLikes)
+            
             if (!post.isLiked) {
                 cell.likeImageIns.setImage(UIImage(named: "ic_like_tips.png"), forState: UIControlState.Normal)
             } else {

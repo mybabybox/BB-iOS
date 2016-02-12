@@ -179,10 +179,10 @@ class UserFeedViewController: CustomNavigationController, UIImagePickerControlle
             if (post.hasImage) {
                 ImageUtil.displayOriginalPostImage(post.images[0], imageView: cell.prodImageView)
             }
-            if (post.sold) {
-                cell.soldImage.hidden = false
-            }
+            
+            cell.soldImage.hidden = !post.sold
             cell.likeCountIns.setTitle(String(post.numLikes), forState: UIControlState.Normal)
+            
             if (!post.isLiked) {
                 cell.likeImageIns.setImage(UIImage(named: "ic_like_tips.png"), forState: UIControlState.Normal)
             } else {

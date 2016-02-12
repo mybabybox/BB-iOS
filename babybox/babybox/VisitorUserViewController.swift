@@ -202,7 +202,10 @@ class VisitorUserViewController: UIViewController, UIImagePickerControllerDelega
                 cell.prodImageView.kf_setImageWithURL(imageUrl!)*/
                 ImageUtil.displayOriginalPostImage(post.images[0], imageView: cell.prodImageView)
             }
+            
+            cell.soldImage.hidden = !post.sold
             cell.likeCountIns.setTitle(String(post.numLikes), forState: UIControlState.Normal)
+            
             if (!post.isLiked) {
                 cell.likeImageIns.setImage(UIImage(named: "ic_like_tips.png"), forState: UIControlState.Normal)
             } else {

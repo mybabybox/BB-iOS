@@ -173,9 +173,7 @@ class FeedProductViewController: UIViewController {
                     ImageUtil.displayOriginalPostImage(self.productModel.images[0], imageView: cell.productImage)
                     cell.imageHt.constant = ViewUtil.getScreenWidth(self.view) //calculate the screen width...
                 }
-                if (self.productModel.sold) {
-                    cell.soldImage.hidden = false
-                }
+                cell.soldImage.hidden = !self.productModel.sold
                 
             case 1:
                 if (self.productInfo.count > 0) {
