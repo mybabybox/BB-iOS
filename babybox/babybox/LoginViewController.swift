@@ -112,8 +112,9 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFie
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.signInButton.enabled = true
-        self.signInButton.alpha = 1.0
+        //self.signInButton.enabled = true
+        //self.signInButton.alpha = 1.0
+        self.showLoading()
         self.navigationController?.toolbar.hidden = true
         //self.navigationController?.navigationBar.hidden = true
         self.navigationController?.interactivePopGestureRecognizer?.enabled = false
@@ -122,7 +123,7 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFie
         self.passwordTxt.delegate = self
         
         self.isUserLoggedIn = false
-        self.progressIndicator.hidden = true
+        //self.progressIndicator.hidden = true
         
         let color = ImageUtil.imageUtil.UIColorFromRGB(0xFF76A4).CGColor
         //self.signInButton.layer.cornerRadius = 5
@@ -174,33 +175,53 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFie
             loginButton.center.y = signInButton.center.y + 150
             loginButton.readPermissions=["public_profile","email","user_friends"]
             loginButton.delegate=self
-        }
-        else{
+            self.stopLoading()
             
-            self.progressIndicator.hidden = true
-            progressIndicator.stopAnimating()
+            let uImageView = UIImageView()
+            uImageView.image = UIImage(named: "login_user")
+            userNameTxt.leftViewMode = UITextFieldViewMode.Always
+            userNameTxt.leftView = uImageView;
+            uImageView.frame = CGRect(x: 0, y: 0, width: 25, height: 25)
+            self.view.addSubview(uImageView)
+            
+        }
+        else {
+            
+            //self.progressIndicator.hidden = true
+            //progressIndicator.stopAnimating()
             apiController.validateFacebookUser(FBSDKAccessToken.currentAccessToken().tokenString);
+            
+            /*let pImageView = UIImageView()
+            pImageView.image = UIImage(named: "login_lock")
+            passwordTxt.leftViewMode = UITextFieldViewMode.Always
+            passwordTxt.leftView = pImageView;
+            pImageView.frame = CGRect(x: 0, y: 0, width: 25, height: 25)
+            self.view.addSubview(pImageView)*/
         }
         
-        let uImageView = UIImageView()
-        uImageView.image = UIImage(named: "login_user")
-        userNameTxt.leftViewMode = UITextFieldViewMode.Always
-        userNameTxt.leftView = uImageView;
-        uImageView.frame = CGRect(x: 0, y: 0, width: 25, height: 25)
-        self.view.addSubview(uImageView)
         
-        let pImageView = UIImageView()
-        pImageView.image = UIImage(named: "login_lock")
-        passwordTxt.leftViewMode = UITextFieldViewMode.Always
-        passwordTxt.leftView = pImageView;
-        pImageView.frame = CGRect(x: 0, y: 0, width: 25, height: 25)
-        self.view.addSubview(pImageView)
+        
+        
         
     }
     
+    func showLoading() {
+        self.progressIndicator.hidden = false
+        self.progressIndicator.startAnimating()
+        self.signInButton.enabled = false
+        self.signInButton.alpha = 0.75
+    }
+    
+    func stopLoading() {
+        self.progressIndicator.hidden = true
+        self.progressIndicator.stopAnimating()
+        self.signInButton.enabled = true
+        self.signInButton.alpha = 1.0
+    }
     func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
         
         if (error == nil) {
+            self.showLoading()
             self.isUserLoggedIn = true
             if (!result.isCancelled) {
                 constants.accessToken = result.token.tokenString
@@ -208,7 +229,7 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFie
             }
             //make API call to authenticate facebook user on server.
             
-            //self.performSegueWithIdentifier("clickToFacebookLogin", sender: self)
+            //self.performSegueWithIdentifier("clickToLogin", sender: self)
         } else {
             print(error.localizedDescription, terminator: "")
         }
