@@ -40,13 +40,13 @@ class SettingsViewController: UIViewController {
     func handleLogout(result: String) {
         self.navigationController?.navigationBar.hidden = true
         constants.accessToken = ""
-        constants.userInfo = UserInfoVM()
         SharedPreferencesUtil.getInstance().setUserAccessToken("")
         let vController = self.storyboard!.instantiateViewControllerWithIdentifier("loginController") as! LoginViewController
         self.navigationController?.pushViewController(vController, animated: true)
         if (constants.userInfo.isFBLogin) {
             FBSDKLoginManager().logOut()
         }
+        constants.userInfo = UserInfoVM()
         SwiftEventBus.unregister(self)
         
     }
