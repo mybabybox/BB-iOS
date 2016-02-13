@@ -166,6 +166,9 @@ class VisitorUserViewController: UIViewController, UIImagePickerControllerDelega
         
         self.navigationItem.leftItemsSupplementBackButton = true
         self.navigationItem.backBarButtonItem?.title = ""
+        
+        ApiControlller.apiController.getUserInfoById(self.userId)
+        
     }
     
     override func didReceiveMemoryWarning() {
