@@ -32,49 +32,52 @@ class VisitorUserViewController: UIViewController, UIImagePickerControllerDelega
     var isHtCalculated = false
     var activeHeaderViewCell: UserFeedHeaderViewCell?  = nil
     let imagePicker = UIImagePickerController()
-    
+    var eventRegistered = false
     override func viewDidAppear(animated: Bool) {
         self.tabBarController!.tabBar.hidden = true
         self.navigationItem.setHidesBackButton(false, animated: true)
         //ApiControlller.apiController.getUserInfoById(self.userId)
+       
+        if (!eventRegistered) {
         
-        SwiftEventBus.onMainThread(self, name: "userInfoByIdSuccess") { result in
-            self.userInfo = result.object as? UserInfoVM
-            let userImg = self.navigationItem.leftBarButtonItems![0] as UIBarButtonItem
-            (userImg.customView as? UIButton)?.setTitle(self.userInfo?.displayName, forState: UIControlState.Normal)
-            ApiControlller.apiController.getUserPostedFeeds(self.userId, offSet: 0)
-            ApiControlller.apiController.getUserLikedFeeds(self.userId, offSet: 0)
-        }
-        
-        SwiftEventBus.onMainThread(self, name: "userInfoByIdFailed") { result in
-            self.view.makeToast(message: "Error getting User Profile Information!")
-        }
-        
-        SwiftEventBus.onMainThread(self, name: "userLikedFeedSuccess") { result in
-            let resultDto: [PostModel] = result.object as! [PostModel]
-            self.handleUserLikedProductsuccess(resultDto)
-        }
-        
-        SwiftEventBus.onMainThread(self, name: "userLikedFeedFailed") { result in
-            self.view.makeToast(message: "Error getting User Liked feeds!")
-        }
-        
-        SwiftEventBus.onMainThread(self, name: "userPostFeedSuccess") { result in
-            // UI thread
-            let resultDto: [PostModel] = result.object as! [PostModel]
-            self.handleUserPostedProductsuccess(resultDto)
-        }
-        
-        SwiftEventBus.onMainThread(self, name: "userPostFeedFailed") { result in
-            self.view.makeToast(message: "Error getting User Posted feeds!")
-        }
-        
-        SwiftEventBus.onMainThread(self, name: "profileImgUploadSuccess") { result in
-            self.view.makeToast(message: "Profile image uploaded successfully!")
-        }
-        
-        SwiftEventBus.onMainThread(self, name: "profileImgUploadFailed") { result in
-            self.view.makeToast(message: "Error uploading profile image!")
+            SwiftEventBus.onMainThread(self, name: "userInfoByIdSuccess") { result in
+                self.userInfo = result.object as? UserInfoVM
+                let userImg = self.navigationItem.leftBarButtonItems![0] as UIBarButtonItem
+                (userImg.customView as? UIButton)?.setTitle(self.userInfo?.displayName, forState: UIControlState.Normal)
+                ApiControlller.apiController.getUserPostedFeeds(self.userId, offSet: 0)
+                ApiControlller.apiController.getUserLikedFeeds(self.userId, offSet: 0)
+            }
+            
+            SwiftEventBus.onMainThread(self, name: "userInfoByIdFailed") { result in
+                self.view.makeToast(message: "Error getting User Profile Information!")
+            }
+            
+            SwiftEventBus.onMainThread(self, name: "userLikedFeedSuccess") { result in
+                let resultDto: [PostModel] = result.object as! [PostModel]
+                self.handleUserLikedProductsuccess(resultDto)
+            }
+            
+            SwiftEventBus.onMainThread(self, name: "userLikedFeedFailed") { result in
+                self.view.makeToast(message: "Error getting User Liked feeds!")
+            }
+            
+            SwiftEventBus.onMainThread(self, name: "userPostFeedSuccess") { result in
+                // UI thread
+                let resultDto: [PostModel] = result.object as! [PostModel]
+                self.handleUserPostedProductsuccess(resultDto)
+            }
+            
+            SwiftEventBus.onMainThread(self, name: "userPostFeedFailed") { result in
+                self.view.makeToast(message: "Error getting User Posted feeds!")
+            }
+            
+            SwiftEventBus.onMainThread(self, name: "profileImgUploadSuccess") { result in
+                self.view.makeToast(message: "Profile image uploaded successfully!")
+            }
+            
+            SwiftEventBus.onMainThread(self, name: "profileImgUploadFailed") { result in
+                self.view.makeToast(message: "Error uploading profile image!")
+            }
         }
         
     }
@@ -85,6 +88,7 @@ class VisitorUserViewController: UIViewController, UIImagePickerControllerDelega
         //self.userPostedProducts.removeAll()
         //self.uiCollectionView.reloadData()
         SwiftEventBus.unregister(self)
+        eventRegistered = false
     }
     
     override func viewDidLoad() {
@@ -103,14 +107,6 @@ class VisitorUserViewController: UIViewController, UIImagePickerControllerDelega
             ApiControlller.apiController.getUserLikedFeeds(self.userId, offSet: 0)
         }
         
-        /*SwiftEventBus.onMainThread(self, name: "userInfoByIdSuccess") { result in
-            self.userInfo = result.object as? UserInfoVM
-            let userImg = self.navigationItem.leftBarButtonItems![0] as UIBarButtonItem
-            (userImg.customView as? UIButton)?.setTitle(self.userInfo?.displayName, forState: UIControlState.Normal)
-            ApiControlller.apiController.getUserPostedFeeds(self.userId, offSet: 0)
-            ApiControlller.apiController.getUserLikedFeeds(self.userId, offSet: 0)
-        }
-        
         SwiftEventBus.onMainThread(self, name: "userInfoByIdFailed") { result in
             self.view.makeToast(message: "Error getting User Profile Information!")
         }
@@ -140,8 +136,9 @@ class VisitorUserViewController: UIViewController, UIImagePickerControllerDelega
         
         SwiftEventBus.onMainThread(self, name: "profileImgUploadFailed") { result in
             self.view.makeToast(message: "Error uploading profile image!")
-        }*/
+        }
         
+        eventRegistered = true
         setCollectionViewSizesInsets()
         setCollectionViewSizesInsetsForTopView()
         
@@ -232,9 +229,6 @@ class VisitorUserViewController: UIViewController, UIImagePickerControllerDelega
             
             let post = self.getTypeProductInstance()[indexPath.row]
             if (post.hasImage) {
-                /*let imagePath =  constants.imagesBaseURL + "/image/get-post-image-by-id/" + String(post.images[0])
-                let imageUrl  = NSURL(string: imagePath)
-                cell.prodImageView.kf_setImageWithURL(imageUrl!)*/
                 ImageUtil.displayOriginalPostImage(post.images[0], imageView: cell.prodImageView)
             }
             
