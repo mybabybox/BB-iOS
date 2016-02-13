@@ -8,34 +8,66 @@
 
 import UIKit
 import SwiftEventBus
+import FBSDKCoreKit
+import FBSDKLoginKit
 
 class SplashViewController: UIViewController {
 
     override func viewDidAppear(animated: Bool) {
-        let sessionId: String? = SharedPreferencesUtil.getInstance().getUserAccessToken(SharedPreferencesUtil.User.ACCESS_TOKEN.rawValue)
-         
-        if ( sessionId != nil && sessionId != "nil" && sessionId != "-1") {
-            constants.accessToken = sessionId!
-            SwiftEventBus.onMainThread(self, name: "userInfoSuccess") { result in
+        
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.navigationController?.interactivePopGestureRecognizer?.enabled = false
+        self.navigationController?.navigationBar.hidden = true
+        
+        SwiftEventBus.onMainThread(self, name: "userInfoSuccess") { result in
+            if (result != nil || !result.isEqual("")) {
                 let resultDto: UserInfoVM = result.object as! UserInfoVM
                 self.handleUserInfo_(resultDto)
-            }
-                
-            SwiftEventBus.onMainThread(self, name: "userInfoFailed") { result in
+            } else {
                 self.showLoginPage()
             }
+        }
+        
+        SwiftEventBus.onMainThread(self, name: "userInfoFailed") { result in
+            self.showLoginPage()
+        }
+        
+        SwiftEventBus.onMainThread(self, name: "loginReceivedSuccess") { result in
+            // UI thread
+            let resultDto: String = result.object as! String
+            self.handleUserLogin(resultDto)
+        }
+        
+        SwiftEventBus.onMainThread(self, name: "loginReceivedFailed") { result in
+            // UI thread
+            var resultDto = ""
+            if result == nil {
+                resultDto = "Error Authenticating User"
+            } else if result.object is NSString {
+                resultDto = result.object as! String
+            } else {
+                resultDto = "Connection Failure"
+            }
+            
+            self.handleUserLoginFailed(resultDto)
+        }
+        
+        let sessionId: String? = SharedPreferencesUtil.getInstance().getUserAccessToken(SharedPreferencesUtil.User.ACCESS_TOKEN.rawValue)
+        
+        //Check if FB logged in.
+        if(FBSDKAccessToken.currentAccessToken() != nil) {
+            ApiControlller.apiController.validateFacebookUser(FBSDKAccessToken.currentAccessToken().tokenString)
+        } else if ( sessionId != nil && sessionId != "nil" && sessionId != "-1") {
+            constants.accessToken = sessionId!
             UserInfoCache.refresh()
             
         } else {
-            //Modify later to pick this from SharedPreferences instead of reloading again.
             NSThread.sleepForTimeInterval(0.3)
             showLoginPage()
         }
-    }
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.navigationController?.navigationBar.hidden = true
-        self.view.makeToast(message: "Checking token...")
         
     }
 
@@ -55,35 +87,49 @@ class SplashViewController: UIViewController {
             constants.accessToken = (SharedPreferencesUtil.getInstance().getUserAccessToken(SharedPreferencesUtil.User.ACCESS_TOKEN.rawValue) as? String)!
             constants.userInfo = resultDto!
             if (constants.userInfo.id == -1) {
-            //invalid user
                 SwiftEventBus.unregister(self)
                 self.showLoginPage()
             } else {
                 self.performSegueWithIdentifier("homefeed", sender: nil)
             }
-            
-            
         } else {
             self.showLoginPage()
         }
-        
     }
     
     func showLoginPage() {
         /*let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("LandingPageViewController") as! LandingPageViewController
         self.navigationController?.pushViewController(vController, animated: true)
         */
+        SwiftEventBus.unregister(self)
         self.navigationController?.navigationBar.hidden = true
         self.performSegueWithIdentifier("loginpage", sender: nil)
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    
+    func handleUserLogin(resultDto: String) {
+        if resultDto.isEmpty {
+            //authentication failed.. show error message...
+            let _errorDialog = UIAlertController(title: "Error Message", message: "Invalid UserName or Password",
+                preferredStyle: UIAlertControllerStyle.Alert)
+            let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil);
+            _errorDialog.addAction(okAction)
+            self.presentViewController(_errorDialog, animated: true, completion: nil)
+        } else {
+            constants.accessToken = resultDto
+            SharedPreferencesUtil.getInstance().setUserAccessToken(resultDto)
+            UserInfoCache.refresh()
+        }
+        //make API call to get the user profile data...
+        
     }
-    */
 
+    func handleUserLoginFailed(resultDto: String) {
+        
+        let _errorDialog = UIAlertController(title: "Error Message", message: resultDto, preferredStyle: UIAlertControllerStyle.Alert)
+        let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil);
+        _errorDialog.addAction(okAction)
+        self.presentViewController(_errorDialog, animated: true, completion: nil)
+        self.showLoginPage()
+        //self.performSegueWithIdentifier("clickToLogin", sender: nil)
+    }
 }
