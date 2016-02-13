@@ -85,7 +85,7 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
         let post = self.products[indexPath.row]
         //need carosuel here.
         if (post.hasImage) {
-            ImageUtil.displayOriginalPostImage(post.images[0], imageView: cell.prodImageView)
+            ImageUtil.displayPostImage(post.images[0], imageView: cell.prodImageView)
         }
         
         cell.soldImage.hidden = !post.sold

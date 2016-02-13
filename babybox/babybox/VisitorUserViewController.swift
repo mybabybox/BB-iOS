@@ -231,7 +231,7 @@ class VisitorUserViewController: UIViewController, UIImagePickerControllerDelega
             
             let post = self.getTypeProductInstance()[indexPath.row]
             if (post.hasImage) {
-                ImageUtil.displayOriginalPostImage(post.images[0], imageView: cell.prodImageView)
+                ImageUtil.displayPostImage(post.images[0], imageView: cell.prodImageView)
             }
             
             cell.soldImage.hidden = !post.sold

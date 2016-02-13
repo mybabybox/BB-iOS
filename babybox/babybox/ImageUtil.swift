@@ -22,7 +22,7 @@ class ImageUtil {
     
     static let IMAGE_COMPRESS_QUALITY = 80;
     
-    static let IMAGE_DISPLAY_CROSS_FADE_DURATION = 1.0
+    static let IMAGE_DISPLAY_CROSS_FADE_DURATION = 0.5
     
     static let COVER_IMAGE_BY_ID_URL = constants.imagesBaseURL + "/image/get-cover-image-by-id/"
     

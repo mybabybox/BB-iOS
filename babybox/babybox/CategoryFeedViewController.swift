@@ -146,7 +146,7 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
             
             let post = self.products[indexPath.row]
             if (post.hasImage) {
-                ImageUtil.displayOriginalPostImage(post.images[0], imageView: cell.prodImageView)
+                ImageUtil.displayPostImage(post.images[0], imageView: cell.prodImageView)
             }
             
             cell.soldImage.hidden = !post.sold
