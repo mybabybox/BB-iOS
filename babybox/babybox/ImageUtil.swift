@@ -22,6 +22,8 @@ class ImageUtil {
     
     static let IMAGE_COMPRESS_QUALITY = 80;
     
+    static let IMAGE_DISPLAY_CROSS_FADE_DURATION = 1.0
+    
     static let COVER_IMAGE_BY_ID_URL = constants.imagesBaseURL + "/image/get-cover-image-by-id/"
     
     static let THUMBNAIL_COVER_IMAGE_BY_ID_URL = constants.imagesBaseURL + "/image/get-thumbnail-cover-image-by-id/"
@@ -34,12 +36,8 @@ class ImageUtil {
     static let ORIGINAL_MESSAGE_IMAGE_BY_ID_URL = constants.imagesBaseURL + "/image/get-original-message-image-by-id/"
     static let MINI_MESSAGE_IMAGE_BY_ID_URL = constants.imagesBaseURL + "/image/get-mini-message-image-by-id/"
     
-    static let IMAGE_FOLDER_NAME = constants.APP_NAME
-    //static let IMAGE_FOLDER_PATH = Environment.getExternalStorageDirectory() + "/" + IMAGE_FOLDER_NAME
-    //static let CAMERA_IMAGE_TEMP_PATH = IMAGE_FOLDER_PATH + "/" + "camera.jpg"
-
-    
     static var imageUtil: ImageUtil = ImageUtil()
+    
     func UIColorFromRGB(rgbValue: UInt) -> UIColor {
         
         return UIColor(
@@ -94,12 +92,11 @@ class ImageUtil {
         )
     }
     
-    
     static func displayImage(url: String, view: UIImageView, centerCrop: Bool, noCahe: Bool) {
         let imageUrl  = NSURL(string: url)
         view.kf_setImageWithURL(imageUrl!,
             placeholderImage: nil,
-            optionsInfo: [.Transition(ImageTransition.Fade(0.5))])
+            optionsInfo: [.Transition(ImageTransition.Fade(IMAGE_DISPLAY_CROSS_FADE_DURATION))])
     }
     
     static func displayCoverImage(id: Int, imageView: UIImageView) {
@@ -155,7 +152,7 @@ class ImageUtil {
         let imageUrl  = NSURL(string: url)
         view.kf_setImageWithURL(imageUrl!,
             placeholderImage: nil,
-            optionsInfo: [.Transition(ImageTransition.Fade(0.5))])
+            optionsInfo: [.Transition(ImageTransition.Fade(IMAGE_DISPLAY_CROSS_FADE_DURATION))])
         view.layer.cornerRadius = view.frame.height/2
         view.layer.masksToBounds = true
     }
@@ -184,7 +181,7 @@ class ImageUtil {
         let imageUrl  = NSURL(string: url)
         view.kf_setImageWithURL(imageUrl!,
             placeholderImage: nil,
-            optionsInfo: [.Transition(ImageTransition.Fade(0.5))])
+            optionsInfo: [.Transition(ImageTransition.Fade(IMAGE_DISPLAY_CROSS_FADE_DURATION))])
         view.layer.cornerRadius = 15
         view.layer.masksToBounds = true
     }
