@@ -42,8 +42,9 @@ class VisitorUserViewController: UIViewController, UIImagePickerControllerDelega
         
             SwiftEventBus.onMainThread(self, name: "userInfoByIdSuccess") { result in
                 self.userInfo = result.object as? UserInfoVM
-                let userImg = self.navigationItem.leftBarButtonItems![0] as UIBarButtonItem
-                (userImg.customView as? UIButton)?.setTitle(self.userInfo?.displayName, forState: UIControlState.Normal)
+                //let userImg = self.navigationItem.leftBarButtonItems![0] as UIBarButtonItem
+                //(userImg.customView as? UIButton)?.setTitle(self.userInfo?.displayName, forState: UIControlState.Normal)
+                self.navigationItem.title = self.userInfo?.displayName
                 ApiControlller.apiController.getUserPostedFeeds(self.userId, offSet: 0)
                 ApiControlller.apiController.getUserLikedFeeds(self.userId, offSet: 0)
             }
@@ -101,8 +102,9 @@ class VisitorUserViewController: UIViewController, UIImagePickerControllerDelega
         
         SwiftEventBus.onMainThread(self, name: "userInfoByIdSuccess") { result in
             self.userInfo = result.object as? UserInfoVM
-            let userImg = self.navigationItem.leftBarButtonItems![0] as UIBarButtonItem
-            (userImg.customView as? UIButton)?.setTitle(self.userInfo?.displayName, forState: UIControlState.Normal)
+            //let userImg = self.navigationItem.leftBarButtonItems![0] as UIBarButtonItem
+            //(userImg.customView as? UIButton)?.setTitle(self.userInfo?.displayName, forState: UIControlState.Normal)
+            self.navigationItem.title = self.userInfo?.displayName
             ApiControlller.apiController.getUserPostedFeeds(self.userId, offSet: 0)
             ApiControlller.apiController.getUserLikedFeeds(self.userId, offSet: 0)
         }
@@ -150,9 +152,7 @@ class VisitorUserViewController: UIViewController, UIImagePickerControllerDelega
         flowLayout.minimumLineSpacing = 5
         uiCollectionView.collectionViewLayout = flowLayout
         
-        let userNameImg: UIButton = UIButton()
-        //userNameImg.setTitle(constants.userInfo.displayName, forState: UIControlState.Normal)
-        
+        /*let userNameImg: UIButton = UIButton()
         userNameImg.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
         userNameImg.titleLabel!.lineBreakMode = NSLineBreakMode.ByWordWrapping
         userNameImg.frame = CGRectMake(0, 0, 150, 35)
@@ -162,8 +162,10 @@ class VisitorUserViewController: UIViewController, UIImagePickerControllerDelega
         self.navigationItem.leftBarButtonItems = [userNameBarBtn]
         
         self.navigationItem.leftItemsSupplementBackButton = true
-        self.navigationItem.backBarButtonItem?.title = ""
+        self.navigationItem.backBarButtonItem?.title = ""*/
         
+        let titleDict: NSDictionary = [NSForegroundColorAttributeName: UIColor.whiteColor()]
+        self.navigationController!.navigationBar.titleTextAttributes = titleDict as! [String : AnyObject]
         ApiControlller.apiController.getUserInfoById(self.userId)
         
     }
@@ -587,9 +589,11 @@ class VisitorUserViewController: UIViewController, UIImagePickerControllerDelega
         ImageUtil.displayButtonRoundBorder(cell.editProfile)
         
         if (constants.userInfo.id != self.userId) {
-            cell.editProfile.hidden = true
-        } else {
+            cell.editProfile.hidden = false
             ImageUtil.displayButtonRoundBorder(cell.editProfile)
+        } else {
+            cell.editProfile.hidden = true
+            
         }
         
     }
