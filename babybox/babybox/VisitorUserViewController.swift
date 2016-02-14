@@ -21,7 +21,10 @@ class VisitorUserViewController: UIViewController, UIImagePickerControllerDelega
     var collectionViewCellSize : CGSize?
     var collectionViewTopCellSize : CGSize?
     var reuseIdentifier = "CellType"
-    var loadingProducts: Bool = false
+    var userPostedFeedLoading = false
+    var userPostedFeedLoadingEnd = false
+    var userLikedFeedLoading = false
+    var userLikedFeedLoadingEnd = false
     var isWidthSet = false
     let shapeLayer = CAShapeLayer()
     var feedFilter: FeedFilter.FeedType? = FeedFilter.FeedType.USER_POSTED
@@ -37,7 +40,7 @@ class VisitorUserViewController: UIViewController, UIImagePickerControllerDelega
         self.tabBarController!.tabBar.hidden = true
         self.navigationItem.setHidesBackButton(false, animated: true)
         
-        registerEvents();
+        registerEvents()
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -53,15 +56,20 @@ class VisitorUserViewController: UIViewController, UIImagePickerControllerDelega
         super.viewDidLoad()
         
         self.imagePicker.delegate = self
+        
+        self.userPostedFeedLoading = false
+        self.userPostedFeedLoadingEnd = false
+        self.userLikedFeedLoading = false
+        self.userLikedFeedLoadingEnd = false
+
         self.userPostedProducts.removeAll()
         self.userLikedProducts.removeAll()
         self.uiCollectionView.reloadData()
         
-        registerEvents();
+        registerEvents()
         
         setCollectionViewSizesInsets()
         setCollectionViewSizesInsetsForTopView()
-        
         
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.itemSize = CGSizeMake(self.view.bounds.width, self.view.bounds.height)
@@ -83,7 +91,7 @@ class VisitorUserViewController: UIViewController, UIImagePickerControllerDelega
         self.navigationItem.backBarButtonItem?.title = ""*/
         
         let titleDict: NSDictionary = [NSForegroundColorAttributeName: UIColor.whiteColor()]
-        self.navigationController!.navigationBar.titleTextAttributes = titleDict as! [String : AnyObject]
+        self.navigationController!.navigationBar.titleTextAttributes = titleDict as? [String : AnyObject]
         ApiControlller.apiController.getUserInfoById(self.userId)
         
     }
@@ -106,7 +114,7 @@ class VisitorUserViewController: UIViewController, UIImagePickerControllerDelega
             
             SwiftEventBus.onMainThread(self, name: "userLikedFeedSuccess") { result in
                 let resultDto: [PostModel] = result.object as! [PostModel]
-                self.handleUserLikedProductsuccess(resultDto)
+                self.handleUserLikedProductSuccess(resultDto)
             }
             
             SwiftEventBus.onMainThread(self, name: "userLikedFeedFailed") { result in
@@ -116,7 +124,7 @@ class VisitorUserViewController: UIViewController, UIImagePickerControllerDelega
             SwiftEventBus.onMainThread(self, name: "userPostFeedSuccess") { result in
                 // UI thread
                 let resultDto: [PostModel] = result.object as! [PostModel]
-                self.handleUserPostedProductsuccess(resultDto)
+                self.handleUserPostedProductSuccess(resultDto)
             }
             
             SwiftEventBus.onMainThread(self, name: "userPostFeedFailed") { result in
@@ -146,7 +154,7 @@ class VisitorUserViewController: UIViewController, UIImagePickerControllerDelega
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        var count = 0;
+        var count = 0
         if (collectionView.tag == 2) {
             count = 1
         }else{
@@ -274,7 +282,6 @@ class VisitorUserViewController: UIViewController, UIImagePickerControllerDelega
         return CGSizeZero
     }
     
-    
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         if (collectionView.tag == 2){
             return CGSizeZero
@@ -319,38 +326,40 @@ class VisitorUserViewController: UIViewController, UIImagePickerControllerDelega
     
     // MARK: Custom Implementation methods
     
-    func handleUserPostedProductsuccess(resultDto: [PostModel]) {
+    func handleUserPostedProductSuccess(resultDto: [PostModel]) {
         if (!resultDto.isEmpty) {
-            
             if (self.userPostedProducts.count == 0) {
                 self.userPostedProducts = resultDto
             } else {
                 self.userPostedProducts.appendContentsOf(resultDto)
             }
-            
             activeHeaderViewCell?.segmentControl.setTitle("Products " + String(self.userPostedProducts.count), forSegmentAtIndex: 0)
+        } else {
+            userPostedFeedLoadingEnd = true
         }
+        
         if (feedFilter == FeedFilter.FeedType.USER_POSTED) {
             self.uiCollectionView.reloadData()
         }
-        self.loadingProducts = true
+        self.userPostedFeedLoading = false
     }
     
-    func handleUserLikedProductsuccess(resultDto: [PostModel]) {
+    func handleUserLikedProductSuccess(resultDto: [PostModel]) {
         if (!resultDto.isEmpty) {
-            
             if (self.userLikedProducts.count == 0) {
                 self.userLikedProducts = resultDto
             } else {
                 self.userLikedProducts.appendContentsOf(resultDto)
             }
-            
             activeHeaderViewCell?.segmentControl.setTitle("Likes " + String(self.userLikedProducts.count), forSegmentAtIndex: 1)
+        } else {
+            userLikedFeedLoadingEnd = true
         }
+        
         if (feedFilter == FeedFilter.FeedType.USER_LIKED) {
             self.uiCollectionView.reloadData()
         }
-        self.loadingProducts = true
+        self.userLikedFeedLoading = false
     }
     
     
@@ -359,7 +368,7 @@ class VisitorUserViewController: UIViewController, UIImagePickerControllerDelega
         let velocity: CGFloat = scrollView.panGestureRecognizer.velocityInView(scrollView).y
         
         if (velocity > 0) {
-            NSLog("Up");
+            NSLog("Up")
             UIView.animateWithDuration(0.5, animations: {
                 
                 //self.tabBarController?.tabBar.frame.size.height = 0
@@ -389,16 +398,26 @@ class VisitorUserViewController: UIViewController, UIImagePickerControllerDelega
         }
         
         if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - constants.prodImgLoadThresold){
-            if (self.loadingProducts) {
-                self.loadingProducts = false
-                
+            if self.userInfo != nil {
                 switch feedFilter! {
                 case FeedFilter.FeedType.USER_POSTED:
-                    let feedOffSet = Int64(self.userPostedProducts[self.userPostedProducts.count-1].offset)
-                    ApiControlller.apiController.getUserPostedFeeds(self.userInfo!.id, offSet: feedOffSet)
+                    if (!self.userPostedFeedLoadingEnd && !self.userPostedFeedLoading) {
+                        self.userPostedFeedLoading = true
+                        var feedOffSet : Int64 = 0
+                        if (!self.userPostedProducts.isEmpty) {
+                            feedOffSet = Int64(self.userPostedProducts[self.userPostedProducts.count-1].offset)
+                        }
+                        ApiControlller.apiController.getUserPostedFeeds(self.userInfo!.id, offSet: feedOffSet)
+                    }
                 case FeedFilter.FeedType.USER_LIKED:
-                    let feedOffSet = Int64(self.userLikedProducts[self.userLikedProducts.count-1].offset)
-                    ApiControlller.apiController.getUserLikedFeeds(self.userInfo!.id, offSet: feedOffSet)
+                    if (!self.userLikedFeedLoadingEnd && !self.userLikedFeedLoading) {
+                        userLikedFeedLoading = true
+                        var feedOffSet : Int64 = 0
+                        if (!self.userLikedProducts.isEmpty) {
+                            feedOffSet = Int64(self.userLikedProducts[self.userLikedProducts.count-1].offset)
+                        }
+                        ApiControlller.apiController.getUserLikedFeeds(self.userInfo!.id, offSet: feedOffSet)
+                    }
                 default: break
                 }
             }
@@ -466,19 +485,23 @@ class VisitorUserViewController: UIViewController, UIImagePickerControllerDelega
     
     @IBAction func segAction(sender: AnyObject) {
         let segControl = sender as? UISegmentedControl
-        if(segControl!.selectedSegmentIndex == 0) {
+        if (segControl!.selectedSegmentIndex == 0) {
             self.feedFilter = FeedFilter.FeedType.USER_POSTED
             self.userPostedProducts.removeAll()
-            if (self.loadingProducts) {
+            self.userPostedFeedLoading = false
+            self.userPostedFeedLoadingEnd = false
+            if (!self.userPostedFeedLoadingEnd && !self.userPostedFeedLoading) {
+                self.userPostedFeedLoading = true
                 ApiControlller.apiController.getUserPostedFeeds(self.userId, offSet: 0)
-                self.loadingProducts = false
             }
-        } else if(segControl!.selectedSegmentIndex == 1) {
+        } else if (segControl!.selectedSegmentIndex == 1) {
             self.feedFilter = FeedFilter.FeedType.USER_LIKED
             self.userLikedProducts.removeAll()
-            if (self.loadingProducts) {
+            self.userLikedFeedLoading = false
+            self.userLikedFeedLoadingEnd = false
+            if (!self.userLikedFeedLoadingEnd && !self.userLikedFeedLoading) {
+                self.userLikedFeedLoading = true
                 ApiControlller.apiController.getUserLikedFeeds(self.userId, offSet: 0)
-                self.loadingProducts = false
             }
         }
         
