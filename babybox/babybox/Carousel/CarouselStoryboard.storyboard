@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="bRf-so-vuz">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+    </dependencies>
+    <scenes>
+        <!--Embedded Carousel View Controller-->
+        <scene sceneID="JGA-iW-xL9">
+            <objects>
+                <viewController storyboardIdentifier="MVEmbeddedCarouselViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="bRf-so-vuz" customClass="MVEmbeddedCarouselViewController" customModule="babybox" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="u0i-Op-Py5"/>
+                        <viewControllerLayoutGuide type="bottom" id="J1Q-RM-OSl"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="KFO-fe-sZm">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" bouncesZoom="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="iga-pH-EF8" customClass="MVCarouselCollectionView" customModule="MVCarouselCollectionView">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="lDW-gf-UGC">
+                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CellReuseID" id="tm4-T8-g68" customClass="MVCarouselCell" customModule="MVCarouselCollectionView">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                            <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="d5Y-b6-1jS" customClass="MVCarouselPageControl" customModule="MVCarouselCollectionViewDemo">
+                                <rect key="frame" x="141" y="531" width="39" height="37"/>
+                                <connections>
+                                    <action selector="pageControlEventChanged:" destination="bRf-so-vuz" eventType="valueChanged" id="jc2-3k-ZNc"/>
+                                </connections>
+                            </pageControl>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="d5Y-b6-1jS" firstAttribute="centerX" secondItem="iga-pH-EF8" secondAttribute="centerX" id="7WD-AY-ZLY"/>
+                            <constraint firstAttribute="centerX" secondItem="d5Y-b6-1jS" secondAttribute="centerX" id="Cvc-7g-20h"/>
+                            <constraint firstItem="d5Y-b6-1jS" firstAttribute="bottom" secondItem="J1Q-RM-OSl" secondAttribute="top" id="HyA-hz-oYf"/>
+                            <constraint firstItem="iga-pH-EF8" firstAttribute="top" secondItem="KFO-fe-sZm" secondAttribute="top" id="OoP-kE-6uI"/>
+                            <constraint firstItem="iga-pH-EF8" firstAttribute="leading" secondItem="KFO-fe-sZm" secondAttribute="leading" id="qrZ-se-8aA"/>
+                            <constraint firstAttribute="bottom" secondItem="iga-pH-EF8" secondAttribute="bottom" id="zEW-he-bn5"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="collectionView" destination="iga-pH-EF8" id="fMn-Mx-Me1"/>
+                        <outlet property="pageControl" destination="d5Y-b6-1jS" id="cg3-pl-LYu"/>
+                        <segue destination="C8B-cX-nK4" kind="modal" identifier="FullScreenSegue" modalTransitionStyle="crossDissolve" id="0yg-oZ-ie6"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="00k-zf-qPf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="217" y="317"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="f9Y-mX-iMC">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="C8B-cX-nK4" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="OtP-0U-l8b">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nUY-fb-XD7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="755" y="317"/>
+        </scene>
+    </scenes>
+</document>
