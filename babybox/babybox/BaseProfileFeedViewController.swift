@@ -36,6 +36,7 @@ class BaseProfileFeedViewController: CustomNavigationController {
     }
 
     func clearFeedItems() {
+        NSLog("====> clearFeedItems")
         userPostedFeedLoader?.clearFeedItems()
         userLikedFeedLoader?.clearFeedItems()
     }
@@ -98,14 +99,16 @@ class BaseProfileFeedViewController: CustomNavigationController {
     }
     
     func getTypeProductInstance() -> [PostModel] {
-        if (feedFilter == FeedFilter.FeedType.USER_POSTED) {
+        switch feedFilter! {
+        case FeedFilter.FeedType.USER_POSTED:
             if let feedLoader = userPostedFeedLoader {
                 return feedLoader.feedItems
             }
-        } else {
+        case FeedFilter.FeedType.USER_LIKED:
             if let feedLoader = userLikedFeedLoader {
                 return feedLoader.feedItems
             }
+        default: break
         }
         return []
     }

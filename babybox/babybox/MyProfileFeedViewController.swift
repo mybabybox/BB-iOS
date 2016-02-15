@@ -35,25 +35,28 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
     override func viewDidAppear(animated: Bool) {
         self.tabBarController!.tabBar.hidden = false
         
-        setUserInfo(constants.userInfo)
-        
-        registerEvents()
-        
         if (self.activeHeaderViewCell != nil) {
             self.activeHeaderViewCell?.segmentControl.setTitle("Products " + String(self.userInfo!.numProducts), forSegmentAtIndex: 0)
             self.activeHeaderViewCell?.segmentControl.setTitle("Likes " + String(self.userInfo!.numLikes), forSegmentAtIndex: 1)
         }
+    }
 
-        reloadFeedItems()
+    override func viewDidDisappear(animated: Bool) {
     }
     
-    override func viewDidDisappear(animated: Bool) {
+    override func viewWillDisappear(animated: Bool) {
         unregisterEvents()
-        clearFeedItems()
+        //clearFeedItems()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setUserInfo(constants.userInfo)
+        
+        registerEvents()
+        
+        reloadFeedItems()
         
         self.imagePicker.delegate = self
         
@@ -253,7 +256,7 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
         
         if (velocity > 0) {
             NSLog("Up")
-            UIView.animateWithDuration(0.5, animations: {
+            UIView.animateWithDuration(0.1, animations: {
                 
                 //self.tabBarController?.tabBar.frame.size.height = 0
                 self.tabBarController?.tabBar.hidden = false
@@ -267,7 +270,7 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
             })
         } else if (velocity < 0) {
             NSLog("Down")
-            UIView.animateWithDuration(0.5, animations: {
+            UIView.animateWithDuration(0.1, animations: {
                 self.tabBarController?.tabBar.hidden = true
                 self.hidesBottomBarWhenPushed = true
                 if (!self.isHeightSet) {

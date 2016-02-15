@@ -38,18 +38,17 @@ class FeedLoader {
         }
     }
     
-    func handleFeedLoadSuccess(items: [PostModel]) {
-        if (!items.isEmpty) {
+    func handleFeedLoadSuccess(feedItems: [PostModel]) {
+        if (!feedItems.isEmpty) {
             if (self.feedItems.count == 0) {
-                self.feedItems = items
+                self.feedItems = feedItems
             } else {
-                self.feedItems.appendContentsOf(items)
+                self.feedItems.appendContentsOf(feedItems)
             }
+            reloadDataToView()
         } else {
             loadedAll = true
         }
-        
-        reloadDataToView()
         
         loading = false
     }
@@ -73,8 +72,8 @@ class FeedLoader {
     }
     
     func reloadFeedItems(objId: Int) {
-        clearFeedItems()
-        if (!loadedAll && !loading) {
+        if (!loading) {
+            clearFeedItems()
             loading = true
             loadFeed(0, objId: objId)
         }
