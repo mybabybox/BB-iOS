@@ -881,6 +881,9 @@ CEVudGVyIFBhc3N3b3JkA
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uCs-Xf-n8p">
                                 <rect key="frame" x="0.0" y="64" width="414" height="672"/>
                             </scrollView>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vpj-XF-zUh">
+                                <rect key="frame" x="0.0" y="64" width="414" height="622"/>
+                            </containerView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TH5-Fi-0Ya" userLabel="bottomView">
                                 <rect key="frame" x="0.0" y="686" width="414" height="50"/>
                                 <subviews>
@@ -935,7 +938,10 @@ CEVudGVyIFBhc3N3b3JkA
                         <constraints>
                             <constraint firstItem="hMf-6z-oG1" firstAttribute="leading" secondItem="2OG-Kj-Msh" secondAttribute="leading" id="1ti-8G-OM1"/>
                             <constraint firstItem="hMf-6z-oG1" firstAttribute="height" secondItem="2OG-Kj-Msh" secondAttribute="height" id="AZH-Lr-xHd"/>
+                            <constraint firstItem="Vpj-XF-zUh" firstAttribute="leading" secondItem="2OG-Kj-Msh" secondAttribute="leading" id="At9-Ic-ROb"/>
                             <constraint firstItem="cuz-JW-jei" firstAttribute="top" secondItem="uCs-Xf-n8p" secondAttribute="bottom" id="GLk-jD-sx3"/>
+                            <constraint firstItem="TH5-Fi-0Ya" firstAttribute="top" secondItem="Vpj-XF-zUh" secondAttribute="bottom" id="Gdk-x5-jAP"/>
+                            <constraint firstItem="Vpj-XF-zUh" firstAttribute="top" secondItem="SyO-c6-bNQ" secondAttribute="bottom" id="INg-sN-cK2"/>
                             <constraint firstAttribute="trailing" secondItem="uCs-Xf-n8p" secondAttribute="trailing" id="Kgy-1Z-Yd2"/>
                             <constraint firstItem="TH5-Fi-0Ya" firstAttribute="leading" secondItem="2OG-Kj-Msh" secondAttribute="leading" id="TFF-Mq-VcL"/>
                             <constraint firstItem="hMf-6z-oG1" firstAttribute="top" secondItem="2OG-Kj-Msh" secondAttribute="top" constant="20" symbolic="YES" id="bL4-Yu-r0G"/>
@@ -944,14 +950,14 @@ CEVudGVyIFBhc3N3b3JkA
                             <constraint firstItem="cuz-JW-jei" firstAttribute="top" secondItem="TH5-Fi-0Ya" secondAttribute="bottom" id="jYL-Pq-1Ok"/>
                             <constraint firstItem="uCs-Xf-n8p" firstAttribute="leading" secondItem="2OG-Kj-Msh" secondAttribute="leading" id="qNQ-EB-t8g"/>
                             <constraint firstAttribute="trailing" secondItem="TH5-Fi-0Ya" secondAttribute="trailing" id="rb0-iE-r2d"/>
+                            <constraint firstAttribute="trailing" secondItem="Vpj-XF-zUh" secondAttribute="trailing" id="uZB-8o-hLA"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="E6c-5X-X7b"/>
                     <connections>
                         <outlet property="loginBtn" destination="HBe-O7-bB3" id="z4f-vD-EiX"/>
-                        <outlet property="pageControl" destination="1xI-IT-dzh" id="QO3-sp-f0F"/>
-                        <outlet property="scrollVew" destination="uCs-Xf-n8p" id="f84-hC-96l"/>
                         <outlet property="signUpBtn" destination="klc-Px-jSj" id="fyZ-b1-Nh8"/>
+                        <outlet property="uiContainerView" destination="Vpj-XF-zUh" id="kgD-YX-Fww"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AAH-E6-zRa" userLabel="First Responder" sceneMemberID="firstResponder"/>
