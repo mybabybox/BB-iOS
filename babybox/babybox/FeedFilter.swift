@@ -36,6 +36,4 @@ class FeedFilter {
             self = .ALL
         }
     }
-    
-    
 }

@@ -274,13 +274,13 @@ class FeedProductViewController: UIViewController {
         //on click of User section show the User profile screen.
         if (indexPath.section == 2) {
             //if (self.productInfo[0].isOwner) {
-            //    let vController = self.storyboard?.instantiateViewControllerWithIdentifier("UserFeedViewController") as! UserFeedViewController
+            //    let vController = self.storyboard?.instantiateViewControllerWithIdentifier("MyProfileFeedViewController") as! MyProfileFeedViewController
                 //vController.userId = constants.userInfo.id
             //    self.navigationController?.pushViewController(vController, animated: true)
             //} else {
-                let vController = self.storyboard?.instantiateViewControllerWithIdentifier("VisitorUserViewController") as! VisitorUserViewController
+                let vController = self.storyboard?.instantiateViewControllerWithIdentifier("UserProfileFeedViewController") as! UserProfileFeedViewController
                 vController.userId = self.productInfo[0].ownerId
-                //ApiControlller.apiController.getUserInfoById(self.productInfo[0].ownerId)
+                //ApiControlller.apiController.getUser(self.productInfo[0].ownerId)
                 self.navigationController?.pushViewController(vController, animated: true)
             //}
         }

@@ -1,5 +1,5 @@
 //
-//  UserFeedViewController.swift
+//  UserProfileFeedViewController.swift
 //  babybox
 //
 //  Created by Mac on 30/01/16.
@@ -9,77 +9,62 @@
 import UIKit
 import SwiftEventBus
 
-private let reuseIdentifier = "Cell"
-
-class UserFeedViewController: CustomNavigationController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-
-    //@IBOutlet weak var userFeedTips: UIView!
-    //@IBOutlet weak var tipSection: NSLayoutConstraint!
+class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigationControllerDelegate {
+    
     @IBOutlet weak var uiCollectionView: UICollectionView!
     
-    var pageOffSet: Int64 = 0
-    var currentIndex = 0
-    var userPostedProducts: [PostModel] = []
-    var userLikedProducts: [PostModel] = []
     var collectionViewCellSize : CGSize?
     var collectionViewTopCellSize : CGSize?
     var reuseIdentifier = "CellType"
-    var loadingProducts: Bool = false
+
     var isWidthSet = false
-    let shapeLayer = CAShapeLayer()
-    var feedFilter: FeedFilter.FeedType? = FeedFilter.FeedType.USER_POSTED
-    //var userId: Int = 0
-    //var userInfo: UserInfoVM? = nil
     var isHeightSet: Bool = false
     var isHtCalculated = false
-    var activeHeaderViewCell: UserFeedHeaderViewCell?  = nil
-    let imagePicker = UIImagePickerController()
+    
+    var activeHeaderViewCell: UserFeedHeaderViewCell? = nil
+    let shapeLayer = CAShapeLayer()
+    
+    override func reloadDataToView() {
+        self.uiCollectionView.reloadData()
+    }
+    
+    override func registerMoreEvents() {
+        SwiftEventBus.onMainThread(self, name: "userByIdSuccess") { result in
+            self.setUserInfo(result.object as? UserInfoVM)
+            //let userImg = self.navigationItem.leftBarButtonItems![0] as UIBarButtonItem
+            //(userImg.customView as? UIButton)?.setTitle(self.userInfo?.displayName, forState: UIControlState.Normal)
+            self.navigationItem.title = self.userInfo?.displayName
+            
+            if (self.activeHeaderViewCell != nil) {
+                self.activeHeaderViewCell?.segmentControl.setTitle("Products " + String(self.userInfo!.numProducts), forSegmentAtIndex: 0)
+                self.activeHeaderViewCell?.segmentControl.setTitle("Likes " + String(self.userInfo!.numLikes), forSegmentAtIndex: 1)
+            }
+            
+            ApiControlller.apiController.getUserPostedFeeds(self.userInfo!.id, offSet: 0)
+            ApiControlller.apiController.getUserLikedFeeds(self.userInfo!.id, offSet: 0)
+        }
+        
+        SwiftEventBus.onMainThread(self, name: "userByIdFailed") { result in
+            self.view.makeToast(message: "Error getting User Profile Information!")
+        }
+    }
     
     override func viewDidAppear(animated: Bool) {
-        self.tabBarController!.tabBar.hidden = false
+        self.tabBarController!.tabBar.hidden = true
+        self.navigationItem.setHidesBackButton(false, animated: true)
         
+        registerEvents()
         
+        ApiControlller.apiController.getUser(self.userId)
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        unregisterEvents()
+        resetData()
     }
     
     override func viewDidLoad() {
-        
         super.viewDidLoad()
-        
-        self.imagePicker.delegate = self
-        
-        SwiftEventBus.onMainThread(self, name: "userInfoByIdFailed") { result in
-            self.view.makeToast(message: "Error getting User Profile Information!")
-        }
-        
-        SwiftEventBus.onMainThread(self, name: "userLikedFeedSuccess") { result in
-            let resultDto: [PostModel] = result.object as! [PostModel]
-            self.handleUserLikedProductsuccess(resultDto)
-        }
-        
-        SwiftEventBus.onMainThread(self, name: "userLikedFeedFailed") { result in
-            self.view.makeToast(message: "Error getting User Liked feeds!")
-        }
-        
-        SwiftEventBus.onMainThread(self, name: "userPostFeedSuccess") { result in
-            // UI thread
-            let resultDto: [PostModel] = result.object as! [PostModel]
-            self.handleUserPostedProductsuccess(resultDto)
-        }
-        
-        SwiftEventBus.onMainThread(self, name: "userPostFeedFailed") { result in
-            self.view.makeToast(message: "Error getting User Posted feeds!")
-        }
-        
-        SwiftEventBus.onMainThread(self, name: "profileImgUploadSuccess") { result in
-            self.view.makeToast(message: "Profile image uploaded successfully!")
-        }
-        
-        SwiftEventBus.onMainThread(self, name: "profileImgUploadFailed") { result in
-            self.view.makeToast(message: "Error uploading profile image!")
-        }
-        
-        ApiControlller.apiController.getUserPostedFeeds(constants.userInfo.id, offSet: 0)
-        ApiControlller.apiController.getUserLikedFeeds(constants.userInfo.id, offSet: 0)
         
         setCollectionViewSizesInsets()
         setCollectionViewSizesInsetsForTopView()
@@ -91,15 +76,24 @@ class UserFeedViewController: CustomNavigationController, UIImagePickerControlle
         flowLayout.minimumLineSpacing = 5
         uiCollectionView.collectionViewLayout = flowLayout
         
-    }
-    
-    override func viewWillDisappear(animated: Bool) {
+        /*let userNameImg: UIButton = UIButton()
+        userNameImg.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
+        userNameImg.titleLabel!.lineBreakMode = NSLineBreakMode.ByWordWrapping
+        userNameImg.frame = CGRectMake(0, 0, 150, 35)
         
+        let userNameBarBtn = UIBarButtonItem(customView: userNameImg)
+        self.navigationItem.hidesBackButton = true
+        self.navigationItem.leftBarButtonItems = [userNameBarBtn]
+        
+        self.navigationItem.leftItemsSupplementBackButton = true
+        self.navigationItem.backBarButtonItem?.title = ""*/
+        
+        let titleDict: NSDictionary = [NSForegroundColorAttributeName: UIColor.whiteColor()]
+        self.navigationController!.navigationBar.titleTextAttributes = titleDict as? [String : AnyObject]
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     //MARK: UICollectionViewDataSource
@@ -108,10 +102,10 @@ class UserFeedViewController: CustomNavigationController, UIImagePickerControlle
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        var count = 0;
+        var count = 0
         if (collectionView.tag == 2) {
             count = 1
-        }else{
+        } else {
             count = self.getTypeProductInstance().count
         }
         return count
@@ -119,7 +113,7 @@ class UserFeedViewController: CustomNavigationController, UIImagePickerControlle
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
-        if (collectionView.tag == 2){
+        if (collectionView.tag == 2) {
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier("headerCell", forIndexPath: indexPath) as! UserFeedHeaderViewCell
             self.activeHeaderViewCell = cell
             
@@ -128,24 +122,22 @@ class UserFeedViewController: CustomNavigationController, UIImagePickerControlle
                 setSizesForFilterButtons(cell)
             }
             
-            cell.displayName.text = constants.userInfo.displayName
+            if (self.userInfo != nil) {
+                cell.displayName.text = self.userInfo?.displayName
                 
-            ImageUtil.displayThumbnailProfileImage(constants.userInfo.id, imageView: cell.userImg)
-            if (constants.userInfo.numFollowers > 0) {
-                cell.followersBtn.setTitle("Followers " + String(constants.userInfo.numFollowers), forState:UIControlState.Normal)
-            } else {
-                cell.followersBtn.setTitle("Followers", forState: UIControlState.Normal)
+                ImageUtil.displayThumbnailProfileImage(self.userInfo!.id, imageView: cell.userImg)
+                if (self.userInfo!.numFollowers > 0) {
+                    cell.followersBtn.setTitle("Followers " + String(self.userInfo!.numFollowers), forState: UIControlState.Normal)
+                } else {
+                    cell.followersBtn.setTitle("Followers", forState: UIControlState.Normal)
+                }
+                
+                if (self.userInfo!.numFollowings > 0) {
+                    cell.followingBtn.setTitle("Following " + String(self.userInfo!.numFollowings), forState: UIControlState.Normal)
+                } else {
+                    cell.followingBtn.setTitle("Following", forState: UIControlState.Normal)
+                }
             }
-                
-            if (constants.userInfo.numFollowings > 0) {
-                cell.followingBtn.setTitle("Following " + String(constants.userInfo.numFollowings), forState: UIControlState.Normal)
-            } else {
-                cell.followingBtn.setTitle("Following", forState: UIControlState.Normal)
-            }
-                
-            cell.segmentControl.setTitle("Products " + String(self.userPostedProducts.count), forSegmentAtIndex: 0)
-            cell.segmentControl.setTitle("Likes " + String(self.userLikedProducts.count), forSegmentAtIndex: 1)
-                
             
             return cell
         }
@@ -189,24 +181,21 @@ class UserFeedViewController: CustomNavigationController, UIImagePickerControlle
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        self.currentIndex = indexPath.row
-        
         if (collectionView.tag == 2){
+            
         } else {
-            //self.uiCollectionView.delegate = nil
+            
             let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("FeedProductViewController") as! FeedProductViewController
             
-            vController.productModel = self.getTypeProductInstance()[self.currentIndex]
-            ApiControlller.apiController.getProductDetails(String(Int(self.getTypeProductInstance()[self.currentIndex].id)))
+            vController.productModel = self.getTypeProductInstance()[indexPath.row]
+            ApiControlller.apiController.getProductDetails(String(Int(self.getTypeProductInstance()[indexPath.row].id)))
             self.tabBarController!.tabBar.hidden = true
             self.navigationController?.pushViewController(vController, animated: true)
-            SwiftEventBus.unregister(self)
         }
     }
     
     func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
         var reusableView : UICollectionReusableView? = nil
-        
         
         if (kind == UICollectionElementKindSectionHeader) {
             
@@ -234,14 +223,13 @@ class UserFeedViewController: CustomNavigationController, UIImagePickerControlle
         return CGSizeZero
     }
     
-    
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         if (collectionView.tag == 2){
             return CGSizeZero
         } else {
             /*var ht: CGFloat = 0.0
             for view in collectionView.subviews as [UIView] {
-                ht += view.frame.height
+            ht += view.frame.height
             }*/
             if (self.isTipVisible()) {
                 return CGSizeMake(self.view.frame.width, 295)
@@ -257,83 +245,31 @@ class UserFeedViewController: CustomNavigationController, UIImagePickerControlle
     
     //MARK Segue handling methods.
     override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
-        if (identifier == "followingCalls") {
-            return true
-        } else if (identifier == "followersCall") {
-            return true
-        } else if (identifier == "editProfile"){
-            return true
-        } else if (identifier == "settings") {
-            return true
-        }
-        
-        return false
+        return true
     }
     
-    
-    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        //self.uiCollectionView.delegate = nil
         self.tabBarController!.tabBar.hidden = true
         if (segue.identifier == "followingCalls") {
             let vController = segue.destinationViewController as! FollowingViewController
-            vController.userId = constants.userInfo.id
+            vController.userId = self.userInfo!.id
         } else if (segue.identifier == "followersCall") {
             let vController = segue.destinationViewController as! FollowersViewController
-            vController.userId = constants.userInfo.id
+            vController.userId = self.userInfo!.id
         } else if (segue.identifier == "editProfile"){
             let vController = segue.destinationViewController as! EditProfileViewController
-            vController.userId = constants.userInfo.id
+            vController.userId = self.userInfo!.id
         } else if (segue.identifier == "settings") {
-           // let vController = segue.destinationViewController as! SettingsViewController
+            // let vController = segue.destinationViewController as! SettingsViewController
         }
-        SwiftEventBus.unregister(self)
     }
     
-    // MARK: Custom Implementation methods
-    
-    func handleUserPostedProductsuccess(resultDto: [PostModel]) {
-        if (!resultDto.isEmpty) {
-            
-            if (self.userPostedProducts.count == 0) {
-                self.userPostedProducts = resultDto
-            } else {
-                self.userPostedProducts.appendContentsOf(resultDto)
-            }
-            if (feedFilter == FeedFilter.FeedType.USER_POSTED) {
-                self.uiCollectionView.reloadData()
-            }
-            self.pageOffSet = Int64(self.userPostedProducts[self.userPostedProducts.count-1].offset)
-        }
-        
-        self.loadingProducts = true
-    }
-    
-    func handleUserLikedProductsuccess(resultDto: [PostModel]) {
-        if (!resultDto.isEmpty) {
-            
-            if (self.userLikedProducts.count == 0) {
-                self.userLikedProducts = resultDto
-            } else {
-                self.userLikedProducts.appendContentsOf(resultDto)
-            }
-            if (feedFilter == FeedFilter.FeedType.USER_LIKED) {
-                self.uiCollectionView.reloadData()
-            }
-            activeHeaderViewCell?.segmentControl.setTitle("Likes " + String(self.userLikedProducts.count), forSegmentAtIndex: 1)
-            self.pageOffSet = Int64(self.userLikedProducts[self.userLikedProducts.count-1].offset)
-        }
-        
-        self.loadingProducts = true
-    }
-    
-        
     // MARK: UIScrollview Delegate
     func scrollViewDidScroll(scrollView: UIScrollView) {
         let velocity: CGFloat = scrollView.panGestureRecognizer.velocityInView(scrollView).y
         
         if (velocity > 0) {
-            NSLog("Up");
+            NSLog("Up")
             UIView.animateWithDuration(0.5, animations: {
                 
                 //self.tabBarController?.tabBar.frame.size.height = 0
@@ -362,23 +298,10 @@ class UserFeedViewController: CustomNavigationController, UIImagePickerControlle
             NSLog("Can't determine direction as velocity is 0")
         }
         
-        if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - constants.prodImgLoadThresold){
-            if (self.loadingProducts) {
-                
-                switch feedFilter! {
-                case FeedFilter.FeedType.USER_LIKED:
-                    ApiControlller.apiController.getUserLikedFeeds(constants.userInfo.id, offSet: self.pageOffSet)
-                case FeedFilter.FeedType.USER_POSTED:
-                    ApiControlller.apiController.getUserPostedFeeds(constants.userInfo.id, offSet: self.pageOffSet)
-                default: break
-                }
-                
-                self.loadingProducts = false
-            }
+        if (scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - constants.prodImgLoadThresold {
+            loadMoreFeedItems()
         }
-        
     }
-    
     
     func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
     }
@@ -389,10 +312,6 @@ class UserFeedViewController: CustomNavigationController, UIImagePickerControlle
     
     func setCollectionViewSizesInsets() {
         collectionViewCellSize = ImageUtil.imageUtil.getProductItemCellSize(self.view.bounds.width)
-    }
-    
-    func setFeedtype(feedType: FeedFilter.FeedType) {
-        self.feedFilter = feedType
     }
     
     @IBAction func onLikeBtnClick(sender: AnyObject) {
@@ -420,54 +339,17 @@ class UserFeedViewController: CustomNavigationController, UIImagePickerControlle
         }
     }
     
-    @IBAction func onClickCloseTip(sender: AnyObject) {
-        let button = sender as! UIButton
-        let view = button.superview!
-        let cell = view.superview!.superview as! UserFeedHeaderViewCell
-        cell.tipsView.hidden = true
-        cell.tipsConstraint.constant = 6
-        redrawSegControlBorder(cell.segmentControl)
-        self.uiCollectionView.reloadData()
-    }
-
-    @IBAction func onClickBrowse(sender: AnyObject) {
-        //upload image.
-        self.imagePicker.allowsEditing = true
-        self.imagePicker.sourceType = .PhotoLibrary
-        self.navigationController!.presentViewController(self.imagePicker, animated: true, completion: nil)
-    }
-    
     @IBAction func segAction(sender: AnyObject) {
         let segControl = sender as? UISegmentedControl
-        if(segControl!.selectedSegmentIndex == 0){
+        if (segControl!.selectedSegmentIndex == 0) {
             self.feedFilter = FeedFilter.FeedType.USER_POSTED
-            self.userPostedProducts.removeAll()
-            if (self.loadingProducts) {
-                ApiControlller.apiController.getUserPostedFeeds(constants.userInfo.id, offSet: 0)
-                self.loadingProducts = false
-            }
-            
-            
-        } else if(segControl!.selectedSegmentIndex == 1){
+        } else if (segControl!.selectedSegmentIndex == 1) {
             self.feedFilter = FeedFilter.FeedType.USER_LIKED
-            self.userLikedProducts.removeAll()
-            if (self.loadingProducts) {
-                ApiControlller.apiController.getUserLikedFeeds(constants.userInfo.id, offSet: 0)
-                self.loadingProducts = false
-            }
         }
-        //self.uiCollectionView.reloadData()
-        redrawSegControlBorder(segControl!)
-    }
-    
-    // MARK: UIImagePickerControllerDelegate Methods
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         
-        if let pickedImage = info[UIImagePickerControllerEditedImage] as? UIImage {
-            self.activeHeaderViewCell?.userImg.image = pickedImage
-            ApiControlller.apiController.uploadUserProfileImg(pickedImage)
-        }
-        dismissViewControllerAnimated(true, completion: nil)
+        reloadFeedItems()
+        
+        redrawSegControlBorder(segControl!)
     }
     
     func redrawSegControlBorder(segControl: UISegmentedControl) {
@@ -477,6 +359,7 @@ class UserFeedViewController: CustomNavigationController, UIImagePickerControlle
             extraHt = CGFloat(114.0)
             self.isHtCalculated = true
         } else {
+            
         }
         
         if(segControl.selectedSegmentIndex == 0){
@@ -496,7 +379,9 @@ class UserFeedViewController: CustomNavigationController, UIImagePickerControlle
             let color: UIColor = UIColor(red: 255/255, green: 118/255, blue: 164/255, alpha: 1.0)
             self.drawLineFromPoint(start, toPoint: end, ofColor: color, inView: segControl)
         }
-        segControl.setTitleTextAttributes([NSForegroundColorAttributeName: ImageUtil.imageUtil.UIColorFromRGB(0xFF76A4)],
+        
+        segControl.setTitleTextAttributes(
+            [NSForegroundColorAttributeName: ImageUtil.imageUtil.UIColorFromRGB(0xFF76A4)],
             forState: UIControlState.Selected)
     }
     
@@ -525,21 +410,13 @@ class UserFeedViewController: CustomNavigationController, UIImagePickerControlle
             cell.tipsView.hidden = true
             cell.tipsConstraint.constant = 6
         }
+        ImageUtil.displayButtonRoundBorder(cell.editProfile)
         
-        //if (constants.userInfo.id != self.userId) {
-         //   cell.editProfile.hidden = true
-        //} else {
+        if (constants.userInfo.id != self.userId) {
+            cell.editProfile.hidden = false
             ImageUtil.displayButtonRoundBorder(cell.editProfile)
-        //}
-        
-    }
-    
-    func isTipVisible() -> Bool {
-        if (!SharedPreferencesUtil.getInstance().isScreenViewed(SharedPreferencesUtil.Screen.MY_PROFILE_TIPS)) {
-            SharedPreferencesUtil.getInstance().setScreenViewed(SharedPreferencesUtil.Screen.MY_PROFILE_TIPS)
-            return true
         } else {
-            return false
+            cell.editProfile.hidden = true
         }
     }
     
@@ -561,20 +438,5 @@ class UserFeedViewController: CustomNavigationController, UIImagePickerControlle
         shapeLayer.allowsGroupOpacity = false
         shapeLayer.autoreverses = false
         self.uiCollectionView.layer.addSublayer(shapeLayer)
-    }
-    
-    @IBAction func onClickSettings(sender: AnyObject) {
-        self.uiCollectionView.delegate = nil
-        let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("SettingsViewController") as! SettingsViewController
-        self.navigationController?.pushViewController(vController, animated: true)
-        
-    }
-    func getTypeProductInstance() -> [PostModel] {
-        if (feedFilter == FeedFilter.FeedType.USER_POSTED) {
-            return self.userPostedProducts
-        } else {
-            return self.userLikedProducts
-        }
-        
     }
 }

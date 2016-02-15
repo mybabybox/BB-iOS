@@ -67,12 +67,12 @@ class ApiControlller {
         self.makeApiCall(callEvent)
     }
     
-    func getUserInfoById(id: Int) { //filtering by high-low price
+    func getUser(id: Int) {
         let callEvent = ApiCallEvent()
         callEvent.method = "get-user/" + String(id)
         callEvent.resultClass = "UserVMById"
-        callEvent.successEventbusName = "userInfoByIdSuccess"
-        callEvent.failedEventbusName = "userInfoByIdFailed"
+        callEvent.successEventbusName = "userByIdSuccess"
+        callEvent.failedEventbusName = "userByIdFailed"
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
         self.makeApiCall(callEvent)
     }

@@ -12,11 +12,11 @@ import ObjectMapper
 class RequestVM: Mappable {
     
     required init?(_ map: Map){
-    };
+    }
+    
     required init(){
     }
     
     func mapping(map: ObjectMapper.Map) {
-        
     }
 }

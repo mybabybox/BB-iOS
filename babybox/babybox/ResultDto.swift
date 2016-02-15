@@ -11,11 +11,12 @@ import ObjectMapper
 
 class ResultDto: Mappable {
     //properties and methods
-    required init?(_ map: Map){} ; required init(){  };
+    required init?(_ map: Map) {
+    }
     
+    required init() {
+    }
     
-    
-     func mapping(map: Map) {
-       
+    func mapping(map: Map) {
     }
 }
