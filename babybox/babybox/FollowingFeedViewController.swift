@@ -178,7 +178,7 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
     }
     
     // MARK: UIScrollview Delegate
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    func scrollViewWillBeginDecelerating(scrollView: UIScrollView) {
         let velocity: CGFloat = scrollView.panGestureRecognizer.velocityInView(scrollView).y
         
         if (velocity > 0) {
@@ -205,17 +205,15 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
         } else {
             NSLog("Can't determine direction as velocity is 0")
         }
-        
-        
-        UIView.animateWithDuration(0.5, animations: {
-            
-            if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - constants.prodImgLoadThresold){
-                if (self.loadingProducts) {
-                    self.apiController.getHomeEollowingFeeds(self.pageOffSet)
-                    self.loadingProducts = false
-                }
+    }
+    
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - constants.prodImgLoadThresold){
+            if (self.loadingProducts) {
+                self.apiController.getHomeEollowingFeeds(self.pageOffSet)
+                self.loadingProducts = false
             }
-        })
+        }
     }
     
     /*func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {

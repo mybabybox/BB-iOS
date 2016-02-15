@@ -119,7 +119,7 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
                 UIColor(white: 0, alpha: 0.2).CGColor,
                 UIColor.lightGrayColor().CGColor
             ]
-                
+            cell.categoryIcon.layer.sublayers = nil
             cell.categoryIcon.layer.insertSublayer(gradientLayer, atIndex: 0)
             return cell
                 
@@ -256,17 +256,19 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
         self.uiCollectionView.reloadData()
     }
     
+    
     // MARK: UIScrollview Delegate
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    func scrollViewWillBeginDecelerating(scrollView: UIScrollView) {
+       
         let velocity: CGFloat = scrollView.panGestureRecognizer.velocityInView(scrollView).y
         
         if (velocity > 0) {
-            NSLog("Up");
+            
             UIView.animateWithDuration(0.5, animations: {
                 
                 //self.tabBarController?.tabBar.frame.size.height = 0
                 self.tabBarController?.tabBar.hidden = false
-                self.hidesBottomBarWhenPushed = true
+                //self.hidesBottomBarWhenPushed = true
                 
                 if (self.isHeightSet) {
                     let tabBarHeight = self.tabBarController!.tabBar.frame.size.height
@@ -275,10 +277,10 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
                 }
             })
         } else if (velocity < 0) {
-            NSLog("Down")
+            
             UIView.animateWithDuration(0.5, animations: {
                 self.tabBarController?.tabBar.hidden = true
-                self.hidesBottomBarWhenPushed = true
+                //self.hidesBottomBarWhenPushed = true
                 if (!self.isHeightSet) {
                     let tabBarHeight = self.tabBarController!.tabBar.frame.size.height
                     self.view.frame.size.height = self.view.frame.size.height + tabBarHeight
@@ -286,9 +288,11 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
                 }
                 
             })
-        } else {
-            NSLog("Can't determine direction as velocity is 0")
         }
+        
+    }
+    
+    func scrollViewDidScroll(scrollView: UIScrollView) {
         
         if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height ){
             if (self.loadingProducts) {
@@ -296,7 +300,6 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
                 self.loadingProducts = false
             }
         }
-        
     }
         
     func setCollectionViewSizesInsetsForTopView() {
