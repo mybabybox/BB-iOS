@@ -19,6 +19,8 @@ class ApiControlller {
         var body = ""
     }
     
+    static let apiController = ApiControlller()
+    
     init() {
     }
     
@@ -34,23 +36,23 @@ class ApiControlller {
     }
     
     //Get the post of type HOME_FOLLOWING
-    func getHomeExploreFeeds(offSet: Int64) {
+    func getHomeExploreFeed(offSet: Int64) {
         let callEvent = ApiCallEvent()
         callEvent.method = "get-home-explore-feed"
         callEvent.resultClass = "PostModel"
-        callEvent.successEventbusName = "homeFeedReceivedSuccess"
-        callEvent.failedEventbusName = "feedReceivedFailed"
+        callEvent.successEventbusName = "feedLoadSuccess"
+        callEvent.failedEventbusName = "feedLoadFailed"
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method + "/" + String(offSet);
         
         self.makeApiCall(callEvent)
     }
     
-    func getHomeEollowingFeeds(offSet: Int64) {
+    func getHomeFollowingFeed(offSet: Int64) {
         let callEvent = ApiCallEvent()
         callEvent.method = "get-home-following-feed"
         callEvent.resultClass = "PostModel"
-        callEvent.successEventbusName = "feedReceivedSuccess"
-        callEvent.failedEventbusName = "feedReceivedFailed"
+        callEvent.successEventbusName = "feedLoadSuccess"
+        callEvent.failedEventbusName = "feedLoadFailed"
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method + "/" + String(offSet)
         
         self.makeApiCall(callEvent)
@@ -210,77 +212,67 @@ class ApiControlller {
     }
     
     //Categories products filter APIs calls
-    func getCategoriesFilterByPopularity(id: Int, offSet: Int64) {
+    func getCategoryPopularFeed(id: Int, offSet: Int64) {
         let callEvent = ApiCallEvent()
         callEvent.method = "get-category-popular-feed/" + String(id)
         callEvent.resultClass = "PostModel"
-        callEvent.successEventbusName = "feedReceivedSuccess"
-        callEvent.failedEventbusName = "feedReceivedFailed"
-        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method + "/prodtype/" + String(offSet)
+        callEvent.successEventbusName = "feedLoadSuccess"
+        callEvent.failedEventbusName = "feedLoadFailed"
+        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method + "/ALL/" + String(offSet)
         self.makeApiCall(callEvent)
     }
     
-    func getCategoriesFilterByNewestPrice(id: Int, offSet: Int64) {
+    func getCategoryNewestFeed(id: Int, offSet: Int64) {
         let callEvent = ApiCallEvent()
         callEvent.method = "get-category-newest-feed/" + String(id)
         callEvent.resultClass = "PostModel"
-        callEvent.successEventbusName = "feedReceivedSuccess"
-        callEvent.failedEventbusName = "feedReceivedFailed"
-        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method + "/prodtype/" + String(offSet)
+        callEvent.successEventbusName = "feedLoadSuccess"
+        callEvent.failedEventbusName = "feedLoadFailed"
+        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method + "/ALL/" + String(offSet)
         self.makeApiCall(callEvent)
     }
     
-    func getCategoriesFilterByLhPrice(id: Int, offSet: Int64) { //filtering by low-high price
+    func getCategoryPriceLowHighFeed(id: Int, offSet: Int64) {
         let callEvent = ApiCallEvent()
         callEvent.method = "get-category-price-low-high-feed/" + String(id)
         callEvent.resultClass = "PostModel"
-        callEvent.successEventbusName = "feedReceivedSuccess"
-        callEvent.failedEventbusName = "feedReceivedFailed"
-        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method  + "/prodtype/" + String(offSet)
+        callEvent.successEventbusName = "feedLoadSuccess"
+        callEvent.failedEventbusName = "feedLoadFailed"
+        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method  + "/ALL/" + String(offSet)
         self.makeApiCall(callEvent)
     }
     
-    func getCategoriesFilterByHlPrice(id: Int, offSet: Int64) { //filtering by high-low price
+    func getCategoryPriceHighLowFeed(id: Int, offSet: Int64) {
         let callEvent = ApiCallEvent()
         callEvent.method = "get-category-price-high-low-feed/" + String(id)
         callEvent.resultClass = "PostModel"
-        callEvent.successEventbusName = "feedReceivedSuccess"
-        callEvent.failedEventbusName = "feedReceivedFailed"
-        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method + "/prodtype/" + String(offSet)
+        callEvent.successEventbusName = "feedLoadSuccess"
+        callEvent.failedEventbusName = "feedLoadFailed"
+        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method + "/ALL/" + String(offSet)
         self.makeApiCall(callEvent)
     }
     
-    func getUserPostedFeeds(id: Int, offSet: Int64) { //filtering by high-low price
+    func getUserPostedFeed(id: Int, offSet: Int64) {
         let callEvent = ApiCallEvent()
         callEvent.method = "get-user-posted-feed/" + String(id)
         callEvent.resultClass = "PostModel"
-        callEvent.successEventbusName = "userPostFeedSuccess"
-        callEvent.failedEventbusName = "userPostFeedFailed"
+        callEvent.successEventbusName = "feedLoadSuccess"
+        callEvent.failedEventbusName = "feedLoadFailed"
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method + "/" + String(offSet)
         self.makeApiCall(callEvent)
     }
     
-    func getUserLikedFeeds(id: Int, offSet: Int64) { //filtering by high-low price
+    func getUserLikedFeed(id: Int, offSet: Int64) {
         let callEvent = ApiCallEvent()
         callEvent.method = "get-user-liked-feed/" + String(id)
         callEvent.resultClass = "PostModel"
-        callEvent.successEventbusName = "userLikedFeedSuccess"
-        callEvent.failedEventbusName = "userLikedFeedFailed"
+        callEvent.successEventbusName = "feedLoadSuccess"
+        callEvent.failedEventbusName = "feedLoadFailed"
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method + "/" + String(offSet)
         self.makeApiCall(callEvent)
     }
     
-    func getUserCollectionFeeds(id: Int, offSet: Int) { //filtering by high-low price
-        let callEvent = ApiCallEvent()
-        callEvent.method = "get-user-collection-feed" + String(id)
-        callEvent.resultClass = "PostModel"
-        callEvent.successEventbusName = "userPostFeedSuccess"
-        callEvent.failedEventbusName = "userPostFeedFailed"
-        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method + "/" + String(offSet)
-        self.makeApiCall(callEvent)
-    }
-    
-    func getUserFollowings(id: Int, offSet: Int) { //filtering by high-low price
+    func getUserFollowings(id: Int, offSet: Int) {
         let callEvent = ApiCallEvent()
         callEvent.method = "followings/" + String(id)
         callEvent.resultClass = "UserVM"
@@ -289,7 +281,6 @@ class ApiControlller {
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method + "/" + String(offSet)
         self.makeApiCall(callEvent)
     }
-    
     
     func getUserFollowers(id: Int, offSet: Int) { //filtering by high-low price
         let callEvent = ApiCallEvent()
@@ -313,8 +304,6 @@ class ApiControlller {
     
     //User Security APIs
     func saveUserSignUpInfo(displayName: String, locationId: Int) { //filtering by high-low price
-        
-        
         var strData = [String]()
         strData.append("parent_displayname=\(displayName)")
         strData.append("parent_location=\(locationId)")
@@ -330,7 +319,6 @@ class ApiControlller {
         //TODO - populate the post data//callEvent.body = userInfo
         
         self.makePostApiCall(callEvent)
-        
     }
     
     func uploadUserProfileImg(profileImg: UIImage) {
@@ -439,7 +427,6 @@ class ApiControlller {
         
         self.makeApiCall(callEvent)
     }
-    
     
     func saveSellProduct(producttxt :String,sellingtext :String, categoryId:String, conditionType:String, pricetxt : String, imageCollection: [AnyObject]){
         
@@ -638,11 +625,9 @@ class ApiControlller {
     
     
     
-     class func toJson(res: CommentVM) -> String {
-       var JSONString = ""
-        if (res is CommentVM) {
-           JSONString = Mapper<CommentVM>().toJSONString(res as! CommentVM, prettyPrint: true)!
-        }
+    class func toJson(res: CommentVM) -> String {
+        var JSONString = ""
+        JSONString = Mapper<CommentVM>().toJSONString(res, prettyPrint: true)!
         NSLog("inside tojson")
         let str = CFURLCreateStringByAddingPercentEscapes(
             nil,
@@ -660,16 +645,13 @@ class ApiControlller {
     
     func makeBodyString(strData:[String]) -> String {
         var result = ""
-        for myStr in strData
-        {
-            if(result == "") {
+        for myStr in strData {
+            if (result == "") {
                 result = myStr
-            }else {
+            } else {
                 result += "&\(myStr)"
             }
         }
         return result
     }
-    
-    static let apiController = ApiControlller()
 }

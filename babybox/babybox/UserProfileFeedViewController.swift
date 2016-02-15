@@ -40,8 +40,7 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
                 self.activeHeaderViewCell?.segmentControl.setTitle("Likes " + String(self.userInfo!.numLikes), forSegmentAtIndex: 1)
             }
             
-            ApiControlller.apiController.getUserPostedFeeds(self.userInfo!.id, offSet: 0)
-            ApiControlller.apiController.getUserLikedFeeds(self.userInfo!.id, offSet: 0)
+            self.reloadFeedItems()
         }
         
         SwiftEventBus.onMainThread(self, name: "userByIdFailed") { result in
@@ -60,7 +59,7 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
     
     override func viewDidDisappear(animated: Bool) {
         unregisterEvents()
-        resetData()
+        clearFeedItems()
     }
     
     override func viewDidLoad() {
@@ -140,8 +139,7 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
             }
             
             return cell
-        }
-        else {
+        } else {
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! FeedProductCollectionViewCell
             
             cell.likeImageIns.tag = indexPath.item

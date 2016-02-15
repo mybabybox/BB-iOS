@@ -44,13 +44,12 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
             self.activeHeaderViewCell?.segmentControl.setTitle("Likes " + String(self.userInfo!.numLikes), forSegmentAtIndex: 1)
         }
 
-        ApiControlller.apiController.getUserPostedFeeds(self.userInfo!.id, offSet: 0)
-        ApiControlller.apiController.getUserLikedFeeds(self.userInfo!.id, offSet: 0)
+        reloadFeedItems()
     }
     
     override func viewDidDisappear(animated: Bool) {
         unregisterEvents()
-        resetData()
+        clearFeedItems()
     }
     
     override func viewDidLoad() {

@@ -18,7 +18,7 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var activityLoading: UIActivityIndicatorView!
     var apiController: ApiControlller = ApiControlller()
     var products: [PostModel] = []
-    var pageOffSet: Int64 = 0
+    var feedOffset: Int64 = 0
     var currentIndex = 0
     var collectionViewCellSize : CGSize?
     var collectionViewTopCellSize : CGSize?
@@ -27,11 +27,12 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
     var isHeightSet: Bool = false
     
     override func viewDidAppear(animated: Bool) {
-        
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        apiController.getHomeEollowingFeeds(0)
+        
+        apiController.getHomeFollowingFeed(0)
         
         if (!SharedPreferencesUtil.getInstance().isScreenViewed(SharedPreferencesUtil.Screen.HOME_FOLLOWING_TIPS)) {
             self.followingTips.hidden = false
@@ -41,7 +42,7 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
             self.topSpaceConstraint.constant = 5
         }
         
-        SwiftEventBus.onMainThread(self, name: "feedReceivedSuccess") { result in
+        SwiftEventBus.onMainThread(self, name: "feedLoadSuccess") { result in
             // UI thread
             let resultDto: [PostModel] = result.object as! [PostModel]
             self.handleGetAllProductsuccess(resultDto)
@@ -171,7 +172,7 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
                 self.products.appendContentsOf(resultDto)
                 self.uiCollectionView.reloadData()
             }
-            self.pageOffSet = Int64(self.products[self.products.count-1].offset)
+            self.feedOffset = Int64(self.products[self.products.count-1].offset)
         }
         self.activityLoading.stopAnimating()
         self.loadingProducts = true
@@ -210,7 +211,7 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
     func scrollViewDidScroll(scrollView: UIScrollView) {
         if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - constants.prodImgLoadThresold){
             if (self.loadingProducts) {
-                self.apiController.getHomeEollowingFeeds(self.pageOffSet)
+                self.apiController.getHomeFollowingFeed(self.feedOffset)
                 self.loadingProducts = false
             }
         }

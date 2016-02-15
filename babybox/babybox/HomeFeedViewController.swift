@@ -13,7 +13,7 @@ import Kingfisher
 class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
     
     var apiController: ApiControlller = ApiControlller()
-    var pageOffSet: Int64 = 0
+    var feedOffset: Int64 = 0
     var currentIndex = 0
     var categories : [CategoryModel] = []
     var collectionViewCellSize : CGSize?
@@ -48,7 +48,7 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
             self.handleGetCateogriesSuccess(resultDto)
         }
         
-        SwiftEventBus.onMainThread(self, name: "homeFeedReceivedSuccess") { result in
+        SwiftEventBus.onMainThread(self, name: "feedLoadSuccess") { result in
             let resultDto: [PostModel] = result.object as! [PostModel]
             self.handleGetAllProductsuccess(resultDto)
         }
@@ -66,7 +66,7 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
         uiCollectionView.collectionViewLayout = flowLayout
         
         apiController.getAllCategories();
-        apiController.getHomeExploreFeeds(0)
+        apiController.getHomeExploreFeed(0)
     }
     
     @IBAction func onClicTipClose(sender: AnyObject) {
@@ -244,7 +244,7 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
                 self.products.appendContentsOf(resultDto)
                 self.uiCollectionView.reloadData()
             }
-            self.pageOffSet = Int64(self.products[self.products.count-1].offset)
+            self.feedOffset = Int64(self.products[self.products.count-1].offset)
         }
         self.activityLoading.stopAnimating()
         self.loadingProducts = true
@@ -296,7 +296,7 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
         
         if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height ){
             if (self.loadingProducts) {
-                self.apiController.getHomeExploreFeeds(self.pageOffSet)
+                self.apiController.getHomeExploreFeed(self.feedOffset)
                 self.loadingProducts = false
             }
         }

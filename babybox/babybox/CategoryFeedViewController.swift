@@ -18,7 +18,7 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var activityLoading: UIActivityIndicatorView!
     @IBOutlet weak var uiCollectionView: UICollectionView!
     
-    var pageOffSet: Int64 = 0
+    var feedOffset: Int64 = 0
     var apiController: ApiControlller = ApiControlller()
     var currentIndex = 0
     var isWidthSet = false
@@ -49,7 +49,7 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
             self.tipSection.constant = -5
         }
         
-        SwiftEventBus.onMainThread(self, name: "feedReceivedSuccess") { result in
+        SwiftEventBus.onMainThread(self, name: "feedLoadSuccess") { result in
             // UI thread
             let resultDto: [PostModel] = result.object as! [PostModel]
             self.handleGetAllProductsuccess(resultDto)
@@ -65,7 +65,7 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
         flowLayout.minimumLineSpacing = 5
         uiCollectionView.collectionViewLayout = flowLayout
         
-        ApiControlller.apiController.getCategoriesFilterByPopularity(Int(self.selCategory!.id), offSet: 0)
+        ApiControlller.apiController.getCategoryPopularFeed(Int(self.selCategory!.id), offSet: 0)
         
         let sellBtn: UIButton = UIButton()
         sellBtn.setImage(UIImage(named: "new_post"), forState: UIControlState.Normal)
@@ -258,7 +258,7 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
                 self.products.appendContentsOf(resultDto)
                 self.uiCollectionView.reloadData()
             }
-            self.pageOffSet = Int64(self.products[self.products.count-1].offset)
+            self.feedOffset = Int64(self.products[self.products.count-1].offset)
         }
         self.activityLoading.stopAnimating()
         self.loadingProducts = true
@@ -268,16 +268,15 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
     func scrollViewDidScroll(scrollView: UIScrollView) {
         if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - constants.prodImgLoadThresold){
             if (self.loadingProducts) {
-                
                 switch feedFilter! {
                 case FeedFilter.FeedType.CATEGORY_POPULAR:
-                    apiController.getCategoriesFilterByPopularity(0, offSet: self.pageOffSet)
+                    apiController.getCategoryPopularFeed(0, offSet: self.feedOffset)
                 case FeedFilter.FeedType.CATEGORY_NEWEST:
-                    apiController.getCategoriesFilterByNewestPrice(0, offSet: self.pageOffSet)
+                    apiController.getCategoryNewestFeed(0, offSet: self.feedOffset)
                 case FeedFilter.FeedType.CATEGORY_PRICE_LOW_HIGH:
-                    apiController.getCategoriesFilterByLhPrice(0, offSet: self.pageOffSet)
+                    apiController.getCategoryPriceLowHighFeed(0, offSet: self.feedOffset)
                 case FeedFilter.FeedType.CATEGORY_PRICE_HIGH_LOW:
-                    apiController.getCategoriesFilterByHlPrice(0, offSet: self.pageOffSet)
+                    apiController.getCategoryPriceHighLowFeed(0, offSet: self.feedOffset)
                 default: break
                 }
                 
@@ -328,31 +327,31 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
     }
     
     @IBAction func onClickPopulated(sender: AnyObject) {
-        self.pageOffSet = 0
+        self.feedOffset = 0
         self.setFeedtype(FeedFilter.FeedType.CATEGORY_POPULAR)
         self.products = []
-        ApiControlller.apiController.getCategoriesFilterByPopularity(Int(self.selCategory!.id), offSet: 0)
+        ApiControlller.apiController.getCategoryPopularFeed(Int(self.selCategory!.id), offSet: 0)
     }
     
     @IBAction func onClickNewest(sender: AnyObject) {
-        self.pageOffSet = 0
+        self.feedOffset = 0
         self.setFeedtype(FeedFilter.FeedType.CATEGORY_NEWEST)
         self.products = []
-        ApiControlller.apiController.getCategoriesFilterByNewestPrice(Int(self.selCategory!.id), offSet: 0)
+        ApiControlller.apiController.getCategoryNewestFeed(Int(self.selCategory!.id), offSet: 0)
     }
     
     @IBAction func onClickHighLow(sender: AnyObject) {
-        self.pageOffSet = 0
+        self.feedOffset = 0
         self.setFeedtype(FeedFilter.FeedType.CATEGORY_PRICE_HIGH_LOW)
         self.products = []
-        ApiControlller.apiController.getCategoriesFilterByHlPrice(Int(self.selCategory!.id), offSet: 0)
+        ApiControlller.apiController.getCategoryPriceHighLowFeed(Int(self.selCategory!.id), offSet: 0)
     }
     
     @IBAction func onClickLowHigh(sender: AnyObject) {
-        self.pageOffSet = 0
+        self.feedOffset = 0
         self.setFeedtype(FeedFilter.FeedType.CATEGORY_PRICE_LOW_HIGH)
         self.products = []
-        ApiControlller.apiController.getCategoriesFilterByLhPrice(Int(self.selCategory!.id), offSet: 0)
+        ApiControlller.apiController.getCategoryPriceLowHighFeed(Int(self.selCategory!.id), offSet: 0)
     }
     
     @IBAction func onClickCloseTip(sender: AnyObject) {
