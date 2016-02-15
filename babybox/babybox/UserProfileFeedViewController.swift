@@ -354,14 +354,7 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
     
     func redrawSegControlBorder(segControl: UISegmentedControl) {
         
-        var extraHt = CGFloat(0.0)
-        if (!isTipVisible() && !isHtCalculated) {
-            extraHt = CGFloat(114.0)
-            self.isHtCalculated = true
-        } else {
-            
-        }
-        
+        let extraHt = CGFloat(0.0)
         if(segControl.selectedSegmentIndex == 0){
             let y = CGFloat(segControl.frame.size.height)
             let start: CGPoint = CGPoint(x: 0, y: (segControl.frame.origin.y) + y - extraHt)
@@ -404,12 +397,6 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
         cell.editProfile.layer.borderColor = UIColor.lightGrayColor().CGColor
         cell.editProfile.layer.borderWidth = 1.0
         
-        if (!SharedPreferencesUtil.getInstance().isScreenViewed(SharedPreferencesUtil.Screen.MY_PROFILE_TIPS)) {
-            cell.tipsView.hidden = false
-        } else {
-            cell.tipsView.hidden = true
-            cell.tipsConstraint.constant = 6
-        }
         ImageUtil.displayButtonRoundBorder(cell.editProfile)
         
         if (constants.userInfo.id != self.userId) {

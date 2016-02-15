@@ -369,7 +369,6 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
         if (!isTipVisible() && !isHtCalculated) {
             extraHt = CGFloat(114.0)
             self.isHtCalculated = true
-        } else {
         }
         
         if(segControl.selectedSegmentIndex == 0){
