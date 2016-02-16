@@ -83,12 +83,12 @@ class CustomNavigationController: UIViewController {
         }
         
         let sellBtn: UIButton = UIButton()
-        sellBtn.setImage(UIImage(named: "new_post"), forState: UIControlState.Normal)
+        sellBtn.setImage(UIImage(named: "btn_sell"), forState: UIControlState.Normal)
         sellBtn.addTarget(self, action: "onClickSellBtn:", forControlEvents: UIControlEvents.TouchUpInside)
         sellBtn.frame = CGRectMake(0, 0, 35, 35)
         
         let chatBtn: UIButton = UIButton()
-        chatBtn.setImage(UIImage(named: "ic_chat_s"), forState: UIControlState.Normal)
+        chatBtn.setImage(UIImage(named: "ic_chat"), forState: UIControlState.Normal)
         chatBtn.addTarget(self, action: "onClickChatBtn:", forControlEvents: UIControlEvents.TouchUpInside)
         chatBtn.frame = CGRectMake(0, 0, 35, 35)
         

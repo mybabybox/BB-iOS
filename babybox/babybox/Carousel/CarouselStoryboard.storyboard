@@ -18,9 +18,8 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" bouncesZoom="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="iga-pH-EF8" customClass="MVCarouselCollectionView" customModule="MVCarouselCollectionView">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="lDW-gf-UGC">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="531"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="lDW-gf-UGC">
                                     <size key="itemSize" width="50" height="50"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -40,6 +39,8 @@
                             </collectionView>
                             <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="d5Y-b6-1jS" customClass="MVCarouselPageControl" customModule="MVCarouselCollectionViewDemo">
                                 <rect key="frame" x="141" y="531" width="39" height="37"/>
+                                <color key="pageIndicatorTintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="currentPageIndicatorTintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <action selector="pageControlEventChanged:" destination="bRf-so-vuz" eventType="valueChanged" id="jc2-3k-ZNc"/>
                                 </connections>
@@ -51,8 +52,8 @@
                             <constraint firstAttribute="centerX" secondItem="d5Y-b6-1jS" secondAttribute="centerX" id="Cvc-7g-20h"/>
                             <constraint firstItem="d5Y-b6-1jS" firstAttribute="bottom" secondItem="J1Q-RM-OSl" secondAttribute="top" id="HyA-hz-oYf"/>
                             <constraint firstItem="iga-pH-EF8" firstAttribute="top" secondItem="KFO-fe-sZm" secondAttribute="top" id="OoP-kE-6uI"/>
+                            <constraint firstItem="d5Y-b6-1jS" firstAttribute="top" secondItem="iga-pH-EF8" secondAttribute="bottom" id="eQR-ox-osA"/>
                             <constraint firstItem="iga-pH-EF8" firstAttribute="leading" secondItem="KFO-fe-sZm" secondAttribute="leading" id="qrZ-se-8aA"/>
-                            <constraint firstAttribute="bottom" secondItem="iga-pH-EF8" secondAttribute="bottom" id="zEW-he-bn5"/>
                         </constraints>
                     </view>
                     <connections>

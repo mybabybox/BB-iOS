@@ -68,7 +68,7 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
         uiCollectionView.collectionViewLayout = flowLayout
         
         let sellBtn: UIButton = UIButton()
-        sellBtn.setImage(UIImage(named: "new_post"), forState: UIControlState.Normal)
+        sellBtn.setImage(UIImage(named: "btn_sell"), forState: UIControlState.Normal)
         sellBtn.addTarget(self, action: "onClickSellBtn:", forControlEvents: UIControlEvents.TouchUpInside)
         sellBtn.frame = CGRectMake(0, 0, 35, 35)
         let sellBarBtn = UIBarButtonItem(customView: sellBtn)
