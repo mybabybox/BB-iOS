@@ -54,7 +54,6 @@ class LandingPageViewController: UIViewController {
     }
     
     override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
-        print("going to login..", terminator: "")
         if (identifier == "signup") {
             self.navigationController?.navigationBar.hidden = false
         }

@@ -17,8 +17,8 @@ class FollowersViewController: UICollectionViewController {
     var reuseIdentifier = "followersViewController"
     var userFollowers: [UserVM] = []
     var userId: Int = 0
+    
     @IBAction func onClickFollowers(sender: AnyObject) {
-        print("---")
     }
     
     override func viewDidLoad() {
@@ -64,7 +64,6 @@ class FollowersViewController: UICollectionViewController {
         
         /*let imagePath =  constants.imagesBaseURL + "/image/get-mini-profile-image-by-id/" + String(userInfo.id)
         let imageUrl  = NSURL(string: imagePath);
-        print(imageUrl)
         dispatch_async(dispatch_get_main_queue(), {
             cell.userImage.kf_setImageWithURL(imageUrl!)
         })*/

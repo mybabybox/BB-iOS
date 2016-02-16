@@ -152,20 +152,20 @@ class SignupViewController: FbLoginViewController {
 
     
     @IBAction func onSignInByfb(sender: AnyObject) {
-        /*print("onSignInByfb")
+        /*
         var fbLoginManager = FBSDKLoginManager()
         fbLoginManager.logInWithReadPermissions(["public_profile"], fromViewController: self) {
             (result: FBSDKLoginManagerLoginResult!, error: NSError!) -> Void in
             
             if (error != nil) {
                 NSLog("User Logged In.")
-                print(result)
             } else if (result.isCancelled) {
                    NSLog("User Cancelled")
             } else {
                 NSLog("User Not Logged In.")
             }
-        }*/
+        }
+        */
         self.loginWithFacebook()
     }
 

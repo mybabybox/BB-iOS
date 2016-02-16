@@ -136,7 +136,6 @@ class ApiControlller {
     }
     
     func postComment(id: String, comment: String){
-        print("In api call for id \(id) and comment --\(comment)", terminator: "")
         var strData = [String]()
         strData.append("postId=\(id)")
         strData.append("body=\(comment)")
@@ -336,7 +335,6 @@ class ApiControlller {
                 multipartFormData.appendBodyPart(data: UIImagePNGRepresentation(profileImg)!, name: "profile-photo", fileName: "upload.jpg", mimeType:"*")
             },
             encodingCompletion: { encodingResult in
-                print(encodingResult)
                 switch encodingResult {
                 case .Success( _, _, _):
                     SwiftEventBus.post(callEvent.successEventbusName, sender: "")
@@ -405,7 +403,6 @@ class ApiControlller {
     }
     
     func getMessages(id: Int, pageOffSet: Int) {
-        print("id of msg is \(id)")
         let callEvent = ApiCallEvent()
         callEvent.method = "get-messages/\(id)/\(pageOffSet)"
         callEvent.resultClass = "MessageVM"
@@ -417,7 +414,6 @@ class ApiControlller {
     }
     
     func deleteComment(id: Int) {
-        print("id of msg is \(id)")
         let callEvent = ApiCallEvent()
         callEvent.method = "comment/delete/\(id)"
         callEvent.resultClass = "String"
@@ -466,7 +462,6 @@ class ApiControlller {
                 
             },
             encodingCompletion: { encodingResult in
-                print(encodingResult)
                 switch encodingResult {
                 case .Success( _, _, _):
                     SwiftEventBus.post(callEvent.successEventbusName, sender: "")
@@ -500,7 +495,6 @@ class ApiControlller {
         //callEvent.body = parameter
         //callEvent.successEventbusName = "postMessageSuccess"
         //callEvent.failedEventbusName = "postMessageFailed"
-        print(message)
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
         
         Alamofire.upload(
@@ -572,21 +566,18 @@ class ApiControlller {
         })
         task.resume()
     }
-    
-    
+
     func handleResult(data: NSData, arg: ResponseVM) {
-        //print("response")
-        let error3: AutoreleasingUnsafeMutablePointer<NSError?> = nil
+        let _: AutoreleasingUnsafeMutablePointer<NSError?> = nil
         let responseString: String = NSString(data: data, encoding: NSUTF8StringEncoding) as! String
-        NSLog("responseString %@", responseString)
+        //NSLog("responseString %@", responseString)
         let result: AnyObject = self.parseStr(arg.resultClass, inputStr: responseString as String)
         SwiftEventBus.post("getUserLoggedIn", sender: result)
-        
     }
     
     func handleResult(data: NSData, arg: ApiCallEvent) -> AnyObject {
         let responseString: String = NSString(data: data, encoding: NSUTF8StringEncoding) as! String
-        NSLog("responseString %@", responseString)
+        //NSLog("responseString %@", responseString)
         if (responseString == "") {
             return ""
         }
@@ -598,10 +589,7 @@ class ApiControlller {
         var result: AnyObject = NSNull();
         
         switch cName {
-            case "CategoryModel":
-                result = Mapper<CategoryModel>().mapArray(inputStr)!
-            //print(result, terminator: "")
-            //result = Mapper<CategoryModel>().mapArray(inputStr)
+            case "CategoryModel": result = Mapper<CategoryModel>().mapArray(inputStr)!
             case "UserInfoModel": result = Mapper<UserInfoModel>().map(inputStr)!
             case "UserInfoVM": result = Mapper<UserInfoVM>().map(inputStr)!
             case "UserVM": result = Mapper<UserVM>().mapArray(inputStr)!
@@ -614,21 +602,16 @@ class ApiControlller {
             case "MessageVM": result = Mapper<MessageVM>().map(inputStr)!
             case "MessageDetailVM": result = Mapper<MessageDetailVM>().map(inputStr)!
             case "SellVm": result = Mapper<SellVM>().map(inputStr)!
-            //case "LocationVM": result = Mapper<LocationVM>().map(inputStr)!
-            case "String":
-                result = inputStr
-            default:
-                print("calling default object resolver", terminator: "")
+            case "String": result = inputStr
+            default: NSLog("calling default object resolver")
         }
         return result
     }
     
-    
-    
     class func toJson(res: CommentVM) -> String {
         var JSONString = ""
         JSONString = Mapper<CommentVM>().toJSONString(res, prettyPrint: true)!
-        NSLog("inside tojson")
+        //NSLog("inside tojson")
         let str = CFURLCreateStringByAddingPercentEscapes(
             nil,
             JSONString,
@@ -636,7 +619,7 @@ class ApiControlller {
             "!*'();:@&=+$,/?%#[]",
             CFStringBuiltInEncodings.UTF8.rawValue
         )
-        NSLog(JSONString)
+        //NSLog(JSONString)
         //remeber to do urlescape on argPayload too
         //return JSONString
         

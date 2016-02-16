@@ -33,7 +33,6 @@ class SharedPreferencesUtil {
     }
     
     func isScreenViewed(screen: Screen) -> Bool {
-        print(self.prefs.objectForKey(screen.rawValue))
         if (self.prefs.objectForKey(screen.rawValue) == nil) {
             return false
         } else {

@@ -32,21 +32,19 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
     
     override func viewDidAppear(animated: Bool) {
         self.tabBarController!.tabBar.hidden = false
-        //feedLoader?.reloadFeedItems()
     }
     
     override func viewDidDisappear(animated: Bool) {
     }
     
     override func viewWillDisappear(animated: Bool) {
-        //feedLoader?.clearFeedItems()
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         feedLoader = FeedLoader(feedType: FeedFilter.FeedType.HOME_EXPLORE, reloadDataToView: reloadDataToView)
-        feedLoader?.reloadFeedItems()
+        feedLoader!.reloadFeedItems()
         
         if (!SharedPreferencesUtil.getInstance().isScreenViewed(SharedPreferencesUtil.Screen.HOME_EXPLORE_TIPS)) {
             self.exploreTip.hidden = false
@@ -95,7 +93,7 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
         if (collectionView.tag == 2) {
             count = self.categories.count
         } else {
-            count = (feedLoader?.size())!
+            count = feedLoader!.size()
         }
         return count
     }
@@ -130,40 +128,38 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
             
             cell.likeImageIns.tag = indexPath.item
             
-            if let feedItem = feedLoader?.getItem(indexPath.row) {
-                if (feedItem.hasImage) {
-                    ImageUtil.displayPostImage(feedItem.images[0], imageView: cell.prodImageView)
-                }
-                
-                cell.soldImage.hidden = !feedItem.sold
-                cell.likeCountIns.setTitle(String(feedItem.numLikes), forState: UIControlState.Normal)
-                
-                if (!feedItem.isLiked) {
-                    cell.likeImageIns.setImage(UIImage(named: "ic_like_tips.png"), forState: UIControlState.Normal)
-                } else {
-                    cell.likeImageIns.setImage(UIImage(named: "ic_liked_tips.png"), forState: UIControlState.Normal)
-                }
-                cell.title.text = feedItem.title
-                
-                cell.productPrice.text = "\(constants.currencySymbol) \(String(stringInterpolationSegment: Int(feedItem.price)))"
-                
-                if (feedItem.originalPrice != 0 && feedItem.originalPrice != -1 && feedItem.originalPrice != Int(feedItem.price)) {
-                    let attrString = NSAttributedString(string: "\(constants.currencySymbol) \(String(stringInterpolationSegment:Int(feedItem.originalPrice)))", attributes: [NSStrikethroughStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue])
-                    cell.originalPrice.attributedText = attrString
-                } else {
-                    cell.originalPrice.attributedText = NSAttributedString(string: "")
-                }
-                
-                cell.likeImageIns.addTarget(self, action: "onLikeBtnClick:", forControlEvents: UIControlEvents.TouchUpInside)
-                
-                cell.layer.borderColor = CGColorCreate(CGColorSpaceCreateDeviceRGB(), [194/255, 195/255, 200/255, 1.0])
-                cell.layer.borderWidth = 1
+            let feedItem = feedLoader!.getItem(indexPath.row)
+            if (feedItem.hasImage) {
+                ImageUtil.displayPostImage(feedItem.images[0], imageView: cell.prodImageView)
             }
+            
+            cell.soldImage.hidden = !feedItem.sold
+            cell.likeCountIns.setTitle(String(feedItem.numLikes), forState: UIControlState.Normal)
+            
+            if (!feedItem.isLiked) {
+                cell.likeImageIns.setImage(UIImage(named: "ic_like_tips.png"), forState: UIControlState.Normal)
+            } else {
+                cell.likeImageIns.setImage(UIImage(named: "ic_liked_tips.png"), forState: UIControlState.Normal)
+            }
+            cell.title.text = feedItem.title
+            
+            cell.productPrice.text = "\(constants.currencySymbol) \(String(stringInterpolationSegment: Int(feedItem.price)))"
+            
+            if (feedItem.originalPrice != 0 && feedItem.originalPrice != -1 && feedItem.originalPrice != Int(feedItem.price)) {
+                let attrString = NSAttributedString(string: "\(constants.currencySymbol) \(String(stringInterpolationSegment:Int(feedItem.originalPrice)))", attributes: [NSStrikethroughStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue])
+                cell.originalPrice.attributedText = attrString
+            } else {
+                cell.originalPrice.attributedText = NSAttributedString(string: "")
+            }
+            
+            cell.likeImageIns.addTarget(self, action: "onLikeBtnClick:", forControlEvents: UIControlEvents.TouchUpInside)
+            
+            cell.layer.borderColor = CGColorCreate(CGColorSpaceCreateDeviceRGB(), [194/255, 195/255, 200/255, 1.0])
+            cell.layer.borderWidth = 1
             return cell
         }
     }
-    
-    
+
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         self.tabBarController!.tabBar.hidden = true
 
@@ -173,11 +169,10 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
             self.navigationController?.pushViewController(vController, animated: true)
         } else {
             let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("FeedProductViewController") as! FeedProductViewController
-            if let feedItem = feedLoader?.getItem(indexPath.row) {
-                vController.productModel = feedItem
-                ApiControlller.apiController.getProductDetails(String(Int(feedItem.id)))
-                self.navigationController?.pushViewController(vController, animated: true)
-            }
+            let feedItem = feedLoader!.getItem(indexPath.row)
+            vController.productModel = feedItem
+            ApiControlller.apiController.getProductDetails(String(Int(feedItem.id)))
+            self.navigationController?.pushViewController(vController, animated: true)
         }
     }
     
@@ -186,7 +181,6 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
         if (kind == UICollectionElementKindSectionHeader) {
             
             let headerView : HomeReusableView = collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "HeaderView", forIndexPath: indexPath) as! HomeReusableView
-            print(headerView.tag)
             headerView.headerViewCollection.reloadData()
             reusableView = headerView
         }
@@ -274,7 +268,7 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
         if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height ){
-            feedLoader?.loadMoreFeedItems()
+            feedLoader!.loadMoreFeedItems()
         }
     }
         
@@ -296,20 +290,19 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
         let indexPath = self.uiCollectionView.indexPathForCell(cell)
         
         //TODO - logic here require if user has already liked the product...
-        if let feedItem = feedLoader?.getItem(indexPath!.row) {
-            if (feedItem.isLiked) {
-                feedItem.isLiked = false
-                feedItem.numLikes--
-                cell.likeCountIns.setTitle(String(feedItem.numLikes), forState: UIControlState.Normal)
-                cell.likeImageIns.setImage(UIImage(named: "ic_like_tips.png"), forState: UIControlState.Normal)
-                ApiControlller.apiController.unlikePost(String(feedItem.id))
-            } else {
-                feedItem.isLiked = true
-                feedItem.numLikes++
-                cell.likeCountIns.setTitle(String(feedItem.numLikes), forState: UIControlState.Normal)
-                cell.likeImageIns.setImage(UIImage(named: "ic_liked_tips.png"), forState: UIControlState.Normal)
-                ApiControlller.apiController.likePost(String(feedItem.id))
-            }
+        let feedItem = feedLoader!.getItem(indexPath!.row)
+        if (feedItem.isLiked) {
+            feedItem.isLiked = false
+            feedItem.numLikes--
+            cell.likeCountIns.setTitle(String(feedItem.numLikes), forState: UIControlState.Normal)
+            cell.likeImageIns.setImage(UIImage(named: "ic_like_tips.png"), forState: UIControlState.Normal)
+            ApiControlller.apiController.unlikePost(String(feedItem.id))
+        } else {
+            feedItem.isLiked = true
+            feedItem.numLikes++
+            cell.likeCountIns.setTitle(String(feedItem.numLikes), forState: UIControlState.Normal)
+            cell.likeImageIns.setImage(UIImage(named: "ic_liked_tips.png"), forState: UIControlState.Normal)
+            ApiControlller.apiController.likePost(String(feedItem.id))
         }
     }
 }

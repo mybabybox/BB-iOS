@@ -25,9 +25,7 @@ class ForgotPasswordViewController: UIViewController, UITextFieldDelegate {
         
         SwiftEventBus.onMainThread(self, name: "forgotPasswordSuccess") { result in
             // UI thread
-            print(result.object)
             let resultDto: String = result.object as! String
-            print("here got the login result... " + resultDto);
             self.handleForgotPassword(resultDto)
         }
         

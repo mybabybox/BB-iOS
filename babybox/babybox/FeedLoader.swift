@@ -24,11 +24,18 @@ class FeedLoader {
     init(feedType: FeedFilter.FeedType, reloadDataToView: ()->()) {
         self.feedType = feedType
         self.reloadDataToView = reloadDataToView
-        
+        registerEvents()
+    }
+    
+    func setFeedType(feedType: FeedFilter.FeedType) {
+        self.feedType = feedType
+        feedItems = []
         registerEvents()
     }
     
     func registerEvents() {
+        SwiftEventBus.unregister(self)
+        
         switch feedType {
         case FeedFilter.FeedType.HOME_EXPLORE:
             SwiftEventBus.onMainThread(self, name: "homeExploreFeedLoadSuccess") { result in
@@ -99,6 +106,7 @@ class FeedLoader {
     }
     
     func handleFeedLoadSuccess(feedItems: [PostModel]) {
+        NSLog("FeedLoader.handleFeedLoadSuccess: feedItems="+String(feedItems.count))
         if (!feedItems.isEmpty) {
             if (self.feedItems.count == 0) {
                 self.feedItems = feedItems
@@ -109,7 +117,6 @@ class FeedLoader {
         } else {
             loadedAll = true
         }
-        
         loading = false
     }
     
@@ -148,6 +155,7 @@ class FeedLoader {
     }
     
     func loadFeed(feedOffset: Int64, objId: Int) {
+        NSLog("FeedLoader.loadFeed: feedOffset="+String(feedOffset)+" objId="+String(objId)+" feedType="+String(feedType))
         switch feedType {
         case FeedFilter.FeedType.HOME_EXPLORE:
             ApiControlller.apiController.getHomeExploreFeed(feedOffset)

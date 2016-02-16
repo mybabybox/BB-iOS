@@ -21,7 +21,6 @@ class CommentModel: BaseArgModel {
     var deviceType: String = ""
     
     override func mapping(map: ObjectMapper.Map) {
-        print("mapping", terminator: "");
         id<-map["id"]
         createdDate<-map["createdDate"]
         ownerId<-map["ownerId"]

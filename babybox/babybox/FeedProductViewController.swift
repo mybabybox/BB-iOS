@@ -51,7 +51,7 @@ class FeedProductViewController: UIViewController {
                 let resultDto: [ConversationVM] = result.object as! [ConversationVM]
                 self.handleConversation(resultDto)
             } else {
-                print("null value")
+
             }
         }
         

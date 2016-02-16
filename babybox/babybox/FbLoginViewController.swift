@@ -53,13 +53,10 @@ class FbLoginViewController: UIViewController {
             
             if (error != nil) {
                 NSLog("User Logged In.")
-                print(result)
-                
-                            } else if (result.isCancelled) {
+            } else if (result.isCancelled) {
                 NSLog("User Cancelled")
             } else {
                 NSLog("User Not Logged In.")
-                print(result.token)
                 constants.accessToken = result.token.tokenString
                 ApiControlller.apiController.loginWithFacebook()
             }

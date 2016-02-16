@@ -31,7 +31,6 @@ class SignInOptionsViewController: FbLoginViewController {
             
             if (error != nil) {
                 NSLog("User Logged In.")
-                print(result)
             } else if (result.isCancelled) {
                 NSLog("User Cancelled")
             } else {

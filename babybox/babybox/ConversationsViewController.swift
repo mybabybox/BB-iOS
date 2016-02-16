@@ -102,7 +102,6 @@ class ConversationsViewController: CustomNavigationController {
     }
 
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        print(indexPath.row)
         self.currentIndex = indexPath.row
         self.performSegueWithIdentifier("showConversationsDetails", sender: nil)
     }

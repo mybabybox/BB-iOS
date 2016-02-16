@@ -185,7 +185,6 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, UIImagePick
     
     // MARK: UIScrollview Delegate
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        print("scrolling in area...")
         if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height){
             if (loadingMessage) {
                 ApiControlller.apiController.getMessages(self.conversationId, pageOffSet: pageOffSet)

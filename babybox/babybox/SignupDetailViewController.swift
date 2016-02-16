@@ -82,7 +82,6 @@ class SignupDetailViewController: UIViewController, UITextFieldDelegate, SSRadio
     */
     @IBAction func saveSignUpInfo(sender: AnyObject) {
         
-        print(self.displayName.text)
         var locationId = 0.0
         for (index, element) in locations.enumerate() {
             if (self.location.titleLabel?.text == element.displayName) {
@@ -93,7 +92,7 @@ class SignupDetailViewController: UIViewController, UITextFieldDelegate, SSRadio
         if (isValid()) {
             ApiControlller.apiController.saveUserSignUpInfo(self.displayName.text!, locationId: Int(locationId))
         } else {
-            print("error")
+
         }
         
     }
@@ -110,8 +109,7 @@ class SignupDetailViewController: UIViewController, UITextFieldDelegate, SSRadio
     func refreshLocations() {
         if locations.count > 0 {
             var districtLocations : [String] = []
-            for (index, element) in locations.enumerate() {
-                print(element.displayName)
+            for (_, element) in locations.enumerate() {
                 districtLocations.append(element.displayName)
             }
             self.locationDropDown.dataSource = districtLocations

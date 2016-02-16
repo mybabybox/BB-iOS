@@ -164,7 +164,7 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFie
         }
         
         
-        //print(FBSDKAccessToken.currentAccessToken())
+        //NSLog(FBSDKAccessToken.currentAccessToken())
         if(FBSDKAccessToken.currentAccessToken() == nil) {
             
             let loginButton=FBSDKLoginButton()
@@ -230,31 +230,31 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFie
             
             //self.performSegueWithIdentifier("clickToLogin", sender: self)
         } else {
-            print(error.localizedDescription, terminator: "")
+            NSLog(error.localizedDescription)
         }
     }
     
     func loginButtonDidLogOut(loginButton: FBSDKLoginButton!) {
-        print("User Logged out..", terminator: "")
+        NSLog("User Logged out")
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool // called when 'return' key pressed. return NO to ignore.
-    {
+    func textFieldShouldReturn(textField: UITextField) -> Bool { // called when 'return' key pressed. return NO to ignore.
         textField.resignFirstResponder()
-        print("return key is pressed")
         return true;
     }
     
-    /*func textFieldShouldReturn(textField: UITextField) -> Bool {
+    /*
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
         return false
-    }*/
+    }
+    */
     
     @IBAction func onForgetPasswordClick(sender: AnyObject) {
-        print("Forget pasword click");
+        NSLog("Forget pasword click");
     }
     
     @IBAction func onSignUpClick(sender: AnyObject) {
-         print("Sign up click");
+         NSLog("Sign up click");
     }
     
     

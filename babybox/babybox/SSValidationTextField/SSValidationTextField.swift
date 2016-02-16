@@ -93,11 +93,9 @@ class SSValidationTextField: UITextField {
             return false
         }
         if self.validityFunction!(currentString!) {
-            print("yes is valid")
             self.setLabel(true)
             return true
         } else {
-            print("no not valid")
             self.setLabel(false)
             return false
         }

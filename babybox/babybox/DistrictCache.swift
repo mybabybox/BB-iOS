@@ -17,7 +17,6 @@ class DistrictCache {
     init() {
         SwiftEventBus.onMainThread(self, name: "getDistrictSuccess") { result in
             // UI thread
-            print(result.object)
             DistrictCache.districts = result.object as? [LocationModel]
         }
     }

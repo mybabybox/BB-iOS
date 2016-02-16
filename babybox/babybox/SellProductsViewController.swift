@@ -289,10 +289,7 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
                 }
             }
         }
-        
-        print(self.conditionDropDown.titleLabel?.text)
-        print(self.categorydropdown.titleLabel!.text)
-        
+                
         if (!isImageUploaded) {
             self.view.makeToast(message: "Please Upload Photo", duration: 1.5, position: "bottom")
             isValidated = false

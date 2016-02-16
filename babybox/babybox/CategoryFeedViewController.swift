@@ -18,41 +18,43 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var activityLoading: UIActivityIndicatorView!
     @IBOutlet weak var uiCollectionView: UICollectionView!
     
-    var feedOffset: Int64 = 0
-    var apiController: ApiControlller = ApiControlller()
-    var currentIndex = 0
+    var feedLoader: FeedLoader? = nil
     var isWidthSet = false
-    var products: [PostModel] = []
     var collectionViewCellSize : CGSize?
     var collectionViewTopCellSize : CGSize?
     var reuseIdentifier = "CellType1"
     var loadingProducts: Bool = false
     var selCategory: CategoryModel? = nil
-    //var categories : CategoryModel = CategoryModel()
-    var feedFilter: FeedFilter.FeedType? = FeedFilter.FeedType.CATEGORY_POPULAR
     var txtWhiteColor = UIColor(red: CGFloat(255.0), green: CGFloat(255.0), blue: CGFloat(255.0), alpha: CGFloat(1.0))
     var txtPinkColor = ImageUtil.imageUtil.UIColorFromRGB(0xFF76A4)
+    
+    func reloadDataToView() {
+        self.activityLoading.stopAnimating()
+        self.uiCollectionView.reloadData()
+    }
     
     override func viewDidAppear(animated: Bool) {
         self.tabBarController!.tabBar.hidden = true
     }
     
+    override func viewDidDisappear(animated: Bool) {
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+    }
+    
     override func viewDidLoad() {
-        
         super.viewDidLoad()
         
-        if (!SharedPreferencesUtil.getInstance().isScreenViewed(SharedPreferencesUtil.Screen.HOME_FOLLOWING_TIPS)) {
+        feedLoader = FeedLoader(feedType: FeedFilter.FeedType.CATEGORY_POPULAR, reloadDataToView: reloadDataToView)
+        feedLoader!.reloadFeedItems()
+        
+        if (!SharedPreferencesUtil.getInstance().isScreenViewed(SharedPreferencesUtil.Screen.CATEGORY_TIPS)) {
             self.categoryTips.hidden = false
-            SharedPreferencesUtil.getInstance().setScreenViewed(SharedPreferencesUtil.Screen.HOME_FOLLOWING_TIPS)
+            SharedPreferencesUtil.getInstance().setScreenViewed(SharedPreferencesUtil.Screen.CATEGORY_TIPS)
         } else {
             self.categoryTips.hidden = true
             self.tipSection.constant = -5
-        }
-        
-        SwiftEventBus.onMainThread(self, name: "feedLoadSuccess") { result in
-            // UI thread
-            let resultDto: [PostModel] = result.object as! [PostModel]
-            self.handleGetAllProductsuccess(resultDto)
         }
         
         setCollectionViewSizesInsets()
@@ -74,11 +76,6 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
         let sellBarBtn = UIBarButtonItem(customView: sellBtn)
         
         self.navigationItem.rightBarButtonItems = [sellBarBtn]
-        
-    }
-    
-    override func viewWillDisappear(animated: Bool) {
-        
     }
     
     override func didReceiveMemoryWarning() {
@@ -95,15 +92,15 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
         var count = 0;
         if (collectionView.tag == 2) {
             count = 1
-        }else{
-            count = self.products.count
+        } else {
+            count = feedLoader!.size()
         }
         return count
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
-        if (collectionView.tag == 2){
+        if (collectionView.tag == 2) {
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier("categoryCell", forIndexPath: indexPath) as! CategoryCollectionViewCell
             
             cell.categoryName.text = self.selCategory?.name
@@ -125,7 +122,7 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
             self.setUnClickedBtnBackgroundAndText(cell.lowToHighBtn)
             self.setUnClickedBtnBackgroundAndText(cell.highToLow)
             
-            switch feedFilter! {
+            switch feedLoader!.feedType {
                 case FeedFilter.FeedType.CATEGORY_POPULAR:
                     self.setClickedBtnBackgroundAndText(cell.popularBtn)
                 case FeedFilter.FeedType.CATEGORY_NEWEST:
@@ -138,32 +135,31 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
             }
 
             return cell
-        }
-        else {
+        } else {
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! FeedProductCollectionViewCell
             
             cell.likeImageIns.tag = indexPath.item
             
-            let post = self.products[indexPath.row]
-            if (post.hasImage) {
-                ImageUtil.displayPostImage(post.images[0], imageView: cell.prodImageView)
+            let feedItem = feedLoader!.getItem(indexPath.row)
+            if (feedItem.hasImage) {
+                ImageUtil.displayPostImage(feedItem.images[0], imageView: cell.prodImageView)
             }
             
-            cell.soldImage.hidden = !post.sold
-            cell.likeCountIns.setTitle(String(post.numLikes), forState: UIControlState.Normal)
+            cell.soldImage.hidden = !feedItem.sold
+            cell.likeCountIns.setTitle(String(feedItem.numLikes), forState: UIControlState.Normal)
             
-            if (!post.isLiked) {
+            if (!feedItem.isLiked) {
                 cell.likeImageIns.setImage(UIImage(named: "ic_like_tips.png"), forState: UIControlState.Normal)
             } else {
                 cell.likeImageIns.setImage(UIImage(named: "ic_liked_tips.png"), forState: UIControlState.Normal)
             }
             
-            cell.title.text = post.title
+            cell.title.text = feedItem.title
             
-            cell.productPrice.text = "\(constants.currencySymbol) \(String(stringInterpolationSegment: Int(post.price)))"
+            cell.productPrice.text = "\(constants.currencySymbol) \(String(stringInterpolationSegment: Int(feedItem.price)))"
             
-            if (post.originalPrice != 0 && post.originalPrice != -1 && post.originalPrice != Int(post.price)) {
-                let attrString = NSAttributedString(string: "\(constants.currencySymbol) \(String(stringInterpolationSegment:Int(post.originalPrice)))", attributes: [NSStrikethroughStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue])
+            if (feedItem.originalPrice != 0 && feedItem.originalPrice != -1 && feedItem.originalPrice != Int(feedItem.price)) {
+                let attrString = NSAttributedString(string: "\(constants.currencySymbol) \(String(stringInterpolationSegment:Int(feedItem.originalPrice)))", attributes: [NSStrikethroughStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue])
                 cell.originalPrice.attributedText = attrString
             } else {
                 cell.originalPrice.attributedText = NSAttributedString(string: "")
@@ -173,26 +169,23 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
             
             cell.layer.borderColor = CGColorCreate(CGColorSpaceCreateDeviceRGB(), [194/255, 195/255, 200/255, 1.0])
             cell.layer.borderWidth = 1
-            
             return cell
         }
     }
-    
+
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        self.currentIndex = indexPath.row
-        
         if (collectionView.tag == 2){
+            
         } else {
             //self.performSegueWithIdentifier("gotoproductdetail", sender: nil)
             let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("FeedProductViewController") as! FeedProductViewController
-            
-            vController.productModel = self.products[self.currentIndex]
+            let feedItem = feedLoader!.getItem(indexPath.row)
+            vController.productModel = feedItem
             vController.category = self.selCategory
-            apiController.getProductDetails(String(Int(self.products[self.currentIndex].id)))
+            ApiControlller.apiController.getProductDetails(String(Int(feedItem.id)))
             self.tabBarController!.tabBar.hidden = true
             ViewUtil.resetBackButton(self.navigationItem)
             self.navigationController?.pushViewController(vController, animated: true)
-            
         }
     }
     
@@ -247,42 +240,10 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
     }
     
-    // MARK: Custom Implementation methods
-    
-    func handleGetAllProductsuccess(resultDto: [PostModel]) {
-        if (!resultDto.isEmpty) {
-            
-            if (self.products.count == 0) {
-                self.products = resultDto
-                self.uiCollectionView.reloadData()
-            } else {
-                self.products.appendContentsOf(resultDto)
-                self.uiCollectionView.reloadData()
-            }
-            self.feedOffset = Int64(self.products[self.products.count-1].offset)
-        }
-        self.activityLoading.stopAnimating()
-        self.loadingProducts = true
-    }
-    
     // MARK: UIScrollview Delegate
     func scrollViewDidScroll(scrollView: UIScrollView) {
         if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - constants.prodImgLoadThresold){
-            if (self.loadingProducts) {
-                switch feedFilter! {
-                case FeedFilter.FeedType.CATEGORY_POPULAR:
-                    apiController.getCategoryPopularFeed(0, offSet: self.feedOffset)
-                case FeedFilter.FeedType.CATEGORY_NEWEST:
-                    apiController.getCategoryNewestFeed(0, offSet: self.feedOffset)
-                case FeedFilter.FeedType.CATEGORY_PRICE_LOW_HIGH:
-                    apiController.getCategoryPriceLowHighFeed(0, offSet: self.feedOffset)
-                case FeedFilter.FeedType.CATEGORY_PRICE_HIGH_LOW:
-                    apiController.getCategoryPriceHighLowFeed(0, offSet: self.feedOffset)
-                default: break
-                }
-                
-                self.loadingProducts = false
-            }
+            feedLoader!.loadMoreFeedItems()
         }
     }
     
@@ -297,10 +258,6 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
         collectionViewCellSize = ImageUtil.imageUtil.getProductItemCellSize(self.view.bounds.width)
     }
     
-    func setFeedtype(feedType: FeedFilter.FeedType) {
-        self.feedFilter = feedType
-    }
-    
     @IBAction func onLikeBtnClick(sender: AnyObject) {
         let button = sender as! UIButton
         let view = button.superview!
@@ -309,50 +266,39 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
         let indexPath = self.uiCollectionView.indexPathForCell(cell)
         
         //TODO - logic here require if user has already liked the product...
-        if (self.products[(indexPath?.row)!].isLiked) {
-            self.products[(indexPath?.row)!].numLikes--
-            //cell.likeCount.text =
-            cell.likeCountIns.setTitle(String(self.products[(indexPath?.row)!].numLikes), forState: UIControlState.Normal)
-            self.products[(indexPath?.row)!].isLiked = false
-            apiController.unlikePost(String(self.products[(indexPath?.row)!].id))
+        let feedItem = feedLoader!.getItem(indexPath!.row)
+        if (feedItem.isLiked) {
+            feedItem.isLiked = false
+            feedItem.numLikes--
+            cell.likeCountIns.setTitle(String(feedItem.numLikes), forState: UIControlState.Normal)
             cell.likeImageIns.setImage(UIImage(named: "ic_like_tips.png"), forState: UIControlState.Normal)
-            
+            ApiControlller.apiController.unlikePost(String(feedItem.id))
         } else {
-            self.products[(indexPath?.row)!].isLiked = true
-            self.products[(indexPath?.row)!].numLikes++
-            //cell.likeCount.text = String(self.products[(indexPath?.row)!].numLikes)
-            cell.likeCountIns.setTitle(String(self.products[(indexPath?.row)!].numLikes), forState: UIControlState.Normal)
-            apiController.likePost(String(self.products[(indexPath?.row)!].id))
+            feedItem.isLiked = true
+            feedItem.numLikes++
+            cell.likeCountIns.setTitle(String(feedItem.numLikes), forState: UIControlState.Normal)
             cell.likeImageIns.setImage(UIImage(named: "ic_liked_tips.png"), forState: UIControlState.Normal)
+            ApiControlller.apiController.likePost(String(feedItem.id))
         }
     }
     
     @IBAction func onClickPopulated(sender: AnyObject) {
-        self.feedOffset = 0
-        self.setFeedtype(FeedFilter.FeedType.CATEGORY_POPULAR)
-        self.products = []
-        ApiControlller.apiController.getCategoryPopularFeed(Int(self.selCategory!.id), offSet: 0)
+        feedLoader!.setFeedType(FeedFilter.FeedType.CATEGORY_POPULAR)
+        feedLoader!.reloadFeedItems(Int(self.selCategory!.id))
     }
     
     @IBAction func onClickNewest(sender: AnyObject) {
-        self.feedOffset = 0
-        self.setFeedtype(FeedFilter.FeedType.CATEGORY_NEWEST)
-        self.products = []
-        ApiControlller.apiController.getCategoryNewestFeed(Int(self.selCategory!.id), offSet: 0)
-    }
+        feedLoader!.setFeedType(FeedFilter.FeedType.CATEGORY_NEWEST)
+        feedLoader!.reloadFeedItems(Int(self.selCategory!.id))    }
     
     @IBAction func onClickHighLow(sender: AnyObject) {
-        self.feedOffset = 0
-        self.setFeedtype(FeedFilter.FeedType.CATEGORY_PRICE_HIGH_LOW)
-        self.products = []
-        ApiControlller.apiController.getCategoryPriceHighLowFeed(Int(self.selCategory!.id), offSet: 0)
+        feedLoader!.setFeedType(FeedFilter.FeedType.CATEGORY_PRICE_HIGH_LOW)
+        feedLoader!.reloadFeedItems(Int(self.selCategory!.id))
     }
     
     @IBAction func onClickLowHigh(sender: AnyObject) {
-        self.feedOffset = 0
-        self.setFeedtype(FeedFilter.FeedType.CATEGORY_PRICE_LOW_HIGH)
-        self.products = []
-        ApiControlller.apiController.getCategoryPriceLowHighFeed(Int(self.selCategory!.id), offSet: 0)
+        feedLoader!.setFeedType(FeedFilter.FeedType.CATEGORY_PRICE_LOW_HIGH)
+        feedLoader!.reloadFeedItems(Int(self.selCategory!.id))
     }
     
     @IBAction func onClickCloseTip(sender: AnyObject) {
@@ -371,10 +317,8 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func onClickSellBtn(sender: AnyObject?) {
-        print("calling here...onClickSellBtn")
         self.tabBarController!.tabBar.hidden = true
-        let vController = self.storyboard?.instantiateViewControllerWithIdentifier("sellProductsViewController")
-        as! SellProductsViewController
+        let vController = self.storyboard?.instantiateViewControllerWithIdentifier("sellProductsViewController") as! SellProductsViewController
         vController.selCategory = Int((selCategory?.id)!)
         self.navigationController?.pushViewController(vController, animated: true)
     }
@@ -395,7 +339,5 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
         
         cell.highToLow.layer.borderColor = UIColor.lightGrayColor().CGColor
         cell.highToLow.layer.borderWidth = 1.0
-        
     }
-
 }

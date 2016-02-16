@@ -111,7 +111,6 @@ class FollowingViewController: UICollectionViewController {
     override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         //TODO - goto User Profile page for selected customer
         self.currentIndex = indexPath.row
-        print("self.currentIndex" + String(self.currentIndex))
         self.performSegueWithIdentifier("gotoprofile", sender: nil)
     }
     
@@ -125,7 +124,6 @@ class FollowingViewController: UICollectionViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         let identifier = segue.identifier
         //let navigationController = segue.destinationViewController as! UINavigationController
-        print(identifier)
         if (identifier == "gotoprofile") {
             //let vController = segue.destinationViewController as! UserProfileViewController
             //vController.userId = self.userFollowings[self.currentIndex].id
