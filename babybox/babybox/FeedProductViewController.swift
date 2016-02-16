@@ -386,6 +386,7 @@ class FeedProductViewController: UIViewController {
         
         vController.selCategory = CategoryCache.getCategoryById(self.productInfo[0].categoryId)
         self.tabBarController!.tabBar.hidden = true
+        ViewUtil.resetBackButton(self.navigationItem)
         self.navigationController?.pushViewController(vController, animated: true)
     }
 }

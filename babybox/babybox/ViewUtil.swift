@@ -47,4 +47,8 @@ class ViewUtil {
         return screenWidth
     }
     
+    static func resetBackButton(navigationItem: UINavigationItem) {
+        let backbtn = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
+        navigationItem.backBarButtonItem = backbtn
+    }
 }
