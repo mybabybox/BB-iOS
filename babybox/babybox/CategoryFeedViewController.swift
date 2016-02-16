@@ -47,7 +47,7 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
         super.viewDidLoad()
         
         feedLoader = FeedLoader(feedType: FeedFilter.FeedType.CATEGORY_POPULAR, reloadDataToView: reloadDataToView)
-        feedLoader!.reloadFeedItems()
+        feedLoader!.reloadFeedItems(Int(self.selCategory!.id))
         
         if (!SharedPreferencesUtil.getInstance().isScreenViewed(SharedPreferencesUtil.Screen.CATEGORY_TIPS)) {
             self.categoryTips.hidden = false
@@ -66,8 +66,6 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
         flowLayout.minimumInteritemSpacing = 0
         flowLayout.minimumLineSpacing = 5
         uiCollectionView.collectionViewLayout = flowLayout
-        
-        ApiControlller.apiController.getCategoryPopularFeed(Int(self.selCategory!.id), offSet: 0)
         
         let sellBtn: UIButton = UIButton()
         sellBtn.setImage(UIImage(named: "new_post"), forState: UIControlState.Normal)
@@ -243,7 +241,7 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
     // MARK: UIScrollview Delegate
     func scrollViewDidScroll(scrollView: UIScrollView) {
         if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - constants.prodImgLoadThresold){
-            feedLoader!.loadMoreFeedItems()
+            feedLoader!.loadMoreFeedItems(Int(self.selCategory!.id))
         }
     }
     
