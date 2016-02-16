@@ -263,10 +263,10 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
         let view = button.superview!
         let cell = view.superview! as! FeedProductCollectionViewCell
         
-        let indexPath = self.uiCollectionView.indexPathForCell(cell)
+        let indexPath = self.uiCollectionView.indexPathForCell(cell)!
         
         //TODO - logic here require if user has already liked the product...
-        let feedItem = feedLoader!.getItem(indexPath!.row)
+        let feedItem = feedLoader!.getItem(indexPath.row)
         if (feedItem.isLiked) {
             feedItem.isLiked = false
             feedItem.numLikes--

@@ -16,23 +16,33 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var topSpaceConstraint: NSLayoutConstraint!
     @IBOutlet weak var followingTips: UIView!
     @IBOutlet weak var activityLoading: UIActivityIndicatorView!
-    var apiController: ApiControlller = ApiControlller()
-    var products: [PostModel] = []
-    var feedOffset: Int64 = 0
-    var currentIndex = 0
+    
+    var feedLoader: FeedLoader? = nil
     var collectionViewCellSize : CGSize?
     var collectionViewTopCellSize : CGSize?
     var reuseIdentifier = "CellType1"
-    var loadingProducts: Bool = false
     var isHeightSet: Bool = false
     
+    func reloadDataToView() {
+        self.activityLoading.stopAnimating()
+        self.uiCollectionView.reloadData()
+    }
+    
     override func viewDidAppear(animated: Bool) {
+        self.tabBarController!.tabBar.hidden = false
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        apiController.getHomeFollowingFeed(0)
+        feedLoader = FeedLoader(feedType: FeedFilter.FeedType.HOME_FOLLOWING, reloadDataToView: reloadDataToView)
+        feedLoader!.reloadFeedItems()
         
         if (!SharedPreferencesUtil.getInstance().isScreenViewed(SharedPreferencesUtil.Screen.HOME_FOLLOWING_TIPS)) {
             self.followingTips.hidden = false
@@ -40,12 +50,6 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
         } else {
             self.followingTips.hidden = true
             self.topSpaceConstraint.constant = 5
-        }
-        
-        SwiftEventBus.onMainThread(self, name: "feedLoadSuccess") { result in
-            // UI thread
-            let resultDto: [PostModel] = result.object as! [PostModel]
-            self.handleGetAllProductsuccess(resultDto)
         }
         
         setCollectionViewSizesInsets()
@@ -56,7 +60,6 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
         flowLayout.minimumInteritemSpacing = 0
         flowLayout.minimumLineSpacing = 5
         uiCollectionView.collectionViewLayout = flowLayout
-        
     }
     
     @IBAction func onCloseTips(sender: AnyObject) {
@@ -74,7 +77,7 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.products.count
+        return feedLoader!.size()
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
@@ -82,27 +85,26 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! FeedProductCollectionViewCell
             
         cell.likeImageIns.tag = indexPath.item
-            
-        let post = self.products[indexPath.row]
-        //need carosuel here.
-        if (post.hasImage) {
-            ImageUtil.displayPostImage(post.images[0], imageView: cell.prodImageView)
+
+        let feedItem = feedLoader!.getItem(indexPath.row)
+        if (feedItem.hasImage) {
+            ImageUtil.displayPostImage(feedItem.images[0], imageView: cell.prodImageView)
         }
         
-        cell.soldImage.hidden = !post.sold
+        cell.soldImage.hidden = !feedItem.sold
         //cell.likeCount.text = String(post.numLikes)
-        cell.likeCountIns.setTitle(String(post.numLikes), forState: UIControlState.Normal)
-        if (!post.isLiked) {
+        cell.likeCountIns.setTitle(String(feedItem.numLikes), forState: UIControlState.Normal)
+        if (!feedItem.isLiked) {
             cell.likeImageIns.setImage(UIImage(named: "ic_like_tips.png"), forState: UIControlState.Normal)
         } else {
             cell.likeImageIns.setImage(UIImage(named: "ic_liked_tips.png"), forState: UIControlState.Normal)
         }
-        cell.title.text = post.title
+        cell.title.text = feedItem.title
             
-        cell.productPrice.text = "\(constants.currencySymbol) \(String(stringInterpolationSegment: Int(post.price)))"
+        cell.productPrice.text = "\(constants.currencySymbol) \(String(stringInterpolationSegment: Int(feedItem.price)))"
             
-        if (post.originalPrice != 0 && post.originalPrice != -1 && post.originalPrice != Int(post.price)) {
-            let attrString = NSAttributedString(string: "\(constants.currencySymbol) \(String(stringInterpolationSegment:Int(post.originalPrice)))", attributes: [NSStrikethroughStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue])
+        if (feedItem.originalPrice != 0 && feedItem.originalPrice != -1 && feedItem.originalPrice != Int(feedItem.price)) {
+            let attrString = NSAttributedString(string: "\(constants.currencySymbol) \(String(stringInterpolationSegment:Int(feedItem.originalPrice)))", attributes: [NSStrikethroughStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue])
                 cell.originalPrice.attributedText = attrString
         }  else {
             cell.originalPrice.attributedText = NSAttributedString(string: "")
@@ -115,7 +117,7 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
         
         cell.userCircleImg.layer.borderColor = UIColor.whiteColor().CGColor
         cell.userCircleImg.layer.borderWidth = CGFloat(1.0)
-        ImageUtil.displayThumbnailProfileImage(post.ownerId, imageView: cell.userCircleImg)
+        ImageUtil.displayThumbnailProfileImage(feedItem.ownerId, imageView: cell.userCircleImg)
         /*ImageUtil.imageUtil.setCircularImgStyle(cell.userCircleImg)
         cell.userCircleImg.layer.borderColor = UIColor.whiteColor().CGColor
         cell.userCircleImg.layer.borderWidth = CGFloat(1.0)
@@ -131,10 +133,10 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        self.currentIndex = indexPath.row
         let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("FeedProductViewController") as! FeedProductViewController
-        vController.productModel = self.products[self.currentIndex]
-        apiController.getProductDetails(String(Int(self.products[self.currentIndex].id)))
+        let feedItem = feedLoader!.getItem(indexPath.row)
+        vController.productModel = feedItem
+        ApiControlller.apiController.getProductDetails(String(Int(feedItem.id)))
         self.tabBarController!.tabBar.hidden = true
         self.navigationController?.pushViewController(vController, animated: true)
     }
@@ -160,30 +162,11 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
     }
     
-    // MARK: Custom Implementation methods
-    
-    func handleGetAllProductsuccess(resultDto: [PostModel]) {
-        if (!resultDto.isEmpty) {
-            
-            if (self.products.count == 0) {
-                self.products = resultDto
-                self.uiCollectionView.reloadData()
-            } else {
-                self.products.appendContentsOf(resultDto)
-                self.uiCollectionView.reloadData()
-            }
-            self.feedOffset = Int64(self.products[self.products.count-1].offset)
-        }
-        self.activityLoading.stopAnimating()
-        self.loadingProducts = true
-    }
-    
     // MARK: UIScrollview Delegate
     func scrollViewWillBeginDecelerating(scrollView: UIScrollView) {
         let velocity: CGFloat = scrollView.panGestureRecognizer.velocityInView(scrollView).y
         
         if (velocity > 0) {
-            NSLog("Up");
             UIView.animateWithDuration(0.5, animations: {
                 self.tabBarController?.tabBar.hidden = false
                 self.hidesBottomBarWhenPushed = false
@@ -195,7 +178,6 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
                 }
             })
         } else if (velocity < 0) {
-            NSLog("Down")
             self.tabBarController?.tabBar.hidden = true
             self.hidesBottomBarWhenPushed = false
             if (!self.isHeightSet) {
@@ -210,17 +192,13 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
         if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - constants.prodImgLoadThresold){
-            if (self.loadingProducts) {
-                self.apiController.getHomeFollowingFeed(self.feedOffset)
-                self.loadingProducts = false
-            }
+            feedLoader?.loadMoreFeedItems()
         }
     }
     
     /*func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         self.enableBottonToolBar()
     }*/
-    
     
     func setCollectionViewSizesInsets() {
         collectionViewCellSize = ImageUtil.imageUtil.getProductItemCellSize(self.view.bounds.width)
@@ -231,25 +209,22 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
         let view = button.superview!
         let cell = view.superview! as! FeedProductCollectionViewCell
         
-        let indexPath = self.uiCollectionView.indexPathForCell(cell)
-        
+        let indexPath = self.uiCollectionView.indexPathForCell(cell)!
+
+        let feedItem = feedLoader!.getItem(indexPath.row)
         //TODO - logic here require if user has already liked the product...
-        if (self.products[(indexPath?.row)!].isLiked) {
-            self.products[(indexPath?.row)!].numLikes--
-            //cell.likeCount.text = String(self.products[(indexPath?.row)!].numLikes)
-            cell.likeCountIns.setTitle(String(self.products[(indexPath?.row)!].numLikes), forState: UIControlState.Normal)
-            self.products[(indexPath?.row)!].isLiked = false
-            apiController.unlikePost(String(self.products[(indexPath?.row)!].id))
+        if (feedItem.isLiked) {
+            feedItem.numLikes--
+            feedItem.isLiked = false
+            cell.likeCountIns.setTitle(String(feedItem.numLikes), forState: UIControlState.Normal)
             cell.likeImageIns.setImage(UIImage(named: "ic_like_tips.png"), forState: UIControlState.Normal)
-            
+            ApiControlller.apiController.unlikePost(String(feedItem.id))
         } else {
-            self.products[(indexPath?.row)!].isLiked = true
-            self.products[(indexPath?.row)!].numLikes++
-            //cell.likeCount.text = String(self.products[(indexPath?.row)!].numLikes)
-            cell.likeCountIns.setTitle(String(self.products[(indexPath?.row)!].numLikes), forState: UIControlState.Normal)
-            apiController.likePost(String(self.products[(indexPath?.row)!].id))
+            feedItem.numLikes++
+            feedItem.isLiked = true
+            cell.likeCountIns.setTitle(String(feedItem.numLikes), forState: UIControlState.Normal)
             cell.likeImageIns.setImage(UIImage(named: "ic_liked_tips.png"), forState: UIControlState.Normal)
-            
+            ApiControlller.apiController.likePost(String(feedItem.id))
         }
     }
     

@@ -12,18 +12,17 @@ import Kingfisher
 
 class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
     
+    @IBOutlet weak var topSpaceConstraint: NSLayoutConstraint!
+    @IBOutlet weak var exploreTip: UIView!
+    @IBOutlet weak var uiCollectionView: UICollectionView!
+    @IBOutlet weak var activityLoading: UIActivityIndicatorView!
+    
     var feedLoader: FeedLoader? = nil
-    var feedOffset: Int64 = 0
     var categories : [CategoryModel] = []
     var collectionViewCellSize : CGSize?
     var collectionViewTopCellSize : CGSize?
     var reuseIdentifier = "CellType1"
     var isHeightSet: Bool = false
-    
-    @IBOutlet weak var topSpaceConstraint: NSLayoutConstraint!
-    @IBOutlet weak var exploreTip: UIView!
-    @IBOutlet weak var uiCollectionView: UICollectionView!
-    @IBOutlet weak var activityLoading: UIActivityIndicatorView!
     
     func reloadDataToView() {
         self.activityLoading.stopAnimating()
@@ -287,10 +286,10 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
         let view = button.superview!
         let cell = view.superview! as! FeedProductCollectionViewCell
         
-        let indexPath = self.uiCollectionView.indexPathForCell(cell)
+        let indexPath = self.uiCollectionView.indexPathForCell(cell)!
         
         //TODO - logic here require if user has already liked the product...
-        let feedItem = feedLoader!.getItem(indexPath!.row)
+        let feedItem = feedLoader!.getItem(indexPath.row)
         if (feedItem.isLiked) {
             feedItem.isLiked = false
             feedItem.numLikes--
