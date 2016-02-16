@@ -28,14 +28,17 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
         self.uiCollectionView.reloadData()
     }
     
+    override func viewWillAppear(animated: Bool) {
+    }
+    
     override func viewDidAppear(animated: Bool) {
         self.tabBarController!.tabBar.hidden = false
     }
     
-    override func viewDidDisappear(animated: Bool) {
+    override func viewWillDisappear(animated: Bool) {
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewDidDisappear(animated: Bool) {
     }
     
     override func viewDidLoad() {

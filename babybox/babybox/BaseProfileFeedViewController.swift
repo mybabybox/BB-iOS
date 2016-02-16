@@ -14,10 +14,7 @@ class BaseProfileFeedViewController: CustomNavigationController {
     var userId: Int = 0
     var userInfo: UserInfoVM? = nil
     
-    var userPostedFeedLoader: FeedLoader? = nil
-    var userLikedFeedLoader: FeedLoader? = nil
-    
-    var feedFilter: FeedFilter.FeedType? = FeedFilter.FeedType.USER_POSTED
+    var feedLoader: FeedLoader? = nil
     
     var eventsRegistered = false
     
@@ -35,28 +32,25 @@ class BaseProfileFeedViewController: CustomNavigationController {
         assert(false, "Must be overriden by subclass")
     }
 
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        feedLoader = FeedLoader(feedType: FeedFilter.FeedType.USER_POSTED, reloadDataToView: reloadDataToView)
+    }
+    
     func clearFeedItems() {
-        userPostedFeedLoader?.clearFeedItems()
-        userLikedFeedLoader?.clearFeedItems()
+        feedLoader?.clearFeedItems()
     }
     
     func unregisterEvents() {
+        feedLoader?.unregisterEvents()
         SwiftEventBus.unregister(self)
         eventsRegistered = false
     }
    
     func registerEvents() {
         if (!eventsRegistered) {
-            userPostedFeedLoader = FeedLoader(feedType: FeedFilter.FeedType.USER_POSTED, reloadDataToView: reloadDataToView)
-            userLikedFeedLoader = FeedLoader(feedType: FeedFilter.FeedType.USER_LIKED, reloadDataToView: reloadDataToView)
-            
-            SwiftEventBus.onMainThread(self, name: "profileImgUploadSuccess") { result in
-                self.view.makeToast(message: "Profile image uploaded successfully!")
-            }
-            
-            SwiftEventBus.onMainThread(self, name: "profileImgUploadFailed") { result in
-                self.view.makeToast(message: "Error uploading profile image!")
-            }
+            feedLoader?.registerEvents()
             
             registerMoreEvents()
             
@@ -66,25 +60,13 @@ class BaseProfileFeedViewController: CustomNavigationController {
     
     func loadMoreFeedItems() {
         if let userInfo = self.userInfo {
-            switch feedFilter! {
-            case FeedFilter.FeedType.USER_POSTED:
-                userPostedFeedLoader?.loadMoreFeedItems(userInfo.id)
-            case FeedFilter.FeedType.USER_LIKED:
-                userLikedFeedLoader?.loadMoreFeedItems(userInfo.id)
-            default: break
-            }
+            feedLoader?.loadMoreFeedItems(userInfo.id)
         }
     }
     
     func reloadFeedItems() {
         if let userInfo = self.userInfo {
-            switch feedFilter! {
-            case FeedFilter.FeedType.USER_POSTED:
-                userPostedFeedLoader?.reloadFeedItems(userInfo.id)
-            case FeedFilter.FeedType.USER_LIKED:
-                userLikedFeedLoader?.reloadFeedItems(userInfo.id)
-            default: break
-            }
+            feedLoader?.reloadFeedItems(userInfo.id)
         }
     }
     
@@ -97,17 +79,9 @@ class BaseProfileFeedViewController: CustomNavigationController {
         }
     }
     
-    func getTypeProductInstance() -> [PostModel] {
-        switch feedFilter! {
-        case FeedFilter.FeedType.USER_POSTED:
-            if let feedLoader = userPostedFeedLoader {
-                return feedLoader.feedItems
-            }
-        case FeedFilter.FeedType.USER_LIKED:
-            if let feedLoader = userLikedFeedLoader {
-                return feedLoader.feedItems
-            }
-        default: break
+    func getFeedItems() -> [PostModel] {
+        if feedLoader != nil {
+            return feedLoader!.feedItems
         }
         return []
     }

@@ -30,6 +30,13 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
     }
     
     override func registerMoreEvents() {
+        SwiftEventBus.onMainThread(self, name: "profileImgUploadSuccess") { result in
+            self.view.makeToast(message: "Profile image uploaded successfully!")
+        }
+        
+        SwiftEventBus.onMainThread(self, name: "profileImgUploadFailed") { result in
+            self.view.makeToast(message: "Error uploading profile image!")
+        }
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -43,6 +50,10 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
         //reloadFeedItems()
     }
 
+    override func viewWillAppear(animated: Bool) {
+        registerEvents()
+    }
+    
     override func viewDidDisappear(animated: Bool) {
     }
     
@@ -87,7 +98,7 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
         if (collectionView.tag == 2) {
             count = 1
         } else {
-            count = self.getTypeProductInstance().count
+            count = self.getFeedItems().count
         }
         return count
     }
@@ -124,26 +135,28 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
             
             cell.likeImageIns.tag = indexPath.item
             
-            let post = self.getTypeProductInstance()[indexPath.row]
-            if (post.hasImage) {
-                ImageUtil.displayPostImage(post.images[0], imageView: cell.prodImageView)
+            NSLog("MyProfileFeedViewController.collectionView: feedItems="+String(self.getFeedItems().count))
+            
+            let feedItem = self.getFeedItems()[indexPath.row]
+            if (feedItem.hasImage) {
+                ImageUtil.displayPostImage(feedItem.images[0], imageView: cell.prodImageView)
             }
             
-            cell.soldImage.hidden = !post.sold
-            cell.likeCountIns.setTitle(String(post.numLikes), forState: UIControlState.Normal)
+            cell.soldImage.hidden = !feedItem.sold
+            cell.likeCountIns.setTitle(String(feedItem.numLikes), forState: UIControlState.Normal)
             
-            if (!post.isLiked) {
+            if (!feedItem.isLiked) {
                 cell.likeImageIns.setImage(UIImage(named: "ic_like_tips.png"), forState: UIControlState.Normal)
             } else {
                 cell.likeImageIns.setImage(UIImage(named: "ic_liked_tips.png"), forState: UIControlState.Normal)
             }
             
-            cell.title.text = post.title
+            cell.title.text = feedItem.title
             
-            cell.productPrice.text = "\(constants.currencySymbol) \(String(stringInterpolationSegment: Int(post.price)))"
+            cell.productPrice.text = "\(constants.currencySymbol) \(String(stringInterpolationSegment: Int(feedItem.price)))"
             
-            if (post.originalPrice != 0 && post.originalPrice != -1 && post.originalPrice != Int(post.price)) {
-                let attrString = NSAttributedString(string: "\(constants.currencySymbol) \(String(stringInterpolationSegment:Int(post.originalPrice)))", attributes: [NSStrikethroughStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue])
+            if (feedItem.originalPrice != 0 && feedItem.originalPrice != -1 && feedItem.originalPrice != Int(feedItem.price)) {
+                let attrString = NSAttributedString(string: "\(constants.currencySymbol) \(String(stringInterpolationSegment:Int(feedItem.originalPrice)))", attributes: [NSStrikethroughStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue])
                 cell.originalPrice.attributedText = attrString
             } else {
                 cell.originalPrice.attributedText = NSAttributedString(string: "")
@@ -164,9 +177,9 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
         } else {
             //self.uiCollectionView.delegate = nil
             let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("FeedProductViewController") as! FeedProductViewController
-            
-            vController.productModel = self.getTypeProductInstance()[indexPath.row]
-            ApiControlller.apiController.getProductDetails(String(Int(self.getTypeProductInstance()[indexPath.row].id)))
+            let feedItem = self.getFeedItems()[indexPath.row]
+            vController.productModel = feedItem
+            ApiControlller.apiController.getProductDetails(String(Int(feedItem.id)))
             self.tabBarController!.tabBar.hidden = true
             self.navigationController?.pushViewController(vController, animated: true)
         }
@@ -305,23 +318,22 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
         let view = button.superview!
         let cell = view.superview! as! FeedProductCollectionViewCell
         
-        let indexPath = self.uiCollectionView.indexPathForCell(cell)
+        let indexPath = self.uiCollectionView.indexPathForCell(cell)!
         
         //TODO - logic here require if user has already liked the product...
-        var products = self.getTypeProductInstance()
-        if (products[(indexPath?.row)!].isLiked) {
-            products[(indexPath?.row)!].numLikes--
-            cell.likeCountIns.setTitle(String(products[(indexPath?.row)!].numLikes), forState: UIControlState.Normal)
-            products[(indexPath?.row)!].isLiked = false
-            ApiControlller.apiController.unlikePost(String(products[(indexPath?.row)!].id))
+        let feedItem = self.getFeedItems()[indexPath.row]
+        if (feedItem.isLiked) {
+            feedItem.isLiked = false
+            feedItem.numLikes--
+            cell.likeCountIns.setTitle(String(feedItem.numLikes), forState: UIControlState.Normal)
             cell.likeImageIns.setImage(UIImage(named: "ic_like_tips.png"), forState: UIControlState.Normal)
-            
+            ApiControlller.apiController.unlikePost(String(feedItem.id))
         } else {
-            products[(indexPath?.row)!].isLiked = true
-            products[(indexPath?.row)!].numLikes++
-            cell.likeCountIns.setTitle(String(products[(indexPath?.row)!].numLikes), forState: UIControlState.Normal)
-            ApiControlller.apiController.likePost(String(products[(indexPath?.row)!].id))
+            feedItem.isLiked = true
+            feedItem.numLikes++
+            cell.likeCountIns.setTitle(String(feedItem.numLikes), forState: UIControlState.Normal)
             cell.likeImageIns.setImage(UIImage(named: "ic_liked_tips.png"), forState: UIControlState.Normal)
+            ApiControlller.apiController.likePost(String(feedItem.id))
         }
     }
     
@@ -345,9 +357,9 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
     @IBAction func segAction(sender: AnyObject) {
         let segControl = sender as? UISegmentedControl
         if (segControl!.selectedSegmentIndex == 0) {
-            self.feedFilter = FeedFilter.FeedType.USER_POSTED
+            feedLoader?.setFeedType(FeedFilter.FeedType.USER_POSTED)
         } else if (segControl!.selectedSegmentIndex == 1) {
-            self.feedFilter = FeedFilter.FeedType.USER_LIKED
+            feedLoader?.setFeedType(FeedFilter.FeedType.USER_LIKED)
         }
         
         reloadFeedItems()

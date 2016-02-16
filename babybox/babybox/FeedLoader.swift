@@ -29,12 +29,17 @@ class FeedLoader {
     
     func setFeedType(feedType: FeedFilter.FeedType) {
         self.feedType = feedType
-        feedItems = []
+        clearFeedItems()
         registerEvents()
+        NSLog("FeedLoader.setFeedType: feedType="+String(feedType))
     }
     
-    func registerEvents() {
+    func unregisterEvents() {
         SwiftEventBus.unregister(self)
+    }
+        
+    func registerEvents() {
+        unregisterEvents()
         
         switch feedType {
         case FeedFilter.FeedType.HOME_EXPLORE:
@@ -106,7 +111,7 @@ class FeedLoader {
     }
     
     func handleFeedLoadSuccess(feedItems: [PostModel]) {
-        NSLog("FeedLoader.handleFeedLoadSuccess: feedItems="+String(feedItems.count))
+        NSLog("FeedLoader.handleFeedLoadSuccess: feedItems="+String(feedItems.count)+" feedType="+String(feedType))
         if (!feedItems.isEmpty) {
             if (self.feedItems.count == 0) {
                 self.feedItems = feedItems
@@ -125,6 +130,7 @@ class FeedLoader {
         loading = false
         loadedAll = false
         reloadDataToView()
+        NSLog("FeedLoader.clearFeedItems")
     }
     
     func loadMoreFeedItems() {
