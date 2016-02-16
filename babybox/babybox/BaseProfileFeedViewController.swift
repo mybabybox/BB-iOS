@@ -36,7 +36,6 @@ class BaseProfileFeedViewController: CustomNavigationController {
     }
 
     func clearFeedItems() {
-        NSLog("====> clearFeedItems")
         userPostedFeedLoader?.clearFeedItems()
         userLikedFeedLoader?.clearFeedItems()
     }

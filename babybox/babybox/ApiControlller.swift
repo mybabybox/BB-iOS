@@ -40,8 +40,8 @@ class ApiControlller {
         let callEvent = ApiCallEvent()
         callEvent.method = "get-home-explore-feed"
         callEvent.resultClass = "PostModel"
-        callEvent.successEventbusName = "feedLoadSuccess"
-        callEvent.failedEventbusName = "feedLoadFailed"
+        callEvent.successEventbusName = "homeExploreFeedLoadSuccess"
+        callEvent.failedEventbusName = "homeExploreFeedLoadFailed"
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method + "/" + String(offSet);
         
         self.makeApiCall(callEvent)
@@ -51,8 +51,8 @@ class ApiControlller {
         let callEvent = ApiCallEvent()
         callEvent.method = "get-home-following-feed"
         callEvent.resultClass = "PostModel"
-        callEvent.successEventbusName = "feedLoadSuccess"
-        callEvent.failedEventbusName = "feedLoadFailed"
+        callEvent.successEventbusName = "homeFollowingFeedLoadSuccess"
+        callEvent.failedEventbusName = "homeFollowingFeedLoadFailed"
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method + "/" + String(offSet)
         
         self.makeApiCall(callEvent)
@@ -84,8 +84,8 @@ class ApiControlller {
         let callEvent = ApiCallEvent()
         callEvent.method = "like-post"
         callEvent.resultClass = "String"
-        //callEvent.successEventbusName = "homeFollowingPostsReceivedSuccess"
-        //callEvent.failedEventbusName = "postsReceivedFailed"
+        //callEvent.successEventbusName = ""
+        //callEvent.failedEventbusName = ""
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method + "/" + offSet
         
         self.makeApiCall(callEvent)
@@ -95,8 +95,8 @@ class ApiControlller {
         let callEvent = ApiCallEvent()
         callEvent.method = "unlike-post"
         callEvent.resultClass = "String"
-        //callEvent.successEventbusName = "homeFollowingPostsReceivedSuccess"
-        //callEvent.failedEventbusName = "postsReceivedFailed"
+        //callEvent.successEventbusName = ""
+        //callEvent.failedEventbusName = ""
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method + "/" + offSet
         
         self.makeApiCall(callEvent)
@@ -107,7 +107,7 @@ class ApiControlller {
         callEvent.method = "post"
         callEvent.resultClass = "PostCatModel"
         callEvent.successEventbusName = "productDetailsReceivedSuccess"
-        callEvent.failedEventbusName = "productDetailsFailed"
+        callEvent.failedEventbusName = "productDetailsReceivedFailed"
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method + "/" + offSet
         
         self.makeApiCall(callEvent)
@@ -146,8 +146,8 @@ class ApiControlller {
         callEvent.method = "comment/new"
         callEvent.resultClass = "String"
         callEvent.body = parameter
-        //callEvent.successEventbusName = "productDetailsReceivedSuccess"
-        //callEvent.failedEventbusName = "productDetailsFailed"
+        //callEvent.successEventbusName = ""
+        //callEvent.failedEventbusName = ""
         
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
         
@@ -216,8 +216,8 @@ class ApiControlller {
         let callEvent = ApiCallEvent()
         callEvent.method = "get-category-popular-feed/" + String(id)
         callEvent.resultClass = "PostModel"
-        callEvent.successEventbusName = "feedLoadSuccess"
-        callEvent.failedEventbusName = "feedLoadFailed"
+        callEvent.successEventbusName = "categoryPopularFeedLoadSuccess"
+        callEvent.failedEventbusName = "categoryPopularFeedLoadFailed"
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method + "/ALL/" + String(offSet)
         self.makeApiCall(callEvent)
     }
@@ -226,8 +226,8 @@ class ApiControlller {
         let callEvent = ApiCallEvent()
         callEvent.method = "get-category-newest-feed/" + String(id)
         callEvent.resultClass = "PostModel"
-        callEvent.successEventbusName = "feedLoadSuccess"
-        callEvent.failedEventbusName = "feedLoadFailed"
+        callEvent.successEventbusName = "categoryNewestFeedLoadSuccess"
+        callEvent.failedEventbusName = "categoryNewestFeedLoadFailed"
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method + "/ALL/" + String(offSet)
         self.makeApiCall(callEvent)
     }
@@ -236,8 +236,8 @@ class ApiControlller {
         let callEvent = ApiCallEvent()
         callEvent.method = "get-category-price-low-high-feed/" + String(id)
         callEvent.resultClass = "PostModel"
-        callEvent.successEventbusName = "feedLoadSuccess"
-        callEvent.failedEventbusName = "feedLoadFailed"
+        callEvent.successEventbusName = "categoryPriceLowHighFeedLoadSuccess"
+        callEvent.failedEventbusName = "categoryPriceLowHighFeedLoadFailed"
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method  + "/ALL/" + String(offSet)
         self.makeApiCall(callEvent)
     }
@@ -246,8 +246,8 @@ class ApiControlller {
         let callEvent = ApiCallEvent()
         callEvent.method = "get-category-price-high-low-feed/" + String(id)
         callEvent.resultClass = "PostModel"
-        callEvent.successEventbusName = "feedLoadSuccess"
-        callEvent.failedEventbusName = "feedLoadFailed"
+        callEvent.successEventbusName = "categoryPriceHighLowFeedLoadSuccess"
+        callEvent.failedEventbusName = "categoryPriceHighLowFeedLoadFailed"
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method + "/ALL/" + String(offSet)
         self.makeApiCall(callEvent)
     }
@@ -256,8 +256,8 @@ class ApiControlller {
         let callEvent = ApiCallEvent()
         callEvent.method = "get-user-posted-feed/" + String(id)
         callEvent.resultClass = "PostModel"
-        callEvent.successEventbusName = "feedLoadSuccess"
-        callEvent.failedEventbusName = "feedLoadFailed"
+        callEvent.successEventbusName = "userPostedFeedLoadSuccess"
+        callEvent.failedEventbusName = "userPostedFeedLoadFailed"
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method + "/" + String(offSet)
         self.makeApiCall(callEvent)
     }
@@ -266,8 +266,8 @@ class ApiControlller {
         let callEvent = ApiCallEvent()
         callEvent.method = "get-user-liked-feed/" + String(id)
         callEvent.resultClass = "PostModel"
-        callEvent.successEventbusName = "feedLoadSuccess"
-        callEvent.failedEventbusName = "feedLoadFailed"
+        callEvent.successEventbusName = "userLikedFeedLoadSuccess"
+        callEvent.failedEventbusName = "userLikedFeedLoadFailed"
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method + "/" + String(offSet)
         self.makeApiCall(callEvent)
     }
@@ -396,8 +396,8 @@ class ApiControlller {
         callEvent.method = "signup"
         callEvent.resultClass = "signingin"
         callEvent.body = parameter
-        //callEvent.successEventbusName = "productDetailsReceivedSuccess"
-        //callEvent.failedEventbusName = "productDetailsFailed"
+        //callEvent.successEventbusName = ""
+        //callEvent.failedEventbusName = ""
         
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
         

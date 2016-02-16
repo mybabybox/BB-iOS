@@ -39,6 +39,8 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
             self.activeHeaderViewCell?.segmentControl.setTitle("Products " + String(self.userInfo!.numProducts), forSegmentAtIndex: 0)
             self.activeHeaderViewCell?.segmentControl.setTitle("Likes " + String(self.userInfo!.numLikes), forSegmentAtIndex: 1)
         }
+        
+        //reloadFeedItems()
     }
 
     override func viewDidDisappear(animated: Bool) {
@@ -255,7 +257,6 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
         let velocity: CGFloat = scrollView.panGestureRecognizer.velocityInView(scrollView).y
         
         if (velocity > 0) {
-            NSLog("Up")
             UIView.animateWithDuration(0.1, animations: {
                 
                 //self.tabBarController?.tabBar.frame.size.height = 0
@@ -269,7 +270,6 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
                 }
             })
         } else if (velocity < 0) {
-            NSLog("Down")
             UIView.animateWithDuration(0.1, animations: {
                 self.tabBarController?.tabBar.hidden = true
                 self.hidesBottomBarWhenPushed = true
