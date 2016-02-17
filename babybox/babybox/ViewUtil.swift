@@ -51,4 +51,14 @@ class ViewUtil {
         let backbtn = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
         navigationItem.backBarButtonItem = backbtn
     }
+    
+    static func showActivityLoading(activityLoading: UIActivityIndicatorView) {
+        //activityLoading.hidden = false
+        activityLoading.startAnimating()
+    }
+    static func hideActivityLoading(activityLoading: UIActivityIndicatorView) {
+        activityLoading.stopAnimating()
+        //activityLoading.hidden = true
+    }
+    
 }

@@ -26,8 +26,8 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
     var categories : [CategoryModel] = []
     
     func reloadDataToView() {
-        self.activityLoading.stopAnimating()
         self.uiCollectionView.reloadData()
+        ViewUtil.hideActivityLoading(self.activityLoading)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -48,6 +48,7 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        ViewUtil.showActivityLoading(self.activityLoading)
         feedLoader = FeedLoader(feedType: FeedFilter.FeedType.HOME_EXPLORE, reloadDataToView: reloadDataToView)
         feedLoader!.reloadFeedItems()
         
@@ -250,7 +251,8 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
         self.lastContentOffset = scrollView.contentOffset.y
         
         if (scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - constants.FEED_LOAD_SCROLL_THRESHOLD {
-            feedLoader!.loadMoreFeedItems()
+            ViewUtil.showActivityLoading(self.activityLoading)
+	    feedLoader!.loadMoreFeedItems()
         }
     }
         

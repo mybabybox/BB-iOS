@@ -24,8 +24,8 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
     var reuseIdentifier = "CellType1"
     
     func reloadDataToView() {
-        self.activityLoading.stopAnimating()
         self.uiCollectionView.reloadData()
+        ViewUtil.hideActivityLoading(self.activityLoading)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -45,6 +45,8 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        ViewUtil.showActivityLoading(self.activityLoading)
         
         feedLoader = FeedLoader(feedType: FeedFilter.FeedType.HOME_FOLLOWING, reloadDataToView: reloadDataToView)
         feedLoader!.reloadFeedItems()
@@ -177,7 +179,8 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
         self.lastContentOffset = scrollView.contentOffset.y
         
         if (scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - constants.FEED_LOAD_SCROLL_THRESHOLD {
-            feedLoader?.loadMoreFeedItems()
+            ViewUtil.showActivityLoading(self.activityLoading)
+	    feedLoader?.loadMoreFeedItems()
         }
     }
     

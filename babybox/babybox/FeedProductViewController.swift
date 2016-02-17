@@ -11,6 +11,7 @@ import SwiftEventBus
 
 class FeedProductViewController: UIViewController {
 
+    @IBOutlet weak var activityLoading: UIActivityIndicatorView!
     @IBOutlet weak var likeImgBtn: UIButton!
     @IBOutlet weak var btnWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var buyNowBtn: UIButton!
@@ -33,13 +34,12 @@ class FeedProductViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setSizesForFilterButtons()
         self.detailTableView.separatorColor = UIColor.whiteColor()
         self.detailTableView.estimatedRowHeight = 300.0
         self.detailTableView.rowHeight = UITableViewAutomaticDimension
         self.detailTableView.reloadData()
-        
+        ViewUtil.showActivityLoading(self.activityLoading)
         SwiftEventBus.onMainThread(self, name: "productDetailsReceivedSuccess") { result in
             // UI thread
             let resultDto: [PostCatModel] = result.object as! [PostCatModel]
@@ -58,6 +58,7 @@ class FeedProductViewController: UIViewController {
         
         SwiftEventBus.onMainThread(self, name: "conversationsFailed") { result in
         }
+        
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -209,17 +210,6 @@ class FeedProductViewController: UIViewController {
                     cell.postedUserImg.image = UIImage(named: "")
                     
                     if (self.productInfo[0].ownerId != -1) {
-                        /*let imagePath =  constants.imagesBaseURL + "/image/get-original-post-image-by-id/" + String(self.productInfo[0].ownerId)
-                        
-                        let imageUrl  = NSURL(string: imagePath);
-                        let imageData = NSData(contentsOfURL: imageUrl!)
-                        
-                        if (imageData != nil) {
-                            cell.postedUserImg.image = UIImage(data: imageData!)
-                            ImageUtil.displayCircleImage(<#T##url: String##String#>, view: <#T##UIImageView#>)
-                            ImageUtil.imageUtil.setCircularImgStyle(cell.postedUserImg)
-                        }*/
-                        //ImageUtil.displayThumbnailProfileImage(self.productInfo[0].ownerId, imageView: cell.postedUserImg)
                         ImageUtil.displayThumbnailProfileImage(self.productInfo[0].ownerId, imageView: cell.postedUserImg)
                         cell.postedUserImg.layer.cornerRadius = cell.postedUserImg.frame.height/2
                         cell.postedUserImg.layer.masksToBounds = true
@@ -272,16 +262,10 @@ class FeedProductViewController: UIViewController {
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         //on click of User section show the User profile screen.
         if (indexPath.section == 2) {
-            //if (self.productInfo[0].isOwner) {
-            //    let vController = self.storyboard?.instantiateViewControllerWithIdentifier("MyProfileFeedViewController") as! MyProfileFeedViewController
-                //vController.userId = constants.userInfo.id
-            //    self.navigationController?.pushViewController(vController, animated: true)
-            //} else {
-                let vController = self.storyboard?.instantiateViewControllerWithIdentifier("UserProfileFeedViewController") as! UserProfileFeedViewController
-                vController.userId = self.productInfo[0].ownerId
-                //ApiControlller.apiController.getUser(self.productInfo[0].ownerId)
-                self.navigationController?.pushViewController(vController, animated: true)
-            //}
+            let vController = self.storyboard?.instantiateViewControllerWithIdentifier("UserProfileFeedViewController") as! UserProfileFeedViewController
+            vController.userId = self.productInfo[0].ownerId
+            ViewUtil.resetBackButton(self.navigationItem)
+            self.navigationController?.pushViewController(vController, animated: true)
         }
     }
     
@@ -378,6 +362,7 @@ class FeedProductViewController: UIViewController {
             self.noOfComments = self.items.count
         }
         self.detailTableView.reloadData()
+        ViewUtil.hideActivityLoading(self.activityLoading)
     }
     
     @IBAction func onSelectCategory(sender: AnyObject) {

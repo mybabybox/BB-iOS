@@ -11,6 +11,7 @@ import SwiftEventBus
 
 class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
+    @IBOutlet weak var activityLoading: UIActivityIndicatorView!
     @IBOutlet weak var uiCollectionView: UICollectionView!
     
     var collectionViewCellSize : CGSize?
@@ -27,6 +28,7 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
     
     override func reloadDataToView() {
         self.uiCollectionView.reloadData()
+        ViewUtil.hideActivityLoading(self.activityLoading)
     }
     
     override func registerMoreEvents() {
@@ -67,7 +69,7 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        ViewUtil.showActivityLoading(self.activityLoading)
         setUserInfo(constants.userInfo)
         
         registerEvents()
@@ -278,7 +280,8 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
         self.lastContentOffset = scrollView.contentOffset.y
         
         if (scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - constants.FEED_LOAD_SCROLL_THRESHOLD {
-            loadMoreFeedItems()
+            ViewUtil.showActivityLoading(self.activityLoading)
+	    loadMoreFeedItems()
         }
     }
     
@@ -341,7 +344,7 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
         } else if (segControl!.selectedSegmentIndex == 1) {
             feedLoader?.setFeedType(FeedFilter.FeedType.USER_LIKED)
         }
-        
+        ViewUtil.showActivityLoading(self.activityLoading)
         reloadFeedItems()
 
         redrawSegControlBorder(segControl!)

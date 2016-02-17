@@ -11,6 +11,7 @@ import SwiftEventBus
 
 class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigationControllerDelegate {
     
+    @IBOutlet weak var activityLoading: UIActivityIndicatorView!
     @IBOutlet weak var uiCollectionView: UICollectionView!
     
     var collectionViewCellSize : CGSize?
@@ -26,6 +27,7 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
     
     override func reloadDataToView() {
         self.uiCollectionView.reloadData()
+        ViewUtil.hideActivityLoading(self.activityLoading)
     }
     
     override func registerMoreEvents() {
@@ -39,7 +41,7 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
                 self.activeHeaderViewCell?.segmentControl.setTitle("Products " + String(self.userInfo!.numProducts), forSegmentAtIndex: 0)
                 self.activeHeaderViewCell?.segmentControl.setTitle("Likes " + String(self.userInfo!.numLikes), forSegmentAtIndex: 1)
             }
-            
+            ViewUtil.showActivityLoading(self.activityLoading)
             self.reloadFeedItems()
         }
         
@@ -67,7 +69,8 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.navigationItem.rightBarButtonItems = []
+        self.navigationItem.leftBarButtonItems = []
         registerEvents()
         
         ApiControlller.apiController.getUser(self.userId)
@@ -274,7 +277,8 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
     // MARK: UIScrollview Delegate
     func scrollViewDidScroll(scrollView: UIScrollView) {
         if (scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - constants.FEED_LOAD_SCROLL_THRESHOLD {
-            loadMoreFeedItems()
+            ViewUtil.showActivityLoading(self.activityLoading)
+	    loadMoreFeedItems()
         }
     }
     
@@ -321,7 +325,7 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
         } else if (segControl!.selectedSegmentIndex == 1) {
             feedLoader?.setFeedType(FeedFilter.FeedType.USER_LIKED)
         }
-        
+        ViewUtil.showActivityLoading(self.activityLoading)
         reloadFeedItems()
         
         redrawSegControlBorder(segControl!)

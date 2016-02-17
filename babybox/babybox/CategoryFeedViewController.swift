@@ -29,8 +29,8 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
     var txtPinkColor = ImageUtil.imageUtil.UIColorFromRGB(0xFF76A4)
     
     func reloadDataToView() {
-        self.activityLoading.stopAnimating()
         self.uiCollectionView.reloadData()
+        ViewUtil.hideActivityLoading(self.activityLoading)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -49,6 +49,7 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        ViewUtil.showActivityLoading(self.activityLoading)
         feedLoader = FeedLoader(feedType: FeedFilter.FeedType.CATEGORY_POPULAR, reloadDataToView: reloadDataToView)
         feedLoader!.reloadFeedItems(Int(self.selCategory!.id))
         
@@ -246,7 +247,8 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
     // MARK: UIScrollview Delegate
     func scrollViewDidScroll(scrollView: UIScrollView) {
         if (scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - constants.FEED_LOAD_SCROLL_THRESHOLD {
-            feedLoader!.loadMoreFeedItems(Int(self.selCategory!.id))
+            ViewUtil.showActivityLoading(self.activityLoading)
+	    feedLoader!.loadMoreFeedItems(Int(self.selCategory!.id))
         }
     }
     
@@ -286,20 +288,25 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
     }
     
     @IBAction func onClickPopulated(sender: AnyObject) {
+        ViewUtil.showActivityLoading(self.activityLoading)
         feedLoader!.setFeedType(FeedFilter.FeedType.CATEGORY_POPULAR)
         feedLoader!.reloadFeedItems(Int(self.selCategory!.id))
     }
     
     @IBAction func onClickNewest(sender: AnyObject) {
+        ViewUtil.showActivityLoading(self.activityLoading)
         feedLoader!.setFeedType(FeedFilter.FeedType.CATEGORY_NEWEST)
-        feedLoader!.reloadFeedItems(Int(self.selCategory!.id))    }
+        feedLoader!.reloadFeedItems(Int(self.selCategory!.id))    
+    }
     
     @IBAction func onClickHighLow(sender: AnyObject) {
+        ViewUtil.showActivityLoading(self.activityLoading)
         feedLoader!.setFeedType(FeedFilter.FeedType.CATEGORY_PRICE_HIGH_LOW)
         feedLoader!.reloadFeedItems(Int(self.selCategory!.id))
     }
     
     @IBAction func onClickLowHigh(sender: AnyObject) {
+        ViewUtil.showActivityLoading(self.activityLoading)
         feedLoader!.setFeedType(FeedFilter.FeedType.CATEGORY_PRICE_LOW_HIGH)
         feedLoader!.reloadFeedItems(Int(self.selCategory!.id))
     }
