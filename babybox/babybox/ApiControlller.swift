@@ -152,8 +152,8 @@ class ApiControlller {
         
         self.makePostApiCall(callEvent)
     }
-    
-    func validateFacebookUser(authToken: String) -> Bool {
+
+    func loginByFacebook(authToken: String) -> Bool {
         let url = constants.kBaseServerURL + "authenticate/mobile/facebook?access_token=\(authToken)"
         let callEvent = ApiCallEvent()
         callEvent.method = "authenticate/mobile/facebook"
@@ -167,7 +167,7 @@ class ApiControlller {
         return true
     }
     
-    func authenticateUser(userName: String, password: String) -> Bool {
+    func loginByEmail(userName: String, password: String) -> Bool {
         
         let url = constants.kBaseServerURL + "mobile/login?email=\(userName)&password=\(password)"
         
@@ -474,18 +474,6 @@ class ApiControlller {
         )
         
     }
-
-    func loginWithFacebook() {
-        let callEvent = ApiCallEvent()
-        callEvent.method = "/authenticate/mobile/facebook"
-        callEvent.resultClass = "String"
-        callEvent.successEventbusName = "onSuccessFbLogin"
-        callEvent.failedEventbusName = "onFailedFbLogin"
-        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method;
-        
-        self.makeApiCall(callEvent)
-    }
-
 
     func postMessage(id: String, message: String){
         

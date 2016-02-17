@@ -209,7 +209,6 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
         return CGSizeZero
     }
     
-    
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         
         if (collectionView.tag == 2){

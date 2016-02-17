@@ -118,10 +118,10 @@ class FeedLoader {
             } else {
                 self.feedItems.appendContentsOf(feedItems)
             }
-            reloadDataToView()
         } else {
             loadedAll = true
         }
+        reloadDataToView()
         loading = false
     }
     

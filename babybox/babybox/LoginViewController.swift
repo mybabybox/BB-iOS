@@ -16,14 +16,14 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFie
     @IBAction func onBackButton(sender: AnyObject) {
         navigationController?.popViewControllerAnimated(true)
     }
+    
     @IBOutlet weak var progressIndicator: UIActivityIndicatorView!
-    var isUserLoggedIn = false
-    let apiController =  ApiControlller();
-    
     @IBOutlet weak var signInButton: UIButton!
-    
     @IBOutlet weak var passwordTxt: UITextField!
     @IBOutlet weak var userNameTxt: UITextField!
+    
+    var isUserLoggedIn = false
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -44,8 +44,7 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFie
             }
             self.progressIndicator.hidden = false
             self.progressIndicator.startAnimating()
-            //apiController.authenticateUser("pitlawarkp@gmail.com", password: "pitlawarkp");
-            apiController.authenticateUser(self.userNameTxt.text!, password: self.passwordTxt.text!);
+            ApiControlller.apiController.loginByEmail(self.userNameTxt.text!, password: self.passwordTxt.text!);
             return false
         } else if (identifier == "gotoforgotpassword") {
             return true
@@ -130,7 +129,6 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFie
         //self.signInButton.layer.borderWidth = 1
         self.signInButton.layer.borderColor = color
         
-        ApiControlller.init();
         // Do any additional setup after loading the view, typically from a nib.
         
         self.userNameTxt.layer.borderWidth = 0
@@ -183,12 +181,11 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFie
             uImageView.frame = CGRect(x: 0, y: 0, width: 25, height: 25)
             self.view.addSubview(uImageView)
             
-        }
-        else {
+        } else {
             
             //self.progressIndicator.hidden = true
             //progressIndicator.stopAnimating()
-            apiController.validateFacebookUser(FBSDKAccessToken.currentAccessToken().tokenString);
+            ApiControlller.apiController.loginByFacebook(FBSDKAccessToken.currentAccessToken().tokenString);
             
             /*let pImageView = UIImageView()
             pImageView.image = UIImage(named: "login_lock")
@@ -197,11 +194,6 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFie
             pImageView.frame = CGRect(x: 0, y: 0, width: 25, height: 25)
             self.view.addSubview(pImageView)*/
         }
-        
-        
-        
-        
-        
     }
     
     func showLoading() {
@@ -217,6 +209,7 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFie
         self.signInButton.enabled = true
         self.signInButton.alpha = 1.0
     }
+    
     func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
         
         if (error == nil) {
@@ -224,7 +217,7 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFie
             self.isUserLoggedIn = true
             if (!result.isCancelled) {
                 constants.accessToken = result.token.tokenString
-                self.apiController.validateFacebookUser(result.token.tokenString)
+                ApiControlller.apiController.loginByFacebook(result.token.tokenString)
             }
             //make API call to authenticate facebook user on server.
             

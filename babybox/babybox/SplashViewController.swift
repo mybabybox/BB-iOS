@@ -56,10 +56,11 @@ class SplashViewController: UIViewController {
         }
         
         let sessionId: String? = SharedPreferencesUtil.getInstance().getUserAccessToken(SharedPreferencesUtil.User.ACCESS_TOKEN.rawValue)
+        NSLog("sessionId="+String(sessionId))
         
         //Check if FB logged in.
         if(FBSDKAccessToken.currentAccessToken() != nil) {
-            ApiControlller.apiController.validateFacebookUser(FBSDKAccessToken.currentAccessToken().tokenString)
+            ApiControlller.apiController.loginByFacebook(FBSDKAccessToken.currentAccessToken().tokenString)
         } else if ( sessionId != nil && sessionId != "nil" && sessionId != "-1") {
             constants.accessToken = sessionId!
             UserInfoCache.refresh()
@@ -75,6 +76,7 @@ class SplashViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
     //MARK Segue handling methods.
     override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
         return true
@@ -84,7 +86,7 @@ class SplashViewController: UIViewController {
         if (resultDto != nil) {
             self.navigationController?.navigationBar.hidden = true
             
-            constants.accessToken = (SharedPreferencesUtil.getInstance().getUserAccessToken(SharedPreferencesUtil.User.ACCESS_TOKEN.rawValue) as? String)!
+            constants.accessToken = SharedPreferencesUtil.getInstance().getUserAccessToken(SharedPreferencesUtil.User.ACCESS_TOKEN.rawValue)
             constants.userInfo = resultDto!
             if (constants.userInfo.id == -1) {
                 SwiftEventBus.unregister(self)
