@@ -321,6 +321,7 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
         self.tabBarController!.tabBar.hidden = true
         let vController = self.storyboard?.instantiateViewControllerWithIdentifier("sellProductsViewController") as! SellProductsViewController
         vController.selCategory = Int((selCategory?.id)!)
+        ViewUtil.resetBackButton(self.navigationItem)
         self.navigationController?.pushViewController(vController, animated: true)
     }
     
