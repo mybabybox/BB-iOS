@@ -148,10 +148,10 @@ class FeedProductViewController: UIViewController {
                 cell.postedUserName.text = comment.ownerName
                 cell.btnDeleteComments.tag = indexPath.row
                 cell.postedTime.text = self.myDate.offsetFrom(NSDate(timeIntervalSinceNow: NSTimeInterval(comment.createdDate)))
-                if (comment.ownerId == -1 && comment.ownerId != constants.userInfo.id) {
-                    cell.btnDeleteComments.hidden = true
-                } else {
+                if (comment.ownerId == constants.userInfo.id) {
                     cell.btnDeleteComments.hidden = false
+                } else {
+                    cell.btnDeleteComments.hidden = true
                 }
                 ImageUtil.displayThumbnailProfileImage(self.items[indexPath.row].ownerId, imageView: cell.postedUserImg)
                 cell.btnDeleteComments.addTarget(self, action: "DeleteComments:", forControlEvents: UIControlEvents.TouchUpInside)
