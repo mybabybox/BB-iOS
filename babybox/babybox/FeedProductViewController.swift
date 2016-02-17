@@ -33,6 +33,7 @@ class FeedProductViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         setSizesForFilterButtons()
         self.detailTableView.separatorColor = UIColor.whiteColor()
         self.detailTableView.estimatedRowHeight = 300.0
@@ -57,7 +58,6 @@ class FeedProductViewController: UIViewController {
         
         SwiftEventBus.onMainThread(self, name: "conversationsFailed") { result in
         }
-        
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -75,11 +75,10 @@ class FeedProductViewController: UIViewController {
         if(productModel.isLiked == false){
             self.likeImgBtn.setImage(UIImage(named: "ic_like_tips.png"), forState: UIControlState.Normal)
             self.likeFlag = false
-        }else {
+        } else {
             self.likeImgBtn.setImage(UIImage(named: "ic_liked_tips.png"), forState: UIControlState.Normal)
             self.likeFlag = true
         }
-        
     }
 
     override func didReceiveMemoryWarning() {

@@ -61,6 +61,8 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
     override func viewWillDisappear(animated: Bool) {
         unregisterEvents()
         //clearFeedItems()
+        
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
     override func viewDidLoad() {

@@ -60,6 +60,8 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
             self.tipSection.constant = -5
         }
         
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
+        
         setCollectionViewSizesInsets()
         setCollectionViewSizesInsetsForTopView()
         

@@ -37,6 +37,7 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
     }
     
     override func viewWillDisappear(animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
     override func viewDidDisappear(animated: Bool) {
