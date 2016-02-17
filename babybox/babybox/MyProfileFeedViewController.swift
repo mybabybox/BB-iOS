@@ -16,7 +16,6 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
     var collectionViewCellSize : CGSize?
     var collectionViewTopCellSize : CGSize?
     var reuseIdentifier = "CellType"
-    var lastContentOffset: CGFloat = 0
     
     var isWidthSet = false
     var isHtCalculated = false
@@ -39,6 +38,10 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
         }
     }
     
+    override func viewWillAppear(animated: Bool) {
+        registerEvents()
+    }
+    
     override func viewDidAppear(animated: Bool) {
         self.tabBarController!.tabBar.hidden = false
         self.tabBarController?.tabBar.alpha = CGFloat(constants.MAIN_BOTTOM_BAR_ALPHA)
@@ -50,19 +53,15 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
         
         //reloadFeedItems()
     }
-
-    override func viewWillAppear(animated: Bool) {
-        registerEvents()
-    }
-    
-    override func viewDidDisappear(animated: Bool) {
-    }
     
     override func viewWillDisappear(animated: Bool) {
         unregisterEvents()
         //clearFeedItems()
         
         self.navigationController?.setNavigationBarHidden(false, animated: false)
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
     }
     
     override func viewDidLoad() {
@@ -270,13 +269,6 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
     
     // MARK: UIScrollview Delegate
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        if (self.lastContentOffset > scrollView.contentOffset.y + constants.SHOW_HIDE_BAR_SCROLL_DISTANCE) {
-            self.navigationController?.setNavigationBarHidden(false, animated: true)
-        } else if (self.lastContentOffset < scrollView.contentOffset.y - constants.SHOW_HIDE_BAR_SCROLL_DISTANCE) {
-            self.navigationController?.setNavigationBarHidden(true, animated: true)
-        }
-        self.lastContentOffset = scrollView.contentOffset.y
-        
         if (scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - constants.FEED_LOAD_SCROLL_THRESHOLD {
             loadMoreFeedItems()
         }
