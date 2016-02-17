@@ -41,7 +41,6 @@ class ViewUtil {
         }
     }
     
-    
     static func getScreenWidth(view: UIView) -> CGFloat {
         let screenWidth:CGFloat = view.bounds.width
         return screenWidth
@@ -52,13 +51,15 @@ class ViewUtil {
         navigationItem.backBarButtonItem = backbtn
     }
     
-    static func showActivityLoading(activityLoading: UIActivityIndicatorView) {
+    static func showActivityLoading(activityLoading: UIActivityIndicatorView?) {
         //activityLoading.hidden = false
-        activityLoading.startAnimating()
-    }
-    static func hideActivityLoading(activityLoading: UIActivityIndicatorView) {
-        activityLoading.stopAnimating()
-        //activityLoading.hidden = true
+        activityLoading?.startAnimating()
+        NSLog("showActivityLoading")
     }
     
+    static func hideActivityLoading(activityLoading: UIActivityIndicatorView?) {
+        //activityLoading.hidden = true
+        activityLoading?.stopAnimating()
+        NSLog("hideActivityLoading")
+    }
 }

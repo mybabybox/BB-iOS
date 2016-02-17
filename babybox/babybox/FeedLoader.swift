@@ -13,6 +13,7 @@ class FeedLoader {
     
     var feedType: FeedFilter.FeedType
     var reloadDataToView: ()->()
+    var activityIndicator: UIActivityIndicatorView?
     
     var feedItems: [PostModel] = []
     
@@ -32,6 +33,10 @@ class FeedLoader {
         clearFeedItems()
         registerEvents()
         NSLog("FeedLoader.setFeedType: feedType="+String(feedType))
+    }
+    
+    func setActivityIndicator(activityIndicator: UIActivityIndicatorView) {
+        self.activityIndicator = activityIndicator
     }
     
     func unregisterEvents() {
@@ -118,11 +123,12 @@ class FeedLoader {
             } else {
                 self.feedItems.appendContentsOf(feedItems)
             }
+            reloadDataToView()
         } else {
             loadedAll = true
         }
-        reloadDataToView()
         loading = false
+        ViewUtil.hideActivityLoading(activityIndicator)
     }
     
     func clearFeedItems() {
@@ -162,6 +168,7 @@ class FeedLoader {
     
     func loadFeed(feedOffset: Int64, objId: Int) {
         NSLog("FeedLoader.loadFeed: feedOffset="+String(feedOffset)+" objId="+String(objId)+" feedType="+String(feedType))
+        ViewUtil.showActivityLoading(activityIndicator)
         switch feedType {
         case FeedFilter.FeedType.HOME_EXPLORE:
             ApiControlller.apiController.getHomeExploreFeed(feedOffset)

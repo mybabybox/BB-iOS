@@ -11,6 +11,8 @@ import SwiftEventBus
 
 class BaseProfileFeedViewController: CustomNavigationController {
     
+    @IBOutlet weak var activityLoading: UIActivityIndicatorView!
+    
     var userId: Int = 0
     var userInfo: UserInfoVM? = nil
     
@@ -36,6 +38,7 @@ class BaseProfileFeedViewController: CustomNavigationController {
         super.viewDidLoad()
         
         feedLoader = FeedLoader(feedType: FeedFilter.FeedType.USER_POSTED, reloadDataToView: reloadDataToView)
+        feedLoader!.setActivityIndicator(activityLoading)
     }
     
     func clearFeedItems() {

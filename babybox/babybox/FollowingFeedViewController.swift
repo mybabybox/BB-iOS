@@ -25,7 +25,6 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
     
     func reloadDataToView() {
         self.uiCollectionView.reloadData()
-        ViewUtil.hideActivityLoading(self.activityLoading)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -46,9 +45,8 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        ViewUtil.showActivityLoading(self.activityLoading)
-        
         feedLoader = FeedLoader(feedType: FeedFilter.FeedType.HOME_FOLLOWING, reloadDataToView: reloadDataToView)
+        feedLoader!.setActivityIndicator(activityLoading)
         feedLoader!.reloadFeedItems()
         
         if (!SharedPreferencesUtil.getInstance().isScreenViewed(SharedPreferencesUtil.Screen.HOME_FOLLOWING_TIPS)) {
@@ -179,8 +177,7 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
         self.lastContentOffset = scrollView.contentOffset.y
         
         if (scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - constants.FEED_LOAD_SCROLL_THRESHOLD {
-            ViewUtil.showActivityLoading(self.activityLoading)
-	    feedLoader?.loadMoreFeedItems()
+            feedLoader?.loadMoreFeedItems()
         }
     }
     
