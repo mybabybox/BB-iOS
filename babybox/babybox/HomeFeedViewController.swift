@@ -18,11 +18,12 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var activityLoading: UIActivityIndicatorView!
     
     var feedLoader: FeedLoader? = nil
-    var categories : [CategoryModel] = []
     var collectionViewCellSize : CGSize?
     var collectionViewTopCellSize : CGSize?
+    var lastContentOffset: CGFloat = 0
     var reuseIdentifier = "CellType1"
-    var isHeightSet: Bool = false
+    
+    var categories : [CategoryModel] = []
     
     func reloadDataToView() {
         self.activityLoading.stopAnimating()
@@ -34,6 +35,7 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
     
     override func viewDidAppear(animated: Bool) {
         self.tabBarController!.tabBar.hidden = false
+        self.tabBarController?.tabBar.alpha = CGFloat(constants.MAIN_BOTTOM_BAR_ALPHA)
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -238,48 +240,15 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
     }
     
     // MARK: UIScrollview Delegate
-    func scrollViewWillBeginDecelerating(scrollView: UIScrollView) {
-       
-        let velocity: CGFloat = scrollView.panGestureRecognizer.velocityInView(scrollView).y
-        
-        if (velocity > 0) {
-            //self.navigationController?.setNavigationBarHidden(false, animated: true)
-            //self.navigationController?.setToolbarHidden(false, animated: true)
-            self.tabBarController?.tabBar.alpha = CGFloat(1.0)
-            /*UIView.animateWithDuration(0.1, animations: {
-                //self.tabBarController?.tabBar.frame.size.height = 0
-                //self.tabBarController?.tabBar.hidden = false
-                //self.hidesBottomBarWhenPushed = true
-                
-                if (self.isHeightSet) {
-                    let tabBarHeight = self.tabBarController!.tabBar.frame.size.height
-                    self.view.frame.size.height = self.view.frame.size.height - tabBarHeight
-                    self.isHeightSet = false
-                }
-            })*/
-            
-        } else if (velocity < 0) {
-            //self.navigationController?.setNavigationBarHidden(true, animated: true)
-            //self.navigationController?.setToolbarHidden(true, animated: true)
-
-            self.tabBarController?.tabBar.alpha = CGFloat(0.1)
-            
-            /*UIView.animateWithDuration(0.1, animations: {
-                //self.tabBarController?.tabBar.hidden = true
-                //self.hidesBottomBarWhenPushed = true
-                
-               if (!self.isHeightSet) {
-                    let tabBarHeight = self.tabBarController!.tabBar.frame.size.height
-                    self.view.frame.size.height = self.view.frame.size.height + tabBarHeight
-                    self.isHeightSet = true
-                }
-            })*/
-            
-        }
-    }
-    
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height ){
+        if (self.lastContentOffset > scrollView.contentOffset.y + constants.SHOW_HIDE_BAR_SCROLL_DISTANCE) {
+            self.navigationController?.setNavigationBarHidden(false, animated: true)
+        } else if (self.lastContentOffset < scrollView.contentOffset.y - constants.SHOW_HIDE_BAR_SCROLL_DISTANCE) {
+            self.navigationController?.setNavigationBarHidden(true, animated: true)
+        }
+        self.lastContentOffset = scrollView.contentOffset.y
+        
+        if (scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - constants.FEED_LOAD_SCROLL_THRESHOLD {
             feedLoader!.loadMoreFeedItems()
         }
     }

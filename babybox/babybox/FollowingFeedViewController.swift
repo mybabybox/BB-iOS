@@ -20,8 +20,8 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
     var feedLoader: FeedLoader? = nil
     var collectionViewCellSize : CGSize?
     var collectionViewTopCellSize : CGSize?
+    var lastContentOffset: CGFloat = 0
     var reuseIdentifier = "CellType1"
-    var isHeightSet: Bool = false
     
     func reloadDataToView() {
         self.activityLoading.stopAnimating()
@@ -33,6 +33,7 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
     
     override func viewDidAppear(animated: Bool) {
         self.tabBarController!.tabBar.hidden = false
+        self.tabBarController?.tabBar.alpha = CGFloat(constants.MAIN_BOTTOM_BAR_ALPHA)
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -166,35 +167,15 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
     }
     
     // MARK: UIScrollview Delegate
-    func scrollViewWillBeginDecelerating(scrollView: UIScrollView) {
-        let velocity: CGFloat = scrollView.panGestureRecognizer.velocityInView(scrollView).y
-        
-        if (velocity > 0) {
-            UIView.animateWithDuration(0.5, animations: {
-                self.tabBarController?.tabBar.hidden = false
-                self.hidesBottomBarWhenPushed = false
-                
-                if (self.isHeightSet) {
-                    let tabBarHeight = self.tabBarController!.tabBar.frame.size.height
-                    self.view.frame.size.height = self.view.frame.size.height - tabBarHeight
-                    self.isHeightSet = false
-                }
-            })
-        } else if (velocity < 0) {
-            self.tabBarController?.tabBar.hidden = true
-            self.hidesBottomBarWhenPushed = false
-            if (!self.isHeightSet) {
-                let tabBarHeight = self.tabBarController!.tabBar.frame.size.height
-                self.view.frame.size.height = self.view.frame.size.height + tabBarHeight
-                self.isHeightSet = true
-            }
-        } else {
-            NSLog("Can't determine direction as velocity is 0")
-        }
-    }
-    
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - constants.prodImgLoadThresold){
+        if (self.lastContentOffset > scrollView.contentOffset.y + constants.SHOW_HIDE_BAR_SCROLL_DISTANCE) {
+            self.navigationController?.setNavigationBarHidden(false, animated: true)
+        } else if (self.lastContentOffset < scrollView.contentOffset.y - constants.SHOW_HIDE_BAR_SCROLL_DISTANCE) {
+            self.navigationController?.setNavigationBarHidden(true, animated: true)
+        }
+        self.lastContentOffset = scrollView.contentOffset.y
+        
+        if (scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - constants.FEED_LOAD_SCROLL_THRESHOLD {
             feedLoader?.loadMoreFeedItems()
         }
     }

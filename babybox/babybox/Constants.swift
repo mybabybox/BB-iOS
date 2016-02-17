@@ -11,19 +11,18 @@ import UIKit
 
 struct constants {
     
-    static let APP_NAME = "Babybox"
+    static let APP_NAME = "BabyBox"
     
-    
-    static let kBaseServerURL = "http://192.168.1.152:9005/"
-    static let imagesBaseURL = "http://192.168.1.152:9005"
+    static let kBaseServerURL = "http://localhost:9000/"
+    static let imagesBaseURL = "http://localhost:9000"
     
     static let currencySymbol = "$"
     static var accessToken = ""
     static var userInfo: UserInfoVM = UserInfoVM()
-    static var imgFadeInInterval = 200
     
-    static var prodImgLoadThresold = CGFloat(40.0)
-    //static var viewControllerIns: UIViewController? = nil
+    static let FEED_LOAD_SCROLL_THRESHOLD = CGFloat(50.0)
+    static let SHOW_HIDE_BAR_SCROLL_DISTANCE = CGFloat(5.0)
+    static let MAIN_BOTTOM_BAR_ALPHA = 0.9
     
     //Color 
     //Pink Button color - 0xFF76A4 // RGB - 255 118 164

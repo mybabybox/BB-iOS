@@ -16,9 +16,9 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
     var collectionViewCellSize : CGSize?
     var collectionViewTopCellSize : CGSize?
     var reuseIdentifier = "CellType"
+    var lastContentOffset: CGFloat = 0
     
     var isWidthSet = false
-    var isHeightSet: Bool = false
     var isHtCalculated = false
     
     var activeHeaderViewCell: UserFeedHeaderViewCell?  = nil
@@ -41,6 +41,7 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
     
     override func viewDidAppear(animated: Bool) {
         self.tabBarController!.tabBar.hidden = false
+        self.tabBarController?.tabBar.alpha = CGFloat(constants.MAIN_BOTTOM_BAR_ALPHA)
         
         if (self.activeHeaderViewCell != nil) {
             self.activeHeaderViewCell?.segmentControl.setTitle("Products " + String(self.userInfo!.numProducts), forSegmentAtIndex: 0)
@@ -267,37 +268,14 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
     
     // MARK: UIScrollview Delegate
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        let velocity: CGFloat = scrollView.panGestureRecognizer.velocityInView(scrollView).y
-        
-        if (velocity > 0) {
-            UIView.animateWithDuration(0.1, animations: {
-                
-                //self.tabBarController?.tabBar.frame.size.height = 0
-                self.tabBarController?.tabBar.hidden = false
-                self.hidesBottomBarWhenPushed = true
-                
-                if (self.isHeightSet) {
-                    let tabBarHeight = self.tabBarController!.tabBar.frame.size.height
-                    self.view.frame.size.height = self.view.frame.size.height - tabBarHeight
-                    self.isHeightSet = false
-                }
-            })
-        } else if (velocity < 0) {
-            UIView.animateWithDuration(0.1, animations: {
-                self.tabBarController?.tabBar.hidden = true
-                self.hidesBottomBarWhenPushed = true
-                if (!self.isHeightSet) {
-                    let tabBarHeight = self.tabBarController!.tabBar.frame.size.height
-                    self.view.frame.size.height = self.view.frame.size.height + tabBarHeight
-                    self.isHeightSet = true
-                }
-                
-            })
-        } else {
-            NSLog("Can't determine direction as velocity is 0")
+        if (self.lastContentOffset > scrollView.contentOffset.y + constants.SHOW_HIDE_BAR_SCROLL_DISTANCE) {
+            self.navigationController?.setNavigationBarHidden(false, animated: true)
+        } else if (self.lastContentOffset < scrollView.contentOffset.y - constants.SHOW_HIDE_BAR_SCROLL_DISTANCE) {
+            self.navigationController?.setNavigationBarHidden(true, animated: true)
         }
+        self.lastContentOffset = scrollView.contentOffset.y
         
-        if (scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - constants.prodImgLoadThresold {
+        if (scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - constants.FEED_LOAD_SCROLL_THRESHOLD {
             loadMoreFeedItems()
         }
     }
