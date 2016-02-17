@@ -69,8 +69,7 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.rightBarButtonItems = []
-        self.navigationItem.leftBarButtonItems = []
+
         registerEvents()
         
         ApiControlller.apiController.getUser(self.userId)
@@ -98,6 +97,9 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
         self.navigationItem.backBarButtonItem?.title = ""*/
         
         let titleDict: NSDictionary = [NSForegroundColorAttributeName: UIColor.whiteColor()]
+        
+        self.navigationItem.rightBarButtonItems = []
+        self.navigationItem.leftBarButtonItems = []
         self.navigationController!.navigationBar.titleTextAttributes = titleDict as? [String : AnyObject]
     }
     

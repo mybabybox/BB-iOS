@@ -59,14 +59,14 @@ class SplashViewController: UIViewController {
         NSLog("sessionId="+String(sessionId))
         
         //Check if FB logged in.
-        if(FBSDKAccessToken.currentAccessToken() != nil) {
+        if (FBSDKAccessToken.currentAccessToken() != nil) {
             ApiControlller.apiController.loginByFacebook(FBSDKAccessToken.currentAccessToken().tokenString)
-        } else if ( sessionId != nil && sessionId != "nil" && sessionId != "-1") {
+        } else if (sessionId != nil && sessionId != "nil" && sessionId != "-1") {
             constants.accessToken = sessionId!
             UserInfoCache.refresh()
             
         } else {
-            NSThread.sleepForTimeInterval(0.3)
+            NSThread.sleepForTimeInterval(constants.SPLASH_SHOW_DURATION)
             showLoginPage()
         }
         

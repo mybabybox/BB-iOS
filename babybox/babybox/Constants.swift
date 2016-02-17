@@ -20,6 +20,7 @@ struct constants {
     static var accessToken = ""
     static var userInfo: UserInfoVM = UserInfoVM()
     
+    static let SPLASH_SHOW_DURATION = 0.5
     static let FEED_LOAD_SCROLL_THRESHOLD = CGFloat(50.0)
     static let SHOW_HIDE_BAR_SCROLL_DISTANCE = CGFloat(5.0)
     static let MAIN_BOTTOM_BAR_ALPHA = 0.9

@@ -131,7 +131,7 @@ class FeedProductViewController: UIViewController {
         
         if indexPath.section == 3 {
             let cell:MessageTableViewCell = tableView.dequeueReusableCellWithIdentifier(reuseidentifier, forIndexPath: indexPath) as!  MessageTableViewCell
-            if indexPath.row == (items.count) {
+            if indexPath.row == items.count {
                 cell.btnPostComments.tag = indexPath.row
                 cell.btnPostComments.addTarget(self, action: "PostComments:", forControlEvents: UIControlEvents.TouchUpInside)
                 ImageUtil.displayButtonRoundBorder(cell.btnPostComments)
@@ -142,7 +142,7 @@ class FeedProductViewController: UIViewController {
                 cell.commentTxt.layer.masksToBounds = true
                 //cell.commentTxt.borderStyle = UITextBorderStyle.None
                 
-            }else{
+            } else {
                 let comment:CommentModel = self.items[indexPath.row] 
                 cell.lblComments.text = comment.body
                 cell.postedUserName.text = comment.ownerName
