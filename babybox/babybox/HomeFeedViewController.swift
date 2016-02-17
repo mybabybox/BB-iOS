@@ -244,12 +244,11 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
         
         if (velocity > 0) {
             //self.navigationController?.setNavigationBarHidden(false, animated: true)
-            self.navigationController?.setToolbarHidden(false, animated: true)
-            
-            /*
-            UIView.animateWithDuration(0.1, animations: {
+            //self.navigationController?.setToolbarHidden(false, animated: true)
+            self.tabBarController?.tabBar.alpha = CGFloat(1.0)
+            /*UIView.animateWithDuration(0.1, animations: {
                 //self.tabBarController?.tabBar.frame.size.height = 0
-                self.tabBarController?.tabBar.hidden = false
+                //self.tabBarController?.tabBar.hidden = false
                 //self.hidesBottomBarWhenPushed = true
                 
                 if (self.isHeightSet) {
@@ -257,24 +256,25 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
                     self.view.frame.size.height = self.view.frame.size.height - tabBarHeight
                     self.isHeightSet = false
                 }
-            })
-            */
+            })*/
+            
         } else if (velocity < 0) {
             //self.navigationController?.setNavigationBarHidden(true, animated: true)
-            self.navigationController?.setToolbarHidden(true, animated: true)
+            //self.navigationController?.setToolbarHidden(true, animated: true)
 
-            /*
-            UIView.animateWithDuration(0.1, animations: {
-                self.tabBarController?.tabBar.hidden = true
+            self.tabBarController?.tabBar.alpha = CGFloat(0.1)
+            
+            /*UIView.animateWithDuration(0.1, animations: {
+                //self.tabBarController?.tabBar.hidden = true
                 //self.hidesBottomBarWhenPushed = true
                 
-                if (!self.isHeightSet) {
+               if (!self.isHeightSet) {
                     let tabBarHeight = self.tabBarController!.tabBar.frame.size.height
                     self.view.frame.size.height = self.view.frame.size.height + tabBarHeight
                     self.isHeightSet = true
                 }
-            })
-            */
+            })*/
+            
         }
     }
     
