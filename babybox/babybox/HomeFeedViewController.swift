@@ -243,7 +243,11 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
         let velocity: CGFloat = scrollView.panGestureRecognizer.velocityInView(scrollView).y
         
         if (velocity > 0) {
-            UIView.animateWithDuration(0.5, animations: {
+            //self.navigationController?.setNavigationBarHidden(false, animated: true)
+            self.navigationController?.setToolbarHidden(false, animated: true)
+            
+            /*
+            UIView.animateWithDuration(0.1, animations: {
                 //self.tabBarController?.tabBar.frame.size.height = 0
                 self.tabBarController?.tabBar.hidden = false
                 //self.hidesBottomBarWhenPushed = true
@@ -254,8 +258,13 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
                     self.isHeightSet = false
                 }
             })
+            */
         } else if (velocity < 0) {
-            UIView.animateWithDuration(0.5, animations: {
+            //self.navigationController?.setNavigationBarHidden(true, animated: true)
+            self.navigationController?.setToolbarHidden(true, animated: true)
+
+            /*
+            UIView.animateWithDuration(0.1, animations: {
                 self.tabBarController?.tabBar.hidden = true
                 //self.hidesBottomBarWhenPushed = true
                 
@@ -265,6 +274,7 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
                     self.isHeightSet = true
                 }
             })
+            */
         }
     }
     

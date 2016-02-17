@@ -14,10 +14,14 @@ class FeedFilter {
         case HOME_EXPLORE
         case HOME_FOLLOWING
         case CATEGORY_POPULAR
+        case CATEGORY_POPULAR_NEW
+        case CATEGORY_POPULAR_USED
         case CATEGORY_NEWEST
         case CATEGORY_PRICE_LOW_HIGH
         case CATEGORY_PRICE_HIGH_LOW
         case HASHTAG_POPULAR
+        case HASHTAG_POPULAR_NEW
+        case HASHTAG_POPULAR_USED
         case HASHTAG_NEWEST
         case HASHTAG_PRICE_LOW_HIGH
         case HASHTAG_PRICE_HIGH_LOW
@@ -33,10 +37,9 @@ class FeedFilter {
         init() {
             self = .HOME_EXPLORE
         }
-        
     }
     
-    enum FeedProductType {
+    enum ConditionType {
         case ALL
         case NEW
         case USED
