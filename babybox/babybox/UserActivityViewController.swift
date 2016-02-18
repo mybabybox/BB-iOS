@@ -16,7 +16,7 @@ class UserActivityViewController: CustomNavigationController {
     var activityOffSet: Int64 = 0
     var lastContentOffset: CGFloat = 0
     var userActivitesItems: [ActivityVM] = []
-    var collectionViewTopCellSize : CGSize?
+    var collectionViewCellSize : CGSize?
     
     override func viewDidAppear(animated: Bool) {
         self.tabBarController?.tabBar.hidden = false
@@ -26,7 +26,7 @@ class UserActivityViewController: CustomNavigationController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        setCollectionViewSizesInsetsForTopView()
         SwiftEventBus.onMainThread(self, name: "userActivitiesSuccess") { result in
             // UI thread
             let resultDto: [ActivityVM] = result.object as! [ActivityVM]
@@ -85,7 +85,7 @@ class UserActivityViewController: CustomNavigationController {
         cell.activityTime.text = String(self.userActivitesItems[indexPath.row].createdDate)
         
         cell.message.lineBreakMode = NSLineBreakMode.ByWordWrapping
-        cell.message.numberOfLines = 2
+        cell.message.numberOfLines = 0
         
         return cell
     }
@@ -104,6 +104,15 @@ class UserActivityViewController: CustomNavigationController {
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
         return 0.0
+    }
+    
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+        
+        return collectionViewCellSize!
+    }
+    
+    func setCollectionViewSizesInsetsForTopView() {
+        collectionViewCellSize = CGSizeMake(self.view.bounds.width, 65)
     }
     
     func handleUserActivitiesData(resultDto: [ActivityVM]) {
