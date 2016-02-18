@@ -330,10 +330,10 @@ CEVudGVyIFBhc3N3b3JkA
                                                     </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JEb-KH-Dm3">
-                                                    <rect key="frame" x="60" y="0.0" width="30" height="50"/>
+                                                    <rect key="frame" x="60" y="0.0" width="30" height="28"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <state key="normal">
-                                                        <color key="titleColor" red="1" green="0.23137254900000001" blue="0.65566465979999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8ws-W6-CuJ">
@@ -366,7 +366,7 @@ CEVudGVyIFBhc3N3b3JkA
                                                     </constraints>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A5m-Nq-PAj">
-                                                    <rect key="frame" x="95" y="6" width="0.0" height="43"/>
+                                                    <rect key="frame" x="95" y="7" width="0.0" height="0.0"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
@@ -375,19 +375,18 @@ CEVudGVyIFBhc3N3b3JkA
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <constraints>
-                                            <constraint firstItem="8ws-W6-CuJ" firstAttribute="top" secondItem="A5m-Nq-PAj" secondAttribute="bottom" constant="5" id="0EE-oV-reB"/>
                                             <constraint firstAttribute="bottom" secondItem="cJg-Sw-Lf2" secondAttribute="bottom" id="0To-YU-IWk"/>
                                             <constraint firstItem="cJg-Sw-Lf2" firstAttribute="leading" secondItem="qJj-IM-lud" secondAttribute="leading" id="18H-P9-7yw"/>
                                             <constraint firstItem="4h1-dB-5QE" firstAttribute="leading" secondItem="Ycg-79-QYK" secondAttribute="leading" id="4Z6-1Y-LSx"/>
                                             <constraint firstItem="Ycg-79-QYK" firstAttribute="leading" secondItem="qJj-IM-lud" secondAttribute="leading" constant="10" id="EML-cf-36C"/>
                                             <constraint firstItem="4h1-dB-5QE" firstAttribute="trailing" secondItem="Ycg-79-QYK" secondAttribute="trailing" id="HbZ-jl-fSA"/>
-                                            <constraint firstItem="A5m-Nq-PAj" firstAttribute="top" secondItem="qJj-IM-lud" secondAttribute="topMargin" constant="-2" id="IkA-5z-1uR"/>
+                                            <constraint firstItem="A5m-Nq-PAj" firstAttribute="top" secondItem="qJj-IM-lud" secondAttribute="topMargin" constant="-1" id="IkA-5z-1uR"/>
                                             <constraint firstItem="evP-hF-mKI" firstAttribute="top" secondItem="2G3-HM-cle" secondAttribute="top" id="NoX-eK-PhD"/>
                                             <constraint firstItem="4h1-dB-5QE" firstAttribute="top" secondItem="Ycg-79-QYK" secondAttribute="top" id="QVv-dt-sqo"/>
                                             <constraint firstItem="evP-hF-mKI" firstAttribute="leading" secondItem="2G3-HM-cle" secondAttribute="leading" id="QZ1-xY-Cu0"/>
                                             <constraint firstItem="evP-hF-mKI" firstAttribute="bottom" secondItem="2G3-HM-cle" secondAttribute="bottom" id="RyC-cu-dKj"/>
                                             <constraint firstAttribute="bottomMargin" secondItem="8ws-W6-CuJ" secondAttribute="bottom" constant="1" id="Zdx-wJ-9df"/>
-                                            <constraint firstAttribute="top" secondItem="JEb-KH-Dm3" secondAttribute="top" constant="-7" id="cmf-0p-j6M"/>
+                                            <constraint firstAttribute="top" secondItem="JEb-KH-Dm3" secondAttribute="top" id="cmf-0p-j6M"/>
                                             <constraint firstItem="8ws-W6-CuJ" firstAttribute="leading" secondItem="JEb-KH-Dm3" secondAttribute="leading" constant="-1" id="foB-iE-uHV"/>
                                             <constraint firstItem="evP-hF-mKI" firstAttribute="trailing" secondItem="2G3-HM-cle" secondAttribute="trailing" id="hCr-sW-zGW"/>
                                             <constraint firstAttribute="trailing" secondItem="2G3-HM-cle" secondAttribute="trailing" constant="15" id="hEg-Hb-Y7j"/>

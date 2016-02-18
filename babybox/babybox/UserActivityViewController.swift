@@ -197,8 +197,18 @@ class UserActivityViewController: CustomNavigationController {
                 cell.prodImg.hidden = true
             default: break
         }
+        /*if (userName.isEmpty) {
+            cell.userName.setTitle(message, forState: UIControlState.Normal)
+            cell.message.text = ""
+        } else {
+            cell.userName.setTitle(userName, forState: UIControlState.Normal)
+            cell.userName.setTitleColor(ImageUtil.getPinkColor(), forState: UIControlState.Normal)
+            cell.message.text = message
+        }*/
         cell.userName.setTitle(userName, forState: UIControlState.Normal)
+        cell.userName.setTitleColor(ImageUtil.getPinkColor(), forState: UIControlState.Normal)
         cell.message.text = message
+        
     }
     
 }

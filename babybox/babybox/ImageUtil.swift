@@ -82,7 +82,7 @@ class ImageUtil {
         view.layer.borderColor = color
     }
     
-    func getPinkColor() -> UIColor {
+    static func getPinkColor() -> UIColor {
         let rgbValue: UInt = 0xFF76A4
         return UIColor(
             red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
