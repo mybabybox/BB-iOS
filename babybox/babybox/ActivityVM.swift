@@ -12,7 +12,7 @@ import ObjectMapper
 class ActivityVM: BaseArgVM {
 
     var id: Int = 0
-    var createdDate: Int = 0
+    var createdDate: Double = 0
     var activityType: String = ""
     var userIsOwner: Bool = false
     var actor: Int = 0

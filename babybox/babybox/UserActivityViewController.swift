@@ -82,8 +82,9 @@ class UserActivityViewController: CustomNavigationController {
         ImageUtil.displayThumbnailProfileImage(Int(self.userActivitesItems[indexPath.row].actorImage), imageView: cell.profileImg)
         
         self.setMessageText(self.userActivitesItems[indexPath.row], cell: cell)
-        cell.activityTime.text = String(self.userActivitesItems[indexPath.row].createdDate)
         
+        var createdDt = NSDate(timeIntervalSinceNow: self.userActivitesItems[indexPath.row].createdDate)
+        cell.activityTime.text = createdDt.timeAgo
         cell.message.lineBreakMode = NSLineBreakMode.ByWordWrapping
         cell.message.numberOfLines = 0
         
