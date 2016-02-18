@@ -102,4 +102,14 @@ class ViewUtil {
         activityLoading?.stopAnimating()
         NSLog("hideActivityLoading")
     }
+    
+    static func initActivityIndicator(activityIndicator: UIActivityIndicatorView) -> UIActivityIndicatorView {
+        //activityIndicator.transform = CGAffineTransformMakeScale(1.5, 1.5)
+        /*
+        activityIndicator.clipsToBounds = false
+        activityIndicator.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
+        activityIndicator.layer.cornerRadius = 10
+        */
+        return activityIndicator
+    }
 }
