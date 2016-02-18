@@ -147,7 +147,8 @@ class FeedProductViewController: UIViewController {
                 cell.lblComments.text = comment.body
                 cell.postedUserName.text = comment.ownerName
                 cell.btnDeleteComments.tag = indexPath.row
-                cell.postedTime.text = self.myDate.offsetFrom(NSDate(timeIntervalSinceNow: NSTimeInterval(comment.createdDate)))
+                cell.postedTime.text = (NSDate(timeIntervalSinceNow: NSTimeInterval(comment.createdDate / 1000))).timeAgo
+                //self.myDate.offsetFrom(NSDate(timeIntervalSinceNow: NSTimeInterval(comment.createdDate)))
                 if (comment.ownerId == constants.userInfo.id) {
                     cell.btnDeleteComments.hidden = false
                 } else {
@@ -157,7 +158,8 @@ class FeedProductViewController: UIViewController {
                 cell.btnDeleteComments.addTarget(self, action: "DeleteComments:", forControlEvents: UIControlEvents.TouchUpInside)
                 
                 let time = comment.createdDate
-                cell.postedTime.text = self.myDate.offsetFrom(NSDate(timeIntervalSinceNow: NSTimeInterval(time)))
+                cell.postedTime.text = (NSDate(timeIntervalSinceNow: NSTimeInterval(time / 1000))).timeAgo
+                    //self.myDate.offsetFrom(NSDate(timeIntervalSinceNow: NSTimeInterval(time)))
                 
             }
             cell.separatorInset = UIEdgeInsetsMake(0, 0, 0, cell.bounds.size.width)
@@ -171,13 +173,15 @@ class FeedProductViewController: UIViewController {
             case 0:
                 if (self.productModel.hasImage) {
                     ImageUtil.displayOriginalPostImage(self.productModel.images[0], imageView: cell.productImage)
-                    cell.imageHt.constant = ViewUtil.getScreenWidth(self.view) //calculate the screen width...
+                    //cell.imageHt.constant = ViewUtil.getScreenWidth(self.view) //calculate the screen width...
                 }
                 cell.soldImage.hidden = !self.productModel.sold
                 
             case 1:
                 if (self.productInfo.count > 0) {
                     cell.productDesc.text = self.productInfo[0].body
+                    //cell.productDesc.numberOfLines = 0
+                    //cell.productDesc.sizeToFit()
                 }
                 cell.productTitle.text = productModel.title
                 cell.prodCondition.text = ViewUtil.parsePostConditionTypeFromType(self.productModel.conditionType)
@@ -195,7 +199,8 @@ class FeedProductViewController: UIViewController {
                     cell.prodCategory.text = self.productInfo[0].categoryName
                     //cell.prodTimerCount.text = String(self.productInfo[0].numComments)
                     cell.categoryBtn.hidden = false
-                    cell.prodTimerCount.text = customDate.offsetFrom(NSDate(timeIntervalSinceNow: NSTimeInterval(self.productInfo[0].createdDate)))
+                    cell.prodTimerCount.text = (NSDate(timeIntervalSinceNow: NSTimeInterval(self.productInfo[0].createdDate / 1000))).timeAgo
+                        //customDate.offsetFrom(NSDate(timeIntervalSinceNow: NSTimeInterval(self.productInfo[0].createdDate)))
                 } else {
                     cell.categoryBtn.hidden = true
                 }
@@ -248,6 +253,7 @@ class FeedProductViewController: UIViewController {
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
         switch indexPath.section {
+        case 0: return ViewUtil.getScreenWidth(self.view)
         case 1:
             return CGFloat(220.0)
         case 2:
@@ -257,6 +263,7 @@ class FeedProductViewController: UIViewController {
         default:
             return UITableViewAutomaticDimension
         }
+        return UITableViewAutomaticDimension
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -374,9 +381,17 @@ class FeedProductViewController: UIViewController {
         ViewUtil.resetBackButton(self.navigationItem)
         self.navigationController?.pushViewController(vController, animated: true)
     }
+    @IBAction func onClickViewShop(sender: AnyObject) {
+        
+            let vController = self.storyboard?.instantiateViewControllerWithIdentifier("UserProfileFeedViewController") as! UserProfileFeedViewController
+            vController.userId = self.productInfo[0].ownerId
+            ViewUtil.resetBackButton(self.navigationItem)
+            self.navigationController?.pushViewController(vController, animated: true)
+        
+    }
 }
 
-
+/*
 extension NSDate {
     func yearsFrom(date:NSDate) -> Int{
         return NSCalendar.currentCalendar().components(.Year, fromDate: date, toDate: self, options: []).year
@@ -409,4 +424,4 @@ extension NSDate {
         if secondsFrom(date) > 0 { return "\(secondsFrom(date)) seconds ago" }
         return ""
     }
-}
+}*/

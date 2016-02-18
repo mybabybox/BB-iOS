@@ -73,7 +73,7 @@ class ConversationsViewController: CustomNavigationController {
         let time = self.conversations[indexPath.row].lastMessageDate / 1000
         let date = NSDate(timeIntervalSinceNow: NSTimeInterval(time))
         
-        let time1 = self.myDate.offsetFrom(date)
+        let time1 = date.timeAgo
 
         cell.comment.text = time1
         ImageUtil.displayPostImage(self.conversations[indexPath.row].postImage, imageView: cell.productImage)
