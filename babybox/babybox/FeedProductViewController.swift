@@ -353,6 +353,7 @@ class FeedProductViewController: UIViewController {
     }
     
     func handleGetProductDetailsSuccess(result: [PostCatModel]) {
+        self.items.removeAll()
         if (result.count > 0) {
             self.productInfo.append(result[0])
             
