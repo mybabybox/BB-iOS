@@ -83,8 +83,8 @@ class UserActivityViewController: CustomNavigationController {
         
         self.setMessageText(self.userActivitesItems[indexPath.row], cell: cell)
         
-        var createdDt = NSDate(timeIntervalSinceNow: (self.userActivitesItems[indexPath.row].createdDate / 1000) )
-        cell.activityTime.text = createdDt.timeAgo
+        //var createdDt = NSDate(timeIntervalSinceNow: (self.userActivitesItems[indexPath.row].createdDate / 1000) )
+        cell.activityTime.text = NSDate(timeIntervalSince1970:Double(self.userActivitesItems[indexPath.row].createdDate) / 1000.0).timeAgo
         cell.message.lineBreakMode = NSLineBreakMode.ByWordWrapping
         cell.message.numberOfLines = 0
         

@@ -147,7 +147,8 @@ class FeedProductViewController: UIViewController {
                 cell.lblComments.text = comment.body
                 cell.postedUserName.text = comment.ownerName
                 cell.btnDeleteComments.tag = indexPath.row
-                cell.postedTime.text = (NSDate(timeIntervalSinceNow: NSTimeInterval(comment.createdDate / 1000))).timeAgo
+                
+                cell.postedTime.text = NSDate(timeIntervalSince1970:Double(comment.createdDate) / 1000.0).timeAgo
                 //self.myDate.offsetFrom(NSDate(timeIntervalSinceNow: NSTimeInterval(comment.createdDate)))
                 if (comment.ownerId == constants.userInfo.id) {
                     cell.btnDeleteComments.hidden = false
@@ -158,7 +159,7 @@ class FeedProductViewController: UIViewController {
                 cell.btnDeleteComments.addTarget(self, action: "DeleteComments:", forControlEvents: UIControlEvents.TouchUpInside)
                 
                 let time = comment.createdDate
-                cell.postedTime.text = (NSDate(timeIntervalSinceNow: NSTimeInterval(time / 1000))).timeAgo
+                cell.postedTime.text = NSDate(timeIntervalSince1970:Double(time) / 1000.0).timeAgo
                     //self.myDate.offsetFrom(NSDate(timeIntervalSinceNow: NSTimeInterval(time)))
                 
             }
@@ -199,7 +200,7 @@ class FeedProductViewController: UIViewController {
                     cell.prodCategory.text = self.productInfo[0].categoryName
                     //cell.prodTimerCount.text = String(self.productInfo[0].numComments)
                     cell.categoryBtn.hidden = false
-                    cell.prodTimerCount.text = (NSDate(timeIntervalSinceNow: NSTimeInterval(self.productInfo[0].createdDate / 1000))).timeAgo
+                    cell.prodTimerCount.text = NSDate(timeIntervalSince1970:Double(self.productInfo[0].createdDate) / 1000.0).timeAgo
                         //customDate.offsetFrom(NSDate(timeIntervalSinceNow: NSTimeInterval(self.productInfo[0].createdDate)))
                 } else {
                     cell.categoryBtn.hidden = true

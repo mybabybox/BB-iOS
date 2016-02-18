@@ -88,7 +88,7 @@ extension NSDate {
         
         if components.year > 0 {
             if components.year < 2 {
-                return NSDateTimeAgoLocalizedStrings("Last year")
+                return "Last year"
             } else {
                 return stringFromFormat(" years ago", withValue: components.year)
             }
@@ -96,7 +96,7 @@ extension NSDate {
         
         if components.month > 0 {
             if components.month < 2 {
-                return NSDateTimeAgoLocalizedStrings("Last month")
+                return "Last month"
             } else {
                 return stringFromFormat(" months ago", withValue: components.month)
             }
@@ -106,7 +106,7 @@ extension NSDate {
         if components.day >= 7 {
             let week = components.day/7
             if week < 2 {
-                return NSDateTimeAgoLocalizedStrings("Last week")
+                return "7 days ago"
             } else {
                 return stringFromFormat(" weeks ago", withValue: week)
             }
@@ -114,7 +114,7 @@ extension NSDate {
         
         if components.day > 0 {
             if components.day < 2 {
-                return NSDateTimeAgoLocalizedStrings("Yesterday")
+                return "Yesterday"
             } else  {
                 return stringFromFormat(" days ago", withValue: components.day)
             }
@@ -122,7 +122,7 @@ extension NSDate {
         
         if components.hour > 0 {
             if components.hour < 2 {
-                return NSDateTimeAgoLocalizedStrings("An hour ago")
+                return "An hour ago"
             } else  {
                 return stringFromFormat(" hours ago", withValue: components.hour)
             }
@@ -130,7 +130,7 @@ extension NSDate {
         
         if components.minute > 0 {
             if components.minute < 2 {
-                return NSDateTimeAgoLocalizedStrings("A minute ago")
+                return "A minute ago"
             } else {
                 return stringFromFormat(" minutes ago", withValue: components.minute)
             }
@@ -138,7 +138,7 @@ extension NSDate {
         
         if components.second > 0 {
             if components.second < 5 {
-                return NSDateTimeAgoLocalizedStrings("Just now")
+                return "Just now"
             } else {
                 return stringFromFormat(" seconds ago", withValue: components.second)
                 //return String(components.second + " seconds ago"
