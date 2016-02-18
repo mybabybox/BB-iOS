@@ -25,6 +25,15 @@ struct constants {
     static let SHOW_HIDE_BAR_SCROLL_DISTANCE = CGFloat(5.0)
     static let MAIN_BOTTOM_BAR_ALPHA = 0.9
     
+    
+    static let ACTIVITY_FIRST_POST = "Congratulations! You are now a BabyBox seller! Your first product has been listed:\r\n"
+    static let ACTIVITY_NEW_POST = "New product listed:\r\n"
+    static let ACTIVITY_COMMENTED = "commented on product:\n"
+    static let ACTIVITY_LIKED = "liked your product."
+    static let ACTIVITY_FOLLOWED = "started following you."
+    static let ACTIVITY_SOLD = "already sold."
+    static let ACTIVITY_GAME_BADGE = "Congratulations! You got a new badge:\r\n"
+    
     //Color 
     //Pink Button color - 0xFF76A4 // RGB - 255 118 164
     //Navigation bar color - 0xFF4C8A // RGB - 255 76 138

@@ -81,18 +81,6 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
         flowLayout.minimumLineSpacing = 5
         uiCollectionView.collectionViewLayout = flowLayout
         
-        /*let userNameImg: UIButton = UIButton()
-        userNameImg.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
-        userNameImg.titleLabel!.lineBreakMode = NSLineBreakMode.ByWordWrapping
-        userNameImg.frame = CGRectMake(0, 0, 150, 35)
-        
-        let userNameBarBtn = UIBarButtonItem(customView: userNameImg)
-        self.navigationItem.hidesBackButton = true
-        self.navigationItem.leftBarButtonItems = [userNameBarBtn]
-        
-        self.navigationItem.leftItemsSupplementBackButton = true
-        self.navigationItem.backBarButtonItem?.title = ""*/
-        
         let titleDict: NSDictionary = [NSForegroundColorAttributeName: UIColor.whiteColor()]
         
         self.navigationItem.rightBarButtonItems = []

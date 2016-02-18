@@ -79,6 +79,17 @@ class ApiControlller {
         self.makeApiCall(callEvent)
     }
     
+    func getUserActivities(offSet: Int64) {
+        
+        let callEvent = ApiCallEvent()
+        callEvent.method = "get-activities/" + String(offSet)
+        callEvent.resultClass = "ActivityVM"
+        callEvent.successEventbusName = "userActivitiesSuccess"
+        callEvent.failedEventbusName = "userActivitiesFailed"
+        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
+        self.makeApiCall(callEvent)
+        
+    }
     
     func likePost(offSet: String) {
         let callEvent = ApiCallEvent()
@@ -424,6 +435,16 @@ class ApiControlller {
         self.makeApiCall(callEvent)
     }
     
+    func getPostById(id: Int) {
+        let callEvent = ApiCallEvent()
+        callEvent.method = "post/" + String(id)
+        callEvent.resultClass = "PostModelById"
+        callEvent.successEventbusName = "postByIdLoadSuccess"
+        callEvent.failedEventbusName = "postByIdLoadFailed"
+        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
+        self.makeApiCall(callEvent)
+    }
+    
     func saveSellProduct(producttxt :String,sellingtext :String, categoryId:String, conditionType:String, pricetxt : String, imageCollection: [AnyObject]){
         
         let callEvent=ApiCallEvent()
@@ -583,6 +604,7 @@ class ApiControlller {
             case "UserVM": result = Mapper<UserVM>().mapArray(inputStr)!
             case "ResponseVM": result = Mapper<ResponseVM>().map(inputStr)!
             case "PostModel": result = Mapper<PostModel>().mapArray(inputStr)!
+            case "PostModelById": result = Mapper<PostModel>().map(inputStr)!
             case "PostCatModel": result = Mapper<PostCatModel>().mapArray(inputStr)!
             case "LocationModel": result = Mapper<LocationModel>().mapArray(inputStr)!
             case "UserVMById": result = Mapper<UserInfoVM>().map(inputStr)!
@@ -590,6 +612,7 @@ class ApiControlller {
             case "MessageVM": result = Mapper<MessageVM>().map(inputStr)!
             case "MessageDetailVM": result = Mapper<MessageDetailVM>().map(inputStr)!
             case "SellVm": result = Mapper<SellVM>().map(inputStr)!
+            case "ActivityVM": result = Mapper<ActivityVM>().mapArray(inputStr)!
             case "String": result = inputStr
             default: NSLog("calling default object resolver")
         }
