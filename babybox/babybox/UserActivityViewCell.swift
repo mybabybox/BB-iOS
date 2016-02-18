@@ -10,12 +10,12 @@ import UIKit
 
 class UserActivityViewCell: UICollectionViewCell {
     
+    @IBOutlet weak var textMessage: UILabel!
+    @IBOutlet weak var messageWidth: NSLayoutConstraint!
     @IBOutlet weak var postImage: UIImageView!
     @IBOutlet weak var profileImg: UIImageView!
-    @IBOutlet weak var message: UILabel!
     @IBOutlet weak var prodImg: UIButton!
     @IBOutlet weak var activityTime: UILabel!
-    @IBOutlet weak var activityText: UILabel!
     @IBOutlet weak var userName: UIButton!
     @IBOutlet weak var userImg: UIButton!
 }

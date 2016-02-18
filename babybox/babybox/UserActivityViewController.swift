@@ -85,8 +85,8 @@ class UserActivityViewController: CustomNavigationController {
         
         //var createdDt = NSDate(timeIntervalSinceNow: (self.userActivitesItems[indexPath.row].createdDate / 1000) )
         cell.activityTime.text = NSDate(timeIntervalSince1970:Double(self.userActivitesItems[indexPath.row].createdDate) / 1000.0).timeAgo
-        cell.message.lineBreakMode = NSLineBreakMode.ByWordWrapping
-        cell.message.numberOfLines = 0
+        //cell.message.lineBreakMode = NSLineBreakMode.ByWordWrapping
+        //cell.message.numberOfLines = 0
         
         return cell
     }
@@ -113,7 +113,7 @@ class UserActivityViewController: CustomNavigationController {
     }
     
     func setCollectionViewSizesInsetsForTopView() {
-        collectionViewCellSize = CGSizeMake(self.view.bounds.width, 65)
+        collectionViewCellSize = CGSizeMake(self.view.bounds.width, 75)
     }
     
     func handleUserActivitiesData(resultDto: [ActivityVM]) {
@@ -160,35 +160,37 @@ class UserActivityViewController: CustomNavigationController {
         var userName: String = ""
         switch (item.activityType) {
             case "FIRST_POST":
-                userName = ""
                 message = constants.ACTIVITY_FIRST_POST + item.targetName;
             case "NEW_POST":
-                userName = ""
                 message = constants.ACTIVITY_NEW_POST + item.targetName;
             case "NEW_COMMENT":
-                userName = item.actorName
                 message = constants.ACTIVITY_COMMENTED + item.targetName;
             case "LIKED":
                 userName = item.actorName
-                message = constants.ACTIVITY_LIKED
+                message = "   " + constants.ACTIVITY_LIKED
             case "FOLLOWED":
-                userName = item.actorName
                 message = constants.ACTIVITY_FOLLOWED
             case "SOLD":
-                userName = ""
                 message = constants.ACTIVITY_SOLD
             case "NEW_GAME_BADGE":
-                userName = ""
-                cell.userName.frame.size = CGSizeMake(0, 0)
                 message = constants.ACTIVITY_GAME_BADGE + item.targetName
             default: break
         }
         switch (item.activityType) {
             case "FIRST_POST", "NEW_POST", "NEW_COMMENT", "LIKED", "SOLD":
                 // open product
+                cell.userName.setTitle(userName, forState: UIControlState.Normal)
+                cell.userName.setTitleColor(ImageUtil.getPinkColor(), forState: UIControlState.Normal)
                 cell.userName.addTarget(self, action: "onClickActor:", forControlEvents: UIControlEvents.TouchUpInside)
                 ImageUtil.displayPostImage(Int(item.targetImage), imageView: cell.postImage)
                 cell.prodImg.hidden = false
+                print(userName.characters.count)
+                if (!userName.isEmpty) {
+                    for _ in 0...userName.characters.count {
+                        message = "  " + message
+                    }
+                }
+            
             case "FOLLOWED":
                 // open actor user
                 cell.prodImg.hidden = true
@@ -197,9 +199,17 @@ class UserActivityViewController: CustomNavigationController {
                 cell.prodImg.hidden = true
             default: break
         }
-        cell.userName.setTitle(userName, forState: UIControlState.Normal)
-        cell.userName.setTitleColor(ImageUtil.getPinkColor(), forState: UIControlState.Normal)
-        cell.message.text = message
+                cell.textMessage.text = message
+                cell.textMessage.numberOfLines = 0
+                cell.textMessage.sizeToFit()
+        
+        
+        //cell.txtMessage.text = message
+        //let nsString = cell.txtMessage.text! as NSString
+        //let range = nsString.rangeOfString(userName)
+        //let url = NSURL(string: "action://onClickActor1")!
+        
+        //cell.txtMessage.addLinkToURL(url, withRange: range)
         
     }
     
