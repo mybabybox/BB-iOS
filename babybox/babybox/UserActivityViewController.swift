@@ -83,7 +83,7 @@ class UserActivityViewController: CustomNavigationController {
         
         self.setMessageText(self.userActivitesItems[indexPath.row], cell: cell)
         
-        var createdDt = NSDate(timeIntervalSinceNow: self.userActivitesItems[indexPath.row].createdDate)
+        var createdDt = NSDate(timeIntervalSinceNow: (self.userActivitesItems[indexPath.row].createdDate / 1000) )
         cell.activityTime.text = createdDt.timeAgo
         cell.message.lineBreakMode = NSLineBreakMode.ByWordWrapping
         cell.message.numberOfLines = 0
@@ -197,14 +197,6 @@ class UserActivityViewController: CustomNavigationController {
                 cell.prodImg.hidden = true
             default: break
         }
-        /*if (userName.isEmpty) {
-            cell.userName.setTitle(message, forState: UIControlState.Normal)
-            cell.message.text = ""
-        } else {
-            cell.userName.setTitle(userName, forState: UIControlState.Normal)
-            cell.userName.setTitleColor(ImageUtil.getPinkColor(), forState: UIControlState.Normal)
-            cell.message.text = message
-        }*/
         cell.userName.setTitle(userName, forState: UIControlState.Normal)
         cell.userName.setTitleColor(ImageUtil.getPinkColor(), forState: UIControlState.Normal)
         cell.message.text = message
