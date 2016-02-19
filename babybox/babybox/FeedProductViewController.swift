@@ -177,8 +177,22 @@ class FeedProductViewController: UIViewController {
             
             switch indexPath.section {
             case 0:
+                cell.contentMode = UIViewContentMode.Redraw
+                cell.sizeToFit()
                 if (self.productModel.hasImage) {
-                    ImageUtil.displayOriginalPostImage(self.productModel.images[0], imageView: cell.productImage)
+                    //ImageUtil.displayOriginalPostImage(self.productModel.images[0], imageView: cell.productImage)
+                    
+                    //Carousel Images.
+                    let storyboard = UIStoryboard(name: "CarouselStoryboard", bundle: nil)
+                    var vc : MVEmbeddedCarouselViewController = storyboard.instantiateInitialViewController() as! MVEmbeddedCarouselViewController
+                    
+                    vc.imageLoader = imageViewLoadFromPath
+                    for i in 0...self.productModel.images.count - 1 {
+                        vc.imagePaths.append(String(self.productModel.images[i]))
+                    }
+                    
+                    // Then, add to view hierarchy
+                    vc.addAsChildViewController(self, attachToView: cell.uiContainerView)
                 }
                 cell.soldImage.hidden = !self.productModel.sold
                 
@@ -405,5 +419,19 @@ class FeedProductViewController: UIViewController {
             ViewUtil.resetBackButton(self.navigationItem)
             self.navigationController?.pushViewController(vController, animated: true)
         
+    }
+    
+    var imageViewLoadFromPath: ((imageView: UIImageView, imagePath : String, completion: (newImage: Bool) -> ()) -> ()) = {
+        (imageView: UIImageView, imagePath : String, completion: (newImage: Bool) -> ()) in
+        
+        ImageUtil.displayPostImage(Int(imagePath)!, imageView: imageView)
+        
+    }
+    
+    var imageViewLoadCached : ((imageView: UIImageView, imagePath : String, completion: (newImage: Bool) -> ()) -> ()) = {
+        (imageView: UIImageView, imagePath : String, completion: (newImage: Bool) -> ()) in
+        
+        imageView.image = UIImage(named:imagePath)
+        completion(newImage: imageView.image != nil)
     }
 }
