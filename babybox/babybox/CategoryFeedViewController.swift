@@ -159,7 +159,6 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
             let feedItem = feedLoader!.getItem(indexPath.row)
             vController.productModel = feedItem
             vController.category = self.selCategory
-            //ApiControlller.apiController.getProductDetails(String(Int(feedItem.id)))
             self.tabBarController!.tabBar.hidden = true
             ViewUtil.resetBackButton(self.navigationItem)
             self.navigationController?.pushViewController(vController, animated: true)

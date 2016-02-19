@@ -150,7 +150,6 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
             let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("FeedProductViewController") as! FeedProductViewController
             let feedItem = feedLoader!.getItem(indexPath.row)
             vController.productModel = feedItem
-            //ApiControlller.apiController.getProductDetails(String(Int(feedItem.id)))
             self.navigationController?.pushViewController(vController, animated: true)
         }
     }
@@ -215,14 +214,12 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
     
     // MARK: UIScrollview Delegate
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        /*
         if (self.lastContentOffset > scrollView.contentOffset.y + constants.SHOW_HIDE_BAR_SCROLL_DISTANCE) {
             self.navigationController?.setNavigationBarHidden(false, animated: true)
         } else if (self.lastContentOffset < scrollView.contentOffset.y - constants.SHOW_HIDE_BAR_SCROLL_DISTANCE) {
             self.navigationController?.setNavigationBarHidden(true, animated: true)
         }
         self.lastContentOffset = scrollView.contentOffset.y
-        */
         
         if (scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - constants.FEED_LOAD_SCROLL_THRESHOLD {
             feedLoader!.loadMoreFeedItems()

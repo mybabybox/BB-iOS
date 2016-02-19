@@ -36,8 +36,8 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
             self.navigationItem.title = self.userInfo?.displayName
             
             if (self.activeHeaderViewCell != nil) {
-                self.activeHeaderViewCell?.segmentControl.setTitle("Products " + String(self.userInfo?.numProducts), forSegmentAtIndex: 0)
-                self.activeHeaderViewCell?.segmentControl.setTitle("Likes " + String(self.userInfo?.numLikes), forSegmentAtIndex: 1)
+                self.activeHeaderViewCell?.segmentControl.setTitle("Products " + String(self.userInfo!.numProducts), forSegmentAtIndex: 0)
+                self.activeHeaderViewCell?.segmentControl.setTitle("Likes " + String(self.userInfo!.numLikes), forSegmentAtIndex: 1)
             }
             self.reloadFeedItems()
         }
@@ -152,7 +152,6 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
             let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("FeedProductViewController") as! FeedProductViewController
             let feedItem = self.getFeedItems()[indexPath.row]
             vController.productModel = feedItem
-            //ApiControlller.apiController.getProductDetails(String(Int(feedItem.id)))
             self.tabBarController!.tabBar.hidden = true
             self.navigationController?.pushViewController(vController, animated: true)
         }
