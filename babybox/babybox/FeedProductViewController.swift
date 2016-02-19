@@ -21,7 +21,7 @@ class FeedProductViewController: UIViewController {
     var lcontentSize = CGFloat(0.0)
     var productModel: PostModel = PostModel()
     var myDate: NSDate = NSDate()
-    var conversations: [ConversationVM] = []
+    //var conversations: [ConversationVM] = []
     
     var likeFlag: Bool = false
     
@@ -51,7 +51,7 @@ class FeedProductViewController: UIViewController {
             self.handleGetProductDetailsSuccess(resultDto)
         }
         
-        SwiftEventBus.onMainThread(self, name: "conversationsSuccess") { result in
+        /*SwiftEventBus.onMainThread(self, name: "conversationsSuccess") { result in
             // UI thread
             if result != nil {
                 let resultDto: [ConversationVM] = result.object as! [ConversationVM]
@@ -62,15 +62,15 @@ class FeedProductViewController: UIViewController {
         }
         
         SwiftEventBus.onMainThread(self, name: "conversationsFailed") { result in
-        }
+        }*/
         
     }
     
     override func viewDidAppear(animated: Bool) {
         self.myDate = NSDate()
-        self.conversations = []
+        //self.conversations = []
         
-        ApiControlller.apiController.getConversation()
+        //ApiControlller.apiController.getConversation()
         
         if (productModel.numLikes == 0) {
             self.likeCountTxt.setTitle("Like", forState: UIControlState.Normal)
@@ -177,8 +177,8 @@ class FeedProductViewController: UIViewController {
             
             switch indexPath.section {
             case 0:
-                cell.contentMode = UIViewContentMode.Redraw
-                cell.sizeToFit()
+                //cell.contentMode = UIViewContentMode.Redraw
+                //cell.sizeToFit()
                 if (self.productModel.hasImage) {
                     //ImageUtil.displayOriginalPostImage(self.productModel.images[0], imageView: cell.productImage)
                     
@@ -383,11 +383,11 @@ class FeedProductViewController: UIViewController {
         }
     }
     
-    func handleConversation(conversation: [ConversationVM]) {
+    /*func handleConversation(conversation: [ConversationVM]) {
         self.conversations = conversation
         //let time = (self.conversations.last?.lastMessageDate)! / 1000
         //let date = NSDate(timeIntervalSinceNow: NSTimeInterval(time))
-    }
+    }*/
     
     func handleGetProductDetailsSuccess(result: [PostCatModel]) {
         self.items.removeAll()
