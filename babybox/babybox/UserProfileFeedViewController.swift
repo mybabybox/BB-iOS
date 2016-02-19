@@ -149,11 +149,10 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
         if (collectionView.tag == 2){
             
         } else {
-            
             let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("FeedProductViewController") as! FeedProductViewController
             let feedItem = self.getFeedItems()[indexPath.row]
             vController.productModel = feedItem
-            ApiControlller.apiController.getProductDetails(String(Int(feedItem.id)))
+            //ApiControlller.apiController.getProductDetails(String(Int(feedItem.id)))
             self.tabBarController!.tabBar.hidden = true
             self.navigationController?.pushViewController(vController, animated: true)
         }

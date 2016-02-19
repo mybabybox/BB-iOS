@@ -98,7 +98,7 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
         let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("FeedProductViewController") as! FeedProductViewController
         let feedItem = feedLoader!.getItem(indexPath.row)
         vController.productModel = feedItem
-        ApiControlller.apiController.getProductDetails(String(Int(feedItem.id)))
+        //ApiControlller.apiController.getProductDetails(String(Int(feedItem.id)))
         self.tabBarController!.tabBar.hidden = true
         self.navigationController?.pushViewController(vController, animated: true)
     }

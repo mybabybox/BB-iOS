@@ -45,7 +45,7 @@ class UserActivityViewController: CustomNavigationController {
             
             let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("FeedProductViewController") as! FeedProductViewController
             vController.productModel = resultDto
-            ApiControlller.apiController.getProductDetails(String(resultDto.id))
+            //ApiControlller.apiController.getProductDetails(String(resultDto.id))
             self.navigationController?.pushViewController(vController, animated: true)
             
         }

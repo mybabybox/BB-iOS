@@ -50,7 +50,7 @@ class FeedProductViewController: UIViewController {
             let resultDto: [PostCatModel] = result.object as! [PostCatModel]
             self.handleGetProductDetailsSuccess(resultDto)
         }
-        
+        ApiControlller.apiController.getProductDetails(String(Int(productModel.id)))
         /*SwiftEventBus.onMainThread(self, name: "conversationsSuccess") { result in
             // UI thread
             if result != nil {
