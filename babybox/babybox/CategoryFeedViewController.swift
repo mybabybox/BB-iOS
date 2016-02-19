@@ -51,8 +51,8 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        ViewUtil.showActivityLoading(self.activityLoading)
         feedLoader = FeedLoader(feedType: FeedFilter.FeedType.CATEGORY_POPULAR, reloadDataToView: reloadDataToView)
+        feedLoader!.setActivityIndicator(activityLoading)
         feedLoader!.reloadFeedItems(Int(self.selCategory!.id))
         
         feedViewAdapter = FeedViewAdapter(collectionView: uiCollectionView)

@@ -107,7 +107,6 @@ class FollowingViewController: UICollectionViewController {
         return cell
     }
     
-    
     override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         //TODO - goto User Profile page for selected customer
         self.currentIndex = indexPath.row

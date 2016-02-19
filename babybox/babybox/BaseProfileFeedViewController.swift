@@ -17,6 +17,7 @@ class BaseProfileFeedViewController: CustomNavigationController {
     var userInfo: UserInfoVM? = nil
     
     var feedLoader: FeedLoader? = nil
+    var feedViewAdapter: FeedViewAdapter? = nil
     
     var eventsRegistered = false
     
