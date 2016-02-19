@@ -21,12 +21,18 @@ class UserActivityViewController: CustomNavigationController {
     override func viewDidAppear(animated: Bool) {
         self.tabBarController?.tabBar.hidden = false
         self.activityLoading.startAnimating()
-        self.userActivitesItems = []
+        
         ApiControlller.apiController.getUserActivities(activityOffSet)
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        self.userActivitesItems.removeAll()
+        self.uiCollectionView.reloadData()
     }
     override func viewDidLoad() {
         super.viewDidLoad()
         setCollectionViewSizesInsetsForTopView()
+        
         SwiftEventBus.onMainThread(self, name: "userActivitiesSuccess") { result in
             // UI thread
             let resultDto: [ActivityVM] = result.object as! [ActivityVM]
@@ -45,7 +51,6 @@ class UserActivityViewController: CustomNavigationController {
             
             let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("FeedProductViewController") as! FeedProductViewController
             vController.productModel = resultDto
-            //ApiControlller.apiController.getProductDetails(String(resultDto.id))
             self.navigationController?.pushViewController(vController, animated: true)
             
         }
@@ -55,8 +60,12 @@ class UserActivityViewController: CustomNavigationController {
             self.view.makeToast(message: "Error getting Post data.")
         }
         
-        
-        
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.itemSize = CGSizeMake(self.view.bounds.width, self.view.bounds.height)
+        flowLayout.scrollDirection = UICollectionViewScrollDirection.Vertical
+        flowLayout.minimumInteritemSpacing = 1
+        flowLayout.minimumLineSpacing = 1
+        uiCollectionView.collectionViewLayout = flowLayout
         
         // Do any additional setup after loading the view.
     }
@@ -77,18 +86,40 @@ class UserActivityViewController: CustomNavigationController {
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("UserActivity", forIndexPath: indexPath) as! UserActivityViewCell
+        switch (self.userActivitesItems[indexPath.row].activityType) {
+            
+            case "LIKED":
+                let cell = collectionView.dequeueReusableCellWithReuseIdentifier("UserActivity", forIndexPath: indexPath) as! UserActivityViewCell
+                cell.activityTime.text = NSDate(timeIntervalSince1970:Double(self.userActivitesItems[indexPath.row].createdDate) / 1000.0).timeAgo
+                ImageUtil.displayThumbnailProfileImage(Int(self.userActivitesItems[indexPath.row].actorImage), imageView: cell.profileImg)
+                cell.textMessage.text = self.setMessageText(self.userActivitesItems[indexPath.row])
+                cell.textMessage.numberOfLines = 0
+                cell.textMessage.sizeToFit()
+                cell.userName.setTitle(self.userActivitesItems[indexPath.row].actorName, forState: UIControlState.Normal)
+                cell.userName.setTitleColor(ImageUtil.getPinkColor(), forState: UIControlState.Normal)
+                cell.userName.addTarget(self, action: "onClickActor:", forControlEvents: UIControlEvents.TouchUpInside)
+                ImageUtil.displayPostImage(Int(self.userActivitesItems[indexPath.row].targetImage), imageView: cell.postImage)
+                return cell
+            case "FIRST_POST", "NEW_POST", "SOLD", "NEW_COMMENT":
+                let cell = collectionView.dequeueReusableCellWithReuseIdentifier("UserActivity2", forIndexPath: indexPath) as! UserActivityType2ViewCell
+                cell.activityTime.text = NSDate(timeIntervalSince1970:Double(self.userActivitesItems[indexPath.row].createdDate) / 1000.0).timeAgo
+                cell.textMessage.text = self.setMessageText(self.userActivitesItems[indexPath.row])
+                cell.textMessage.numberOfLines = 0
+                cell.textMessage.sizeToFit()
+                ImageUtil.displayThumbnailProfileImage(Int(self.userActivitesItems[indexPath.row].actorImage), imageView: cell.profileImg)
+                ImageUtil.displayPostImage(Int(self.userActivitesItems[indexPath.row].targetImage), imageView: cell.postImage)
+                return cell
+
+            default:
+                let cell = collectionView.dequeueReusableCellWithReuseIdentifier("UserActivityType", forIndexPath: indexPath) as! UserActivityTypeViewCell
+                ImageUtil.displayThumbnailProfileImage(Int(self.userActivitesItems[indexPath.row].actorImage), imageView: cell.profileImg)
+                cell.textMessage.numberOfLines = 0
+                cell.textMessage.sizeToFit()
+                cell.activityTime.text = NSDate(timeIntervalSince1970:Double(self.userActivitesItems[indexPath.row].createdDate) / 1000.0).timeAgo
+                cell.textMessage.text = self.setMessageText(self.userActivitesItems[indexPath.row])
+                return cell
+        }
         
-        ImageUtil.displayThumbnailProfileImage(Int(self.userActivitesItems[indexPath.row].actorImage), imageView: cell.profileImg)
-        
-        self.setMessageText(self.userActivitesItems[indexPath.row], cell: cell)
-        
-        //var createdDt = NSDate(timeIntervalSinceNow: (self.userActivitesItems[indexPath.row].createdDate / 1000) )
-        cell.activityTime.text = NSDate(timeIntervalSince1970:Double(self.userActivitesItems[indexPath.row].createdDate) / 1000.0).timeAgo
-        //cell.message.lineBreakMode = NSLineBreakMode.ByWordWrapping
-        //cell.message.numberOfLines = 0
-        
-        return cell
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
@@ -132,15 +163,13 @@ class UserActivityViewController: CustomNavigationController {
         NSLog("onClickActor")
         let button = sender as! UIButton
         let view = button.superview!
-        let cell = view.superview! as! UserActivityViewCell
-        
+        let cell = view.superview! as! BaseActivityViewCell
         let indexPath = self.uiCollectionView.indexPathForCell(cell)!
         
         let vController = self.storyboard?.instantiateViewControllerWithIdentifier("UserProfileFeedViewController") as! UserProfileFeedViewController
         vController.userId = self.userActivitesItems[indexPath.row].actor
         ViewUtil.resetBackButton(self.navigationItem)
         self.navigationController?.pushViewController(vController, animated: true)
-        
     }
     
     @IBAction func onClickPostImg(sender: AnyObject) {
@@ -148,16 +177,15 @@ class UserActivityViewController: CustomNavigationController {
         NSLog("onClickActor")
         let button = sender as! UIButton
         let view = button.superview!
-        let cell = view.superview! as! UserActivityViewCell
-        
+        let cell = view.superview! as! BaseActivityViewCell
         let indexPath = self.uiCollectionView.indexPathForCell(cell)!
         ApiControlller.apiController.getPostById(self.userActivitesItems[indexPath.row].target)
         
     }
     
-    func setMessageText(item: ActivityVM, cell: UserActivityViewCell) {
+    func setMessageText(item: ActivityVM) -> String {
+        
         var message: String = ""
-        var userName: String = ""
         switch (item.activityType) {
             case "FIRST_POST":
                 message = constants.ACTIVITY_FIRST_POST + item.targetName;
@@ -166,8 +194,7 @@ class UserActivityViewController: CustomNavigationController {
             case "NEW_COMMENT":
                 message = constants.ACTIVITY_COMMENTED + item.targetName;
             case "LIKED":
-                userName = item.actorName
-                message = "   " + constants.ACTIVITY_LIKED
+                message = " " + constants.ACTIVITY_LIKED
             case "FOLLOWED":
                 message = constants.ACTIVITY_FOLLOWED
             case "SOLD":
@@ -176,32 +203,7 @@ class UserActivityViewController: CustomNavigationController {
                 message = constants.ACTIVITY_GAME_BADGE + item.targetName
             default: break
         }
-        switch (item.activityType) {
-            case "FIRST_POST", "NEW_POST", "NEW_COMMENT", "LIKED", "SOLD":
-                // open product
-                cell.userName.setTitle(userName, forState: UIControlState.Normal)
-                cell.userName.setTitleColor(ImageUtil.getPinkColor(), forState: UIControlState.Normal)
-                cell.userName.addTarget(self, action: "onClickActor:", forControlEvents: UIControlEvents.TouchUpInside)
-                ImageUtil.displayPostImage(Int(item.targetImage), imageView: cell.postImage)
-                cell.prodImg.hidden = false
-                print(userName.characters.count)
-                if (!userName.isEmpty) {
-                    for _ in 0...userName.characters.count {
-                        message = "  " + message
-                    }
-                }
-            
-            case "FOLLOWED":
-                // open actor user
-                cell.prodImg.hidden = true
-            case "NEW_GAME_BADGE":
-                // open game badges
-                cell.prodImg.hidden = true
-            default: break
-        }
-                cell.textMessage.text = message
-                cell.textMessage.numberOfLines = 0
-                cell.textMessage.sizeToFit()
+        return message
         
         
         //cell.txtMessage.text = message
