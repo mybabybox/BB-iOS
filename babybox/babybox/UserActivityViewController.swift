@@ -17,7 +17,7 @@ class UserActivityViewController: CustomNavigationController {
     var lastContentOffset: CGFloat = 0
     var userActivitesItems: [ActivityVM] = []
     var collectionViewCellSize : CGSize?
-    
+    var lcontentSize = CGFloat(0.0)
     override func viewDidAppear(animated: Bool) {
         self.tabBarController?.tabBar.hidden = false
         self.activityLoading.startAnimating()
@@ -89,7 +89,11 @@ class UserActivityViewController: CustomNavigationController {
         switch (self.userActivitesItems[indexPath.row].activityType) {
             
             case "LIKED":
+                
                 let cell = collectionView.dequeueReusableCellWithReuseIdentifier("UserActivity", forIndexPath: indexPath) as! UserActivityViewCell
+                
+                cell.contentMode = UIViewContentMode.Redraw
+                cell.sizeToFit()
                 cell.activityTime.text = NSDate(timeIntervalSince1970:Double(self.userActivitesItems[indexPath.row].createdDate) / 1000.0).timeAgo
                 ImageUtil.displayThumbnailProfileImage(Int(self.userActivitesItems[indexPath.row].actorImage), imageView: cell.profileImg)
                 cell.textMessage.text = self.setMessageText(self.userActivitesItems[indexPath.row])
@@ -99,24 +103,32 @@ class UserActivityViewController: CustomNavigationController {
                 cell.userName.setTitleColor(ImageUtil.getPinkColor(), forState: UIControlState.Normal)
                 cell.userName.addTarget(self, action: "onClickActor:", forControlEvents: UIControlEvents.TouchUpInside)
                 ImageUtil.displayPostImage(Int(self.userActivitesItems[indexPath.row].targetImage), imageView: cell.postImage)
+                self.lcontentSize = cell.textMessage.frame.size.height
                 return cell
             case "FIRST_POST", "NEW_POST", "SOLD", "NEW_COMMENT":
                 let cell = collectionView.dequeueReusableCellWithReuseIdentifier("UserActivity2", forIndexPath: indexPath) as! UserActivityType2ViewCell
+                cell.contentMode = UIViewContentMode.Redraw
+                cell.sizeToFit()
                 cell.activityTime.text = NSDate(timeIntervalSince1970:Double(self.userActivitesItems[indexPath.row].createdDate) / 1000.0).timeAgo
                 cell.textMessage.text = self.setMessageText(self.userActivitesItems[indexPath.row])
                 cell.textMessage.numberOfLines = 0
                 cell.textMessage.sizeToFit()
                 ImageUtil.displayThumbnailProfileImage(Int(self.userActivitesItems[indexPath.row].actorImage), imageView: cell.profileImg)
                 ImageUtil.displayPostImage(Int(self.userActivitesItems[indexPath.row].targetImage), imageView: cell.postImage)
+                self.lcontentSize = cell.textMessage.frame.size.height
                 return cell
 
             default:
                 let cell = collectionView.dequeueReusableCellWithReuseIdentifier("UserActivityType", forIndexPath: indexPath) as! UserActivityTypeViewCell
                 ImageUtil.displayThumbnailProfileImage(Int(self.userActivitesItems[indexPath.row].actorImage), imageView: cell.profileImg)
-                cell.textMessage.numberOfLines = 0
-                cell.textMessage.sizeToFit()
+                cell.contentMode = UIViewContentMode.Redraw
+                cell.sizeToFit()
+                
                 cell.activityTime.text = NSDate(timeIntervalSince1970:Double(self.userActivitesItems[indexPath.row].createdDate) / 1000.0).timeAgo
                 cell.textMessage.text = self.setMessageText(self.userActivitesItems[indexPath.row])
+                cell.textMessage.numberOfLines = 0
+                cell.textMessage.sizeToFit()
+                self.lcontentSize = cell.textMessage.frame.size.height
                 return cell
         }
         
@@ -144,7 +156,7 @@ class UserActivityViewController: CustomNavigationController {
     }
     
     func setCollectionViewSizesInsetsForTopView() {
-        collectionViewCellSize = CGSizeMake(self.view.bounds.width, 75)
+        collectionViewCellSize = CGSizeMake(self.view.bounds.width, 75 + self.lcontentSize)
     }
     
     func handleUserActivitiesData(resultDto: [ActivityVM]) {
