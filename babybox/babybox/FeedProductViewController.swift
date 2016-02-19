@@ -18,7 +18,7 @@ class FeedProductViewController: UIViewController {
     @IBOutlet weak var chatNowBtn: UIButton!
     @IBOutlet weak var likeCountTxt: UIButton!
     @IBOutlet weak var detailTableView: UITableView!
-    
+    var lcontentSize = CGFloat(0.0)
     var productModel: PostModel = PostModel()
     var myDate: NSDate = NSDate()
     var conversations: [ConversationVM] = []
@@ -34,11 +34,16 @@ class FeedProductViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //NSThread.sleepForTimeInterval(0.3)
         setSizesForFilterButtons()
         self.detailTableView.separatorColor = UIColor.whiteColor()
         self.detailTableView.estimatedRowHeight = 300.0
         self.detailTableView.rowHeight = UITableViewAutomaticDimension
+        
+        self.detailTableView.setNeedsLayout()
+        self.detailTableView.layoutIfNeeded()
         self.detailTableView.reloadData()
+        self.detailTableView.translatesAutoresizingMaskIntoConstraints = true
         ViewUtil.showActivityLoading(self.activityLoading)
         SwiftEventBus.onMainThread(self, name: "productDetailsReceivedSuccess") { result in
             // UI thread
@@ -174,15 +179,17 @@ class FeedProductViewController: UIViewController {
             case 0:
                 if (self.productModel.hasImage) {
                     ImageUtil.displayOriginalPostImage(self.productModel.images[0], imageView: cell.productImage)
-                    //cell.imageHt.constant = ViewUtil.getScreenWidth(self.view) //calculate the screen width...
                 }
                 cell.soldImage.hidden = !self.productModel.sold
                 
             case 1:
+                cell.contentMode = UIViewContentMode.Redraw
+                cell.sizeToFit()
                 if (self.productInfo.count > 0) {
                     cell.productDesc.text = self.productInfo[0].body
-                    //cell.productDesc.numberOfLines = 0
-                    //cell.productDesc.sizeToFit()
+                    cell.productDesc.numberOfLines = 0
+                    cell.productDesc.sizeToFit()
+                    self.lcontentSize = cell.productDesc.frame.size.height
                 }
                 cell.productTitle.text = productModel.title
                 cell.prodCondition.text = ViewUtil.parsePostConditionTypeFromType(self.productModel.conditionType)
@@ -251,11 +258,15 @@ class FeedProductViewController: UIViewController {
         }
         
     }
+    
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
         switch indexPath.section {
         case 0: return ViewUtil.getScreenWidth(self.view)
         case 1:
+            if (self.productInfo.count > 0) {
+                return CGFloat(220.0) + self.lcontentSize
+            }
             return CGFloat(220.0)
         case 2:
             return CGFloat(95.0)
@@ -264,6 +275,10 @@ class FeedProductViewController: UIViewController {
         default:
             return UITableViewAutomaticDimension
         }
+        return UITableViewAutomaticDimension
+    }
+    
+    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
     }
     
@@ -281,7 +296,7 @@ class FeedProductViewController: UIViewController {
     func DeleteComments(button: UIButton){
         ApiControlller.apiController.deleteComment(self.items[button.tag].id)
         items.removeAtIndex(button.tag)
-        self.detailTableView.reloadData()
+        //self.detailTableView.reloadData()
         detailTableView.contentInset =  UIEdgeInsetsZero
         
         self.noOfComments--
@@ -370,6 +385,7 @@ class FeedProductViewController: UIViewController {
             }
             self.noOfComments = self.items.count
         }
+        
         self.detailTableView.reloadData()
         ViewUtil.hideActivityLoading(self.activityLoading)
     }
@@ -391,38 +407,3 @@ class FeedProductViewController: UIViewController {
         
     }
 }
-
-/*
-extension NSDate {
-    func yearsFrom(date:NSDate) -> Int{
-        return NSCalendar.currentCalendar().components(.Year, fromDate: date, toDate: self, options: []).year
-    }
-    func monthsFrom(date:NSDate) -> Int{
-        return NSCalendar.currentCalendar().components(.Month, fromDate: date, toDate: self, options: []).month
-    }
-    func weeksFrom(date:NSDate) -> Int{
-        return NSCalendar.currentCalendar().components(.WeekOfYear, fromDate: date, toDate: self, options: []).weekOfYear
-    }
-    func daysFrom(date:NSDate) -> Int{
-        return NSCalendar.currentCalendar().components(.Day, fromDate: date, toDate: self, options: []).day
-    }
-    func hoursFrom(date:NSDate) -> Int{
-        return NSCalendar.currentCalendar().components(.Hour, fromDate: date, toDate: self, options: []).hour
-    }
-    func minutesFrom(date:NSDate) -> Int{
-        return NSCalendar.currentCalendar().components(.Minute, fromDate: date, toDate: self, options: []).minute
-    }
-    func secondsFrom(date:NSDate) -> Int{
-        return NSCalendar.currentCalendar().components(.Second, fromDate: date, toDate: self, options: []).second
-    }
-    func offsetFrom(date:NSDate) -> String {
-        if yearsFrom(date)   > 0 { return "\(yearsFrom(date)) years ago"   }
-        if monthsFrom(date)  > 0 { return "\(monthsFrom(date)) months ago"  }
-        if weeksFrom(date)   > 0 { return "\(weeksFrom(date)) weeks ago"   }
-        if daysFrom(date)    > 0 { return "\(daysFrom(date)) days ago"    }
-        if hoursFrom(date)   > 0 { return "\(hoursFrom(date)) hours ago"   }
-        if minutesFrom(date) > 0 { return "\(minutesFrom(date)) minutes ago" }
-        if secondsFrom(date) > 0 { return "\(secondsFrom(date)) seconds ago" }
-        return ""
-    }
-}*/
