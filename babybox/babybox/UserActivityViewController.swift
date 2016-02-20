@@ -17,7 +17,6 @@ class UserActivityViewController: CustomNavigationController {
     var lastContentOffset: CGFloat = 0
     var userActivitesItems: [ActivityVM] = []
     var collectionViewCellSize : CGSize?
-    var lcontentSize = CGFloat(0.0)
     override func viewDidAppear(animated: Bool) {
         self.tabBarController?.tabBar.hidden = false
         self.activityLoading.startAnimating()
@@ -103,7 +102,6 @@ class UserActivityViewController: CustomNavigationController {
                 cell.userName.setTitleColor(ImageUtil.getPinkColor(), forState: UIControlState.Normal)
                 cell.userName.addTarget(self, action: "onClickActor:", forControlEvents: UIControlEvents.TouchUpInside)
                 ImageUtil.displayPostImage(Int(self.userActivitesItems[indexPath.row].targetImage), imageView: cell.postImage)
-                self.lcontentSize = cell.textMessage.frame.size.height
                 return cell
             case "FIRST_POST", "NEW_POST", "SOLD", "NEW_COMMENT":
                 let cell = collectionView.dequeueReusableCellWithReuseIdentifier("UserActivity2", forIndexPath: indexPath) as! UserActivityType2ViewCell
@@ -115,7 +113,6 @@ class UserActivityViewController: CustomNavigationController {
                 cell.textMessage.sizeToFit()
                 ImageUtil.displayThumbnailProfileImage(Int(self.userActivitesItems[indexPath.row].actorImage), imageView: cell.profileImg)
                 ImageUtil.displayPostImage(Int(self.userActivitesItems[indexPath.row].targetImage), imageView: cell.postImage)
-                self.lcontentSize = cell.textMessage.frame.size.height
                 return cell
 
             default:
@@ -128,7 +125,6 @@ class UserActivityViewController: CustomNavigationController {
                 cell.textMessage.text = self.setMessageText(self.userActivitesItems[indexPath.row])
                 cell.textMessage.numberOfLines = 0
                 cell.textMessage.sizeToFit()
-                self.lcontentSize = cell.textMessage.frame.size.height
                 return cell
         }
         
@@ -152,11 +148,14 @@ class UserActivityViewController: CustomNavigationController {
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         
+        if ("FIRST_POST" == self.userActivitesItems[indexPath.row].activityType) {
+            return CGSizeMake(self.view.bounds.width, 90)
+        }
         return collectionViewCellSize!
     }
     
     func setCollectionViewSizesInsetsForTopView() {
-        collectionViewCellSize = CGSizeMake(self.view.bounds.width, 75 + self.lcontentSize)
+        collectionViewCellSize = CGSizeMake(self.view.bounds.width, 75)
     }
     
     func handleUserActivitiesData(resultDto: [ActivityVM]) {
