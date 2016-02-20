@@ -315,7 +315,7 @@ class FeedProductViewController: UIViewController {
         
         self.noOfComments--
         self.detailTableView.reloadData()
-        self.view.makeToast(message: "Comment Deleted Successfully", duration: 0.5, position: "bottom")
+        self.view.makeToast(message: "Comment Deleted Successfully", duration: 1, position: HRToastPositionCenter)
     }
     
     func PostComments(button: UIButton){

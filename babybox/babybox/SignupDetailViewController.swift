@@ -120,10 +120,10 @@ class SignupDetailViewController: UIViewController, UITextFieldDelegate, SSRadio
     func isValid() -> Bool {
         var isValidated = true
         if (self.displayName.text == nil || self.displayName.text == "") {
-            self.view.makeToast(message: "Please enter displayname", duration: 1.5, position: "bottom")
+            self.view.makeToast(message: "Please enter displayname", duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
             isValidated = false
         } else if (self.location.titleLabel?.text == nil || self.location.titleLabel?.text == "Area") {
-            self.view.makeToast(message: "Please select location", duration: 1.5, position: "bottom")
+            self.view.makeToast(message: "Please select location", duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
             isValidated = false
         }
         return isValidated

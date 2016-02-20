@@ -10,6 +10,10 @@ import UIKit
 
 class ViewUtil {
     
+    static let SHOW_TOAST_DURATION_SHORT = 1.0
+    static let SHOW_TOAST_DURATION_LONG = 1.5
+    static let DEFAULT_TOAST_POSITION = HRToastPositionCenter
+    
     enum PostConditionType: String {
         case NEW_WITH_TAG = "New(Sealed/with tags)"
         case NEW_WITHOUT_TAG = "New(unsealed/without tags)"
@@ -89,6 +93,14 @@ class ViewUtil {
         uiView.addSubview(container)
         actInd.hidden = false
         actInd.startAnimating()
+    }
+    
+    static func handleEmptyProductResponse(responseObject: AnyObject?, view: UIView) -> Bool {
+        if responseObject != nil && responseObject is PostModel {
+            return false
+        }
+        view.makeToast(message: "Product not found. It may be removed by seller.", duration: SHOW_TOAST_DURATION_SHORT, position: DEFAULT_TOAST_POSITION)
+        return true;
     }
     
     static func showActivityLoading(activityLoading: UIActivityIndicatorView?) {

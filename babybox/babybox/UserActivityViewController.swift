@@ -46,6 +46,10 @@ class UserActivityViewController: CustomNavigationController {
         SwiftEventBus.onMainThread(self, name: "postByIdLoadSuccess") { result in
             // UI thread
             
+            if ViewUtil.handleEmptyProductResponse(result.object, view: self.view) {
+                return;
+            }
+            
             let resultDto: PostModel = result.object as! PostModel
             
             let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("FeedProductViewController") as! FeedProductViewController

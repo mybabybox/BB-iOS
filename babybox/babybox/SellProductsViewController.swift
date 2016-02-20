@@ -72,14 +72,14 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
         SwiftEventBus.onMainThread(self, name: "productSavedSuccess") { result in
             // UI thread
             NSLog("Product Saved Successfully")
-            self.view.makeToast(message: "Product Added Successfully", duration: 1.0, position: "bottom")
+            self.view.makeToast(message: "Product Added Successfully", duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
             self.navigationController?.popViewControllerAnimated(true)
         }
         
         SwiftEventBus.onMainThread(self, name: "productSavedFailed") { result in
             // UI thread
             NSLog("Product Saved Successfully")
-            self.view.makeToast(message: "Error Saving product", duration: 0.5, position: "bottom")
+            self.view.makeToast(message: "Error Saving product", duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
         }
         
         self.conditionTypeDropDown.dataSource = [
@@ -279,7 +279,7 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
         var isValidated = true
         var isImageUploaded = false
         for _image in imageCollection {
-            if let str = _image as? String {
+            if let _ = _image as? String {
             } else {
                 if let image: UIImage? = _image as? UIImage {
                     if (image != nil) {
@@ -291,22 +291,22 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
         }
                 
         if (!isImageUploaded) {
-            self.view.makeToast(message: "Please Upload Photo", duration: 1.5, position: "bottom")
+            self.view.makeToast(message: "Please Upload Photo", duration: ViewUtil.SHOW_TOAST_DURATION_LONG, position: ViewUtil.DEFAULT_TOAST_POSITION)
             isValidated = false
         } else if (self.sellingtext.text == nil || self.sellingtext.text == "" ) {
-            self.view.makeToast(message: "Please fill title", duration: 1.5, position: "bottom")
+            self.view.makeToast(message: "Please fill title", duration: ViewUtil.SHOW_TOAST_DURATION_LONG, position: ViewUtil.DEFAULT_TOAST_POSITION)
             isValidated = false
         } else if (self.prodDescription.text == nil || self.prodDescription.text == "") {
-            self.view.makeToast(message: "Please fill description", duration: 1.5, position: "bottom")
+            self.view.makeToast(message: "Please fill description", duration: ViewUtil.SHOW_TOAST_DURATION_LONG, position: ViewUtil.DEFAULT_TOAST_POSITION)
             isValidated = false
         } else if (self.pricetxt.text == nil || self.pricetxt.text == "") {
-            self.view.makeToast(message: "Please enter a price", duration: 1.5, position: "bottom")
+            self.view.makeToast(message: "Please enter a price", duration: ViewUtil.SHOW_TOAST_DURATION_LONG, position: ViewUtil.DEFAULT_TOAST_POSITION)
             isValidated = false
         } else if (self.conditionDropDown.titleLabel?.text == nil || self.conditionDropDown.titleLabel?.text == "-Select-") {
-            self.view.makeToast(message: "Please select condition type", duration: 1.5, position: "bottom")
+            self.view.makeToast(message: "Please select condition type", duration: ViewUtil.SHOW_TOAST_DURATION_LONG, position: ViewUtil.DEFAULT_TOAST_POSITION)
             isValidated = false
         } else if (self.categorydropdown.titleLabel!.text == nil || self.categorydropdown.titleLabel!.text == "Choose a Category:") {
-            self.view.makeToast(message: "Please select category", duration: 1.5, position: "bottom")
+            self.view.makeToast(message: "Please select category", duration: ViewUtil.SHOW_TOAST_DURATION_LONG, position: ViewUtil.DEFAULT_TOAST_POSITION)
             isValidated = false
         }
         
