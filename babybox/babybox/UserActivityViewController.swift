@@ -13,23 +13,28 @@ class UserActivityViewController: CustomNavigationController {
 
     @IBOutlet weak var activityLoading: UIActivityIndicatorView!
     @IBOutlet weak var uiCollectionView: UICollectionView!
+    
     var activityOffSet: Int64 = 0
     var lastContentOffset: CGFloat = 0
     var userActivitesItems: [ActivityVM] = []
     var collectionViewCellSize : CGSize?
+    
     override func viewDidAppear(animated: Bool) {
         self.tabBarController?.tabBar.hidden = false
-        self.activityLoading.startAnimating()
-        
-        ApiControlller.apiController.getUserActivities(activityOffSet)
     }
     
     override func viewDidDisappear(animated: Bool) {
-        self.userActivitesItems.removeAll()
-        self.uiCollectionView.reloadData()
+        //self.userActivitesItems.removeAll()
+        //self.uiCollectionView.reloadData()
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.activityLoading.startAnimating()
+        
+        ApiControlller.apiController.getUserActivities(activityOffSet)
+        
         setCollectionViewSizesInsetsForTopView()
         
         SwiftEventBus.onMainThread(self, name: "userActivitiesSuccess") { result in
@@ -46,7 +51,7 @@ class UserActivityViewController: CustomNavigationController {
         SwiftEventBus.onMainThread(self, name: "postByIdLoadSuccess") { result in
             // UI thread
             
-            if ViewUtil.handleEmptyProductResponse(result.object, view: self.view) {
+            if ViewUtil.handleEmptyResponseObject(result.object, message: "Product not found. It may be deleted by seller.", view: self.view) {
                 return;
             }
             

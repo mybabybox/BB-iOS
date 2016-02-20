@@ -95,12 +95,15 @@ class ViewUtil {
         actInd.startAnimating()
     }
     
-    static func handleEmptyProductResponse(responseObject: AnyObject?, view: UIView) -> Bool {
-        if responseObject != nil && responseObject is PostModel {
-            return false
+    static func handleEmptyResponseObject(responseObject: AnyObject?, message: String, view: UIView) -> Bool {
+        if responseObject is String {
+            let str = responseObject as! String
+            if str.isEmpty {
+                view.makeToast(message: message, duration: SHOW_TOAST_DURATION_SHORT, position: DEFAULT_TOAST_POSITION)
+                return true;
+            }
         }
-        view.makeToast(message: "Product not found. It may be removed by seller.", duration: SHOW_TOAST_DURATION_SHORT, position: DEFAULT_TOAST_POSITION)
-        return true;
+        return false
     }
     
     static func showActivityLoading(activityLoading: UIActivityIndicatorView?) {
