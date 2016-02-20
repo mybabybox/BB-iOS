@@ -19,6 +19,10 @@ class UserActivityViewController: CustomNavigationController {
     var userActivitesItems: [ActivityVM] = []
     var collectionViewCellSize : CGSize?
     
+    override func viewWillAppear(animated: Bool) {
+        ViewUtil.hideActivityLoading(self.activityLoading)
+    }
+
     override func viewDidAppear(animated: Bool) {
         self.tabBarController?.tabBar.hidden = false
     }
@@ -31,7 +35,7 @@ class UserActivityViewController: CustomNavigationController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.activityLoading.startAnimating()
+        ViewUtil.showActivityLoading(self.activityLoading)
         
         ApiControlller.apiController.getUserActivities(activityOffSet)
         
@@ -176,7 +180,7 @@ class UserActivityViewController: CustomNavigationController {
             }
             uiCollectionView.reloadData()
         }
-        self.activityLoading.stopAnimating()
+        ViewUtil.hideActivityLoading(self.activityLoading)
     }
 
     @IBAction func onClickActor(sender: AnyObject) {

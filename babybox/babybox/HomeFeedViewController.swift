@@ -32,6 +32,7 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
     }
     
     override func viewWillAppear(animated: Bool) {
+        ViewUtil.hideActivityLoading(self.activityLoading)
     }
     
     override func viewDidAppear(animated: Bool) {

@@ -48,6 +48,7 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
     }
     
     override func viewWillAppear(animated: Bool) {
+        ViewUtil.hideActivityLoading(self.activityLoading)
         registerEvents()
     }
     

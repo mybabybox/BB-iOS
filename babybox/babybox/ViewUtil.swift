@@ -107,13 +107,13 @@ class ViewUtil {
     }
     
     static func showActivityLoading(activityLoading: UIActivityIndicatorView?) {
-        //activityLoading.hidden = false
+        activityLoading?.hidden = false
         activityLoading?.startAnimating()
         NSLog("showActivityLoading")
     }
     
     static func hideActivityLoading(activityLoading: UIActivityIndicatorView?) {
-        //activityLoading.hidden = true
+        activityLoading?.hidden = true
         activityLoading?.stopAnimating()
         NSLog("hideActivityLoading")
     }

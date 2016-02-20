@@ -39,6 +39,7 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
     }
     
     override func viewWillAppear(animated: Bool) {
+        ViewUtil.hideActivityLoading(self.activityLoading)
         registerEvents()
     }
     
