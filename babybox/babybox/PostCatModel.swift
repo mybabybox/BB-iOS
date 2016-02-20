@@ -13,8 +13,8 @@ import ObjectMapper
 class PostCatModel: PostModel {
     
     
-    var createdDate: Int = 0
-    var updatedDate: Int = 0
+    var createdDate: Double = 0
+    var updatedDate: Double = 0
     var ownerNumProducts: Int = 0
     var ownerNumFollowers: Int = 0
     var body: String = ""
