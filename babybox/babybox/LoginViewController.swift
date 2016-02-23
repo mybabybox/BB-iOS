@@ -57,10 +57,10 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFie
         
     }
     
-    func handleUserLogin(resultDto: String) {
-        
-        
-        if resultDto.isEmpty {
+    func handleUserLogin(sessionId: String) {
+        if !sessionId.isEmpty {
+            UserInfoCache.refresh(sessionId)
+        } else {
             //authentication failed.. show error message...
             let _errorDialog = UIAlertController(title: "Error Message", message: "Invalid UserName or Password", preferredStyle: UIAlertControllerStyle.Alert)
             let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil);
@@ -70,13 +70,7 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFie
             self.progressIndicator.stopAnimating()
             self.signInButton.enabled = true
             self.signInButton.alpha = 1.0
-        } else {
-            constants.accessToken = resultDto
-            SharedPreferencesUtil.getInstance().setUserAccessToken(resultDto)
-            UserInfoCache.refresh(constants.accessToken)
         }
-        //make API call to get the user profile data... 
-        
     }
     
     func handleUserInfo(resultDto: UserInfoVM) {
