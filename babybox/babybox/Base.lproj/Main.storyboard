@@ -2767,6 +2767,7 @@ CEVudGVyIFBhc3N3b3JkA
                                             <subviews>
                                                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" tag="1" contentMode="scaleToFill" alwaysBounceHorizontal="YES" pagingEnabled="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ff4-RP-59F" userLabel="PhotoSliderCollectionView">
                                                     <rect key="frame" x="0.0" y="0.0" width="600" height="60"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="BZf-zU-s1q">
                                                         <size key="itemSize" width="300" height="300"/>
                                                         <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -2819,6 +2820,7 @@ CEVudGVyIFBhc3N3b3JkA
                                                 <constraint firstAttribute="bottom" secondItem="ff4-RP-59F" secondAttribute="bottom" id="xkV-XU-uhk"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <outlet property="soldImage" destination="ShE-GU-7Jz" id="mMZ-Za-qOG"/>
                                         </connections>
