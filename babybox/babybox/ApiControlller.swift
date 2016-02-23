@@ -519,7 +519,7 @@ class ApiControlller {
             encodingCompletion: { encodingResult in
                 switch encodingResult {
                 case .Success( _, _, _): break
-                case .Failure(let _): break
+                case .Failure( _): break
                 }
             }
         )

@@ -14,14 +14,15 @@ class UserInfoCache {
     internal static var userInfoVM: UserInfoVM? = nil
     
     init() {
-        
     }
     
-    public static func refresh() {
+    static func refresh(sessionId: String) {
+        SharedPreferencesUtil.getInstance().setUserAccessToken(sessionId)
+        constants.accessToken = sessionId
         ApiControlller.apiController.getUserInfo()
     }
     
-    public static func getUser() -> UserInfoVM {
+    static func getUser() -> UserInfoVM {
         if (userInfoVM == nil) {
             //let sharedPref: NSUserDefaults = NSUserDefaults.standardUserDefaults()
             //userInfoVM = sharedPref.objectForKey(USER_INFO) as? UserInfoVM
@@ -30,19 +31,19 @@ class UserInfoCache {
         return userInfoVM!
     }
     
-    public static func incrementNumProducts() {
+    static func incrementNumProducts() {
         getUser().numProducts++;
     }
     
-    public static func decrementNumProducts() {
+    static func decrementNumProducts() {
         getUser().numProducts--;
     }
     
-    public static func incrementNumLikes() {
+    static func incrementNumLikes() {
         getUser().numLikes++;
     }
     
-    public static func decrementNumLikes() {
+    static func decrementNumLikes() {
         getUser().numLikes--;
     }
     

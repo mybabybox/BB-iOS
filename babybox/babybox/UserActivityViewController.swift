@@ -55,7 +55,7 @@ class UserActivityViewController: CustomNavigationController {
         SwiftEventBus.onMainThread(self, name: "postByIdLoadSuccess") { result in
             // UI thread
             
-            if ViewUtil.handleEmptyResponseObject(result.object, message: "Product not found. It may be deleted by seller.", view: self.view) {
+            if ViewUtil.isEmptyResult(result, message: "Product not found. It may be deleted by seller.", view: self.view) {
                 return;
             }
             

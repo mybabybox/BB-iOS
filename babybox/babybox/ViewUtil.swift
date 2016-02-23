@@ -94,14 +94,26 @@ class ViewUtil {
         actInd.hidden = false
         actInd.startAnimating()
     }
+
+    static func isEmptyResult(result: NSObjectProtocol?) -> Bool {
+        return isEmptyResult(result, message: nil, view: nil)
+    }
     
-    static func handleEmptyResponseObject(responseObject: AnyObject?, message: String, view: UIView) -> Bool {
+    static func isEmptyResult(result: NSObjectProtocol?, message: String?, view: UIView?) -> Bool {
+        /*
         if responseObject is String {
             let str = responseObject as! String
             if str.isEmpty {
                 view.makeToast(message: message, duration: SHOW_TOAST_DURATION_SHORT, position: DEFAULT_TOAST_POSITION)
                 return true;
             }
+        }
+        */
+        if result == nil || result!.isEqual("") {
+            if message != nil && view != nil {
+                view!.makeToast(message: message!, duration: SHOW_TOAST_DURATION_SHORT, position: DEFAULT_TOAST_POSITION)
+            }
+            return true;
         }
         return false
     }

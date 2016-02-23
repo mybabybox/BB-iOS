@@ -23,11 +23,11 @@ class SplashViewController: UIViewController {
         self.navigationController?.navigationBar.hidden = true
         
         SwiftEventBus.onMainThread(self, name: "userInfoSuccess") { result in
-            if (result != nil || !result.isEqual("")) {
-                let resultDto: UserInfoVM = result.object as! UserInfoVM
-                self.handleUserInfo_(resultDto)
-            } else {
+            if ViewUtil.isEmptyResult(result) {
                 self.showLoginPage()
+            } else {
+                let userInfo: UserInfoVM = result.object as! UserInfoVM
+                self.handleUserInfo(userInfo)
             }
         }
         
@@ -37,22 +37,22 @@ class SplashViewController: UIViewController {
         
         SwiftEventBus.onMainThread(self, name: "loginReceivedSuccess") { result in
             // UI thread
-            let resultDto: String = result.object as! String
-            self.handleUserLogin(resultDto)
+            let sessionId: String = result.object as! String
+            self.handleUserLogin(sessionId)
         }
         
         SwiftEventBus.onMainThread(self, name: "loginReceivedFailed") { result in
             // UI thread
-            var resultDto = ""
+            var message = ""
             if result == nil {
-                resultDto = "Error Authenticating User"
+                message = "Error Authenticating User"
             } else if result.object is NSString {
-                resultDto = result.object as! String
+                message = result.object as! String
             } else {
-                resultDto = "Connection Failure"
+                message = "Connection Failure"
             }
             
-            self.handleUserLoginFailed(resultDto)
+            self.handleUserLoginFailed(message)
         }
         
         let sessionId: String? = SharedPreferencesUtil.getInstance().getUserAccessToken(SharedPreferencesUtil.User.ACCESS_TOKEN.rawValue)
@@ -62,9 +62,7 @@ class SplashViewController: UIViewController {
         if (FBSDKAccessToken.currentAccessToken() != nil) {
             ApiControlller.apiController.loginByFacebook(FBSDKAccessToken.currentAccessToken().tokenString)
         } else if (sessionId != nil && sessionId != "nil" && sessionId != "-1") {
-            constants.accessToken = sessionId!
-            UserInfoCache.refresh()
-            
+            UserInfoCache.refresh(sessionId!)
         } else {
             NSThread.sleepForTimeInterval(constants.SPLASH_SHOW_DURATION)
             showLoginPage()
@@ -82,20 +80,15 @@ class SplashViewController: UIViewController {
         return true
     }
     
-    func handleUserInfo_(resultDto: UserInfoVM?) {
-        if (resultDto != nil) {
-            self.navigationController?.navigationBar.hidden = true
-            
-            constants.accessToken = SharedPreferencesUtil.getInstance().getUserAccessToken(SharedPreferencesUtil.User.ACCESS_TOKEN.rawValue)
-            constants.userInfo = resultDto!
-            if (constants.userInfo.id == -1) {
-                SwiftEventBus.unregister(self)
-                self.showLoginPage()
-            } else {
-                self.performSegueWithIdentifier("homefeed", sender: nil)
-            }
-        } else {
+    func handleUserInfo(userInfo: UserInfoVM) {
+        self.navigationController?.navigationBar.hidden = true
+        
+        constants.userInfo = userInfo
+        if (constants.userInfo.id == -1) {
+            SwiftEventBus.unregister(self)
             self.showLoginPage()
+        } else {
+            self.performSegueWithIdentifier("homefeed", sender: nil)
         }
     }
     
@@ -108,8 +101,8 @@ class SplashViewController: UIViewController {
         self.performSegueWithIdentifier("loginpage", sender: nil)
     }
     
-    func handleUserLogin(resultDto: String) {
-        if resultDto.isEmpty {
+    func handleUserLogin(sessionId: String) {
+        if sessionId.isEmpty {
             //authentication failed.. show error message...
             let _errorDialog = UIAlertController(title: "Error Message", message: "Invalid UserName or Password",
                 preferredStyle: UIAlertControllerStyle.Alert)
@@ -117,17 +110,14 @@ class SplashViewController: UIViewController {
             _errorDialog.addAction(okAction)
             self.presentViewController(_errorDialog, animated: true, completion: nil)
         } else {
-            constants.accessToken = resultDto
-            SharedPreferencesUtil.getInstance().setUserAccessToken(resultDto)
-            UserInfoCache.refresh()
+            UserInfoCache.refresh(sessionId)
         }
         //make API call to get the user profile data...
         
     }
 
-    func handleUserLoginFailed(resultDto: String) {
-        
-        let _errorDialog = UIAlertController(title: "Error Message", message: resultDto, preferredStyle: UIAlertControllerStyle.Alert)
+    func handleUserLoginFailed(message: String) {
+        let _errorDialog = UIAlertController(title: "Error Message", message: message, preferredStyle: UIAlertControllerStyle.Alert)
         let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil);
         _errorDialog.addAction(okAction)
         self.presentViewController(_errorDialog, animated: true, completion: nil)
