@@ -7,14 +7,20 @@
 //
 
 import UIKit
+import PhotoSlider
 
-class LandingPageViewController: UIViewController {
+class LandingPageViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, PhotoSliderDelegate {
 
-    @IBOutlet weak var uiContainerView: UIView!
     @IBOutlet weak var signUpBtn: UIButton!
     @IBOutlet weak var loginBtn: UIButton!
-    //@IBOutlet weak var scrollVew: UIScrollView!
-    //@IBOutlet var pageControl: UIPageControl!
+    @IBOutlet var tableView:UITableView!
+    var collectionView:UICollectionView!
+    
+    var images = [
+        UIImage(named: "welcome_1")!,
+        UIImage(named: "welcome_2")!,
+        UIImage(named: "welcome_3")!
+    ]
     
     override func viewDidAppear(animated: Bool) {
         self.navigationController?.toolbar.hidden = true
@@ -25,19 +31,6 @@ class LandingPageViewController: UIViewController {
         super.viewDidLoad()
         
         self.navigationController?.interactivePopGestureRecognizer?.enabled = false
-        
-        let storyboard = UIStoryboard(name: "CarouselStoryboard", bundle: nil)
-        let vc : MVEmbeddedCarouselViewController = storyboard.instantiateInitialViewController() as! MVEmbeddedCarouselViewController
-        
-        vc.imageLoader = imageViewLoadFromPath
-        vc.imagePaths = [
-            "welcome_1",
-            "welcome_2",
-            "welcome_3"
-        ]
-        // Then, add to view hierarchy
-        vc.addAsChildViewController(self, attachToView:self.uiContainerView)
-        
         
         let color = ImageUtil.imageUtil.UIColorFromRGB(0xFF76A4).CGColor
         self.signUpBtn.backgroundColor = UIColor.clearColor()
@@ -60,20 +53,65 @@ class LandingPageViewController: UIViewController {
         return true
     }
     
-    var imageViewLoadFromPath: ((imageView: UIImageView, imagePath : String, completion: (newImage: Bool) -> ()) -> ()) = {
-        (imageView: UIImageView, imagePath : String, completion: (newImage: Bool) -> ()) in
+    // MARK: - UITableViewDataSource
+    
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = self.tableView.dequeueReusableCellWithIdentifier("cell01")!
         
-        var url = NSURL(string: imagePath)
-        var image = UIImage(named: imagePath)
-        imageView.image = image
-        //imageView.kf_setImageWithURL(url!)
+        self.collectionView = cell.viewWithTag(1) as! UICollectionView
+        self.collectionView.delegate = self
+        self.collectionView.dataSource = self
+        
+        return cell
+    }
+    
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return self.tableView.frame.size.height
+    }
+    
+    // MARK: - UICollectionViewDataSource
+    
+    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.images.count
+    }
+    
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("hcell", forIndexPath: indexPath) as! ImageCollectionViewCell
+        let imageView = cell.imageView
+        imageView.image = self.images[indexPath.row]
+        return cell
+    }
+    
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+        return CGSize(width: self.tableView.frame.size.width, height: self.tableView.frame.size.height)
+    }
+    
+    // MARK: - UICollectionViewDelegate
+    
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         
     }
     
-    var imageViewLoadCached : ((imageView: UIImageView, imagePath : String, completion: (newImage: Bool) -> ()) -> ()) = {
-        (imageView: UIImageView, imagePath : String, completion: (newImage: Bool) -> ()) in
+    // MARK: - PhotoSliderDelegate
+    
+    func photoSliderControllerWillDismiss(viewController: PhotoSlider.ViewController) {
         
-        imageView.image = UIImage(named:imagePath)
-        completion(newImage: imageView.image != nil)
+        UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.Fade)
+        
+        let indexPath = NSIndexPath(forItem: viewController.currentPage, inSection: 0)
+        self.collectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.None, animated: false)
     }
+    
 }

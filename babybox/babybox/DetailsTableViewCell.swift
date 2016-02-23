@@ -16,7 +16,6 @@ class DetailsTableViewCell: UITableViewCell {
     @IBOutlet weak var prodTimer: UIImageView!
     @IBOutlet weak var prodTimerCount: UILabel!
     
-    @IBOutlet weak var uiContainerView: UIView!
     //MASK User Info Section
     
     @IBOutlet weak var categoryBtn: UIButton!

@@ -73,7 +73,7 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFie
         } else {
             constants.accessToken = resultDto
             SharedPreferencesUtil.getInstance().setUserAccessToken(resultDto)
-            UserInfoCache.refresh()
+            UserInfoCache.refresh(constants.accessToken)
         }
         //make API call to get the user profile data... 
         

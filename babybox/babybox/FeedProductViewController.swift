@@ -8,8 +8,9 @@
 
 import UIKit
 import SwiftEventBus
+import PhotoSlider
 
-class FeedProductViewController: UIViewController {
+class FeedProductViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, PhotoSliderDelegate {
 
     @IBOutlet weak var activityLoading: UIActivityIndicatorView!
     @IBOutlet weak var likeImgBtn: UIButton!
@@ -32,6 +33,10 @@ class FeedProductViewController: UIViewController {
     var customDate: NSDate = NSDate()
     //var comments : [String]? = []
     
+    var collectionView:UICollectionView!
+    
+    var images: [String] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         //NSThread.sleepForTimeInterval(0.3)
@@ -51,19 +56,6 @@ class FeedProductViewController: UIViewController {
             self.handleGetProductDetailsSuccess(resultDto)
         }
         ApiControlller.apiController.getProductDetails(String(Int(productModel.id)))
-        /*SwiftEventBus.onMainThread(self, name: "conversationsSuccess") { result in
-            // UI thread
-            if result != nil {
-                let resultDto: [ConversationVM] = result.object as! [ConversationVM]
-                self.handleConversation(resultDto)
-            } else {
-
-            }
-        }
-        
-        SwiftEventBus.onMainThread(self, name: "conversationsFailed") { result in
-        }*/
-        
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -140,12 +132,10 @@ class FeedProductViewController: UIViewController {
                 cell.btnPostComments.tag = indexPath.row
                 cell.btnPostComments.addTarget(self, action: "PostComments:", forControlEvents: UIControlEvents.TouchUpInside)
                 ImageUtil.displayButtonRoundBorder(cell.btnPostComments)
-                //cell.btnPostComments.layer.borderWidth = CGFloat(1)
                 cell.btnPostComments.layer.borderColor = UIColor.lightGrayColor().CGColor
                 
                 cell.commentTxt.layer.cornerRadius = 15.0
                 cell.commentTxt.layer.masksToBounds = true
-                //cell.commentTxt.borderStyle = UITextBorderStyle.None
                 
             } else {
                 let comment:CommentModel = self.items[indexPath.row] 
@@ -154,7 +144,6 @@ class FeedProductViewController: UIViewController {
                 cell.btnDeleteComments.tag = indexPath.row
                 
                 cell.postedTime.text = NSDate(timeIntervalSince1970:Double(comment.createdDate) / 1000.0).timeAgo
-                //self.myDate.offsetFrom(NSDate(timeIntervalSinceNow: NSTimeInterval(comment.createdDate)))
                 if (comment.ownerId == constants.userInfo.id) {
                     cell.btnDeleteComments.hidden = false
                 } else {
@@ -165,7 +154,6 @@ class FeedProductViewController: UIViewController {
                 
                 let time = comment.createdDate
                 cell.postedTime.text = NSDate(timeIntervalSince1970:Double(time) / 1000.0).timeAgo
-                    //self.myDate.offsetFrom(NSDate(timeIntervalSinceNow: NSTimeInterval(time)))
                 
             }
             cell.separatorInset = UIEdgeInsetsMake(0, 0, 0, cell.bounds.size.width)
@@ -177,23 +165,13 @@ class FeedProductViewController: UIViewController {
             
             switch indexPath.section {
             case 0:
-                //cell.contentMode = UIViewContentMode.Redraw
-                //cell.sizeToFit()
-                if (self.productModel.hasImage) {
-                    //ImageUtil.displayOriginalPostImage(self.productModel.images[0], imageView: cell.productImage)
-                    
-                    //Carousel Images.
-                    let storyboard = UIStoryboard(name: "CarouselStoryboard", bundle: nil)
-                    var vc : MVEmbeddedCarouselViewController = storyboard.instantiateInitialViewController() as! MVEmbeddedCarouselViewController
-                    
-                    vc.imageLoader = imageViewLoadFromPath
-                    for i in 0...self.productModel.images.count - 1 {
-                        vc.imagePaths.append(String(self.productModel.images[i]))
-                    }
-                    
-                    // Then, add to view hierarchy
-                    vc.addAsChildViewController(self, attachToView: cell.uiContainerView)
+                
+                for i in 0...self.productModel.images.count - 1 {
+                    self.images.append(String(self.productModel.images[i]))
                 }
+                self.collectionView = cell.viewWithTag(1) as! UICollectionView
+                self.collectionView.delegate = self
+                self.collectionView.dataSource = self
                 cell.soldImage.hidden = !self.productModel.sold
                 
             case 1:
@@ -222,7 +200,6 @@ class FeedProductViewController: UIViewController {
                     //cell.prodTimerCount.text = String(self.productInfo[0].numComments)
                     cell.categoryBtn.hidden = false
                     cell.prodTimerCount.text = NSDate(timeIntervalSince1970:Double(self.productInfo[0].createdDate) / 1000.0).timeAgo
-                        //customDate.offsetFrom(NSDate(timeIntervalSinceNow: NSTimeInterval(self.productInfo[0].createdDate)))
                 } else {
                     cell.categoryBtn.hidden = true
                 }
@@ -420,18 +397,41 @@ class FeedProductViewController: UIViewController {
             self.navigationController?.pushViewController(vController, animated: true)
         
     }
-    
-    var imageViewLoadFromPath: ((imageView: UIImageView, imagePath : String, completion: (newImage: Bool) -> ()) -> ()) = {
-        (imageView: UIImageView, imagePath : String, completion: (newImage: Bool) -> ()) in
         
-        ImageUtil.displayPostImage(Int(imagePath)!, imageView: imageView)
+    // MARK: - UICollectionViewDataSource
+    
+    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.images.count
+    }
+    
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("hcell", forIndexPath: indexPath) as! ImageCollectionViewCell
+        let imageView = cell.imageView
+        ImageUtil.displayOriginalPostImage(Int(self.images[indexPath.row])!, imageView: imageView)
+        return cell
+    }
+    
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+        return CGSize(width: self.view.frame.size.width, height: self.view.frame.size.width)
+    }
+    
+    // MARK: - UICollectionViewDelegate
+    
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         
     }
     
-    var imageViewLoadCached : ((imageView: UIImageView, imagePath : String, completion: (newImage: Bool) -> ()) -> ()) = {
-        (imageView: UIImageView, imagePath : String, completion: (newImage: Bool) -> ()) in
+    // MARK: - PhotoSliderDelegate
+    
+    func photoSliderControllerWillDismiss(viewController: PhotoSlider.ViewController) {
         
-        imageView.image = UIImage(named:imagePath)
-        completion(newImage: imageView.image != nil)
+        UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.Fade)
+        
+        let indexPath = NSIndexPath(forItem: viewController.currentPage, inSection: 0)
+        self.collectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.None, animated: false)
     }
 }
