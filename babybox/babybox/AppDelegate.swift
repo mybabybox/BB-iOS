@@ -8,12 +8,12 @@
 
 import UIKit
 import FBSDKCoreKit
+import FBSDKLoginKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
@@ -21,7 +21,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
-        
         return FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
     }
     
@@ -48,6 +47,46 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
-
+    // custom
+    
+    static func getInstance() -> AppDelegate {
+        return UIApplication.sharedApplication().delegate as! AppDelegate
+    }
+    
+    func initStaticCaches() {
+        DistrictCache.refresh()
+        //CountryCache.refresh()
+        //CategoryCache.refresh()
+    }
+    
+    func initUserCaches() {
+        //NotificationCounter.refresh()
+        //ConversationCache.refresh()
+    }
+    
+    func clearAll() {
+        clearUserSession()
+        clearPreferences()
+    }
+    
+    func clearPreferences() {
+        SharedPreferencesUtil.getInstance().clearAll()
+    }
+    
+    func clearUserCaches() {
+        //NotificationCounter.clear()
+        UserInfoCache.clear()
+    }
+    
+    func clearUserSession() {
+        clearUserCaches()
+        SharedPreferencesUtil.getInstance().setUserSessionId("")
+    }
+    
+    func logout() {
+        clearAll()
+        FBSDKLoginManager().logOut()
+        // open welcome screen
+    }
 }
 

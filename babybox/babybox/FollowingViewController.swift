@@ -27,13 +27,13 @@ class FollowingViewController: UICollectionViewController {
         //let indexPath = self.collectionView!.indexPathForCell(cell)
         
         if (self.userFollowings[self.currentIndex].isFollowing) {
-            ApiController.instance.unfollowUser((constants.userInfo.id))
+            ApiController.instance.unfollowUser(UserInfoCache.getUser().id)
             self.userFollowings[self.currentIndex].isFollowing = false
             
             cell.followingsBtn.setTitle("+ Follow", forState: UIControlState.Normal)
             cell.followingsBtn.backgroundColor = ImageUtil.imageUtil.UIColorFromRGB(0xFF76A4)
         } else {
-            ApiController.instance.followUser(constants.userInfo.id)
+            ApiController.instance.followUser(UserInfoCache.getUser().id)
             self.userFollowings[self.currentIndex].isFollowing = true
             
             //let indexPath = NSIndexPath(forItem: self.currentIndex, inSection: 0)

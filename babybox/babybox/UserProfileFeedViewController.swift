@@ -317,7 +317,7 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
         
         ImageUtil.displayButtonRoundBorder(cell.editProfile)
         
-        if (constants.userInfo.id != self.userId) {
+        if (UserInfoCache.getUser().id != self.userId) {
             cell.editProfile.hidden = false
             ImageUtil.displayButtonRoundBorder(cell.editProfile)
         } else {

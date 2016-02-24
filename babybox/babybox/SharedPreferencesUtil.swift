@@ -25,7 +25,9 @@ class SharedPreferencesUtil {
         case SESSION_ID = "sessionId"
         case USER_INFO = "userInfo"
     }
+    
     private static let sharedPreferencesUtil = SharedPreferencesUtil()
+    
     var prefs: NSUserDefaults = NSUserDefaults.standardUserDefaults()
     
     static func getInstance() -> SharedPreferencesUtil {
@@ -52,14 +54,12 @@ class SharedPreferencesUtil {
     func getUserSessionId(sessionId: String) -> String {
         if (self.prefs.valueForKey(User.SESSION_ID.rawValue) != nil) {
             return (self.prefs.valueForKey(User.SESSION_ID.rawValue) as? String)!
-        } else {
-            return "-1"
         }
-        
+        return ""
     }
     
     func saveUserInfo(userInfo: UserInfoVM) {
-        self.prefs.setObject(userInfo, forKey: User.USER_INFO.rawValue)
+        //self.prefs.setObject(userInfo, forKey: User.USER_INFO.rawValue)
     }
     
     func getUserInfo() -> UserInfoVM? {
@@ -71,8 +71,8 @@ class SharedPreferencesUtil {
         return userInfo
     }
     
-    
-    func clear() {
+    func clearAll() {
+        self.prefs.setValue(nil, forKey: User.SESSION_ID.rawValue)
         self.prefs.setObject(nil, forKey: User.USER_INFO.rawValue)
     }
 }

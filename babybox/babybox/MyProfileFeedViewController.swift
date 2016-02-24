@@ -70,7 +70,7 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
 
         feedViewAdapter = FeedViewAdapter(collectionView: uiCollectionView)
         
-        setUserInfo(constants.userInfo)
+        setUserInfo(UserInfoCache.getUser())
         
         registerEvents()
         
@@ -119,17 +119,17 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
                 setSizesForFilterButtons(cell)
             }
             
-            cell.displayName.text = constants.userInfo.displayName
+            cell.displayName.text = self.userInfo?.displayName
                 
-            ImageUtil.displayThumbnailProfileImage(constants.userInfo.id, imageView: cell.userImg)
-            if (constants.userInfo.numFollowers > 0) {
-                cell.followersBtn.setTitle("Followers " + String(constants.userInfo.numFollowers), forState:UIControlState.Normal)
+            ImageUtil.displayThumbnailProfileImage(self.userInfo!.id, imageView: cell.userImg)
+            if (self.userInfo!.numFollowers > 0) {
+                cell.followersBtn.setTitle("Followers " + String(self.userInfo!.numFollowers), forState:UIControlState.Normal)
             } else {
                 cell.followersBtn.setTitle("Followers", forState: UIControlState.Normal)
             }
                 
-            if (constants.userInfo.numFollowings > 0) {
-                cell.followingBtn.setTitle("Following " + String(constants.userInfo.numFollowings), forState: UIControlState.Normal)
+            if (self.userInfo!.numFollowings > 0) {
+                cell.followingBtn.setTitle("Following " + String(self.userInfo!.numFollowings), forState: UIControlState.Normal)
             } else {
                 cell.followingBtn.setTitle("Following", forState: UIControlState.Normal)
             }

@@ -18,7 +18,6 @@ struct constants {
     
     static let currencySymbol = "$"
     static var sessionId = ""
-    static var userInfo: UserInfoVM = UserInfoVM()
     
     static let SPLASH_SHOW_DURATION = 0.5
     static let FEED_LOAD_SCROLL_THRESHOLD = CGFloat(50.0)

@@ -19,12 +19,13 @@ class SplashViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         self.navigationController?.interactivePopGestureRecognizer?.enabled = false
         self.navigationController?.navigationBar.hidden = true
         
         SwiftEventBus.onMainThread(self, name: "userInfoSuccess") { result in
             if ViewUtil.isEmptyResult(result) {
-                self.showLoginPage()
+                self.finish()
             } else {
                 let userInfo: UserInfoVM = result.object as! UserInfoVM
                 self.handleUserInfo(userInfo)
@@ -58,16 +59,16 @@ class SplashViewController: UIViewController {
         let sessionId: String? = SharedPreferencesUtil.getInstance().getUserSessionId(SharedPreferencesUtil.User.SESSION_ID.rawValue)
         NSLog("sessionId="+String(sessionId))
         
+        NSThread.sleepForTimeInterval(constants.SPLASH_SHOW_DURATION)
+        
         //Check if FB logged in.
         if (FBSDKAccessToken.currentAccessToken() != nil) {
             ApiController.instance.loginByFacebook(FBSDKAccessToken.currentAccessToken().tokenString)
-        } else if (sessionId != nil && sessionId != "nil" && sessionId != "-1") {
+        } else if (sessionId != nil && sessionId != "nil" && !sessionId!.isEmpty) {
             UserInfoCache.refresh(sessionId!)
         } else {
-            NSThread.sleepForTimeInterval(constants.SPLASH_SHOW_DURATION)
             showLoginPage()
         }
-        
     }
 
     override func didReceiveMemoryWarning() {
@@ -80,14 +81,33 @@ class SplashViewController: UIViewController {
         return true
     }
     
+    func finish() {
+        ViewUtil.makeToast("Cannot find user. Please login again.", view: self.view)
+        SwiftEventBus.unregister(self)
+        AppDelegate.getInstance().logout()
+        self.showLoginPage()
+    }
+
     func handleUserInfo(userInfo: UserInfoVM) {
-        self.navigationController?.navigationBar.hidden = true
-        
-        constants.userInfo = userInfo
-        if (constants.userInfo.id == -1) {
-            SwiftEventBus.unregister(self)
-            self.showLoginPage()
-        } else {
+        // user not logged in, redirect to login page
+        if (userInfo.id == -1) {
+            finish()
+        }
+
+        // new user flow
+        if userInfo.newUser || userInfo.displayName.isEmpty {
+            if !userInfo.emailValidated {
+                ViewUtil.makeToast("Email is not verified. Please check your email from BabyBox and click verify link.", view: self.view)
+                AppDelegate.getInstance().clearUserSession()
+                self.showLoginPage()
+            } else {
+                self.showSignupDetailPage()
+            }
+        }
+        // login successful
+        else {
+            UserInfoCache.setUser(userInfo)
+            AppDelegate.getInstance().initUserCaches()
             self.performSegueWithIdentifier("homefeed", sender: nil)
         }
     }
@@ -99,6 +119,10 @@ class SplashViewController: UIViewController {
         SwiftEventBus.unregister(self)
         self.navigationController?.navigationBar.hidden = true
         self.performSegueWithIdentifier("loginpage", sender: nil)
+    }
+    
+    func showSignupDetailPage() {
+        
     }
     
     func handleUserLogin(sessionId: String) {

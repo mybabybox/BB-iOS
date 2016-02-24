@@ -42,12 +42,11 @@ class SettingsViewController: UIViewController {
         SharedPreferencesUtil.getInstance().setUserSessionId("")
         let vController = self.storyboard!.instantiateViewControllerWithIdentifier("loginController") as! LoginViewController
         self.navigationController?.pushViewController(vController, animated: true)
-        if (constants.userInfo.isFBLogin) {
+        if (UserInfoCache.getUser().isFBLogin) {
             FBSDKLoginManager().logOut()
         }
-        constants.userInfo = UserInfoVM()
+        UserInfoCache.clear()
         SwiftEventBus.unregister(self)
-        
     }
 
     /*

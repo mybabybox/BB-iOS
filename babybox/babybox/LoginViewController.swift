@@ -73,11 +73,11 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFie
         }
     }
     
-    func handleUserInfo(resultDto: UserInfoVM) {
+    func handleUserInfo(userInfo: UserInfoVM) {
         self.isUserLoggedIn = true
         self.progressIndicator.hidden = true
         self.progressIndicator.stopAnimating()
-        constants.userInfo = resultDto
+        UserInfoCache.setUser(userInfo)
         SwiftEventBus.unregister(self)
         self.performSegueWithIdentifier("clickToLogin", sender: nil)
     }

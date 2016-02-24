@@ -11,7 +11,7 @@ import SwiftEventBus
 
 class UserInfoCache {
     
-    internal static var userInfoVM: UserInfoVM? = nil
+    internal static var userInfo: UserInfoVM? = nil
     
     init() {
     }
@@ -22,13 +22,20 @@ class UserInfoCache {
         ApiController.instance.getUserInfo()
     }
     
+    static func setUser(userInfo: UserInfoVM) {
+        self.userInfo = userInfo
+        SharedPreferencesUtil.getInstance().saveUserInfo(userInfo)
+    }
+    
     static func getUser() -> UserInfoVM {
-        if (userInfoVM == nil) {
-            //let sharedPref: NSUserDefaults = NSUserDefaults.standardUserDefaults()
-            //userInfoVM = sharedPref.objectForKey(USER_INFO) as? UserInfoVM
-            userInfoVM = SharedPreferencesUtil.getInstance().getUserInfo()
+        if (userInfo == nil) {
+            userInfo = SharedPreferencesUtil.getInstance().getUserInfo()
         }
-        return userInfoVM!
+        return userInfo!
+    }
+    
+    static func clear() {
+        userInfo = nil
     }
     
     static func incrementNumProducts() {

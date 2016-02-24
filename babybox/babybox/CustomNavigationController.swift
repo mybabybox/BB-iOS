@@ -68,10 +68,10 @@ class CustomNavigationController: UIViewController {
         let userThumbnailImg: UIButton = UIButton()
         
         userThumbnailImg.frame = CGRectMake(0, 0, 35, 35)
-        ImageUtil.displayThumbnailProfileImage(constants.userInfo.id, buttonView: userThumbnailImg)
+        ImageUtil.displayThumbnailProfileImage(UserInfoCache.getUser().id, buttonView: userThumbnailImg)
         
         let userNameImg: UIButton = UIButton()
-        userNameImg.setTitle(constants.userInfo.displayName, forState: UIControlState.Normal)
+        userNameImg.setTitle(UserInfoCache.getUser().displayName, forState: UIControlState.Normal)
         
         userNameImg.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
         userNameImg.titleLabel!.lineBreakMode = NSLineBreakMode.ByWordWrapping

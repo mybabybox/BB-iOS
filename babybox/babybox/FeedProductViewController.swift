@@ -144,7 +144,7 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
                 cell.btnDeleteComments.tag = indexPath.row
                 
                 cell.postedTime.text = NSDate(timeIntervalSince1970:Double(comment.createdDate) / 1000.0).timeAgo
-                if (comment.ownerId == constants.userInfo.id) {
+                if (comment.ownerId == UserInfoCache.getUser().id) {
                     cell.btnDeleteComments.hidden = false
                 } else {
                     cell.btnDeleteComments.hidden = true
@@ -298,9 +298,9 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
     func PostComments(button: UIButton){
         let cell: MessageTableViewCell = button.superview!.superview as! MessageTableViewCell
         let _nComment = CommentModel()
-        _nComment.ownerId = constants.userInfo.id
+        _nComment.ownerId = UserInfoCache.getUser().id
         _nComment.body = cell.commentTxt.text!
-        _nComment.ownerName = constants.userInfo.displayName
+        _nComment.ownerName = UserInfoCache.getUser().displayName
         _nComment.deviceType = "iOS"
         _nComment.createdDate = Int(NSDate().timeIntervalSince1970)
         _nComment.id = -1
