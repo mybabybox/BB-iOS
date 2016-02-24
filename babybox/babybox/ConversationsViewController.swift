@@ -26,7 +26,7 @@ class ConversationsViewController: CustomNavigationController {
     override func viewDidAppear(animated: Bool) {
         self.conversations = []
         self.myDate = NSDate()
-        ApiControlller.apiController.getConversation()
+        ApiController.instance.getConversation()
     }
     
     override func viewDidLoad() {

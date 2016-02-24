@@ -90,7 +90,7 @@ class SignupDetailViewController: UIViewController, UITextFieldDelegate, SSRadio
         }
         
         if (isValid()) {
-            ApiControlller.apiController.saveUserSignUpInfo(self.displayName.text!, locationId: Int(locationId))
+            ApiController.instance.saveUserSignUpInfo(self.displayName.text!, locationId: Int(locationId))
         } else {
 
         }

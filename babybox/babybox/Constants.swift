@@ -13,7 +13,7 @@ struct constants {
     
     static let APP_NAME = "BabyBox"
     
-    static let kBaseServerURL = "http://localhost:9000/"
+    static let kBaseServerURL = "http://localhost:9000"
     static let imagesBaseURL = "http://localhost:9000"
     
     static let currencySymbol = "$"
@@ -24,7 +24,6 @@ struct constants {
     static let FEED_LOAD_SCROLL_THRESHOLD = CGFloat(50.0)
     static let SHOW_HIDE_BAR_SCROLL_DISTANCE = CGFloat(5.0)
     static let MAIN_BOTTOM_BAR_ALPHA = 0.9
-    
     
     static let ACTIVITY_FIRST_POST = "Congratulations! You are now a BabyBox seller! Your first product has been listed:\r\n"
     static let ACTIVITY_NEW_POST = "New product listed:\r\n"

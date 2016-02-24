@@ -11,7 +11,7 @@ import SwiftEventBus
 
 class FollowingViewController: UICollectionViewController {
     
-    var pageOffSet: Int = 0
+    var offset: Int = 0
     var currentIndex: Int = 0
     var reuseIdentifier = "followingCollectionViewCell"
     var userFollowings: [UserVM] = []
@@ -27,13 +27,13 @@ class FollowingViewController: UICollectionViewController {
         //let indexPath = self.collectionView!.indexPathForCell(cell)
         
         if (self.userFollowings[self.currentIndex].isFollowing) {
-            ApiControlller.apiController.unfollowUser((constants.userInfo.id))
+            ApiController.instance.unfollowUser((constants.userInfo.id))
             self.userFollowings[self.currentIndex].isFollowing = false
             
             cell.followingsBtn.setTitle("+ Follow", forState: UIControlState.Normal)
             cell.followingsBtn.backgroundColor = ImageUtil.imageUtil.UIColorFromRGB(0xFF76A4)
         } else {
-            ApiControlller.apiController.followUser(constants.userInfo.id)
+            ApiController.instance.followUser(constants.userInfo.id)
             self.userFollowings[self.currentIndex].isFollowing = true
             
             //let indexPath = NSIndexPath(forItem: self.currentIndex, inSection: 0)
@@ -52,7 +52,7 @@ class FollowingViewController: UICollectionViewController {
             // UI thread
             let resultDto: [UserVM] = result.object as! [UserVM]
             self.userFollowings.appendContentsOf(resultDto)
-            self.pageOffSet++
+            self.offset++
             self.collectionView?.reloadData()
             
         }
@@ -63,7 +63,7 @@ class FollowingViewController: UICollectionViewController {
         }
         
         //TODO...
-        ApiControlller.apiController.getUserFollowings(self.userId, offSet: pageOffSet)
+        ApiController.instance.getUserFollowings(self.userId, offset: offset)
         // Do any additional setup after loading the view.
     }
 

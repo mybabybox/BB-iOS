@@ -77,7 +77,7 @@ class SignupViewController: FbLoginViewController {
     
     @IBAction func onSignup(sender: AnyObject) {
         if(validateSignup()){
-            ApiControlller.apiController.signIn(firstNameText.text!, lastNameText: lastNameText.text!,
+            ApiController.instance.signIn(firstNameText.text!, lastNameText: lastNameText.text!,
                 emailText: emailText.text!, passwordText: passwordText.text!, confirmPasswordText: confirmPasswordText.text!);
             self.isValidForm = true;
             //self.performSegueWithIdentifier("signinInfo", sender: nil)

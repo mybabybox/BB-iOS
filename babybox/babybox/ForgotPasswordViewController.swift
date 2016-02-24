@@ -52,7 +52,7 @@ class ForgotPasswordViewController: UIViewController, UITextFieldDelegate {
         
         if (self.emailAddress.text != "") {
             //make API call...
-            ApiControlller().forgotPasswordRequest(self.emailAddress.text!)
+            ApiController.instance.forgotPasswordRequest(self.emailAddress.text!)
         } else {
         }
         return forwardToNextPage

@@ -171,21 +171,21 @@ class FeedLoader {
         ViewUtil.showActivityLoading(activityIndicator)
         switch feedType {
         case FeedFilter.FeedType.HOME_EXPLORE:
-            ApiControlller.apiController.getHomeExploreFeed(feedOffset)
+            ApiController.instance.getHomeExploreFeed(feedOffset)
         case FeedFilter.FeedType.HOME_FOLLOWING:
-            ApiControlller.apiController.getHomeFollowingFeed(feedOffset)
+            ApiController.instance.getHomeFollowingFeed(feedOffset)
         case FeedFilter.FeedType.CATEGORY_POPULAR:
-            ApiControlller.apiController.getCategoryPopularFeed(objId, offSet: feedOffset)
+            ApiController.instance.getCategoryPopularFeed(objId, offset: feedOffset)
         case FeedFilter.FeedType.CATEGORY_NEWEST:
-            ApiControlller.apiController.getCategoryNewestFeed(objId, offSet: feedOffset)
+            ApiController.instance.getCategoryNewestFeed(objId, offset: feedOffset)
         case FeedFilter.FeedType.CATEGORY_PRICE_LOW_HIGH:
-            ApiControlller.apiController.getCategoryPriceLowHighFeed(objId, offSet: feedOffset)
+            ApiController.instance.getCategoryPriceLowHighFeed(objId, offset: feedOffset)
         case FeedFilter.FeedType.CATEGORY_PRICE_HIGH_LOW:
-            ApiControlller.apiController.getCategoryPriceHighLowFeed(objId, offSet: feedOffset)
+            ApiController.instance.getCategoryPriceHighLowFeed(objId, offset: feedOffset)
         case FeedFilter.FeedType.USER_POSTED:
-            ApiControlller.apiController.getUserPostedFeed(objId, offSet: feedOffset)
+            ApiController.instance.getUserPostedFeed(objId, offset: feedOffset)
         case FeedFilter.FeedType.USER_LIKED:
-            ApiControlller.apiController.getUserLikedFeed(objId, offSet: feedOffset)
+            ApiController.instance.getUserLikedFeed(objId, offset: feedOffset)
         default: break
         }
     }

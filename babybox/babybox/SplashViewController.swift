@@ -60,7 +60,7 @@ class SplashViewController: UIViewController {
         
         //Check if FB logged in.
         if (FBSDKAccessToken.currentAccessToken() != nil) {
-            ApiControlller.apiController.loginByFacebook(FBSDKAccessToken.currentAccessToken().tokenString)
+            ApiController.instance.loginByFacebook(FBSDKAccessToken.currentAccessToken().tokenString)
         } else if (sessionId != nil && sessionId != "nil" && sessionId != "-1") {
             UserInfoCache.refresh(sessionId!)
         } else {

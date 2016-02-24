@@ -19,7 +19,7 @@ class UserInfoCache {
     static func refresh(sessionId: String) {
         SharedPreferencesUtil.getInstance().setUserAccessToken(sessionId)
         constants.accessToken = sessionId
-        ApiControlller.apiController.getUserInfo()
+        ApiController.instance.getUserInfo()
     }
     
     static func getUser() -> UserInfoVM {

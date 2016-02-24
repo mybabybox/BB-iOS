@@ -61,7 +61,7 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
         self.pricetxt.keyboardType = .NumberPad
         
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "actionbar_bg_pink"), forBarMetrics: UIBarMetrics.Default)
-        ApiControlller.apiController.getAllCategories();
+        ApiController.instance.getAllCategories();
         
         SwiftEventBus.onMainThread(self, name: "categoriesReceivedSuccess") { result in
             // UI thread
@@ -271,7 +271,7 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
         
         if (validateSaveForm()) {
             var conditionType = ViewUtil.parsePostConditionTypeFromValue((conditionDropDown.titleLabel?.text!)!)
-            ApiControlller.apiController.saveSellProduct(prodDescription.text!,sellingtext: sellingtext.text!, categoryId: selCategoryId,conditionType: String(conditionType), pricetxt: pricetxt.text!, imageCollection: self.imageCollection)
+            ApiController.instance.saveSellProduct(prodDescription.text!,sellingtext: sellingtext.text!, categoryId: selCategoryId,conditionType: String(conditionType), pricetxt: pricetxt.text!, imageCollection: self.imageCollection)
         }
     }
     

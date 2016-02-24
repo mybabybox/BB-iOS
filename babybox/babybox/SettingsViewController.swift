@@ -33,7 +33,7 @@ class SettingsViewController: UIViewController {
     }
     
     @IBAction func logoutUser(sender: AnyObject) {
-        ApiControlller.apiController.logoutUser()
+        ApiController.instance.logoutUser()
     }
     
     func handleLogout(result: String) {

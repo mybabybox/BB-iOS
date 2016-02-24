@@ -55,14 +55,14 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
             let resultDto: [PostCatModel] = result.object as! [PostCatModel]
             self.handleGetProductDetailsSuccess(resultDto)
         }
-        ApiControlller.apiController.getProductDetails(String(Int(productModel.id)))
+        ApiController.instance.getProductDetails(String(Int(productModel.id)))
     }
     
     override func viewDidAppear(animated: Bool) {
         self.myDate = NSDate()
         //self.conversations = []
         
-        //ApiControlller.apiController.getConversation()
+        //ApiController.instance.getConversation()
         
         if (productModel.numLikes == 0) {
             self.likeCountTxt.setTitle("Like", forState: UIControlState.Normal)
@@ -285,7 +285,7 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
     
     //MARK: Button Press Events
     func DeleteComments(button: UIButton){
-        ApiControlller.apiController.deleteComment(self.items[button.tag].id)
+        ApiController.instance.deleteComment(self.items[button.tag].id)
         items.removeAtIndex(button.tag)
         //self.detailTableView.reloadData()
         detailTableView.contentInset =  UIEdgeInsetsZero
@@ -304,7 +304,7 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
         _nComment.deviceType = "iOS"
         _nComment.createdDate = Int(NSDate().timeIntervalSince1970)
         _nComment.id = -1
-        ApiControlller().postComment(String(Int(productModel.id)), comment: cell.commentTxt.text!)
+        ApiController.instance.postComment(String(Int(productModel.id)), comment: cell.commentTxt.text!)
         
         self.items.append(_nComment)
         self.detailTableView.reloadData()
@@ -347,14 +347,14 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
             self.productModel.numLikes--
             self.productModel.isLiked = false
             self.likeImgBtn.setImage(UIImage(named: "ic_liked_tips.png"), forState: UIControlState.Normal)
-            ApiControlller().likePost(String(Int(productModel.id)))
+           ApiController.instance.likePost(String(Int(productModel.id)))
             self.likeCountTxt.setTitle(String(self.productModel.numLikes), forState: UIControlState.Normal)
             
         } else {
             self.productModel.numLikes++
             self.productModel.isLiked = true
             self.likeImgBtn.setImage(UIImage(named: "ic_like_tips.png"), forState: UIControlState.Normal)
-            ApiControlller().unlikePost(String(Int(productModel.id)))
+            ApiController.instance.unlikePost(String(Int(productModel.id)))
             self.likeCountTxt.setTitle(String(self.productModel.numLikes), forState: UIControlState.Normal)
             
         }

@@ -72,7 +72,7 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
         
         registerEvents()
         
-        ApiControlller.apiController.getUser(self.userId)
+        ApiController.instance.getUser(self.userId)
         
         setCollectionViewSizesInsets()
         setCollectionViewSizesInsetsForTopView()

@@ -11,8 +11,7 @@ import SwiftEventBus
 
 class FollowersViewController: UICollectionViewController {
     
-    
-    var pageOffSet: Int = 0
+    var offset: Int = 0
     var currentIndex: Int = 0
     var reuseIdentifier = "followersViewController"
     var userFollowers: [UserVM] = []
@@ -29,7 +28,7 @@ class FollowersViewController: UICollectionViewController {
             // UI thread
             let resultDto: [UserVM] = result.object as! [UserVM]
             self.userFollowers.appendContentsOf(resultDto)
-            self.pageOffSet++
+            self.offset++
             self.collectionView?.reloadData()
         }
         
@@ -38,7 +37,7 @@ class FollowersViewController: UICollectionViewController {
             //TODO
         }
         //TODO
-        ApiControlller.apiController.getUserFollowers(self.userId, offSet: pageOffSet)
+        ApiController.instance.getUserFollowers(self.userId, offset: offset)
         // Do any additional setup after loading the view.
     }
 

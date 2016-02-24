@@ -44,7 +44,7 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFie
             }
             self.progressIndicator.hidden = false
             self.progressIndicator.startAnimating()
-            ApiControlller.apiController.loginByEmail(self.userNameTxt.text!, password: self.passwordTxt.text!);
+            ApiController.instance.loginByEmail(self.userNameTxt.text!, password: self.passwordTxt.text!);
             return false
         } else if (identifier == "gotoforgotpassword") {
             return true
@@ -179,7 +179,7 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFie
             
             //self.progressIndicator.hidden = true
             //progressIndicator.stopAnimating()
-            ApiControlller.apiController.loginByFacebook(FBSDKAccessToken.currentAccessToken().tokenString);
+            ApiController.instance.loginByFacebook(FBSDKAccessToken.currentAccessToken().tokenString);
             
             /*let pImageView = UIImageView()
             pImageView.image = UIImage(named: "login_lock")
@@ -211,7 +211,7 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFie
             self.isUserLoggedIn = true
             if (!result.isCancelled) {
                 constants.accessToken = result.token.tokenString
-                ApiControlller.apiController.loginByFacebook(result.token.tokenString)
+                ApiController.instance.loginByFacebook(result.token.tokenString)
             }
             //make API call to authenticate facebook user on server.
             

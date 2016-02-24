@@ -8,7 +8,8 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, UIImagePick
     @IBOutlet weak var buttomLayoutConstraint: NSLayoutConstraint!
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var sendButton: UIButton!
-    var pageOffSet: Int = 0
+    
+    var offset: Int = 0
     var loadingMessage: Bool = false
     var conversationId: Int = 0
     var selectedImage : UIImage?
@@ -26,7 +27,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, UIImagePick
             imagePicker.sourceType = .PhotoLibrary //3
             sendButton.enabled = false
             
-            ApiControlller.apiController.getMessages(self.conversationId, pageOffSet: pageOffSet)
+            ApiController.instance.getMessages(self.conversationId, offset: offset)
             SwiftEventBus.onMainThread(self, name: "getMessagesSuccess") { result in
                 // UI thread
                 let resultDto: MessageVM = result.object as! MessageVM
@@ -76,7 +77,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, UIImagePick
             addChatBubble(bubbleData)
             textField.resignFirstResponder()
             
-            ApiControlller.apiController.postMessage(String(self.conversationId), message: bubbleData.text!)
+            ApiController.instance.postMessage(String(self.conversationId), message: bubbleData.text!)
         }
         
         @IBAction func cameraButtonClicked(sender: AnyObject) {
@@ -152,7 +153,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, UIImagePick
             let bubbleData = ChatBubbleData(text: textField.text, image: chosenImage, date: NSDate(), type: .Mine)
             
             //post new chat message
-            //ApiControlller.apiController.postMessage(String(self.conversationId), message: bubbleData.text!, imageData: bubbleData.image!)
+            //ApiController.instance.postMessage(String(self.conversationId), message: bubbleData.text!, imageData: bubbleData.image!)
             
             addChatBubble(bubbleData)
             picker.dismissViewControllerAnimated(true, completion: { () -> Void in
@@ -178,20 +179,17 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, UIImagePick
                 }
             }
         }
-        self.pageOffSet++
+        self.offset++
         self.loadingMessage = true
-        
     }
     
     // MARK: UIScrollview Delegate
     func scrollViewDidScroll(scrollView: UIScrollView) {
         if (scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - constants.FEED_LOAD_SCROLL_THRESHOLD {
             if (loadingMessage) {
-                ApiControlller.apiController.getMessages(self.conversationId, pageOffSet: pageOffSet)
+                ApiController.instance.getMessages(self.conversationId, offset: offset)
                 self.loadingMessage = false
             }
         }
     }
-    
-    
 }

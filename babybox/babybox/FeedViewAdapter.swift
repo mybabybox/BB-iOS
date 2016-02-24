@@ -70,13 +70,13 @@ class FeedViewAdapter {
             feedItem.numLikes--
             cell.likeCountIns.setTitle(String(feedItem.numLikes), forState: UIControlState.Normal)
             cell.likeImageIns.setImage(UIImage(named: "ic_like_tips.png"), forState: UIControlState.Normal)
-            ApiControlller.apiController.unlikePost(String(feedItem.id))
+            ApiController.instance.unlikePost(String(feedItem.id))
         } else {
             feedItem.isLiked = true
             feedItem.numLikes++
             cell.likeCountIns.setTitle(String(feedItem.numLikes), forState: UIControlState.Normal)
             cell.likeImageIns.setImage(UIImage(named: "ic_liked_tips.png"), forState: UIControlState.Normal)
-            ApiControlller.apiController.likePost(String(feedItem.id))
+            ApiController.instance.likePost(String(feedItem.id))
         }
     }
 }

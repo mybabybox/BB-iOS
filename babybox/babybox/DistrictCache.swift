@@ -22,7 +22,7 @@ class DistrictCache {
     }
     
     static func refresh() {
-        ApiControlller.apiController.getAllDistricts()
+        ApiController.instance.getAllDistricts()
     }
     
     static func getDistricts() -> [LocationModel] {

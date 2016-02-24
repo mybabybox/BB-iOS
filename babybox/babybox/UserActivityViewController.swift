@@ -37,7 +37,7 @@ class UserActivityViewController: CustomNavigationController {
         
         ViewUtil.showActivityLoading(self.activityLoading)
         
-        ApiControlller.apiController.getUserActivities(activityOffSet)
+        ApiController.instance.getUserActivities(activityOffSet)
         
         setCollectionViewSizesInsetsForTopView()
         
@@ -148,7 +148,7 @@ class UserActivityViewController: CustomNavigationController {
         let item = self.userActivitesItems[indexPath.row]
         switch (item.activityType) {
             case "FIRST_POST", "NEW_POST", "NEW_COMMENT", "LIKED", "SOLD":
-                ApiControlller.apiController.getPostById(self.userActivitesItems[indexPath.row].target)
+                ApiController.instance.getPostById(self.userActivitesItems[indexPath.row].target)
             default: break
         }
     }
@@ -203,7 +203,7 @@ class UserActivityViewController: CustomNavigationController {
         let view = button.superview!
         let cell = view.superview! as! BaseActivityViewCell
         let indexPath = self.uiCollectionView.indexPathForCell(cell)!
-        ApiControlller.apiController.getPostById(self.userActivitesItems[indexPath.row].target)
+        ApiController.instance.getPostById(self.userActivitesItems[indexPath.row].target)
         
     }
     

@@ -58,7 +58,7 @@ class FbLoginViewController: UIViewController {
             } else {
                 NSLog("User Not Logged In.")
                 constants.accessToken = result.token.tokenString
-                ApiControlller.apiController.loginByFacebook(constants.accessToken)
+                ApiController.instance.loginByFacebook(constants.accessToken)
             }
         }
     }

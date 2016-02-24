@@ -81,7 +81,7 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
         flowLayout.minimumLineSpacing = 5
         uiCollectionView.collectionViewLayout = flowLayout
         
-        ApiControlller.apiController.getAllCategories()
+        ApiController.instance.getAllCategories()
     }
     
     @IBAction func onClicTipClose(sender: AnyObject) {
