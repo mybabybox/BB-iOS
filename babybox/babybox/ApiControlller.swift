@@ -285,8 +285,8 @@ class ApiController {
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/get-followings/\(id)/\(offset)"
         callEvent.resultClass = "UserVM"
-        callEvent.successEventbusName = "userFollowingsSuccess"
-        callEvent.failedEventbusName = "userFollowingsFailed"
+        callEvent.successEventbusName = "userFollowersFollowingsSuccess"
+        callEvent.failedEventbusName = "userFollowersFollowingsFailed"
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
         self.makeApiCall(callEvent)
     }
@@ -295,8 +295,8 @@ class ApiController {
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/get-followers/\(id)/\(offset)"
         callEvent.resultClass = "UserVM"
-        callEvent.successEventbusName = "userFollowersSuccess"
-        callEvent.failedEventbusName = "userFollowersFailed"
+        callEvent.successEventbusName = "userFollowersFollowingsSuccess"
+        callEvent.failedEventbusName = "userFollowersFollowingsFailed"
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
         self.makeApiCall(callEvent)
     }

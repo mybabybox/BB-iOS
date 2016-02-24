@@ -12,6 +12,7 @@ class FollowingCollectionViewCell: UICollectionViewCell {
     
     var userId: Int = 0
     
+    @IBOutlet weak var followersCount: UILabel!
     @IBOutlet weak var followingsBtn: UIButton!
     @IBOutlet weak var userName: UILabel!
     @IBOutlet weak var userImage: UIImageView!

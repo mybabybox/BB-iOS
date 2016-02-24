@@ -214,17 +214,16 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         self.tabBarController!.tabBar.hidden = true
-        if (segue.identifier == "followingCalls") {
-            let vController = segue.destinationViewController as! FollowingViewController
+        if (segue.identifier == "followingCalls" || segue.identifier == "followersCall") {
+            let vController = segue.destinationViewController as! FollowersFollowingViewController
             vController.userId = self.userInfo!.id
-        } else if (segue.identifier == "followersCall") {
-            let vController = segue.destinationViewController as! FollowersViewController
+            vController.optionType = segue.identifier!
+        } /*else if (segue.identifier == "followersCall") {
+            let vController = segue.destinationViewController as! FollowersFollowingViewController
             vController.userId = self.userInfo!.id
-        } else if (segue.identifier == "editProfile"){
+        } */else if (segue.identifier == "editProfile"){
             let vController = segue.destinationViewController as! EditProfileViewController
             vController.userId = self.userInfo!.id
-        } else if (segue.identifier == "settings") {
-            // let vController = segue.destinationViewController as! SettingsViewController
         }
     }
     
