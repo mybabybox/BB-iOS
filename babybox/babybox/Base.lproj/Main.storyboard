@@ -1830,88 +1830,6 @@ CEVudGVyIFBhc3N3b3JkA
             </objects>
             <point key="canvasLocation" x="2218" y="1444"/>
         </scene>
-        <!--Followers View Controller-->
-        <scene sceneID="HKg-cR-Rib">
-            <objects>
-                <collectionViewController title="Followers View Controller" id="Y4E-2S-jcR" customClass="FollowersViewController" customModule="BabyBox" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="BRs-b1-hgq">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="0.92870107319999995" green="0.92870107319999995" blue="0.92870107319999995" alpha="1" colorSpace="calibratedRGB"/>
-                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="gdv-gC-uQn">
-                            <size key="itemSize" width="320" height="103"/>
-                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                        </collectionViewFlowLayout>
-                        <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="followersViewController" id="eAs-ce-tWd" customClass="FollowersCollectionViewCell" customModule="BabyBox" customModuleProvider="target">
-                                <rect key="frame" x="47" y="0.0" width="320" height="103"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="103"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="FVu-IO-bwn">
-                                            <rect key="frame" x="0.0" y="8" width="80" height="87"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="80" id="5xq-oc-DNM"/>
-                                            </constraints>
-                                        </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iZG-3s-E4O">
-                                            <rect key="frame" x="97" y="16" width="36" height="17"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ejy-d7-yoP">
-                                            <rect key="frame" x="182" y="28" width="110" height="30"/>
-                                            <color key="backgroundColor" red="1" green="0.46274509803921571" blue="0.64313725490196072" alpha="1" colorSpace="calibratedRGB"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="110" id="6re-JH-ieq"/>
-                                            </constraints>
-                                            <state key="normal" title="Following">
-                                                <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                            <connections>
-                                                <action selector="onClickFollowers:" destination="Y4E-2S-jcR" eventType="touchUpInside" id="F9c-Ju-cp1"/>
-                                            </connections>
-                                        </button>
-                                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v4A-hy-0xb">
-                                            <rect key="frame" x="266" y="65" width="46" height="30"/>
-                                            <state key="normal" title="profile"/>
-                                        </button>
-                                    </subviews>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                </view>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstItem="ejy-d7-yoP" firstAttribute="top" secondItem="eAs-ce-tWd" secondAttribute="topMargin" constant="20" id="6ue-wA-19b"/>
-                                    <constraint firstAttribute="bottomMargin" secondItem="FVu-IO-bwn" secondAttribute="bottom" id="Hot-Xp-NiZ"/>
-                                    <constraint firstItem="FVu-IO-bwn" firstAttribute="leading" secondItem="eAs-ce-tWd" secondAttribute="leading" id="QwX-DU-aqe"/>
-                                    <constraint firstAttribute="trailingMargin" secondItem="ejy-d7-yoP" secondAttribute="trailing" constant="20" id="bIc-rX-oCW"/>
-                                    <constraint firstItem="iZG-3s-E4O" firstAttribute="top" secondItem="FVu-IO-bwn" secondAttribute="top" constant="8" id="hLy-Op-yiO"/>
-                                    <constraint firstItem="iZG-3s-E4O" firstAttribute="leading" secondItem="FVu-IO-bwn" secondAttribute="trailing" constant="17" id="hiH-1f-07Y"/>
-                                    <constraint firstItem="FVu-IO-bwn" firstAttribute="top" secondItem="eAs-ce-tWd" secondAttribute="topMargin" id="oq6-fy-JXK"/>
-                                </constraints>
-                                <connections>
-                                    <outlet property="followingBtn" destination="ejy-d7-yoP" id="eDA-EL-0cf"/>
-                                    <outlet property="userImage" destination="FVu-IO-bwn" id="a27-FA-zfV"/>
-                                    <outlet property="userName" destination="iZG-3s-E4O" id="pnP-pU-kYA"/>
-                                </connections>
-                            </collectionViewCell>
-                        </cells>
-                        <connections>
-                            <outlet property="dataSource" destination="Y4E-2S-jcR" id="sWd-H7-O16"/>
-                            <outlet property="delegate" destination="Y4E-2S-jcR" id="wfq-JN-Ufm"/>
-                        </connections>
-                    </collectionView>
-                    <navigationItem key="navigationItem" id="ygf-cv-Jsv"/>
-                </collectionViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="wyL-BM-xwe" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="4066" y="1479"/>
-        </scene>
         <!--Edit Profile View Controller-->
         <scene sceneID="X1l-Zn-Aru">
             <objects>
@@ -2313,68 +2231,91 @@ CEVudGVyIFBhc3N3b3JkA
         <!--Following View Controller-->
         <scene sceneID="LMJ-lu-qoD">
             <objects>
-                <collectionViewController title="Followers View Controller" id="71D-99-izD" userLabel="Following View Controller" customClass="FollowingViewController" customModule="BabyBox" customModuleProvider="target" sceneMemberID="viewController">
+                <collectionViewController title="Followers View Controller" id="71D-99-izD" userLabel="Following View Controller" customClass="FollowersFollowingViewController" customModule="babybox" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="hiX-6h-gs8">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="0.92870107319999995" green="0.92870107319999995" blue="0.92870107319999995" alpha="1" colorSpace="calibratedRGB"/>
-                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="1hj-4H-bI1">
-                            <size key="itemSize" width="320" height="103"/>
+                        <color key="backgroundColor" red="0.92549019607843142" green="0.92549019607843142" blue="0.90196078431372551" alpha="1" colorSpace="calibratedRGB"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="1" minimumInteritemSpacing="1" id="1hj-4H-bI1">
+                            <size key="itemSize" width="320" height="64"/>
                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                         <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="followingCollectionViewCell" id="Cz6-lU-wkd" customClass="FollowingCollectionViewCell" customModule="BabyBox" customModuleProvider="target">
-                                <rect key="frame" x="47" y="0.0" width="320" height="103"/>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="followingCollectionViewCell" id="Cz6-lU-wkd" customClass="FollowingCollectionViewCell" customModule="babybox" customModuleProvider="target">
+                                <rect key="frame" x="47" y="0.0" width="320" height="64"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="103"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="lOl-Wu-wD6">
-                                            <rect key="frame" x="8" y="8" width="80" height="87"/>
+                                            <rect key="frame" x="10" y="10" width="40" height="40"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="80" id="cun-tM-D2j"/>
+                                                <constraint firstAttribute="height" constant="40" id="Poa-1S-bgK"/>
+                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="40" id="Zl4-39-86b"/>
+                                                <constraint firstAttribute="width" constant="40" id="cun-tM-D2j"/>
                                             </constraints>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KMh-bQ-lph">
-                                            <rect key="frame" x="97" y="16" width="36" height="17"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <rect key="frame" x="60" y="10" width="33" height="16"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UpI-IG-z91">
+                                            <rect key="frame" x="10" y="10" width="40" height="40"/>
+                                            <state key="normal" title="profile"/>
+                                        </button>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Followers:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YUd-xp-Dim">
+                                            <rect key="frame" x="60" y="34" width="62" height="16"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TeB-W2-8Qd">
+                                            <rect key="frame" x="122" y="34" width="9" height="16"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zy2-sX-8q7">
-                                            <rect key="frame" x="182" y="28" width="110" height="30"/>
+                                            <rect key="frame" x="225" y="10" width="80" height="29"/>
                                             <color key="backgroundColor" red="1" green="0.46274509800000002" blue="0.64313725489999995" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="110" id="2U1-61-jyX"/>
+                                                <constraint firstAttribute="width" constant="80" id="2U1-61-jyX"/>
                                             </constraints>
-                                            <state key="normal" title="Following">
-                                                <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <state key="normal" title="Follow">
+                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
                                                 <action selector="onClickFollowings:" destination="71D-99-izD" eventType="touchUpInside" id="EZt-5Y-od5"/>
                                             </connections>
-                                        </button>
-                                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UpI-IG-z91">
-                                            <rect key="frame" x="266" y="65" width="46" height="30"/>
-                                            <state key="normal" title="profile"/>
                                         </button>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstItem="lOl-Wu-wD6" firstAttribute="leading" secondItem="Cz6-lU-wkd" secondAttribute="leadingMargin" id="Mya-Bb-8aB"/>
-                                    <constraint firstItem="lOl-Wu-wD6" firstAttribute="top" secondItem="Cz6-lU-wkd" secondAttribute="topMargin" id="Thu-9I-qGO"/>
-                                    <constraint firstAttribute="bottomMargin" secondItem="lOl-Wu-wD6" secondAttribute="bottom" id="VbW-Zf-gnh"/>
-                                    <constraint firstItem="KMh-bQ-lph" firstAttribute="top" secondItem="lOl-Wu-wD6" secondAttribute="top" constant="8" id="Wk6-w1-wfH"/>
-                                    <constraint firstItem="zy2-sX-8q7" firstAttribute="top" secondItem="Cz6-lU-wkd" secondAttribute="topMargin" constant="20" id="o4Q-73-tg3"/>
-                                    <constraint firstItem="KMh-bQ-lph" firstAttribute="leading" secondItem="lOl-Wu-wD6" secondAttribute="trailing" constant="9" id="paU-W0-Jm5"/>
-                                    <constraint firstAttribute="trailingMargin" secondItem="zy2-sX-8q7" secondAttribute="trailing" constant="20" id="z1X-Ef-uqh"/>
+                                    <constraint firstItem="UpI-IG-z91" firstAttribute="leading" secondItem="lOl-Wu-wD6" secondAttribute="leading" id="1pr-ic-lBx"/>
+                                    <constraint firstAttribute="trailing" secondItem="zy2-sX-8q7" secondAttribute="trailing" constant="15" id="BNX-a2-UHk"/>
+                                    <constraint firstItem="TeB-W2-8Qd" firstAttribute="leading" secondItem="YUd-xp-Dim" secondAttribute="trailing" id="CWr-y9-eB5"/>
+                                    <constraint firstItem="UpI-IG-z91" firstAttribute="top" secondItem="lOl-Wu-wD6" secondAttribute="top" id="EeL-MJ-I3o"/>
+                                    <constraint firstItem="YUd-xp-Dim" firstAttribute="leading" secondItem="UpI-IG-z91" secondAttribute="trailing" constant="10" id="Iiu-uD-aKK"/>
+                                    <constraint firstItem="UpI-IG-z91" firstAttribute="trailing" secondItem="lOl-Wu-wD6" secondAttribute="trailing" id="LPB-d0-9jo"/>
+                                    <constraint firstItem="UpI-IG-z91" firstAttribute="bottom" secondItem="lOl-Wu-wD6" secondAttribute="bottom" id="SzL-xO-Xl5"/>
+                                    <constraint firstItem="lOl-Wu-wD6" firstAttribute="top" secondItem="Cz6-lU-wkd" secondAttribute="top" constant="10" id="VHV-dg-yz4"/>
+                                    <constraint firstItem="TeB-W2-8Qd" firstAttribute="centerY" secondItem="YUd-xp-Dim" secondAttribute="centerY" id="Xke-hD-Xsv"/>
+                                    <constraint firstItem="zy2-sX-8q7" firstAttribute="top" secondItem="Cz6-lU-wkd" secondAttribute="top" constant="10" id="aji-Xw-7wr"/>
+                                    <constraint firstItem="KMh-bQ-lph" firstAttribute="top" secondItem="UpI-IG-z91" secondAttribute="top" id="dVk-TN-igR"/>
+                                    <constraint firstItem="KMh-bQ-lph" firstAttribute="leading" secondItem="lOl-Wu-wD6" secondAttribute="trailing" constant="10" id="ehy-tJ-vFY"/>
+                                    <constraint firstItem="YUd-xp-Dim" firstAttribute="bottom" secondItem="UpI-IG-z91" secondAttribute="bottom" id="ixL-ql-f38"/>
+                                    <constraint firstItem="lOl-Wu-wD6" firstAttribute="leading" secondItem="Cz6-lU-wkd" secondAttribute="leading" constant="10" id="jGL-x8-Tzp"/>
                                 </constraints>
                                 <connections>
+                                    <outlet property="followersCount" destination="TeB-W2-8Qd" id="mzF-jb-FPd"/>
                                     <outlet property="followingsBtn" destination="zy2-sX-8q7" id="6zf-Kq-vd9"/>
                                     <outlet property="userImage" destination="lOl-Wu-wD6" id="Bko-Gh-FEO"/>
                                     <outlet property="userName" destination="KMh-bQ-lph" id="RfH-3p-Gdl"/>
@@ -2390,7 +2331,7 @@ CEVudGVyIFBhc3N3b3JkA
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="41k-lM-yF4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3428" y="1472"/>
+            <point key="canvasLocation" x="3797" y="1608"/>
         </scene>
         <!--User Profile Feed View Controller-->
         <scene sceneID="Hed-ay-TP1">
@@ -2552,11 +2493,11 @@ CEVudGVyIFBhc3N3b3JkA
                                                                         <rect key="frame" x="59" y="0.0" width="58" height="35"/>
                                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                                                        <state key="normal" title="Followers">
+                                                                        <state key="normal" title="Following">
                                                                             <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                                         </state>
                                                                         <connections>
-                                                                            <segue destination="Y4E-2S-jcR" kind="show" id="vwB-o5-bTl"/>
+                                                                            <segue destination="71D-99-izD" kind="show" identifier="followingCalls" id="fRU-pM-mSi"/>
                                                                         </connections>
                                                                     </button>
                                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Hu-P6-Ol2" userLabel="PEdit Profile">
@@ -2574,11 +2515,11 @@ CEVudGVyIFBhc3N3b3JkA
                                                                             <constraint firstAttribute="width" constant="58" id="Kgb-hO-GT8"/>
                                                                         </constraints>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                                                        <state key="normal" title="Following">
+                                                                        <state key="normal" title="Followers">
                                                                             <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                                         </state>
                                                                         <connections>
-                                                                            <segue destination="71D-99-izD" kind="show" id="qBf-83-ilp"/>
+                                                                            <segue destination="71D-99-izD" kind="show" identifier="followersCall" id="QmE-57-6W9"/>
                                                                         </connections>
                                                                     </button>
                                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Ts-yd-gLI" userLabel="Follow">
@@ -2685,8 +2626,8 @@ CEVudGVyIFBhc3N3b3JkA
                                                         <outlet property="buttonsView" destination="Fqt-7h-XLz" id="x0J-CG-wUu"/>
                                                         <outlet property="displayName" destination="ULa-kB-l9a" id="mZp-VH-dUv"/>
                                                         <outlet property="editProfile" destination="9Ts-yd-gLI" id="5gM-Rm-GTa"/>
-                                                        <outlet property="followersBtn" destination="s4b-Lm-Kpb" id="YZg-v7-vn2"/>
-                                                        <outlet property="followingBtn" destination="PlE-t5-tHu" id="zTQ-zx-YPI"/>
+                                                        <outlet property="followersBtn" destination="PlE-t5-tHu" id="4Ao-Gt-buY"/>
+                                                        <outlet property="followingBtn" destination="s4b-Lm-Kpb" id="zqL-Re-sYJ"/>
                                                         <outlet property="segmentControl" destination="uaX-CG-pne" id="hpN-ah-cNX"/>
                                                         <outlet property="tipsConstraint" destination="LhZ-r2-UxE" id="Um0-4S-HTQ"/>
                                                         <outlet property="userImg" destination="vEM-p9-flu" id="KNn-Wb-owF"/>
@@ -3966,7 +3907,7 @@ CEVudGVyIFBhc3N3b3JkA
                                                                             <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                                         </state>
                                                                         <connections>
-                                                                            <segue destination="Y4E-2S-jcR" kind="show" identifier="followersCall" id="L4S-zN-3bb"/>
+                                                                            <segue destination="71D-99-izD" kind="show" identifier="followersCall" id="SUR-X2-GSB"/>
                                                                         </connections>
                                                                     </button>
                                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OhW-IF-XUD" userLabel="PEdit Profile">
@@ -4319,11 +4260,10 @@ CEVudGVyIFBhc3N3b3JkA
         <image name="user_thumbnail" width="48" height="48"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ac7-3L-0vi"/>
         <segue reference="xlr-H1-EYH"/>
         <segue reference="UfZ-y4-j3J"/>
-        <segue reference="vwB-o5-bTl"/>
-        <segue reference="qBf-83-ilp"/>
+        <segue reference="ac7-3L-0vi"/>
+        <segue reference="QmE-57-6W9"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>
