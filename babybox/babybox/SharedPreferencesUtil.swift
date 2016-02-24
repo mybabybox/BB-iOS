@@ -22,7 +22,7 @@ class SharedPreferencesUtil {
     }
     
     enum User: String {
-        case ACCESS_TOKEN = "accessToken"
+        case SESSION_ID = "sessionId"
         case USER_INFO = "userInfo"
     }
     private static let sharedPreferencesUtil = SharedPreferencesUtil()
@@ -45,13 +45,13 @@ class SharedPreferencesUtil {
         self.prefs.setBool(true, forKey: screen.rawValue)
     }
     
-    func setUserAccessToken(accessToken: String) {
-        self.prefs.setValue(accessToken, forKey: User.ACCESS_TOKEN.rawValue)
+    func setUserSessionId(sessionId: String) {
+        self.prefs.setValue(sessionId, forKey: User.SESSION_ID.rawValue)
     }
     
-    func getUserAccessToken(accessToken: String) -> String {
-        if (self.prefs.valueForKey(User.ACCESS_TOKEN.rawValue) != nil) {
-            return (self.prefs.valueForKey(User.ACCESS_TOKEN.rawValue) as? String)!
+    func getUserSessionId(sessionId: String) -> String {
+        if (self.prefs.valueForKey(User.SESSION_ID.rawValue) != nil) {
+            return (self.prefs.valueForKey(User.SESSION_ID.rawValue) as? String)!
         } else {
             return "-1"
         }

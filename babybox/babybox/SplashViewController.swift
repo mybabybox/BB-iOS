@@ -55,7 +55,7 @@ class SplashViewController: UIViewController {
             self.handleUserLoginFailed(message)
         }
         
-        let sessionId: String? = SharedPreferencesUtil.getInstance().getUserAccessToken(SharedPreferencesUtil.User.ACCESS_TOKEN.rawValue)
+        let sessionId: String? = SharedPreferencesUtil.getInstance().getUserSessionId(SharedPreferencesUtil.User.SESSION_ID.rawValue)
         NSLog("sessionId="+String(sessionId))
         
         //Check if FB logged in.

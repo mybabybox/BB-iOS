@@ -210,7 +210,7 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFie
             self.showLoading()
             self.isUserLoggedIn = true
             if (!result.isCancelled) {
-                constants.accessToken = result.token.tokenString
+                constants.sessionId = result.token.tokenString
                 ApiController.instance.loginByFacebook(result.token.tokenString)
             }
             //make API call to authenticate facebook user on server.

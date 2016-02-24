@@ -17,7 +17,7 @@ struct constants {
     static let imagesBaseURL = "http://localhost:9000"
     
     static let currencySymbol = "$"
-    static var accessToken = ""
+    static var sessionId = ""
     static var userInfo: UserInfoVM = UserInfoVM()
     
     static let SPLASH_SHOW_DURATION = 0.5

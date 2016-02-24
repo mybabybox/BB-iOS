@@ -529,7 +529,7 @@ class ApiController {
         NSLog("makeApiCall")
         
         let request: NSMutableURLRequest = NSMutableURLRequest()
-        let url = arg.apiUrl + "?access_token=\(constants.accessToken)"
+        let url = arg.apiUrl + "?key=\(constants.sessionId)"
         
         request.URL = NSURL(string: url)
         request.HTTPMethod = "GET"
