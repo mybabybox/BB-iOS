@@ -221,12 +221,10 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         //self.uiCollectionView.delegate = nil
         self.tabBarController!.tabBar.hidden = true
-        if (segue.identifier == "followingCalls") {
-            let vController = segue.destinationViewController as! FollowingViewController
+        if (segue.identifier == "followingCalls" || segue.identifier == "followersCall") {
+            let vController = segue.destinationViewController as! FollowersFollowingViewController
             vController.userId = self.userInfo!.id
-        } else if (segue.identifier == "followersCall") {
-            let vController = segue.destinationViewController as! FollowersViewController
-            vController.userId = self.userInfo!.id
+            vController.optionType = segue.identifier!
         } else if (segue.identifier == "editProfile"){
             let vController = segue.destinationViewController as! EditProfileViewController
             vController.userId = self.userInfo!.id
