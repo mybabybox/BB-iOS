@@ -2734,19 +2734,12 @@ CEVudGVyIFBhc3N3b3JkA
                                                                     <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="4nh-z5-o1K">
                                                                         <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
                                                                     </imageView>
-                                                                    <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="Gq3-om-Yiu">
-                                                                        <rect key="frame" x="130" y="258" width="39" height="37"/>
-                                                                        <color key="pageIndicatorTintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                                                        <color key="currentPageIndicatorTintColor" red="1" green="0.50665376529999995" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                                    </pageControl>
                                                                 </subviews>
                                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                             </view>
                                                             <constraints>
                                                                 <constraint firstAttribute="trailing" secondItem="4nh-z5-o1K" secondAttribute="trailing" id="2vF-2C-rrs"/>
-                                                                <constraint firstItem="Gq3-om-Yiu" firstAttribute="centerX" secondItem="xi2-KM-nDF" secondAttribute="centerX" id="Cop-nV-UMS"/>
                                                                 <constraint firstItem="4nh-z5-o1K" firstAttribute="leading" secondItem="xi2-KM-nDF" secondAttribute="leading" id="L29-vc-hQ5"/>
-                                                                <constraint firstAttribute="bottom" secondItem="Gq3-om-Yiu" secondAttribute="bottom" constant="5" id="RKY-Cz-t9L"/>
                                                                 <constraint firstItem="4nh-z5-o1K" firstAttribute="top" secondItem="xi2-KM-nDF" secondAttribute="top" id="V03-Xd-UeJ"/>
                                                                 <constraint firstAttribute="bottom" secondItem="4nh-z5-o1K" secondAttribute="bottom" id="ha0-4d-PAW"/>
                                                             </constraints>
@@ -2764,8 +2757,14 @@ CEVudGVyIFBhc3N3b3JkA
                                                         <constraint firstAttribute="height" constant="100" id="G89-dk-NR0"/>
                                                     </constraints>
                                                 </imageView>
+                                                <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="Gq3-om-Yiu">
+                                                    <rect key="frame" x="280" y="10" width="39" height="37"/>
+                                                    <color key="pageIndicatorTintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="currentPageIndicatorTintColor" red="1" green="0.50665376529999995" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </pageControl>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="Gq3-om-Yiu" firstAttribute="centerX" secondItem="aLi-cD-bt1" secondAttribute="centerX" id="1Zs-yY-TVj"/>
                                                 <constraint firstItem="ff4-RP-59F" firstAttribute="top" secondItem="aLi-cD-bt1" secondAttribute="top" id="JvJ-Aw-lYp"/>
                                                 <constraint firstItem="ff4-RP-59F" firstAttribute="top" secondItem="aLi-cD-bt1" secondAttribute="top" id="Jws-EN-eF9"/>
                                                 <constraint firstItem="ff4-RP-59F" firstAttribute="leading" secondItem="aLi-cD-bt1" secondAttribute="leading" id="YpO-Yt-eKU"/>
@@ -2774,6 +2773,7 @@ CEVudGVyIFBhc3N3b3JkA
                                                 <constraint firstAttribute="bottom" secondItem="ShE-GU-7Jz" secondAttribute="bottom" id="ceY-CU-Hg9"/>
                                                 <constraint firstAttribute="trailing" secondItem="ff4-RP-59F" secondAttribute="trailing" id="ckD-4t-NHj"/>
                                                 <constraint firstAttribute="trailing" secondItem="ShE-GU-7Jz" secondAttribute="trailing" id="e23-kg-Iqu"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="Gq3-om-Yiu" secondAttribute="bottom" constant="5" id="nJa-Ny-Gu1"/>
                                                 <constraint firstAttribute="bottom" secondItem="ff4-RP-59F" secondAttribute="bottom" id="xkV-XU-uhk"/>
                                             </constraints>
                                         </tableViewCellContentView>
