@@ -1214,21 +1214,14 @@ CEVudGVyIFBhc3N3b3JkA
                                                                     <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="SDB-sN-OHF">
                                                                         <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
                                                                     </imageView>
-                                                                    <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="Tqt-IA-COH">
-                                                                        <rect key="frame" x="130" y="258" width="39" height="37"/>
-                                                                        <color key="pageIndicatorTintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                                                        <color key="currentPageIndicatorTintColor" red="1" green="0.50665376529999995" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                                    </pageControl>
                                                                 </subviews>
                                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                             </view>
                                                             <constraints>
-                                                                <constraint firstItem="Tqt-IA-COH" firstAttribute="centerX" secondItem="3pY-qe-jjb" secondAttribute="centerX" id="VSr-Dd-HB6"/>
                                                                 <constraint firstAttribute="trailing" secondItem="SDB-sN-OHF" secondAttribute="trailing" id="cCu-K4-bvm"/>
                                                                 <constraint firstItem="SDB-sN-OHF" firstAttribute="leading" secondItem="3pY-qe-jjb" secondAttribute="leading" id="h1g-ZN-ys7"/>
                                                                 <constraint firstItem="SDB-sN-OHF" firstAttribute="top" secondItem="3pY-qe-jjb" secondAttribute="top" id="jSk-S6-f8h"/>
                                                                 <constraint firstAttribute="bottom" secondItem="SDB-sN-OHF" secondAttribute="bottom" id="quE-cX-qfx"/>
-                                                                <constraint firstAttribute="bottom" secondItem="Tqt-IA-COH" secondAttribute="bottom" constant="5" id="zih-ZF-cB9"/>
                                                             </constraints>
                                                             <connections>
                                                                 <outlet property="imageView" destination="SDB-sN-OHF" id="yKJ-6H-x9J"/>
@@ -1237,11 +1230,18 @@ CEVudGVyIFBhc3N3b3JkA
                                                         </collectionViewCell>
                                                     </cells>
                                                 </collectionView>
+                                                <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="Tqt-IA-COH">
+                                                    <rect key="frame" x="187" y="273" width="39" height="37"/>
+                                                    <color key="pageIndicatorTintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="currentPageIndicatorTintColor" red="1" green="0.50665376529999995" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </pageControl>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="Tqt-IA-COH" firstAttribute="centerX" secondItem="PPt-Ge-ic0" secondAttribute="centerX" id="DaV-b4-jWN"/>
                                                 <constraint firstAttribute="bottom" secondItem="k2q-02-HyE" secondAttribute="bottom" id="Jn5-El-DyW"/>
                                                 <constraint firstAttribute="trailing" secondItem="k2q-02-HyE" secondAttribute="trailing" id="LmB-jt-FB5"/>
                                                 <constraint firstItem="k2q-02-HyE" firstAttribute="top" secondItem="PPt-Ge-ic0" secondAttribute="top" id="k5d-eD-Sxh"/>
+                                                <constraint firstAttribute="bottom" secondItem="Tqt-IA-COH" secondAttribute="bottom" constant="10" id="kG6-7S-5xs"/>
                                                 <constraint firstItem="k2q-02-HyE" firstAttribute="leading" secondItem="PPt-Ge-ic0" secondAttribute="leading" id="thr-TT-mpD"/>
                                             </constraints>
                                         </tableViewCellContentView>
