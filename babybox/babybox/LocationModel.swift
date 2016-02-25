@@ -9,7 +9,7 @@
 import Foundation
 import ObjectMapper
 
-class LocationModel: BaseArgModel {
+class LocationModel: BaseArgVM {
     
     var id: Double = 0;
     var type: String = "";

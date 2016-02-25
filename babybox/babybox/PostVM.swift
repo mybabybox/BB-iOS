@@ -11,7 +11,7 @@ import Foundation
 import UIKit
 import ObjectMapper
 
-class PostVM: BaseArgModel {
+class PostVM: BaseArgVM {
     var id: Int = 0
     var ownerId: Int = 0
     var ownerName: String = ""

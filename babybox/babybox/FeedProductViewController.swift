@@ -301,7 +301,7 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
         _nComment.body = cell.commentTxt.text!
         _nComment.ownerName = UserInfoCache.getUser().displayName
         _nComment.deviceType = "iOS"
-        _nComment.createdDate = Int(NSDate().timeIntervalSince1970)
+        _nComment.createdDate = NSDate().timeIntervalSinceNow
         _nComment.id = -1
         ApiController.instance.postComment(String(Int(productModel.id)), comment: cell.commentTxt.text!)
         

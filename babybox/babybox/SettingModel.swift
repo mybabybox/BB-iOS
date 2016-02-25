@@ -9,7 +9,7 @@
 import Foundation
 import ObjectMapper
 
-class SettingModel: BaseArgModel {
+class SettingModel: BaseArgVM {
     
     var id: Double = 0;
     var emailNewPost: Bool = false

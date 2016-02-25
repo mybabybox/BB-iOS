@@ -616,7 +616,7 @@ class ApiController {
         return result
     }
     
-    class func toJson(res: CommentVM) -> String {
+    /*class func toJson(res: CommentVM) -> String {
         var JSONString = ""
         JSONString = Mapper<CommentVM>().toJSONString(res, prettyPrint: true)!
         //NSLog("inside tojson")
@@ -632,7 +632,7 @@ class ApiController {
         //return JSONString
         
         return str as String
-    }
+    }*/
     
     func makeBodyString(strData:[String]) -> String {
         var result = ""
