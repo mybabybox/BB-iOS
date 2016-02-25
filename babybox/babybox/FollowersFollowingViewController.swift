@@ -11,7 +11,7 @@ import SwiftEventBus
 
 class FollowersFollowingViewController: UICollectionViewController {
     
-    var offset: Int = 0
+    var offset: Int64 = 0
     var currentIndex: Int = 0
     var reuseIdentifier = "followingCollectionViewCell"
     var followersFollowings: [UserVM] = []
@@ -69,6 +69,9 @@ class FollowersFollowingViewController: UICollectionViewController {
         // Do any additional setup after loading the view.
     }
 
+    override func viewWillAppear(animated: Bool) {
+    }
+    
     override func viewDidDisappear(_ animated: Bool) {
         SwiftEventBus.unregister(self)
     }
@@ -133,5 +136,20 @@ class FollowersFollowingViewController: UICollectionViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
+    // MARK: UIScrollview Delegate
+    override func scrollViewDidScroll(scrollView: UIScrollView) {
+        
+        if (scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - constants.FEED_LOAD_SCROLL_THRESHOLD {
+            
+            if (self.followersFollowings.count > 0) {
+                switch optionType {
+                case "followingCalls":
+                    ApiController.instance.getUserFollowings(self.userId, offset:Int64(self.followersFollowings[self.followersFollowings.count - 1].offset))
+                case "followersCall":
+                    ApiController.instance.getUserFollowers(self.userId, offset: Int64(self.followersFollowings[self.followersFollowings.count - 1].offset))
+                default: break
+                }
+            }
+        }
+    }
 }

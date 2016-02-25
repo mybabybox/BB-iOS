@@ -20,6 +20,7 @@ class UserVM: BaseArgVM {
     var numLikes: Int = 0
     var numCollections: Int = 0
     var isFollowing: Bool = false
+    var offset: Double = 0
     
     override func mapping(map: ObjectMapper.Map) {
         super.mapping(map)
@@ -33,5 +34,6 @@ class UserVM: BaseArgVM {
         numLikes<-map["numLikes"]
         numCollections<-map["numCollections"]
         isFollowing<-map["isFollowing"]
+        offset<-map["offset"]
     }
 }

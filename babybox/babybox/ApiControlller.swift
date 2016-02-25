@@ -281,7 +281,7 @@ class ApiController {
         self.makeApiCall(callEvent)
     }
     
-    func getUserFollowings(id: Int, offset: Int) {
+    func getUserFollowings(id: Int, offset: Int64) {
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/get-followings/\(id)/\(offset)"
         callEvent.resultClass = "UserVM"
@@ -291,7 +291,7 @@ class ApiController {
         self.makeApiCall(callEvent)
     }
     
-    func getUserFollowers(id: Int, offset: Int) {
+    func getUserFollowers(id: Int, offset: Int64) {
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/get-followers/\(id)/\(offset)"
         callEvent.resultClass = "UserVM"
