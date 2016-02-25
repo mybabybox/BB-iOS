@@ -327,7 +327,7 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
             let color: UIColor = UIColor(red: 255/255, green: 118/255, blue: 164/255, alpha: 1.0)
             self.drawLineFromPoint(start, toPoint: end, ofColor: color, inView: segControl)
         }
-        segControl.setTitleTextAttributes([NSForegroundColorAttributeName: ImageUtil.imageUtil.UIColorFromRGB(0xFF76A4)],
+        segControl.setTitleTextAttributes([NSForegroundColorAttributeName: ImageUtil.UIColorFromRGB(0xFF76A4)],
             forState: UIControlState.Selected)
     }
     

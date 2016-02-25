@@ -26,5 +26,4 @@ class CategoryVM: BaseArgVM {
         categoryType<-map["categoryType"];
         seq<-map["seq"];
     }
-    
 }

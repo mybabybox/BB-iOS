@@ -16,7 +16,7 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
     @IBOutlet var actionButton: UIButton!
     let conditionTypeDropDown = DropDown()
     @IBOutlet var sellingtext: UITextField!
-    var categories : [CategoryModel] = []
+    var categories : [CategoryVM] = []
     
     var save:String = "";
     
@@ -65,7 +65,7 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
         
         SwiftEventBus.onMainThread(self, name: "categoriesReceivedSuccess") { result in
             // UI thread
-            let resultDto: [CategoryModel] = result.object as! [CategoryModel]
+            let resultDto: [CategoryVM] = result.object as! [CategoryVM]
             self.handleGetCateogriesSuccess(resultDto)
         }
         
@@ -123,7 +123,7 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
         
     }
         
-    func handleGetCateogriesSuccess(categories: [CategoryModel]) {
+    func handleGetCateogriesSuccess(categories: [CategoryVM]) {
         self.categories = categories;
         var selCategoryValue = "Choose a Category:"
         var catDataSource : [String] = []
@@ -263,7 +263,7 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
         //Validate whether all values are selected by user...
         var selCategoryId: String = ""
         //iterate through categories to get the selected category as only name are shown in dropdown.
-        for category in self.categories as [CategoryModel] {
+        for category in self.categories as [CategoryVM] {
             if (category.description == (categorydropdown.titleLabel?.text!)!) {
                 selCategoryId = String(category.id)
             }

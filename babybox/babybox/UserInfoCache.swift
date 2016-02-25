@@ -11,7 +11,7 @@ import SwiftEventBus
 
 class UserInfoCache {
     
-    internal static var userInfo: UserInfoVM? = nil
+    internal static var userInfo: UserVM? = nil
     
     init() {
     }
@@ -22,12 +22,12 @@ class UserInfoCache {
         ApiController.instance.getUserInfo()
     }
     
-    static func setUser(userInfo: UserInfoVM) {
+    static func setUser(userInfo: UserVM) {
         self.userInfo = userInfo
         SharedPreferencesUtil.getInstance().saveUserInfo(userInfo)
     }
     
-    static func getUser() -> UserInfoVM {
+    static func getUser() -> UserVM {
         if (userInfo == nil) {
             userInfo = SharedPreferencesUtil.getInstance().getUserInfo()
         }

@@ -32,7 +32,7 @@ class LandingPageViewController: UIViewController, UITableViewDelegate, UITableV
         
         self.navigationController?.interactivePopGestureRecognizer?.enabled = false
         
-        let color = ImageUtil.imageUtil.UIColorFromRGB(0xFF76A4).CGColor
+        let color = ImageUtil.UIColorFromRGB(0xFF76A4).CGColor
         self.signUpBtn.backgroundColor = UIColor.clearColor()
         ImageUtil.displayButtonRoundBorder(self.signUpBtn)
         self.signUpBtn.layer.borderColor = color

@@ -14,7 +14,7 @@ class FollowersFollowingViewController: UICollectionViewController {
     var offset: Int64 = 0
     var currentIndex: Int = 0
     var reuseIdentifier = "followingCollectionViewCell"
-    var followersFollowings: [UserVM] = []
+    var followersFollowings: [UserVMLite] = []
     var userId: Int = 0
     var collectionViewCellSize : CGSize?
     var optionType: String = ""
@@ -25,18 +25,17 @@ class FollowersFollowingViewController: UICollectionViewController {
         let view = button.superview!
         let cell = view.superview! as! FollowingCollectionViewCell
         
-        //let indexPath = self.collectionView!.indexPathForCell(cell)
-        
         if (self.followersFollowings[self.currentIndex].isFollowing) {
             ApiController.instance.unfollowUser((UserInfoCache.getUser().id))
             self.followersFollowings[self.currentIndex].isFollowing = false
-            cell.followingsBtn.setTitle("+ Follow", forState: UIControlState.Normal)
-            cell.followingsBtn.backgroundColor = ImageUtil.imageUtil.UIColorFromRGB(0xFF76A4)
+            cell.followingsBtn.setTitle("Follow", forState: UIControlState.Normal)
+            ImageUtil.displayCornerButton(cell.followingsBtn, colorCode: 0xFF76A4)
+            
         } else {
             ApiController.instance.followUser(UserInfoCache.getUser().id)
             self.followersFollowings[self.currentIndex].isFollowing = true
-            cell.followingsBtn.setTitle("- Unfollow", forState: UIControlState.Normal)
-            cell.followingsBtn.backgroundColor = ImageUtil.imageUtil.UIColorFromRGB(0xECECE6)
+            cell.followingsBtn.setTitle("Following", forState: UIControlState.Normal)
+            ImageUtil.displayCornerButton(cell.followingsBtn, colorCode: 0xAAAAAA)
         }
     }
     
@@ -48,7 +47,7 @@ class FollowersFollowingViewController: UICollectionViewController {
         SwiftEventBus.onMainThread(self, name: "userFollowersFollowingsSuccess") { result in
             // UI thread
             if (!ViewUtil.isEmptyResult(result)) {
-                let resultDto: [UserVM] = result.object as! [UserVM]
+                let resultDto: [UserVMLite] = result.object as! [UserVMLite]
                 self.followersFollowings.appendContentsOf(resultDto)
                 self.offset++
             }
@@ -72,7 +71,7 @@ class FollowersFollowingViewController: UICollectionViewController {
     override func viewWillAppear(animated: Bool) {
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
+    override func viewDidDisappear(animated: Bool) {
         SwiftEventBus.unregister(self)
     }
     
@@ -100,11 +99,11 @@ class FollowersFollowingViewController: UICollectionViewController {
         cell.followersCount.text = String(userInfo.numFollowers)
         
         if (userInfo.isFollowing) {
-            cell.followingsBtn.backgroundColor = UIColor.grayColor()
-            cell.followingsBtn.setTitle("- Unfollow", forState: UIControlState.Normal)
+            ImageUtil.displayCornerButton(cell.followingsBtn, colorCode: 0xAAAAAA)
+            cell.followingsBtn.setTitle("Following", forState: UIControlState.Normal)
         } else {
-            cell.followingsBtn.backgroundColor = ImageUtil.imageUtil.UIColorFromRGB(0xFF76A4)
-            cell.followingsBtn.setTitle("+ Follow", forState: UIControlState.Normal)
+            ImageUtil.displayCornerButton(cell.followingsBtn, colorCode: 0xFF76A4)
+            cell.followingsBtn.setTitle("Follow", forState: UIControlState.Normal)
         }
         
         return cell

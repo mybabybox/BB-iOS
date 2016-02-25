@@ -27,7 +27,7 @@ class ApiController {
     func getAllCategories() {
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/get-categories"
-        callEvent.resultClass = "CategoryModel"
+        callEvent.resultClass = "CategoryVM"
         callEvent.successEventbusName = "categoriesReceivedSuccess"
         callEvent.failedEventbusName = "categoriesReceivedFailed"
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
@@ -39,7 +39,7 @@ class ApiController {
     func getHomeExploreFeed(offset: Int64) {
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/get-home-explore-feed/\(offset)"
-        callEvent.resultClass = "PostModel"
+        callEvent.resultClass = "PostVM"
         callEvent.successEventbusName = "homeExploreFeedLoadSuccess"
         callEvent.failedEventbusName = "homeExploreFeedLoadFailed"
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method;
@@ -50,7 +50,7 @@ class ApiController {
     func getHomeFollowingFeed(offset: Int64) {
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/get-home-following-feed/\(offset)"
-        callEvent.resultClass = "PostModel"
+        callEvent.resultClass = "PostVM"
         callEvent.successEventbusName = "homeFollowingFeedLoadSuccess"
         callEvent.failedEventbusName = "homeFollowingFeedLoadFailed"
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
@@ -61,7 +61,7 @@ class ApiController {
     func getUserInfo() {
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/get-user-info"
-        callEvent.resultClass = "UserInfoVM"
+        callEvent.resultClass = "UserVM"
         callEvent.successEventbusName = "userInfoSuccess"
         callEvent.failedEventbusName = "userInfoFailed"
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method; //append logged in user id to get the logged in user details.
@@ -224,7 +224,7 @@ class ApiController {
     func getCategoryPopularFeed(id: Int, offset: Int64) {
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/get-category-popular-feed/\(id)/ALL/\(offset)"
-        callEvent.resultClass = "PostModel"
+        callEvent.resultClass = "PostVM"
         callEvent.successEventbusName = "categoryPopularFeedLoadSuccess"
         callEvent.failedEventbusName = "categoryPopularFeedLoadFailed"
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
@@ -234,7 +234,7 @@ class ApiController {
     func getCategoryNewestFeed(id: Int, offset: Int64) {
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/get-category-newest-feed/\(id)/ALL/\(offset)"
-        callEvent.resultClass = "PostModel"
+        callEvent.resultClass = "PostVM"
         callEvent.successEventbusName = "categoryNewestFeedLoadSuccess"
         callEvent.failedEventbusName = "categoryNewestFeedLoadFailed"
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
@@ -244,7 +244,7 @@ class ApiController {
     func getCategoryPriceLowHighFeed(id: Int, offset: Int64) {
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/get-category-price-low-high-feed/\(id)/ALL/\(offset)"
-        callEvent.resultClass = "PostModel"
+        callEvent.resultClass = "PostVM"
         callEvent.successEventbusName = "categoryPriceLowHighFeedLoadSuccess"
         callEvent.failedEventbusName = "categoryPriceLowHighFeedLoadFailed"
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
@@ -254,7 +254,7 @@ class ApiController {
     func getCategoryPriceHighLowFeed(id: Int, offset: Int64) {
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/get-category-price-high-low-feed/\(id)/ALL/\(offset)"
-        callEvent.resultClass = "PostModel"
+        callEvent.resultClass = "PostVM"
         callEvent.successEventbusName = "categoryPriceHighLowFeedLoadSuccess"
         callEvent.failedEventbusName = "categoryPriceHighLowFeedLoadFailed"
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
@@ -264,7 +264,7 @@ class ApiController {
     func getUserPostedFeed(id: Int, offset: Int64) {
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/get-user-posted-feed/\(id)/\(offset)"
-        callEvent.resultClass = "PostModel"
+        callEvent.resultClass = "PostVM"
         callEvent.successEventbusName = "userPostedFeedLoadSuccess"
         callEvent.failedEventbusName = "userPostedFeedLoadFailed"
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
@@ -274,7 +274,7 @@ class ApiController {
     func getUserLikedFeed(id: Int, offset: Int64) {
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/get-user-liked-feed/\(id)/\(offset)"
-        callEvent.resultClass = "PostModel"
+        callEvent.resultClass = "PostVM"
         callEvent.successEventbusName = "userLikedFeedLoadSuccess"
         callEvent.failedEventbusName = "userLikedFeedLoadFailed"
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
@@ -284,7 +284,7 @@ class ApiController {
     func getUserFollowings(id: Int, offset: Int64) {
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/get-followings/\(id)/\(offset)"
-        callEvent.resultClass = "UserVM"
+        callEvent.resultClass = "UserVMLite"
         callEvent.successEventbusName = "userFollowersFollowingsSuccess"
         callEvent.failedEventbusName = "userFollowersFollowingsFailed"
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
@@ -294,7 +294,7 @@ class ApiController {
     func getUserFollowers(id: Int, offset: Int64) {
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/get-followers/\(id)/\(offset)"
-        callEvent.resultClass = "UserVM"
+        callEvent.resultClass = "UserVMLite"
         callEvent.successEventbusName = "userFollowersFollowingsSuccess"
         callEvent.failedEventbusName = "userFollowersFollowingsFailed"
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
@@ -369,7 +369,7 @@ class ApiController {
     func getSellProduct(){
         let callEvent=ApiCallEvent()
         callEvent.method="/api/post/new"
-        callEvent.resultClass="SellVm"
+        callEvent.resultClass="NewPostVM"
         callEvent.successEventbusName="getSellSucess"
         callEvent.failedEventbusName="gerSellFailed"
         callEvent.apiUrl=constants.kBaseServerURL + callEvent.method;
@@ -436,7 +436,7 @@ class ApiController {
     func getPostById(id: Int) {
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/get-post/\(id)"
-        callEvent.resultClass = "PostModelById"
+        callEvent.resultClass = "PostVMById"
         callEvent.successEventbusName = "postByIdLoadSuccess"
         callEvent.failedEventbusName = "postByIdLoadFailed"
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
@@ -447,7 +447,7 @@ class ApiController {
         
         let callEvent=ApiCallEvent()
         callEvent.method="/api/post/new"
-        callEvent.resultClass="SellVm"
+        callEvent.resultClass="NewPostVM"
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
         callEvent.successEventbusName = "productSavedSuccess"
         callEvent.failedEventbusName = "productSavedFailed"
@@ -596,20 +596,19 @@ class ApiController {
         var result: AnyObject = NSNull();
         
         switch cName {
-            case "CategoryModel": result = Mapper<CategoryModel>().mapArray(inputStr)!
-            case "UserInfoModel": result = Mapper<UserInfoModel>().map(inputStr)!
-            case "UserInfoVM": result = Mapper<UserInfoVM>().map(inputStr)!
-            case "UserVM": result = Mapper<UserVM>().mapArray(inputStr)!
+            case "CategoryVM": result = Mapper<CategoryVM>().mapArray(inputStr)!
+            case "UserVM": result = Mapper<UserVM>().map(inputStr)!
+            case "UserVMLite": result = Mapper<UserVMLite>().mapArray(inputStr)!
             case "ResponseVM": result = Mapper<ResponseVM>().map(inputStr)!
-            case "PostModel": result = Mapper<PostModel>().mapArray(inputStr)!
-            case "PostModelById": result = Mapper<PostModel>().map(inputStr)!
+            case "PostVM": result = Mapper<PostVM>().mapArray(inputStr)!
+            case "PostVMById": result = Mapper<PostVM>().map(inputStr)!
             case "PostCatModel": result = Mapper<PostCatModel>().mapArray(inputStr)!
             case "LocationModel": result = Mapper<LocationModel>().mapArray(inputStr)!
-            case "UserVMById": result = Mapper<UserInfoVM>().map(inputStr)!
+            case "UserVMById": result = Mapper<UserVM>().map(inputStr)!
             case "ConversationVM": result = Mapper<ConversationVM>().mapArray(inputStr)!
             case "MessageVM": result = Mapper<MessageVM>().map(inputStr)!
             case "MessageDetailVM": result = Mapper<MessageDetailVM>().map(inputStr)!
-            case "SellVm": result = Mapper<SellVM>().map(inputStr)!
+            case "NewPostVM": result = Mapper<NewPostVM>().map(inputStr)!
             case "ActivityVM": result = Mapper<ActivityVM>().mapArray(inputStr)!
             case "String": result = inputStr
             default: NSLog("calling default object resolver")

@@ -20,7 +20,7 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
     @IBOutlet weak var likeCountTxt: UIButton!
     @IBOutlet weak var detailTableView: UITableView!
     var lcontentSize = CGFloat(0.0)
-    var productModel: PostModel = PostModel()
+    var productModel: PostVM = PostVM()
     var myDate: NSDate = NSDate()
     
     var likeFlag: Bool = false
@@ -28,7 +28,7 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
     var productInfo: [PostCatModel] = []
     var noOfComments: Int = 0
     var items: [CommentModel] = [] //comment items
-    var category: CategoryModel?
+    var category: CategoryVM?
     var customDate: NSDate = NSDate()
     //var comments : [String]? = []
     
@@ -220,7 +220,7 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
                 }
                 
                 cell.viewBtnIns.layer.borderWidth = CGFloat(1)
-                cell.viewBtnIns.layer.borderColor = ImageUtil.imageUtil.UIColorFromRGB(0xFF76A4).CGColor
+                cell.viewBtnIns.layer.borderColor = ImageUtil.UIColorFromRGB(0xFF76A4).CGColor
                 ImageUtil.displayButtonRoundBorder(cell.viewBtnIns)
             default:
                 reuseidentifier = ""
@@ -410,8 +410,12 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("hcell", forIndexPath: indexPath) as! ImageCollectionViewCell
         let imageView = cell.imageView
-        cell.pageControl.numberOfPages = self.productModel.images.count
-        cell.pageControl.currentPage = indexPath.row
+        if (self.productModel.images.count > 1) {
+            cell.pageControl.numberOfPages = self.productModel.images.count
+            cell.pageControl.currentPage = indexPath.row
+        } else {
+            cell.pageControl.hidden = true
+        }
         ImageUtil.displayOriginalPostImage(Int(self.images[indexPath.row])!, imageView: imageView)
         return cell
     }

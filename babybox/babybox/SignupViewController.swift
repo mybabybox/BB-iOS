@@ -20,7 +20,7 @@ class SignupViewController: FbLoginViewController {
     @IBOutlet weak var licenseBtn: UIButton!
     var isLicenseDisplay = true
     var isPolicyDisplay = true
-    var categories : [CategoryModel] = []
+    var categories : [CategoryVM] = []
     var isValidForm: Bool = false
     
     @IBOutlet weak var firstNameText: UITextField!
@@ -87,7 +87,7 @@ class SignupViewController: FbLoginViewController {
         }
     }
     
-    func handleGetCateogriesSuccess(categories: [CategoryModel]) {
+    func handleGetCateogriesSuccess(categories: [CategoryVM]) {
         self.categories = categories;
        
     }

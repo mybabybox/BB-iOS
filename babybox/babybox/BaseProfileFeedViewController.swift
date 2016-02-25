@@ -14,7 +14,7 @@ class BaseProfileFeedViewController: CustomNavigationController {
     @IBOutlet weak var activityLoading: UIActivityIndicatorView!
     
     var userId: Int = 0
-    var userInfo: UserInfoVM? = nil
+    var userInfo: UserVM? = nil
     
     var feedLoader: FeedLoader? = nil
     var feedViewAdapter: FeedViewAdapter? = nil
@@ -22,7 +22,7 @@ class BaseProfileFeedViewController: CustomNavigationController {
     var eventsRegistered = false
     
     // to be called by subclass
-    func setUserInfo(userInfo: UserInfoVM?) {
+    func setUserInfo(userInfo: UserVM?) {
         self.userInfo = userInfo
     }
 
@@ -83,7 +83,7 @@ class BaseProfileFeedViewController: CustomNavigationController {
         }
     }
     
-    func getFeedItems() -> [PostModel] {
+    func getFeedItems() -> [PostVM] {
         if feedLoader != nil {
             return feedLoader!.feedItems
         }

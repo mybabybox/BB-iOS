@@ -27,7 +27,7 @@ class SplashViewController: UIViewController {
             if ViewUtil.isEmptyResult(result) {
                 self.finish()
             } else {
-                let userInfo: UserInfoVM = result.object as! UserInfoVM
+                let userInfo: UserVM = result.object as! UserVM
                 self.handleUserInfo(userInfo)
             }
         }
@@ -88,7 +88,7 @@ class SplashViewController: UIViewController {
         self.showLoginPage()
     }
 
-    func handleUserInfo(userInfo: UserInfoVM) {
+    func handleUserInfo(userInfo: UserVM) {
         // user not logged in, redirect to login page
         if (userInfo.id == -1) {
             finish()

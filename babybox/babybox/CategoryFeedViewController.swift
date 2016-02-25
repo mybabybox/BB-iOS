@@ -26,9 +26,9 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
     var collectionViewTopCellSize : CGSize?
     var reuseIdentifier = "CellType1"
     var loadingProducts: Bool = false
-    var selCategory: CategoryModel? = nil
+    var selCategory: CategoryVM? = nil
     var txtWhiteColor = UIColor(red: CGFloat(255.0), green: CGFloat(255.0), blue: CGFloat(255.0), alpha: CGFloat(1.0))
-    var txtPinkColor = ImageUtil.imageUtil.UIColorFromRGB(0xFF76A4)
+    var txtPinkColor = ImageUtil.UIColorFromRGB(0xFF76A4)
     
     func reloadDataToView() {
         self.uiCollectionView.reloadData()

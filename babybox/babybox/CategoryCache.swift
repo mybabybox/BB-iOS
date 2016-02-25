@@ -11,14 +11,14 @@ import Foundation
 
 class CategoryCache {
     
-    static var categories: [CategoryModel] = []
+    static var categories: [CategoryVM] = []
     
     init() {
     
     }
     
-    static func getCategoryById(catId: Int) -> CategoryModel {
-        var category: CategoryModel? = nil
+    static func getCategoryById(catId: Int) -> CategoryVM {
+        var category: CategoryVM? = nil
         for index in 0...CategoryCache.categories.count {
             if (Int(CategoryCache.categories[index].id) == catId) {
                 category = CategoryCache.categories[index]
@@ -28,7 +28,7 @@ class CategoryCache {
         return category!
     }
     
-    static func setCategories(cats: [CategoryModel]) {
+    static func setCategories(cats: [CategoryVM]) {
         CategoryCache.categories = cats
     }
 

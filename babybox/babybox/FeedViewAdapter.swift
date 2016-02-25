@@ -16,11 +16,11 @@ class FeedViewAdapter {
         self.collectionView = collectionView
     }
 
-    func bindViewCell(cell: FeedProductCollectionViewCell, feedItem: PostModel, index: Int) -> FeedProductCollectionViewCell {
+    func bindViewCell(cell: FeedProductCollectionViewCell, feedItem: PostVM, index: Int) -> FeedProductCollectionViewCell {
         return bindViewCell(cell, feedItem: feedItem, index: index, showOwner: false)
     }
     
-    func bindViewCell(cell: FeedProductCollectionViewCell, feedItem: PostModel, index: Int, showOwner: Bool) -> FeedProductCollectionViewCell {
+    func bindViewCell(cell: FeedProductCollectionViewCell, feedItem: PostVM, index: Int, showOwner: Bool) -> FeedProductCollectionViewCell {
         
         cell.title.text = feedItem.title
         
@@ -64,7 +64,7 @@ class FeedViewAdapter {
         return cell
     }
 
-    func onLikeBtnClick(cell: FeedProductCollectionViewCell, feedItem: PostModel) {
+    func onLikeBtnClick(cell: FeedProductCollectionViewCell, feedItem: PostVM) {
         if (feedItem.isLiked) {
             feedItem.isLiked = false
             feedItem.numLikes--

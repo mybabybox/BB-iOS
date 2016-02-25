@@ -36,7 +36,7 @@ class LoginViewController: BaseLoginViewController, UITextFieldDelegate {
         self.userNameTxt.delegate = self
         self.passwordTxt.delegate = self
         
-        let color = ImageUtil.imageUtil.UIColorFromRGB(0xFF76A4).CGColor
+        let color = ImageUtil.UIColorFromRGB(0xFF76A4).CGColor
         //self.loginButton.layer.cornerRadius = 5
         //self.loginButton.layer.borderWidth = 1
         self.loginButton.layer.borderColor = color

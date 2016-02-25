@@ -38,7 +38,7 @@ class ImageUtil {
     
     static var imageUtil: ImageUtil = ImageUtil()
     
-    func UIColorFromRGB(rgbValue: UInt) -> UIColor {
+    static func UIColorFromRGB(rgbValue: UInt) -> UIColor {
         
         return UIColor(
             red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
@@ -67,7 +67,7 @@ class ImageUtil {
     }*/
     
     func displayCornerView(view: UIButton) {
-        let color = UIColorFromRGB(0xFF76A4).CGColor
+        let color = ImageUtil.UIColorFromRGB(0xFF76A4).CGColor
         view.layer.cornerRadius = 5.0
         view.layer.masksToBounds = true
         view.layer.borderWidth = 1
@@ -75,7 +75,7 @@ class ImageUtil {
     }
     
     func displayCornerView(view: UIView) {
-        let color = UIColorFromRGB(0xFF76A4).CGColor
+        let color = ImageUtil.UIColorFromRGB(0xFF76A4).CGColor
         view.layer.cornerRadius = 5.0
         view.layer.masksToBounds = true
         view.layer.borderWidth = 1
@@ -184,6 +184,15 @@ class ImageUtil {
             optionsInfo: [.Transition(ImageTransition.Fade(IMAGE_DISPLAY_CROSS_FADE_DURATION))])
         view.layer.cornerRadius = 15
         view.layer.masksToBounds = true
+    }
+    
+    //Round Corner button
+    static func displayCornerButton(view: UIButton, colorCode: UInt) {
+        let color = UIColorFromRGB(colorCode).CGColor
+        view.layer.cornerRadius = 5.0
+        view.layer.masksToBounds = true
+        view.layer.borderWidth = 0
+        view.layer.backgroundColor = color
     }
     
 }

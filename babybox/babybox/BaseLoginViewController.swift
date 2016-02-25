@@ -55,7 +55,7 @@ class BaseLoginViewController: UIViewController, FBSDKLoginButtonDelegate {
         stopLoading()
     }
     
-    func handleUserInfo(userInfo: UserInfoVM) {
+    func handleUserInfo(userInfo: UserVM) {
         startLoading()
         
         self.isUserLoggedIn = true
@@ -100,7 +100,7 @@ class BaseLoginViewController: UIViewController, FBSDKLoginButtonDelegate {
                 self.finish()
                 self.handleUserLoginFailed("No user returned")
             } else {
-                let userInfo: UserInfoVM = result.object as! UserInfoVM
+                let userInfo: UserVM = result.object as! UserVM
                 self.handleUserInfo(userInfo)
             }
         }

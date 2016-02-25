@@ -1,39 +1,52 @@
 //
-//  User.swift
+//  UserVM.swift
 //  Baby Box
 //
-//  Created by Mac on 14/11/15.
+//  Created by Mac on 12/11/15.
 //  Copyright © 2015 MIndNerves. All rights reserved.
 //
-
-import Foundation
 import ObjectMapper
 
-class UserVM: BaseArgVM {
-
-    var displayName: String = ""
-    var id: Int = 0
-    var numFollowings: Int = 0
-    var numProducts: Int = 0
-    var numFollowers: Int = 0
-    var numStories: Int = 0
-    var numLikes: Int = 0
-    var numCollections: Int = 0
-    var isFollowing: Bool = false
-    var offset: Double = 0
+class UserVM: UserVMLite {
+    
+    var email: String = "";
+    var aboutMe: String = "";
+    var firstName: String = "";
+    var lastName: String = "";
+    var gender: String = "";
+    var birthYear: String = "";
+    var location: LocationVM = LocationVM();
+    var settings: SettingVM = SettingVM();
+    var createdDate: Double = 0;
+    var lastLogin: Double = 0;
+    var totalLogin: Double = 0;
+    var isLoggedIn: Bool = false;
+    var isFBLogin: Bool = false; //fbLogin
+    var emailValidated: Bool = false;
+    var newUser: Bool = false;
+    var isAdmin: Bool = false;
+    var isMobile: Bool = false;
     
     override func mapping(map: ObjectMapper.Map) {
         super.mapping(map)
         
-        displayName<-map["displayName"]
-        id<-map["id"]
-        numFollowings<-map["numFollowings"]
-        numProducts<-map["numProducts"]
-        numFollowers<-map["numFollowers"]
-        numStories<-map["numStories"]
-        numLikes<-map["numLikes"]
-        numCollections<-map["numCollections"]
-        isFollowing<-map["isFollowing"]
-        offset<-map["offset"]
+        email<-map["email"];
+        aboutMe<-map["aboutMe"];
+        firstName<-map["firstName"];
+        lastName<-map["lastName"];
+        gender<-map["gender"];
+        birthYear<-map["birthYear"];
+        //location<-map["LocationVM"];
+        //settings<-map["]SettingVM"];
+        createdDate<-map["createdDate"]
+        lastLogin<-map["lastLogin"];
+        totalLogin<-map["totalLogin"];
+        isLoggedIn<-map["isLoggedIn"];
+        isFBLogin<-map["fbLogin"];
+        emailValidated<-map["emailValidated"];
+        newUser<-map["newUser"];
+        isAdmin<-map["isAdmin"];
+        isMobile<-map["isMobile"];
+        
     }
 }

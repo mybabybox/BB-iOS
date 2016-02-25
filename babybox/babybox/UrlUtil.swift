@@ -38,11 +38,11 @@ class UrlUtil {
         return url
     }
     
-    static func createSellerUrl(user: UserVM) -> String {
+    static func createSellerUrl(user: UserVMLite) -> String {
         return String(format: SELLER_URL, user.id);
     }
     
-    static func createProductUrl(post: PostModel) -> String {
+    static func createProductUrl(post: PostVM) -> String {
         return String(format: PRODUCT_URL, post.id);
     }
     
@@ -54,7 +54,7 @@ class UrlUtil {
         return APPS_DOWNLOAD_URL;
     }
     
-    static func createShortSellerUrl(user: UserVM) -> String {
+    static func createShortSellerUrl(user: UserVMLite) -> String {
         let url = createSellerUrl(user);
         return "Shop" + ": " + stripHttpPrefix(url);
     }

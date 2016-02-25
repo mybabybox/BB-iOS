@@ -30,7 +30,7 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
     
     override func registerMoreEvents() {
         SwiftEventBus.onMainThread(self, name: "userByIdSuccess") { result in
-            self.setUserInfo(result.object as? UserInfoVM)
+            self.setUserInfo(result.object as? UserVM)
             //let userImg = self.navigationItem.leftBarButtonItems![0] as UIBarButtonItem
             //(userImg.customView as? UIButton)?.setTitle(self.userInfo?.displayName, forState: UIControlState.Normal)
             self.navigationItem.title = self.userInfo?.displayName
@@ -291,7 +291,7 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
         }
         
         segControl.setTitleTextAttributes(
-            [NSForegroundColorAttributeName: ImageUtil.imageUtil.UIColorFromRGB(0xFF76A4)],
+            [NSForegroundColorAttributeName: ImageUtil.UIColorFromRGB(0xFF76A4)],
             forState: UIControlState.Selected)
     }
     

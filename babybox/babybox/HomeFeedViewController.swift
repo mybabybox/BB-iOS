@@ -25,7 +25,7 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
     var lastContentOffset: CGFloat = 0
     var reuseIdentifier = "CellType1"
     
-    var categories : [CategoryModel] = []
+    var categories : [CategoryVM] = []
     
     func reloadDataToView() {
         self.uiCollectionView.reloadData()
@@ -65,7 +65,7 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
         }
         
         SwiftEventBus.onMainThread(self, name: "categoriesReceivedSuccess") { result in
-            let resultDto: [CategoryModel] = result.object as! [CategoryModel]
+            let resultDto: [CategoryVM] = result.object as! [CategoryVM]
             self.handleGetCategoriesSuccess(resultDto)
         }
         
@@ -207,7 +207,7 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
     }
     
     // MARK: Custom Implementation methods
-    func handleGetCategoriesSuccess(categories: [CategoryModel]) {
+    func handleGetCategoriesSuccess(categories: [CategoryVM]) {
         self.categories = categories
         CategoryCache.setCategories(self.categories)
         self.uiCollectionView.reloadData()

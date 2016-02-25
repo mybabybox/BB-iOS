@@ -58,15 +58,15 @@ class SharedPreferencesUtil {
         return ""
     }
     
-    func saveUserInfo(userInfo: UserInfoVM) {
+    func saveUserInfo(userInfo: UserVM) {
         //self.prefs.setObject(userInfo, forKey: User.USER_INFO.rawValue)
     }
     
-    func getUserInfo() -> UserInfoVM? {
-        var userInfo: UserInfoVM? = nil
+    func getUserInfo() -> UserVM? {
+        var userInfo: UserVM? = nil
         let _userInfo = self.prefs.objectForKey(User.USER_INFO.rawValue)
         if (_userInfo != nil) {
-            userInfo = _userInfo as? UserInfoVM
+            userInfo = _userInfo as? UserVM
         }
         return userInfo
     }

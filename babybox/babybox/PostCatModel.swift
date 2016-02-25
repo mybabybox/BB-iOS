@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import ObjectMapper
 
-class PostCatModel: PostModel {
+class PostCatModel: PostVM {
     
     
     var createdDate: Double = 0
