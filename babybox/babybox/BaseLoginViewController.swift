@@ -13,10 +13,6 @@ import FBSDKLoginKit
 import SwiftEventBus
 
 class BaseLoginViewController: UIViewController, FBSDKLoginButtonDelegate {
-        
-    var progressIndicator: UIActivityIndicatorView?
-    var loginButton: UIButton?
-    var fbButton: UIButton?
     
     var isUserLoggedIn = false
 
@@ -28,7 +24,9 @@ class BaseLoginViewController: UIViewController, FBSDKLoginButtonDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-    func handleSuccessLogin(sessionId: String) {
+    func handleUserLoginSuccess(sessionId: String) {
+        startLoading()
+        
         if !sessionId.isEmpty {
             SharedPreferencesUtil.getInstance().setUserSessionId(sessionId)
             UserInfoCache.refresh(sessionId)
@@ -39,37 +37,39 @@ class BaseLoginViewController: UIViewController, FBSDKLoginButtonDelegate {
             let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil);
             _errorDialog.addAction(okAction)
             self.presentViewController(_errorDialog, animated: true, completion: nil)
-            
-            startLoading()
         }
-    }
-    
-    func handleUserInfo(userInfo: UserInfoVM) {
-        stopLoading()
         
-        self.isUserLoggedIn = true
-        UserInfoCache.setUser(userInfo)
-        SwiftEventBus.unregister(self)
-        self.performSegueWithIdentifier("clickToLogin", sender: nil)
+        stopLoading()
     }
     
     func handleUserLoginFailed(resultDto: String) {
-        stopLoading()
+        startLoading()
         
         self.isUserLoggedIn = false
         let _errorDialog = UIAlertController(title: "Error Message", message: resultDto, preferredStyle: UIAlertControllerStyle.Alert)
         let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil);
         _errorDialog.addAction(okAction)
         self.presentViewController(_errorDialog, animated: true, completion: nil)
-        self.loginButton?.enabled = true
-        self.loginButton?.alpha = 1.0
         //self.performSegueWithIdentifier("clickToLogin", sender: nil)
+        
+        stopLoading()
+    }
+    
+    func handleUserInfo(userInfo: UserInfoVM) {
+        startLoading()
+        
+        self.isUserLoggedIn = true
+        UserInfoCache.setUser(userInfo)
+        SwiftEventBus.unregister(self)
+        self.performSegueWithIdentifier("clickToLogin", sender: nil)
+        
+        stopLoading()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationController?.interactivePopGestureRecognizer?.enabled = false
+        stopLoading()
         
         self.isUserLoggedIn = false
         
@@ -78,7 +78,7 @@ class BaseLoginViewController: UIViewController, FBSDKLoginButtonDelegate {
                 self.finish()
             } else {
                 let response: String = result.object as! String
-                self.handleSuccessLogin(response)
+                self.handleUserLoginSuccess(response)
             }
         }
         
@@ -104,39 +104,15 @@ class BaseLoginViewController: UIViewController, FBSDKLoginButtonDelegate {
                 self.handleUserInfo(userInfo)
             }
         }
+
+        // prepare fb login button
+        let fbLoginButton = FBSDKLoginButton()
+        self.view.addSubview(fbLoginButton)
         
-        //fbLogin(self.fbLoginSuccess, failureBlock: logError)
-        
-        
-        if(FBSDKAccessToken.currentAccessToken() == nil) {
-            
-            let loginButton = FBSDKLoginButton()
-            self.view.addSubview(loginButton)
-            
-            loginButton.center=self.view.center
-            loginButton.center.y = loginButton.center.y + 150
-            loginButton.readPermissions=["public_profile","email","user_friends"]
-            loginButton.delegate = self
-            self.stopLoading()
-            
-            let uImageView = UIImageView()
-            uImageView.image = UIImage(named: "login_user")
-            uImageView.frame = CGRect(x: 0, y: 0, width: 25, height: 25)
-            self.view.addSubview(uImageView)
-            
-        } else {
-            
-            //self.progressIndicator.hidden = true
-            //progressIndicator.stopAnimating()
-            ApiController.instance.loginByFacebook(FBSDKAccessToken.currentAccessToken().tokenString);
-            
-            /*let pImageView = UIImageView()
-            pImageView.image = UIImage(named: "login_lock")
-            passwordTxt.leftViewMode = UITextFieldViewMode.Always
-            passwordTxt.leftView = pImageView;
-            pImageView.frame = CGRect(x: 0, y: 0, width: 25, height: 25)
-            self.view.addSubview(pImageView)*/
-        }
+        fbLoginButton.center = self.view.center
+        fbLoginButton.center.y += 150
+        fbLoginButton.readPermissions = facebookReadPermissions
+        fbLoginButton.delegate = self
     }
     
     func finish() {
@@ -231,19 +207,11 @@ class BaseLoginViewController: UIViewController, FBSDKLoginButtonDelegate {
     }
     
     func startLoading() {
-        ViewUtil.showActivityLoading(self.progressIndicator)
-        self.loginButton?.enabled = false
-        self.loginButton?.alpha = 0.75
-        self.fbButton?.enabled = false
-        self.fbButton?.alpha = 0.75
+        // to be implemented in subclass
     }
     
     func stopLoading() {
-        ViewUtil.hideActivityLoading(self.progressIndicator)
-        self.loginButton?.enabled = true
-        self.loginButton?.alpha = 1.0
-        self.fbButton?.enabled = true
-        self.fbButton?.alpha = 1.0
+        // to be implemented in subclass
     }
 }
 

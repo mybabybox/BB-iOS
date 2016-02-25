@@ -11,89 +11,15 @@ import FBSDKCoreKit
 import FBSDKLoginKit
 import SwiftEventBus
 
-class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFieldDelegate {
+class LoginViewController: BaseLoginViewController, UITextFieldDelegate {
+    
+    @IBOutlet weak var progressIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var loginButton: UIButton!
+    @IBOutlet weak var userNameTxt: UITextField!
+    @IBOutlet weak var passwordTxt: UITextField!
     
     @IBAction func onBackButton(sender: AnyObject) {
         navigationController?.popViewControllerAnimated(true)
-    }
-    
-    @IBOutlet weak var progressIndicator: UIActivityIndicatorView!
-    @IBOutlet weak var signInButton: UIButton!
-    @IBOutlet weak var passwordTxt: UITextField!
-    @IBOutlet weak var userNameTxt: UITextField!
-    
-    var isUserLoggedIn = false
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    override func shouldPerformSegueWithIdentifier(identifier: String?, sender: AnyObject?) -> Bool {
-        if identifier == "clickToLogin" {
-            self.signInButton.enabled = false
-            self.signInButton.alpha = 0.75
-            if (userNameTxt.text!.isEmpty || passwordTxt.text!.isEmpty) {
-                let _errorDialog = UIAlertController(title: "Warning Message", message: "Please Enter UserName & Password", preferredStyle: UIAlertControllerStyle.Alert)
-                let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil);
-                _errorDialog.addAction(okAction)
-                self.presentViewController(_errorDialog, animated: true, completion: nil)
-                self.signInButton.enabled = true
-                self.signInButton.alpha = 1.0
-                return false;
-            }
-            self.progressIndicator.hidden = false
-            self.progressIndicator.startAnimating()
-            ApiController.instance.loginByEmail(self.userNameTxt.text!, password: self.passwordTxt.text!);
-            return false
-        } else if (identifier == "gotoforgotpassword") {
-            return true
-        } else if (identifier == "showSignupView") {
-            self.navigationController?.navigationBar.hidden = false
-            return true
-        }
-        
-        return self.isUserLoggedIn
-        
-    }
-    
-    func handleUserLogin(sessionId: String) {
-        if !sessionId.isEmpty {
-            UserInfoCache.refresh(sessionId)
-        } else {
-            //authentication failed.. show error message...
-            let _errorDialog = UIAlertController(title: "Error Message", message: "Invalid UserName or Password", preferredStyle: UIAlertControllerStyle.Alert)
-            let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil);
-            _errorDialog.addAction(okAction)
-            self.presentViewController(_errorDialog, animated: true, completion: nil)
-            self.progressIndicator.hidden = true
-            self.progressIndicator.stopAnimating()
-            self.signInButton.enabled = true
-            self.signInButton.alpha = 1.0
-        }
-    }
-    
-    func handleUserInfo(userInfo: UserInfoVM) {
-        self.isUserLoggedIn = true
-        self.progressIndicator.hidden = true
-        self.progressIndicator.stopAnimating()
-        UserInfoCache.setUser(userInfo)
-        SwiftEventBus.unregister(self)
-        self.performSegueWithIdentifier("clickToLogin", sender: nil)
-    }
-    
-    func handleUserLoginFailed(resultDto: String) {
-        self.isUserLoggedIn = false
-        self.progressIndicator.hidden = true
-        progressIndicator.stopAnimating()
-        
-        let _errorDialog = UIAlertController(title: "Error Message", message: resultDto, preferredStyle: UIAlertControllerStyle.Alert)
-        let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil);
-        _errorDialog.addAction(okAction)
-        self.presentViewController(_errorDialog, animated: true, completion: nil)
-        self.signInButton.enabled = true
-        self.signInButton.alpha = 1.0
-        //self.performSegueWithIdentifier("clickToLogin", sender: nil)
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -104,24 +30,17 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFie
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //self.signInButton.enabled = true
-        //self.signInButton.alpha = 1.0
-        self.showLoading()
         self.navigationController?.toolbar.hidden = true
-        //self.navigationController?.navigationBar.hidden = true
         self.navigationController?.interactivePopGestureRecognizer?.enabled = false
-        
+
         self.userNameTxt.delegate = self
         self.passwordTxt.delegate = self
         
-        self.isUserLoggedIn = false
-        //self.progressIndicator.hidden = true
-        
         let color = ImageUtil.imageUtil.UIColorFromRGB(0xFF76A4).CGColor
-        //self.signInButton.layer.cornerRadius = 5
-        ImageUtil.displayButtonRoundBorder(self.signInButton)
-        //self.signInButton.layer.borderWidth = 1
-        self.signInButton.layer.borderColor = color
+        //self.loginButton.layer.cornerRadius = 5
+        //self.loginButton.layer.borderWidth = 1
+        self.loginButton.layer.borderColor = color
+        ImageUtil.displayButtonRoundBorder(self.loginButton)
         
         // Do any additional setup after loading the view, typically from a nib.
         
@@ -130,115 +49,41 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFie
         self.userNameTxt.layer.borderColor = UIColor.whiteColor().CGColor
         self.passwordTxt.layer.borderColor = UIColor.whiteColor().CGColor
         
-        SwiftEventBus.onMainThread(self, name: "loginReceivedSuccess") { result in
-            // UI thread
-            let resultDto: String = result.object as! String
-            self.handleUserLogin(resultDto)
-        }
-        
-        SwiftEventBus.onMainThread(self, name: "loginReceivedFailed") { result in
-            // UI thread
-            var resultDto = ""
-            if result == nil {
-                resultDto = "Error Authenticating User"
-            } else if result.object is NSString {
-                resultDto = result.object as! String
-            } else {
-                resultDto = "Connection Failure"
+        /*
+        let uImageView = UIImageView()
+        uImageView.image = UIImage(named: "login_user")
+        uImageView.frame = CGRect(x: 0, y: 0, width: 25, height: 25)
+        self.userNameTxt.addSubview(uImageView)
+        */
+    }
+    
+    override func shouldPerformSegueWithIdentifier(identifier: String?, sender: AnyObject?) -> Bool {
+        if identifier == "clickToLogin" {
+            if (userNameTxt.text!.isEmpty || passwordTxt.text!.isEmpty) {
+                let _errorDialog = UIAlertController(title: "Warning Message", message: "Please Enter UserName & Password", preferredStyle: UIAlertControllerStyle.Alert)
+                let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil);
+                _errorDialog.addAction(okAction)
+                self.presentViewController(_errorDialog, animated: true, completion: nil)
+                return false;
             }
             
-            self.handleUserLoginFailed(resultDto)
+            startLoading()
+            ApiController.instance.loginByEmail(self.userNameTxt.text!, password: self.passwordTxt.text!);
+            return false
+        } else if (identifier == "gotoforgotpassword") {
+            return true
+        } else if (identifier == "showSignupView") {
+            self.navigationController?.navigationBar.hidden = false
+            return true
         }
         
-        SwiftEventBus.onMainThread(self, name: "userInfoSuccess") { result in
-            if ViewUtil.isEmptyResult(result) {
-                ViewUtil.makeToast("Cannot find user. Please login again.", view: self.view)
-                AppDelegate.getInstance().logout()
-            } else {
-                let userInfo: UserInfoVM = result.object as! UserInfoVM
-                self.handleUserInfo(userInfo)
-            }
-        }
-        
-        //NSLog(FBSDKAccessToken.currentAccessToken())
-        if(FBSDKAccessToken.currentAccessToken() == nil) {
-            
-            let loginButton=FBSDKLoginButton()
-            self.view.addSubview(loginButton)
-            
-            loginButton.center=self.view.center
-            loginButton.center.y = signInButton.center.y + 150
-            loginButton.readPermissions=["public_profile","email","user_friends"]
-            loginButton.delegate=self
-            self.stopLoading()
-            
-            let uImageView = UIImageView()
-            uImageView.image = UIImage(named: "login_user")
-            userNameTxt.leftViewMode = UITextFieldViewMode.Always
-            userNameTxt.leftView = uImageView;
-            uImageView.frame = CGRect(x: 0, y: 0, width: 25, height: 25)
-            self.view.addSubview(uImageView)
-            
-        } else {
-            
-            //self.progressIndicator.hidden = true
-            //progressIndicator.stopAnimating()
-            ApiController.instance.loginByFacebook(FBSDKAccessToken.currentAccessToken().tokenString);
-            
-            /*let pImageView = UIImageView()
-            pImageView.image = UIImage(named: "login_lock")
-            passwordTxt.leftViewMode = UITextFieldViewMode.Always
-            passwordTxt.leftView = pImageView;
-            pImageView.frame = CGRect(x: 0, y: 0, width: 25, height: 25)
-            self.view.addSubview(pImageView)*/
-        }
+        return self.isUserLoggedIn        
     }
-    
-    func showLoading() {
-        self.progressIndicator.hidden = false
-        self.progressIndicator.startAnimating()
-        self.signInButton.enabled = false
-        self.signInButton.alpha = 0.75
-    }
-    
-    func stopLoading() {
-        self.progressIndicator.hidden = true
-        self.progressIndicator.stopAnimating()
-        self.signInButton.enabled = true
-        self.signInButton.alpha = 1.0
-    }
-    
-    func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
-        
-        if (error == nil) {
-            self.showLoading()
-            self.isUserLoggedIn = true
-            if (!result.isCancelled) {
-                constants.sessionId = result.token.tokenString
-                ApiController.instance.loginByFacebook(result.token.tokenString)
-            }
-            //make API call to authenticate facebook user on server.
-            
-            //self.performSegueWithIdentifier("clickToLogin", sender: self)
-        } else {
-            NSLog(error.localizedDescription)
-        }
-    }
-    
-    func loginButtonDidLogOut(loginButton: FBSDKLoginButton!) {
-        NSLog("User Logged out")
-    }
-    
+
     func textFieldShouldReturn(textField: UITextField) -> Bool { // called when 'return' key pressed. return NO to ignore.
         textField.resignFirstResponder()
         return true;
     }
-    
-    /*
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
-        return false
-    }
-    */
     
     @IBAction func onForgetPasswordClick(sender: AnyObject) {
         NSLog("Forget pasword click");
@@ -248,7 +93,20 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFie
          NSLog("Sign up click");
     }
     
+    override func startLoading() {
+        ViewUtil.showActivityLoading(self.progressIndicator)
+        self.loginButton.enabled = false
+        self.loginButton.alpha = 0.75
+        //self.fbButton.enabled = false
+        //self.fbButton.alpha = 0.75
+    }
     
-    
+    override func stopLoading() {
+        ViewUtil.hideActivityLoading(self.progressIndicator)
+        self.loginButton.enabled = true
+        self.loginButton.alpha = 1.0
+        //self.fbButton.enabled = true
+        //self.fbButton.alpha = 1.0
+    }
 }
 

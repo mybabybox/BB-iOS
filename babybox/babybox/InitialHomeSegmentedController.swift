@@ -14,14 +14,16 @@ class InitialHomeSegmentedController: CustomNavigationController {
 
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var segController: UISegmentedControl!
+    
     var bottomLayer: CALayer? = nil
-    var exploreController : UIViewController?
-    var followingController : UIViewController?
+    var exploreController : UIViewController? = nil
+    var followingController : UIViewController? = nil
     var activeSegment: Int = 0
     var shapeLayer = CAShapeLayer()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         let normalTextAttributes: [NSObject : AnyObject] = [
             NSForegroundColorAttributeName: UIColor.grayColor(),
             NSFontAttributeName: UIFont.systemFontOfSize(12.0)
@@ -35,16 +37,13 @@ class InitialHomeSegmentedController: CustomNavigationController {
         UISegmentedControl.appearance().setTitleTextAttributes(normalTextAttributes, forState: .Normal)
         UISegmentedControl.appearance().setTitleTextAttributes(activeTextAttributes, forState: .Selected)
         
-        self.exploreController = self.storyboard!.instantiateViewControllerWithIdentifier("HomeFeedViewController") as! HomeFeedViewController
-        
-        self.followingController = self.storyboard!.instantiateViewControllerWithIdentifier("FollowingFeedViewController") as! FollowingFeedViewController
+        // select home segment
+        segController.selectedSegmentIndex = 0
         
         self.segController.backgroundColor = UIColor.whiteColor()
         self.segController.selectedSegmentIndex = self.activeSegment
         self.segAction(self.segController)
         self.navigationItem.hidesBackButton = true
-        
-        
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -66,9 +65,12 @@ class InitialHomeSegmentedController: CustomNavigationController {
         // Dispose of any resources that can be recreated.
     }
     
-    
     @IBAction func segAction(sender: AnyObject) {
-        if(self.segController.selectedSegmentIndex == 0){
+        if (self.segController.selectedSegmentIndex == 0) {
+            // init HomeFeedViewController
+            if self.exploreController == nil {
+                self.exploreController = self.storyboard!.instantiateViewControllerWithIdentifier("HomeFeedViewController") as! HomeFeedViewController
+            }
             
             let y = CGFloat(self.segController.frame.size.height)
             let start: CGPoint = CGPoint(x: 0, y: y)
@@ -85,8 +87,12 @@ class InitialHomeSegmentedController: CustomNavigationController {
             self.exploreController!.view.frame = self.containerView.bounds
             self.containerView.addSubview((self.exploreController?.view)!)
             self.exploreController?.didMoveToParentViewController(self)
+        } else if(self.segController.selectedSegmentIndex == 1) {
+            // init FollowingFeedViewController
+            if self.followingController == nil {
+                self.followingController = self.storyboard!.instantiateViewControllerWithIdentifier("FollowingFeedViewController") as! FollowingFeedViewController
+            }
             
-        } else if(self.segController.selectedSegmentIndex == 1){
             let y = CGFloat(self.segController.frame.size.height)
             let start: CGPoint = CGPoint(x: self.segController.frame.size.width / 2 , y: y)
             let end: CGPoint = CGPoint(x: self.segController.frame.size.width, y: y)

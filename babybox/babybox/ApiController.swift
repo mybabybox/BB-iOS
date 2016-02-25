@@ -216,7 +216,7 @@ class ApiController {
         callEvent.resultClass = "String"
         callEvent.successEventbusName = "logoutSuccess"
         callEvent.failedEventbusName = "logoutFailed"
-        callEvent.apiUrl = constants.kBaseServerURL
+        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
         self.makeApiCall(callEvent)
     }
     
