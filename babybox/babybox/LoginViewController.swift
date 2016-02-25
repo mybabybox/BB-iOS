@@ -151,10 +151,14 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFie
         }
         
         SwiftEventBus.onMainThread(self, name: "userInfoSuccess") { result in
-            let resultDto: UserInfoVM = result.object as! UserInfoVM
-            self.handleUserInfo(resultDto)
+            if ViewUtil.isEmptyResult(result) {
+                ViewUtil.makeToast("Cannot find user. Please login again.", view: self.view)
+                AppDelegate.getInstance().logout()
+            } else {
+                let userInfo: UserInfoVM = result.object as! UserInfoVM
+                self.handleUserInfo(userInfo)
+            }
         }
-        
         
         //NSLog(FBSDKAccessToken.currentAccessToken())
         if(FBSDKAccessToken.currentAccessToken() == nil) {

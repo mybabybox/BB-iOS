@@ -13,8 +13,8 @@ struct constants {
     
     static let APP_NAME = "BabyBox"
     
-    static let kBaseServerURL = "http://localhost:9000"
-    static let imagesBaseURL = "http://localhost:9000"
+    static let kBaseServerURL = "http://baby-box.hk"
+    static let imagesBaseURL = "http://baby-box.hk"
     
     static let currencySymbol = "$"
     static var sessionId = ""

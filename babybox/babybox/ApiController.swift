@@ -179,7 +179,7 @@ class ApiController {
     
     func loginByEmail(userName: String, password: String) -> Bool {
         
-        let url = constants.kBaseServerURL + "/api/login/mobile?email=\(userName)&password=\(password)"
+        let url = constants.kBaseServerURL + "/login/mobile?email=\(userName)&password=\(password)"
         
         let callEvent = ApiCallEvent()
         callEvent.method = "/login/mobile"
@@ -529,7 +529,7 @@ class ApiController {
         NSLog("makeApiCall")
         
         let request: NSMutableURLRequest = NSMutableURLRequest()
-        let url = arg.apiUrl + "?key=\(constants.sessionId)"
+        let url = arg.apiUrl + "?key=\(StringUtil.encode(constants.sessionId))"
         
         request.URL = NSURL(string: url)
         request.HTTPMethod = "GET"

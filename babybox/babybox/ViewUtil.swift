@@ -55,7 +55,7 @@ class ViewUtil {
         navigationItem.backBarButtonItem = backbtn
     }
     
-    static func showActivityIndicatory(uiView: UIView, actInd: UIActivityIndicatorView) {
+    static func showActivityIndicator(uiView: UIView, actInd: UIActivityIndicatorView) {
         let container: UIView = UIView()
         container.frame = uiView.frame
         container.center = uiView.center
