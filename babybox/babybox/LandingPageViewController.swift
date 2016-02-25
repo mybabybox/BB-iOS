@@ -91,6 +91,8 @@ class LandingPageViewController: UIViewController, UITableViewDelegate, UITableV
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("hcell", forIndexPath: indexPath) as! ImageCollectionViewCell
         let imageView = cell.imageView
         imageView.image = self.images[indexPath.row]
+        cell.pageControl.numberOfPages = self.images.count
+        cell.pageControl.currentPage = indexPath.row
         return cell
     }
     

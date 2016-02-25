@@ -22,7 +22,6 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
     var lcontentSize = CGFloat(0.0)
     var productModel: PostModel = PostModel()
     var myDate: NSDate = NSDate()
-    //var conversations: [ConversationVM] = []
     
     var likeFlag: Bool = false
     
@@ -411,6 +410,8 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("hcell", forIndexPath: indexPath) as! ImageCollectionViewCell
         let imageView = cell.imageView
+        cell.pageControl.numberOfPages = self.productModel.images.count
+        cell.pageControl.currentPage = indexPath.row
         ImageUtil.displayOriginalPostImage(Int(self.images[indexPath.row])!, imageView: imageView)
         return cell
     }

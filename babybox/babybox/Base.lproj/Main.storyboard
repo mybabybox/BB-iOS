@@ -1214,17 +1214,25 @@ CEVudGVyIFBhc3N3b3JkA
                                                                     <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="SDB-sN-OHF">
                                                                         <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
                                                                     </imageView>
+                                                                    <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="Tqt-IA-COH">
+                                                                        <rect key="frame" x="130" y="258" width="39" height="37"/>
+                                                                        <color key="pageIndicatorTintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                                        <color key="currentPageIndicatorTintColor" red="1" green="0.50665376529999995" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                                    </pageControl>
                                                                 </subviews>
                                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                             </view>
                                                             <constraints>
+                                                                <constraint firstItem="Tqt-IA-COH" firstAttribute="centerX" secondItem="3pY-qe-jjb" secondAttribute="centerX" id="VSr-Dd-HB6"/>
                                                                 <constraint firstAttribute="trailing" secondItem="SDB-sN-OHF" secondAttribute="trailing" id="cCu-K4-bvm"/>
                                                                 <constraint firstItem="SDB-sN-OHF" firstAttribute="leading" secondItem="3pY-qe-jjb" secondAttribute="leading" id="h1g-ZN-ys7"/>
                                                                 <constraint firstItem="SDB-sN-OHF" firstAttribute="top" secondItem="3pY-qe-jjb" secondAttribute="top" id="jSk-S6-f8h"/>
                                                                 <constraint firstAttribute="bottom" secondItem="SDB-sN-OHF" secondAttribute="bottom" id="quE-cX-qfx"/>
+                                                                <constraint firstAttribute="bottom" secondItem="Tqt-IA-COH" secondAttribute="bottom" constant="5" id="zih-ZF-cB9"/>
                                                             </constraints>
                                                             <connections>
                                                                 <outlet property="imageView" destination="SDB-sN-OHF" id="yKJ-6H-x9J"/>
+                                                                <outlet property="pageControl" destination="Tqt-IA-COH" id="I3s-KR-ti2"/>
                                                             </connections>
                                                         </collectionViewCell>
                                                     </cells>
@@ -2726,17 +2734,25 @@ CEVudGVyIFBhc3N3b3JkA
                                                                     <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="4nh-z5-o1K">
                                                                         <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
                                                                     </imageView>
+                                                                    <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="Gq3-om-Yiu">
+                                                                        <rect key="frame" x="130" y="258" width="39" height="37"/>
+                                                                        <color key="pageIndicatorTintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                                        <color key="currentPageIndicatorTintColor" red="1" green="0.50665376529999995" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                                    </pageControl>
                                                                 </subviews>
                                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                             </view>
                                                             <constraints>
                                                                 <constraint firstAttribute="trailing" secondItem="4nh-z5-o1K" secondAttribute="trailing" id="2vF-2C-rrs"/>
+                                                                <constraint firstItem="Gq3-om-Yiu" firstAttribute="centerX" secondItem="xi2-KM-nDF" secondAttribute="centerX" id="Cop-nV-UMS"/>
                                                                 <constraint firstItem="4nh-z5-o1K" firstAttribute="leading" secondItem="xi2-KM-nDF" secondAttribute="leading" id="L29-vc-hQ5"/>
+                                                                <constraint firstAttribute="bottom" secondItem="Gq3-om-Yiu" secondAttribute="bottom" constant="5" id="RKY-Cz-t9L"/>
                                                                 <constraint firstItem="4nh-z5-o1K" firstAttribute="top" secondItem="xi2-KM-nDF" secondAttribute="top" id="V03-Xd-UeJ"/>
                                                                 <constraint firstAttribute="bottom" secondItem="4nh-z5-o1K" secondAttribute="bottom" id="ha0-4d-PAW"/>
                                                             </constraints>
                                                             <connections>
                                                                 <outlet property="imageView" destination="4nh-z5-o1K" id="5hB-Fb-nPl"/>
+                                                                <outlet property="pageControl" destination="Gq3-om-Yiu" id="rS3-C6-lXr"/>
                                                             </connections>
                                                         </collectionViewCell>
                                                     </cells>
@@ -4263,7 +4279,7 @@ CEVudGVyIFBhc3N3b3JkA
         <segue reference="xlr-H1-EYH"/>
         <segue reference="UfZ-y4-j3J"/>
         <segue reference="ac7-3L-0vi"/>
-        <segue reference="QmE-57-6W9"/>
+        <segue reference="f1D-EY-plH"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>
