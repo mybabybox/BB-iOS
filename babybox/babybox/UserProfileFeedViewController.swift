@@ -358,12 +358,12 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
         let cell = view.superview?.superview as! UserFeedHeaderViewCell
         
         if (self.userInfo!.isFollowing) {
-            ApiController.instance.unfollowUser((UserInfoCache.getUser().id))
+            ApiController.instance.unfollowUser((self.userInfo!.id))
             self.userInfo!.isFollowing = false
             cell.editProfile.setTitle("Follow", forState: UIControlState.Normal)
             ImageUtil.displayCornerButton(cell.editProfile, colorCode: 0xFF76A4)
         } else {
-            ApiController.instance.followUser(UserInfoCache.getUser().id)
+            ApiController.instance.followUser(self.userInfo!.id)
             self.userInfo!.isFollowing = true
             cell.editProfile.setTitle("Following", forState: UIControlState.Normal)
             ImageUtil.displayCornerButton(cell.editProfile, colorCode: 0xAAAAAA)

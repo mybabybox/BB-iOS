@@ -25,14 +25,17 @@ class FollowersFollowingViewController: UICollectionViewController {
         let view = button.superview!
         let cell = view.superview! as! FollowingCollectionViewCell
         
+        let indexPath = self.collectionView?.indexPathForCell(cell)
+        let item = followersFollowings[indexPath!.row]
+        
         if (self.followersFollowings[self.currentIndex].isFollowing) {
-            ApiController.instance.unfollowUser((UserInfoCache.getUser().id))
+            ApiController.instance.unfollowUser(item.id)
             self.followersFollowings[self.currentIndex].isFollowing = false
             cell.followingsBtn.setTitle("Follow", forState: UIControlState.Normal)
             ImageUtil.displayCornerButton(cell.followingsBtn, colorCode: 0xFF76A4)
             
         } else {
-            ApiController.instance.followUser(UserInfoCache.getUser().id)
+            ApiController.instance.followUser(item.id)
             self.followersFollowings[self.currentIndex].isFollowing = true
             cell.followingsBtn.setTitle("Following", forState: UIControlState.Normal)
             ImageUtil.displayCornerButton(cell.followingsBtn, colorCode: 0xAAAAAA)
