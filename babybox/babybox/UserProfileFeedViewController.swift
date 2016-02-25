@@ -136,6 +136,14 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
                 } else {
                     cell.followingBtn.setTitle("Following", forState: UIControlState.Normal)
                 }
+                
+                if (self.userInfo!.isFollowing) {
+                    cell.editProfile.setTitle("Following", forState: UIControlState.Normal)
+                    ImageUtil.displayCornerButton(cell.editProfile, colorCode: 0xAAAAAA)
+                } else {
+                    cell.editProfile.setTitle("Follow", forState: UIControlState.Normal)
+                    ImageUtil.displayCornerButton(cell.editProfile, colorCode: 0xFF76A4)
+                }
             }
             
             return cell
@@ -342,5 +350,24 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
         shapeLayer.allowsGroupOpacity = false
         shapeLayer.autoreverses = false
         self.uiCollectionView.layer.addSublayer(shapeLayer)
+    }
+    
+    @IBAction func onClickFollowUnfollow(sender: AnyObject) {
+        let button = sender as! UIButton
+        let view = button.superview!
+        let cell = view.superview?.superview as! UserFeedHeaderViewCell
+        
+        if (self.userInfo!.isFollowing) {
+            ApiController.instance.unfollowUser((UserInfoCache.getUser().id))
+            self.userInfo!.isFollowing = false
+            cell.editProfile.setTitle("Follow", forState: UIControlState.Normal)
+            ImageUtil.displayCornerButton(cell.editProfile, colorCode: 0xFF76A4)
+        } else {
+            ApiController.instance.followUser(UserInfoCache.getUser().id)
+            self.userInfo!.isFollowing = true
+            cell.editProfile.setTitle("Following", forState: UIControlState.Normal)
+            ImageUtil.displayCornerButton(cell.editProfile, colorCode: 0xAAAAAA)
+        }
+        
     }
 }
