@@ -158,8 +158,8 @@ class ApiController {
         //callEvent.successEventbusName = ""
         //callEvent.failedEventbusName = ""
         
-        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
-        
+        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method + "?key=\(StringUtil.encode(constants.sessionId))"
+    
         self.makePostApiCall(callEvent)
     }
 
@@ -324,7 +324,7 @@ class ApiController {
         callEvent.body = parameter
         callEvent.successEventbusName = "saveSignInfoSuccess"
         callEvent.failedEventbusName = "saveSignInfoFailed"
-        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
+        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method + "?key=\(StringUtil.encode(constants.sessionId))"
         
         self.makePostApiCall(callEvent)
     }
@@ -336,10 +336,10 @@ class ApiController {
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
         callEvent.successEventbusName = "profileImgUploadSuccess"
         callEvent.failedEventbusName = "profileImgUploadFailed"
-        
+        let url = callEvent.apiUrl + "?key=\(StringUtil.encode(constants.sessionId))"
         Alamofire.upload(
             .POST,
-            callEvent.apiUrl,
+            url,
             multipartFormData: { multipartFormData in
                 multipartFormData.appendBodyPart(data: UIImagePNGRepresentation(profileImg)!, name: "profile-photo", fileName: "upload.jpg", mimeType:"*")
             },
@@ -451,10 +451,10 @@ class ApiController {
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
         callEvent.successEventbusName = "productSavedSuccess"
         callEvent.failedEventbusName = "productSavedFailed"
-        
+        let url = callEvent.apiUrl + "?key=\(StringUtil.encode(constants.sessionId))"
         Alamofire.upload(
             .POST,
-            callEvent.apiUrl,
+            url,
             multipartFormData: { multipartFormData in
                 var index = 0
                 
@@ -503,10 +503,10 @@ class ApiController {
         //callEvent.successEventbusName = "postMessageSuccess"
         //callEvent.failedEventbusName = "postMessageFailed"
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
-        
+        let url = callEvent.apiUrl + "?key=\(StringUtil.encode(constants.sessionId))"
         Alamofire.upload(
             .POST,
-            callEvent.apiUrl,
+            url,
             multipartFormData: { multipartFormData in
                 //multipartFormData.appendBodyPart(data: UIImagePNGRepresentation(imageData)!, name: "image", fileName: "upload.jpg", mimeType:"jpg")
                 multipartFormData.appendBodyPart(data: id.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!, name :"conversationId")
@@ -558,7 +558,6 @@ class ApiController {
         if (arg.body != "") {
             request.HTTPBody = arg.body.dataUsingEncoding(NSUTF8StringEncoding)
         }
-        
         NSLog("sending string %@", arg.apiUrl)
         
         let session = NSURLSession.sharedSession()
@@ -573,18 +572,9 @@ class ApiController {
         })
         task.resume()
     }
-
-    /*func handleResult(data: NSData, arg: ResponseVM) {
-        let _: AutoreleasingUnsafeMutablePointer<NSError?> = nil
-        let responseString: String = NSString(data: data, encoding: NSUTF8StringEncoding) as! String
-        //NSLog("responseString %@", responseString)
-        let result: AnyObject = self.parseStr(arg.resultClass, inputStr: responseString as String)
-        SwiftEventBus.post("getUserLoggedIn", sender: result)
-    }*/
     
     func handleResult(data: NSData, arg: ApiCallEvent) -> AnyObject {
         let responseString: String = NSString(data: data, encoding: NSUTF8StringEncoding) as! String
-        //NSLog("responseString %@", responseString)
         if (responseString == "") {
             return ""
         }
