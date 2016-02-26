@@ -149,7 +149,7 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
             //self.uiCollectionView.delegate = nil
             let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("FeedProductViewController") as! FeedProductViewController
             let feedItem = self.getFeedItems()[indexPath.row]
-            vController.postVM = feedItem
+            vController.feedItem = feedItem
             self.tabBarController!.tabBar.hidden = true
             self.navigationController?.pushViewController(vController, animated: true)
         }

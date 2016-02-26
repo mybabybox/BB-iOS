@@ -90,7 +90,7 @@ class ApiController {
         
     }
     
-    func likePost(id: String) {
+    func likePost(id: Int) {
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/like-post/\(id)"
         callEvent.resultClass = "String"
@@ -101,7 +101,7 @@ class ApiController {
         self.makeApiCall(callEvent)
     }
     
-    func unlikePost(id: String) {
+    func unlikePost(id: Int) {
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/unlike-post/\(id)"
         callEvent.resultClass = "String"
@@ -112,7 +112,7 @@ class ApiController {
         self.makeApiCall(callEvent)
     }
     
-    func getProductDetails(id: String) {
+    func getProductDetails(id: Int) {
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/get-post/\(id)"
         callEvent.resultClass = "PostCatVM"
@@ -145,7 +145,7 @@ class ApiController {
         self.makeApiCall(callEvent)
     }
     
-    func postComment(id: String, comment: String){
+    func postComment(id: Int, comment: String){
         var strData = [String]()
         strData.append("postId=\(id)")
         strData.append("body=\(comment)")
@@ -157,9 +157,7 @@ class ApiController {
         callEvent.body = parameter
         //callEvent.successEventbusName = ""
         //callEvent.failedEventbusName = ""
-        
-        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method + "?key=\(StringUtil.encode(constants.sessionId))"
-    
+        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
         self.makePostApiCall(callEvent)
     }
 
@@ -172,7 +170,7 @@ class ApiController {
         callEvent.failedEventbusName = "loginReceivedFailed"
         callEvent.apiUrl = url
         
-        makePostApiCall(callEvent)
+        makePostApiCall(callEvent, appendSessionId: false)
         
         return true
     }
@@ -188,7 +186,7 @@ class ApiController {
         callEvent.failedEventbusName = "loginReceivedFailed"
         callEvent.apiUrl = url
         
-        makePostApiCall(callEvent)
+        makePostApiCall(callEvent, appendSessionId: false)
         
         return true
     }
@@ -324,7 +322,7 @@ class ApiController {
         callEvent.body = parameter
         callEvent.successEventbusName = "saveSignInfoSuccess"
         callEvent.failedEventbusName = "saveSignInfoFailed"
-        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method + "?key=\(StringUtil.encode(constants.sessionId))"
+        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
         
         self.makePostApiCall(callEvent)
     }
@@ -469,16 +467,14 @@ class ApiController {
                         }
                     }
                 }
-
                 
                 //multipartFormData.appendBodyPart(data: UIImagePNGRepresentation(imageCollection[0] as! UIImage)!, name: "image", fileName: "upload.jpg", mimeType:"jpg")
-                multipartFormData.appendBodyPart(data: categoryId.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!, name :"catId")
-                multipartFormData.appendBodyPart(data: sellingtext.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!, name :"title")
-                multipartFormData.appendBodyPart(data:producttxt.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!, name :"body")
-                multipartFormData.appendBodyPart(data: pricetxt.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!, name :"price")
-                multipartFormData.appendBodyPart(data:conditionType.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!, name :"conditionType")
-                multipartFormData.appendBodyPart(data: "ios".dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!, name :"deviceType")
-                
+                multipartFormData.appendBodyPart(data: StringUtil.toEncodedData(categoryId), name :"catId")
+                multipartFormData.appendBodyPart(data: StringUtil.toEncodedData(sellingtext), name :"title")
+                multipartFormData.appendBodyPart(data: StringUtil.toEncodedData(producttxt), name :"body")
+                multipartFormData.appendBodyPart(data: StringUtil.toEncodedData(pricetxt), name :"price")
+                multipartFormData.appendBodyPart(data: StringUtil.toEncodedData(conditionType), name :"conditionType")
+                multipartFormData.appendBodyPart(data: StringUtil.toEncodedData("ios"), name :"deviceType")
             },
             encodingCompletion: { encodingResult in
                 switch encodingResult {
@@ -494,7 +490,7 @@ class ApiController {
         
     }
 
-    func postMessage(id: String, message: String){
+    func postMessage(id: Int, message: String){
         
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/message/new"
@@ -509,10 +505,10 @@ class ApiController {
             url,
             multipartFormData: { multipartFormData in
                 //multipartFormData.appendBodyPart(data: UIImagePNGRepresentation(imageData)!, name: "image", fileName: "upload.jpg", mimeType:"jpg")
-                multipartFormData.appendBodyPart(data: id.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!, name :"conversationId")
-                multipartFormData.appendBodyPart(data: message.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!, name :"body")
-                multipartFormData.appendBodyPart(data: "true".dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!, name :"system")
-                multipartFormData.appendBodyPart(data:"ios".dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!, name :"deviceType")
+                multipartFormData.appendBodyPart(data: StringUtil.toEncodedData(String(id)), name :"conversationId")
+                multipartFormData.appendBodyPart(data: StringUtil.toEncodedData(message), name :"body")
+                multipartFormData.appendBodyPart(data: StringUtil.toEncodedData("true"), name :"system")
+                multipartFormData.appendBodyPart(data: StringUtil.toEncodedData("ios"), name :"deviceType")
             },
             encodingCompletion: { encodingResult in
                 switch encodingResult {
@@ -521,7 +517,6 @@ class ApiController {
                 }
             }
         )
-    
     }
     
     func makeApiCall(arg: ApiCallEvent) {
@@ -547,18 +542,27 @@ class ApiController {
         })
         task.resume()
     }
-     
+
     func makePostApiCall(arg: ApiCallEvent) {
+        makePostApiCall(arg, appendSessionId: true)
+    }
+    
+    func makePostApiCall(arg: ApiCallEvent, appendSessionId: Bool) {
         NSLog("makePostApiCall")
         
         let request: NSMutableURLRequest = NSMutableURLRequest()
-        request.URL = NSURL(string: arg.apiUrl)
+        var url = arg.apiUrl
+        if appendSessionId {
+            url += "?key=\(StringUtil.encode(constants.sessionId))"
+        }
+        
+        request.URL = NSURL(string: url)
         request.HTTPMethod = "POST"
         
         if (arg.body != "") {
             request.HTTPBody = arg.body.dataUsingEncoding(NSUTF8StringEncoding)
         }
-        NSLog("sending string %@", arg.apiUrl)
+        NSLog("sending string %@", url)
         
         let session = NSURLSession.sharedSession()
         let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in

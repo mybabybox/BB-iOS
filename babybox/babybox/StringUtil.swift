@@ -17,4 +17,8 @@ class StringUtil {
     static func encode(url: String) -> String {
         return url.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!
     }
+    
+    static func toEncodedData(param: String) -> NSData {
+        return param.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!
+    }
 }

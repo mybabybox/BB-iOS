@@ -54,7 +54,7 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
             self.handleGetProductDetailsSuccess(productInfo)
         }
         
-        ApiController.instance.getProductDetails(String(Int(feedItem.id)))
+        ApiController.instance.getProductDetails(feedItem.id)
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -294,7 +294,7 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
         _nComment.deviceType = "iOS"
         _nComment.createdDate = NSDate().timeIntervalSinceNow
         _nComment.id = -1
-        ApiController.instance.postComment(String(Int(feedItem.id)), comment: cell.commentTxt.text!)
+        ApiController.instance.postComment(feedItem.id, comment: cell.commentTxt.text!)
         
         self.comments.append(_nComment)
         self.detailTableView.reloadData()
@@ -331,13 +331,13 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
             self.feedItem.numLikes--
             self.feedItem.isLiked = false
             self.likeImgBtn.setImage(UIImage(named: "ic_like.png"), forState: UIControlState.Normal)
-            ApiController.instance.unlikePost(String(Int(feedItem.id)))
+            ApiController.instance.unlikePost(feedItem.id)
             self.likeCountTxt.setTitle(String(self.feedItem.numLikes), forState: UIControlState.Normal)
         } else {
             self.feedItem.numLikes++
             self.feedItem.isLiked = true
             self.likeImgBtn.setImage(UIImage(named: "ic_liked.png"), forState: UIControlState.Normal)
-            ApiController.instance.likePost(String(Int(feedItem.id)))
+            ApiController.instance.likePost(feedItem.id)
             self.likeCountTxt.setTitle(String(self.feedItem.numLikes), forState: UIControlState.Normal)
         }
     }

@@ -98,7 +98,7 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("FeedProductViewController") as! FeedProductViewController
         let feedItem = feedLoader!.getItem(indexPath.row)
-        vController.postVM = feedItem
+        vController.feedItem = feedItem
         self.tabBarController!.tabBar.hidden = true
         self.navigationController?.pushViewController(vController, animated: true)
     }

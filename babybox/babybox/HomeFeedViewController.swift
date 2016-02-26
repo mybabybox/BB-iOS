@@ -150,7 +150,7 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
         } else {
             let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("FeedProductViewController") as! FeedProductViewController
             let feedItem = feedLoader!.getItem(indexPath.row)
-            vController.postVM = feedItem
+            vController.feedItem = feedItem
             self.navigationController?.pushViewController(vController, animated: true)
         }
     }
