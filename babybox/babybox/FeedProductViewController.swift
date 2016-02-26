@@ -19,18 +19,15 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
     @IBOutlet weak var chatNowBtn: UIButton!
     @IBOutlet weak var likeCountTxt: UIButton!
     @IBOutlet weak var detailTableView: UITableView!
+    
     var lcontentSize = CGFloat(0.0)
-    var productModel: PostVM = PostVM()
+    var feedItem: PostVM = PostVM()
     var myDate: NSDate = NSDate()
     
-    var likeFlag: Bool = false
-    
-    var productInfo: [PostCatVM] = []
-    var noOfComments: Int = 0
-    var items: [CommentVM] = [] //comment items
+    var productInfo: PostCatVM?
+    var comments: [CommentVM] = []
     var category: CategoryVM?
     var customDate: NSDate = NSDate()
-    //var comments : [String]? = []
     
     var collectionView:UICollectionView!
     
@@ -38,8 +35,9 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //NSThread.sleepForTimeInterval(0.3)
+        
         setSizesForFilterButtons()
+        
         self.detailTableView.separatorColor = UIColor.whiteColor()
         self.detailTableView.estimatedRowHeight = 300.0
         self.detailTableView.rowHeight = UITableViewAutomaticDimension
@@ -48,33 +46,30 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
         self.detailTableView.layoutIfNeeded()
         self.detailTableView.reloadData()
         self.detailTableView.translatesAutoresizingMaskIntoConstraints = true
+        
         ViewUtil.showActivityLoading(self.activityLoading)
+        
         SwiftEventBus.onMainThread(self, name: "productDetailsReceivedSuccess") { result in
-            // UI thread
-            let resultDto: [PostCatVM] = result.object as! [PostCatVM]
-            self.handleGetProductDetailsSuccess(resultDto)
+            let productInfo: PostCatVM = result.object as! PostCatVM
+            self.handleGetProductDetailsSuccess(productInfo)
         }
-        ApiController.instance.getProductDetails(String(Int(productModel.id)))
+        
+        ApiController.instance.getProductDetails(String(Int(feedItem.id)))
     }
     
     override func viewDidAppear(animated: Bool) {
         self.myDate = NSDate()
-        //self.conversations = []
         
-        //ApiController.instance.getConversation()
-        
-        if (productModel.numLikes == 0) {
+        if (feedItem.numLikes == 0) {
             self.likeCountTxt.setTitle("Like", forState: UIControlState.Normal)
         } else {
-            self.likeCountTxt.setTitle(String(self.productModel.numLikes), forState: UIControlState.Normal)
+            self.likeCountTxt.setTitle(String(self.feedItem.numLikes), forState: UIControlState.Normal)
         }
         
-        if(productModel.isLiked == false){
-            self.likeImgBtn.setImage(UIImage(named: "ic_like_tips.png"), forState: UIControlState.Normal)
-            self.likeFlag = false
+        if (feedItem.isLiked == false) {
+            self.likeImgBtn.setImage(UIImage(named: "ic_liked.png"), forState: UIControlState.Normal)
         } else {
-            self.likeImgBtn.setImage(UIImage(named: "ic_liked_tips.png"), forState: UIControlState.Normal)
-            self.likeFlag = true
+            self.likeImgBtn.setImage(UIImage(named: "ic_like.png"), forState: UIControlState.Normal)
         }
     }
 
@@ -87,6 +82,7 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 4
     }
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         var rows = 0
         switch section {
@@ -97,7 +93,7 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
         case 2:
             rows = 1
         case 3:
-            rows = (items.count)+1
+            rows = self.comments.count + 1
         default:
             rows = 1
         }
@@ -116,7 +112,7 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
             reuseidentifier = "cell3"
         case 3:
             reuseidentifier = ""
-            if indexPath.row != items.count{
+            if indexPath.row != self.comments.count{
                 reuseidentifier = "mCell1"
             }else{
                 reuseidentifier = "mCell2"
@@ -126,8 +122,8 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
         }
         
         if indexPath.section == 3 {
-            let cell:MessageTableViewCell = tableView.dequeueReusableCellWithIdentifier(reuseidentifier, forIndexPath: indexPath) as!  MessageTableViewCell
-            if indexPath.row == items.count {
+            let cell:MessageTableViewCell = tableView.dequeueReusableCellWithIdentifier(reuseidentifier, forIndexPath: indexPath) as! MessageTableViewCell
+            if indexPath.row == self.comments.count {
                 cell.btnPostComments.tag = indexPath.row
                 cell.btnPostComments.addTarget(self, action: "PostComments:", forControlEvents: UIControlEvents.TouchUpInside)
                 ImageUtil.displayButtonRoundBorder(cell.btnPostComments)
@@ -137,7 +133,7 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
                 cell.commentTxt.layer.masksToBounds = true
                 
             } else {
-                let comment:CommentVM = self.items[indexPath.row]
+                let comment:CommentVM = self.comments[indexPath.row]
                 cell.lblComments.text = comment.body
                 cell.postedUserName.text = comment.ownerName
                 cell.btnDeleteComments.tag = indexPath.row
@@ -148,7 +144,7 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
                 } else {
                     cell.btnDeleteComments.hidden = true
                 }
-                ImageUtil.displayThumbnailProfileImage(self.items[indexPath.row].ownerId, imageView: cell.postedUserImg)
+                ImageUtil.displayThumbnailProfileImage(self.comments[indexPath.row].ownerId, imageView: cell.postedUserImg)
                 cell.btnDeleteComments.addTarget(self, action: "DeleteComments:", forControlEvents: UIControlEvents.TouchUpInside)
                 
                 let time = comment.createdDate
@@ -159,61 +155,59 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
             cell.selectionStyle = UITableViewCellSelectionStyle.None
             return cell
         } else {
-            let cell = tableView.dequeueReusableCellWithIdentifier(reuseidentifier, forIndexPath: indexPath)
-                as!  DetailsTableViewCell
+            let cell = tableView.dequeueReusableCellWithIdentifier(reuseidentifier, forIndexPath: indexPath) as! DetailsTableViewCell
             
             switch indexPath.section {
             case 0:
-                
-                for i in 0...self.productModel.images.count - 1 {
-                    self.images.append(String(self.productModel.images[i]))
+                for i in 0...self.feedItem.images.count - 1 {
+                    self.images.append(String(self.feedItem.images[i]))
                 }
                 self.collectionView = cell.viewWithTag(1) as! UICollectionView
                 self.collectionView.delegate = self
                 self.collectionView.dataSource = self
-                cell.soldImage.hidden = !self.productModel.sold
+                cell.soldImage.hidden = !self.feedItem.sold
                 
             case 1:
                 cell.contentMode = UIViewContentMode.Redraw
                 cell.sizeToFit()
-                if (self.productInfo.count > 0) {
-                    cell.productDesc.text = self.productInfo[0].body
+                if self.productInfo != nil {
+                    cell.productDesc.text = self.productInfo!.body
                     cell.productDesc.numberOfLines = 0
                     cell.productDesc.sizeToFit()
                     self.lcontentSize = cell.productDesc.frame.size.height
                 }
-                cell.productTitle.text = productModel.title
-                cell.prodCondition.text = ViewUtil.parsePostConditionTypeFromType(self.productModel.conditionType)
+                cell.productTitle.text = feedItem.title
+                cell.prodCondition.text = ViewUtil.parsePostConditionTypeFromType(self.feedItem.conditionType)
                 
-                if (productModel.originalPrice != 0 && productModel.originalPrice != -1 && productModel.originalPrice != Int(productModel.price)) {
-                    let attrString = NSAttributedString(string: "\(constants.currencySymbol) \(String(stringInterpolationSegment:Int(productModel.originalPrice)))", attributes: [NSStrikethroughStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue])
+                if (feedItem.originalPrice != 0 && feedItem.originalPrice != -1 && feedItem.originalPrice != Int(feedItem.price)) {
+                    let attrString = NSAttributedString(string: "\(constants.currencySymbol) \(String(stringInterpolationSegment:Int(feedItem.originalPrice)))", attributes: [NSStrikethroughStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue])
                     cell.prodOriginalPrice.attributedText = attrString
                 } else {
                     cell.prodOriginalPrice.attributedText = NSAttributedString(string: "")
                 }
                 
-                cell.prodPrice.text = "\(constants.currencySymbol)\(String(stringInterpolationSegment: Int(productModel.price)))"
+                cell.prodPrice.text = "\(constants.currencySymbol)\(String(stringInterpolationSegment: Int(feedItem.price)))"
                 
-                if (self.productInfo.count > 0) {
-                    cell.prodCategory.text = self.productInfo[0].categoryName
-                    //cell.prodTimerCount.text = String(self.productInfo[0].numComments)
+                if self.productInfo != nil {
+                    cell.prodCategory.text = self.productInfo!.categoryName
+                    //cell.prodTimerCount.text = String(self.productInfo.numComments)
                     cell.categoryBtn.hidden = false
-                    cell.prodTimerCount.text = NSDate(timeIntervalSince1970:Double(self.productInfo[0].createdDate) / 1000.0).timeAgo
+                    cell.prodTimerCount.text = NSDate(timeIntervalSince1970:Double(self.productInfo!.createdDate) / 1000.0).timeAgo
                 } else {
                     cell.categoryBtn.hidden = true
                 }
                 
             case 2:
-                if (self.productInfo.count > 0) {
-                    cell.followersCount.text = String(self.productInfo[0].ownerNumFollowers)
-                    cell.noOfProducts.text = String(self.productInfo[0].ownerNumProducts)
+                if self.productInfo != nil {
+                    cell.followersCount.text = String(self.productInfo!.ownerNumFollowers)
+                    cell.noOfProducts.text = String(self.productInfo!.ownerNumProducts)
                     
                     cell.postTime.text = ""
-                    cell.postTitle.text = self.productModel.ownerName
+                    cell.postTitle.text = self.feedItem.ownerName
                     cell.postedUserImg.image = UIImage(named: "")
                     
-                    if (self.productInfo[0].ownerId != -1) {
-                        ImageUtil.displayThumbnailProfileImage(self.productInfo[0].ownerId, imageView: cell.postedUserImg)
+                    if self.productInfo!.ownerId != -1 {
+                        ImageUtil.displayThumbnailProfileImage(self.productInfo!.ownerId, imageView: cell.postedUserImg)
                         cell.postedUserImg.layer.cornerRadius = cell.postedUserImg.frame.height/2
                         cell.postedUserImg.layer.masksToBounds = true
                     }
@@ -225,6 +219,7 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
             default:
                 reuseidentifier = ""
             }
+            
             cell.selectionStyle = UITableViewCellSelectionStyle.None
             return cell
         }
@@ -241,20 +236,18 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
     }
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if section == 0{
+        if section == 0 {
             return 0.0
-        }else{
+        } else {
             return 0.0
         }
-        
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        
         switch indexPath.section {
         case 0: return ViewUtil.getScreenWidth(self.view)
         case 1:
-            if (self.productInfo.count > 0) {
+            if self.productInfo != nil {
                 return CGFloat(220.0) + self.lcontentSize
             }
             return CGFloat(220.0)
@@ -265,7 +258,6 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
         default:
             return UITableViewAutomaticDimension
         }
-        return UITableViewAutomaticDimension
     }
     
     func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -276,7 +268,7 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
         //on click of User section show the User profile screen.
         if (indexPath.section == 2) {
             let vController = self.storyboard?.instantiateViewControllerWithIdentifier("UserProfileFeedViewController") as! UserProfileFeedViewController
-            vController.userId = self.productInfo[0].ownerId
+            vController.userId = self.productInfo!.ownerId
             ViewUtil.resetBackButton(self.navigationItem)
             self.navigationController?.pushViewController(vController, animated: true)
         }
@@ -284,12 +276,11 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
     
     //MARK: Button Press Events
     func DeleteComments(button: UIButton){
-        ApiController.instance.deleteComment(self.items[button.tag].id)
-        items.removeAtIndex(button.tag)
+        ApiController.instance.deleteComment(self.comments[button.tag].id)
+        self.comments.removeAtIndex(button.tag)
         //self.detailTableView.reloadData()
         detailTableView.contentInset =  UIEdgeInsetsZero
         
-        self.noOfComments--
         self.detailTableView.reloadData()
         self.view.makeToast(message: "Comment Deleted Successfully", duration: 1, position: HRToastPositionCenter)
     }
@@ -303,22 +294,19 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
         _nComment.deviceType = "iOS"
         _nComment.createdDate = NSDate().timeIntervalSinceNow
         _nComment.id = -1
-        ApiController.instance.postComment(String(Int(productModel.id)), comment: cell.commentTxt.text!)
+        ApiController.instance.postComment(String(Int(feedItem.id)), comment: cell.commentTxt.text!)
         
-        self.items.append(_nComment)
+        self.comments.append(_nComment)
         self.detailTableView.reloadData()
         cell.txtEnterComments.text = ""
         detailTableView.contentInset =  UIEdgeInsetsZero
         cell.commentTxt.text = ""
-        
-        
-        self.noOfComments++
     }
     
     //MARK: UITextfield Delegate
     func textFieldDidBeginEditing(textField: UITextField!){
         detailTableView.contentInset =  UIEdgeInsetsMake(0, 0, 250, 0);
-        detailTableView.scrollToRowAtIndexPath(NSIndexPath(forRow: (self.items.count), inSection:2), atScrollPosition: UITableViewScrollPosition.Middle, animated: false)
+        detailTableView.scrollToRowAtIndexPath(NSIndexPath(forRow: self.comments.count, inSection:2), atScrollPosition: UITableViewScrollPosition.Middle, animated: false)
     }
     
     @IBAction func onClickBuyNow(sender: AnyObject) {
@@ -336,46 +324,30 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
         self.buyNowBtn.layer.borderWidth = 1.0
         self.chatNowBtn.layer.borderColor = UIColor.lightGrayColor().CGColor
         self.chatNowBtn.layer.borderWidth = 1.0
-        
     }
-    
     
     @IBAction func onClickLikeOrUnlikeButton(sender: AnyObject) {
-        
-        if(self.productModel.isLiked) {
-            self.productModel.numLikes--
-            self.productModel.isLiked = false
-            self.likeImgBtn.setImage(UIImage(named: "ic_liked_tips.png"), forState: UIControlState.Normal)
-           ApiController.instance.likePost(String(Int(productModel.id)))
-            self.likeCountTxt.setTitle(String(self.productModel.numLikes), forState: UIControlState.Normal)
-            
+        if (self.feedItem.isLiked) {
+            self.feedItem.numLikes--
+            self.feedItem.isLiked = false
+            self.likeImgBtn.setImage(UIImage(named: "ic_like.png"), forState: UIControlState.Normal)
+            ApiController.instance.unlikePost(String(Int(feedItem.id)))
+            self.likeCountTxt.setTitle(String(self.feedItem.numLikes), forState: UIControlState.Normal)
         } else {
-            self.productModel.numLikes++
-            self.productModel.isLiked = true
-            self.likeImgBtn.setImage(UIImage(named: "ic_like_tips.png"), forState: UIControlState.Normal)
-            ApiController.instance.unlikePost(String(Int(productModel.id)))
-            self.likeCountTxt.setTitle(String(self.productModel.numLikes), forState: UIControlState.Normal)
-            
+            self.feedItem.numLikes++
+            self.feedItem.isLiked = true
+            self.likeImgBtn.setImage(UIImage(named: "ic_liked.png"), forState: UIControlState.Normal)
+            ApiController.instance.likePost(String(Int(feedItem.id)))
+            self.likeCountTxt.setTitle(String(self.feedItem.numLikes), forState: UIControlState.Normal)
         }
     }
     
-    /*func handleConversation(conversation: [ConversationVM]) {
-        self.conversations = conversation
-        //let time = (self.conversations.last?.lastMessageDate)! / 1000
-        //let date = NSDate(timeIntervalSinceNow: NSTimeInterval(time))
-    }*/
-    
-    func handleGetProductDetailsSuccess(result: [PostCatVM]) {
-        self.items.removeAll()
-        if (result.count > 0) {
-            self.productInfo.append(result[0])
-            
-            for comment in self.productInfo[0].latestComments {
-                self.items.append(comment)
-            }
-            self.noOfComments = self.items.count
+    func handleGetProductDetailsSuccess(productInfo: PostCatVM) {
+        self.productInfo = productInfo
+        self.comments.removeAll()
+        for comment in self.productInfo!.latestComments {
+            self.comments.append(comment)
         }
-        
         self.detailTableView.reloadData()
         ViewUtil.hideActivityLoading(self.activityLoading)
     }
@@ -383,18 +355,17 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
     @IBAction func onSelectCategory(sender: AnyObject) {
         let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("CategoryFeedViewController") as! CategoryFeedViewController
         
-        vController.selCategory = CategoryCache.getCategoryById(self.productInfo[0].categoryId)
+        vController.selCategory = CategoryCache.getCategoryById(self.productInfo!.categoryId)
         self.tabBarController!.tabBar.hidden = true
         ViewUtil.resetBackButton(self.navigationItem)
         self.navigationController?.pushViewController(vController, animated: true)
     }
+    
     @IBAction func onClickViewShop(sender: AnyObject) {
-        
-            let vController = self.storyboard?.instantiateViewControllerWithIdentifier("UserProfileFeedViewController") as! UserProfileFeedViewController
-            vController.userId = self.productInfo[0].ownerId
-            ViewUtil.resetBackButton(self.navigationItem)
-            self.navigationController?.pushViewController(vController, animated: true)
-        
+        let vController = self.storyboard?.instantiateViewControllerWithIdentifier("UserProfileFeedViewController") as! UserProfileFeedViewController
+        vController.userId = self.productInfo!.ownerId
+        ViewUtil.resetBackButton(self.navigationItem)
+        self.navigationController?.pushViewController(vController, animated: true)
     }
         
     // MARK: - UICollectionViewDataSource
@@ -410,8 +381,8 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("hcell", forIndexPath: indexPath) as! ImageCollectionViewCell
         let imageView = cell.imageView
-        if (self.productModel.images.count > 1) {
-            cell.pageControl.numberOfPages = self.productModel.images.count
+        if (self.feedItem.images.count > 1) {
+            cell.pageControl.numberOfPages = self.feedItem.images.count
             cell.pageControl.currentPage = indexPath.row
         } else {
             cell.pageControl.hidden = true

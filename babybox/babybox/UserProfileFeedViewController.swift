@@ -155,12 +155,12 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        if (collectionView.tag == 2){
+        if (collectionView.tag == 2) {
             
         } else {
             let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("FeedProductViewController") as! FeedProductViewController
             let feedItem = self.getFeedItems()[indexPath.row]
-            vController.productModel = feedItem
+            vController.feedItem = feedItem
             self.tabBarController!.tabBar.hidden = true
             self.navigationController?.pushViewController(vController, animated: true)
         }
@@ -170,7 +170,6 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
         var reusableView : UICollectionReusableView? = nil
         
         if (kind == UICollectionElementKindSectionHeader) {
-            
             let headerView : ProfileFeedReusableView = collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "HeaderView", forIndexPath: indexPath) as! ProfileFeedReusableView
             headerView.headerViewCollection.reloadData()
             reusableView = headerView

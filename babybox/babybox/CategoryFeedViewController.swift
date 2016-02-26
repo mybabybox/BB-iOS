@@ -157,7 +157,7 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
             //self.performSegueWithIdentifier("gotoproductdetail", sender: nil)
             let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("FeedProductViewController") as! FeedProductViewController
             let feedItem = feedLoader!.getItem(indexPath.row)
-            vController.productModel = feedItem
+            vController.feedItem = feedItem
             vController.category = self.selCategory
             self.tabBarController!.tabBar.hidden = true
             ViewUtil.resetBackButton(self.navigationItem)
