@@ -28,6 +28,7 @@ class BaseLoginViewController: UIViewController, FBSDKLoginButtonDelegate {
         startLoading()
         
         if !sessionId.isEmpty {
+            self.isUserLoggedIn = true
             SharedPreferencesUtil.getInstance().setUserSessionId(sessionId)
             UserInfoCache.refresh(sessionId)
             onSuccessLogin()
@@ -42,20 +43,23 @@ class BaseLoginViewController: UIViewController, FBSDKLoginButtonDelegate {
         stopLoading()
     }
     
-    func handleUserLoginFailed(resultDto: String) {
+    func handleUserLoginFailed(message: String) {
         startLoading()
         
         self.isUserLoggedIn = false
-        let _errorDialog = UIAlertController(title: "Error Message", message: resultDto, preferredStyle: UIAlertControllerStyle.Alert)
-        let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil);
-        _errorDialog.addAction(okAction)
-        self.presentViewController(_errorDialog, animated: true, completion: nil)
+        ViewUtil.showOKDialog("Login Error", message: message, view: self)
         //self.performSegueWithIdentifier("clickToLogin", sender: nil)
+        AppDelegate.getInstance().logout()
         
         stopLoading()
     }
     
-    func handleUserInfo(userInfo: UserVM) {
+    func handleUserInfoSuccess(userInfo: UserVM) {
+        // user not logged in, redirect to login page
+        if (userInfo.id == -1) {
+            self.handleUserLoginFailed("User is not logged in")
+        }
+        
         startLoading()
         
         self.isUserLoggedIn = true
@@ -75,7 +79,7 @@ class BaseLoginViewController: UIViewController, FBSDKLoginButtonDelegate {
         
         SwiftEventBus.onMainThread(self, name: "loginReceivedSuccess") { result in
             if ViewUtil.isEmptyResult(result) {
-                self.finish()
+                self.handleUserLoginFailed("User is not logged in")
             } else {
                 let response: String = result.object as! String
                 self.handleUserLoginSuccess(response)
@@ -83,28 +87,40 @@ class BaseLoginViewController: UIViewController, FBSDKLoginButtonDelegate {
         }
         
         SwiftEventBus.onMainThread(self, name: "loginReceivedFailed") { result in
-            var resultDto = ""
+            var message = ""
             if result == nil {
-                resultDto = "Error Authenticating User"
+                message = "Error Authenticating User"
             } else if result.object is NSString {
-                resultDto = result.object as! String
+                message = result.object as! String
             } else {
-                resultDto = "Connection Failure"
+                message = "Connection Failure"
             }
             
-            self.handleUserLoginFailed(resultDto)
+            self.handleUserLoginFailed(message)
         }
         
         SwiftEventBus.onMainThread(self, name: "userInfoSuccess") { result in
             if ViewUtil.isEmptyResult(result) {
-                self.finish()
                 self.handleUserLoginFailed("No user returned")
             } else {
                 let userInfo: UserVM = result.object as! UserVM
-                self.handleUserInfo(userInfo)
+                self.handleUserInfoSuccess(userInfo)
             }
         }
 
+        SwiftEventBus.onMainThread(self, name: "userInfoFailed") { result in
+            var message = ""
+            if result == nil {
+                message = "User is not logged in"
+            } else if result.object is NSString {
+                message = result.object as! String
+            } else {
+                message = "Connection Failure"
+            }
+            
+            self.handleUserLoginFailed(message)
+        }
+        
         // prepare fb login button
         let fbLoginButton = FBSDKLoginButton()
         self.view.addSubview(fbLoginButton)
@@ -115,30 +131,20 @@ class BaseLoginViewController: UIViewController, FBSDKLoginButtonDelegate {
         fbLoginButton.delegate = self
     }
     
-    func finish() {
-        SwiftEventBus.unregister(self)
-        AppDelegate.getInstance().logout()
-    }
-    
     func logError(error: NSError?) {
         
     }
     
     func onSuccessLogin() {
+        self.isUserLoggedIn = true
         // register notif
     }
     
     func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
         if (error == nil) {
-            startLoading()
-            self.isUserLoggedIn = true
             if (!result.isCancelled) {
-                constants.sessionId = result.token.tokenString
-                ApiController.instance.loginByFacebook(result.token.tokenString)
+                fbLoginSuccess(result.token.tokenString, userId: result.token.userID)
             }
-            //make API call to authenticate facebook user on server.
-            
-            //self.performSegueWithIdentifier("clickToLogin", sender: self)
         } else {
             NSLog(error.localizedDescription)
         }

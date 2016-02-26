@@ -25,28 +25,17 @@ class SplashViewController: UIViewController {
         
         SwiftEventBus.onMainThread(self, name: "userInfoSuccess") { result in
             if ViewUtil.isEmptyResult(result) {
-                self.finish()
+                self.handleUserLoginFailed("User is not logged in")
             } else {
                 let userInfo: UserVM = result.object as! UserVM
-                self.handleUserInfo(userInfo)
+                self.handleUserInfoSuccess(userInfo)
             }
         }
         
         SwiftEventBus.onMainThread(self, name: "userInfoFailed") { result in
-            self.showLoginPage()
-        }
-        
-        SwiftEventBus.onMainThread(self, name: "loginReceivedSuccess") { result in
-            // UI thread
-            let sessionId: String = result.object as! String
-            self.handleUserLogin(sessionId)
-        }
-        
-        SwiftEventBus.onMainThread(self, name: "loginReceivedFailed") { result in
-            // UI thread
             var message = ""
             if result == nil {
-                message = "Error Authenticating User"
+                message = "User is not logged in"
             } else if result.object is NSString {
                 message = result.object as! String
             } else {
@@ -61,10 +50,7 @@ class SplashViewController: UIViewController {
         
         NSThread.sleepForTimeInterval(constants.SPLASH_SHOW_DURATION)
         
-        //Check if FB logged in.
-        if (FBSDKAccessToken.currentAccessToken() != nil) {
-            ApiController.instance.loginByFacebook(FBSDKAccessToken.currentAccessToken().tokenString)
-        } else if (sessionId != nil && sessionId != "nil" && !sessionId!.isEmpty) {
+        if (sessionId != nil && sessionId != "nil" && !sessionId!.isEmpty) {
             UserInfoCache.refresh(sessionId!)
         } else {
             showLoginPage()
@@ -81,17 +67,17 @@ class SplashViewController: UIViewController {
         return true
     }
     
-    func finish() {
-        ViewUtil.makeToast("Cannot find user. Please login again.", view: self.view)
+    func handleUserLoginFailed(message: String) {
+        ViewUtil.showOKDialog("Login Error", message: message, view: self)
         SwiftEventBus.unregister(self)
         AppDelegate.getInstance().logout()
         self.showLoginPage()
     }
 
-    func handleUserInfo(userInfo: UserVM) {
+    func handleUserInfoSuccess(userInfo: UserVM) {
         // user not logged in, redirect to login page
         if (userInfo.id == -1) {
-            finish()
+            handleUserLoginFailed("Cannot find user. Please login again.")
         }
 
         // new user flow
@@ -125,7 +111,7 @@ class SplashViewController: UIViewController {
         
     }
     
-    func handleUserLogin(sessionId: String) {
+    func handleUserLoginSuccess(sessionId: String) {
         if sessionId.isEmpty {
             //authentication failed.. show error message...
             let _errorDialog = UIAlertController(title: "Error Message", message: "Invalid UserName or Password",
@@ -138,14 +124,5 @@ class SplashViewController: UIViewController {
         }
         //make API call to get the user profile data...
         
-    }
-
-    func handleUserLoginFailed(message: String) {
-        let _errorDialog = UIAlertController(title: "Error Message", message: message, preferredStyle: UIAlertControllerStyle.Alert)
-        let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil);
-        _errorDialog.addAction(okAction)
-        self.presentViewController(_errorDialog, animated: true, completion: nil)
-        self.showLoginPage()
-        //self.performSegueWithIdentifier("clickToLogin", sender: nil)
     }
 }

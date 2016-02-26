@@ -95,6 +95,13 @@ class ViewUtil {
         actInd.startAnimating()
     }
 
+    static func showOKDialog(title: String, message: String, view: UIViewController) {
+        let errorDialog = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
+        let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil);
+        errorDialog.addAction(okAction)
+        view.presentViewController(errorDialog, animated: true, completion: nil)
+    }
+    
     static func makeToast(message: String, view: UIView) {
         view.makeToast(message: message, duration: SHOW_TOAST_DURATION_SHORT, position: DEFAULT_TOAST_POSITION)
     }
