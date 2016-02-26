@@ -77,7 +77,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, UIImagePick
             addChatBubble(bubbleData)
             textField.resignFirstResponder()
             
-            ApiController.instance.postMessage(String(self.conversationId), message: bubbleData.text!)
+            ApiController.instance.postMessage(self.conversationId, message: bubbleData.text!)
         }
         
         @IBAction func cameraButtonClicked(sender: AnyObject) {

@@ -39,7 +39,7 @@ class ApiController {
     func getHomeExploreFeed(offset: Int64) {
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/get-home-explore-feed/\(offset)"
-        callEvent.resultClass = "PostVM"
+        callEvent.resultClass = "PostVMLite"
         callEvent.successEventbusName = "homeExploreFeedLoadSuccess"
         callEvent.failedEventbusName = "homeExploreFeedLoadFailed"
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method;
@@ -50,7 +50,7 @@ class ApiController {
     func getHomeFollowingFeed(offset: Int64) {
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/get-home-following-feed/\(offset)"
-        callEvent.resultClass = "PostVM"
+        callEvent.resultClass = "PostVMLite"
         callEvent.successEventbusName = "homeFollowingFeedLoadSuccess"
         callEvent.failedEventbusName = "homeFollowingFeedLoadFailed"
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
@@ -115,7 +115,7 @@ class ApiController {
     func getProductDetails(id: Int) {
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/get-post/\(id)"
-        callEvent.resultClass = "PostCatVM"
+        callEvent.resultClass = "PostVM"
         callEvent.successEventbusName = "productDetailsReceivedSuccess"
         callEvent.failedEventbusName = "productDetailsReceivedFailed"
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
@@ -222,7 +222,7 @@ class ApiController {
     func getCategoryPopularFeed(id: Int, offset: Int64) {
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/get-category-popular-feed/\(id)/ALL/\(offset)"
-        callEvent.resultClass = "PostVM"
+        callEvent.resultClass = "PostVMLite"
         callEvent.successEventbusName = "categoryPopularFeedLoadSuccess"
         callEvent.failedEventbusName = "categoryPopularFeedLoadFailed"
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
@@ -232,7 +232,7 @@ class ApiController {
     func getCategoryNewestFeed(id: Int, offset: Int64) {
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/get-category-newest-feed/\(id)/ALL/\(offset)"
-        callEvent.resultClass = "PostVM"
+        callEvent.resultClass = "PostVMLite"
         callEvent.successEventbusName = "categoryNewestFeedLoadSuccess"
         callEvent.failedEventbusName = "categoryNewestFeedLoadFailed"
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
@@ -242,7 +242,7 @@ class ApiController {
     func getCategoryPriceLowHighFeed(id: Int, offset: Int64) {
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/get-category-price-low-high-feed/\(id)/ALL/\(offset)"
-        callEvent.resultClass = "PostVM"
+        callEvent.resultClass = "PostVMLite"
         callEvent.successEventbusName = "categoryPriceLowHighFeedLoadSuccess"
         callEvent.failedEventbusName = "categoryPriceLowHighFeedLoadFailed"
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
@@ -252,7 +252,7 @@ class ApiController {
     func getCategoryPriceHighLowFeed(id: Int, offset: Int64) {
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/get-category-price-high-low-feed/\(id)/ALL/\(offset)"
-        callEvent.resultClass = "PostVM"
+        callEvent.resultClass = "PostVMLite"
         callEvent.successEventbusName = "categoryPriceHighLowFeedLoadSuccess"
         callEvent.failedEventbusName = "categoryPriceHighLowFeedLoadFailed"
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
@@ -262,7 +262,7 @@ class ApiController {
     func getUserPostedFeed(id: Int, offset: Int64) {
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/get-user-posted-feed/\(id)/\(offset)"
-        callEvent.resultClass = "PostVM"
+        callEvent.resultClass = "PostVMLite"
         callEvent.successEventbusName = "userPostedFeedLoadSuccess"
         callEvent.failedEventbusName = "userPostedFeedLoadFailed"
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
@@ -272,7 +272,7 @@ class ApiController {
     func getUserLikedFeed(id: Int, offset: Int64) {
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/get-user-liked-feed/\(id)/\(offset)"
-        callEvent.resultClass = "PostVM"
+        callEvent.resultClass = "PostVMLite"
         callEvent.successEventbusName = "userLikedFeedLoadSuccess"
         callEvent.failedEventbusName = "userLikedFeedLoadFailed"
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
@@ -593,9 +593,9 @@ class ApiController {
             case "CategoryVM": result = Mapper<CategoryVM>().mapArray(inputStr)!
             case "UserVM": result = Mapper<UserVM>().map(inputStr)!
             case "UserVMLite": result = Mapper<UserVMLite>().mapArray(inputStr)!
-            case "PostVM": result = Mapper<PostVM>().mapArray(inputStr)!
-            case "PostVMById": result = Mapper<PostVM>().map(inputStr)!
-            case "PostCatVM": result = Mapper<PostCatVM>().map(inputStr)!
+            case "PostVMLite": result = Mapper<PostVMLite>().mapArray(inputStr)!
+            case "PostVMById": result = Mapper<PostVMLite>().map(inputStr)!
+            case "PostVM": result = Mapper<PostVM>().map(inputStr)!
             case "LocationVM": result = Mapper<LocationVM>().mapArray(inputStr)!
             case "UserVMById": result = Mapper<UserVM>().map(inputStr)!
             case "ConversationVM": result = Mapper<ConversationVM>().mapArray(inputStr)!
@@ -608,24 +608,6 @@ class ApiController {
         }
         return result
     }
-    
-    /*class func toJson(res: CommentVM) -> String {
-        var JSONString = ""
-        JSONString = Mapper<CommentVM>().toJSONString(res, prettyPrint: true)!
-        //NSLog("inside tojson")
-        let str = CFURLCreateStringByAddingPercentEscapes(
-            nil,
-            JSONString,
-            nil,
-            "!*'();:@&=+$,/?%#[]",
-            CFStringBuiltInEncodings.UTF8.rawValue
-        )
-        //NSLog(JSONString)
-        //remeber to do urlescape on argPayload too
-        //return JSONString
-        
-        return str as String
-    }*/
     
     func makeBodyString(strData:[String]) -> String {
         var result = ""

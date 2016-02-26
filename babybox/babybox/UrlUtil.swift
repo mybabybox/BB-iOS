@@ -42,7 +42,7 @@ class UrlUtil {
         return String(format: SELLER_URL, user.id);
     }
     
-    static func createProductUrl(post: PostVM) -> String {
+    static func createProductUrl(post: PostVMLite) -> String {
         return String(format: PRODUCT_URL, post.id);
     }
     

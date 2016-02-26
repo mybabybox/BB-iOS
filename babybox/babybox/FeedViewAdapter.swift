@@ -16,11 +16,11 @@ class FeedViewAdapter {
         self.collectionView = collectionView
     }
 
-    func bindViewCell(cell: FeedProductCollectionViewCell, feedItem: PostVM, index: Int) -> FeedProductCollectionViewCell {
+    func bindViewCell(cell: FeedProductCollectionViewCell, feedItem: PostVMLite, index: Int) -> FeedProductCollectionViewCell {
         return bindViewCell(cell, feedItem: feedItem, index: index, showOwner: false)
     }
     
-    func bindViewCell(cell: FeedProductCollectionViewCell, feedItem: PostVM, index: Int, showOwner: Bool) -> FeedProductCollectionViewCell {
+    func bindViewCell(cell: FeedProductCollectionViewCell, feedItem: PostVMLite, index: Int, showOwner: Bool) -> FeedProductCollectionViewCell {
         
         cell.title.text = feedItem.title
         
@@ -64,19 +64,19 @@ class FeedViewAdapter {
         return cell
     }
 
-    func onLikeBtnClick(cell: FeedProductCollectionViewCell, feedItem: PostVM) {
+    func onLikeBtnClick(cell: FeedProductCollectionViewCell, feedItem: PostVMLite) {
         if (feedItem.isLiked) {
             feedItem.isLiked = false
             feedItem.numLikes--
             cell.likeCountIns.setTitle(String(feedItem.numLikes), forState: UIControlState.Normal)
             cell.likeImageIns.setImage(UIImage(named: "ic_like_tips.png"), forState: UIControlState.Normal)
-            ApiController.instance.unlikePost(String(feedItem.id))
+            ApiController.instance.unlikePost(feedItem.id)
         } else {
             feedItem.isLiked = true
             feedItem.numLikes++
             cell.likeCountIns.setTitle(String(feedItem.numLikes), forState: UIControlState.Normal)
             cell.likeImageIns.setImage(UIImage(named: "ic_liked_tips.png"), forState: UIControlState.Normal)
-            ApiController.instance.likePost(String(feedItem.id))
+            ApiController.instance.likePost(feedItem.id)
         }
     }
 }

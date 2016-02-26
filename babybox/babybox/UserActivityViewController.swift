@@ -59,7 +59,7 @@ class UserActivityViewController: CustomNavigationController {
                 return;
             }
             
-            let resultDto: PostVM = result.object as! PostVM
+            let resultDto: PostVMLite = result.object as! PostVMLite
             
             let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("FeedProductViewController") as! FeedProductViewController
             vController.feedItem = resultDto

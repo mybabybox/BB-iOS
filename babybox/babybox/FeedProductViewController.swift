@@ -21,10 +21,10 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
     @IBOutlet weak var detailTableView: UITableView!
     
     var lcontentSize = CGFloat(0.0)
-    var feedItem: PostVM = PostVM()
+    var feedItem: PostVMLite = PostVMLite()
     var myDate: NSDate = NSDate()
     
-    var productInfo: PostCatVM?
+    var productInfo: PostVM?
     var comments: [CommentVM] = []
     var category: CategoryVM?
     var customDate: NSDate = NSDate()
@@ -50,7 +50,7 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
         ViewUtil.showActivityLoading(self.activityLoading)
         
         SwiftEventBus.onMainThread(self, name: "productDetailsReceivedSuccess") { result in
-            let productInfo: PostCatVM = result.object as! PostCatVM
+            let productInfo: PostVM = result.object as! PostVM
             self.handleGetProductDetailsSuccess(productInfo)
         }
         
@@ -342,7 +342,7 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
         }
     }
     
-    func handleGetProductDetailsSuccess(productInfo: PostCatVM) {
+    func handleGetProductDetailsSuccess(productInfo: PostVM) {
         self.productInfo = productInfo
         self.comments.removeAll()
         for comment in self.productInfo!.latestComments {

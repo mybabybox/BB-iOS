@@ -15,7 +15,7 @@ class FeedLoader {
     var reloadDataToView: ()->()
     var activityIndicator: UIActivityIndicatorView?
     
-    var feedItems: [PostVM] = []
+    var feedItems: [PostVMLite] = []
     
     var loading = false
     var loadedAll = false
@@ -49,7 +49,7 @@ class FeedLoader {
         switch feedType {
         case FeedFilter.FeedType.HOME_EXPLORE:
             SwiftEventBus.onMainThread(self, name: "homeExploreFeedLoadSuccess") { result in
-                let resultDto: [PostVM] = result.object as! [PostVM]
+                let resultDto: [PostVMLite] = result.object as! [PostVMLite]
                 self.handleFeedLoadSuccess(resultDto)
             }
             SwiftEventBus.onMainThread(self, name: "homeExploreFeedLoadFailed") { result in
@@ -57,7 +57,7 @@ class FeedLoader {
             }
         case FeedFilter.FeedType.HOME_FOLLOWING:
             SwiftEventBus.onMainThread(self, name: "homeFollowingFeedLoadSuccess") { result in
-                let resultDto: [PostVM] = result.object as! [PostVM]
+                let resultDto: [PostVMLite] = result.object as! [PostVMLite]
                 self.handleFeedLoadSuccess(resultDto)
             }
             SwiftEventBus.onMainThread(self, name: "homeFollowingFeedLoadFailed") { result in
@@ -65,7 +65,7 @@ class FeedLoader {
             }
         case FeedFilter.FeedType.CATEGORY_POPULAR:
             SwiftEventBus.onMainThread(self, name: "categoryPopularFeedLoadSuccess") { result in
-                let resultDto: [PostVM] = result.object as! [PostVM]
+                let resultDto: [PostVMLite] = result.object as! [PostVMLite]
                 self.handleFeedLoadSuccess(resultDto)
             }
             SwiftEventBus.onMainThread(self, name: "categoryPopularFeedLoadFailed") { result in
@@ -73,7 +73,7 @@ class FeedLoader {
             }
         case FeedFilter.FeedType.CATEGORY_NEWEST:
             SwiftEventBus.onMainThread(self, name: "categoryNewestFeedLoadSuccess") { result in
-                let resultDto: [PostVM] = result.object as! [PostVM]
+                let resultDto: [PostVMLite] = result.object as! [PostVMLite]
                 self.handleFeedLoadSuccess(resultDto)
             }
             SwiftEventBus.onMainThread(self, name: "categoryNewestFeedLoadFailed") { result in
@@ -81,7 +81,7 @@ class FeedLoader {
             }
         case FeedFilter.FeedType.CATEGORY_PRICE_LOW_HIGH:
             SwiftEventBus.onMainThread(self, name: "categoryPriceLowHighFeedLoadSuccess") { result in
-                let resultDto: [PostVM] = result.object as! [PostVM]
+                let resultDto: [PostVMLite] = result.object as! [PostVMLite]
                 self.handleFeedLoadSuccess(resultDto)
             }
             SwiftEventBus.onMainThread(self, name: "categoryPriceLowHighFeedLoadFailed") { result in
@@ -89,7 +89,7 @@ class FeedLoader {
             }
         case FeedFilter.FeedType.CATEGORY_PRICE_HIGH_LOW:
             SwiftEventBus.onMainThread(self, name: "categoryPriceHighLowFeedLoadSuccess") { result in
-                let resultDto: [PostVM] = result.object as! [PostVM]
+                let resultDto: [PostVMLite] = result.object as! [PostVMLite]
                 self.handleFeedLoadSuccess(resultDto)
             }
             SwiftEventBus.onMainThread(self, name: "categoryPriceHighLowFeedLoadFailed") { result in
@@ -97,7 +97,7 @@ class FeedLoader {
             }
         case FeedFilter.FeedType.USER_POSTED:
             SwiftEventBus.onMainThread(self, name: "userPostedFeedLoadSuccess") { result in
-                let resultDto: [PostVM] = result.object as! [PostVM]
+                let resultDto: [PostVMLite] = result.object as! [PostVMLite]
                 self.handleFeedLoadSuccess(resultDto)
             }
             SwiftEventBus.onMainThread(self, name: "userPostedFeedLoadFailed") { result in
@@ -105,7 +105,7 @@ class FeedLoader {
             }
         case FeedFilter.FeedType.USER_LIKED:
             SwiftEventBus.onMainThread(self, name: "userLikedFeedLoadSuccess") { result in
-                let resultDto: [PostVM] = result.object as! [PostVM]
+                let resultDto: [PostVMLite] = result.object as! [PostVMLite]
                 self.handleFeedLoadSuccess(resultDto)
             }
             SwiftEventBus.onMainThread(self, name: "userLikedFeedLoadFailed") { result in
@@ -115,7 +115,7 @@ class FeedLoader {
         }
     }
     
-    func handleFeedLoadSuccess(feedItems: [PostVM]) {
+    func handleFeedLoadSuccess(feedItems: [PostVMLite]) {
         NSLog("FeedLoader.handleFeedLoadSuccess: feedItems="+String(feedItems.count)+" feedType="+String(feedType))
         if (!feedItems.isEmpty) {
             if (self.feedItems.count == 0) {
@@ -194,7 +194,7 @@ class FeedLoader {
         return feedItems.count
     }
     
-    func getItem(i: Int) -> PostVM {
+    func getItem(i: Int) -> PostVMLite {
         return feedItems[i]
     }
 }

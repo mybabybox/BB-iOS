@@ -83,7 +83,7 @@ class BaseProfileFeedViewController: CustomNavigationController {
         }
     }
     
-    func getFeedItems() -> [PostVM] {
+    func getFeedItems() -> [PostVMLite] {
         if feedLoader != nil {
             return feedLoader!.feedItems
         }
