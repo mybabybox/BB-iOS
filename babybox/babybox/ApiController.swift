@@ -595,7 +595,7 @@ class ApiController {
             case "UserVMLite": result = Mapper<UserVMLite>().mapArray(inputStr)!
             case "PostVM": result = Mapper<PostVM>().mapArray(inputStr)!
             case "PostVMById": result = Mapper<PostVM>().map(inputStr)!
-            case "PostCatVM": result = Mapper<PostCatVM>().mapArray(inputStr)!
+            case "PostCatVM": result = Mapper<PostCatVM>().map(inputStr)!
             case "LocationVM": result = Mapper<LocationVM>().mapArray(inputStr)!
             case "UserVMById": result = Mapper<UserVM>().map(inputStr)!
             case "ConversationVM": result = Mapper<ConversationVM>().mapArray(inputStr)!
