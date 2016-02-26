@@ -44,7 +44,6 @@ class SignupDetailViewController: UIViewController, UITextFieldDelegate, SSRadio
         
         SwiftEventBus.onMainThread(self, name: "getDistrictSuccess") { result in
             // UI thread
-            //DistrictCache.set = result.object as? [LocationVM]
             self.locations = (result.object as? [LocationModel])!
             self.refreshLocations()
         }

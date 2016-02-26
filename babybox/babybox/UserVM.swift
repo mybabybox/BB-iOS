@@ -15,7 +15,6 @@ class UserVM: UserVMLite {
     var lastName: String = "";
     var gender: String = "";
     var birthYear: String = "";
-    var location: LocationVM = LocationVM();
     var settings: SettingVM = SettingVM();
     var createdDate: Double = 0;
     var lastLogin: Double = 0;
@@ -36,7 +35,6 @@ class UserVM: UserVMLite {
         lastName<-map["lastName"];
         gender<-map["gender"];
         birthYear<-map["birthYear"];
-        //location<-map["LocationVM"];
         //settings<-map["]SettingVM"];
         createdDate<-map["createdDate"]
         lastLogin<-map["lastLogin"];
