@@ -1,5 +1,5 @@
 //
-//  CommentModel.swift
+//  CommentVM.swift
 //  Baby Box
 //
 //  Created by Mac on 17/11/15.
@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import ObjectMapper
 
-class CommentModel: BaseArgVM {
+class CommentVM: BaseArgVM {
     
     var id: Int = 0
     var createdDate: Double = 0

@@ -12,12 +12,12 @@ import SwiftEventBus
 class DistrictCache {
     
     private static let DISTRICTS = "districts"
-    private static var districts: [LocationModel]?  = [];
+    private static var districts: [LocationVM]?  = [];
     
     init() {
         SwiftEventBus.onMainThread(self, name: "getDistrictSuccess") { result in
             // UI thread
-            DistrictCache.districts = result.object as? [LocationModel]
+            DistrictCache.districts = result.object as? [LocationVM]
         }
     }
     
@@ -25,7 +25,7 @@ class DistrictCache {
         ApiController.instance.getAllDistricts()
     }
     
-    static func getDistricts() -> [LocationModel] {
+    static func getDistricts() -> [LocationVM] {
         if (districts == nil || districts!.count == 0) {
             //refresh()
         }
@@ -33,7 +33,7 @@ class DistrictCache {
         return DistrictCache.districts!;
     }
     
-    static func setDistrict(locations: [LocationModel]) {
+    static func setDistrict(locations: [LocationVM]) {
         DistrictCache.districts = locations
     }
     

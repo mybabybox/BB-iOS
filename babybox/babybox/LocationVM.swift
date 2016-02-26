@@ -1,5 +1,5 @@
 //
-//  LocationModel.swift
+//  LocationVM.swift
 //  Baby Box
 //
 //  Created by Mac on 14/11/15.
@@ -9,7 +9,7 @@
 import Foundation
 import ObjectMapper
 
-class LocationModel: BaseArgVM {
+class LocationVM: BaseArgVM {
     
     var id: Double = 0;
     var type: String = "";

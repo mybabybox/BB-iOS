@@ -25,9 +25,9 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
     
     var likeFlag: Bool = false
     
-    var productInfo: [PostCatModel] = []
+    var productInfo: [PostCatVM] = []
     var noOfComments: Int = 0
-    var items: [CommentModel] = [] //comment items
+    var items: [CommentVM] = [] //comment items
     var category: CategoryVM?
     var customDate: NSDate = NSDate()
     //var comments : [String]? = []
@@ -51,7 +51,7 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
         ViewUtil.showActivityLoading(self.activityLoading)
         SwiftEventBus.onMainThread(self, name: "productDetailsReceivedSuccess") { result in
             // UI thread
-            let resultDto: [PostCatModel] = result.object as! [PostCatModel]
+            let resultDto: [PostCatVM] = result.object as! [PostCatVM]
             self.handleGetProductDetailsSuccess(resultDto)
         }
         ApiController.instance.getProductDetails(String(Int(productModel.id)))
@@ -137,7 +137,7 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
                 cell.commentTxt.layer.masksToBounds = true
                 
             } else {
-                let comment:CommentModel = self.items[indexPath.row] 
+                let comment:CommentVM = self.items[indexPath.row]
                 cell.lblComments.text = comment.body
                 cell.postedUserName.text = comment.ownerName
                 cell.btnDeleteComments.tag = indexPath.row
@@ -296,7 +296,7 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
     
     func PostComments(button: UIButton){
         let cell: MessageTableViewCell = button.superview!.superview as! MessageTableViewCell
-        let _nComment = CommentModel()
+        let _nComment = CommentVM()
         _nComment.ownerId = UserInfoCache.getUser().id
         _nComment.body = cell.commentTxt.text!
         _nComment.ownerName = UserInfoCache.getUser().displayName
@@ -365,7 +365,7 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
         //let date = NSDate(timeIntervalSinceNow: NSTimeInterval(time))
     }*/
     
-    func handleGetProductDetailsSuccess(result: [PostCatModel]) {
+    func handleGetProductDetailsSuccess(result: [PostCatVM]) {
         self.items.removeAll()
         if (result.count > 0) {
             self.productInfo.append(result[0])

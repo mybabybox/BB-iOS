@@ -115,7 +115,7 @@ class ApiController {
     func getProductDetails(id: String) {
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/get-post/\(id)"
-        callEvent.resultClass = "PostCatModel"
+        callEvent.resultClass = "PostCatVM"
         callEvent.successEventbusName = "productDetailsReceivedSuccess"
         callEvent.failedEventbusName = "productDetailsReceivedFailed"
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
@@ -304,7 +304,7 @@ class ApiController {
     func getAllDistricts() { //filtering by high-low price
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/get-districts"
-        callEvent.resultClass = "LocationModel"
+        callEvent.resultClass = "LocationVM"
         callEvent.successEventbusName = "getDistrictSuccess"
         callEvent.failedEventbusName = "getDistrictFailed"
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
@@ -574,13 +574,13 @@ class ApiController {
         task.resume()
     }
 
-    func handleResult(data: NSData, arg: ResponseVM) {
+    /*func handleResult(data: NSData, arg: ResponseVM) {
         let _: AutoreleasingUnsafeMutablePointer<NSError?> = nil
         let responseString: String = NSString(data: data, encoding: NSUTF8StringEncoding) as! String
         //NSLog("responseString %@", responseString)
         let result: AnyObject = self.parseStr(arg.resultClass, inputStr: responseString as String)
         SwiftEventBus.post("getUserLoggedIn", sender: result)
-    }
+    }*/
     
     func handleResult(data: NSData, arg: ApiCallEvent) -> AnyObject {
         let responseString: String = NSString(data: data, encoding: NSUTF8StringEncoding) as! String
@@ -599,11 +599,10 @@ class ApiController {
             case "CategoryVM": result = Mapper<CategoryVM>().mapArray(inputStr)!
             case "UserVM": result = Mapper<UserVM>().map(inputStr)!
             case "UserVMLite": result = Mapper<UserVMLite>().mapArray(inputStr)!
-            case "ResponseVM": result = Mapper<ResponseVM>().map(inputStr)!
             case "PostVM": result = Mapper<PostVM>().mapArray(inputStr)!
             case "PostVMById": result = Mapper<PostVM>().map(inputStr)!
-            case "PostCatModel": result = Mapper<PostCatModel>().mapArray(inputStr)!
-            case "LocationModel": result = Mapper<LocationModel>().mapArray(inputStr)!
+            case "PostCatVM": result = Mapper<PostCatVM>().mapArray(inputStr)!
+            case "LocationVM": result = Mapper<LocationVM>().mapArray(inputStr)!
             case "UserVMById": result = Mapper<UserVM>().map(inputStr)!
             case "ConversationVM": result = Mapper<ConversationVM>().mapArray(inputStr)!
             case "MessageVM": result = Mapper<MessageVM>().map(inputStr)!

@@ -15,7 +15,7 @@ class SignupDetailViewController: UIViewController, UITextFieldDelegate, SSRadio
     @IBOutlet weak var displayName: UITextField!
     @IBOutlet weak var location: UIButton!
     let locationDropDown = DropDown()
-    var locations: [LocationModel] = []
+    var locations: [LocationVM] = []
     
     override func viewDidAppear(animated: Bool) {
         
@@ -44,7 +44,7 @@ class SignupDetailViewController: UIViewController, UITextFieldDelegate, SSRadio
         
         SwiftEventBus.onMainThread(self, name: "getDistrictSuccess") { result in
             // UI thread
-            self.locations = (result.object as? [LocationModel])!
+            self.locations = (result.object as? [LocationVM])!
             self.refreshLocations()
         }
         

@@ -1,5 +1,5 @@
 //
-//  PostCatModel.swift
+//  PostCatVM.swift
 //  Baby Box
 //
 //  Created by Mac on 17/11/15.
@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import ObjectMapper
 
-class PostCatModel: PostVM {
+class PostCatVM: PostVM {
     
     
     var createdDate: Double = 0
@@ -22,7 +22,7 @@ class PostCatModel: PostVM {
     var categoryName: String = ""
     var categoryIcon: String = ""
     var categoryType: String = ""
-    var latestComments: [CommentModel] = []
+    var latestComments: [CommentVM] = []
     var isOwner: Bool = false
     var isFollowingOwner: Bool = false
     var deviceType: String = ""
