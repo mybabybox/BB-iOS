@@ -29,7 +29,7 @@
                                     <constraint firstAttribute="height" constant="50" id="Kzz-hw-YZU"/>
                                 </constraints>
                             </imageView>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" clearsOnBeginEditing="YES" minimumFontSize="17" disabledBackground="login_lock" translatesAutoresizingMaskIntoConstraints="NO" id="ogk-xa-dLt">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" disabledBackground="login_lock" translatesAutoresizingMaskIntoConstraints="NO" id="ogk-xa-dLt">
                                 <rect key="frame" x="45" y="239" width="324" height="45"/>
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -62,7 +62,7 @@ CEVudGVyIFBhc3N3b3JkA
                                     <rect key="frame" x="310" y="215" width="181" height="30"/>
                                 </variation>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter User Name" clearsOnBeginEditing="YES" minimumFontSize="17" disabledBackground="login_user" translatesAutoresizingMaskIntoConstraints="NO" id="xxB-KE-xtu">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter User Name" minimumFontSize="17" disabledBackground="login_user" translatesAutoresizingMaskIntoConstraints="NO" id="xxB-KE-xtu">
                                 <rect key="frame" x="45" y="184" width="324" height="45"/>
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -1467,7 +1467,7 @@ CEVudGVyIFBhc3N3b3JkA
                                             <constraint firstAttribute="height" constant="1" id="sAW-vC-4zx"/>
                                         </constraints>
                                     </view>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="What are you selling?" textAlignment="natural" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bjF-St-W7d">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="What are you selling?" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bjF-St-W7d">
                                         <rect key="frame" x="8" y="5" width="587" height="40"/>
                                         <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                         <accessibility key="accessibilityConfiguration" hint="">
@@ -1550,7 +1550,7 @@ CEVudGVyIFBhc3N3b3JkA
                                             <action selector="categorySellDropDown:" destination="kD0-9F-RH4" eventType="touchUpInside" id="2DF-nA-nLf"/>
                                         </connections>
                                     </button>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" placeholder="Set Price:" textAlignment="justified" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="9aE-Yp-Cim">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" placeholder="Set Price:" textAlignment="justified" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="9aE-Yp-Cim">
                                         <rect key="frame" x="460" y="10" width="122" height="27"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="122" id="j6x-Xb-SLp"/>
@@ -4078,7 +4078,7 @@ CEVudGVyIFBhc3N3b3JkA
                                                         <constraint firstItem="y1e-HW-5IX" firstAttribute="bottom" secondItem="e51-2b-F99" secondAttribute="bottom" id="GGE-Rh-lYV"/>
                                                         <constraint firstAttribute="trailing" secondItem="AKR-5s-USy" secondAttribute="trailing" id="JTW-qI-2Uv"/>
                                                         <constraint firstAttribute="trailingMargin" secondItem="fzY-G6-3iN" secondAttribute="trailing" constant="20" id="JkP-dD-uAb"/>
-                                                        <constraint firstItem="M7q-ld-1Av" firstAttribute="leading" secondItem="e51-2b-F99" secondAttribute="trailing" constant="20" id="K6u-oB-7LA"/>
+                                                        <constraint firstItem="M7q-ld-1Av" firstAttribute="leading" secondItem="e51-2b-F99" secondAttribute="trailing" id="K6u-oB-7LA"/>
                                                         <constraint firstItem="xgR-gJ-ab2" firstAttribute="leading" secondItem="EWH-be-qu4" secondAttribute="leading" id="M7n-EK-Ox1"/>
                                                         <constraint firstItem="e51-2b-F99" firstAttribute="top" secondItem="EWH-be-qu4" secondAttribute="top" constant="10" id="MKt-L8-Gjf"/>
                                                         <constraint firstAttribute="trailing" secondItem="nBs-14-n79" secondAttribute="trailing" id="MN2-hU-LEE"/>
@@ -4279,10 +4279,10 @@ CEVudGVyIFBhc3N3b3JkA
         <image name="user_thumbnail" width="48" height="48"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="NRf-cI-JqS"/>
         <segue reference="xlr-H1-EYH"/>
+        <segue reference="NRf-cI-JqS"/>
         <segue reference="ac7-3L-0vi"/>
-        <segue reference="fRU-pM-mSi"/>
+        <segue reference="f1D-EY-plH"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>
