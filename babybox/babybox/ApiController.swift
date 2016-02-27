@@ -72,7 +72,7 @@ class ApiController {
     func getUser(id: Int) {
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/get-user/\(id)"
-        callEvent.resultClass = "UserVMById"
+        callEvent.resultClass = "UserVM"
         callEvent.successEventbusName = "userByIdSuccess"
         callEvent.failedEventbusName = "userByIdFailed"
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
@@ -434,7 +434,7 @@ class ApiController {
     func getPostById(id: Int) {
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/get-post/\(id)"
-        callEvent.resultClass = "PostVMById"
+        callEvent.resultClass = "PostVM"
         callEvent.successEventbusName = "postByIdLoadSuccess"
         callEvent.failedEventbusName = "postByIdLoadFailed"
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
@@ -590,21 +590,19 @@ class ApiController {
         var result: AnyObject = NSNull();
         
         switch cName {
-            case "CategoryVM": result = Mapper<CategoryVM>().mapArray(inputStr)!
-            case "UserVM": result = Mapper<UserVM>().map(inputStr)!
-            case "UserVMLite": result = Mapper<UserVMLite>().mapArray(inputStr)!
-            case "PostVMLite": result = Mapper<PostVMLite>().mapArray(inputStr)!
-            case "PostVMById": result = Mapper<PostVMLite>().map(inputStr)!
-            case "PostVM": result = Mapper<PostVM>().map(inputStr)!
-            case "LocationVM": result = Mapper<LocationVM>().mapArray(inputStr)!
-            case "UserVMById": result = Mapper<UserVM>().map(inputStr)!
-            case "ConversationVM": result = Mapper<ConversationVM>().mapArray(inputStr)!
-            case "MessageVM": result = Mapper<MessageVM>().map(inputStr)!
-            case "MessageDetailVM": result = Mapper<MessageDetailVM>().map(inputStr)!
-            case "NewPostVM": result = Mapper<NewPostVM>().map(inputStr)!
-            case "ActivityVM": result = Mapper<ActivityVM>().mapArray(inputStr)!
-            case "String": result = inputStr
-            default: NSLog("calling default object resolver")
+        case "CategoryVM": result = Mapper<CategoryVM>().mapArray(inputStr)!
+        case "UserVMLite": result = Mapper<UserVMLite>().mapArray(inputStr)!
+        case "UserVM": result = Mapper<UserVM>().map(inputStr)!
+        case "PostVMLite": result = Mapper<PostVMLite>().mapArray(inputStr)!
+        case "PostVM": result = Mapper<PostVM>().map(inputStr)!
+        case "LocationVM": result = Mapper<LocationVM>().mapArray(inputStr)!
+        case "ConversationVM": result = Mapper<ConversationVM>().mapArray(inputStr)!
+        case "MessageVM": result = Mapper<MessageVM>().map(inputStr)!
+        case "MessageDetailVM": result = Mapper<MessageDetailVM>().map(inputStr)!
+        case "NewPostVM": result = Mapper<NewPostVM>().map(inputStr)!
+        case "ActivityVM": result = Mapper<ActivityVM>().mapArray(inputStr)!
+        case "String": result = inputStr
+        default: NSLog("calling default object resolver")
         }
         return result
     }
