@@ -66,7 +66,7 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
             self.likeCountTxt.setTitle(String(self.feedItem.numLikes), forState: UIControlState.Normal)
         }
         
-        if (feedItem.isLiked == false) {
+        if (feedItem.isLiked) {
             self.likeImgBtn.setImage(UIImage(named: "ic_liked.png"), forState: UIControlState.Normal)
         } else {
             self.likeImgBtn.setImage(UIImage(named: "ic_like.png"), forState: UIControlState.Normal)
