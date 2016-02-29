@@ -299,15 +299,15 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
         let buttonWidth :CGFloat = availableWidthForButtons / 4
         cell.btnWidthConstraint.constant = buttonWidth
         cell.popularBtn.layer.borderColor = UIColor.lightGrayColor().CGColor
-        cell.popularBtn.layer.borderWidth = 1.0
+        cell.popularBtn.layer.borderWidth = 0.5
         
         cell.newestBtn.layer.borderColor = UIColor.lightGrayColor().CGColor
-        cell.newestBtn.layer.borderWidth = 1.0
+        cell.newestBtn.layer.borderWidth = 0.5
         
         cell.lowToHighBtn.layer.borderColor = UIColor.lightGrayColor().CGColor
-        cell.lowToHighBtn.layer.borderWidth = 1.0
+        cell.lowToHighBtn.layer.borderWidth = 0.5
         
         cell.highToLow.layer.borderColor = UIColor.lightGrayColor().CGColor
-        cell.highToLow.layer.borderWidth = 1.0
+        cell.highToLow.layer.borderWidth = 0.5
     }
 }

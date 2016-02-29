@@ -73,6 +73,7 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
             // UI thread
             NSLog("Product Saved Successfully")
             self.view.makeToast(message: "Product Added Successfully", duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
+            NotificationCounter.mInstance.refresh()
             self.navigationController?.popViewControllerAnimated(true)
         }
         
