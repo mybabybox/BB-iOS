@@ -24,7 +24,6 @@
 		0408FA2D1C13635000CC8803 /* PostVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0408FA241C13635000CC8803 /* PostVM.swift */; };
 		0408FA2E1C13635000CC8803 /* PostVMLite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0408FA251C13635000CC8803 /* PostVMLite.swift */; };
 		0408FA2F1C13635000CC8803 /* ProductCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0408FA261C13635000CC8803 /* ProductCollectionViewCell.swift */; };
-		0408FA321C1363EB00CC8803 /* de.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 0408FA311C1363EB00CC8803 /* de.lproj */; };
 		0408FA4C1C13699900CC8803 /* SettingVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0408FA3E1C13699900CC8803 /* SettingVM.swift */; };
 		0408FA531C13699900CC8803 /* UserVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0408FA461C13699900CC8803 /* UserVM.swift */; };
 		0408FA591C13FB3C00CC8803 /* LandingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0408FA581C13FB3C00CC8803 /* LandingPageViewController.swift */; };
@@ -44,6 +43,10 @@
 		043A539B1C7228F600C70DBC /* FeedLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043A539A1C7228F600C70DBC /* FeedLoader.swift */; };
 		043A539F1C72DC2100C70DBC /* SSRadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043A539D1C72DC2100C70DBC /* SSRadioButton.swift */; };
 		043A53A01C72DC2100C70DBC /* SSRadioButtonsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043A539E1C72DC2100C70DBC /* SSRadioButtonsController.swift */; };
+		044624A61C847A8B002F29E1 /* CustomInfiniteIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044624A51C847A8B002F29E1 /* CustomInfiniteIndicator.swift */; };
+		044624AA1C847C5B002F29E1 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 044624A71C847C5B002F29E1 /* FBSDKCoreKit.framework */; };
+		044624AB1C847C5B002F29E1 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 044624A81C847C5B002F29E1 /* FBSDKLoginKit.framework */; };
+		044624AC1C847C5B002F29E1 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 044624A91C847C5B002F29E1 /* FBSDKShareKit.framework */; };
 		0449B00B1C63C6250077049C /* LicenseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0449B0091C63C6250077049C /* LicenseViewController.swift */; };
 		0449B00C1C63DBEE0077049C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0408F9DB1C1362AA00CC8803 /* Main.storyboard */; };
 		0449B00D1C63DDD80077049C /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044928DF1C6093720016F32C /* SignupViewController.swift */; };
@@ -82,9 +85,6 @@
 		04D1844A1C3B4D8500A6C35B /* CategoryCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D184491C3B4D8500A6C35B /* CategoryCache.swift */; };
 		04D1844C1C3B53DD00A6C35B /* DistrictCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D1844B1C3B53DD00A6C35B /* DistrictCache.swift */; };
 		04D184581C3EF04200A6C35B /* CustomNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D184571C3EF04200A6C35B /* CustomNavigationController.swift */; };
-		04DCF9581C589703005C465C /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DCF9551C589703005C465C /* FBSDKCoreKit.framework */; };
-		04DCF9591C589703005C465C /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DCF9561C589703005C465C /* FBSDKLoginKit.framework */; };
-		04DCF95A1C589703005C465C /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DCF9571C589703005C465C /* FBSDKShareKit.framework */; };
 		04E1A9F71C4A0D8C0052FEED /* FeedFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E1A9F61C4A0D8C0052FEED /* FeedFilter.swift */; };
 		04E1AA0A1C4A52B00052FEED /* DPDConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E1A9F91C4A52B00052FEED /* DPDConstants.swift */; };
 		04E1AA0B1C4A52B00052FEED /* DPDKeyboardListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E1A9FA1C4A52B00052FEED /* DPDKeyboardListener.swift */; };
@@ -146,7 +146,6 @@
 		0408FA241C13635000CC8803 /* PostVM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostVM.swift; sourceTree = "<group>"; };
 		0408FA251C13635000CC8803 /* PostVMLite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostVMLite.swift; sourceTree = "<group>"; };
 		0408FA261C13635000CC8803 /* ProductCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductCollectionViewCell.swift; sourceTree = "<group>"; };
-		0408FA311C1363EB00CC8803 /* de.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; path = de.lproj; sourceTree = "<group>"; };
 		0408FA3E1C13699900CC8803 /* SettingVM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingVM.swift; sourceTree = "<group>"; };
 		0408FA461C13699900CC8803 /* UserVM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserVM.swift; sourceTree = "<group>"; };
 		0408FA581C13FB3C00CC8803 /* LandingPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LandingPageViewController.swift; sourceTree = "<group>"; };
@@ -166,6 +165,10 @@
 		043A539A1C7228F600C70DBC /* FeedLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedLoader.swift; sourceTree = "<group>"; };
 		043A539D1C72DC2100C70DBC /* SSRadioButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSRadioButton.swift; sourceTree = "<group>"; };
 		043A539E1C72DC2100C70DBC /* SSRadioButtonsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSRadioButtonsController.swift; sourceTree = "<group>"; };
+		044624A51C847A8B002F29E1 /* CustomInfiniteIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomInfiniteIndicator.swift; sourceTree = "<group>"; };
+		044624A71C847C5B002F29E1 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = "../Build/Libs/FacebookSDKs-iOS-20151111/FBSDKCoreKit.framework"; sourceTree = "<group>"; };
+		044624A81C847C5B002F29E1 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = "../Build/Libs/FacebookSDKs-iOS-20151111/FBSDKLoginKit.framework"; sourceTree = "<group>"; };
+		044624A91C847C5B002F29E1 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKShareKit.framework; path = "../Build/Libs/FacebookSDKs-iOS-20151111/FBSDKShareKit.framework"; sourceTree = "<group>"; };
 		044928DF1C6093720016F32C /* SignupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
 		0449B0091C63C6250077049C /* LicenseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LicenseViewController.swift; sourceTree = "<group>"; };
 		0449B00E1C64CDE60077049C /* ImageUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageUtil.swift; sourceTree = "<group>"; };
@@ -203,9 +206,6 @@
 		04D184491C3B4D8500A6C35B /* CategoryCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryCache.swift; sourceTree = "<group>"; };
 		04D1844B1C3B53DD00A6C35B /* DistrictCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistrictCache.swift; sourceTree = "<group>"; };
 		04D184571C3EF04200A6C35B /* CustomNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomNavigationController.swift; sourceTree = "<group>"; };
-		04E1A9EF1C496D1E0052FEED /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
-		04E1A9F01C496D1E0052FEED /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
-		04E1A9F11C496D1E0052FEED /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
 		04E1A9F61C4A0D8C0052FEED /* FeedFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedFilter.swift; sourceTree = "<group>"; };
 		04E1A9F81C4A52B00052FEED /* babybox-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "babybox-Bridging-Header.h"; sourceTree = "<group>"; };
 		04E1A9F91C4A52B00052FEED /* DPDConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DPDConstants.swift; sourceTree = "<group>"; };
@@ -244,9 +244,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04DCF9581C589703005C465C /* FBSDKCoreKit.framework in Frameworks */,
-				04DCF9591C589703005C465C /* FBSDKLoginKit.framework in Frameworks */,
-				04DCF95A1C589703005C465C /* FBSDKShareKit.framework in Frameworks */,
+				044624AA1C847C5B002F29E1 /* FBSDKCoreKit.framework in Frameworks */,
+				044624AB1C847C5B002F29E1 /* FBSDKLoginKit.framework in Frameworks */,
+				044624AC1C847C5B002F29E1 /* FBSDKShareKit.framework in Frameworks */,
 				6CF4E8C6E70F9ACB7F1AF880 /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -275,7 +275,7 @@
 		0408F9D31C1362AA00CC8803 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				0408F9D21C1362AA00CC8803 /* babybox.app */,
+				0408F9D21C1362AA00CC8803 /* BabyBox.app */,
 				0408F9E71C1362AA00CC8803 /* babyboxTests.xctest */,
 			);
 			name = Products;
@@ -387,6 +387,7 @@
 		046BB69E1C5794250007CCE6 /* view */ = {
 			isa = PBXGroup;
 			children = (
+				044624A51C847A8B002F29E1 /* CustomInfiniteIndicator.swift */,
 				043A539A1C7228F600C70DBC /* FeedLoader.swift */,
 				0408F9DB1C1362AA00CC8803 /* Main.storyboard */,
 				04A2317B1C1C4D79002FB013 /* HomeReusableView.swift */,
@@ -522,7 +523,6 @@
 			isa = PBXGroup;
 			children = (
 				0408F9DE1C1362AA00CC8803 /* Images.xcassets */,
-				0408FA311C1363EB00CC8803 /* de.lproj */,
 			);
 			name = res;
 			sourceTree = "<group>";
@@ -564,9 +564,9 @@
 		34FE2032942976E730A334CC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				04DCF9551C589703005C465C /* FBSDKCoreKit.framework */,
-				04DCF9561C589703005C465C /* FBSDKLoginKit.framework */,
-				04DCF9571C589703005C465C /* FBSDKShareKit.framework */,
+				044624A71C847C5B002F29E1 /* FBSDKCoreKit.framework */,
+				044624A81C847C5B002F29E1 /* FBSDKLoginKit.framework */,
+				044624A91C847C5B002F29E1 /* FBSDKShareKit.framework */,
 				BDFD6BE300D70B4AC190D07C /* Pods.framework */,
 			);
 			name = Frameworks;
@@ -658,7 +658,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0408FA321C1363EB00CC8803 /* de.lproj in Resources */,
 				04E1AA0F1C4A52B00052FEED /* DropDownCell.xib in Resources */,
 				0408F9DF1C1362AA00CC8803 /* Images.xcassets in Resources */,
 				0449B00C1C63DBEE0077049C /* Main.storyboard in Resources */,
@@ -797,6 +796,7 @@
 				043A53A01C72DC2100C70DBC /* SSRadioButtonsController.swift in Sources */,
 				04D184581C3EF04200A6C35B /* CustomNavigationController.swift in Sources */,
 				043A536E1C68EDBD00C70DBC /* SSValidationTextField.swift in Sources */,
+				044624A61C847A8B002F29E1 /* CustomInfiniteIndicator.swift in Sources */,
 				0408FA591C13FB3C00CC8803 /* LandingPageViewController.swift in Sources */,
 				043A53971C71C0D300C70DBC /* BaseProfileFeedViewController.swift in Sources */,
 				0408FA0B1C13632300CC8803 /* Constants.swift in Sources */,
@@ -848,7 +848,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				0408F9DC1C1362AA00CC8803 /* Base */,
-				04AC3D1D1C6B592900B85D2C /* zh-Hant */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
