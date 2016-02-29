@@ -281,7 +281,7 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func setUnClickedBtnBackgroundAndText(sender: UIButton) {
-        sender.backgroundColor = UIColor.lightGrayColor()
+        sender.backgroundColor = UIColor.whiteColor()
         sender.setTitleColor(UIColor.darkGrayColor(), forState: UIControlState.Normal)
     }
     

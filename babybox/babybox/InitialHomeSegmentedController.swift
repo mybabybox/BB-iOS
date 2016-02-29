@@ -14,15 +14,25 @@ class InitialHomeSegmentedController: CustomNavigationController {
 
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var segController: UISegmentedControl!
-    
+    static var instance: InitialHomeSegmentedController? = nil
     var bottomLayer: CALayer? = nil
     var exploreController : UIViewController? = nil
     var followingController : UIViewController? = nil
     var activeSegment: Int = 0
     var shapeLayer = CAShapeLayer()
+    var notificationCounterVM: NotificationCounterVM? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        InitialHomeSegmentedController.instance = self
+        SwiftEventBus.onMainThread(self, name: "loadNotificationSuccess") { result in
+            print(result.object)
+            self.notificationCounterVM = result.object as! NotificationCounterVM
+            self.refreshNotifications()
+        }
+        SwiftEventBus.onMainThread(self, name: "loadNotificationFailure") { result in
+            NSLog("Error Getting Notification Counter!")
+        }
         
         let normalTextAttributes: [NSObject : AnyObject] = [
             NSForegroundColorAttributeName: UIColor.grayColor(),
@@ -44,6 +54,7 @@ class InitialHomeSegmentedController: CustomNavigationController {
         self.segController.selectedSegmentIndex = self.activeSegment
         self.segAction(self.segController)
         self.navigationItem.hidesBackButton = true
+	NotificationCounter.mInstance.refresh()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -137,5 +148,27 @@ class InitialHomeSegmentedController: CustomNavigationController {
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
     }
+    
+    func refreshNotifications() {
+        let tabBarItem = (self.tabBarController?.tabBar.items![1])! as UITabBarItem
+        if (self.notificationCounterVM?.activitiesCount > 0) {
+            tabBarItem.badgeValue = String(self.notificationCounterVM?.activitiesCount)
+        } else {
+            tabBarItem.badgeValue = nil
+        }
+        let chatNavItem = self.navigationItem.rightBarButtonItems?[1] as? ENMBadgedBarButtonItem
+        
+        if (self.notificationCounterVM?.conversationsCount > 0) {
+            chatNavItem?.badgeValue = String(self.notificationCounterVM?.conversationsCount)
+        } else {
+            chatNavItem?.badgeValue = ""
+        }
+    }
+    
+    /**this method should have been in NotificationCounter class but since this didnt worked as NSTimer selector was not getting resolved within NotificationCounter class so specified the method here.*/
+    func refresh() {
+        NotificationCounter.mInstance.refresh()
+    }
+
     
 }

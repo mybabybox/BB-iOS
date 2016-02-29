@@ -98,9 +98,8 @@ class CustomNavigationController: UIViewController {
         gameBadgeBtn.frame = CGRectMake(0, 0, 35, 35)
         
         let sellBarBtn = UIBarButtonItem(customView: sellBtn)
-        let chatBarBtn = UIBarButtonItem(customView: chatBtn)
+        let chatBarBtn = ENMBadgedBarButtonItem(customView: chatBtn, value: "")
         let badgeBarBtn = UIBarButtonItem(customView: gameBadgeBtn)
-        
         let userImgBarBtn = UIBarButtonItem(customView: userThumbnailImg)
         let userNameBarBtn = UIBarButtonItem(customView: userNameImg)
        

@@ -441,6 +441,16 @@ class ApiController {
         self.makeApiCall(callEvent)
     }
     
+    func getNotificationCounter() {
+        let callEvent = ApiCallEvent()
+        callEvent.method = "/api/notification-counter"
+        callEvent.resultClass = "NotificationCounterVM"
+        callEvent.successEventbusName = "loadNotificationSuccess"
+        callEvent.failedEventbusName = "loadNotificationFailed"
+        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
+        self.makeApiCall(callEvent)
+    }
+    
     func saveSellProduct(producttxt :String,sellingtext :String, categoryId:String, conditionType:String, pricetxt : String, imageCollection: [AnyObject]){
         
         let callEvent=ApiCallEvent()
@@ -601,6 +611,7 @@ class ApiController {
         case "MessageDetailVM": result = Mapper<MessageDetailVM>().map(inputStr)!
         case "NewPostVM": result = Mapper<NewPostVM>().map(inputStr)!
         case "ActivityVM": result = Mapper<ActivityVM>().mapArray(inputStr)!
+        case "NotificationCounterVM": result = Mapper<NotificationCounterVM>().map(inputStr)!
         case "String": result = inputStr
         default: NSLog("calling default object resolver")
         }
