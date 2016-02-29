@@ -25,6 +25,10 @@ class NotificationCounter {
         ApiController.instance.getNotificationCounter()
     }
     
+    func clear() {
+        
+    }
+    
     static func resetActivitiesCount() {
         if (counter != nil) {
             counter!.activitiesCount = 0;

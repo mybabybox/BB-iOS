@@ -72,7 +72,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func initUserCaches() {
-        //NotificationCounter.refresh()
+        NotificationCounter.mInstance.refresh()
         //ConversationCache.refresh()
     }
     
@@ -86,7 +86,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func clearUserCaches() {
-        //NotificationCounter.clear()
+        NotificationCounter.mInstance.clear()
         UserInfoCache.clear()
     }
     

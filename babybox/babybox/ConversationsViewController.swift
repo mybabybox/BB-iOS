@@ -46,6 +46,10 @@ class ConversationsViewController: CustomNavigationController {
         self.automaticallyAdjustsScrollViewInsets = false
     }
     
+    override func viewDidDisappear(animated: Bool) {
+        NotificationCounter.mInstance.refresh()
+    }
+    
     //MARK: UICollectionViewDataSource
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return 1
@@ -77,26 +81,6 @@ class ConversationsViewController: CustomNavigationController {
 
         cell.comment.text = time1
         ImageUtil.displayPostImage(self.conversations[indexPath.row].postImage, imageView: cell.productImage)
-            /*let imagePath =  constants.imagesBaseURL + "/image/get-post-image-by-id/" + String(self.conversations[indexPath.row].postImage)
-            let imageUrl  = NSURL(string: imagePath);
-            let imageData = NSData(contentsOfURL: imageUrl!)
-            if (imageData != nil) {
-                dispatch_async(dispatch_get_main_queue(), {
-                    cell.productImage.image = UIImage(data: imageData!)
-                });
-            }*/
-        
-        /*let imagePaths =  constants.imagesBaseURL + "/image/get-thumbnail-profile-image-by-id/"
- + String(self.conversations[indexPath.row].postImage)
-        let imageUrls  = NSURL(string: imagePaths);
-        let imageDatas = NSData(contentsOfURL: imageUrls!)
-        if (imageDatas != nil) {
-            cell.postImage.layer.cornerRadius=70.0
-            cell.postImage.layer.masksToBounds = true
-            dispatch_async(dispatch_get_main_queue(), {
-                cell.postImage.image = UIImage(data: imageDatas!)
-            });
-        }*/
         ImageUtil.displayThumbnailProfileImage(self.conversations[indexPath.row].postImage, imageView: cell.postImage)
         return cell
     }
@@ -121,37 +105,3 @@ class ConversationsViewController: CustomNavigationController {
         vController.conversationId = self.conversations[self.currentIndex].id
     }
 }
-/*
-extension NSDate {
-    func yearsFrom(date:NSDate) -> Int{
-        return NSCalendar.currentCalendar().components(.Year, fromDate: date, toDate: self, options: []).year
-    }
-    func monthsFrom(date:NSDate) -> Int{
-        return NSCalendar.currentCalendar().components(.Month, fromDate: date, toDate: self, options: []).month
-    }
-    func weeksFrom(date:NSDate) -> Int{
-        return NSCalendar.currentCalendar().components(.WeekOfYear, fromDate: date, toDate: self, options: []).weekOfYear
-    }
-    func daysFrom(date:NSDate) -> Int{
-        return NSCalendar.currentCalendar().components(.Day, fromDate: date, toDate: self, options: []).day
-    }
-    func hoursFrom(date:NSDate) -> Int{
-        return NSCalendar.currentCalendar().components(.Hour, fromDate: date, toDate: self, options: []).hour
-    }
-    func minutesFrom(date:NSDate) -> Int{
-        return NSCalendar.currentCalendar().components(.Minute, fromDate: date, toDate: self, options: []).minute
-    }
-    func secondsFrom(date:NSDate) -> Int{
-        return NSCalendar.currentCalendar().components(.Second, fromDate: date, toDate: self, options: []).second
-    }
-    func offsetFrom(date:NSDate) -> String {
-        if yearsFrom(date)   > 0 { return "\(yearsFrom(date)) years ago"   }
-        if monthsFrom(date)  > 0 { return "\(monthsFrom(date)) months ago"  }
-        if weeksFrom(date)   > 0 { return "\(weeksFrom(date)) weeks ago"   }
-        if daysFrom(date)    > 0 { return "\(daysFrom(date)) days ago"    }
-        if hoursFrom(date)   > 0 { return "\(hoursFrom(date)) hours ago"   }
-        if minutesFrom(date) > 0 { return "\(minutesFrom(date)) minutes ago" }
-        if secondsFrom(date) > 0 { return "\(secondsFrom(date)) seconds ago" }
-        return ""
-    }
-}*/
