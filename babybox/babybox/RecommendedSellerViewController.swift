@@ -39,13 +39,13 @@ class RecommendedSellerViewController: UIViewController {
         self.tabBarController!.tabBar.hidden = false
         self.navigationController?.navigationBar.hidden = false
         self.tabBarController?.tabBar.alpha = CGFloat(constants.MAIN_BOTTOM_BAR_ALPHA)
-        ViewUtil.hideActivityLoading(self.activityLoading)
+        ViewUtil.showActivityLoading(self.activityLoading)
         
         ApiController.instance.getRecommendedSellersFeed(offSet)
     }
     
     override func viewDidDisappear(animated: Bool) {
-        self.tabBarController!.tabBar.hidden = true
+        //self.tabBarController!.tabBar.hidden = true
         self.recommendedSellers.removeAll()
         self.uiCollectionView.reloadData()
     }
@@ -136,6 +136,7 @@ class RecommendedSellerViewController: UIViewController {
         */
         if (scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - constants.FEED_LOAD_SCROLL_THRESHOLD {
             if (!loading) {
+                ViewUtil.showActivityLoading(self.activityLoading)
                 loading = true
                 var feedOffset: Int64 = 0
                 if (!self.recommendedSellers.isEmpty) {
@@ -223,6 +224,7 @@ class RecommendedSellerViewController: UIViewController {
         let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("FeedProductViewController") as! FeedProductViewController
         let feedItem = self.recommendedSellers[indexPath.row]
         vController.feedItem = feedItem.posts[index]
+        self.tabBarController!.tabBar.hidden = true
         self.navigationController?.pushViewController(vController, animated: true)
     }
 }

@@ -26,7 +26,6 @@ class InitialHomeSegmentedController: CustomNavigationController {
         super.viewDidLoad()
         InitialHomeSegmentedController.instance = self
         SwiftEventBus.onMainThread(self, name: "loadNotificationSuccess") { result in
-            print(result.object)
             self.notificationCounterVM = result.object as? NotificationCounterVM
             self.refreshNotifications()
         }
