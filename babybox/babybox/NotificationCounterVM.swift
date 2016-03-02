@@ -12,8 +12,8 @@ import ObjectMapper
 class NotificationCounterVM: BaseArgVM {
     var id: Double = 0
     var userId: Double = 0
-    var activitiesCount: Double = 0
-    var conversationsCount: Double = 0
+    var activitiesCount: Int = 0
+    var conversationsCount: Int = 0
     
     override func mapping(map: ObjectMapper.Map) {
         super.mapping(map)

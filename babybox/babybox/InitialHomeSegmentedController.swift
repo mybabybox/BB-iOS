@@ -27,7 +27,7 @@ class InitialHomeSegmentedController: CustomNavigationController {
         InitialHomeSegmentedController.instance = self
         SwiftEventBus.onMainThread(self, name: "loadNotificationSuccess") { result in
             print(result.object)
-            self.notificationCounterVM = result.object as! NotificationCounterVM
+            self.notificationCounterVM = result.object as? NotificationCounterVM
             self.refreshNotifications()
         }
         SwiftEventBus.onMainThread(self, name: "loadNotificationFailure") { result in
@@ -152,14 +152,16 @@ class InitialHomeSegmentedController: CustomNavigationController {
     func refreshNotifications() {
         let tabBarItem = (self.tabBarController?.tabBar.items![1])! as UITabBarItem
         if (self.notificationCounterVM?.activitiesCount > 0) {
-            tabBarItem.badgeValue = String(self.notificationCounterVM?.activitiesCount)
+            let aCount = self.notificationCounterVM?.activitiesCount
+            tabBarItem.badgeValue = String(aCount)
         } else {
             tabBarItem.badgeValue = nil
         }
         let chatNavItem = self.navigationItem.rightBarButtonItems?[1] as? ENMBadgedBarButtonItem
         
         if (self.notificationCounterVM?.conversationsCount > 0) {
-            chatNavItem?.badgeValue = String(self.notificationCounterVM?.conversationsCount)
+            let cCount = (self.notificationCounterVM?.conversationsCount)! as Int
+            chatNavItem?.badgeValue = String(cCount)
         } else {
             chatNavItem?.badgeValue = ""
         }
