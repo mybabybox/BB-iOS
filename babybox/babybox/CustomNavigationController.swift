@@ -27,7 +27,7 @@ class CustomNavigationController: UIViewController {
     }
     
     func onClickUserBtn(sender: AnyObject?) {
-        self.tabBarController!.selectedIndex = 2
+        self.tabBarController!.selectedIndex = 3
     }
     
     func onClickSellBtn(sender: AnyObject?) {

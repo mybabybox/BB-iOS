@@ -26,13 +26,18 @@ class CustomTabViewController: UITabBarController {
         
         let activityImg = UIImage(named: "mn_notif")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
         let selActivityImg = UIImage(named: "mn_notif_sel")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
-        self.tabBar.items![1].image = activityImg
-        self.tabBar.items![1].selectedImage = selActivityImg
+        self.tabBar.items![2].image = activityImg
+        self.tabBar.items![2].selectedImage = selActivityImg
         
         let profileImg = UIImage(named: "mn_profile")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
         let selProfileImg = UIImage(named: "mn_profile_sel")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
-        self.tabBar.items![2].image = profileImg
-        self.tabBar.items![2].selectedImage = selProfileImg
+        self.tabBar.items![3].image = profileImg
+        self.tabBar.items![3].selectedImage = selProfileImg
+        
+        let sellerImg = UIImage(named: "mn_seller")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+        let selSellerImg = UIImage(named: "mn_seller_sel")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+        self.tabBar.items![1].image = sellerImg
+        self.tabBar.items![1].selectedImage = selSellerImg
         
     }
 

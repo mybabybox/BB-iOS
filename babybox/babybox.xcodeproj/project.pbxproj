@@ -65,6 +65,10 @@
 		0459BB211C7479040096A330 /* ActivityVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0459BB201C7479040096A330 /* ActivityVM.swift */; };
 		0459BB241C755C8C0096A330 /* NSDateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0459BB231C755C8C0096A330 /* NSDateExtension.swift */; };
 		0459BB281C75BA7B0096A330 /* FeedViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0459BB271C75BA7B0096A330 /* FeedViewAdapter.swift */; };
+		046633D51C846928000F18AE /* SellerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046633D41C846928000F18AE /* SellerViewController.swift */; };
+		046633D71C84876C000F18AE /* RecommendedSellerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046633D61C84876C000F18AE /* RecommendedSellerViewController.swift */; };
+		046633DB1C854D1D000F18AE /* RecommendedSellerViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046633DA1C854D1D000F18AE /* RecommendedSellerViewCell.swift */; };
+		046633DD1C85621B000F18AE /* SellerVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046633DC1C85621B000F18AE /* SellerVM.swift */; };
 		0469057D1C809B1800BDFFB9 /* NotificationCounterVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0469057C1C809B1800BDFFB9 /* NotificationCounterVM.swift */; };
 		046905801C816DE000BDFFB9 /* ENMBadgedBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0469057F1C816DE000BDFFB9 /* ENMBadgedBarButtonItem.swift */; };
 		046905821C81892100BDFFB9 /* NotificationCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046905811C81892100BDFFB9 /* NotificationCounter.swift */; };
@@ -186,6 +190,10 @@
 		0459BB201C7479040096A330 /* ActivityVM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityVM.swift; sourceTree = "<group>"; };
 		0459BB231C755C8C0096A330 /* NSDateExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDateExtension.swift; sourceTree = "<group>"; };
 		0459BB271C75BA7B0096A330 /* FeedViewAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedViewAdapter.swift; sourceTree = "<group>"; };
+		046633D41C846928000F18AE /* SellerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SellerViewController.swift; sourceTree = "<group>"; };
+		046633D61C84876C000F18AE /* RecommendedSellerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecommendedSellerViewController.swift; sourceTree = "<group>"; };
+		046633DA1C854D1D000F18AE /* RecommendedSellerViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecommendedSellerViewCell.swift; sourceTree = "<group>"; };
+		046633DC1C85621B000F18AE /* SellerVM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SellerVM.swift; sourceTree = "<group>"; };
 		0469057C1C809B1800BDFFB9 /* NotificationCounterVM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationCounterVM.swift; sourceTree = "<group>"; };
 		0469057F1C816DE000BDFFB9 /* ENMBadgedBarButtonItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ENMBadgedBarButtonItem.swift; sourceTree = "<group>"; };
 		046905811C81892100BDFFB9 /* NotificationCounter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationCounter.swift; sourceTree = "<group>"; };
@@ -428,6 +436,8 @@
 				043A53651C68605100C70DBC /* SignupDetailViewController.swift */,
 				043A53701C6A31C900C70DBC /* SignInOptionsViewController.swift */,
 				043A53721C6A324100C70DBC /* FbLoginViewController.swift */,
+				046633D41C846928000F18AE /* SellerViewController.swift */,
+				046633D61C84876C000F18AE /* RecommendedSellerViewController.swift */,
 			);
 			name = viewcontroller;
 			sourceTree = "<group>";
@@ -452,6 +462,7 @@
 				0408FA461C13699900CC8803 /* UserVM.swift */,
 				0459BB201C7479040096A330 /* ActivityVM.swift */,
 				0469057C1C809B1800BDFFB9 /* NotificationCounterVM.swift */,
+				046633DC1C85621B000F18AE /* SellerVM.swift */,
 			);
 			name = viewmodel;
 			sourceTree = "<group>";
@@ -515,6 +526,7 @@
 				044CD1841C779EFF00D68AA7 /* UserActivityTypeViewCell.swift */,
 				044CD1861C77A45300D68AA7 /* BaseActivityViewCell.swift */,
 				044CD1881C77A81100D68AA7 /* UserActivityType2ViewCell.swift */,
+				046633DA1C854D1D000F18AE /* RecommendedSellerViewCell.swift */,
 			);
 			name = viewcell;
 			sourceTree = "<group>";
@@ -740,6 +752,7 @@
 				047706F41C23EB9400E851D3 /* MessageVM.swift in Sources */,
 				044DC84D1C51EBB700B9FD49 /* CustomTabViewController.swift in Sources */,
 				043123301C7F3551007EAC4D /* BaseLoginViewController.swift in Sources */,
+				046633D71C84876C000F18AE /* RecommendedSellerViewController.swift in Sources */,
 				0408FA071C13632300CC8803 /* CategoryVM.swift in Sources */,
 				0469057D1C809B1800BDFFB9 /* NotificationCounterVM.swift in Sources */,
 				0408FA091C13632300CC8803 /* CommentVM.swift in Sources */,
@@ -753,6 +766,7 @@
 				04E6F6CE1C15A9FC0057C94E /* ForgotPasswordViewController.swift in Sources */,
 				0449B00B1C63C6250077049C /* LicenseViewController.swift in Sources */,
 				04F11EBF1C20914900414CD3 /* FollowersCollectionViewCell.swift in Sources */,
+				046633D51C846928000F18AE /* SellerViewController.swift in Sources */,
 				04EB21841C1FFFF9001A14DB /* SettingsViewController.swift in Sources */,
 				04F11EC11C20915E00414CD3 /* FollowingCollectionViewCell.swift in Sources */,
 				04E6F7101C18795E0057C94E /* SellProductsViewController.swift in Sources */,
@@ -766,6 +780,7 @@
 				0408F9DA1C1362AA00CC8803 /* LoginViewController.swift in Sources */,
 				04E1AA0B1C4A52B00052FEED /* DPDKeyboardListener.swift in Sources */,
 				04E1AA171C4A52B00052FEED /* NewPostVM.swift in Sources */,
+				046633DD1C85621B000F18AE /* SellerVM.swift in Sources */,
 				044CD1871C77A45300D68AA7 /* BaseActivityViewCell.swift in Sources */,
 				0431232A1C7F3527007EAC4D /* UserVMLite.swift in Sources */,
 				04E6F7121C1879F80057C94E /* CustomCollectionViewCell.swift in Sources */,
@@ -795,6 +810,7 @@
 				04A231801C1C5D9D002FB013 /* HomeFeedViewController.swift in Sources */,
 				043A53A01C72DC2100C70DBC /* SSRadioButtonsController.swift in Sources */,
 				04D184581C3EF04200A6C35B /* CustomNavigationController.swift in Sources */,
+				046633DB1C854D1D000F18AE /* RecommendedSellerViewCell.swift in Sources */,
 				043A536E1C68EDBD00C70DBC /* SSValidationTextField.swift in Sources */,
 				044624A61C847A8B002F29E1 /* CustomInfiniteIndicator.swift in Sources */,
 				0408FA591C13FB3C00CC8803 /* LandingPageViewController.swift in Sources */,

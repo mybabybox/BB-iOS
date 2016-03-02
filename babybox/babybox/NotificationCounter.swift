@@ -17,7 +17,7 @@ class NotificationCounter {
     static var mInstance: NotificationCounter = NotificationCounter()
     
     init() {
-        NSTimer.scheduledTimerWithTimeInterval(NotificationCounter.TIMER_INTERVAL, target: InitialHomeSegmentedController.instance!, selector: "refresh", userInfo: nil, repeats: true)
+        //NSTimer.scheduledTimerWithTimeInterval(NotificationCounter.TIMER_INTERVAL, target: InitialHomeSegmentedController.instance!, selector: "refresh", userInfo: nil, repeats: true)
     }
     
     func refresh() {
