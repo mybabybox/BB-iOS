@@ -150,4 +150,17 @@ class ViewUtil {
         */
         return activityIndicator
     }
+    
+    static func selectFollowButtonStyleLite(button: UIButton) {
+        button.setTitleColor(UIColor.grayColor(), forState: UIControlState.Normal)
+        button.layer.borderColor = UIColor.lightGrayColor().CGColor
+        button.setTitle("Following", forState: UIControlState.Normal)
+    }
+    
+    static func unselectFollowButtonStyleLite(button: UIButton) {
+    
+        button.setTitleColor(ImageUtil.UIColorFromRGB(0xFF76A4), forState: UIControlState.Normal)
+        button.layer.borderColor = ImageUtil.UIColorFromRGB(0xFF76A4).CGColor
+        button.setTitle("Follow", forState: UIControlState.Normal)
+    }
 }

@@ -557,8 +557,13 @@ class ApiController {
             if error != nil {
                 SwiftEventBus.post(arg.failedEventbusName, sender: error)
             } else {
-                let result = self.handleResult(data!, arg: arg)
-                SwiftEventBus.post(arg.successEventbusName, sender: result)
+                let result: AnyObject?
+                do {
+                    result = try self.handleResult(data!, arg: arg)
+                    SwiftEventBus.post(arg.successEventbusName, sender: result)
+                } catch {
+                    SwiftEventBus.post(arg.failedEventbusName, sender: nil)
+                }
             }
         })
         task.resume()
@@ -590,24 +595,28 @@ class ApiController {
             if error != nil {
                 SwiftEventBus.post(arg.failedEventbusName, sender: error)
             } else {
-                let result: AnyObject = self.handleResult(data!, arg: arg)
-                SwiftEventBus.post(arg.successEventbusName, sender: result)
-    
+                let result: AnyObject?
+                do {
+                    result = try self.handleResult(data!, arg: arg)
+                    SwiftEventBus.post(arg.successEventbusName, sender: result)
+                } catch {
+                    SwiftEventBus.post(arg.failedEventbusName, sender: nil)
+                }
             }
-        })
+        })  
         task.resume()
     }
     
-    func handleResult(data: NSData, arg: ApiCallEvent) -> AnyObject {
+    func handleResult(data: NSData, arg: ApiCallEvent) throws -> AnyObject {
         let responseString: String = NSString(data: data, encoding: NSUTF8StringEncoding) as! String
         if (responseString == "") {
             return ""
         }
-        let result: AnyObject = self.parseStr(arg.resultClass, inputStr: responseString as String)
+        let result: AnyObject = try self.parseStr(arg.resultClass, inputStr: responseString as String)
         return result
     }
     
-    func parseStr(cName: String, inputStr: String) -> AnyObject {
+    func parseStr(cName: String, inputStr: String) throws -> AnyObject {
         var result: AnyObject = NSNull();
         
         switch cName {

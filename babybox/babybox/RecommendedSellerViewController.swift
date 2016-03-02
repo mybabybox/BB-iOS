@@ -32,6 +32,26 @@ class RecommendedSellerViewController: UIViewController {
             self.view.makeToast(message: "Error getting Recommended Seller!")
         }
         
+        SwiftEventBus.onMainThread(self, name: "followUserSuccess") { result in
+        
+        }
+        
+        SwiftEventBus.onMainThread(self, name: "followUserFailed") { result in
+            self.view.makeToast(message: "follow: failure")
+        }
+        
+        SwiftEventBus.onMainThread(self, name: "unfollowUserSuccess") { result in
+        
+        }
+        
+        SwiftEventBus.onMainThread(self, name: "unfollowUserFailed") { result in
+            self.view.makeToast(message: "unFollow: failure")
+        }
+        
+        ViewUtil.showActivityLoading(self.activityLoading)
+        
+        ApiController.instance.getRecommendedSellersFeed(offSet)
+        
         // Do any additional setup after loading the view.
     }
     
@@ -39,15 +59,15 @@ class RecommendedSellerViewController: UIViewController {
         self.tabBarController!.tabBar.hidden = false
         self.navigationController?.navigationBar.hidden = false
         self.tabBarController?.tabBar.alpha = CGFloat(constants.MAIN_BOTTOM_BAR_ALPHA)
-        ViewUtil.showActivityLoading(self.activityLoading)
+        //ViewUtil.showActivityLoading(self.activityLoading)
         
-        ApiController.instance.getRecommendedSellersFeed(offSet)
+        //ApiController.instance.getRecommendedSellersFeed(offSet)
     }
     
     override func viewDidDisappear(animated: Bool) {
         //self.tabBarController!.tabBar.hidden = true
-        self.recommendedSellers.removeAll()
-        self.uiCollectionView.reloadData()
+        //self.recommendedSellers.removeAll()
+        //self.uiCollectionView.reloadData()
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -76,7 +96,16 @@ class RecommendedSellerViewController: UIViewController {
         cell.aboutMe.text = item.aboutMe
         self.lcontentSize = cell.aboutMe.frame.size.height
         ImageUtil.displayThumbnailProfileImage(self.recommendedSellers[indexPath.row].id, imageView: cell.sellerImg)
+        
+        
+        // follow
+        if (item.isFollowing) {
+            ViewUtil.selectFollowButtonStyleLite(cell.followBtn);
+        } else {
+            ViewUtil.unselectFollowButtonStyleLite(cell.followBtn);
+        }
         ImageUtil.displayCornerView(cell.followBtn)
+        
         self.setSizesFoProdImgs(cell)
         
         var imageHolders: [UIImageView] = []
@@ -227,4 +256,33 @@ class RecommendedSellerViewController: UIViewController {
         self.tabBarController!.tabBar.hidden = true
         self.navigationController?.pushViewController(vController, animated: true)
     }
+    
+    @IBAction func onClickFollowUnfollow(sender: AnyObject) {
+        let button = sender as! UIButton
+        let view = button.superview!
+        let cell = view.superview! as! RecommendedSellerViewCell
+        
+        let indexPath = self.uiCollectionView.indexPathForCell(cell)!
+        let item = self.recommendedSellers[indexPath.row]
+        if (item.isFollowing) {
+            unfollow(item, cell: cell)
+        } else {
+            follow(item, cell: cell)
+        }
+        
+    }
+    
+    func follow(user: UserVMLite, cell: RecommendedSellerViewCell) {
+        
+        ApiController.instance.followUser(user.id)
+        user.isFollowing = true
+        ViewUtil.selectFollowButtonStyleLite(cell.followBtn)
+    }
+    
+    func unfollow(user: UserVMLite, cell: RecommendedSellerViewCell){
+        ApiController.instance.unfollowUser(user.id)
+        user.isFollowing = false
+        ViewUtil.unselectFollowButtonStyleLite(cell.followBtn)
+    }
+    
 }
