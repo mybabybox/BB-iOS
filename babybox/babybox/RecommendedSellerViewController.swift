@@ -22,6 +22,11 @@ class RecommendedSellerViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        self.uiCollectionView.setNeedsLayout()
+        self.uiCollectionView.layoutIfNeeded()
+        
         self.setCollectionViewSizesInsets()
         SwiftEventBus.onMainThread(self, name: "recommendedSellerSuccess") { result in
             let sellers = result.object as! [SellerVM]
@@ -91,12 +96,11 @@ class RecommendedSellerViewController: UIViewController {
         cell.sizeToFit()
         cell.sellerName.text = String(item.displayName)
         cell.followers.text = String(item.numFollowers)
-        cell.aboutMe.numberOfLines = 0
-        cell.aboutMe.sizeToFit()
+        cell.aboutMe.numberOfLines = 3
         cell.aboutMe.text = item.aboutMe
         self.lcontentSize = cell.aboutMe.frame.size.height
+        cell.aboutMe.sizeToFit()
         ImageUtil.displayThumbnailProfileImage(self.recommendedSellers[indexPath.row].id, imageView: cell.sellerImg)
-        
         
         // follow
         if (item.isFollowing) {
@@ -123,7 +127,7 @@ class RecommendedSellerViewController: UIViewController {
                 cell.moreText.titleLabel?.numberOfLines = 2 //if you want unlimited number of lines put 0
                 cell.moreText.titleLabel?.textAlignment = NSTextAlignment.Center
                 cell.moreText.hidden = false
-                imageHolders[i].alpha = 0.25
+                imageHolders[i].alpha = 0.50
                 cell.moreText.alpha = 1.0
             } else {
                 cell.moreText.hidden = true
@@ -147,7 +151,15 @@ class RecommendedSellerViewController: UIViewController {
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         //return collectionViewCellSize!
-        return CGSizeMake(self.view.bounds.width, CGFloat(130))
+        /**this code is used to dynamically specify the height to CellView without this code 
+        contents get overlapped*/
+        let dummyLbl = UILabel(frame: CGRect(x: 0,y: 0, width: self.view.bounds.width, height: 0))
+        dummyLbl.numberOfLines = 2
+        dummyLbl.text = self.recommendedSellers[indexPath.row].aboutMe
+        dummyLbl.sizeToFit()
+        
+        return CGSizeMake(self.view.bounds.width, CGFloat(130) + dummyLbl.bounds.height)
+        
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
@@ -212,7 +224,7 @@ class RecommendedSellerViewController: UIViewController {
     
     func setSizesFoProdImgs(cell: RecommendedSellerViewCell) {
         
-        let availableWidthForButtons:CGFloat = self.view.bounds.width - 40
+        let availableWidthForButtons:CGFloat = self.view.bounds.width - 60
         let buttonWidth :CGFloat = availableWidthForButtons / 4
         cell.prodImgWidth.constant = buttonWidth
         cell.prodImgHt.constant = buttonWidth

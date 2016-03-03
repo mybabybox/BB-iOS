@@ -112,16 +112,6 @@ class CustomNavigationController: UIViewController {
         self.navigationItem.backBarButtonItem = backbtn
         
     }
-    
-    func initBottomStatusBarComponent() {
-        let tabBarController = UITabBarController()
-        
-        let destination1 = UIViewController()
-        let destination2 = UIViewController()
-        destination1.title = "view1"
-        destination2.title = "view2"
-        tabBarController.viewControllers = [destination1, destination2]
-        
-    }
+  
 
 }
