@@ -197,4 +197,8 @@ class FeedLoader {
     func getItem(i: Int) -> PostVMLite {
         return feedItems[i]
     }
+    
+    func setItem(i: Int, item: PostVMLite) {
+        feedItems[i] = item
+    }
 }

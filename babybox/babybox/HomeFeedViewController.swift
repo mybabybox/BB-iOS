@@ -24,8 +24,10 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
     var collectionViewTopCellSize : CGSize?
     var lastContentOffset: CGFloat = 0
     var reuseIdentifier = "CellType1"
-    
+    var currentIndex: NSIndexPath?
     var categories : [CategoryVM] = []
+    
+    var vController: FeedProductViewController?
     
     func reloadDataToView() {
         self.uiCollectionView.reloadData()
@@ -38,6 +40,13 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
     override func viewDidAppear(animated: Bool) {
         self.tabBarController!.tabBar.hidden = false
         self.tabBarController?.tabBar.alpha = CGFloat(constants.MAIN_BOTTOM_BAR_ALPHA)
+        
+        if (currentIndex != nil) {
+            let item = vController?.feedItem
+            feedLoader?.setItem(currentIndex!.row, item: item!)
+            self.uiCollectionView.reloadItemsAtIndexPaths([currentIndex!])
+        }
+        
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -148,10 +157,11 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
             vController.selCategory = self.categories[indexPath.row]
             self.navigationController?.pushViewController(vController, animated: true)
         } else {
-            let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("FeedProductViewController") as! FeedProductViewController
+            vController =  self.storyboard!.instantiateViewControllerWithIdentifier("FeedProductViewController") as? FeedProductViewController
             let feedItem = feedLoader!.getItem(indexPath.row)
-            vController.feedItem = feedItem
-            self.navigationController?.pushViewController(vController, animated: true)
+            vController!.feedItem = feedItem
+            currentIndex = indexPath
+            self.navigationController?.pushViewController(vController!, animated: true)
         }
     }
     
