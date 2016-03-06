@@ -14,8 +14,8 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, UIImagePick
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var sendButton: UIButton!
     
-    var offset: Int = 0
-    var loadingMessage: Bool = false
+    var offset: Int64 = 0
+    var loading: Bool = false
     var conversation: ConversationVM? = nil
     var selectedImage : UIImage?
     var lastChatBubbleY: CGFloat = 10.0
@@ -101,7 +101,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, UIImagePick
     }
         
     @IBAction func sendButtonClicked(sender: AnyObject) {
-            let bubbleData = ChatBubbleData(text: textField.text, image: selectedImage, date: NSDate(), type: .Mine)
+            let bubbleData = ChatBubbleData(text: textField.text, image: selectedImage, date: NSDate(), type: .Mine, imgId: -1)
             addChatBubble(bubbleData)
             textField.resignFirstResponder()
             
@@ -114,7 +114,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, UIImagePick
         
     
     func addRandomTypeChatBubble() {
-            let bubbleData = ChatBubbleData(text: textField.text, image: selectedImage, date: NSDate(), type: getRandomChatDataType())
+            let bubbleData = ChatBubbleData(text: textField.text, image: selectedImage, date: NSDate(), type: getRandomChatDataType(), imgId: -1)
             addChatBubble(bubbleData)
     }
     
@@ -175,7 +175,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, UIImagePick
     
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         let chosenImage = info[UIImagePickerControllerOriginalImage] as! UIImage //2
-        let bubbleData = ChatBubbleData(text: textField.text, image: chosenImage, date: NSDate(), type: .Mine)
+        let bubbleData = ChatBubbleData(text: textField.text, image: chosenImage, date: NSDate(), type: .Mine, imgId: -1)
         
         //post new chat message
         //ApiController.instance.postMessage(String(self.conversationId), message: bubbleData.text!, imageData: bubbleData.image!)
@@ -187,34 +187,32 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, UIImagePick
     }
     
     func handleChatMessageResponse(result: MessageVM){
+        result.messages.sortInPlace({ $0.createdDate < $1.createdDate })
+        //result.messages.sortInPlace({ $0.createdDate.compare($1.createdDate) == NSComparisonResult.OrderedAscending })
+        
         for var i=0; i<result.messages.count; i++ {
-            if(result.messages[i].senderName == UserInfoCache.getUser().firstName){
-                if(result.messages[i].hasImage == true){
-                    
-                }else{
-                    let chatBubbleData1 = ChatBubbleData(text: result.messages[i].body, image:nil, date: NSDate(), type: .Mine)
-                    addChatBubble(chatBubbleData1)
-                }
-                
-            }else{
-                if(result.messages[i].hasImage == true){
-                    
-                }else{
-                    let chatBubbleData2 = ChatBubbleData(text: result.messages[i].body, image:nil, date: NSDate(), type: .Opponent)
-                    addChatBubble(chatBubbleData2)
-                }
+            let message: MessageDetailVM = result.messages[i]
+            let messageDt = NSDate(timeIntervalSince1970:Double(message.createdDate) / 1000.0)
+            if (UserInfoCache.getUser().id == message.senderId) {
+                let chatBubbleData = ChatBubbleData(text: message.body, image:nil, date: messageDt, type: .Mine, imgId: -1)
+                addChatBubble(chatBubbleData)
+            } else {
+                let chatBubbleData = ChatBubbleData(text: result.messages[i].body, image:nil, date: messageDt, type: .Opponent, imgId: message.senderId)
+                addChatBubble(chatBubbleData)
             }
+            
         }
-        self.offset++
-        self.loadingMessage = true
+        loading = false
+        //ViewUtil.hideActivityLoading(self.activityLoading)
+    
     }
     
     // MARK: UIScrollview Delegate
     func scrollViewDidScroll(scrollView: UIScrollView) {
         if (scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - constants.FEED_LOAD_SCROLL_THRESHOLD {
-            if (loadingMessage) {
-                ApiController.instance.getMessages((self.conversation?.id)!, offset: offset)
-                self.loadingMessage = false
+            if (!loading) {
+                //ApiController.instance.getMessages((self.conversation?.id)!, offset: feedOffset)
+                self.loading = false
             }
         }
     }

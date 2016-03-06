@@ -1360,17 +1360,23 @@ CEVudGVyIFBhc3N3b3JkA
                                     <outlet property="delegate" destination="3ro-ec-ETS" id="dqR-3k-5Mf"/>
                                 </connections>
                             </collectionView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Syk-uZ-Iz5">
+                                <rect key="frame" x="290" y="290" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="Syk-uZ-Iz5" firstAttribute="centerX" secondItem="n7v-TK-5xc" secondAttribute="centerX" id="2WH-Qg-E4D"/>
                             <constraint firstAttribute="bottom" secondItem="vPU-IL-q6l" secondAttribute="bottom" id="Uzr-Sr-zFT"/>
                             <constraint firstItem="vPU-IL-q6l" firstAttribute="leading" secondItem="n7v-TK-5xc" secondAttribute="leading" id="XCn-Hs-CZG"/>
                             <constraint firstItem="vPU-IL-q6l" firstAttribute="top" secondItem="n7v-TK-5xc" secondAttribute="top" id="mU2-yg-Q3p"/>
                             <constraint firstAttribute="trailing" secondItem="vPU-IL-q6l" secondAttribute="trailing" id="w8u-AZ-avH"/>
+                            <constraint firstItem="Syk-uZ-Iz5" firstAttribute="centerY" secondItem="n7v-TK-5xc" secondAttribute="centerY" id="xEk-fe-k9g"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Chats" id="36f-Oc-P3i"/>
                     <connections>
+                        <outlet property="activityLoading" destination="Syk-uZ-Iz5" id="ybc-qZ-fKZ"/>
                         <outlet property="collectionView" destination="vPU-IL-q6l" id="PDi-5r-CCn"/>
                     </connections>
                 </viewController>
@@ -3646,7 +3652,7 @@ CEVudGVyIFBhc3N3b3JkA
                             </label>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NJW-6b-MfY">
                                 <rect key="frame" x="4" y="61" width="592" height="465"/>
-                                <color key="backgroundColor" red="0.92549019607843142" green="0.92549019607843142" blue="0.90196078431372551" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <connections>
                                     <outlet property="delegate" destination="89W-J0-Agh" id="8Ka-kK-Kax"/>
                                 </connections>

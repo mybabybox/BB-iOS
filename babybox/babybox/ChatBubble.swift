@@ -35,6 +35,13 @@ class ChatBubble: UIView {
             imageViewChat?.layer.cornerRadius = 5.0
             imageViewChat?.layer.masksToBounds = true
             self.addSubview(imageViewChat!)
+        } else if (data.imgId != -1 && data.imgId != nil) {
+            //let width: CGFloat = min(chatImage.size.width, CGRectGetWidth(self.frame) - 2 * padding)
+            //let height: CGFloat = chatImage.size.height * (width / chatImage.size.width)
+            imageViewChat = UIImageView(frame: CGRectMake(5, 5, 45, 45))
+            
+            ImageUtil.displayThumbnailProfileImage(data.imgId!, imageView: imageViewChat!)
+            self.addSubview(imageViewChat!)
         }
         
         // 3. Going to add Text if any

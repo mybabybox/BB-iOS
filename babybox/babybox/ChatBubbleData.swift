@@ -21,13 +21,14 @@ class ChatBubbleData {
     var image: UIImage?
     var date: NSDate?
     var type: BubbleDataType
-    
+    var imgId: Int?
     // 3. Initialization
-    init(text: String?,image: UIImage?,date: NSDate? , type:BubbleDataType = .Mine) {
+    init(text: String?,image: UIImage?,date: NSDate? , type:BubbleDataType = .Mine, imgId: Int) {
         // Default type is Mine
         self.text = text
         self.image = image
         self.date = date
         self.type = type
+        self.imgId = imgId
     }
 }

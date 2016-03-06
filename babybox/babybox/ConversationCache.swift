@@ -13,7 +13,7 @@ class ConversationCache {
     static var openedConversation: ConversationVM? = nil
     
     static func refresh() {
-        ApiController.instance.getConversations()
+        //ApiController.instance.getConversations(0)
     }
     
     static func setConversions(lConversations: [ConversationVM]) {

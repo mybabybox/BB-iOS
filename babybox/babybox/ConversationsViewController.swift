@@ -18,13 +18,15 @@ class ConversationsViewController: UIViewController, UIGestureRecognizerDelegate
     var myDate: NSDate = NSDate()
     var id: Double!
     var collectionViewCellSize : CGSize?
-    
+    var offSet: Int64 = 0
+    var loading: Bool = false
     //todo create instance of collectionview
     @IBOutlet weak var collectionView: UICollectionView!
     
+    @IBOutlet weak var activityLoading: UIActivityIndicatorView!
     override func viewDidAppear(animated: Bool) {
         self.myDate = NSDate()
-        
+        ViewUtil.hideActivityLoading(self.activityLoading)
     }
     
     override func viewDidLoad() {
@@ -51,11 +53,14 @@ class ConversationsViewController: UIViewController, UIGestureRecognizerDelegate
         lpgr.delaysTouchesBegan = true
         self.collectionView?.addGestureRecognizer(lpgr)
         
-        ApiController.instance.getConversations()
+        ViewUtil.showActivityLoading(self.activityLoading)
+        ApiController.instance.getConversations(offSet)
+        loading = true
     }
     
     override func viewDidDisappear(animated: Bool) {
         NotificationCounter.mInstance.refresh()
+        SwiftEventBus.unregister(self)
     }
     
     //MARK: UICollectionViewDataSource
@@ -110,12 +115,39 @@ class ConversationsViewController: UIViewController, UIGestureRecognizerDelegate
     }
     
     func handleConversation(conversation: [ConversationVM]) {
-        self.conversations = conversation
-        self.collectionView.reloadData()
+        
+        if (!conversation.isEmpty) {
+            if (self.conversations.count == 0) {
+                self.conversations = conversation
+            } else {
+                self.conversations.appendContentsOf(conversation)
+            }
+            self.collectionView.reloadData()
+        }
+        loading = false
+        ViewUtil.hideActivityLoading(self.activityLoading)
+        
     }
     
     func setCollectionViewCellSize() {
         collectionViewCellSize = CGSizeMake(self.view.bounds.width, 80)
+    }
+    
+    // MARK: UIScrollview Delegate
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        
+        if (scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - constants.FEED_LOAD_SCROLL_THRESHOLD {
+            if (!loading) {
+                ViewUtil.showActivityLoading(self.activityLoading)
+                loading = true
+                //var offSet: Int64 = 0
+                if (!self.conversations.isEmpty) {
+                    offSet = offSet + 1 //Int64(self.conversations[self.conversations.count-1].unread)
+                }
+                
+                ApiController.instance.getConversations(offSet)
+            }
+        }
     }
     
     func handleLongPress(gestureRecognizer : UILongPressGestureRecognizer){

@@ -354,9 +354,9 @@ class ApiController {
         )
     }
     
-    func getConversations() {
+    func getConversations(offSet: Int64) {
         let callEvent = ApiCallEvent()
-        callEvent.method = "/api/get-conversations"
+        callEvent.method = "/api/get-user-conversations/\(offSet)"
         callEvent.resultClass = "ConversationVM"
         callEvent.successEventbusName = "conversationsSuccess"
         callEvent.failedEventbusName = "conversationsFailed"
@@ -421,7 +421,7 @@ class ApiController {
         self.makePostApiCall(callEvent)
     }
     
-    func getMessages(id: Int, offset: Int) {
+    func getMessages(id: Int, offset: Int64) {
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/get-messages/\(id)/\(offset)"
         callEvent.resultClass = "MessageVM"
