@@ -48,7 +48,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, UIImagePick
         
         ImageUtil.displayPostImage(self.conversation!.postImage, imageView: prodImg)
         self.prodName.text = self.conversation?.postTitle
-        self.prodPrice.text = self.conversation!.postPrice as? String
+        self.prodPrice.text = constants.currencySymbol + " " + String(self.conversation!.postPrice.toIntMax())
         
         if self.conversation!.postOwner == false {
             self.buyTextLbl.hidden = true

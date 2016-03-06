@@ -183,7 +183,8 @@ class RecommendedSellerViewController: UIViewController {
                 if (!self.recommendedSellers.isEmpty) {
                     feedOffset = Int64(self.recommendedSellers[self.recommendedSellers.count-1].offset)
                 }
-                ApiController.instance.getRecommendedSellersFeed(offSet)
+                
+                ApiController.instance.getRecommendedSellersFeed(feedOffset)
             }
         }
     }
