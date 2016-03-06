@@ -54,6 +54,17 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
             self.handleGetProductDetailsSuccess(productInfo)
         }
         
+        SwiftEventBus.onMainThread(self, name: "openConversationsSuccess") { result in
+            let conversationVM: ConversationVM = result.object as! ConversationVM
+            let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("MessagesViewController") as? MessagesViewController
+            vController?.conversation = conversationVM
+            ViewUtil.resetBackButton(self.navigationItem)
+            self.navigationController?.pushViewController(vController!, animated: true)
+        }
+        
+        SwiftEventBus.onMainThread(self, name: "openConversationsFailed") { result in
+        }
+        
         ApiController.instance.getProductDetails(feedItem.id)
     }
     
@@ -313,6 +324,7 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
     }
     
     @IBAction func onClickChatNow(sender: AnyObject) {
+        ApiController.instance.openConversation(feedItem.id)
     }
     
     func setSizesForFilterButtons() {

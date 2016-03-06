@@ -354,7 +354,7 @@ class ApiController {
         )
     }
     
-    func getConversation() {
+    func getConversations() {
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/get-conversations"
         callEvent.resultClass = "ConversationVM"
@@ -364,6 +364,18 @@ class ApiController {
         
         self.makeApiCall(callEvent)
     }
+    
+    func openConversation(postId: Int) {
+        let callEvent = ApiCallEvent()
+        callEvent.method = "/api/open-conversation/\(postId)"
+        callEvent.resultClass = "ConversationVMIns"
+        callEvent.successEventbusName = "openConversationsSuccess"
+        callEvent.failedEventbusName = "openConversationsFailed"
+        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method;
+        
+        self.makeApiCall(callEvent)
+    }
+    
     func getSellProduct(){
         let callEvent=ApiCallEvent()
         callEvent.method="/api/post/new"
@@ -627,6 +639,7 @@ class ApiController {
         case "PostVM": result = Mapper<PostVM>().map(inputStr)!
         case "LocationVM": result = Mapper<LocationVM>().mapArray(inputStr)!
         case "ConversationVM": result = Mapper<ConversationVM>().mapArray(inputStr)!
+        case "ConversationVMIns": result = Mapper<ConversationVM>().map(inputStr)!
         case "MessageVM": result = Mapper<MessageVM>().map(inputStr)!
         case "MessageDetailVM": result = Mapper<MessageDetailVM>().map(inputStr)!
         case "NewPostVM": result = Mapper<NewPostVM>().map(inputStr)!

@@ -200,7 +200,7 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
             let availableWidthForCells:CGFloat = self.view.bounds.width - 35
             let cellWidth :CGFloat = availableWidthForCells / 3
             let ht = cellWidth * CGFloat(Int(self.categories.count / 3))
-            return CGSizeMake(self.view.frame.width, ht + 60)
+            return CGSizeMake(self.view.frame.width, ht + 70)
         }
     }
     

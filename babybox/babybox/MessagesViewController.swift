@@ -3,6 +3,11 @@ import SwiftEventBus
 
 class MessagesViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
         
+    @IBOutlet weak var prodImg: UIImageView!
+    @IBOutlet weak var prodPrice: UILabel!
+    @IBOutlet weak var prodName: UILabel!
+    @IBOutlet weak var sellTextLbl: UILabel!
+    @IBOutlet weak var buyTextLbl: UILabel!
     @IBOutlet var messageComposingView: UIView!
     @IBOutlet weak var messageCointainerScroll: UIScrollView!
     @IBOutlet weak var buttomLayoutConstraint: NSLayoutConstraint!
@@ -11,7 +16,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, UIImagePick
     
     var offset: Int = 0
     var loadingMessage: Bool = false
-    var conversationId: Int = 0
+    var conversation: ConversationVM? = nil
     var selectedImage : UIImage?
     var lastChatBubbleY: CGFloat = 10.0
     var internalPadding: CGFloat = 8.0
@@ -22,12 +27,16 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, UIImagePick
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.navigationItem.title = self.conversation?.userName
+        let titleDict: NSDictionary = [NSForegroundColorAttributeName: UIColor.whiteColor()]
+        self.navigationController!.navigationBar.titleTextAttributes = titleDict as? [String : AnyObject]
+        
         imagePicker.delegate = self
         imagePicker.allowsEditing = false //2
         imagePicker.sourceType = .PhotoLibrary //3
         sendButton.enabled = false
         
-        ApiController.instance.getMessages(self.conversationId, offset: offset)
+        ApiController.instance.getMessages((self.conversation?.id)!, offset: offset)
         SwiftEventBus.onMainThread(self, name: "getMessagesSuccess") { result in
             // UI thread
             let resultDto: MessageVM = result.object as! MessageVM
@@ -36,6 +45,27 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, UIImagePick
         
         self.messageCointainerScroll.contentSize = CGSizeMake(CGRectGetWidth(messageCointainerScroll.frame), lastChatBubbleY + internalPadding)
         self.addKeyboardNotifications()
+        
+        ImageUtil.displayPostImage(self.conversation!.postImage, imageView: prodImg)
+        self.prodName.text = self.conversation?.postTitle
+        self.prodPrice.text = self.conversation!.postPrice as? String
+        
+        if self.conversation!.postOwner == false {
+            self.buyTextLbl.hidden = true
+            self.sellTextLbl.hidden=false
+            
+        } else if(self.conversation!.postOwner == true) {
+            self.sellTextLbl.hidden = true
+            self.buyTextLbl.hidden = false
+        }
+        
+        let userProfileBtn: UIButton = UIButton()
+        userProfileBtn.setImage(UIImage(named: "btn_sell"), forState: UIControlState.Normal)
+        userProfileBtn.addTarget(self, action: "onClickProfileBtn:", forControlEvents: UIControlEvents.TouchUpInside)
+        userProfileBtn.frame = CGRectMake(0, 0, 35, 35)
+        let userProfileBarBtn = UIBarButtonItem(customView: userProfileBtn)
+        self.navigationItem.rightBarButtonItems = [userProfileBarBtn]
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -75,14 +105,14 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, UIImagePick
             addChatBubble(bubbleData)
             textField.resignFirstResponder()
             
-            ApiController.instance.postMessage(self.conversationId, message: bubbleData.text!)
+            ApiController.instance.postMessage((self.conversation?.id)!, message: bubbleData.text!)
     }
         
     @IBAction func cameraButtonClicked(sender: AnyObject) {
             self.presentViewController(imagePicker, animated: true, completion: nil)//4
     }
         
-        
+    
     func addRandomTypeChatBubble() {
             let bubbleData = ChatBubbleData(text: textField.text, image: selectedImage, date: NSDate(), type: getRandomChatDataType())
             addChatBubble(bubbleData)
@@ -130,6 +160,9 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, UIImagePick
         return true
     }
     
+    
+    @IBAction func onClickProdItem(sender: AnyObject) {
+    }
     //MARK: Delegates
     func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
         
@@ -180,9 +213,17 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, UIImagePick
     func scrollViewDidScroll(scrollView: UIScrollView) {
         if (scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - constants.FEED_LOAD_SCROLL_THRESHOLD {
             if (loadingMessage) {
-                ApiController.instance.getMessages(self.conversationId, offset: offset)
+                ApiController.instance.getMessages((self.conversation?.id)!, offset: offset)
                 self.loadingMessage = false
             }
         }
     }
+    
+    func onClickProfileBtn(sender: AnyObject?) {
+        let vController = self.storyboard?.instantiateViewControllerWithIdentifier("UserProfileFeedViewController") as! UserProfileFeedViewController
+        vController.userId = (self.conversation?.userId)!
+        ViewUtil.resetBackButton(self.navigationItem)
+        self.navigationController?.pushViewController(vController, animated: true)
+    }
+    
 }

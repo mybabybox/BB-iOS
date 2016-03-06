@@ -18,24 +18,26 @@ class ConversationVM: BaseArgVM {
     var postSold: Bool?
     var userId: Int = 0
     var userName: String = ""
-    var lastMessageDate: Int = 0
+    var lastMessageDate: Double = 0
     var lastMessage: String = ""
     var lastMessageHasImage: Bool?
     var unread: Int = 0
+    var order: ConversationOrderVM? = nil
     
     override func mapping(map: ObjectMapper.Map) {
         id<-map["id"]
-        postId<-map["postId"];
-        postImage<-map["postImage"];
-        postTitle<-map["postTitle"];
-        postPrice<-map["postPrice"];
-        postOwner<-map["postOwner"];
-        postSold<-map["postSold"];
-        userId<-map["userId"];
-        userName<-map["userName"];
-        lastMessageDate<-map["lastMessageDate"];
-        lastMessage<-map["lastMessage"];
-        lastMessageHasImage<-map["lastMessageHasImage"];
-        unread<-map["unread"];
+        postId<-map["postId"]
+        postImage<-map["postImage"]
+        postTitle<-map["postTitle"]
+        postPrice<-map["postPrice"]
+        postOwner<-map["postOwner"]
+        postSold<-map["postSold"]
+        userId<-map["userId"]
+        userName<-map["userName"]
+        lastMessageDate<-map["lastMessageDate"]
+        lastMessage<-map["lastMessage"]
+        lastMessageHasImage<-map["lastMessageHasImage"]
+        unread<-map["unread"]
+        order<-map["order"]
     }
 }

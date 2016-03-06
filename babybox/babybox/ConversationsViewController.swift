@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 import SwiftEventBus
-class ConversationsViewController: CustomNavigationController {
+class ConversationsViewController: UIViewController, UIGestureRecognizerDelegate {
     //showConversationsDetails
     var userId: Int = 0
     var currentIndex: Int = 0
@@ -17,20 +17,21 @@ class ConversationsViewController: CustomNavigationController {
     var conversations: [ConversationVM] = []
     var myDate: NSDate = NSDate()
     var id: Double!
-    @IBOutlet weak var productImage: UIImageView!
+    var collectionViewCellSize : CGSize?
     
     //todo create instance of collectionview
     @IBOutlet weak var collectionView: UICollectionView!
     
-    
     override func viewDidAppear(animated: Bool) {
-        self.conversations = []
         self.myDate = NSDate()
-        ApiController.instance.getConversation()
+        
     }
     
     override func viewDidLoad() {
-        //self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "actionbar_bg_pink"), forBarMetrics: UIBarMetrics.Default)
+        super.viewDidLoad()
+        self.navigationItem.title = "Chats"
+        let titleDict: NSDictionary = [NSForegroundColorAttributeName: UIColor.whiteColor()]
+        self.navigationController!.navigationBar.titleTextAttributes = titleDict as? [String : AnyObject]
         
         SwiftEventBus.onMainThread(self, name: "conversationsSuccess") { result in
             // UI thread
@@ -42,8 +43,15 @@ class ConversationsViewController: CustomNavigationController {
         
         SwiftEventBus.onMainThread(self, name: "conversationsFailed") { result in
         }
+        self.setCollectionViewCellSize()
         
-        self.automaticallyAdjustsScrollViewInsets = false
+        let lpgr : UILongPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: "handleLongPress:")
+        lpgr.minimumPressDuration = 0.2
+        lpgr.delegate = self
+        lpgr.delaysTouchesBegan = true
+        self.collectionView?.addGestureRecognizer(lpgr)
+        
+        ApiController.instance.getConversations()
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -61,33 +69,44 @@ class ConversationsViewController: CustomNavigationController {
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(viewCellIdentifier, forIndexPath: indexPath) as! ConversationsCollectionViewCell
         
-        cell.productTitle.text = self.conversations[indexPath.row].postTitle
-        cell.userDisplayName.text = self.conversations[indexPath.row].userName
-        cell.userComment.text = self.conversations[indexPath.row].lastMessage
+        let item = self.conversations[indexPath.row]
+        cell.productTitle.text = item.postTitle
+        cell.userDisplayName.text = item.userName
+        cell.contentMode = .Redraw
+        cell.userComment.numberOfLines = 0
+        cell.userComment.text = item.lastMessage
+        cell.userComment.sizeToFit()
         
-        if(self.conversations[indexPath.row].postOwner == false){
+        if item.postOwner == false {
             cell.BuyText.hidden = true
             cell.SellText.hidden=false
             
-        }else if(self.conversations[indexPath.row].postOwner == true){
+        } else if(item.postOwner == true){
             cell.SellText.hidden = true
             cell.BuyText.hidden = false
         }
         
-        let time = self.conversations[indexPath.row].lastMessageDate / 1000
-        let date = NSDate(timeIntervalSinceNow: NSTimeInterval(time))
-        
-        let time1 = date.timeAgo
-
-        cell.comment.text = time1
+        cell.comment.text = NSDate(timeIntervalSince1970:Double(item.lastMessageDate) / 1000.0).timeAgo
         ImageUtil.displayPostImage(self.conversations[indexPath.row].postImage, imageView: cell.productImage)
-        ImageUtil.displayThumbnailProfileImage(self.conversations[indexPath.row].postImage, imageView: cell.postImage)
+        ImageUtil.displayThumbnailProfileImage(self.conversations[indexPath.row].userId, imageView: cell.postImage)
         return cell
     }
-
+    
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+        
+        return collectionViewCellSize!
+    }
+    
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        self.currentIndex = indexPath.row
-        self.performSegueWithIdentifier("showConversationsDetails", sender: nil)
+        //self.currentIndex = indexPath.row
+        //self.performSegueWithIdentifier("showConversationsDetails", sender: nil)
+        
+        let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("MessagesViewController") as? MessagesViewController
+        let _conversation = self.conversations[indexPath.row]
+        vController?.conversation = _conversation
+        ViewUtil.resetBackButton(self.navigationItem)
+        self.navigationController?.pushViewController(vController!, animated: true)
+        
     }
     
     func handleConversation(conversation: [ConversationVM]) {
@@ -95,13 +114,23 @@ class ConversationsViewController: CustomNavigationController {
         self.collectionView.reloadData()
     }
     
-    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
-        return false
+    func setCollectionViewCellSize() {
+        collectionViewCellSize = CGSizeMake(self.view.bounds.width, 80)
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        //
-        let vController = segue.destinationViewController as! MessagesViewController
-        vController.conversationId = self.conversations[self.currentIndex].id
+    func handleLongPress(gestureRecognizer : UILongPressGestureRecognizer){
+        
+        if (gestureRecognizer.state != UIGestureRecognizerState.Ended){
+            return
+        }
+        
+        let p = gestureRecognizer.locationInView(self.collectionView)
+        
+        if let indexPath : NSIndexPath = (self.collectionView?.indexPathForItemAtPoint(p))!{
+            //do whatever you need to do
+            print("--")
+        }
+        
     }
+    
 }
