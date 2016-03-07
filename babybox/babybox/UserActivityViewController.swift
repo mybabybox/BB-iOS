@@ -19,6 +19,7 @@ class UserActivityViewController: CustomNavigationController {
     var userActivitesItems: [ActivityVM] = []
     var collectionViewCellSize : CGSize?
     var loading: Bool = false
+    var loadedAll: Bool = false
     override func viewWillAppear(animated: Bool) {
         ViewUtil.hideActivityLoading(self.activityLoading)
     }
@@ -179,6 +180,8 @@ class UserActivityViewController: CustomNavigationController {
                 self.userActivitesItems.appendContentsOf(resultDto)
             }
             uiCollectionView.reloadData()
+        } else {
+            loadedAll = true
         }
         loading = false
         ViewUtil.hideActivityLoading(self.activityLoading)
@@ -234,7 +237,7 @@ class UserActivityViewController: CustomNavigationController {
     // MARK: UIScrollview Delegate
     func scrollViewDidScroll(scrollView: UIScrollView) {
         if (scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - constants.FEED_LOAD_SCROLL_THRESHOLD {
-            if (!loading) {
+            if (!loadedAll && !loading) {
                 ViewUtil.showActivityLoading(self.activityLoading)
                 loading = true
                 var feedOffset: Int64 = 0

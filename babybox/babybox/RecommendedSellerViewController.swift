@@ -19,7 +19,7 @@ class RecommendedSellerViewController: UIViewController {
     var lcontentSize = CGFloat(0.0)
     var lastContentOffset: CGFloat = 0
     var loading: Bool = false
-    
+    var loadedAll: Bool = false
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -168,15 +168,8 @@ class RecommendedSellerViewController: UIViewController {
     
     // MARK: UIScrollview Delegate
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        /*if (self.lastContentOffset > scrollView.contentOffset.y + constants.SHOW_HIDE_BAR_SCROLL_DISTANCE) {
-            self.navigationController?.setNavigationBarHidden(false, animated: true)
-        } else if (self.lastContentOffset < scrollView.contentOffset.y - constants.SHOW_HIDE_BAR_SCROLL_DISTANCE) {
-            self.navigationController?.setNavigationBarHidden(true, animated: true)
-        }
-        self.lastContentOffset = scrollView.contentOffset.y
-        */
         if (scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - constants.FEED_LOAD_SCROLL_THRESHOLD {
-            if (!loading) {
+            if (!loadedAll && !loading) {
                 ViewUtil.showActivityLoading(self.activityLoading)
                 loading = true
                 var feedOffset: Int64 = 0
@@ -211,6 +204,8 @@ class RecommendedSellerViewController: UIViewController {
                 self.recommendedSellers.appendContentsOf(sellers)
             }
             self.uiCollectionView.reloadData()
+        } else {
+            loadedAll = true
         }
         loading = false
         ViewUtil.hideActivityLoading(self.activityLoading)
