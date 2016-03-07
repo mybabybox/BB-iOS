@@ -2233,31 +2233,15 @@ CEVudGVyIFBhc3N3b3JkA
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WXY-oa-Wrt">
-                                <rect key="frame" x="0.0" y="40" width="414" height="632"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="672"/>
                             </containerView>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" apportionsSegmentWidthsByContent="YES" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="qbf-aK-0bl">
-                                <rect key="frame" x="1" y="0.0" width="414" height="41"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="uJL-5v-dq1"/>
-                                </constraints>
-                                <segments>
-                                    <segment title="Explore"/>
-                                    <segment title="Following"/>
-                                </segments>
-                                <connections>
-                                    <action selector="segAction:" destination="4uu-R6-eYt" eventType="valueChanged" id="rBh-Mb-R07"/>
-                                </connections>
-                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="qbf-aK-0bl" firstAttribute="width" secondItem="d6t-Wa-j1l" secondAttribute="width" id="1zj-Wf-GVk"/>
                             <constraint firstItem="WXY-oa-Wrt" firstAttribute="leading" secondItem="d6t-Wa-j1l" secondAttribute="leading" id="6MB-k0-WgK"/>
-                            <constraint firstItem="WXY-oa-Wrt" firstAttribute="top" secondItem="qbf-aK-0bl" secondAttribute="bottom" id="K3s-wG-FLO"/>
                             <constraint firstAttribute="trailing" secondItem="WXY-oa-Wrt" secondAttribute="trailing" id="QOH-dg-dud"/>
-                            <constraint firstItem="qbf-aK-0bl" firstAttribute="centerX" secondItem="d6t-Wa-j1l" secondAttribute="centerX" constant="1" id="fHi-Ii-MZQ"/>
+                            <constraint firstItem="WXY-oa-Wrt" firstAttribute="top" secondItem="wVA-g0-SR8" secondAttribute="bottom" id="kex-ap-k7e"/>
                             <constraint firstAttribute="bottom" secondItem="WXY-oa-Wrt" secondAttribute="bottom" id="tH7-79-CRP"/>
-                            <constraint firstItem="qbf-aK-0bl" firstAttribute="top" secondItem="wVA-g0-SR8" secondAttribute="bottom" id="w62-eK-1mT"/>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
@@ -2265,7 +2249,6 @@ CEVudGVyIFBhc3N3b3JkA
                     <navigationItem key="navigationItem" id="ao6-XZ-Zm0"/>
                     <connections>
                         <outlet property="containerView" destination="WXY-oa-Wrt" id="jZY-MS-FPd"/>
-                        <outlet property="segController" destination="qbf-aK-0bl" id="bhV-gd-qDX"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KnT-jd-uSF" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -3652,7 +3635,7 @@ CEVudGVyIFBhc3N3b3JkA
                             </label>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NJW-6b-MfY">
                                 <rect key="frame" x="4" y="61" width="592" height="465"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
                                     <outlet property="delegate" destination="89W-J0-Agh" id="8Ka-kK-Kax"/>
                                 </connections>

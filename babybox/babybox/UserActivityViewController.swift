@@ -18,7 +18,7 @@ class UserActivityViewController: CustomNavigationController {
     var lastContentOffset: CGFloat = 0
     var userActivitesItems: [ActivityVM] = []
     var collectionViewCellSize : CGSize?
-    
+    var loading: Bool = false
     override func viewWillAppear(animated: Bool) {
         ViewUtil.hideActivityLoading(self.activityLoading)
     }
@@ -38,7 +38,7 @@ class UserActivityViewController: CustomNavigationController {
         ViewUtil.showActivityLoading(self.activityLoading)
         
         ApiController.instance.getUserActivities(activityOffSet)
-        
+        self.loading = true
         setCollectionViewSizesInsetsForTopView()
         
         SwiftEventBus.onMainThread(self, name: "userActivitiesSuccess") { result in
@@ -180,6 +180,7 @@ class UserActivityViewController: CustomNavigationController {
             }
             uiCollectionView.reloadData()
         }
+        loading = false
         ViewUtil.hideActivityLoading(self.activityLoading)
     }
 
@@ -197,8 +198,7 @@ class UserActivityViewController: CustomNavigationController {
     }
     
     @IBAction func onClickPostImg(sender: AnyObject) {
-        NSLog("onClickPostImg")
-        NSLog("onClickActor")
+
         let button = sender as! UIButton
         let view = button.superview!
         let cell = view.superview! as! BaseActivityViewCell
@@ -229,14 +229,22 @@ class UserActivityViewController: CustomNavigationController {
         }
         return message
         
-        
-        //cell.txtMessage.text = message
-        //let nsString = cell.txtMessage.text! as NSString
-        //let range = nsString.rangeOfString(userName)
-        //let url = NSURL(string: "action://onClickActor1")!
-        
-        //cell.txtMessage.addLinkToURL(url, withRange: range)
-        
+    }
+    
+    // MARK: UIScrollview Delegate
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        if (scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - constants.FEED_LOAD_SCROLL_THRESHOLD {
+            if (!loading) {
+                ViewUtil.showActivityLoading(self.activityLoading)
+                loading = true
+                var feedOffset: Int64 = 0
+                if (!self.userActivitesItems.isEmpty) {
+                    feedOffset = ++activityOffSet
+                }
+                ApiController.instance.getUserActivities(feedOffset)
+                
+            }
+        }
     }
     
 }
