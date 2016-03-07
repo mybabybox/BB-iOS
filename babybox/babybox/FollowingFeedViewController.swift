@@ -23,6 +23,8 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
     var collectionViewCellSize : CGSize?
     var collectionViewTopCellSize : CGSize?
     var reuseIdentifier = "CellType1"
+    var vController: FeedProductViewController?
+    var currentIndex: NSIndexPath?
     
     func reloadDataToView() {
         self.uiCollectionView.reloadData()
@@ -35,6 +37,13 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
     override func viewDidAppear(animated: Bool) {
         self.tabBarController!.tabBar.hidden = false
         self.tabBarController?.tabBar.alpha = CGFloat(constants.MAIN_BOTTOM_BAR_ALPHA)
+        
+        if (currentIndex != nil) {
+            let item = vController?.feedItem
+            feedLoader?.setItem(currentIndex!.row, item: item!)
+            self.uiCollectionView.reloadItemsAtIndexPaths([currentIndex!])
+        }
+        
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -96,11 +105,12 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("FeedProductViewController") as! FeedProductViewController
+        vController =  self.storyboard!.instantiateViewControllerWithIdentifier("FeedProductViewController") as! FeedProductViewController
         let feedItem = feedLoader!.getItem(indexPath.row)
-        vController.feedItem = feedItem
+        vController!.feedItem = feedItem
+        self.currentIndex = indexPath
         self.tabBarController!.tabBar.hidden = true
-        self.navigationController?.pushViewController(vController, animated: true)
+        self.navigationController?.pushViewController(vController!, animated: true)
     }
     
     // MARK: UICollectionViewDelegateFlowLayout

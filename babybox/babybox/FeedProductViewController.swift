@@ -71,7 +71,7 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
     override func viewDidAppear(animated: Bool) {
         self.myDate = NSDate()
         
-        if (feedItem.numLikes == 0) {
+        /*if (feedItem.numLikes == 0) {
             self.likeCountTxt.setTitle("Like", forState: UIControlState.Normal)
         } else {
             self.likeCountTxt.setTitle(String(self.feedItem.numLikes), forState: UIControlState.Normal)
@@ -81,7 +81,7 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
             self.likeImgBtn.setImage(UIImage(named: "ic_liked.png"), forState: UIControlState.Normal)
         } else {
             self.likeImgBtn.setImage(UIImage(named: "ic_like.png"), forState: UIControlState.Normal)
-        }
+        }*/
     }
 
     override func didReceiveMemoryWarning() {
@@ -170,13 +170,18 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
             
             switch indexPath.section {
             case 0:
-                for i in 0...self.feedItem.images.count - 1 {
-                    self.images.append(String(self.feedItem.images[i]))
+                
+                if self.productInfo != nil && self.productInfo!.images.count > 0 {
+                    for i in 0...self.productInfo!.images.count - 1 {
+                        self.images.append(String(self.productInfo!.images[i]))
+                    }
+                    self.collectionView = cell.viewWithTag(1) as! UICollectionView
+                    self.collectionView.delegate = self
+                    self.collectionView.dataSource = self
+                    cell.soldImage.hidden = !self.productInfo!.sold
                 }
-                self.collectionView = cell.viewWithTag(1) as! UICollectionView
-                self.collectionView.delegate = self
-                self.collectionView.dataSource = self
-                cell.soldImage.hidden = !self.feedItem.sold
+                
+                
                 
             case 1:
                 cell.contentMode = UIViewContentMode.Redraw
@@ -186,18 +191,21 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
                     cell.productDesc.numberOfLines = 0
                     cell.productDesc.sizeToFit()
                     self.lcontentSize = cell.productDesc.frame.size.height
-                }
-                cell.productTitle.text = feedItem.title
-                cell.prodCondition.text = ViewUtil.parsePostConditionTypeFromType(self.feedItem.conditionType)
                 
-                if (feedItem.originalPrice != 0 && feedItem.originalPrice != -1 && feedItem.originalPrice != Int(feedItem.price)) {
-                    let attrString = NSAttributedString(string: "\(constants.currencySymbol) \(String(stringInterpolationSegment:Int(feedItem.originalPrice)))", attributes: [NSStrikethroughStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue])
-                    cell.prodOriginalPrice.attributedText = attrString
-                } else {
-                    cell.prodOriginalPrice.attributedText = NSAttributedString(string: "")
+                    cell.productTitle.text = self.productInfo!.title
+                    cell.prodCondition.text = ViewUtil.parsePostConditionTypeFromType(self.productInfo!.conditionType)
+                    
+                    if (self.productInfo!.originalPrice != 0 && self.productInfo!.originalPrice != -1 && self.productInfo!.originalPrice != Int(self.productInfo!.price)) {
+                        let attrString = NSAttributedString(string: "\(constants.currencySymbol) \(String(stringInterpolationSegment:Int(self.productInfo!.originalPrice)))", attributes: [NSStrikethroughStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue])
+                        cell.prodOriginalPrice.attributedText = attrString
+                    } else {
+                        cell.prodOriginalPrice.attributedText = NSAttributedString(string: "")
+                    }
+                    
+                    cell.prodPrice.text = "\(constants.currencySymbol)\(String(stringInterpolationSegment: Int(self.productInfo!.price)))"
+                
                 }
                 
-                cell.prodPrice.text = "\(constants.currencySymbol)\(String(stringInterpolationSegment: Int(feedItem.price)))"
                 
                 if self.productInfo != nil {
                     cell.prodCategory.text = self.productInfo!.categoryName
@@ -214,7 +222,7 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
                     cell.noOfProducts.text = String(self.productInfo!.ownerNumProducts)
                     
                     cell.postTime.text = ""
-                    cell.postTitle.text = self.feedItem.ownerName
+                    cell.postTitle.text = self.productInfo!.ownerName
                     cell.postedUserImg.image = UIImage(named: "")
                     
                     if self.productInfo!.ownerId != -1 {
@@ -305,7 +313,7 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
         _nComment.deviceType = "iOS"
         _nComment.createdDate = NSDate().timeIntervalSinceNow
         _nComment.id = -1
-        ApiController.instance.postComment(feedItem.id, comment: cell.commentTxt.text!)
+        ApiController.instance.postComment(self.productInfo!.id, comment: cell.commentTxt.text!)
         
         self.comments.append(_nComment)
         self.detailTableView.reloadData()
@@ -324,7 +332,7 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
     }
     
     @IBAction func onClickChatNow(sender: AnyObject) {
-        ApiController.instance.openConversation(feedItem.id)
+        ApiController.instance.openConversation(self.productInfo!.id)
     }
     
     func setSizesForFilterButtons() {
@@ -339,18 +347,18 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
     }
     
     @IBAction func onClickLikeOrUnlikeButton(sender: AnyObject) {
-        if (self.feedItem.isLiked) {
-            self.feedItem.numLikes--
-            self.feedItem.isLiked = false
+        if (self.productInfo!.isLiked) {
+            self.productInfo!.numLikes--
+            self.productInfo!.isLiked = false
             self.likeImgBtn.setImage(UIImage(named: "ic_like.png"), forState: UIControlState.Normal)
-            ApiController.instance.unlikePost(feedItem.id)
-            self.likeCountTxt.setTitle(String(self.feedItem.numLikes), forState: UIControlState.Normal)
+            ApiController.instance.unlikePost(self.productInfo!.id)
+            self.likeCountTxt.setTitle(String(self.productInfo!.numLikes), forState: UIControlState.Normal)
         } else {
-            self.feedItem.numLikes++
-            self.feedItem.isLiked = true
+            self.productInfo!.numLikes++
+            self.productInfo!.isLiked = true
             self.likeImgBtn.setImage(UIImage(named: "ic_liked.png"), forState: UIControlState.Normal)
-            ApiController.instance.likePost(feedItem.id)
-            self.likeCountTxt.setTitle(String(self.feedItem.numLikes), forState: UIControlState.Normal)
+            ApiController.instance.likePost(self.productInfo!.id)
+            self.likeCountTxt.setTitle(String(self.productInfo!.numLikes), forState: UIControlState.Normal)
         }
     }
     
@@ -360,6 +368,7 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
         for comment in self.productInfo!.latestComments {
             self.comments.append(comment)
         }
+        self.initLikeUnlike()
         self.detailTableView.reloadData()
         ViewUtil.hideActivityLoading(self.activityLoading)
     }
@@ -393,8 +402,8 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("hcell", forIndexPath: indexPath) as! ImageCollectionViewCell
         let imageView = cell.imageView
-        if (self.feedItem.images.count > 1) {
-            cell.pageControl.numberOfPages = self.feedItem.images.count
+        if (self.productInfo!.images.count > 1) {
+            cell.pageControl.numberOfPages = self.productInfo!.images.count
             cell.pageControl.currentPage = indexPath.row
         } else {
             cell.pageControl.hidden = true
@@ -421,5 +430,19 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
         
         let indexPath = NSIndexPath(forItem: viewController.currentPage, inSection: 0)
         self.collectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.None, animated: false)
+    }
+    
+    func initLikeUnlike() {
+        if (self.productInfo!.numLikes == 0) {
+            self.likeCountTxt.setTitle("Like", forState: UIControlState.Normal)
+        } else {
+            self.likeCountTxt.setTitle(String(self.productInfo!.numLikes), forState: UIControlState.Normal)
+        }
+        
+        if (self.productInfo!.isLiked) {
+            self.likeImgBtn.setImage(UIImage(named: "ic_liked.png"), forState: UIControlState.Normal)
+        } else {
+            self.likeImgBtn.setImage(UIImage(named: "ic_like.png"), forState: UIControlState.Normal)
+        }
     }
 }

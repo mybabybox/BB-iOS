@@ -27,6 +27,7 @@ class PostVM: PostVMLite {
     var deviceType: String = ""
     
     override func mapping(map: ObjectMapper.Map) {
+        super.mapping(map)
         ownerId<-map["ownerId"]
         createdDate<-map["createdDate"]
         updatedDate<-map["updatedDate"]

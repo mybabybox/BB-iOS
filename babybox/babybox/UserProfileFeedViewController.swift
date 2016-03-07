@@ -24,6 +24,9 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
     var activeHeaderViewCell: UserFeedHeaderViewCell? = nil
     let shapeLayer = CAShapeLayer()
     
+    var vController: FeedProductViewController?
+    var currentIndex: NSIndexPath?
+    
     override func reloadDataToView() {
         self.uiCollectionView.reloadData()
     }
@@ -55,6 +58,12 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
     override func viewDidAppear(animated: Bool) {
         self.tabBarController!.tabBar.hidden = true
         self.navigationItem.setHidesBackButton(false, animated: true)
+        
+        if (currentIndex != nil) {
+            let item = vController?.feedItem
+            feedLoader?.setItem(currentIndex!.row, item: item!)
+            self.uiCollectionView.reloadItemsAtIndexPaths([currentIndex!])
+        }
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -158,11 +167,12 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
         if (collectionView.tag == 2) {
             
         } else {
-            let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("FeedProductViewController") as! FeedProductViewController
+            vController =  self.storyboard!.instantiateViewControllerWithIdentifier("FeedProductViewController") as! FeedProductViewController
             let feedItem = self.getFeedItems()[indexPath.row]
-            vController.feedItem = feedItem
+            vController!.feedItem = feedItem
+            self.currentIndex = indexPath
             self.tabBarController!.tabBar.hidden = true
-            self.navigationController?.pushViewController(vController, animated: true)
+            self.navigationController?.pushViewController(vController!, animated: true)
         }
     }
     

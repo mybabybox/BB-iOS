@@ -30,6 +30,9 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
     var txtWhiteColor = UIColor(red: CGFloat(255.0), green: CGFloat(255.0), blue: CGFloat(255.0), alpha: CGFloat(1.0))
     var txtPinkColor = ImageUtil.UIColorFromRGB(0xFF76A4)
     
+    var vController: FeedProductViewController?
+    var currentIndex: NSIndexPath?
+    
     func reloadDataToView() {
         self.uiCollectionView.reloadData()
         ViewUtil.hideActivityLoading(self.activityLoading)
@@ -40,6 +43,13 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
     
     override func viewDidAppear(animated: Bool) {
         self.tabBarController!.tabBar.hidden = true
+        
+        if (currentIndex != nil) {
+            let item = vController?.feedItem
+            feedLoader?.setItem(currentIndex!.row, item: item!)
+            self.uiCollectionView.reloadItemsAtIndexPaths([currentIndex!])
+        }
+        
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -155,13 +165,14 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
             
         } else {
             //self.performSegueWithIdentifier("gotoproductdetail", sender: nil)
-            let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("FeedProductViewController") as! FeedProductViewController
+            vController =  self.storyboard!.instantiateViewControllerWithIdentifier("FeedProductViewController") as! FeedProductViewController
             let feedItem = feedLoader!.getItem(indexPath.row)
-            vController.feedItem = feedItem
-            vController.category = self.selCategory
+            vController!.feedItem = feedItem
+            vController!.category = self.selCategory
+            self.currentIndex = indexPath
             self.tabBarController!.tabBar.hidden = true
             ViewUtil.resetBackButton(self.navigationItem)
-            self.navigationController?.pushViewController(vController, animated: true)
+            self.navigationController?.pushViewController(vController!, animated: true)
         }
     }
     

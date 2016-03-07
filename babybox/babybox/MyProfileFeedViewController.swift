@@ -24,6 +24,8 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
     let shapeLayer = CAShapeLayer()
     let imagePicker = UIImagePickerController()
     
+    var vController: FeedProductViewController?
+    var currentIndex: NSIndexPath?
     override func reloadDataToView() {
         self.uiCollectionView.reloadData()
     }
@@ -50,6 +52,12 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
         if (self.activeHeaderViewCell != nil) {
             self.activeHeaderViewCell?.segmentControl.setTitle("Products " + String(self.userInfo!.numProducts), forSegmentAtIndex: 0)
             self.activeHeaderViewCell?.segmentControl.setTitle("Likes " + String(self.userInfo!.numLikes), forSegmentAtIndex: 1)
+        }
+        
+        if (currentIndex != nil) {
+            let item = vController?.feedItem
+            feedLoader?.setItem(currentIndex!.row, item: item!)
+            self.uiCollectionView.reloadItemsAtIndexPaths([currentIndex!])
         }
         
         //reloadFeedItems()
@@ -147,11 +155,12 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
             
         } else {
             //self.uiCollectionView.delegate = nil
-            let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("FeedProductViewController") as! FeedProductViewController
+            self.vController =  self.storyboard!.instantiateViewControllerWithIdentifier("FeedProductViewController") as! FeedProductViewController
             let feedItem = self.getFeedItems()[indexPath.row]
-            vController.feedItem = feedItem
+            self.vController!.feedItem = feedItem
+            self.currentIndex = indexPath
             self.tabBarController!.tabBar.hidden = true
-            self.navigationController?.pushViewController(vController, animated: true)
+            self.navigationController?.pushViewController(vController!, animated: true)
         }
     }
     

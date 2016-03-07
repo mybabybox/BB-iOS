@@ -48,7 +48,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, UIImagePick
         
         ImageUtil.displayPostImage(self.conversation!.postImage, imageView: prodImg)
         self.prodName.text = self.conversation?.postTitle
-        self.prodPrice.text = constants.currencySymbol + " " + String(self.conversation!.postPrice.toIntMax())
+        self.prodPrice.text = constants.currencySymbol + String(self.conversation!.postPrice.toIntMax())
         
         if self.conversation!.postOwner == false {
             self.buyTextLbl.hidden = true
@@ -162,6 +162,15 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, UIImagePick
     
     
     @IBAction func onClickProdItem(sender: AnyObject) {
+        
+        let feedItem: PostVMLite = PostVMLite()
+        feedItem.id = (self.conversation?.postId)!
+        
+        let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("FeedProductViewController") as? FeedProductViewController
+        vController!.feedItem = feedItem
+        ViewUtil.resetBackButton(self.navigationItem)
+        self.navigationController?.pushViewController(vController!, animated: true)
+        
     }
     //MARK: Delegates
     func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
