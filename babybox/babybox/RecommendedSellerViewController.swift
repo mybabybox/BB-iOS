@@ -8,6 +8,7 @@
 
 import UIKit
 import SwiftEventBus
+import PullToRefreshSwift
 
 class RecommendedSellerViewController: UIViewController {
 
@@ -22,7 +23,6 @@ class RecommendedSellerViewController: UIViewController {
     var loadedAll: Bool = false
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         
         self.uiCollectionView.setNeedsLayout()
         self.uiCollectionView.layoutIfNeeded()
@@ -56,6 +56,10 @@ class RecommendedSellerViewController: UIViewController {
         ViewUtil.showActivityLoading(self.activityLoading)
         
         ApiController.instance.getRecommendedSellersFeed(offSet)
+        
+        self.uiCollectionView.addPullToRefresh({ [weak self] in
+            self?.reloadSellers()
+        })
         
         // Do any additional setup after loading the view.
     }
@@ -293,4 +297,20 @@ class RecommendedSellerViewController: UIViewController {
         ViewUtil.unselectFollowButtonStyleLite(cell.followBtn)
     }
     
+    func clearSellers() {
+    
+        self.loading = false
+        self.loadedAll = false
+        self.recommendedSellers.removeAll()
+        self.recommendedSellers = []
+        self.uiCollectionView.reloadData()
+        self.offSet = 0
+    
+    }
+    
+    func reloadSellers() {
+        clearSellers()
+        ApiController.instance.getRecommendedSellersFeed(offSet)
+        self.loading = true
+    }
 }

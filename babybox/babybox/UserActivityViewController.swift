@@ -8,6 +8,7 @@
 
 import UIKit
 import SwiftEventBus
+import PullToRefreshSwift
 
 class UserActivityViewController: CustomNavigationController {
 
@@ -79,6 +80,10 @@ class UserActivityViewController: CustomNavigationController {
         flowLayout.minimumInteritemSpacing = 1
         flowLayout.minimumLineSpacing = 1
         uiCollectionView.collectionViewLayout = flowLayout
+        
+        self.uiCollectionView.addPullToRefresh({ [weak self] in
+            self?.reloadActivities()
+        })
         
         // Do any additional setup after loading the view.
     }
@@ -248,6 +253,22 @@ class UserActivityViewController: CustomNavigationController {
                 
             }
         }
+    }
+    
+    func clearActivities() {
+        self.loading = false
+        self.loadedAll = false
+        self.userActivitesItems.removeAll()
+        self.userActivitesItems = []
+        self.uiCollectionView.reloadData()
+        self.activityOffSet = 0
+        
+    }
+    
+    func reloadActivities() {
+        clearActivities()
+        ApiController.instance.getUserActivities(self.activityOffSet)
+        self.loading = true
     }
     
 }
