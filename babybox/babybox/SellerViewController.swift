@@ -15,9 +15,8 @@ class SellerViewController: CustomNavigationController {
     
     var pageMenu : CAPSPageMenu?
 
-    var sellerRecommendationController : UIViewController? = nil
-    var followingController : UIViewController? = nil
-    var lastContentOffset: CGFloat = 0
+    var sellerRecommendationController : RecommendedSellerViewController? = nil
+    var followingController : FollowingFeedViewController? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,10 +40,12 @@ class SellerViewController: CustomNavigationController {
         
         self.sellerRecommendationController = self.storyboard!.instantiateViewControllerWithIdentifier("RecommendedSeller") as! RecommendedSellerViewController
         self.sellerRecommendationController?.title = "Recommended Sellers";
+        self.sellerRecommendationController?.parentNavigationController = self.navigationController
         controllerArray.append(self.sellerRecommendationController!)
         
         self.followingController = self.storyboard!.instantiateViewControllerWithIdentifier("FollowingFeedViewController") as! FollowingFeedViewController
         self.followingController?.title = "Following"
+        self.followingController?.parentNavigationController = self.navigationController
         controllerArray.append(self.followingController!)
 
         // Customize menu (Optional)
