@@ -17,7 +17,7 @@ class RecommendedSellerViewController: UIViewController {
     var collectionViewCellSize : CGSize?
     var recommendedSellers: [SellerVM] = []
     var offSet: Int64 = 0
-    var lcontentSize = CGFloat(0.0)
+    //var lcontentSize = CGFloat(0.0)
     var lastContentOffset: CGFloat = 0
     var loading: Bool = false
     var loadedAll: Bool = false
@@ -95,6 +95,9 @@ class RecommendedSellerViewController: UIViewController {
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("recommendedSellerViewCell", forIndexPath: indexPath) as! RecommendedSellerViewCell
         
+        cell.layer.cornerRadius = 15
+        cell.layer.masksToBounds = true
+    
         let item = self.recommendedSellers[indexPath.row]
         cell.contentMode = UIViewContentMode.Redraw
         cell.sizeToFit()
@@ -102,7 +105,7 @@ class RecommendedSellerViewController: UIViewController {
         cell.followers.text = String(item.numFollowers)
         cell.aboutMe.numberOfLines = 3
         cell.aboutMe.text = item.aboutMe
-        self.lcontentSize = cell.aboutMe.frame.size.height
+        //self.lcontentSize = cell.aboutMe.frame.size.height
         cell.aboutMe.sizeToFit()
         ImageUtil.displayThumbnailProfileImage(self.recommendedSellers[indexPath.row].id, imageView: cell.sellerImg)
         
@@ -144,6 +147,8 @@ class RecommendedSellerViewController: UIViewController {
             cell.followBtn.hidden = false
         }
         
+        
+        
         return cell
     }
     
@@ -162,7 +167,10 @@ class RecommendedSellerViewController: UIViewController {
         dummyLbl.text = self.recommendedSellers[indexPath.row].aboutMe
         dummyLbl.sizeToFit()
         
-        return CGSizeMake(self.view.bounds.width, CGFloat(130) + dummyLbl.bounds.height)
+        let availableWidthForButtons:CGFloat = self.view.bounds.width - 60
+        let buttonWidth :CGFloat = availableWidthForButtons / 4
+        
+        return CGSizeMake(self.view.bounds.width, CGFloat(60) + dummyLbl.bounds.height + buttonWidth)
         
     }
     
