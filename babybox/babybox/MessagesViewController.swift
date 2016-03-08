@@ -60,7 +60,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, UIImagePick
         }
         
         let userProfileBtn: UIButton = UIButton()
-        userProfileBtn.setImage(UIImage(named: "btn_sell"), forState: UIControlState.Normal)
+        userProfileBtn.setImage(UIImage(named: "w_profile"), forState: UIControlState.Normal)
         userProfileBtn.addTarget(self, action: "onClickProfileBtn:", forControlEvents: UIControlEvents.TouchUpInside)
         userProfileBtn.frame = CGRectMake(0, 0, 35, 35)
         let userProfileBarBtn = UIBarButtonItem(customView: userProfileBtn)
