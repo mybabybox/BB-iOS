@@ -180,6 +180,15 @@ class RecommendedSellerViewController: UIViewController {
     
     // MARK: UIScrollview Delegate
     func scrollViewDidScroll(scrollView: UIScrollView) {
+        
+        if (self.lastContentOffset > scrollView.contentOffset.y + constants.SHOW_HIDE_BAR_SCROLL_DISTANCE) {
+            self.navigationController?.setNavigationBarHidden(false, animated: true)
+            self.updateSegBorder(0)
+        } else if (self.lastContentOffset < scrollView.contentOffset.y - constants.SHOW_HIDE_BAR_SCROLL_DISTANCE) {
+            self.navigationController?.setNavigationBarHidden(true, animated: true)
+            self.updateSegBorder(20)
+        }
+        
         if (scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - constants.FEED_LOAD_SCROLL_THRESHOLD {
             if (!loadedAll && !loading) {
                 ViewUtil.showActivityLoading(self.activityLoading)
@@ -320,5 +329,26 @@ class RecommendedSellerViewController: UIViewController {
         clearSellers()
         ApiController.instance.getRecommendedSellersFeed(offSet)
         self.loading = true
+    }
+    
+    func updateSegBorder(adjustHt: CGFloat) {
+        let instance = SellerViewController.instance
+        if(instance!.segController.selectedSegmentIndex == 0) {
+            let y = CGFloat(instance!.segController.frame.height + adjustHt)
+            let start: CGPoint = CGPoint(x: 0, y: y)
+            let end: CGPoint = CGPoint(x: instance!.segController.frame.size.width / 2, y: y)
+            
+            let color: UIColor = UIColor(red: 255/255, green: 118/255, blue: 164/255, alpha: 1.0)
+            instance!.drawLineFromPoint(start, toPoint: end, ofColor: color, inView: instance!.segController)
+        } else {
+            
+            let y = CGFloat(instance!.segController.frame.size.height + adjustHt)
+            let start: CGPoint = CGPoint(x: instance!.segController.frame.size.width / 2 , y: y)
+            let end: CGPoint = CGPoint(x: instance!.segController.frame.size.width, y: y)
+            
+            let color: UIColor = UIColor(red: 255/255, green: 118/255, blue: 164/255, alpha: 1.0)
+            instance!.drawLineFromPoint(start, toPoint: end, ofColor: color, inView: instance!.segController)
+            
+        }
     }
 }

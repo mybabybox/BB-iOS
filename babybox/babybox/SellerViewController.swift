@@ -18,10 +18,11 @@ class SellerViewController: CustomNavigationController {
     var followingController : UIViewController? = nil
     var activeSegment: Int = 0
     var shapeLayer = CAShapeLayer()
+    static var instance: SellerViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        SellerViewController.instance = self
         let normalTextAttributes: [NSObject : AnyObject] = [
             NSForegroundColorAttributeName: UIColor.grayColor(),
             NSFontAttributeName: UIFont.systemFontOfSize(12.0)
