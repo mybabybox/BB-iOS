@@ -21,6 +21,7 @@ class UserActivityViewController: CustomNavigationController {
     var collectionViewCellSize : CGSize?
     var loading: Bool = false
     var loadedAll: Bool = false
+    
     override func viewWillAppear(animated: Bool) {
         ViewUtil.hideActivityLoading(self.activityLoading)
     }

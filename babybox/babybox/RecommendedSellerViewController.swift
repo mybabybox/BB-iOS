@@ -14,6 +14,7 @@ class RecommendedSellerViewController: UIViewController {
 
     @IBOutlet weak var uiCollectionView: UICollectionView!
     @IBOutlet weak var activityLoading: UIActivityIndicatorView!
+    
     var collectionViewCellSize : CGSize?
     var recommendedSellers: [SellerVM] = []
     var offSet: Int64 = 0
@@ -21,6 +22,7 @@ class RecommendedSellerViewController: UIViewController {
     var lastContentOffset: CGFloat = 0
     var loading: Bool = false
     var loadedAll: Bool = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -180,7 +182,6 @@ class RecommendedSellerViewController: UIViewController {
     
     // MARK: UIScrollview Delegate
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        
         if (self.lastContentOffset > scrollView.contentOffset.y + constants.SHOW_HIDE_BAR_SCROLL_DISTANCE) {
             self.navigationController?.setNavigationBarHidden(false, animated: true)
             self.updateSegBorder(0)
@@ -188,6 +189,7 @@ class RecommendedSellerViewController: UIViewController {
             self.navigationController?.setNavigationBarHidden(true, animated: true)
             self.updateSegBorder(20)
         }
+        self.lastContentOffset = scrollView.contentOffset.y
         
         if (scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - constants.FEED_LOAD_SCROLL_THRESHOLD {
             if (!loadedAll && !loading) {
