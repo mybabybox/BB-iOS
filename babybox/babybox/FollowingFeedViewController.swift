@@ -35,15 +35,11 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
     }
     
     override func viewDidAppear(animated: Bool) {
-        self.tabBarController!.tabBar.hidden = false
-        self.tabBarController?.tabBar.alpha = CGFloat(constants.MAIN_BOTTOM_BAR_ALPHA)
-        
         if (currentIndex != nil) {
             let item = vController?.feedItem
             feedLoader?.setItem(currentIndex!.row, item: item!)
             self.uiCollectionView.reloadItemsAtIndexPaths([currentIndex!])
         }
-        
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -109,7 +105,6 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
         let feedItem = feedLoader!.getItem(indexPath.row)
         vController!.feedItem = feedItem
         self.currentIndex = indexPath
-        self.tabBarController!.tabBar.hidden = true
         self.navigationController?.pushViewController(vController!, animated: true)
     }
     

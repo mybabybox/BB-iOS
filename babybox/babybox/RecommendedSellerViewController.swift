@@ -67,19 +67,17 @@ class RecommendedSellerViewController: UIViewController {
     }
     
     override func viewDidAppear(animated: Bool) {
-        self.tabBarController!.tabBar.hidden = false
         self.navigationController?.navigationBar.hidden = false
-        self.tabBarController?.tabBar.alpha = CGFloat(constants.MAIN_BOTTOM_BAR_ALPHA)
         //ViewUtil.showActivityLoading(self.activityLoading)
         
         //ApiController.instance.getRecommendedSellersFeed(offSet)
     }
     
     override func viewDidDisappear(animated: Bool) {
-        //self.tabBarController!.tabBar.hidden = true
         //self.recommendedSellers.removeAll()
         //self.uiCollectionView.reloadData()
     }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -149,8 +147,6 @@ class RecommendedSellerViewController: UIViewController {
             cell.followBtn.hidden = false
         }
         
-        
-        
         return cell
     }
     
@@ -173,7 +169,6 @@ class RecommendedSellerViewController: UIViewController {
         let buttonWidth :CGFloat = availableWidthForButtons / 4
         
         return CGSizeMake(self.view.bounds.width, CGFloat(60) + dummyLbl.bounds.height + buttonWidth)
-        
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
@@ -184,10 +179,8 @@ class RecommendedSellerViewController: UIViewController {
     func scrollViewDidScroll(scrollView: UIScrollView) {
         if (self.lastContentOffset > scrollView.contentOffset.y + constants.SHOW_HIDE_BAR_SCROLL_DISTANCE) {
             self.navigationController?.setNavigationBarHidden(false, animated: true)
-            self.updateSegBorder(0)
         } else if (self.lastContentOffset < scrollView.contentOffset.y - constants.SHOW_HIDE_BAR_SCROLL_DISTANCE) {
             self.navigationController?.setNavigationBarHidden(true, animated: true)
-            self.updateSegBorder(20)
         }
         self.lastContentOffset = scrollView.contentOffset.y
         
@@ -284,7 +277,6 @@ class RecommendedSellerViewController: UIViewController {
         let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("FeedProductViewController") as! FeedProductViewController
         let feedItem = self.recommendedSellers[indexPath.row]
         vController.feedItem = feedItem.posts[index]
-        self.tabBarController!.tabBar.hidden = true
         self.navigationController?.pushViewController(vController, animated: true)
     }
     
@@ -331,26 +323,5 @@ class RecommendedSellerViewController: UIViewController {
         clearSellers()
         ApiController.instance.getRecommendedSellersFeed(offSet)
         self.loading = true
-    }
-    
-    func updateSegBorder(adjustHt: CGFloat) {
-        let instance = SellerViewController.instance
-        if(instance!.segController.selectedSegmentIndex == 0) {
-            let y = CGFloat(instance!.segController.frame.height + adjustHt)
-            let start: CGPoint = CGPoint(x: 0, y: y)
-            let end: CGPoint = CGPoint(x: instance!.segController.frame.size.width / 2, y: y)
-            
-            let color: UIColor = UIColor(red: 255/255, green: 118/255, blue: 164/255, alpha: 1.0)
-            instance!.drawLineFromPoint(start, toPoint: end, ofColor: color, inView: instance!.segController)
-        } else {
-            
-            let y = CGFloat(instance!.segController.frame.size.height + adjustHt)
-            let start: CGPoint = CGPoint(x: instance!.segController.frame.size.width / 2 , y: y)
-            let end: CGPoint = CGPoint(x: instance!.segController.frame.size.width, y: y)
-            
-            let color: UIColor = UIColor(red: 255/255, green: 118/255, blue: 164/255, alpha: 1.0)
-            instance!.drawLineFromPoint(start, toPoint: end, ofColor: color, inView: instance!.segController)
-            
-        }
     }
 }
