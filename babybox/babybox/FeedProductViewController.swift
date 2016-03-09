@@ -350,12 +350,20 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
         if (self.productInfo!.isLiked) {
             self.productInfo!.numLikes--
             self.productInfo!.isLiked = false
+            
+            self.feedItem.numLikes--
+            self.feedItem.isLiked = false
+            
             self.likeImgBtn.setImage(UIImage(named: "ic_like.png"), forState: UIControlState.Normal)
             ApiController.instance.unlikePost(self.productInfo!.id)
             self.likeCountTxt.setTitle(String(self.productInfo!.numLikes), forState: UIControlState.Normal)
         } else {
             self.productInfo!.numLikes++
             self.productInfo!.isLiked = true
+            
+            self.feedItem.numLikes++
+            self.feedItem.isLiked = true
+            
             self.likeImgBtn.setImage(UIImage(named: "ic_liked.png"), forState: UIControlState.Normal)
             ApiController.instance.likePost(self.productInfo!.id)
             self.likeCountTxt.setTitle(String(self.productInfo!.numLikes), forState: UIControlState.Normal)
