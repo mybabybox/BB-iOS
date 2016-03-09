@@ -66,6 +66,7 @@ class UserActivityViewController: CustomNavigationController {
             
             let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("FeedProductViewController") as! FeedProductViewController
             vController.feedItem = resultDto
+            self.tabBarController?.tabBar.hidden = true
             self.navigationController?.pushViewController(vController, animated: true)
             
         }
@@ -105,6 +106,8 @@ class UserActivityViewController: CustomNavigationController {
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
+        let viewStatus = self.userActivitesItems[indexPath.row].viewed
+        
         switch (self.userActivitesItems[indexPath.row].activityType) {
             
             case "LIKED":
@@ -122,6 +125,11 @@ class UserActivityViewController: CustomNavigationController {
                 cell.userName.setTitleColor(ImageUtil.getPinkColor(), forState: UIControlState.Normal)
                 cell.userName.addTarget(self, action: "onClickActor:", forControlEvents: UIControlEvents.TouchUpInside)
                 ImageUtil.displayPostImage(Int(self.userActivitesItems[indexPath.row].targetImage), imageView: cell.postImage)
+                
+                if (!viewStatus) {
+                    cell.layer.backgroundColor = ImageUtil.UIColorFromRGB(0xFFF2EF).CGColor
+                }
+                
                 return cell
             case "FIRST_POST", "NEW_POST", "SOLD", "NEW_COMMENT":
                 let cell = collectionView.dequeueReusableCellWithReuseIdentifier("UserActivity2", forIndexPath: indexPath) as! UserActivityType2ViewCell
@@ -133,6 +141,11 @@ class UserActivityViewController: CustomNavigationController {
                 cell.textMessage.sizeToFit()
                 ImageUtil.displayThumbnailProfileImage(Int(self.userActivitesItems[indexPath.row].actorImage), imageView: cell.profileImg)
                 ImageUtil.displayPostImage(Int(self.userActivitesItems[indexPath.row].targetImage), imageView: cell.postImage)
+                
+                if (!viewStatus) {
+                    cell.layer.backgroundColor = ImageUtil.UIColorFromRGB(0xFFF2EF).CGColor
+                }
+                
                 return cell
 
             default:
@@ -145,6 +158,11 @@ class UserActivityViewController: CustomNavigationController {
                 cell.textMessage.text = self.setMessageText(self.userActivitesItems[indexPath.row])
                 cell.textMessage.numberOfLines = 0
                 cell.textMessage.sizeToFit()
+                
+                if (!viewStatus) {
+                    cell.layer.backgroundColor = ImageUtil.UIColorFromRGB(0xFFF2EF).CGColor
+                }
+                
                 return cell
         }
         
