@@ -72,9 +72,9 @@ class InitialHomeSegmentedController: CustomNavigationController {
     }
     
     func refreshNotifications() {
-        let tabBarItem = (self.tabBarController?.tabBar.items![1])! as UITabBarItem
+        let tabBarItem = (self.tabBarController?.tabBar.items![2])! as UITabBarItem
         if (self.notificationCounterVM?.activitiesCount > 0) {
-            let aCount = self.notificationCounterVM?.activitiesCount
+            let aCount = (self.notificationCounterVM?.activitiesCount)! as Int
             tabBarItem.badgeValue = String(aCount)
         } else {
             tabBarItem.badgeValue = nil
