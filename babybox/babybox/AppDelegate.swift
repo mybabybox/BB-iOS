@@ -69,7 +69,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func initStaticCaches() {
         DistrictCache.refresh()
-        //CountryCache.refresh()
+        CountryCache.refresh()
         CategoryCache.refresh()
     }
     

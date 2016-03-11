@@ -299,16 +299,26 @@ class ApiController {
         self.makeApiCall(callEvent)
     }
     
-    func getDistricts() { //filtering by high-low price
+    func getDistricts() {
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/get-districts"
         callEvent.resultClass = "LocationVM"
-        callEvent.successEventbusName = "getDistrictSuccess"
-        callEvent.failedEventbusName = "getDistrictFailed"
+        callEvent.successEventbusName = "getDistrictsSuccess"
+        callEvent.failedEventbusName = "getDistrictsFailed"
         callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
         self.makeApiCall(callEvent)
     }
-    
+
+    func getCountries() {
+        let callEvent = ApiCallEvent()
+        callEvent.method = "/api/get-countries"
+        callEvent.resultClass = "CountryVM"
+        callEvent.successEventbusName = "getCountriesSuccess"
+        callEvent.failedEventbusName = "getCountriesFailed"
+        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
+        self.makeApiCall(callEvent)
+    }
+
     //User Security APIs
     func saveUserSignUpInfo(displayName: String, locationId: Int) {
         var strData = [String]()
@@ -633,11 +643,12 @@ class ApiController {
         
         switch cName {
         case "CategoryVM": result = Mapper<CategoryVM>().mapArray(inputStr)!
+        case "CountryVM": result = Mapper<CountryVM>().mapArray(inputStr)!
+        case "LocationVM": result = Mapper<LocationVM>().mapArray(inputStr)!
         case "UserVMLite": result = Mapper<UserVMLite>().mapArray(inputStr)!
         case "UserVM": result = Mapper<UserVM>().map(inputStr)!
         case "PostVMLite": result = Mapper<PostVMLite>().mapArray(inputStr)!
         case "PostVM": result = Mapper<PostVM>().map(inputStr)!
-        case "LocationVM": result = Mapper<LocationVM>().mapArray(inputStr)!
         case "ConversationVM": result = Mapper<ConversationVM>().mapArray(inputStr)!
         case "ConversationVMIns": result = Mapper<ConversationVM>().map(inputStr)!
         case "MessageVM": result = Mapper<MessageVM>().map(inputStr)!

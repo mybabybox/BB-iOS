@@ -21,14 +21,14 @@ class DistrictCache {
     }
     
     static func refresh(successCallback: (([LocationVM]) -> Void)?, failureCallback: (() -> Void)?) {
-        SwiftEventBus.onMainThread(self, name: "getDistrictSuccess") { result in
+        SwiftEventBus.onMainThread(self, name: "getDistrictsSuccess") { result in
             self.districts = result.object as! [LocationVM]
             if successCallback != nil {
                 successCallback!(self.districts)
             }
         }
         
-        SwiftEventBus.onMainThread(self, name: "getDistrictFailed") { result in
+        SwiftEventBus.onMainThread(self, name: "getDistrictsFailed") { result in
             if failureCallback != nil {
                 failureCallback!()
             }
