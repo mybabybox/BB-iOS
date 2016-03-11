@@ -14,18 +14,14 @@ class SignupDetailViewController: UIViewController, UITextFieldDelegate, SSRadio
     @IBOutlet weak var submitBtn: UIButton!
     @IBOutlet weak var displayName: UITextField!
     @IBOutlet weak var location: UIButton!
+    
     let locationDropDown = DropDown()
     var locations: [LocationVM] = []
     
     override func viewDidAppear(animated: Bool) {
-        
         self.navigationController?.navigationBar.hidden = true
-        if DistrictCache.getDistricts().count > 0 {
-            locations = DistrictCache.getDistricts()
-            self.refreshLocations()
-        } else {
-            DistrictCache.refresh()
-        }
+        
+        self.locations = DistrictCache.districts
     }
         
     override func viewDidLoad() {
@@ -42,20 +38,13 @@ class SignupDetailViewController: UIViewController, UITextFieldDelegate, SSRadio
             self.view.makeToast(message: (result.object as? String)!)
         }
         
-        SwiftEventBus.onMainThread(self, name: "getDistrictSuccess") { result in
-            // UI thread
-            self.locations = (result.object as? [LocationVM])!
-            self.refreshLocations()
-        }
-        
-        self.navigationController?.navigationBar.hidden = false
         self.locationDropDown.selectionAction = { [unowned self] (index, item) in
             self.location.setTitle(item, forState: .Normal)
         }
+        
         self.locationDropDown.anchorView = self.location
         self.locationDropDown.bottomOffset = CGPoint(x: 0, y:self.location.bounds.height)
         self.locationDropDown.direction = .Top
-        
     }
 
     override func viewDidLayoutSubviews() {
@@ -79,8 +68,8 @@ class SignupDetailViewController: UIViewController, UITextFieldDelegate, SSRadio
         // Pass the selected object to the new view controller.
     }
     */
+    
     @IBAction func saveSignUpInfo(sender: AnyObject) {
-        
         var locationId = 0.0
         for (index, element) in locations.enumerate() {
             if (self.location.titleLabel?.text == element.displayName) {
@@ -93,26 +82,13 @@ class SignupDetailViewController: UIViewController, UITextFieldDelegate, SSRadio
         } else {
 
         }
-        
     }
     
     @IBAction func ShoworDismiss(sender: AnyObject) {
-        
         if self.locationDropDown.hidden {
             self.locationDropDown.show()
         } else {
             self.locationDropDown.hide()
-        }
-    }
-    
-    func refreshLocations() {
-        if locations.count > 0 {
-            var districtLocations : [String] = []
-            for (_, element) in locations.enumerate() {
-                districtLocations.append(element.displayName)
-            }
-            self.locationDropDown.dataSource = districtLocations
-            self.locationDropDown.reloadAllComponents()
         }
     }
     
@@ -126,6 +102,5 @@ class SignupDetailViewController: UIViewController, UITextFieldDelegate, SSRadio
             isValidated = false
         }
         return isValidated
-        
     }
 }

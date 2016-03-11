@@ -11,30 +11,29 @@ import SwiftEventBus
 
 class DistrictCache {
     
-    private static let DISTRICTS = "districts"
-    private static var districts: [LocationVM]?  = []
+    static var districts: [LocationVM]  = []
     
     init() {
-        SwiftEventBus.onMainThread(self, name: "getDistrictSuccess") { result in
-            // UI thread
-            DistrictCache.districts = result.object as? [LocationVM]
-        }
     }
     
     static func refresh() {
-        ApiController.instance.getAllDistricts()
+        self.refresh(nil, failureCallback: nil)
     }
     
-    static func getDistricts() -> [LocationVM] {
-        if (districts == nil || districts!.count == 0) {
-            //refresh()
+    static func refresh(successCallback: (([LocationVM]) -> Void)?, failureCallback: (() -> Void)?) {
+        SwiftEventBus.onMainThread(self, name: "getDistrictSuccess") { result in
+            self.districts = result.object as! [LocationVM]
+            if successCallback != nil {
+                successCallback!(self.districts)
+            }
         }
         
-        return DistrictCache.districts!
+        SwiftEventBus.onMainThread(self, name: "getDistrictFailed") { result in
+            if failureCallback != nil {
+                failureCallback!()
+            }
+        }
+        
+        ApiController.instance.getDistricts()
     }
-    
-    static func setDistrict(locations: [LocationVM]) {
-        DistrictCache.districts = locations
-    }
-    
 }

@@ -299,7 +299,7 @@ class ApiController {
         self.makeApiCall(callEvent)
     }
     
-    func getAllDistricts() { //filtering by high-low price
+    func getDistricts() { //filtering by high-low price
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/get-districts"
         callEvent.resultClass = "LocationVM"

@@ -46,7 +46,6 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
             feedLoader?.setItem(currentIndex!.row, item: item!)
             self.uiCollectionView.reloadItemsAtIndexPaths([currentIndex!])
         }
-        
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -86,7 +85,6 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
         uiCollectionView.collectionViewLayout = flowLayout
         
         self.categories = CategoryCache.categories
-        //self.uiCollectionView.reloadData()
     }
     
     @IBAction func onClicTipClose(sender: AnyObject) {
