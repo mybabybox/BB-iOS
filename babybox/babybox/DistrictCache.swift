@@ -12,7 +12,7 @@ import SwiftEventBus
 class DistrictCache {
     
     private static let DISTRICTS = "districts"
-    private static var districts: [LocationVM]?  = [];
+    private static var districts: [LocationVM]?  = []
     
     init() {
         SwiftEventBus.onMainThread(self, name: "getDistrictSuccess") { result in
@@ -30,7 +30,7 @@ class DistrictCache {
             //refresh()
         }
         
-        return DistrictCache.districts!;
+        return DistrictCache.districts!
     }
     
     static func setDistrict(locations: [LocationVM]) {

@@ -78,18 +78,16 @@ class SignupViewController: FbLoginViewController {
     @IBAction func onSignup(sender: AnyObject) {
         if(validateSignup()){
             ApiController.instance.signIn(firstNameText.text!, lastNameText: lastNameText.text!,
-                emailText: emailText.text!, passwordText: passwordText.text!, confirmPasswordText: confirmPasswordText.text!);
-            self.isValidForm = true;
+                emailText: emailText.text!, passwordText: passwordText.text!, confirmPasswordText: confirmPasswordText.text!)
+            self.isValidForm = true
             //self.performSegueWithIdentifier("signinInfo", sender: nil)
             let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("SignupDetailViewController") as! SignupDetailViewController
             self.navigationController?.pushViewController(vController, animated: true)
-            
         }
     }
     
     func handleGetCateogriesSuccess(categories: [CategoryVM]) {
-        self.categories = categories;
-       
+        self.categories = categories
     }
     
     func validateSignup() -> Bool {

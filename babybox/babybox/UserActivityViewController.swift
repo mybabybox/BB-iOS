@@ -59,7 +59,7 @@ class UserActivityViewController: CustomNavigationController {
             // UI thread
             
             if ViewUtil.isEmptyResult(result, message: "Product not found. It may be deleted by seller.", view: self.view) {
-                return;
+                return
             }
             
             let resultDto: PostVMLite = result.object as! PostVMLite
@@ -239,11 +239,11 @@ class UserActivityViewController: CustomNavigationController {
         var message: String = ""
         switch (item.activityType) {
             case "FIRST_POST":
-                message = constants.ACTIVITY_FIRST_POST + item.targetName;
+                message = constants.ACTIVITY_FIRST_POST + item.targetName
             case "NEW_POST":
-                message = constants.ACTIVITY_NEW_POST + item.targetName;
+                message = constants.ACTIVITY_NEW_POST + item.targetName
             case "NEW_COMMENT":
-                message = constants.ACTIVITY_COMMENTED + item.targetName;
+                message = constants.ACTIVITY_COMMENTED + item.targetName
             case "LIKED":
                 message = " " + constants.ACTIVITY_LIKED
             case "FOLLOWED":

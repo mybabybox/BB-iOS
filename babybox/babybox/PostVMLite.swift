@@ -21,7 +21,7 @@ class PostVMLite: BaseArgVM {
     var sold: Bool = false
     var postType: String = ""
     var conditionType: String = ""
-    var images: [Int] = [];
+    var images: [Int] = []
     var hasImage: Bool = false
     var numLikes: Int = 0
     var numChats: Int = 0
@@ -32,11 +32,9 @@ class PostVMLite: BaseArgVM {
     var offset: Double = 0
     var baseScore: Double = 0
     var timeScore: Double = 0
-    
     var prodLiked: Bool = false
     
     override func mapping(map: ObjectMapper.Map) {
-        //
         id<-map["id"]
         ownerId<-map["ownerId"]
         ownerName<-map["ownerName"]
@@ -46,7 +44,7 @@ class PostVMLite: BaseArgVM {
         sold<-map["sold"]
         postType<-map["postType"]
         conditionType<-map["conditionType"]
-        images<-map["images"];
+        images<-map["images"]
         hasImage<-map["hasImage"]
         numLikes<-map["numLikes"]
         numChats<-map["numChats"]

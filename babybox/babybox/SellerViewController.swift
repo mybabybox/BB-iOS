@@ -38,12 +38,12 @@ class SellerViewController: CustomNavigationController {
         
         var controllerArray : [UIViewController] = []
         
-        self.sellerRecommendationController = self.storyboard!.instantiateViewControllerWithIdentifier("RecommendedSeller") as! RecommendedSellerViewController
-        self.sellerRecommendationController?.title = "Recommended Sellers";
+        self.sellerRecommendationController = self.storyboard!.instantiateViewControllerWithIdentifier("RecommendedSeller") as? RecommendedSellerViewController
+        self.sellerRecommendationController?.title = "Recommended Sellers"
         self.sellerRecommendationController?.parentNavigationController = self.navigationController
         controllerArray.append(self.sellerRecommendationController!)
         
-        self.followingController = self.storyboard!.instantiateViewControllerWithIdentifier("FollowingFeedViewController") as! FollowingFeedViewController
+        self.followingController = self.storyboard!.instantiateViewControllerWithIdentifier("FollowingFeedViewController") as? FollowingFeedViewController
         self.followingController?.title = "Following"
         self.followingController?.parentNavigationController = self.navigationController
         controllerArray.append(self.followingController!)

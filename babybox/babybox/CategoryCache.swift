@@ -7,14 +7,34 @@
 //
 
 import Foundation
-
+import SwiftEventBus
 
 class CategoryCache {
     
     static var categories: [CategoryVM] = []
     
     init() {
+    }
+
+    static func refresh() {
+        self.refresh(nil, failureCallback: nil)
+    }
     
+    static func refresh(successCallback: (([CategoryVM]) -> Void)?, failureCallback: (() -> Void)?) {
+        SwiftEventBus.onMainThread(self, name: "categoriesReceivedSuccess") { result in
+            self.categories = result.object as! [CategoryVM]
+            if successCallback != nil {
+                successCallback!(categories)
+            }
+        }
+        
+        SwiftEventBus.onMainThread(self, name: "categoriesReceivedFailed") { result in
+            if failureCallback != nil {
+                failureCallback!()
+            }
+        }
+        
+        ApiController.instance.getCategories()
     }
     
     static func getCategoryById(catId: Int) -> CategoryVM {

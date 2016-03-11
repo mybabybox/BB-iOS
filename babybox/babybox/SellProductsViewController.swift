@@ -16,9 +16,9 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
     @IBOutlet var actionButton: UIButton!
     let conditionTypeDropDown = DropDown()
     @IBOutlet var sellingtext: UITextField!
-    var categories : [CategoryVM] = []
+    var categories: [CategoryVM] = []
     
-    var save:String = "";
+    var save: String = ""
     
     @IBOutlet weak var collectionViewHtConstraint: NSLayoutConstraint!
     @IBOutlet var categorydropdown: UIButton!
@@ -61,13 +61,6 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
         self.pricetxt.keyboardType = .NumberPad
         
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "actionbar_bg_pink"), forBarMetrics: UIBarMetrics.Default)
-        ApiController.instance.getAllCategories();
-        
-        SwiftEventBus.onMainThread(self, name: "categoriesReceivedSuccess") { result in
-            // UI thread
-            let resultDto: [CategoryVM] = result.object as! [CategoryVM]
-            self.handleGetCateogriesSuccess(resultDto)
-        }
         
         SwiftEventBus.onMainThread(self, name: "productSavedSuccess") { result in
             // UI thread
@@ -82,6 +75,9 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
             NSLog("Product Saved Successfully")
             self.view.makeToast(message: "Error Saving product", duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
         }
+        
+        self.categories = CategoryCache.categories
+        initCategoryOptions()
         
         self.conditionTypeDropDown.dataSource = [
             "-Select-",
@@ -124,11 +120,10 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
         
     }
         
-    func handleGetCateogriesSuccess(categories: [CategoryVM]) {
-        self.categories = categories;
+    func initCategoryOptions() {
         var selCategoryValue = "Choose a Category:"
         var catDataSource : [String] = []
-        for (var i = 0 ; i < categories.count ; i++) {
+        for (var i = 0; i < categories.count; i++) {
             catDataSource.append(categories[i].description)
             if (Int(categories[i].id) == self.selCategory) {
                 selCategoryValue = categories[i].description
@@ -162,16 +157,16 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
     }
     
     func loadDataSource(){
-        self.imageCollection = ["","","",""];
+        self.imageCollection = ["","","",""]
     }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder()
-        
-        return true;
+        return true
     }
     
     //MARK: UICollectionViewDataSource

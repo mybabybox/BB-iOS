@@ -147,7 +147,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, UIImagePick
         var text: String
         
         if string.characters.count > 0 {
-            text = String(format:"%@%@",txtField.text!, string);
+            text = String(format:"%@%@",txtField.text!, string)
         } else {
             let string = txtField.text! as NSString
             text = string.substringToIndex(string.length - 1) as String
@@ -199,7 +199,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, UIImagePick
         result.messages.sortInPlace({ $0.createdDate < $1.createdDate })
         //result.messages.sortInPlace({ $0.createdDate.compare($1.createdDate) == NSComparisonResult.OrderedAscending })
         
-        for var i=0; i<result.messages.count; i++ {
+        for var i = 0; i < result.messages.count; i++ {
             let message: MessageDetailVM = result.messages[i]
             let messageDt = NSDate(timeIntervalSince1970:Double(message.createdDate) / 1000.0)
             if (UserInfoCache.getUser().id == message.senderId) {

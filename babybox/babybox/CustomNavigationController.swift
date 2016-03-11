@@ -104,7 +104,7 @@ class CustomNavigationController: UIViewController {
         let userNameBarBtn = UIBarButtonItem(customView: userNameImg)
        
         self.navigationItem.rightBarButtonItems = [sellBarBtn, chatBarBtn ]
-        self.navigationItem.leftItemsSupplementBackButton = true;
+        self.navigationItem.leftItemsSupplementBackButton = true
         self.navigationItem.leftBarButtonItems = [userImgBarBtn, userNameBarBtn, badgeBarBtn]
         
         let backbtn = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: nil, action: nil)

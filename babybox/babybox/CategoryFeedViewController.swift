@@ -107,7 +107,7 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        var count = 0;
+        var count = 0
         if (collectionView.tag == 2) {
             count = 1
         } else {
@@ -127,7 +127,7 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
             
             dispatch_async(dispatch_get_main_queue(), {
                 cell.categoryIcon.kf_setImageWithURL(imageUrl!)
-            });
+            })
             
             //Divide the width equally among buttons.. 
             if (!isWidthSet) {

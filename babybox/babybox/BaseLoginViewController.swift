@@ -35,7 +35,7 @@ class BaseLoginViewController: UIViewController, FBSDKLoginButtonDelegate {
         } else {
             //authentication failed.. show error message...
             let _errorDialog = UIAlertController(title: "Error Message", message: "Invalid UserName or Password", preferredStyle: UIAlertControllerStyle.Alert)
-            let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil);
+            let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil)
             _errorDialog.addAction(okAction)
             self.presentViewController(_errorDialog, animated: true, completion: nil)
         }

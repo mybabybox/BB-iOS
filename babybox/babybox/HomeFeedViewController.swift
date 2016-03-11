@@ -73,11 +73,6 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
             self.topSpaceConstraint.constant = 5
         }
         
-        SwiftEventBus.onMainThread(self, name: "categoriesReceivedSuccess") { result in
-            let resultDto: [CategoryVM] = result.object as! [CategoryVM]
-            self.handleGetCategoriesSuccess(resultDto)
-        }
-        
         setCollectionViewSizesInsets()
         setCollectionViewSizesInsetsForTopView()
         
@@ -90,7 +85,8 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
         flowLayout.minimumLineSpacing = 5
         uiCollectionView.collectionViewLayout = flowLayout
         
-        ApiController.instance.getAllCategories()
+        self.categories = CategoryCache.categories
+        //self.uiCollectionView.reloadData()
     }
     
     @IBAction func onClicTipClose(sender: AnyObject) {
@@ -108,7 +104,7 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        var count = 0;
+        var count = 0
         if (collectionView.tag == 2) {
             count = self.categories.count
         } else {
@@ -124,7 +120,7 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
             let imagePath = categoryVM.icon
             let imageUrl  = NSURL(string: imagePath)
             cell.categoryIcon.kf_setImageWithURL(imageUrl!)
-            cell.categoryName.text = categoryVM.name;
+            cell.categoryName.text = categoryVM.name
             
             cell.layer.borderColor = CGColorCreate(CGColorSpaceCreateDeviceRGB(), [194/255, 195/255, 200/255, 1.0])
             cell.layer.borderWidth = 1
@@ -214,13 +210,6 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-    }
-    
-    // MARK: Custom Implementation methods
-    func handleGetCategoriesSuccess(categories: [CategoryVM]) {
-        self.categories = categories
-        CategoryCache.setCategories(self.categories)
-        self.uiCollectionView.reloadData()
     }
     
     // MARK: UIScrollview Delegate

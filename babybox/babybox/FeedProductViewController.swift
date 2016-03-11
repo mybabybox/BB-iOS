@@ -324,7 +324,7 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
     
     //MARK: UITextfield Delegate
     func textFieldDidBeginEditing(textField: UITextField!){
-        detailTableView.contentInset =  UIEdgeInsetsMake(0, 0, 250, 0);
+        detailTableView.contentInset =  UIEdgeInsetsMake(0, 0, 250, 0)
         detailTableView.scrollToRowAtIndexPath(NSIndexPath(forRow: self.comments.count, inSection:2), atScrollPosition: UITableViewScrollPosition.Middle, animated: false)
     }
     

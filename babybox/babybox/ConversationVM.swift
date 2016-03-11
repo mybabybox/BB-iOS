@@ -12,7 +12,7 @@ class ConversationVM: BaseArgVM {
     var id: Int = 0
     var postId: Int = 0
     var postImage: Int = 0
-    var postTitle: String = "";
+    var postTitle: String = ""
     var postPrice: Int = 0
     var postOwner: Bool?
     var postSold: Bool?

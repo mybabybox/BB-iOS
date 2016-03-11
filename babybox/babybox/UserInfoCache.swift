@@ -39,19 +39,19 @@ class UserInfoCache {
     }
     
     static func incrementNumProducts() {
-        getUser().numProducts++;
+        getUser().numProducts++
     }
     
     static func decrementNumProducts() {
-        getUser().numProducts--;
+        getUser().numProducts--
     }
     
     static func incrementNumLikes() {
-        getUser().numLikes++;
+        getUser().numLikes++
     }
     
     static func decrementNumLikes() {
-        getUser().numLikes--;
+        getUser().numLikes--
     }
     
 }

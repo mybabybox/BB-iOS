@@ -13,7 +13,7 @@ class SellerVM: UserVMLite {
     
     var aboutMe: String = ""
     var posts: [PostVMLite] = []
-    var numMoreProducts = 0;
+    var numMoreProducts = 0
     
     override func mapping(map: ObjectMapper.Map) {
         super.mapping(map)

@@ -10,20 +10,19 @@ import Foundation
 import ObjectMapper
 
 class CategoryVM: BaseArgVM {
-    
-    var id: Double = 0;
-    var icon: String = "";
-    var name: String = "";
-    var description: String = "";
-    var categoryType: String = "";
-    var seq: Int = 0;
+    var id: Double = 0
+    var icon: String = ""
+    var name: String = ""
+    var description: String = ""
+    var categoryType: String = ""
+    var seq: Int = 0
  
     override func mapping(map: ObjectMapper.Map) {
-        id<-map["id"];
+        id<-map["id"]
         icon<-map["icon"]
         name<-map["name"]
         description<-map["description"]
-        categoryType<-map["categoryType"];
-        seq<-map["seq"];
+        categoryType<-map["categoryType"]
+        seq<-map["seq"]
     }
 }

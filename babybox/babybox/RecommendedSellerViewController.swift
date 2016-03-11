@@ -30,6 +30,7 @@ class RecommendedSellerViewController: UIViewController {
         self.uiCollectionView.layoutIfNeeded()
         
         self.setCollectionViewSizesInsets()
+        
         SwiftEventBus.onMainThread(self, name: "recommendedSellerSuccess") { result in
             let sellers = result.object as! [SellerVM]
             self.handleRecommendedSeller(sellers)
@@ -111,9 +112,9 @@ class RecommendedSellerViewController: UIViewController {
         
         // follow
         if (item.isFollowing) {
-            ViewUtil.selectFollowButtonStyleLite(cell.followBtn);
+            ViewUtil.selectFollowButtonStyleLite(cell.followBtn)
         } else {
-            ViewUtil.unselectFollowButtonStyleLite(cell.followBtn);
+            ViewUtil.unselectFollowButtonStyleLite(cell.followBtn)
         }
         ImageUtil.displayCornerView(cell.followBtn)
         

@@ -83,11 +83,11 @@ class ViewUtil {
         loadingView.layer.cornerRadius = 10
         
         //let actInd: UIActivityIndicatorView = UIActivityIndicatorView()
-        actInd.frame = CGRectMake(0.0, 0.0, 40.0, 40.0);
+        actInd.frame = CGRectMake(0.0, 0.0, 40.0, 40.0)
         actInd.activityIndicatorViewStyle =
             UIActivityIndicatorViewStyle.WhiteLarge
         actInd.center = CGPointMake(loadingView.frame.size.width / 2,
-            loadingView.frame.size.height / 2);
+            loadingView.frame.size.height / 2)
         loadingView.addSubview(actInd)
         container.addSubview(loadingView)
         uiView.addSubview(container)
@@ -97,7 +97,7 @@ class ViewUtil {
 
     static func showOKDialog(title: String, message: String, view: UIViewController) {
         let errorDialog = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
-        let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil);
+        let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil)
         errorDialog.addAction(okAction)
         view.presentViewController(errorDialog, animated: true, completion: nil)
     }
@@ -115,7 +115,7 @@ class ViewUtil {
             if message != nil && view != nil {
                 makeToast(message!, view: view!)
             }
-            return true;
+            return true
         }
         if result!.object is String {
             let str = result!.object as! String
@@ -123,7 +123,7 @@ class ViewUtil {
                 if message != nil && view != nil {
                     makeToast(message!, view: view!)
                 }
-                return true;
+                return true
             }
         }
         return false

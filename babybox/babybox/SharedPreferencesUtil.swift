@@ -34,14 +34,9 @@ class SharedPreferencesUtil {
         return sharedPreferencesUtil
     }
     
-    func isScreenViewed(screen: Screen) -> Bool {
-        if (self.prefs.objectForKey(screen.rawValue) == nil) {
-            return false
-        } else {
-            return self.prefs.objectForKey(screen.rawValue) as! Bool
-        }
-      
-    }
+    //
+    // Save
+    //
     
     func setScreenViewed(screen: Screen) {
         self.prefs.setBool(true, forKey: screen.rawValue)
@@ -51,15 +46,28 @@ class SharedPreferencesUtil {
         self.prefs.setValue(sessionId, forKey: User.SESSION_ID.rawValue)
     }
     
+    func saveUserInfo(userInfo: UserVM) {
+        //self.prefs.setObject(userInfo, forKey: User.USER_INFO.rawValue)
+    }
+    
+    //
+    // Get
+    //
+    
+    func isScreenViewed(screen: Screen) -> Bool {
+        if (self.prefs.objectForKey(screen.rawValue) == nil) {
+            return false
+        } else {
+            return self.prefs.objectForKey(screen.rawValue) as! Bool
+        }
+      
+    }
+    
     func getUserSessionId(sessionId: String) -> String {
         if (self.prefs.valueForKey(User.SESSION_ID.rawValue) != nil) {
             return (self.prefs.valueForKey(User.SESSION_ID.rawValue) as? String)!
         }
         return ""
-    }
-    
-    func saveUserInfo(userInfo: UserVM) {
-        //self.prefs.setObject(userInfo, forKey: User.USER_INFO.rawValue)
     }
     
     func getUserInfo() -> UserVM? {
@@ -70,6 +78,8 @@ class SharedPreferencesUtil {
         }
         return userInfo
     }
+    
+    // util
     
     func clearAll() {
         self.prefs.setValue(nil, forKey: User.SESSION_ID.rawValue)

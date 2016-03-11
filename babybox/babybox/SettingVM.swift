@@ -11,10 +11,10 @@ import ObjectMapper
 
 class SettingVM: BaseArgVM {
 
-    var id: Double = 0;
+    var id: Double = 0
     var emailNewPost: Bool = false
     var emailNewConversation: Bool = false
-    var emailNewComment: Bool = false;
+    var emailNewComment: Bool = false
     var emailNewPromotion: Bool = false
     var pushNewConversion: Bool = false
     var pushNewComment: Bool = false

@@ -12,7 +12,7 @@ import SwiftEventBus
 class FeedLoader {
     
     var feedType: FeedFilter.FeedType
-    var reloadDataToView: ()->()
+    var reloadDataToView: () -> Void
     var activityIndicator: UIActivityIndicatorView?
     
     var feedItems: [PostVMLite] = []
@@ -22,7 +22,7 @@ class FeedLoader {
     
     var error: String? = nil
     
-    init(feedType: FeedFilter.FeedType, reloadDataToView: ()->()) {
+    init(feedType: FeedFilter.FeedType, reloadDataToView: () -> Void) {
         self.feedType = feedType
         self.reloadDataToView = reloadDataToView
         registerEvents()

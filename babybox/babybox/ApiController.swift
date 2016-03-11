@@ -24,7 +24,7 @@ class ApiController {
     init() {
     }
     
-    func getAllCategories() {
+    func getCategories() {
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/get-categories"
         callEvent.resultClass = "CategoryVM"
@@ -42,7 +42,7 @@ class ApiController {
         callEvent.resultClass = "PostVMLite"
         callEvent.successEventbusName = "homeExploreFeedLoadSuccess"
         callEvent.failedEventbusName = "homeExploreFeedLoadFailed"
-        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method;
+        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
         
         self.makeApiCall(callEvent)
     }
@@ -64,7 +64,7 @@ class ApiController {
         callEvent.resultClass = "UserVM"
         callEvent.successEventbusName = "userInfoSuccess"
         callEvent.failedEventbusName = "userInfoFailed"
-        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method; //append logged in user id to get the logged in user details.
+        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method      //append logged in user id to get the logged in user details.
         
         self.makeApiCall(callEvent)
     }
@@ -360,7 +360,7 @@ class ApiController {
         callEvent.resultClass = "ConversationVM"
         callEvent.successEventbusName = "conversationsSuccess"
         callEvent.failedEventbusName = "conversationsFailed"
-        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method;
+        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
         
         self.makeApiCall(callEvent)
     }
@@ -371,7 +371,7 @@ class ApiController {
         callEvent.resultClass = "ConversationVMIns"
         callEvent.successEventbusName = "openConversationsSuccess"
         callEvent.failedEventbusName = "openConversationsFailed"
-        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method;
+        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
         
         self.makeApiCall(callEvent)
     }
@@ -382,7 +382,7 @@ class ApiController {
         callEvent.resultClass="NewPostVM"
         callEvent.successEventbusName="getSellSucess"
         callEvent.failedEventbusName="gerSellFailed"
-        callEvent.apiUrl=constants.kBaseServerURL + callEvent.method;
+        callEvent.apiUrl=constants.kBaseServerURL + callEvent.method
         
         self.makeApiCall(callEvent)
     }
@@ -393,7 +393,7 @@ class ApiController {
         callEvent.resultClass="String"
         callEvent.successEventbusName="getSignUpSucess"
         callEvent.failedEventbusName="getSignUpFailed"
-        callEvent.apiUrl=constants.kBaseServerURL + callEvent.method;
+        callEvent.apiUrl=constants.kBaseServerURL + callEvent.method
         
         self.makeApiCall(callEvent)
         
@@ -629,7 +629,7 @@ class ApiController {
     }
     
     func parseStr(cName: String, inputStr: String) throws -> AnyObject {
-        var result: AnyObject = NSNull();
+        var result: AnyObject = NSNull()
         
         switch cName {
         case "CategoryVM": result = Mapper<CategoryVM>().mapArray(inputStr)!

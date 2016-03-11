@@ -10,17 +10,15 @@ import Foundation
 import ObjectMapper
 
 class LocationVM: BaseArgVM {
-    
-    var id: Double = 0;
-    var type: String = "";
-    var name: String = "";
-    var displayName: String = "";
+    var id: Double = 0
+    var type: String = ""
+    var name: String = ""
+    var displayName: String = ""
     
     override func mapping(map: ObjectMapper.Map) {
-        id<-map["id"];
-        type<-map["type"];
-        name<-map["name"];
+        id<-map["id"]
+        type<-map["type"]
+        name<-map["name"]
         displayName<-map["displayName"]
     }
-    
 }

@@ -9,11 +9,11 @@
 import Foundation
 
 class ApiCallEvent { //this is generalized model to make api call...
-    var method="";
-    var arg = BaseArgVM();
-    var resultClass="";
-    var apiUrl="";
-    var successEventbusName="";
-    var failedEventbusName="";
-    var body="";
+    var method=""
+    var arg = BaseArgVM()
+    var resultClass=""
+    var apiUrl=""
+    var successEventbusName=""
+    var failedEventbusName=""
+    var body=""
 }

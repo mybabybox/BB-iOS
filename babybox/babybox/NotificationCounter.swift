@@ -10,7 +10,7 @@ import Foundation
 
 class NotificationCounter {
     
-    static var TIMER_INTERVAL: Double = 10 * 60 * 1000;
+    static var TIMER_INTERVAL: Double = 10 * 60 * 1000
     
     static var counter: NotificationCounterVM? = nil
     
@@ -31,21 +31,21 @@ class NotificationCounter {
     
     static func resetActivitiesCount() {
         if (counter != nil) {
-            counter!.activitiesCount = 0;
+            counter!.activitiesCount = 0
         }
         
         if (InitialHomeSegmentedController.instance != nil) {
-            InitialHomeSegmentedController.instance!.refreshNotifications();
+            InitialHomeSegmentedController.instance!.refreshNotifications()
         }
     }
     
     static func sameCounter(other: NotificationCounterVM) {
         if (counter != nil) {
-            counter!.activitiesCount = 0;
+            counter!.activitiesCount = 0
         }
         //refresh the main activity
         if (InitialHomeSegmentedController.instance != nil) {
-            InitialHomeSegmentedController.instance!.refreshNotifications();
+            InitialHomeSegmentedController.instance!.refreshNotifications()
         }
     }
     

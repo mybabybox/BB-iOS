@@ -90,9 +90,9 @@ class ENMBadgedBarButtonItem: UIBarButtonItem {
 extension ENMBadgedBarButtonItem {
     
     func refreshBadgeLabelProperties() {
-        badgeLabel.textColor = badgeTextColor;
-        badgeLabel.backgroundColor = badgeBackgroundColor;
-        badgeLabel.font = badgeFont;
+        badgeLabel.textColor = badgeTextColor
+        badgeLabel.backgroundColor = badgeBackgroundColor
+        badgeLabel.font = badgeFont
     }
     
     func updateBadgeValueAnimated(animated: Bool) {
@@ -107,7 +107,7 @@ extension ENMBadgedBarButtonItem {
             badgeLabel.layer.addAnimation(animation, forKey: "bounceAnimation")
         }
         
-        badgeLabel.text = self.badgeValue;
+        badgeLabel.text = self.badgeValue
         
         let duration: Double = animated ? 0.2 : 0.0
         UIView.animateWithDuration(duration) {
@@ -163,7 +163,7 @@ extension ENMBadgedBarButtonItem {
     func badgeExpectedSize() -> CGSize {
         let frameLabel: UILabel = self.duplicateLabel(badgeLabel)
         frameLabel.sizeToFit()
-        let expectedLabelSize: CGSize = CGSizeMake(15, 15) //frameLabel.frame.size;
+        let expectedLabelSize: CGSize = CGSizeMake(15, 15)      //frameLabel.frame.size
         
         return expectedLabelSize
     }

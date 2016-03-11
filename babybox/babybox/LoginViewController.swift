@@ -61,14 +61,14 @@ class LoginViewController: BaseLoginViewController, UITextFieldDelegate {
         if identifier == "clickToLogin" {
             if (userNameTxt.text!.isEmpty || passwordTxt.text!.isEmpty) {
                 let _errorDialog = UIAlertController(title: "Warning Message", message: "Please Enter UserName & Password", preferredStyle: UIAlertControllerStyle.Alert)
-                let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil);
+                let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil)
                 _errorDialog.addAction(okAction)
                 self.presentViewController(_errorDialog, animated: true, completion: nil)
-                return false;
+                return false
             }
             
             startLoading()
-            ApiController.instance.loginByEmail(self.userNameTxt.text!, password: self.passwordTxt.text!);
+            ApiController.instance.loginByEmail(self.userNameTxt.text!, password: self.passwordTxt.text!)
             return false
         } else if (identifier == "gotoforgotpassword") {
             return true
@@ -82,15 +82,15 @@ class LoginViewController: BaseLoginViewController, UITextFieldDelegate {
 
     func textFieldShouldReturn(textField: UITextField) -> Bool { // called when 'return' key pressed. return NO to ignore.
         textField.resignFirstResponder()
-        return true;
+        return true
     }
     
     @IBAction func onForgetPasswordClick(sender: AnyObject) {
-        NSLog("Forget pasword click");
+        NSLog("Forget pasword click")
     }
     
     @IBAction func onSignUpClick(sender: AnyObject) {
-         NSLog("Sign up click");
+         NSLog("Sign up click")
     }
     
     override func startLoading() {

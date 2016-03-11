@@ -11,16 +11,16 @@ import Kingfisher
 
 class ImageUtil {
     
-    static let REVIEW_THUMBNAIL_MAX_WIDTH = 128;
-    static let PREVIEW_THUMBNAIL_MAX_HEIGHT = 128;
+    static let REVIEW_THUMBNAIL_MAX_WIDTH = 128
+    static let PREVIEW_THUMBNAIL_MAX_HEIGHT = 128
     
-    static let GALLERY_PICTURE = 2;
-    static let REQUEST_CAMERA = 1;
+    static let GALLERY_PICTURE = 2
+    static let REQUEST_CAMERA = 1
     
-    static let IMAGE_UPLOAD_MAX_WIDTH = 1024;
-    static let IMAGE_UPLOAD_MAX_HEIGHT = 1024;
+    static let IMAGE_UPLOAD_MAX_WIDTH = 1024
+    static let IMAGE_UPLOAD_MAX_HEIGHT = 1024
     
-    static let IMAGE_COMPRESS_QUALITY = 80;
+    static let IMAGE_COMPRESS_QUALITY = 80
     
     static let IMAGE_DISPLAY_CROSS_FADE_DURATION = 0.5
     
@@ -32,7 +32,7 @@ class ImageUtil {
     static let POST_IMAGE_BY_ID_URL = constants.imagesBaseURL + "/image/get-post-image-by-id/"
     static let ORIGINAL_POST_IMAGE_BY_ID_URL = constants.imagesBaseURL + "/image/get-original-post-image-by-id/"
     static let MINI_POST_IMAGE_BY_ID_URL = constants.imagesBaseURL + "/image/get-mini-post-image-by-id/"
-    static let MESSAGE_IMAGE_BY_ID_URL = constants.imagesBaseURL + "/image/get-message-image-by-id/";
+    static let MESSAGE_IMAGE_BY_ID_URL = constants.imagesBaseURL + "/image/get-message-image-by-id/"
     static let ORIGINAL_MESSAGE_IMAGE_BY_ID_URL = constants.imagesBaseURL + "/image/get-original-message-image-by-id/"
     static let MINI_MESSAGE_IMAGE_BY_ID_URL = constants.imagesBaseURL + "/image/get-mini-message-image-by-id/"
     
@@ -144,7 +144,7 @@ class ImageUtil {
     }
     
     static func displayMiniMessageImage(id: Int, imageView: UIImageView) {
-        displayImage(MINI_MESSAGE_IMAGE_BY_ID_URL + String(id), view: imageView, centerCrop: false, noCahe: false);
+        displayImage(MINI_MESSAGE_IMAGE_BY_ID_URL + String(id), view: imageView, centerCrop: false, noCahe: false)
     }
     
     // Circle image
@@ -170,11 +170,11 @@ class ImageUtil {
     // Rounded image
     
     static func displayRoundedImage(url: String, imageView:UIImageView) {
-        displayRoundedImage(url, imageView: imageView);
+        displayRoundedImage(url, imageView: imageView)
     }
     
     static func displayRoundedImage(url: String, imageView:UIImageView, centerCrop: Bool, noCahe: Bool) {
-        displayRoundedImage(url, imageView: imageView);
+        displayRoundedImage(url, imageView: imageView)
     }
     
     static func displayRoundedImage(url: String, view: UIImageView) {
