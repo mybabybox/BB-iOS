@@ -70,18 +70,6 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
     
     override func viewDidAppear(animated: Bool) {
         self.myDate = NSDate()
-        
-        /*if (feedItem.numLikes == 0) {
-            self.likeCountTxt.setTitle("Like", forState: UIControlState.Normal)
-        } else {
-            self.likeCountTxt.setTitle(String(self.feedItem.numLikes), forState: UIControlState.Normal)
-        }
-        
-        if (feedItem.isLiked) {
-            self.likeImgBtn.setImage(UIImage(named: "ic_liked.png"), forState: UIControlState.Normal)
-        } else {
-            self.likeImgBtn.setImage(UIImage(named: "ic_like.png"), forState: UIControlState.Normal)
-        }*/
     }
 
     override func didReceiveMemoryWarning() {
@@ -286,10 +274,12 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         //on click of User section show the User profile screen.
         if (indexPath.section == 2) {
-            let vController = self.storyboard?.instantiateViewControllerWithIdentifier("UserProfileFeedViewController") as! UserProfileFeedViewController
+            self.performSegueWithIdentifier("userprofile", sender: nil)
+            /*let vController = self.storyboard?.instantiateViewControllerWithIdentifier("UserProfileFeedViewController") as! UserProfileFeedViewController
             vController.userId = self.productInfo!.ownerId
             ViewUtil.resetBackButton(self.navigationItem)
-            self.navigationController?.pushViewController(vController, animated: true)
+            self.navigationController?.pushViewController(vController, animated: true)*/
+            
         }
     }
     
@@ -381,22 +371,6 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
         ViewUtil.hideActivityLoading(self.activityLoading)
     }
     
-    @IBAction func onSelectCategory(sender: AnyObject) {
-        let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("CategoryFeedViewController") as! CategoryFeedViewController
-        
-        vController.selCategory = CategoryCache.getCategoryById(self.productInfo!.categoryId)
-        self.tabBarController!.tabBar.hidden = true
-        ViewUtil.resetBackButton(self.navigationItem)
-        self.navigationController?.pushViewController(vController, animated: true)
-    }
-    
-    @IBAction func onClickViewShop(sender: AnyObject) {
-        let vController = self.storyboard?.instantiateViewControllerWithIdentifier("UserProfileFeedViewController") as! UserProfileFeedViewController
-        vController.userId = self.productInfo!.ownerId
-        ViewUtil.resetBackButton(self.navigationItem)
-        self.navigationController?.pushViewController(vController, animated: true)
-    }
-        
     // MARK: - UICollectionViewDataSource
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
@@ -452,5 +426,31 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
         } else {
             self.likeImgBtn.setImage(UIImage(named: "ic_like.png"), forState: UIControlState.Normal)
         }
+    }
+    
+    //categoryScreen
+    //MARK Segue handling methods.
+    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
+        if (identifier == "categoryScreen") {
+            return true
+        } else if (identifier == "userprofile") {
+            return true
+        }
+        return false
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        if (segue.identifier == "categoryScreen") {
+            let vController = segue.destinationViewController as! CategoryFeedViewController
+            vController.selCategory = CategoryCache.getCategoryById(self.productInfo!.categoryId)
+            vController.hidesBottomBarWhenPushed = true
+            
+        } else if (segue.identifier == "userprofile") {
+            let vController = segue.destinationViewController as! UserProfileFeedViewController
+            vController.userId = self.productInfo!.ownerId
+            vController.hidesBottomBarWhenPushed = true
+        }
+        ViewUtil.resetBackButton(self.navigationItem)
     }
 }

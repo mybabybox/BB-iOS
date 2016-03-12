@@ -10,13 +10,13 @@ import UIKit
 import SwiftEventBus
 import Kingfisher
 
-class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
+class HomeFeedViewController: CustomNavigationController, UIScrollViewDelegate {
     
     @IBOutlet weak var topSpaceConstraint: NSLayoutConstraint!
     @IBOutlet weak var exploreTip: UIView!
     @IBOutlet weak var uiCollectionView: UICollectionView!
     @IBOutlet weak var activityLoading: UIActivityIndicatorView!
-    
+    static var instance: HomeFeedViewController? = nil
     var feedLoader: FeedLoader? = nil
     var feedViewAdapter: FeedViewAdapter? = nil
     
@@ -28,7 +28,7 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
     var categories : [CategoryVM] = []
     
     var vController: FeedProductViewController?
-    
+    var notificationCounterVM: NotificationCounterVM? = nil
     func reloadDataToView() {
         self.uiCollectionView.reloadData()
     }
@@ -38,10 +38,9 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
     }
     
     override func viewDidAppear(animated: Bool) {
-        self.tabBarController!.tabBar.hidden = false
         self.tabBarController?.tabBar.alpha = CGFloat(constants.MAIN_BOTTOM_BAR_ALPHA)
         
-        if (currentIndex != nil) {
+        if (currentIndex != nil && vController?.feedItem != nil) {
             let item = vController?.feedItem
             feedLoader?.setItem(currentIndex!.row, item: item!)
             self.uiCollectionView.reloadItemsAtIndexPaths([currentIndex!])
@@ -57,6 +56,14 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        HomeFeedViewController.instance = self
+        SwiftEventBus.onMainThread(self, name: "loadNotificationSuccess") { result in
+            self.notificationCounterVM = result.object as? NotificationCounterVM
+            self.refreshNotifications()
+        }
+        SwiftEventBus.onMainThread(self, name: "loadNotificationFailure") { result in
+            NSLog("Error Getting Notification Counter!")
+        }
         
         feedLoader = FeedLoader(feedType: FeedFilter.FeedType.HOME_EXPLORE, reloadDataToView: reloadDataToView)
         feedLoader!.setActivityIndicator(activityLoading)
@@ -85,6 +92,7 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
         uiCollectionView.collectionViewLayout = flowLayout
         
         self.categories = CategoryCache.categories
+        NotificationCounter.mInstance.refresh()
     }
     
     @IBAction func onClicTipClose(sender: AnyObject) {
@@ -144,18 +152,9 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
     }
 
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        self.tabBarController!.tabBar.hidden = true
-
         if (collectionView.tag == 2){
-            let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("CategoryFeedViewController") as! CategoryFeedViewController
-            vController.selCategory = self.categories[indexPath.row]
-            self.navigationController?.pushViewController(vController, animated: true)
-        } else {
-            vController =  self.storyboard!.instantiateViewControllerWithIdentifier("FeedProductViewController") as? FeedProductViewController
-            let feedItem = feedLoader!.getItem(indexPath.row)
-            vController!.feedItem = feedItem
-            currentIndex = indexPath
-            self.navigationController?.pushViewController(vController!, animated: true)
+            self.currentIndex = indexPath
+            self.performSegueWithIdentifier("categoryscreen", sender: nil)
         }
     }
     
@@ -204,10 +203,28 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
     
     //MARK Segue handling methods.
     override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
-        return true
+        if (identifier == "categoryscreen") {
+            return true
+        } else if (identifier == "productScreen") {
+            return true
+        }
+        return false
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if (segue.identifier == "categoryscreen") {
+            let vController = segue.destinationViewController as! CategoryFeedViewController
+            vController.selCategory = self.categories[self.currentIndex!.row]
+            vController.hidesBottomBarWhenPushed = true
+        } else if (segue.identifier == "productScreen") {
+            let cell = sender as! FeedProductCollectionViewCell
+            let indexPath = self.uiCollectionView!.indexPathForCell(cell)
+            let feedItem = feedLoader!.getItem(indexPath!.row)
+            self.currentIndex = indexPath
+            vController = segue.destinationViewController as? FeedProductViewController
+            vController!.feedItem = feedItem
+            vController!.hidesBottomBarWhenPushed = true
+        }
     }
     
     // MARK: UIScrollview Delegate
@@ -245,6 +262,29 @@ class HomeFeedViewController: UIViewController, UIScrollViewDelegate {
         let feedItem = feedLoader!.getItem(indexPath.row)
         
         feedViewAdapter!.onLikeBtnClick(cell, feedItem: feedItem)
+    }
+    
+    func refreshNotifications() {
+        let tabBarItem = (self.tabBarController?.tabBar.items![2])! as UITabBarItem
+        if (self.notificationCounterVM?.activitiesCount > 0) {
+            let aCount = (self.notificationCounterVM?.activitiesCount)! as Int
+            tabBarItem.badgeValue = String(aCount)
+        } else {
+            tabBarItem.badgeValue = nil
+        }
+        let chatNavItem = self.navigationItem.rightBarButtonItems?[1] as? ENMBadgedBarButtonItem
+        
+        if (self.notificationCounterVM?.conversationsCount > 0) {
+            let cCount = (self.notificationCounterVM?.conversationsCount)! as Int
+            chatNavItem?.badgeValue = String(cCount)
+        } else {
+            chatNavItem?.badgeValue = ""
+        }
+    }
+    
+    /**this method should have been in NotificationCounter class but since this didnt worked as NSTimer selector was not getting resolved within NotificationCounter class so specified the method here.*/
+    func refresh() {
+        NotificationCounter.mInstance.refresh()
     }
     
 }

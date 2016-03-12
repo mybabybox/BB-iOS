@@ -56,8 +56,8 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
     }
     
     override func viewDidAppear(animated: Bool) {
-        self.tabBarController!.tabBar.hidden = true
-        self.navigationItem.setHidesBackButton(false, animated: true)
+        //self.tabBarController!.tabBar.hidden = true
+        //self.navigationItem.setHidesBackButton(false, animated: true)
         
         if (currentIndex != nil) {
             let item = vController?.feedItem
@@ -93,11 +93,11 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
         flowLayout.minimumLineSpacing = 5
         uiCollectionView.collectionViewLayout = flowLayout
         
-        let titleDict: NSDictionary = [NSForegroundColorAttributeName: UIColor.whiteColor()]
+        //let titleDict: NSDictionary = [NSForegroundColorAttributeName: UIColor.whiteColor()]
         
         self.navigationItem.rightBarButtonItems = []
         self.navigationItem.leftBarButtonItems = []
-        self.navigationController!.navigationBar.titleTextAttributes = titleDict as? [String : AnyObject]
+        //self.navigationController!.navigationBar.titleTextAttributes = titleDict as? [String : AnyObject]
     }
     
     override func didReceiveMemoryWarning() {
@@ -167,12 +167,12 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
         if (collectionView.tag == 2) {
             
         } else {
-            vController =  self.storyboard!.instantiateViewControllerWithIdentifier("FeedProductViewController") as! FeedProductViewController
+            /*vController =  self.storyboard!.instantiateViewControllerWithIdentifier("FeedProductViewController") as! FeedProductViewController
             let feedItem = self.getFeedItems()[indexPath.row]
             vController!.feedItem = feedItem
             self.currentIndex = indexPath
-            self.tabBarController!.tabBar.hidden = true
-            self.navigationController?.pushViewController(vController!, animated: true)
+            //self.tabBarController!.tabBar.hidden = true
+            self.navigationController?.pushViewController(vController!, animated: true)*/
         }
     }
     
@@ -226,21 +226,35 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
     
     //MARK Segue handling methods.
     override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
-        return true
+        if (identifier == "followingCalls" || identifier == "followersCall") {
+            return true
+        } else if (identifier == "editProfile"){
+            return true
+        } else if (identifier == "upProductScreen") {
+            return true
+        }
+        return false
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        self.tabBarController!.tabBar.hidden = true
+        //self.tabBarController!.tabBar.hidden = true
         if (segue.identifier == "followingCalls" || segue.identifier == "followersCall") {
             let vController = segue.destinationViewController as! FollowersFollowingViewController
             vController.userId = self.userInfo!.id
             vController.optionType = segue.identifier!
-        } /*else if (segue.identifier == "followersCall") {
-            let vController = segue.destinationViewController as! FollowersFollowingViewController
-            vController.userId = self.userInfo!.id
-        } */else if (segue.identifier == "editProfile"){
+            vController.hidesBottomBarWhenPushed = true
+        } else if (segue.identifier == "editProfile"){
             let vController = segue.destinationViewController as! EditProfileViewController
             vController.userId = self.userInfo!.id
+            vController.hidesBottomBarWhenPushed = true
+        } else if (segue.identifier == "upProductScreen") {
+            let cell = sender as! FeedProductCollectionViewCell
+            let indexPath = self.uiCollectionView!.indexPathForCell(cell)
+            let feedItem = feedLoader!.getItem(indexPath!.row)
+            self.currentIndex = indexPath
+            vController = segue.destinationViewController as? FeedProductViewController
+            vController!.feedItem = feedItem
+            vController!.hidesBottomBarWhenPushed = true
         }
     }
     

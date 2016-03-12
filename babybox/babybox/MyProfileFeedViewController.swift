@@ -46,7 +46,7 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
     }
     
     override func viewDidAppear(animated: Bool) {
-        self.tabBarController!.tabBar.hidden = false
+        //self.tabBarController!.tabBar.hidden = false
         self.tabBarController?.tabBar.alpha = CGFloat(constants.MAIN_BOTTOM_BAR_ALPHA)
         
         if (self.activeHeaderViewCell != nil) {
@@ -151,17 +151,6 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        if (collectionView.tag == 2) {
-            
-        } else {
-            //self.uiCollectionView.delegate = nil
-            self.vController =  self.storyboard!.instantiateViewControllerWithIdentifier("FeedProductViewController") as! FeedProductViewController
-            let feedItem = self.getFeedItems()[indexPath.row]
-            self.vController!.feedItem = feedItem
-            self.currentIndex = indexPath
-            self.tabBarController!.tabBar.hidden = true
-            self.navigationController?.pushViewController(vController!, animated: true)
-        }
     }
     
     func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
@@ -220,25 +209,37 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
             return true
         } else if (identifier == "editProfile"){
             return true
+        } else if (identifier == "mpProductScreen"){
+            return true
         } else if (identifier == "settings") {
             return true
         }
-        
         return false
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        //self.uiCollectionView.delegate = nil
-        self.tabBarController!.tabBar.hidden = true
         if (segue.identifier == "followingCalls" || segue.identifier == "followersCall") {
             let vController = segue.destinationViewController as! FollowersFollowingViewController
             vController.userId = self.userInfo!.id
             vController.optionType = segue.identifier!
+            vController.hidesBottomBarWhenPushed = true
         } else if (segue.identifier == "editProfile"){
             let vController = segue.destinationViewController as! EditProfileViewController
             vController.userId = self.userInfo!.id
+            vController.hidesBottomBarWhenPushed = true
+        } else if (segue.identifier == "mpProductScreen"){
+            //
+            let cell = sender as! FeedProductCollectionViewCell
+            let indexPath = self.uiCollectionView!.indexPathForCell(cell)
+            let feedItem = feedLoader!.getItem(indexPath!.row)
+            self.currentIndex = indexPath
+            vController = segue.destinationViewController as? FeedProductViewController
+            vController!.feedItem = feedItem
+            vController!.hidesBottomBarWhenPushed = true
         } else if (segue.identifier == "settings") {
-           // let vController = segue.destinationViewController as! SettingsViewController
+            //self.uiCollectionView.delegate = nil
+            let vController = segue.destinationViewController as! SettingsViewController
+            vController.hidesBottomBarWhenPushed = true
         }
     }
     
@@ -350,12 +351,6 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
         redrawSegControlBorder(cell.segmentControl)
         
         cell.btnWidthConsttraint.constant = buttonWidth
-        /*cell.followersBtn.layer.borderColor = UIColor.lightGrayColor().CGColor
-        cell.followersBtn.layer.borderWidth = 1.0
-        
-        cell.followingBtn.layer.borderColor = UIColor.lightGrayColor().CGColor
-        cell.followingBtn.layer.borderWidth = 1.0        */
-        
         cell.editProfile.layer.borderColor = UIColor.lightGrayColor().CGColor
         cell.editProfile.layer.borderWidth = 1.0
         
@@ -387,11 +382,5 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
         shapeLayer.allowsGroupOpacity = false
         shapeLayer.autoreverses = false
         self.uiCollectionView.layer.addSublayer(shapeLayer)
-    }
-    
-    @IBAction func onClickSettings(sender: AnyObject) {
-        self.uiCollectionView.delegate = nil
-        let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("SettingsViewController") as! SettingsViewController
-        self.navigationController?.pushViewController(vController, animated: true)
     }
 }

@@ -167,9 +167,9 @@ class UserActivityViewController: CustomNavigationController {
         }
         
     }
-    
+    var currentIndex = 0
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        
+        self.currentIndex = indexPath.row
         let item = self.userActivitesItems[indexPath.row]
         switch (item.activityType) {
             case "FIRST_POST", "NEW_POST", "NEW_COMMENT", "LIKED", "SOLD":
@@ -271,6 +271,17 @@ class UserActivityViewController: CustomNavigationController {
                 ApiController.instance.getUserActivities(feedOffset)
                 
             }
+        }
+    }
+    
+    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
+        return true
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if (segue.identifier == "userprofile"){
+            let vController = segue.destinationViewController as! UserProfileFeedViewController
+            vController.userId = self.userActivitesItems[self.currentIndex].actor
         }
     }
     

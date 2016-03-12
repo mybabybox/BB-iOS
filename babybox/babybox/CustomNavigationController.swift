@@ -31,14 +31,16 @@ class CustomNavigationController: UIViewController {
     }
     
     func onClickSellBtn(sender: AnyObject?) {
-        self.tabBarController!.tabBar.hidden = true
+        //self.tabBarController!.tabBar.hidden = true
         let vController = self.storyboard?.instantiateViewControllerWithIdentifier("sellProductsViewController")
+        vController?.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(vController!, animated: true)
     }
     
     func onClickChatBtn(sender: AnyObject?) {
-        self.tabBarController!.tabBar.hidden = true
+        //self.tabBarController!.tabBar.hidden = true
         let vController = self.storyboard?.instantiateViewControllerWithIdentifier("ConversationsController")
+        vController?.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(vController!, animated: true)
     }
     

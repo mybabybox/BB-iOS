@@ -68,10 +68,7 @@ class RecommendedSellerViewController: UIViewController {
     }
     
     override func viewDidAppear(animated: Bool) {
-        self.navigationController?.navigationBar.hidden = false
-        //ViewUtil.showActivityLoading(self.activityLoading)
-        
-        //ApiController.instance.getRecommendedSellersFeed(offSet)
+
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -106,7 +103,6 @@ class RecommendedSellerViewController: UIViewController {
         cell.followers.text = String(item.numFollowers)
         cell.aboutMe.numberOfLines = 3
         cell.aboutMe.text = item.aboutMe
-        //self.lcontentSize = cell.aboutMe.frame.size.height
         cell.aboutMe.sizeToFit()
         ImageUtil.displayThumbnailProfileImage(self.recommendedSellers[indexPath.row].id, imageView: cell.sellerImg)
         
@@ -158,8 +154,7 @@ class RecommendedSellerViewController: UIViewController {
     // MARK: UICollectionViewDelegateFlowLayout
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        //return collectionViewCellSize!
-        /**this code is used to dynamically specify the height to CellView without this code 
+        /**this code is used to dynamically specify the height to CellView without this code
         contents get overlapped*/
         let dummyLbl = UILabel(frame: CGRect(x: 0,y: 0, width: self.view.bounds.width, height: 0))
         dummyLbl.numberOfLines = 2
@@ -325,4 +320,24 @@ class RecommendedSellerViewController: UIViewController {
         ApiController.instance.getRecommendedSellersFeed(offSet)
         self.loading = true
     }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        if (segue.identifier == "spuserprofile") {
+            let button = sender as! UIButton
+            let view = button.superview!
+            let cell = view.superview! as! RecommendedSellerViewCell
+            let indexPath = self.uiCollectionView.indexPathForCell(cell)!
+            let userItem = self.recommendedSellers[indexPath.row]
+            let vc = segue.destinationViewController as! UserProfileFeedViewController
+            vc.userId = userItem.id
+        }
+        
+    }
+    
+    //MARK Segue handling methods.
+    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
+        return true
+    }
+    
 }

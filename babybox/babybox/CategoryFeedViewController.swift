@@ -42,7 +42,6 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
     }
     
     override func viewDidAppear(animated: Bool) {
-        self.tabBarController!.tabBar.hidden = true
         
         if (currentIndex != nil) {
             let item = vController?.feedItem
@@ -170,7 +169,6 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
             vController!.feedItem = feedItem
             vController!.category = self.selCategory
             self.currentIndex = indexPath
-            self.tabBarController!.tabBar.hidden = true
             ViewUtil.resetBackButton(self.navigationItem)
             self.navigationController?.pushViewController(vController!, animated: true)
         }
@@ -297,7 +295,6 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func onClickSellBtn(sender: AnyObject?) {
-        self.tabBarController!.tabBar.hidden = true
         let vController = self.storyboard?.instantiateViewControllerWithIdentifier("sellProductsViewController") as! SellProductsViewController
         vController.selCategory = Int((selCategory?.id)!)
         ViewUtil.resetBackButton(self.navigationItem)

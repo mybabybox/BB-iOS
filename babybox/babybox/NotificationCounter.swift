@@ -17,7 +17,6 @@ class NotificationCounter {
     static var mInstance: NotificationCounter = NotificationCounter()
     
     init() {
-        //NSTimer.scheduledTimerWithTimeInterval(NotificationCounter.TIMER_INTERVAL, target: InitialHomeSegmentedController.instance!, selector: "refresh", userInfo: nil, repeats: true)
     }
     
     func refresh() {
@@ -34,8 +33,8 @@ class NotificationCounter {
             counter!.activitiesCount = 0
         }
         
-        if (InitialHomeSegmentedController.instance != nil) {
-            InitialHomeSegmentedController.instance!.refreshNotifications()
+        if (HomeFeedViewController.instance != nil) {
+            HomeFeedViewController.instance!.refreshNotifications()
         }
     }
     
@@ -44,8 +43,8 @@ class NotificationCounter {
             counter!.activitiesCount = 0
         }
         //refresh the main activity
-        if (InitialHomeSegmentedController.instance != nil) {
-            InitialHomeSegmentedController.instance!.refreshNotifications()
+        if (HomeFeedViewController.instance != nil) {
+            HomeFeedViewController.instance!.refreshNotifications()
         }
     }
     
