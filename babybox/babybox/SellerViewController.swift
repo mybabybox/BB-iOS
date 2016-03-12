@@ -49,7 +49,7 @@ class SellerViewController: CustomNavigationController {
             .ViewBackgroundColor(UIColor(red: 247.0/255.0, green: 247.0/255.0, blue: 247.0/255.0, alpha: 1.0)),
             .BottomMenuHairlineColor(UIColor(red: 20.0/255.0, green: 20.0/255.0, blue: 20.0/255.0, alpha: 0.1)),
             .SelectionIndicatorColor(ImageUtil.getPinkColor()),
-            .MenuMargin(20.0),
+            .MenuMargin(0.0),
             .MenuHeight(40.0),
             .SelectedMenuItemLabelColor(ImageUtil.getPinkColor()),
             .UnselectedMenuItemLabelColor(UIColor(red: 40.0/255.0, green: 40.0/255.0, blue: 40.0/255.0, alpha: 1.0)),

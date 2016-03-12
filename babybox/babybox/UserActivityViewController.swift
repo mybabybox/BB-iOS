@@ -208,6 +208,7 @@ class UserActivityViewController: CustomNavigationController {
             loadedAll = true
         }
         loading = false
+        self.lastContentOffset = 0
         ViewUtil.hideActivityLoading(self.activityLoading)
     }
 
@@ -260,12 +261,12 @@ class UserActivityViewController: CustomNavigationController {
     
     // MARK: UIScrollview Delegate
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        if (self.lastContentOffset > scrollView.contentOffset.y + Constants.SHOW_HIDE_BAR_SCROLL_DISTANCE) {
+        if scrollView.contentOffset.y < 0 {
+            self.lastContentOffset = 0
+        } else if self.lastContentOffset > scrollView.contentOffset.y + Constants.SHOW_HIDE_BAR_SCROLL_DISTANCE {
             self.navigationController?.setNavigationBarHidden(false, animated: true)
-            
-        } else if (self.lastContentOffset < scrollView.contentOffset.y - Constants.SHOW_HIDE_BAR_SCROLL_DISTANCE) {
+        } else if self.lastContentOffset < scrollView.contentOffset.y - Constants.SHOW_HIDE_BAR_SCROLL_DISTANCE {
             self.navigationController?.setNavigationBarHidden(true, animated: true)
-            
         }
         self.lastContentOffset = scrollView.contentOffset.y
         
@@ -278,7 +279,6 @@ class UserActivityViewController: CustomNavigationController {
                     feedOffset = ++activityOffSet
                 }
                 ApiController.instance.getUserActivities(feedOffset)
-                
             }
         }
     }
@@ -301,7 +301,6 @@ class UserActivityViewController: CustomNavigationController {
         self.userActivitesItems = []
         self.uiCollectionView.reloadData()
         self.activityOffSet = 0
-        
     }
     
     func reloadActivities() {

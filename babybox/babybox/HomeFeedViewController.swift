@@ -231,12 +231,12 @@ class HomeFeedViewController: CustomNavigationController, UIScrollViewDelegate {
     
     // MARK: UIScrollview Delegate
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        if (self.lastContentOffset > scrollView.contentOffset.y + Constants.SHOW_HIDE_BAR_SCROLL_DISTANCE) {
+        if scrollView.contentOffset.y < 0 {
+            self.lastContentOffset = 0
+        } else if self.lastContentOffset > scrollView.contentOffset.y + Constants.SHOW_HIDE_BAR_SCROLL_DISTANCE {
             self.navigationController?.setNavigationBarHidden(false, animated: true)
-            
-        } else if (self.lastContentOffset < scrollView.contentOffset.y - Constants.SHOW_HIDE_BAR_SCROLL_DISTANCE) {
+        } else if self.lastContentOffset < scrollView.contentOffset.y - Constants.SHOW_HIDE_BAR_SCROLL_DISTANCE {
             self.navigationController?.setNavigationBarHidden(true, animated: true)
-            
         }
         self.lastContentOffset = scrollView.contentOffset.y
         
