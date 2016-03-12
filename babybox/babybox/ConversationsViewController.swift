@@ -136,7 +136,7 @@ class ConversationsViewController: UIViewController, UIGestureRecognizerDelegate
     // MARK: UIScrollview Delegate
     func scrollViewDidScroll(scrollView: UIScrollView) {
         
-        if (scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - constants.FEED_LOAD_SCROLL_THRESHOLD {
+        if (scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - Constants.FEED_LOAD_SCROLL_THRESHOLD {
             if (!loading) {
                 ViewUtil.showActivityLoading(self.activityLoading)
                 loading = true

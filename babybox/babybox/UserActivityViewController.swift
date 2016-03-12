@@ -239,19 +239,19 @@ class UserActivityViewController: CustomNavigationController {
         var message: String = ""
         switch (item.activityType) {
             case "FIRST_POST":
-                message = constants.ACTIVITY_FIRST_POST + item.targetName
+                message = Constants.ACTIVITY_FIRST_POST + item.targetName
             case "NEW_POST":
-                message = constants.ACTIVITY_NEW_POST + item.targetName
+                message = Constants.ACTIVITY_NEW_POST + item.targetName
             case "NEW_COMMENT":
-                message = constants.ACTIVITY_COMMENTED + item.targetName
+                message = Constants.ACTIVITY_COMMENTED + item.targetName
             case "LIKED":
-                message = " " + constants.ACTIVITY_LIKED
+                message = " " + Constants.ACTIVITY_LIKED
             case "FOLLOWED":
-                message = constants.ACTIVITY_FOLLOWED
+                message = Constants.ACTIVITY_FOLLOWED
             case "SOLD":
-                message = constants.ACTIVITY_SOLD
+                message = Constants.ACTIVITY_SOLD
             case "NEW_GAME_BADGE":
-                message = constants.ACTIVITY_GAME_BADGE + item.targetName
+                message = Constants.ACTIVITY_GAME_BADGE + item.targetName
             default: break
         }
         return message
@@ -260,16 +260,16 @@ class UserActivityViewController: CustomNavigationController {
     
     // MARK: UIScrollview Delegate
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        if (self.lastContentOffset > scrollView.contentOffset.y + constants.SHOW_HIDE_BAR_SCROLL_DISTANCE) {
+        if (self.lastContentOffset > scrollView.contentOffset.y + Constants.SHOW_HIDE_BAR_SCROLL_DISTANCE) {
             self.navigationController?.setNavigationBarHidden(false, animated: true)
             
-        } else if (self.lastContentOffset < scrollView.contentOffset.y - constants.SHOW_HIDE_BAR_SCROLL_DISTANCE) {
+        } else if (self.lastContentOffset < scrollView.contentOffset.y - Constants.SHOW_HIDE_BAR_SCROLL_DISTANCE) {
             self.navigationController?.setNavigationBarHidden(true, animated: true)
             
         }
         self.lastContentOffset = scrollView.contentOffset.y
         
-        if (scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - constants.FEED_LOAD_SCROLL_THRESHOLD {
+        if (scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - Constants.FEED_LOAD_SCROLL_THRESHOLD {
             if (!loadedAll && !loading) {
                 ViewUtil.showActivityLoading(self.activityLoading)
                 loading = true

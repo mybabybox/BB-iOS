@@ -29,7 +29,7 @@ class BaseLoginViewController: UIViewController, FBSDKLoginButtonDelegate {
         
         if !sessionId.isEmpty {
             self.isUserLoggedIn = true
-            SharedPreferencesUtil.getInstance().setUserSessionId(sessionId)
+            AppDelegate.getInstance().sessionId = sessionId
             UserInfoCache.refresh(sessionId)
             onSuccessLogin()
         } else {

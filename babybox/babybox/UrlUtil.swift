@@ -12,12 +12,12 @@ class UrlUtil {
     static let ENCODE_CHARSET_UTF8 = "UTF-8"
     
     // NOTE: let str = String(format:"%d , %f, %ld, %@", INT_VALUE, FLOAT_VALUE, DOUBLE_VALUE, STRING_VALUE)
-    static let SELLER_URL = constants.kBaseServerURL + "/seller/%d"
-    static let PRODUCT_URL = constants.kBaseServerURL + "/product/%d"
-    static let CATEGORY_URL = constants.kBaseServerURL + "/category/%d"
+    static let SELLER_URL = Constants.BASE_URL + "/seller/%d"
+    static let PRODUCT_URL = Constants.BASE_URL + "/product/%d"
+    static let CATEGORY_URL = Constants.BASE_URL + "/category/%d"
     
     static let APPS_DOWNLOAD_URL = "https://goo.gl/BdQeze"
-    static let REFERRAL_URL = constants.kBaseServerURL + "/signup-code/%@"
+    static let REFERRAL_URL = Constants.BASE_URL + "/signup-code/%@"
     
     static let SELLER_URL_REGEX = ".*/seller/(\\d+)"
     static let PRODUCT_URL_REGEX = ".*/product/(\\d+)"
@@ -33,7 +33,7 @@ class UrlUtil {
 
     static func getFullUrl(url: String) -> String {
         if !url.hasPrefix("http") {
-            return constants.kBaseServerURL + url
+            return Constants.BASE_URL + url
         }
         return url
     }

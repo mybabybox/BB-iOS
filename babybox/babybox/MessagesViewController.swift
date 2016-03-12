@@ -48,7 +48,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, UIImagePick
         
         ImageUtil.displayPostImage(self.conversation!.postImage, imageView: prodImg)
         self.prodName.text = self.conversation?.postTitle
-        self.prodPrice.text = constants.currencySymbol + String(self.conversation!.postPrice.toIntMax())
+        self.prodPrice.text = Constants.CURRENCY_SYMBOL + String(self.conversation!.postPrice.toIntMax())
         
         if self.conversation!.postOwner == false {
             self.buyTextLbl.hidden = true
@@ -105,7 +105,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, UIImagePick
             addChatBubble(bubbleData)
             textField.resignFirstResponder()
             
-            ApiController.instance.postMessage((self.conversation?.id)!, message: bubbleData.text!)
+        ApiController.instance.newMessage((self.conversation?.id)!, message: bubbleData.text!)
     }
         
     @IBAction func cameraButtonClicked(sender: AnyObject) {
@@ -186,9 +186,6 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, UIImagePick
         let chosenImage = info[UIImagePickerControllerOriginalImage] as! UIImage //2
         let bubbleData = ChatBubbleData(text: textField.text, image: chosenImage, date: NSDate(), type: .Mine, imgId: -1)
         
-        //post new chat message
-        //ApiController.instance.postMessage(String(self.conversationId), message: bubbleData.text!, imageData: bubbleData.image!)
-        
         addChatBubble(bubbleData)
         picker.dismissViewControllerAnimated(true, completion: { () -> Void in
         })
@@ -218,7 +215,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, UIImagePick
     
     // MARK: UIScrollview Delegate
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        if (scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - constants.FEED_LOAD_SCROLL_THRESHOLD {
+        if (scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - Constants.FEED_LOAD_SCROLL_THRESHOLD {
             if (!loading) {
                 //ApiController.instance.getMessages((self.conversation?.id)!, offset: feedOffset)
                 self.loading = false

@@ -9,15 +9,15 @@
 import Foundation
 import UIKit
 
-struct constants {
+struct Constants {
     
     static let APP_NAME = "BabyBox"
     
-    static let kBaseServerURL = "http://baby-box.hk"
-    static let imagesBaseURL = "http://baby-box.hk"
+    static let BASE_URL = "http://localhost:9000"
+    static let BASE_IMAGE_URL = "http://localhost:9000"
     
-    static let currencySymbol = "$"
-    static var sessionId = ""
+    static let DEVICE_TYPE = "IOS";
+    static let CURRENCY_SYMBOL = "$"
     
     static let SPLASH_SHOW_DURATION = 0.5
     static let FEED_LOAD_SCROLL_THRESHOLD = CGFloat(50.0)

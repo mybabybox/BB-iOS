@@ -30,7 +30,7 @@ class ApiController {
         callEvent.resultClass = "CategoryVM"
         callEvent.successEventbusName = "categoriesReceivedSuccess"
         callEvent.failedEventbusName = "categoriesReceivedFailed"
-        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
+        callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         
         self.makeApiCall(callEvent)
     }
@@ -42,7 +42,7 @@ class ApiController {
         callEvent.resultClass = "PostVMLite"
         callEvent.successEventbusName = "homeExploreFeedLoadSuccess"
         callEvent.failedEventbusName = "homeExploreFeedLoadFailed"
-        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
+        callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         
         self.makeApiCall(callEvent)
     }
@@ -53,7 +53,7 @@ class ApiController {
         callEvent.resultClass = "PostVMLite"
         callEvent.successEventbusName = "homeFollowingFeedLoadSuccess"
         callEvent.failedEventbusName = "homeFollowingFeedLoadFailed"
-        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
+        callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         
         self.makeApiCall(callEvent)
     }
@@ -64,7 +64,7 @@ class ApiController {
         callEvent.resultClass = "UserVM"
         callEvent.successEventbusName = "userInfoSuccess"
         callEvent.failedEventbusName = "userInfoFailed"
-        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method      //append logged in user id to get the logged in user details.
+        callEvent.apiUrl = Constants.BASE_URL + callEvent.method      //append logged in user id to get the logged in user details.
         
         self.makeApiCall(callEvent)
     }
@@ -75,7 +75,7 @@ class ApiController {
         callEvent.resultClass = "UserVM"
         callEvent.successEventbusName = "userByIdSuccess"
         callEvent.failedEventbusName = "userByIdFailed"
-        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
+        callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         self.makeApiCall(callEvent)
     }
     
@@ -85,7 +85,7 @@ class ApiController {
         callEvent.resultClass = "ActivityVM"
         callEvent.successEventbusName = "userActivitiesSuccess"
         callEvent.failedEventbusName = "userActivitiesFailed"
-        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
+        callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         self.makeApiCall(callEvent)
         
     }
@@ -96,7 +96,7 @@ class ApiController {
         callEvent.resultClass = "String"
         //callEvent.successEventbusName = ""
         //callEvent.failedEventbusName = ""
-        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
+        callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         
         self.makeApiCall(callEvent)
     }
@@ -107,7 +107,7 @@ class ApiController {
         callEvent.resultClass = "String"
         //callEvent.successEventbusName = ""
         //callEvent.failedEventbusName = ""
-        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
+        callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         
         self.makeApiCall(callEvent)
     }
@@ -118,7 +118,7 @@ class ApiController {
         callEvent.resultClass = "PostVM"
         callEvent.successEventbusName = "productDetailsReceivedSuccess"
         callEvent.failedEventbusName = "productDetailsReceivedFailed"
-        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
+        callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         
         self.makeApiCall(callEvent)
     }
@@ -129,7 +129,7 @@ class ApiController {
         callEvent.resultClass = "String"
         callEvent.successEventbusName = "followUserSuccess"
         callEvent.failedEventbusName = "followUserFailed"
-        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
+        callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         
         self.makeApiCall(callEvent)
     }
@@ -140,7 +140,7 @@ class ApiController {
         callEvent.resultClass = "String"
         callEvent.successEventbusName = "unfollowUserSuccess"
         callEvent.failedEventbusName = "unfollowUserFailed"
-        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
+        callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         
         self.makeApiCall(callEvent)
     }
@@ -157,12 +157,12 @@ class ApiController {
         callEvent.body = parameter
         //callEvent.successEventbusName = ""
         //callEvent.failedEventbusName = ""
-        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
+        callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         self.makePostApiCall(callEvent)
     }
 
     func loginByFacebook(authToken: String) -> Bool {
-        let url = constants.kBaseServerURL + "/authenticate/mobile/facebook?access_token=\(authToken)"
+        let url = Constants.BASE_URL + "/authenticate/mobile/facebook?access_token=\(authToken)"
         let callEvent = ApiCallEvent()
         callEvent.method = "/authenticate/mobile/facebook"
         callEvent.resultClass = "String"
@@ -177,7 +177,7 @@ class ApiController {
     
     func loginByEmail(userName: String, password: String) -> Bool {
         
-        let url = constants.kBaseServerURL + "/login/mobile?email=\(userName)&password=\(password)"
+        let url = Constants.BASE_URL + "/login/mobile?email=\(userName)&password=\(password)"
         
         let callEvent = ApiCallEvent()
         callEvent.method = "/login/mobile"
@@ -192,7 +192,7 @@ class ApiController {
     }
     
     func forgotPasswordRequest(emailAddress: String) -> Bool {
-        let url = constants.kBaseServerURL + "/login/password/forgot?email=\(emailAddress)"
+        let url = Constants.BASE_URL + "/login/password/forgot?email=\(emailAddress)"
         
         let callEvent = ApiCallEvent()
         callEvent.method = "/login/password/forgot"
@@ -214,7 +214,7 @@ class ApiController {
         callEvent.resultClass = "String"
         callEvent.successEventbusName = "logoutSuccess"
         callEvent.failedEventbusName = "logoutFailed"
-        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
+        callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         self.makeApiCall(callEvent)
     }
     
@@ -225,7 +225,7 @@ class ApiController {
         callEvent.resultClass = "PostVMLite"
         callEvent.successEventbusName = "categoryPopularFeedLoadSuccess"
         callEvent.failedEventbusName = "categoryPopularFeedLoadFailed"
-        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
+        callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         self.makeApiCall(callEvent)
     }
     
@@ -235,7 +235,7 @@ class ApiController {
         callEvent.resultClass = "PostVMLite"
         callEvent.successEventbusName = "categoryNewestFeedLoadSuccess"
         callEvent.failedEventbusName = "categoryNewestFeedLoadFailed"
-        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
+        callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         self.makeApiCall(callEvent)
     }
     
@@ -245,7 +245,7 @@ class ApiController {
         callEvent.resultClass = "PostVMLite"
         callEvent.successEventbusName = "categoryPriceLowHighFeedLoadSuccess"
         callEvent.failedEventbusName = "categoryPriceLowHighFeedLoadFailed"
-        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
+        callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         self.makeApiCall(callEvent)
     }
     
@@ -255,7 +255,7 @@ class ApiController {
         callEvent.resultClass = "PostVMLite"
         callEvent.successEventbusName = "categoryPriceHighLowFeedLoadSuccess"
         callEvent.failedEventbusName = "categoryPriceHighLowFeedLoadFailed"
-        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
+        callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         self.makeApiCall(callEvent)
     }
     
@@ -265,7 +265,7 @@ class ApiController {
         callEvent.resultClass = "PostVMLite"
         callEvent.successEventbusName = "userPostedFeedLoadSuccess"
         callEvent.failedEventbusName = "userPostedFeedLoadFailed"
-        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
+        callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         self.makeApiCall(callEvent)
     }
     
@@ -275,7 +275,7 @@ class ApiController {
         callEvent.resultClass = "PostVMLite"
         callEvent.successEventbusName = "userLikedFeedLoadSuccess"
         callEvent.failedEventbusName = "userLikedFeedLoadFailed"
-        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
+        callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         self.makeApiCall(callEvent)
     }
     
@@ -285,7 +285,7 @@ class ApiController {
         callEvent.resultClass = "UserVMLite"
         callEvent.successEventbusName = "userFollowersFollowingsSuccess"
         callEvent.failedEventbusName = "userFollowersFollowingsFailed"
-        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
+        callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         self.makeApiCall(callEvent)
     }
     
@@ -295,7 +295,7 @@ class ApiController {
         callEvent.resultClass = "UserVMLite"
         callEvent.successEventbusName = "userFollowersFollowingsSuccess"
         callEvent.failedEventbusName = "userFollowersFollowingsFailed"
-        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
+        callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         self.makeApiCall(callEvent)
     }
     
@@ -305,7 +305,7 @@ class ApiController {
         callEvent.resultClass = "LocationVM"
         callEvent.successEventbusName = "getDistrictsSuccess"
         callEvent.failedEventbusName = "getDistrictsFailed"
-        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
+        callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         self.makeApiCall(callEvent)
     }
 
@@ -315,7 +315,7 @@ class ApiController {
         callEvent.resultClass = "CountryVM"
         callEvent.successEventbusName = "getCountriesSuccess"
         callEvent.failedEventbusName = "getCountriesFailed"
-        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
+        callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         self.makeApiCall(callEvent)
     }
 
@@ -332,7 +332,7 @@ class ApiController {
         callEvent.body = parameter
         callEvent.successEventbusName = "saveSignInfoSuccess"
         callEvent.failedEventbusName = "saveSignInfoFailed"
-        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
+        callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         
         self.makePostApiCall(callEvent)
     }
@@ -341,10 +341,10 @@ class ApiController {
         let callEvent=ApiCallEvent()
         callEvent.method="/image/upload-profile-photo"
         callEvent.resultClass="String"
-        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
+        callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         callEvent.successEventbusName = "profileImgUploadSuccess"
         callEvent.failedEventbusName = "profileImgUploadFailed"
-        let url = callEvent.apiUrl + "?key=\(StringUtil.encode(constants.sessionId))"
+        let url = callEvent.apiUrl + "?key=\(StringUtil.encode(AppDelegate.getInstance().sessionId!))"
         Alamofire.upload(
             .POST,
             url,
@@ -370,7 +370,7 @@ class ApiController {
         callEvent.resultClass = "ConversationVM"
         callEvent.successEventbusName = "conversationsSuccess"
         callEvent.failedEventbusName = "conversationsFailed"
-        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
+        callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         
         self.makeApiCall(callEvent)
     }
@@ -381,7 +381,7 @@ class ApiController {
         callEvent.resultClass = "ConversationVMIns"
         callEvent.successEventbusName = "openConversationsSuccess"
         callEvent.failedEventbusName = "openConversationsFailed"
-        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
+        callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         
         self.makeApiCall(callEvent)
     }
@@ -392,7 +392,7 @@ class ApiController {
         callEvent.resultClass="NewPostVM"
         callEvent.successEventbusName="getSellSucess"
         callEvent.failedEventbusName="gerSellFailed"
-        callEvent.apiUrl=constants.kBaseServerURL + callEvent.method
+        callEvent.apiUrl=Constants.BASE_URL + callEvent.method
         
         self.makeApiCall(callEvent)
     }
@@ -403,7 +403,7 @@ class ApiController {
         callEvent.resultClass="String"
         callEvent.successEventbusName="getSignUpSucess"
         callEvent.failedEventbusName="getSignUpFailed"
-        callEvent.apiUrl=constants.kBaseServerURL + callEvent.method
+        callEvent.apiUrl=Constants.BASE_URL + callEvent.method
         
         self.makeApiCall(callEvent)
         
@@ -426,7 +426,7 @@ class ApiController {
         //callEvent.successEventbusName = ""
         //callEvent.failedEventbusName = ""
         
-        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
+        callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         
         self.makePostApiCall(callEvent)
     }
@@ -437,7 +437,7 @@ class ApiController {
         callEvent.resultClass = "MessageVM"
         callEvent.successEventbusName = "getMessagesSuccess"
         callEvent.failedEventbusName = "getMessagesFailed"
-        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
+        callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         
         self.makeApiCall(callEvent)
     }
@@ -448,7 +448,7 @@ class ApiController {
         callEvent.resultClass = "String"
         callEvent.successEventbusName = "onSuccessDeleteComment"
         callEvent.failedEventbusName = "onFailureDeleteComment"
-        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
+        callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         
         self.makeApiCall(callEvent)
     }
@@ -459,7 +459,7 @@ class ApiController {
         callEvent.resultClass = "PostVM"
         callEvent.successEventbusName = "postByIdLoadSuccess"
         callEvent.failedEventbusName = "postByIdLoadFailed"
-        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
+        callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         self.makeApiCall(callEvent)
     }
     
@@ -469,7 +469,7 @@ class ApiController {
         callEvent.resultClass = "NotificationCounterVM"
         callEvent.successEventbusName = "loadNotificationSuccess"
         callEvent.failedEventbusName = "loadNotificationFailed"
-        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
+        callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         self.makeApiCall(callEvent)
     }
     
@@ -479,7 +479,7 @@ class ApiController {
         callEvent.resultClass = "SellerVM"
         callEvent.successEventbusName = "recommendedSellerSuccess"
         callEvent.failedEventbusName = "recommendedSellerFailed"
-        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
+        callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         self.makeApiCall(callEvent)
     }
     //
@@ -489,10 +489,10 @@ class ApiController {
         let callEvent=ApiCallEvent()
         callEvent.method="/api/post/new"
         callEvent.resultClass="NewPostVM"
-        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
+        callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         callEvent.successEventbusName = "productSavedSuccess"
         callEvent.failedEventbusName = "productSavedFailed"
-        let url = callEvent.apiUrl + "?key=\(StringUtil.encode(constants.sessionId))"
+        let url = callEvent.apiUrl + "?key=\(StringUtil.encode(AppDelegate.getInstance().sessionId!))"
         Alamofire.upload(
             .POST,
             url,
@@ -533,7 +533,11 @@ class ApiController {
         
     }
 
-    func postMessage(id: Int, message: String){
+    func newMessage(id: Int, message: String) {
+        newMessage(id, message: message, system: false)
+    }
+    
+    func newMessage(id: Int, message: String, system: Bool) {
         
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/message/new"
@@ -541,8 +545,8 @@ class ApiController {
         //callEvent.body = parameter
         //callEvent.successEventbusName = "postMessageSuccess"
         //callEvent.failedEventbusName = "postMessageFailed"
-        callEvent.apiUrl = constants.kBaseServerURL + callEvent.method
-        let url = callEvent.apiUrl + "?key=\(StringUtil.encode(constants.sessionId))"
+        callEvent.apiUrl = Constants.BASE_URL + callEvent.method
+        let url = callEvent.apiUrl + "?key=\(StringUtil.encode(AppDelegate.getInstance().sessionId!))"
         Alamofire.upload(
             .POST,
             url,
@@ -550,7 +554,7 @@ class ApiController {
                 //multipartFormData.appendBodyPart(data: UIImagePNGRepresentation(imageData)!, name: "image", fileName: "upload.jpg", mimeType:"jpg")
                 multipartFormData.appendBodyPart(data: StringUtil.toEncodedData(String(id)), name :"conversationId")
                 multipartFormData.appendBodyPart(data: StringUtil.toEncodedData(message), name :"body")
-                multipartFormData.appendBodyPart(data: StringUtil.toEncodedData("true"), name :"system")
+                multipartFormData.appendBodyPart(data: StringUtil.toEncodedData(String(system)), name :"system")
                 multipartFormData.appendBodyPart(data: StringUtil.toEncodedData("ios"), name :"deviceType")
             },
             encodingCompletion: { encodingResult in
@@ -567,7 +571,7 @@ class ApiController {
         NSLog("makeApiCall")
         
         let request: NSMutableURLRequest = NSMutableURLRequest()
-        let url = arg.apiUrl + "?key=\(StringUtil.encode(constants.sessionId))"
+        let url = arg.apiUrl + "?key=\(StringUtil.encode(AppDelegate.getInstance().sessionId!))"
         
         request.URL = NSURL(string: url)
         request.HTTPMethod = "GET"
@@ -601,7 +605,7 @@ class ApiController {
         let request: NSMutableURLRequest = NSMutableURLRequest()
         var url = arg.apiUrl
         if appendSessionId {
-            url += "?key=\(StringUtil.encode(constants.sessionId))"
+            url += "?key=\(StringUtil.encode(AppDelegate.getInstance().sessionId!))"
         }
         
         request.URL = NSURL(string: url)

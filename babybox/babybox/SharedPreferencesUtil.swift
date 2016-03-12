@@ -55,7 +55,7 @@ class SharedPreferencesUtil {
     //
     
     func isScreenViewed(screen: Screen) -> Bool {
-        if (self.prefs.objectForKey(screen.rawValue) == nil) {
+        if self.prefs.objectForKey(screen.rawValue) == nil {
             return false
         } else {
             return self.prefs.objectForKey(screen.rawValue) as! Bool
@@ -63,9 +63,9 @@ class SharedPreferencesUtil {
       
     }
     
-    func getUserSessionId(sessionId: String) -> String {
-        if (self.prefs.valueForKey(User.SESSION_ID.rawValue) != nil) {
-            return (self.prefs.valueForKey(User.SESSION_ID.rawValue) as? String)!
+    func getUserSessionId() -> String {
+        if self.prefs.valueForKey(User.SESSION_ID.rawValue) != nil {
+            return self.prefs.valueForKey(User.SESSION_ID.rawValue) as! String
         }
         return ""
     }

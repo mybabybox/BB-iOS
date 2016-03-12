@@ -63,10 +63,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // custom
     
+    private var _sessionId: String? = nil
+        
+    var sessionId: String? {
+        set {
+            _sessionId = newValue
+            SharedPreferencesUtil.getInstance().setUserSessionId(_sessionId!)
+        }
+        get {
+            if _sessionId == nil {
+                _sessionId = SharedPreferencesUtil.getInstance().getUserSessionId()
+            }
+            return _sessionId
+        }
+    }
+    
     static func getInstance() -> AppDelegate {
         return UIApplication.sharedApplication().delegate as! AppDelegate
     }
-    
+   
     func initStaticCaches() {
         DistrictCache.refresh()
         CountryCache.refresh()
@@ -94,7 +109,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func clearUserSession() {
         clearUserCaches()
-        SharedPreferencesUtil.getInstance().setUserSessionId("")
+        self.sessionId = ""
     }
     
     func logout() {

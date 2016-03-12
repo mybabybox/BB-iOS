@@ -38,7 +38,7 @@ class HomeFeedViewController: CustomNavigationController, UIScrollViewDelegate {
     }
     
     override func viewDidAppear(animated: Bool) {
-        self.tabBarController?.tabBar.alpha = CGFloat(constants.MAIN_BOTTOM_BAR_ALPHA)
+        self.tabBarController?.tabBar.alpha = CGFloat(Constants.MAIN_BOTTOM_BAR_ALPHA)
         
         if (currentIndex != nil && vController?.feedItem != nil) {
             let item = vController?.feedItem
@@ -229,16 +229,16 @@ class HomeFeedViewController: CustomNavigationController, UIScrollViewDelegate {
     
     // MARK: UIScrollview Delegate
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        if (self.lastContentOffset > scrollView.contentOffset.y + constants.SHOW_HIDE_BAR_SCROLL_DISTANCE) {
+        if (self.lastContentOffset > scrollView.contentOffset.y + Constants.SHOW_HIDE_BAR_SCROLL_DISTANCE) {
             self.navigationController?.setNavigationBarHidden(false, animated: true)
             
-        } else if (self.lastContentOffset < scrollView.contentOffset.y - constants.SHOW_HIDE_BAR_SCROLL_DISTANCE) {
+        } else if (self.lastContentOffset < scrollView.contentOffset.y - Constants.SHOW_HIDE_BAR_SCROLL_DISTANCE) {
             self.navigationController?.setNavigationBarHidden(true, animated: true)
             
         }
         self.lastContentOffset = scrollView.contentOffset.y
         
-        if (scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - constants.FEED_LOAD_SCROLL_THRESHOLD {
+        if (scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - Constants.FEED_LOAD_SCROLL_THRESHOLD {
             feedLoader!.loadMoreFeedItems()
         }
     }

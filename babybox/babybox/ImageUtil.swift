@@ -24,17 +24,17 @@ class ImageUtil {
     
     static let IMAGE_DISPLAY_CROSS_FADE_DURATION = 0.5
     
-    static let COVER_IMAGE_BY_ID_URL = constants.imagesBaseURL + "/image/get-cover-image-by-id/"
+    static let COVER_IMAGE_BY_ID_URL = Constants.BASE_IMAGE_URL + "/image/get-cover-image-by-id/"
     
-    static let THUMBNAIL_COVER_IMAGE_BY_ID_URL = constants.imagesBaseURL + "/image/get-thumbnail-cover-image-by-id/"
-    static let PROFILE_IMAGE_BY_ID_URL = constants.imagesBaseURL + "/image/get-profile-image-by-id/"
-    static let THUMBNAIL_PROFILE_IMAGE_BY_ID_URL = constants.imagesBaseURL + "/image/get-thumbnail-profile-image-by-id/"
-    static let POST_IMAGE_BY_ID_URL = constants.imagesBaseURL + "/image/get-post-image-by-id/"
-    static let ORIGINAL_POST_IMAGE_BY_ID_URL = constants.imagesBaseURL + "/image/get-original-post-image-by-id/"
-    static let MINI_POST_IMAGE_BY_ID_URL = constants.imagesBaseURL + "/image/get-mini-post-image-by-id/"
-    static let MESSAGE_IMAGE_BY_ID_URL = constants.imagesBaseURL + "/image/get-message-image-by-id/"
-    static let ORIGINAL_MESSAGE_IMAGE_BY_ID_URL = constants.imagesBaseURL + "/image/get-original-message-image-by-id/"
-    static let MINI_MESSAGE_IMAGE_BY_ID_URL = constants.imagesBaseURL + "/image/get-mini-message-image-by-id/"
+    static let THUMBNAIL_COVER_IMAGE_BY_ID_URL = Constants.BASE_IMAGE_URL + "/image/get-thumbnail-cover-image-by-id/"
+    static let PROFILE_IMAGE_BY_ID_URL = Constants.BASE_IMAGE_URL + "/image/get-profile-image-by-id/"
+    static let THUMBNAIL_PROFILE_IMAGE_BY_ID_URL = Constants.BASE_IMAGE_URL + "/image/get-thumbnail-profile-image-by-id/"
+    static let POST_IMAGE_BY_ID_URL = Constants.BASE_IMAGE_URL + "/image/get-post-image-by-id/"
+    static let ORIGINAL_POST_IMAGE_BY_ID_URL = Constants.BASE_IMAGE_URL + "/image/get-original-post-image-by-id/"
+    static let MINI_POST_IMAGE_BY_ID_URL = Constants.BASE_IMAGE_URL + "/image/get-mini-post-image-by-id/"
+    static let MESSAGE_IMAGE_BY_ID_URL = Constants.BASE_IMAGE_URL + "/image/get-message-image-by-id/"
+    static let ORIGINAL_MESSAGE_IMAGE_BY_ID_URL = Constants.BASE_IMAGE_URL + "/image/get-original-message-image-by-id/"
+    static let MINI_MESSAGE_IMAGE_BY_ID_URL = Constants.BASE_IMAGE_URL + "/image/get-mini-message-image-by-id/"
     
     static var imageUtil: ImageUtil = ImageUtil()
     

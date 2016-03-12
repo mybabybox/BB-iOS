@@ -17,8 +17,7 @@ class UserInfoCache {
     }
     
     static func refresh(sessionId: String) {
-        SharedPreferencesUtil.getInstance().setUserSessionId(sessionId)
-        constants.sessionId = sessionId
+        AppDelegate.getInstance().sessionId = sessionId
         ApiController.instance.getUserInfo()
     }
     

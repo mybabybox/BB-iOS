@@ -45,10 +45,10 @@ class SplashViewController: UIViewController {
             self.handleUserLoginFailed(message)
         }
         
-        let sessionId: String? = SharedPreferencesUtil.getInstance().getUserSessionId(SharedPreferencesUtil.User.SESSION_ID.rawValue)
+        let sessionId = AppDelegate.getInstance().sessionId
         NSLog("sessionId="+String(sessionId))
         
-        NSThread.sleepForTimeInterval(constants.SPLASH_SHOW_DURATION)
+        NSThread.sleepForTimeInterval(Constants.SPLASH_SHOW_DURATION)
         
         if (sessionId != nil && sessionId != "nil" && !sessionId!.isEmpty) {
             UserInfoCache.refresh(sessionId!)

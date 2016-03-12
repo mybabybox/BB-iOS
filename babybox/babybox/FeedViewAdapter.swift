@@ -43,9 +43,9 @@ class FeedViewAdapter {
         }
 
         // price
-        cell.productPrice.text = "\(constants.currencySymbol) \(String(stringInterpolationSegment: Int(feedItem.price)))"
+        cell.productPrice.text = "\(Constants.CURRENCY_SYMBOL) \(String(stringInterpolationSegment: Int(feedItem.price)))"
         if (feedItem.originalPrice != 0 && feedItem.originalPrice != -1 && feedItem.originalPrice != Int(feedItem.price)) {
-            let attrString = NSAttributedString(string: "\(constants.currencySymbol) \(String(stringInterpolationSegment:Int(feedItem.originalPrice)))", attributes: [NSStrikethroughStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue])
+            let attrString = NSAttributedString(string: "\(Constants.CURRENCY_SYMBOL) \(String(stringInterpolationSegment:Int(feedItem.originalPrice)))", attributes: [NSStrikethroughStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue])
             cell.originalPrice.attributedText = attrString
         } else {
             cell.originalPrice.attributedText = NSAttributedString(string: "")

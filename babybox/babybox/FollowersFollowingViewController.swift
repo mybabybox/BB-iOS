@@ -141,7 +141,7 @@ class FollowersFollowingViewController: UICollectionViewController {
     // MARK: UIScrollview Delegate
     override func scrollViewDidScroll(scrollView: UIScrollView) {
         
-        if (scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - constants.FEED_LOAD_SCROLL_THRESHOLD {
+        if (scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - Constants.FEED_LOAD_SCROLL_THRESHOLD {
             
             if (self.followersFollowings.count > 0) {
                 switch optionType {

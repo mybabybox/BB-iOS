@@ -103,7 +103,7 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        vController =  self.storyboard!.instantiateViewControllerWithIdentifier("FeedProductViewController") as! FeedProductViewController
+        vController =  (self.storyboard!.instantiateViewControllerWithIdentifier("FeedProductViewController") as! FeedProductViewController)
         let feedItem = feedLoader!.getItem(indexPath.row)
         vController!.feedItem = feedItem
         self.currentIndex = indexPath
@@ -133,14 +133,14 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
     
     // MARK: UIScrollview Delegate
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        if (self.lastContentOffset > scrollView.contentOffset.y + constants.SHOW_HIDE_BAR_SCROLL_DISTANCE) {
+        if (self.lastContentOffset > scrollView.contentOffset.y + Constants.SHOW_HIDE_BAR_SCROLL_DISTANCE) {
             self.parentNavigationController?.setNavigationBarHidden(false, animated: true)
-        } else if (self.lastContentOffset < scrollView.contentOffset.y - constants.SHOW_HIDE_BAR_SCROLL_DISTANCE) {
+        } else if (self.lastContentOffset < scrollView.contentOffset.y - Constants.SHOW_HIDE_BAR_SCROLL_DISTANCE) {
             self.parentNavigationController?.setNavigationBarHidden(true, animated: true)
         }
         self.lastContentOffset = scrollView.contentOffset.y
         
-        if (scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - constants.FEED_LOAD_SCROLL_THRESHOLD {
+        if (scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - Constants.FEED_LOAD_SCROLL_THRESHOLD {
             feedLoader?.loadMoreFeedItems()
         }
     }
