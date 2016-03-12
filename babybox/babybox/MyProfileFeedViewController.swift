@@ -26,6 +26,8 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
     
     var vController: FeedProductViewController?
     var currentIndex: NSIndexPath?
+    var lastContentOffset: CGFloat = 0
+    
     override func reloadDataToView() {
         self.uiCollectionView.reloadData()
     }
@@ -245,6 +247,16 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
     
     // MARK: UIScrollview Delegate
     func scrollViewDidScroll(scrollView: UIScrollView) {
+        
+        if (self.lastContentOffset > scrollView.contentOffset.y + constants.SHOW_HIDE_BAR_SCROLL_DISTANCE) {
+            self.navigationController?.setNavigationBarHidden(false, animated: true)
+            
+        } else if (self.lastContentOffset < scrollView.contentOffset.y - constants.SHOW_HIDE_BAR_SCROLL_DISTANCE) {
+            self.navigationController?.setNavigationBarHidden(true, animated: true)
+            
+        }
+        self.lastContentOffset = scrollView.contentOffset.y
+        
         if (scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - constants.FEED_LOAD_SCROLL_THRESHOLD {
             loadMoreFeedItems()
         }
@@ -339,6 +351,8 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
         }
         segControl.setTitleTextAttributes([NSForegroundColorAttributeName: ImageUtil.UIColorFromRGB(0xFF76A4)],
             forState: UIControlState.Selected)
+        segControl.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.lightGrayColor()],
+            forState: UIControlState.Normal)
     }
     
     func setSizesForFilterButtons(cell: UserFeedHeaderViewCell) {

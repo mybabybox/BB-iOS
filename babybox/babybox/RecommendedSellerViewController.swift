@@ -332,12 +332,14 @@ class RecommendedSellerViewController: UIViewController {
             let vc = segue.destinationViewController as! UserProfileFeedViewController
             vc.userId = userItem.id
         }
-        
     }
     
     //MARK Segue handling methods.
     override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
-        return true
+        if (identifier == "spuserprofile") {
+            return true
+        }
+        return false
     }
     
 }

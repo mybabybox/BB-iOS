@@ -10,8 +10,6 @@ import UIKit
 import SwiftEventBus
 
 class SellerViewController: CustomNavigationController {
-
-    @IBOutlet weak var containerView: UIView!
     
     var pageMenu : CAPSPageMenu?
 
@@ -30,10 +28,6 @@ class SellerViewController: CustomNavigationController {
             NSForegroundColorAttributeName: UIColor.blackColor(),
             NSFontAttributeName: UIFont.boldSystemFontOfSize(12.0)
         ]
-        
-        UISegmentedControl.appearance().setTitleTextAttributes(normalTextAttributes, forState: .Normal)
-        UISegmentedControl.appearance().setTitleTextAttributes(activeTextAttributes, forState: .Selected)
-        
         // PageMenu
         
         var controllerArray : [UIViewController] = []

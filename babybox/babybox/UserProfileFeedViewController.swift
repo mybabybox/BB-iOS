@@ -34,8 +34,6 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
     override func registerMoreEvents() {
         SwiftEventBus.onMainThread(self, name: "userByIdSuccess") { result in
             self.setUserInfo(result.object as? UserVM)
-            //let userImg = self.navigationItem.leftBarButtonItems![0] as UIBarButtonItem
-            //(userImg.customView as? UIButton)?.setTitle(self.userInfo?.displayName, forState: UIControlState.Normal)
             self.navigationItem.title = self.userInfo?.displayName
             
             if (self.activeHeaderViewCell != nil) {
