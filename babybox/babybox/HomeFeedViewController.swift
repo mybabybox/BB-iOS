@@ -16,6 +16,7 @@ class HomeFeedViewController: CustomNavigationController, UIScrollViewDelegate {
     @IBOutlet weak var exploreTip: UIView!
     @IBOutlet weak var uiCollectionView: UICollectionView!
     @IBOutlet weak var activityLoading: UIActivityIndicatorView!
+    
     static var instance: HomeFeedViewController? = nil
     var feedLoader: FeedLoader? = nil
     var feedViewAdapter: FeedViewAdapter? = nil
@@ -29,6 +30,7 @@ class HomeFeedViewController: CustomNavigationController, UIScrollViewDelegate {
     
     var vController: FeedProductViewController?
     var notificationCounterVM: NotificationCounterVM? = nil
+    
     func reloadDataToView() {
         self.uiCollectionView.reloadData()
     }

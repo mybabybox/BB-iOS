@@ -20,8 +20,13 @@ class CategoryCache {
         self.refresh(nil, failureCallback: nil)
     }
     
-    static func refresh(successCallback: (([CategoryVM]) -> Void)?, failureCallback: (() -> Void)?) {
+    static func refresh(successCallback: (([CategoryVM]) -> Void)?, failureCallback: ((error: String) -> Void)?) {
         SwiftEventBus.onMainThread(self, name: "categoriesReceivedSuccess") { result in
+            if ViewUtil.isEmptyResult(result) {
+                failureCallback!(error: "Categories returned is empty")
+                return
+            }
+            
             self.categories = result.object as! [CategoryVM]
             if successCallback != nil {
                 successCallback!(categories)
@@ -30,7 +35,11 @@ class CategoryCache {
         
         SwiftEventBus.onMainThread(self, name: "categoriesReceivedFailed") { result in
             if failureCallback != nil {
-                failureCallback!()
+                var error = "Failed to get categories..."
+                if result.object is NSString {
+                    error += "\n"+(result.object as! String)
+                }
+                failureCallback!(error: error)
             }
         }
         

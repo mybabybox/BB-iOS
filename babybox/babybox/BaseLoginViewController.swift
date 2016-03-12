@@ -18,11 +18,6 @@ class BaseLoginViewController: UIViewController, FBSDKLoginButtonDelegate {
 
     let facebookReadPermissions = ["public_profile", "email", "user_friends"]
     // Other options: "user_about_me", "user_birthday", "user_hometown", "user_likes", "user_interests", "user_photos", "friends_photos", "friends_hometown", "friends_location", "friends_education_history"
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
     func handleUserLoginSuccess(sessionId: String) {
         startLoading()
@@ -30,7 +25,7 @@ class BaseLoginViewController: UIViewController, FBSDKLoginButtonDelegate {
         if !sessionId.isEmpty {
             self.isUserLoggedIn = true
             AppDelegate.getInstance().sessionId = sessionId
-            UserInfoCache.refresh(sessionId)
+            UserInfoCache.refresh(sessionId, successCallback: handleUserInfoSuccess, failureCallback: handleError)
             onSuccessLogin()
         } else {
             //authentication failed.. show error message...
@@ -43,21 +38,10 @@ class BaseLoginViewController: UIViewController, FBSDKLoginButtonDelegate {
         stopLoading()
     }
     
-    func handleUserLoginFailed(message: String) {
-        startLoading()
-        
-        self.isUserLoggedIn = false
-        ViewUtil.showOKDialog("Login Error", message: message, view: self)
-        //self.performSegueWithIdentifier("clickToLogin", sender: nil)
-        AppDelegate.getInstance().logout()
-        
-        stopLoading()
-    }
-    
     func handleUserInfoSuccess(userInfo: UserVM) {
         // user not logged in, redirect to login page
         if (userInfo.id == -1) {
-            self.handleUserLoginFailed("User is not logged in")
+            self.handleError("User is not logged in")
         }
         
         startLoading()
@@ -66,6 +50,17 @@ class BaseLoginViewController: UIViewController, FBSDKLoginButtonDelegate {
         UserInfoCache.setUser(userInfo)
         SwiftEventBus.unregister(self)
         self.performSegueWithIdentifier("clickToLogin", sender: nil)
+        
+        stopLoading()
+    }
+    
+    func handleError(message: String) {
+        startLoading()
+        
+        self.isUserLoggedIn = false
+        ViewUtil.showOKDialog("Login Error", message: message, view: self)
+        //self.performSegueWithIdentifier("clickToLogin", sender: nil)
+        AppDelegate.getInstance().logout()
         
         stopLoading()
     }
@@ -79,7 +74,7 @@ class BaseLoginViewController: UIViewController, FBSDKLoginButtonDelegate {
         
         SwiftEventBus.onMainThread(self, name: "loginReceivedSuccess") { result in
             if ViewUtil.isEmptyResult(result) {
-                self.handleUserLoginFailed("User is not logged in")
+                self.handleError("User is not logged in")
             } else {
                 let response: String = result.object as! String
                 self.handleUserLoginSuccess(response)
@@ -96,29 +91,7 @@ class BaseLoginViewController: UIViewController, FBSDKLoginButtonDelegate {
                 message = "Connection Failure"
             }
             
-            self.handleUserLoginFailed(message)
-        }
-        
-        SwiftEventBus.onMainThread(self, name: "userInfoSuccess") { result in
-            if ViewUtil.isEmptyResult(result) {
-                self.handleUserLoginFailed("No user returned")
-            } else {
-                let userInfo: UserVM = result.object as! UserVM
-                self.handleUserInfoSuccess(userInfo)
-            }
-        }
-
-        SwiftEventBus.onMainThread(self, name: "userInfoFailed") { result in
-            var message = ""
-            if result == nil {
-                message = "User is not logged in"
-            } else if result.object is NSString {
-                message = result.object as! String
-            } else {
-                message = "Connection Failure"
-            }
-            
-            self.handleUserLoginFailed(message)
+            self.handleError(message)
         }
         
         // prepare fb login button
@@ -129,10 +102,6 @@ class BaseLoginViewController: UIViewController, FBSDKLoginButtonDelegate {
         //fbLoginButton.center.y += 150
         //fbLoginButton.readPermissions = facebookReadPermissions
         //fbLoginButton.delegate = self
-    }
-    
-    func logError(error: NSError?) {
-        
     }
     
     func onSuccessLogin() {
@@ -220,7 +189,6 @@ class BaseLoginViewController: UIViewController, FBSDKLoginButtonDelegate {
         // to be implemented in subclass
     }
     
-    
     @IBAction func fbLoginClick(sender: AnyObject) {
         self.view.alpha = 0.75
         FBSDKLoginManager().logInWithReadPermissions(self.facebookReadPermissions, handler: { (result:FBSDKLoginManagerLoginResult!, error:NSError!) -> Void in
@@ -266,7 +234,11 @@ class BaseLoginViewController: UIViewController, FBSDKLoginButtonDelegate {
                 }
             }
         })
-        
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
     }
 }
 

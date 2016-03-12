@@ -13,8 +13,8 @@ struct Constants {
     
     static let APP_NAME = "BabyBox"
     
-    static let BASE_URL = "http://localhost:9000"
-    static let BASE_IMAGE_URL = "http://localhost:9000"
+    static let BASE_URL = "http://www.baby-box.com.hk"
+    static let BASE_IMAGE_URL = "http://www.baby-box.com.hk"
     
     static let DEVICE_TYPE = "IOS";
     static let CURRENCY_SYMBOL = "$"

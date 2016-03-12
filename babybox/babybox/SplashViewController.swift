@@ -23,61 +23,27 @@ class SplashViewController: UIViewController {
         self.navigationController?.interactivePopGestureRecognizer?.enabled = false
         self.navigationController?.navigationBar.hidden = true
         
-        SwiftEventBus.onMainThread(self, name: "userInfoSuccess") { result in
-            if ViewUtil.isEmptyResult(result) {
-                self.handleUserLoginFailed("User is not logged in")
-            } else {
-                let userInfo: UserVM = result.object as! UserVM
-                self.handleUserInfoSuccess(userInfo)
-            }
-        }
-        
-        SwiftEventBus.onMainThread(self, name: "userInfoFailed") { result in
-            var message = ""
-            if result == nil {
-                message = "User is not logged in"
-            } else if result.object is NSString {
-                message = result.object as! String
-            } else {
-                message = "Connection Failure"
-            }
-            
-            self.handleUserLoginFailed(message)
-        }
-        
         let sessionId = AppDelegate.getInstance().sessionId
         NSLog("sessionId="+String(sessionId))
         
         NSThread.sleepForTimeInterval(Constants.SPLASH_SHOW_DURATION)
         
         if (sessionId != nil && sessionId != "nil" && !sessionId!.isEmpty) {
-            UserInfoCache.refresh(sessionId!)
+            UserInfoCache.refresh(sessionId!, successCallback: handleUserInfoSuccess, failureCallback: handleError)
         } else {
             showLoginPage()
         }
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     //MARK Segue handling methods.
     override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
         return true
     }
-    
-    func handleUserLoginFailed(message: String) {
-        ViewUtil.showOKDialog("Login Error", message: message, view: self)
-        SwiftEventBus.unregister(self)
-        AppDelegate.getInstance().logout()
-        self.showLoginPage()
-    }
 
     func handleUserInfoSuccess(userInfo: UserVM) {
         // user not logged in, redirect to login page
         if (userInfo.id == -1) {
-            handleUserLoginFailed("Cannot find user. Please login again.")
+            handleError("Cannot find user. Please login again.")
         }
 
         // new user flow
@@ -98,6 +64,13 @@ class SplashViewController: UIViewController {
         }
     }
     
+    func handleError(message: String) {
+        ViewUtil.showOKDialog("Login Error", message: message, view: self)
+        SwiftEventBus.unregister(self)
+        AppDelegate.getInstance().logout()
+        self.showLoginPage()
+    }
+    
     func showLoginPage() {
         /*let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("LandingPageViewController") as! LandingPageViewController
         self.navigationController?.pushViewController(vController, animated: true)
@@ -111,18 +84,8 @@ class SplashViewController: UIViewController {
         
     }
     
-    func handleUserLoginSuccess(sessionId: String) {
-        if sessionId.isEmpty {
-            //authentication failed.. show error message...
-            let _errorDialog = UIAlertController(title: "Error Message", message: "Invalid UserName or Password",
-                preferredStyle: UIAlertControllerStyle.Alert)
-            let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil)
-            _errorDialog.addAction(okAction)
-            self.presentViewController(_errorDialog, animated: true, completion: nil)
-        } else {
-            UserInfoCache.refresh(sessionId)
-        }
-        //make API call to get the user profile data...
-        
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
     }
 }

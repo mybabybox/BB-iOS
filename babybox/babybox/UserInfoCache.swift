@@ -11,12 +11,38 @@ import SwiftEventBus
 
 class UserInfoCache {
     
-    internal static var userInfo: UserVM? = nil
+    static var userInfo: UserVM? = nil
     
     init() {
     }
-    
+
     static func refresh(sessionId: String) {
+        refresh(sessionId, successCallback: nil, failureCallback: nil)
+    }
+    
+    static func refresh(sessionId: String, successCallback: ((UserVM) -> Void)?, failureCallback: ((error: String) -> Void)?) {
+        SwiftEventBus.onMainThread(self, name: "userInfoSuccess") { result in
+            if ViewUtil.isEmptyResult(result) {
+                failureCallback!(error: "User returned is empty")
+                return
+            }
+            
+            self.userInfo = result.object as? UserVM
+            if successCallback != nil {
+                successCallback!(self.userInfo!)
+            }
+        }
+        
+        SwiftEventBus.onMainThread(self, name: "userInfoFailed") { result in
+            if failureCallback != nil {
+                var error = "Failed to get user info..."
+                if result.object is NSString {
+                    error += "\n"+(result.object as! String)
+                }
+                failureCallback!(error: error)
+            }
+        }
+
         AppDelegate.getInstance().sessionId = sessionId
         ApiController.instance.getUserInfo()
     }
