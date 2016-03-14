@@ -12,6 +12,10 @@ import PhotoSlider
 
 class FeedProductViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, PhotoSliderDelegate {
 
+    
+    @IBOutlet weak var soldBtn: UIButton!
+    @IBOutlet weak var viewChatBtn: UIButton!
+    @IBOutlet weak var markAsSoldBtn: UIButton!
     @IBOutlet weak var activityLoading: UIActivityIndicatorView!
     @IBOutlet weak var likeImgBtn: UIButton!
     @IBOutlet weak var btnWidthConstraint: NSLayoutConstraint!
@@ -326,7 +330,7 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
     }
     
     func setSizesForFilterButtons() {
-        let availableWidthForButtons:CGFloat = self.view.bounds.width - 50
+        let availableWidthForButtons:CGFloat = self.view.bounds.width - 40
         let buttonWidth :CGFloat = availableWidthForButtons / 2
         self.btnWidthConstraint.constant = buttonWidth
         
@@ -368,6 +372,7 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
         }
         self.initLikeUnlike()
         self.detailTableView.reloadData()
+        self.processButtonsVisibility()
         ViewUtil.hideActivityLoading(self.activityLoading)
     }
     
@@ -452,5 +457,44 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
             vController.hidesBottomBarWhenPushed = true
         }
         ViewUtil.resetBackButton(self.navigationItem)
+    }
+    
+    func processButtonsVisibility() {
+        if (self.productInfo!.isOwner) {
+            if (self.productInfo!.sold) {
+                self.soldBtn.hidden = false
+            } else {
+                self.viewChatBtn.hidden = false
+                self.markAsSoldBtn.hidden = false
+            }
+        } else {
+            if (self.productInfo!.sold) {
+                self.soldBtn.hidden = false
+            } else {
+                self.chatNowBtn.hidden = false
+                self.buyNowBtn.hidden = false
+            }
+        }
+    }
+    
+    @IBAction func onClickMarkAsSold(sender: AnyObject) {
+        let _messageDialog = UIAlertController(title: "", message: "Confirm product has been sold?\nYou will no longer receive chats and orders for this product", preferredStyle: UIAlertControllerStyle.Alert)
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: nil)
+        let confirmAction = UIAlertAction(title: "Confirm", style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction!) in
+            //TODO: Logic here to make confirm action
+            self.view.makeToast(message: "Confirm Sold")
+        })
+    
+        _messageDialog.addAction(cancelAction)
+        _messageDialog.addAction(confirmAction)
+        self.presentViewController(_messageDialog, animated: true, completion: nil)
+    }
+    @IBAction func onClickViewChat(sender: AnyObject) {
+    }
+    @IBAction func onClickSold(sender: AnyObject) {
+        let _messageDialog = UIAlertController(title: "", message: "This item has been sold", preferredStyle: UIAlertControllerStyle.Alert)
+        let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil)
+        _messageDialog.addAction(okAction)
+        self.presentViewController(_messageDialog, animated: true, completion: nil)
     }
 }

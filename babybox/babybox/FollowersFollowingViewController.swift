@@ -175,6 +175,7 @@ class FollowersFollowingViewController: UICollectionViewController {
             let cell = cSender.superview?.superview as! FollowingCollectionViewCell
             let indexPath = self.collectionView!.indexPathForCell(cell)
             vController.userId = self.followersFollowings[(indexPath?.row)!].id
+            ViewUtil.resetBackButton(self.navigationItem)
         }
     }
     
