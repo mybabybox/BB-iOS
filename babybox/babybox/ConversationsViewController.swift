@@ -20,6 +20,7 @@ class ConversationsViewController: UIViewController, UIGestureRecognizerDelegate
     var collectionViewCellSize : CGSize?
     var offSet: Int64 = 0
     var loading: Bool = false
+    var loadedAll: Bool = false
     //todo create instance of collectionview
     @IBOutlet weak var collectionView: UICollectionView!
     
@@ -56,6 +57,11 @@ class ConversationsViewController: UIViewController, UIGestureRecognizerDelegate
         ViewUtil.showActivityLoading(self.activityLoading)
         ApiController.instance.getConversations(offSet)
         loading = true
+        
+        self.collectionView.addPullToRefresh({ [weak self] in
+            ViewUtil.showActivityLoading(self!.activityLoading)
+            self!.reloadActivities()
+        })
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -123,6 +129,8 @@ class ConversationsViewController: UIViewController, UIGestureRecognizerDelegate
                 self.conversations.appendContentsOf(conversation)
             }
             self.collectionView.reloadData()
+        } else {
+            loadedAll = true
         }
         loading = false
         ViewUtil.hideActivityLoading(self.activityLoading)
@@ -137,7 +145,7 @@ class ConversationsViewController: UIViewController, UIGestureRecognizerDelegate
     func scrollViewDidScroll(scrollView: UIScrollView) {
         
         if (scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - Constants.FEED_LOAD_SCROLL_THRESHOLD {
-            if (!loading) {
+            if (!loadedAll && !loading) {
                 ViewUtil.showActivityLoading(self.activityLoading)
                 loading = true
                 //var offSet: Int64 = 0
@@ -163,6 +171,21 @@ class ConversationsViewController: UIViewController, UIGestureRecognizerDelegate
             print("--")
         }
         
+    }
+    
+    func clearActivities() {
+        self.loading = false
+        self.loadedAll = false
+        self.conversations.removeAll()
+        self.conversations = []
+        self.offSet = 0
+    }
+    
+    func reloadActivities() {
+        ViewUtil.showActivityLoading(self.activityLoading)
+        clearActivities()
+        ApiController.instance.getConversations(offSet)
+        self.loading = true
     }
     
 }

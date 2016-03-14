@@ -48,7 +48,6 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
     }
     
     override func viewDidAppear(animated: Bool) {
-        //self.tabBarController!.tabBar.hidden = false
         self.tabBarController?.tabBar.alpha = CGFloat(Constants.MAIN_BOTTOM_BAR_ALPHA)
         
         if (self.activeHeaderViewCell != nil) {
@@ -97,6 +96,11 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
         flowLayout.minimumInteritemSpacing = 0
         flowLayout.minimumLineSpacing = 5
         uiCollectionView.collectionViewLayout = flowLayout
+        
+        self.uiCollectionView.addPullToRefresh({ [weak self] in
+            ViewUtil.showActivityLoading(self!.activityLoading)
+            self!.feedLoader?.reloadFeedItems((self!.userInfo?.id)!)
+        })
     }
     
     override func didReceiveMemoryWarning() {
@@ -396,4 +400,5 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
         shapeLayer.autoreverses = false
         self.uiCollectionView.layer.addSublayer(shapeLayer)
     }
+    
 }

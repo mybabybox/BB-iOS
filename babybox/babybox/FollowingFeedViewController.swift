@@ -76,6 +76,10 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
         flowLayout.minimumInteritemSpacing = 0
         flowLayout.minimumLineSpacing = 5
         uiCollectionView.collectionViewLayout = flowLayout
+        
+        self.uiCollectionView.addPullToRefresh({ [weak self] in
+            self!.feedLoader?.reloadFeedItems()
+        })
     }
     
     @IBAction func onCloseTips(sender: AnyObject) {

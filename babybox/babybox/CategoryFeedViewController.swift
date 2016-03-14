@@ -93,6 +93,11 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
         let sellBarBtn = UIBarButtonItem(customView: sellBtn)
         
         self.navigationItem.rightBarButtonItems = [sellBarBtn]
+        
+        self.uiCollectionView.addPullToRefresh({ [weak self] in
+            ViewUtil.showActivityLoading(self!.activityLoading)
+            self!.feedLoader?.reloadFeedItems(Int((self?.selCategory?.id)!))
+        })
     }
     
     override func didReceiveMemoryWarning() {

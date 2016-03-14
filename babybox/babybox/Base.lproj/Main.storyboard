@@ -355,7 +355,7 @@ CEVudGVyIFBhc3N3b3JkA
                                                         <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <connections>
-                                                        <segue destination="aa6-dY-vf5" kind="show" identifier="userprofile" id="IvK-0T-t5n"/>
+                                                        <segue destination="aa6-dY-vf5" kind="show" identifier="userprofile_1" id="IvK-0T-t5n"/>
                                                     </connections>
                                                 </button>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ILi-WB-HNN">
@@ -458,7 +458,7 @@ CEVudGVyIFBhc3N3b3JkA
                                                         <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <connections>
-                                                        <action selector="onClickActor:" destination="J1f-Fx-zIh" eventType="touchUpInside" id="IAt-sB-Gmq"/>
+                                                        <segue destination="aa6-dY-vf5" kind="show" identifier="userprofile_2" id="jpd-3n-ZIN"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -510,6 +510,9 @@ CEVudGVyIFBhc3N3b3JkA
                                                         <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                         <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
+                                                    <connections>
+                                                        <segue destination="aa6-dY-vf5" kind="show" identifier="userprofile_3" id="4HJ-mh-g5u"/>
+                                                    </connections>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8ws-W6-CuJ">
                                                     <rect key="frame" x="65" y="60" width="0.0" height="0.0"/>
@@ -529,7 +532,7 @@ CEVudGVyIFBhc3N3b3JkA
                                                         <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <connections>
-                                                        <action selector="onClickActor:" destination="J1f-Fx-zIh" eventType="touchUpInside" id="wl5-zw-99C"/>
+                                                        <segue destination="aa6-dY-vf5" kind="show" identifier="userprofile_4" id="ncj-ht-WX7"/>
                                                     </connections>
                                                 </button>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="4h1-dB-5QE" userLabel="User Profile Img">
@@ -2353,7 +2356,7 @@ CEVudGVyIFBhc3N3b3JkA
                                     <constraint firstAttribute="height" constant="80" id="fpk-Oa-JuV"/>
                                 </constraints>
                             </view>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="vzg-e8-1va">
+                            <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="vzg-e8-1va">
                                 <rect key="frame" x="5" y="95" width="590" height="505"/>
                                 <color key="backgroundColor" red="0.92941176470588238" green="0.92941176470588238" blue="0.92941176470588238" alpha="1" colorSpace="calibratedRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="5" minimumInteritemSpacing="5" id="O4y-Wx-Gpm">
@@ -2601,7 +2604,7 @@ CEVudGVyIFBhc3N3b3JkA
             <objects>
                 <collectionViewController title="Followers View Controller" id="71D-99-izD" userLabel="Following View Controller" customClass="FollowersFollowingViewController" customModule="BabyBox" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="hiX-6h-gs8">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.92549019607843142" green="0.92549019607843142" blue="0.90196078431372551" alpha="1" colorSpace="calibratedRGB"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="1" minimumInteritemSpacing="1" id="1hj-4H-bI1">
@@ -2611,8 +2614,8 @@ CEVudGVyIFBhc3N3b3JkA
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                         <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="followingCollectionViewCell" id="Cz6-lU-wkd" customClass="FollowingCollectionViewCell" customModule="BabyBox" customModuleProvider="target">
-                                <rect key="frame" x="47" y="0.0" width="320" height="64"/>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="followingCollectionViewCell" id="Cz6-lU-wkd" customClass="FollowingCollectionViewCell" customModule="babybox" customModuleProvider="target">
+                                <rect key="frame" x="140" y="0.0" width="320" height="64"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
@@ -2632,13 +2635,16 @@ CEVudGVyIFBhc3N3b3JkA
                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UpI-IG-z91">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UpI-IG-z91">
                                             <rect key="frame" x="10" y="10" width="40" height="40"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <state key="normal" title="profile">
+                                            <state key="normal">
                                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                 <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
+                                            <connections>
+                                                <segue destination="aa6-dY-vf5" kind="show" identifier="fUserProfile" id="Aso-Du-fLI"/>
+                                            </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Followers:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YUd-xp-Dim">
                                             <rect key="frame" x="60" y="34" width="62" height="16"/>
@@ -4235,8 +4241,8 @@ CEVudGVyIFBhc3N3b3JkA
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="pbO-aG-ik4">
-                                <rect key="frame" x="5" y="0.0" width="404" height="672"/>
+                            <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="pbO-aG-ik4">
+                                <rect key="frame" x="5" y="20" width="590" height="580"/>
                                 <color key="backgroundColor" red="0.92870107319999995" green="0.92870107319999995" blue="0.92870107319999995" alpha="1" colorSpace="calibratedRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="5" id="OOF-nf-PdZ">
                                     <size key="itemSize" width="129" height="169"/>
@@ -4630,7 +4636,7 @@ CEVudGVyIFBhc3N3b3JkA
                         <constraints>
                             <constraint firstItem="pbO-aG-ik4" firstAttribute="leading" secondItem="qwh-8a-4zW" secondAttribute="leading" constant="5" id="LWM-Js-QX6"/>
                             <constraint firstAttribute="bottom" secondItem="pbO-aG-ik4" secondAttribute="bottom" id="LiP-g5-ilx"/>
-                            <constraint firstItem="pbO-aG-ik4" firstAttribute="top" secondItem="qwh-8a-4zW" secondAttribute="topMargin" id="ZXE-qb-jDk"/>
+                            <constraint firstItem="pbO-aG-ik4" firstAttribute="top" secondItem="P2h-9k-Foi" secondAttribute="bottom" id="OXW-MU-llO"/>
                             <constraint firstAttribute="trailing" secondItem="pbO-aG-ik4" secondAttribute="trailing" constant="5" id="jw9-Q5-KKA"/>
                             <constraint firstItem="Fv6-7z-Hht" firstAttribute="centerX" secondItem="qwh-8a-4zW" secondAttribute="centerX" id="kk0-vn-jdO"/>
                             <constraint firstItem="Fv6-7z-Hht" firstAttribute="centerY" secondItem="qwh-8a-4zW" secondAttribute="centerY" id="zLB-GD-im3"/>
@@ -4731,7 +4737,7 @@ CEVudGVyIFBhc3N3b3JkA
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="MZN-3D-Nbg" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Home" id="SfA-k4-QbK"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Fm4-5L-jDQ">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" backIndicatorImage="actionbar_bg_pink" id="Fm4-5L-jDQ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -4774,13 +4780,13 @@ CEVudGVyIFBhc3N3b3JkA
         <image name="user_thumbnail" width="48" height="48"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ac7-3L-0vi"/>
         <segue reference="QRU-NP-Pbp"/>
+        <segue reference="ac7-3L-0vi"/>
         <segue reference="NRf-cI-JqS"/>
-        <segue reference="pK4-qg-eaZ"/>
-        <segue reference="f1D-EY-plH"/>
-        <segue reference="BGy-Vf-KdP"/>
-        <segue reference="xX3-dl-E9x"/>
+        <segue reference="jhO-y7-EXF"/>
+        <segue reference="2g9-O4-duU"/>
+        <segue reference="ijV-Zs-EsV"/>
+        <segue reference="SUR-X2-GSB"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>

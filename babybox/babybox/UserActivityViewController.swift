@@ -120,7 +120,7 @@ class UserActivityViewController: CustomNavigationController {
                 cell.textMessage.sizeToFit()
                 cell.userName.setTitle(self.userActivitesItems[indexPath.row].actorName, forState: UIControlState.Normal)
                 cell.userName.setTitleColor(ImageUtil.getPinkColor(), forState: UIControlState.Normal)
-                cell.userName.addTarget(self, action: "onClickActor:", forControlEvents: UIControlEvents.TouchUpInside)
+                //cell.userName.addTarget(self, action: "onClickActor:", forControlEvents: UIControlEvents.TouchUpInside)
                 ImageUtil.displayPostImage(Int(self.userActivitesItems[indexPath.row].targetImage), imageView: cell.postImage)
                 
                 if (!viewStatus) {
@@ -162,7 +162,6 @@ class UserActivityViewController: CustomNavigationController {
                 
                 return cell
         }
-        
     }
     var currentIndex = 0
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
@@ -208,25 +207,14 @@ class UserActivityViewController: CustomNavigationController {
         ViewUtil.hideActivityLoading(self.activityLoading)
     }
 
-    @IBAction func onClickActor(sender: AnyObject) {
-        let button = sender as! UIButton
-        let view = button.superview!
-        let cell = view.superview! as! BaseActivityViewCell
-        let indexPath = self.uiCollectionView.indexPathForCell(cell)!
-        
-        let vController = self.storyboard?.instantiateViewControllerWithIdentifier("UserProfileFeedViewController") as! UserProfileFeedViewController
-        vController.userId = self.userActivitesItems[indexPath.row].actor
-        vController.hidesBottomBarWhenPushed = true
-        ViewUtil.resetBackButton(self.navigationItem)
-        self.navigationController?.pushViewController(vController, animated: true)
-    }
-    
     @IBAction func onClickPostImg(sender: AnyObject) {
+
         let button = sender as! UIButton
         let view = button.superview!
         let cell = view.superview! as! BaseActivityViewCell
         let indexPath = self.uiCollectionView.indexPathForCell(cell)!
         ApiController.instance.getPostById(self.userActivitesItems[indexPath.row].target)
+        
     }
     
     func setMessageText(item: ActivityVM) -> String {
@@ -269,14 +257,30 @@ class UserActivityViewController: CustomNavigationController {
     }
     
     override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
-        return true
+        if (identifier == "userprofile_1" || identifier == "userprofile_2"
+            || identifier == "userprofile_3" || identifier == "userprofile_4"){
+            return true
+        }
+        return false
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if (segue.identifier == "userprofile"){
-            let vController = segue.destinationViewController as! UserProfileFeedViewController
-            vController.userId = self.userActivitesItems[self.currentIndex].actor
-            vController.hidesBottomBarWhenPushed = true
+        let cSender = sender as! UIButton
+        let vController = segue.destinationViewController as! UserProfileFeedViewController
+        vController.hidesBottomBarWhenPushed = true
+        if (segue.identifier == "userprofile_1"){
+            let cell = cSender.superview?.superview as! UserActivityType2ViewCell
+            let indexPath = self.uiCollectionView.indexPathForCell(cell)
+            vController.userId = self.userActivitesItems[(indexPath?.row)!].actor
+        } else if (segue.identifier == "userprofile_2"){
+            let cell = cSender.superview?.superview as! UserActivityTypeViewCell
+            let indexPath = self.uiCollectionView.indexPathForCell(cell)
+            vController.userId = self.userActivitesItems[(indexPath?.row)!].actor
+        } else if (segue.identifier == "userprofile_3" || segue.identifier == "userprofile_4"){
+            let cell = cSender.superview?.superview as! UserActivityViewCell
+            let indexPath = self.uiCollectionView.indexPathForCell(cell)
+            vController.userId = self.userActivitesItems[(indexPath?.row)!].actor
+        
         }
     }
     
@@ -285,14 +289,15 @@ class UserActivityViewController: CustomNavigationController {
         self.loadedAll = false
         self.userActivitesItems.removeAll()
         self.userActivitesItems = []
-        self.uiCollectionView.reloadData()
         self.activityOffSet = 0
     }
     
     func reloadActivities() {
+        ViewUtil.showActivityLoading(self.activityLoading)
         clearActivities()
         ApiController.instance.getUserActivities(self.activityOffSet)
         self.loading = true
     }
+ 
     
 }

@@ -101,6 +101,12 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
         self.navigationItem.rightBarButtonItems = []
         self.navigationItem.leftBarButtonItems = []
         //self.navigationController!.navigationBar.titleTextAttributes = titleDict as? [String : AnyObject]
+        
+        self.uiCollectionView.addPullToRefresh({ [weak self] in
+            ViewUtil.showActivityLoading(self!.activityLoading)
+            self!.feedLoader?.reloadFeedItems((self?.userInfo?.id)!)
+        })
+
     }
     
     override func didReceiveMemoryWarning() {
@@ -327,6 +333,8 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
         segControl.setTitleTextAttributes(
             [NSForegroundColorAttributeName: ImageUtil.UIColorFromRGB(0xFF76A4)],
             forState: UIControlState.Selected)
+        segControl.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.lightGrayColor()],
+            forState: UIControlState.Normal)
     }
     
     func setSizesForFilterButtons(cell: UserFeedHeaderViewCell) {

@@ -10,7 +10,7 @@ import UIKit
 import SwiftEventBus
 import Kingfisher
 
-class HomeFeedViewController: CustomNavigationController, UIScrollViewDelegate {
+class HomeFeedViewController: CustomNavigationController {
     
     @IBOutlet weak var topSpaceConstraint: NSLayoutConstraint!
     @IBOutlet weak var exploreTip: UIView!
@@ -95,6 +95,12 @@ class HomeFeedViewController: CustomNavigationController, UIScrollViewDelegate {
         
         self.categories = CategoryCache.categories
         NotificationCounter.mInstance.refresh()
+        
+        self.uiCollectionView.addPullToRefresh({ [weak self] in
+            ViewUtil.showActivityLoading(self!.activityLoading)
+            self!.feedLoader?.reloadFeedItems()
+        })
+        
     }
     
     @IBAction func onClicTipClose(sender: AnyObject) {

@@ -32,18 +32,4 @@ struct Constants {
     static let ACTIVITY_SOLD = "already sold."
     static let ACTIVITY_GAME_BADGE = "Congratulations! You got a new badge:\r\n"
     
-    //Color 
-    //Pink Button color - 0xFF76A4 // RGB - 255 118 164
-    //Navigation bar color - 0xFF4C8A // RGB - 255 76 138
-    
-    
-    //feed background color  #ECECE6 == R: 236 G: 236 B: 230
-    //feed item bg           #ffffff == R: 255 G: 255 B: 255
-    //feed item border       #C2C3C8 == R: 194 G: 195 B: 200
-    
-    //like_blue
-    //actiobar bg 
-    //actionbar bg light
-    //actionbar selected text
-    
 }

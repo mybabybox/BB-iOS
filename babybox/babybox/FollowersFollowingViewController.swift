@@ -18,6 +18,8 @@ class FollowersFollowingViewController: UICollectionViewController {
     var userId: Int = 0
     var collectionViewCellSize : CGSize?
     var optionType: String = ""
+    var loadedAll: Bool = false
+    var loading: Bool = false
     
     @IBAction func onClickFollowings(sender: AnyObject) {
         
@@ -53,20 +55,21 @@ class FollowersFollowingViewController: UICollectionViewController {
                 let resultDto: [UserVMLite] = result.object as! [UserVMLite]
                 self.followersFollowings.appendContentsOf(resultDto)
                 self.offset++
+            } else {
+                self.loadedAll = true
             }
+            self.loading = false
             self.collectionView?.reloadData()
         }
         
         SwiftEventBus.onMainThread(self, name: "userFollowersFollowingsFailed") { result in
         }
         
-        if ("followingCalls" == optionType) {
-            ApiController.instance.getUserFollowings(self.userId, offset: offset)
-            self.navigationItem.title = "Following"
-        } else if ("followersCall" == optionType) {
-            ApiController.instance.getUserFollowers(self.userId, offset: offset)
-            self.navigationItem.title = "Followers"
-        }
+        self.loadFollowingFollowers()
+        self.loading = true
+        self.collectionView!.addPullToRefresh({ [weak self] in
+            self?.reloadActivities()
+        })
         
         // Do any additional setup after loading the view.
     }
@@ -117,11 +120,11 @@ class FollowersFollowingViewController: UICollectionViewController {
     }
     
     override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        self.currentIndex = indexPath.row
+        /*self.currentIndex = indexPath.row
         let vController = self.storyboard?.instantiateViewControllerWithIdentifier("UserProfileFeedViewController") as! UserProfileFeedViewController
         vController.userId = self.followersFollowings[self.currentIndex].id
         ViewUtil.resetBackButton(self.navigationItem)
-        self.navigationController?.pushViewController(vController, animated: true)
+        self.navigationController?.pushViewController(vController, animated: true)*/
         
     }
 
@@ -143,7 +146,8 @@ class FollowersFollowingViewController: UICollectionViewController {
         
         if (scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - Constants.FEED_LOAD_SCROLL_THRESHOLD {
             
-            if (self.followersFollowings.count > 0) {
+            if (!loadedAll && !loading) {
+                loading = true
                 switch optionType {
                 case "followingCalls":
                     ApiController.instance.getUserFollowings(self.userId, offset:Int64(self.followersFollowings[self.followersFollowings.count - 1].offset))
@@ -153,5 +157,51 @@ class FollowersFollowingViewController: UICollectionViewController {
                 }
             }
         }
+    }
+    
+    
+    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
+        if (identifier == "fUserProfile"){
+                return true
+        }
+        return false
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        let cSender = sender as! UIButton
+        let vController = segue.destinationViewController as! UserProfileFeedViewController
+        vController.hidesBottomBarWhenPushed = true
+        if (segue.identifier == "fUserProfile"){
+            let cell = cSender.superview?.superview as! FollowingCollectionViewCell
+            let indexPath = self.collectionView!.indexPathForCell(cell)
+            vController.userId = self.followersFollowings[(indexPath?.row)!].id
+        }
+    }
+    
+    func loadFollowingFollowers() {
+        if ("followingCalls" == optionType) {
+            ApiController.instance.getUserFollowings(self.userId, offset: offset)
+            self.navigationItem.title = "Following"
+        } else if ("followersCall" == optionType) {
+            ApiController.instance.getUserFollowers(self.userId, offset: offset)
+            self.navigationItem.title = "Followers"
+        }
+    }
+    
+    func clearlist() {
+        self.loading = false
+        self.loadedAll = false
+        self.followersFollowings.removeAll()
+        self.followersFollowings = []
+        self.collectionView?.reloadData()
+        self.offset = 0
+    }
+    
+    func reloadActivities() {
+        
+        clearlist()
+        self.loadFollowingFollowers()
+        self.loading = true
+        
     }
 }
