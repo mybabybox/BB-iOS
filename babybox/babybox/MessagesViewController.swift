@@ -36,12 +36,13 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, UIImagePick
         imagePicker.sourceType = .PhotoLibrary //3
         sendButton.enabled = false
         
-        ApiController.instance.getMessages((self.conversation?.id)!, offset: offset)
         SwiftEventBus.onMainThread(self, name: "getMessagesSuccess") { result in
             // UI thread
-            let resultDto: MessageVM = result.object as! MessageVM
+            let resultDto = result.object as! MessageResponseVM
             self.handleChatMessageResponse(resultDto)
         }
+        
+        ApiController.instance.getMessages((self.conversation?.id)!, offset: offset)
         
         self.messageCointainerScroll.contentSize = CGSizeMake(CGRectGetWidth(messageCointainerScroll.frame), lastChatBubbleY + internalPadding)
         self.addKeyboardNotifications()
@@ -65,7 +66,6 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, UIImagePick
         userProfileBtn.frame = CGRectMake(0, 0, 35, 35)
         let userProfileBarBtn = UIBarButtonItem(customView: userProfileBtn)
         self.navigationItem.rightBarButtonItems = [userProfileBarBtn]
-        
     }
     
     override func didReceiveMemoryWarning() {
@@ -192,12 +192,12 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, UIImagePick
         
     }
     
-    func handleChatMessageResponse(result: MessageVM){
+    func handleChatMessageResponse(result: MessageResponseVM){
         result.messages.sortInPlace({ $0.createdDate < $1.createdDate })
         //result.messages.sortInPlace({ $0.createdDate.compare($1.createdDate) == NSComparisonResult.OrderedAscending })
         
         for var i = 0; i < result.messages.count; i++ {
-            let message: MessageDetailVM = result.messages[i]
+            let message: MessageVM = result.messages[i]
             let messageDt = NSDate(timeIntervalSince1970:Double(message.createdDate) / 1000.0)
             if (UserInfoCache.getUser().id == message.senderId) {
                 let chatBubbleData = ChatBubbleData(text: message.body, image:nil, date: messageDt, type: .Mine, imgId: -1)
