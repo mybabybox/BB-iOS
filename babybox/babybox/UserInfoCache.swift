@@ -22,6 +22,8 @@ class UserInfoCache {
     
     static func refresh(sessionId: String, successCallback: ((UserVM) -> Void)?, failureCallback: ((error: String) -> Void)?) {
         SwiftEventBus.onMainThread(self, name: "userInfoSuccess") { result in
+            SwiftEventBus.unregister(self)
+            
             if ViewUtil.isEmptyResult(result) {
                 failureCallback!(error: "User returned is empty")
                 return
@@ -34,6 +36,8 @@ class UserInfoCache {
         }
         
         SwiftEventBus.onMainThread(self, name: "userInfoFailed") { result in
+            SwiftEventBus.unregister(self)
+            
             if failureCallback != nil {
                 var error = "Failed to get user info..."
                 if result.object is NSString {

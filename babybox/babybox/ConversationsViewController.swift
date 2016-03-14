@@ -35,7 +35,7 @@ class ConversationsViewController: UIViewController, UIGestureRecognizerDelegate
         let titleDict: NSDictionary = [NSForegroundColorAttributeName: UIColor.whiteColor()]
         self.navigationController!.navigationBar.titleTextAttributes = titleDict as? [String : AnyObject]
         
-        SwiftEventBus.onMainThread(self, name: "conversationsSuccess") { result in
+        SwiftEventBus.onMainThread(self, name: "getConversationsSuccess") { result in
             // UI thread
             if result != nil {
                 let resultDto: [ConversationVM] = result.object as! [ConversationVM]
@@ -43,7 +43,7 @@ class ConversationsViewController: UIViewController, UIGestureRecognizerDelegate
             }
         }
         
-        SwiftEventBus.onMainThread(self, name: "conversationsFailed") { result in
+        SwiftEventBus.onMainThread(self, name: "getConversationsFailed") { result in
         }
         self.setCollectionViewCellSize()
         

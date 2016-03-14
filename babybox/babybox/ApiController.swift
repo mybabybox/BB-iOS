@@ -367,9 +367,20 @@ class ApiController {
     func getConversations(offSet: Int64) {
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/get-user-conversations/\(offSet)"
+        callEvent.resultClass = "[ConversationVM]"
+        callEvent.successEventbusName = "getConversationsSuccess"
+        callEvent.failedEventbusName = "getConversationsFailed"
+        callEvent.apiUrl = Constants.BASE_URL + callEvent.method
+        
+        self.makeApiCall(callEvent)
+    }
+    
+    func getConversation(id: Int) {
+        let callEvent = ApiCallEvent()
+        callEvent.method = "/api/get-conversation/\(id)"
         callEvent.resultClass = "ConversationVM"
-        callEvent.successEventbusName = "conversationsSuccess"
-        callEvent.failedEventbusName = "conversationsFailed"
+        callEvent.successEventbusName = "getConversationSuccess"
+        callEvent.failedEventbusName = "getConversationFailed"
         callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         
         self.makeApiCall(callEvent)
@@ -378,9 +389,20 @@ class ApiController {
     func openConversation(postId: Int) {
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/open-conversation/\(postId)"
-        callEvent.resultClass = "ConversationVMIns"
-        callEvent.successEventbusName = "openConversationsSuccess"
-        callEvent.failedEventbusName = "openConversationsFailed"
+        callEvent.resultClass = "ConversationVM"
+        callEvent.successEventbusName = "openConversationSuccess"
+        callEvent.failedEventbusName = "openConversationFailed"
+        callEvent.apiUrl = Constants.BASE_URL + callEvent.method
+        
+        self.makeApiCall(callEvent)
+    }
+    
+    func deleteConversation(id: Int) {
+        let callEvent = ApiCallEvent()
+        callEvent.method = "/api/delete-conversation/\(id)"
+        callEvent.resultClass = "String"
+        callEvent.successEventbusName = "deleteConversationSuccess"
+        callEvent.failedEventbusName = "deleteConversationFailed"
         callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         
         self.makeApiCall(callEvent)
@@ -653,8 +675,8 @@ class ApiController {
         case "UserVM": result = Mapper<UserVM>().map(inputStr)!
         case "PostVMLite": result = Mapper<PostVMLite>().mapArray(inputStr)!
         case "PostVM": result = Mapper<PostVM>().map(inputStr)!
-        case "ConversationVM": result = Mapper<ConversationVM>().mapArray(inputStr)!
-        case "ConversationVMIns": result = Mapper<ConversationVM>().map(inputStr)!
+        case "[ConversationVM]": result = Mapper<ConversationVM>().mapArray(inputStr)!
+        case "ConversationVM": result = Mapper<ConversationVM>().map(inputStr)!
         case "MessageVM": result = Mapper<MessageVM>().map(inputStr)!
         case "MessageDetailVM": result = Mapper<MessageDetailVM>().map(inputStr)!
         case "NewPostVM": result = Mapper<NewPostVM>().map(inputStr)!

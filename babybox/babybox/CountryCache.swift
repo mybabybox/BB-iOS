@@ -22,6 +22,8 @@ class CountryCache {
     
     static func refresh(successCallback: (([CountryVM]) -> Void)?, failureCallback: ((error: String) -> Void)?) {
         SwiftEventBus.onMainThread(self, name: "getCountriesSuccess") { result in
+            SwiftEventBus.unregister(self)
+            
             if ViewUtil.isEmptyResult(result) {
                 failureCallback!(error: "Countries returned is empty")
                 return
@@ -34,6 +36,8 @@ class CountryCache {
         }
         
         SwiftEventBus.onMainThread(self, name: "getCountriesFailed") { result in
+            SwiftEventBus.unregister(self)
+            
             if failureCallback != nil {
                 var error = "Failed to get countries..."
                 if result.object is NSString {

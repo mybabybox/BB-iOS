@@ -54,7 +54,7 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
             self.handleGetProductDetailsSuccess(productInfo)
         }
         
-        SwiftEventBus.onMainThread(self, name: "openConversationsSuccess") { result in
+        SwiftEventBus.onMainThread(self, name: "openConversationSuccess") { result in
             let conversationVM: ConversationVM = result.object as! ConversationVM
             let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("MessagesViewController") as? MessagesViewController
             vController?.conversation = conversationVM
@@ -62,7 +62,7 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
             self.navigationController?.pushViewController(vController!, animated: true)
         }
         
-        SwiftEventBus.onMainThread(self, name: "openConversationsFailed") { result in
+        SwiftEventBus.onMainThread(self, name: "openConversationFailed") { result in
         }
         
         ApiController.instance.getProductDetails(feedItem.id)
