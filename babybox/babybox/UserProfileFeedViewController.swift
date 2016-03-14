@@ -33,6 +33,11 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
     
     override func registerMoreEvents() {
         SwiftEventBus.onMainThread(self, name: "userByIdSuccess") { result in
+            if ViewUtil.isEmptyResult(result) {
+                ViewUtil.makeToast("Could not find user", view: self.view)
+                return
+            }
+            
             self.setUserInfo(result.object as? UserVM)
             self.navigationItem.title = self.userInfo?.displayName
             

@@ -16,7 +16,6 @@ class UserActivityViewController: CustomNavigationController {
     @IBOutlet weak var uiCollectionView: UICollectionView!
     
     var activityOffSet: Int64 = 0
-    var lastContentOffset: CGFloat = 0
     var userActivitesItems: [ActivityVM] = []
     var collectionViewCellSize : CGSize?
     var loading: Bool = false
@@ -27,7 +26,7 @@ class UserActivityViewController: CustomNavigationController {
     }
 
     override func viewDidAppear(animated: Bool) {
-        self.tabBarController?.tabBar.hidden = false
+
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -63,12 +62,10 @@ class UserActivityViewController: CustomNavigationController {
             }
             
             let resultDto: PostVMLite = result.object as! PostVMLite
-            
             let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("FeedProductViewController") as! FeedProductViewController
             vController.feedItem = resultDto
-            self.tabBarController?.tabBar.hidden = true
+            vController.hidesBottomBarWhenPushed = true
             self.navigationController?.pushViewController(vController, animated: true)
-            
         }
         
         SwiftEventBus.onMainThread(self, name: "postByIdLoadFailure") { result in
@@ -208,12 +205,10 @@ class UserActivityViewController: CustomNavigationController {
             loadedAll = true
         }
         loading = false
-        self.lastContentOffset = 0
         ViewUtil.hideActivityLoading(self.activityLoading)
     }
 
     @IBAction func onClickActor(sender: AnyObject) {
-        NSLog("onClickActor")
         let button = sender as! UIButton
         let view = button.superview!
         let cell = view.superview! as! BaseActivityViewCell
@@ -221,18 +216,17 @@ class UserActivityViewController: CustomNavigationController {
         
         let vController = self.storyboard?.instantiateViewControllerWithIdentifier("UserProfileFeedViewController") as! UserProfileFeedViewController
         vController.userId = self.userActivitesItems[indexPath.row].actor
+        vController.hidesBottomBarWhenPushed = true
         ViewUtil.resetBackButton(self.navigationItem)
         self.navigationController?.pushViewController(vController, animated: true)
     }
     
     @IBAction func onClickPostImg(sender: AnyObject) {
-
         let button = sender as! UIButton
         let view = button.superview!
         let cell = view.superview! as! BaseActivityViewCell
         let indexPath = self.uiCollectionView.indexPathForCell(cell)!
         ApiController.instance.getPostById(self.userActivitesItems[indexPath.row].target)
-        
     }
     
     func setMessageText(item: ActivityVM) -> String {
@@ -261,15 +255,6 @@ class UserActivityViewController: CustomNavigationController {
     
     // MARK: UIScrollview Delegate
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        if scrollView.contentOffset.y < 0 {
-            self.lastContentOffset = 0
-        } else if self.lastContentOffset > scrollView.contentOffset.y + Constants.SHOW_HIDE_BAR_SCROLL_DISTANCE {
-            self.navigationController?.setNavigationBarHidden(false, animated: true)
-        } else if self.lastContentOffset < scrollView.contentOffset.y - Constants.SHOW_HIDE_BAR_SCROLL_DISTANCE {
-            self.navigationController?.setNavigationBarHidden(true, animated: true)
-        }
-        self.lastContentOffset = scrollView.contentOffset.y
-        
         if (scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - Constants.FEED_LOAD_SCROLL_THRESHOLD {
             if (!loadedAll && !loading) {
                 ViewUtil.showActivityLoading(self.activityLoading)
@@ -291,6 +276,7 @@ class UserActivityViewController: CustomNavigationController {
         if (segue.identifier == "userprofile"){
             let vController = segue.destinationViewController as! UserProfileFeedViewController
             vController.userId = self.userActivitesItems[self.currentIndex].actor
+            vController.hidesBottomBarWhenPushed = true
         }
     }
     
