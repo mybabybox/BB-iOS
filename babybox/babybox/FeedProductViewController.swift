@@ -10,7 +10,7 @@ import UIKit
 import SwiftEventBus
 import PhotoSlider
 
-class FeedProductViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, PhotoSliderDelegate {
+class FeedProductViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, PhotoSliderDelegate, UITextFieldDelegate {
 
     
     @IBOutlet weak var soldBtn: UIButton!
@@ -322,13 +322,6 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
         detailTableView.scrollToRowAtIndexPath(NSIndexPath(forRow: self.comments.count, inSection:2), atScrollPosition: UITableViewScrollPosition.Middle, animated: false)
     }
     
-    @IBAction func onClickBuyNow(sender: AnyObject) {
-    }
-    
-    @IBAction func onClickChatNow(sender: AnyObject) {
-        ApiController.instance.openConversation(self.productInfo!.id)
-    }
-    
     func setSizesForFilterButtons() {
         let availableWidthForButtons:CGFloat = self.view.bounds.width - 40
         let buttonWidth :CGFloat = availableWidthForButtons / 2
@@ -489,12 +482,46 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
         _messageDialog.addAction(confirmAction)
         self.presentViewController(_messageDialog, animated: true, completion: nil)
     }
+    
+    @IBAction func onClickBuyNow(sender: AnyObject) {
+        let _messageDialog = UIAlertController(title: "Buy Now", message: "Make an offer to Seller", preferredStyle: UIAlertControllerStyle.Alert)
+        
+        var inputTextField: UITextField?;
+        _messageDialog.addTextFieldWithConfigurationHandler({(textField: UITextField!) in
+            textField.placeholder = ""
+            inputTextField = textField
+        })
+            
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: nil)
+        let confirmAction = UIAlertAction(title: "Confirm", style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction!) in
+            //TODO: Logic here to make confirm action
+            self.view.makeToast(message: inputTextField!.text!)
+            self.view.makeToast(message: "Confirm Sold")
+        })
+        _messageDialog.addAction(cancelAction)
+        _messageDialog.addAction(confirmAction)
+        self.presentViewController(_messageDialog, animated: true, completion: nil)
+        
+    }
+    
+    @IBAction func onClickChatNow(sender: AnyObject) {
+        ApiController.instance.openConversation(self.productInfo!.id)
+    }
+    
     @IBAction func onClickViewChat(sender: AnyObject) {
     }
+    
     @IBAction func onClickSold(sender: AnyObject) {
         let _messageDialog = UIAlertController(title: "", message: "This item has been sold", preferredStyle: UIAlertControllerStyle.Alert)
         let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil)
         _messageDialog.addAction(okAction)
+        
         self.presentViewController(_messageDialog, animated: true, completion: nil)
     }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool { // called when 'return' key pressed. return NO to ignore.
+        textField.resignFirstResponder()
+        return true
+    }
+    
 }
