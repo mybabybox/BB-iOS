@@ -13,6 +13,7 @@ class MessageResponseVM: BaseArgVM {
     var messages: [MessageVM] = []
     
     override func mapping(map: ObjectMapper.Map) {
+        super.mapping(map)
         counter<-map["counter"]
         messages<-map["messages"]
     }

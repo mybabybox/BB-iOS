@@ -14,6 +14,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, UIImagePick
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var sendButton: UIButton!
     
+    @IBOutlet weak var uploadImgSrc: UIImageView!
     var offset: Int64 = 0
     var loading: Bool = false
     var conversation: ConversationVM? = nil
@@ -26,6 +27,10 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, UIImagePick
     
     var conversationViewController: ConversationsViewController?
     
+    override func viewDidDisappear(animated: Bool) {
+        SwiftEventBus.unregister(self)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -34,7 +39,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, UIImagePick
         self.navigationController!.navigationBar.titleTextAttributes = titleDict as? [String : AnyObject]
         
         imagePicker.delegate = self
-        imagePicker.allowsEditing = false //2
+        imagePicker.allowsEditing = true //2
         imagePicker.sourceType = .PhotoLibrary //3
         sendButton.enabled = false
         
@@ -42,6 +47,15 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, UIImagePick
             // UI thread
             let resultDto = result.object as! MessageResponseVM
             self.handleChatMessageResponse(resultDto)
+        }
+        
+        SwiftEventBus.onMainThread(self, name: "newMessageUploadSuccess") { result in
+            self.uploadImgSrc.image = nil
+            self.view.makeToast(message: "Message added successfully.")
+        }
+        
+        SwiftEventBus.onMainThread(self, name: "newMessageUploadFailed") { result in
+            self.view.makeToast(message: "Error upload message")
         }
         
         ApiController.instance.getMessages((self.conversation?.id)!, offset: offset)
@@ -68,6 +82,13 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, UIImagePick
         userProfileBtn.frame = CGRectMake(0, 0, 35, 35)
         let userProfileBarBtn = UIBarButtonItem(customView: userProfileBtn)
         self.navigationItem.rightBarButtonItems = [userProfileBarBtn]
+        
+        ImageUtil.displayButtonRoundBorder(self.sendButton)
+        
+        NSNotificationCenter.defaultCenter().addObserverForName("CroppedImage", object: nil, queue: NSOperationQueue.mainQueue()) { (notification) -> Void in
+            self.uploadImgSrc.image = notification.object! as? UIImage
+        }
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -103,28 +124,57 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, UIImagePick
     }
     
     @IBAction func sendButtonClicked(sender: AnyObject) {
-        let bubbleData = ChatBubbleData(text: textField.text, image: selectedImage, date: NSDate(), type: .Mine, imgId: -1)
+        let bubbleData = ChatBubbleData(text: textField.text, image: self.uploadImgSrc.image, date: NSDate(), type: .Mine, imgId: -1)
         addChatBubble(bubbleData)
         textField.resignFirstResponder()
         
         if self.conversationViewController != nil {
             self.conversationViewController!.updateOpenedConversation = true
         }
-        ApiController.instance.newMessage(self.conversation!.id, message: bubbleData.text!)
+        if (self.uploadImgSrc.image == nil) {
+            ApiController.instance.newMessage(self.conversation!.id, message: bubbleData.text!, imagePath: "")
+        } else {
+            ApiController.instance.newMessage(self.conversation!.id, message: bubbleData.text!, imagePath: self.uploadImgSrc.image!)
+        }
+        self.moveToLastMessage()
     }
         
     @IBAction func cameraButtonClicked(sender: AnyObject) {
-        self.presentViewController(imagePicker, animated: true, completion: nil)//4
-    }
         
+        let optionMenu = UIAlertController(title: nil, message: "Take Photo:", preferredStyle: .ActionSheet)
+        let cameraAction = UIAlertAction(title: "Camera", style: .Default, handler: {
+            (alert: UIAlertAction!) -> Void in
+            self.imagePicker.allowsEditing = true
+            self.imagePicker.sourceType = .Camera
+            
+            self.presentViewController(self.imagePicker, animated: true, completion: nil)
+        })
+        let photoGalleryAction = UIAlertAction(title: "Photo Album", style: .Default, handler: {
+            (alert: UIAlertAction!) -> Void in
+            self.imagePicker.allowsEditing = false
+            self.imagePicker.sourceType = .PhotoLibrary
+            
+            self.navigationController!.presentViewController(self.imagePicker, animated: true, completion: nil)
+        })
+        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: {
+            (alert: UIAlertAction!) -> Void in
+        })
+        optionMenu.addAction(cameraAction)
+        optionMenu.addAction(photoGalleryAction)
+        optionMenu.addAction(cancelAction)
+        self.presentViewController(optionMenu, animated: true, completion: nil)
+        //self.presentViewController(imagePicker, animated: true, completion: nil)//4
+    }
     
-    func addRandomTypeChatBubble() {
+    /*func addRandomTypeChatBubble() {
         let bubbleData = ChatBubbleData(text: textField.text, image: selectedImage, date: NSDate(), type: getRandomChatDataType(), imgId: -1)
         addChatBubble(bubbleData)
-    }
+    }*/
     
     func addChatBubble(data: ChatBubbleData) {
         let padding:CGFloat = lastMessageType == data.type ? internalPadding/3.0 :  internalPadding
+        //TODO...
+        data.image = nil
         let chatBubble = ChatBubble(data: data, startY:lastChatBubbleY + padding)
         self.messageCointainerScroll.addSubview(chatBubble)
         
@@ -189,9 +239,16 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, UIImagePick
     
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         let chosenImage = info[UIImagePickerControllerOriginalImage] as! UIImage //2
-        let bubbleData = ChatBubbleData(text: textField.text, image: chosenImage, date: NSDate(), type: .Mine, imgId: -1)
+        //self.uploadImgSrc.image = chosenImage
         
-        addChatBubble(bubbleData)
+        if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            
+            let controller = ImageCropViewController.init(image: pickedImage)
+            self.navigationController?.pushViewController(controller, animated: true)
+        }
+        /*self.collectionView.reloadData()*/
+        dismissViewControllerAnimated(true, completion: nil)
+        
         picker.dismissViewControllerAnimated(true, completion: { () -> Void in
         })
         
@@ -233,6 +290,15 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, UIImagePick
         vController.userId = (self.conversation?.userId)!
         ViewUtil.resetBackButton(self.navigationItem)
         self.navigationController?.pushViewController(vController, animated: true)
+    }
+    
+    @IBAction func onClickRemoveImage(sender: AnyObject) {
+        self.uploadImgSrc.image = nil
+    }
+    
+    func handleCroppedImage(notification: NSNotification){
+        print("")
+        
     }
     
 }

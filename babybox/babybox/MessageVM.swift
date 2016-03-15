@@ -20,6 +20,7 @@ class MessageVM: BaseArgVM {
     var system: Bool = false
     
     override func mapping(map: ObjectMapper.Map) {
+        super.mapping(map)
         id<-map["id"]
         createdDate<-map["createdDate"]
         senderId<-map["senderId"]

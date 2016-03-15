@@ -555,11 +555,11 @@ class ApiController {
         
     }
 
-    func newMessage(id: Int, message: String) {
-        newMessage(id, message: message, system: false)
+    func newMessage(id: Int, message: String, imagePath: AnyObject) {
+        newMessage(id, message: message, system: false, imagePath: imagePath)
     }
     
-    func newMessage(id: Int, message: String, system: Bool) {
+    func newMessage(id: Int, message: String, system: Bool, imagePath: AnyObject) {
         
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/message/new"
@@ -573,6 +573,12 @@ class ApiController {
             .POST,
             url,
             multipartFormData: { multipartFormData in
+                if let _ = imagePath as? String {
+                } else {
+                    var index = 0
+                    multipartFormData.appendBodyPart(data: UIImagePNGRepresentation(imagePath as! UIImage)!, name:  "image\(index)", fileName: "upload.jpg", mimeType:"jpg")
+                }
+                
                 //multipartFormData.appendBodyPart(data: UIImagePNGRepresentation(imageData)!, name: "image", fileName: "upload.jpg", mimeType:"jpg")
                 multipartFormData.appendBodyPart(data: StringUtil.toEncodedData(String(id)), name :"conversationId")
                 multipartFormData.appendBodyPart(data: StringUtil.toEncodedData(message), name :"body")
@@ -581,8 +587,12 @@ class ApiController {
             },
             encodingCompletion: { encodingResult in
                 switch encodingResult {
-                case .Success( _, _, _): break
-                case .Failure( _): break
+                case .Success( _, _, _):
+                    SwiftEventBus.post("newMessageUploadSuccess")
+                    break
+                case .Failure( _):
+                    SwiftEventBus.post("newMessageUploadFailed")
+                    break
                 }
             }
         )
