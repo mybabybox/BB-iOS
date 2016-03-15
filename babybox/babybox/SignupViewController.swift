@@ -75,7 +75,7 @@ class SignupViewController: FbLoginViewController {
         //self.navigationController?.navigationBar.hidden = true
     }
     
-    @IBAction func onSignup(sender: AnyObject) {
+    /*@IBAction func onSignup(sender: AnyObject) {
         if(validateSignup()){
             ApiController.instance.signIn(firstNameText.text!, lastNameText: lastNameText.text!,
                 emailText: emailText.text!, passwordText: passwordText.text!, confirmPasswordText: confirmPasswordText.text!)
@@ -84,7 +84,7 @@ class SignupViewController: FbLoginViewController {
             let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("SignupDetailViewController") as! SignupDetailViewController
             self.navigationController?.pushViewController(vController, animated: true)
         }
-    }
+    }*/
     
     func handleGetCateogriesSuccess(categories: [CategoryVM]) {
         self.categories = categories
@@ -145,9 +145,25 @@ class SignupViewController: FbLoginViewController {
     
     //MARK Segue handling methods.
     override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
+        if (identifier == "signupstep2") {
+            if(self.validateSignup()){
+                ApiController.instance.signIn(firstNameText.text!, lastNameText: lastNameText.text!,
+                    emailText: emailText.text!, passwordText: passwordText.text!, confirmPasswordText: confirmPasswordText.text!)
+                self.isValidForm = true
+            }
+        }
         return self.isValidForm
     }
-
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        /*if (segue.identifier == "signupstep2") {
+            if(self.validateSignup()){
+                ApiController.instance.signIn(firstNameText.text!, lastNameText: lastNameText.text!,
+                    emailText: emailText.text!, passwordText: passwordText.text!, confirmPasswordText: confirmPasswordText.text!)
+                self.isValidForm = true
+            }
+        }*/
+    }
     
     @IBAction func onSignInByfb(sender: AnyObject) {
         /*

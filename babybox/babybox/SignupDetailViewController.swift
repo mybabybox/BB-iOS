@@ -22,6 +22,11 @@ class SignupDetailViewController: UIViewController, UITextFieldDelegate, SSRadio
         self.navigationController?.navigationBar.hidden = true
         
         self.locations = DistrictCache.districts
+        var locs: [String] = []
+        for (index, element) in locations.enumerate() {
+            locs.append(element.displayName)
+        }
+        self.locationDropDown.dataSource = locs
     }
         
     override func viewDidLoad() {
@@ -45,6 +50,8 @@ class SignupDetailViewController: UIViewController, UITextFieldDelegate, SSRadio
         self.locationDropDown.anchorView = self.location
         self.locationDropDown.bottomOffset = CGPoint(x: 0, y:self.location.bounds.height)
         self.locationDropDown.direction = .Top
+        
+        
     }
 
     override func viewDidLayoutSubviews() {
@@ -103,4 +110,26 @@ class SignupDetailViewController: UIViewController, UITextFieldDelegate, SSRadio
         }
         return isValidated
     }
+    
+    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
+        var status: Bool = false
+        if (identifier == "completesignup") {
+            var locationId = 0.0
+            for (index, element) in locations.enumerate() {
+                if (self.location.titleLabel?.text == element.displayName) {
+                    locationId = element.id
+                }
+            }
+            
+            if (isValid()) {
+                ApiController.instance.saveUserSignUpInfo(self.displayName.text!, locationId: Int(locationId))
+                status = true
+            } else {
+                status = false
+            }
+        }
+        return status
+    }
+    
+    //completesignup
 }
