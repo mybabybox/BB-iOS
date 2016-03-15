@@ -143,10 +143,12 @@ class FollowersFollowingViewController: UICollectionViewController {
     */
     // MARK: UIScrollview Delegate
     override func scrollViewDidScroll(scrollView: UIScrollView) {
-        
         if (scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - Constants.FEED_LOAD_SCROLL_THRESHOLD {
-            
             if (!loadedAll && !loading) {
+                if self.followersFollowings.isEmpty {
+                    return;
+                }
+                
                 loading = true
                 switch optionType {
                 case "followingCalls":

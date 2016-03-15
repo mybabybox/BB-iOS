@@ -33,6 +33,7 @@ class HomeFeedViewController: CustomNavigationController {
     
     func reloadDataToView() {
         self.uiCollectionView.reloadData()
+        self.lastContentOffset = 0
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -100,7 +101,6 @@ class HomeFeedViewController: CustomNavigationController {
             ViewUtil.showActivityLoading(self!.activityLoading)
             self!.feedLoader?.reloadFeedItems()
         })
-        
     }
     
     @IBAction func onClicTipClose(sender: AnyObject) {

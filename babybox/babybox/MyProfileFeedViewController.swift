@@ -26,7 +26,6 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
     
     var vController: FeedProductViewController?
     var currentIndex: NSIndexPath?
-    var lastContentOffset: CGFloat = 0
     
     override func reloadDataToView() {
         self.uiCollectionView.reloadData()
@@ -251,15 +250,6 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
     
     // MARK: UIScrollview Delegate
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        if scrollView.contentOffset.y < 0 {
-            self.lastContentOffset = 0
-        } else if self.lastContentOffset > scrollView.contentOffset.y + Constants.SHOW_HIDE_BAR_SCROLL_DISTANCE {
-            self.navigationController?.setNavigationBarHidden(false, animated: true)
-        } else if self.lastContentOffset < scrollView.contentOffset.y - Constants.SHOW_HIDE_BAR_SCROLL_DISTANCE {
-            self.navigationController?.setNavigationBarHidden(true, animated: true)
-        }
-        self.lastContentOffset = scrollView.contentOffset.y
-        
         if (scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - Constants.FEED_LOAD_SCROLL_THRESHOLD {
             loadMoreFeedItems()
         }

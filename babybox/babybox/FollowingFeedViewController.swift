@@ -25,7 +25,6 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
     var collectionViewCellSize : CGSize?
     var collectionViewTopCellSize : CGSize?
     var reuseIdentifier = "CellType1"
-    var lastContentOffset: CGFloat = 0
     var currentIndex: NSIndexPath?
     
     func reloadDataToView() {
@@ -137,15 +136,6 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
     
     // MARK: UIScrollview Delegate
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        if scrollView.contentOffset.y < 0 {
-            self.lastContentOffset = 0
-        } else if self.lastContentOffset > scrollView.contentOffset.y + Constants.SHOW_HIDE_BAR_SCROLL_DISTANCE {
-            self.parentNavigationController?.setNavigationBarHidden(false, animated: true)
-        } else if self.lastContentOffset < scrollView.contentOffset.y - Constants.SHOW_HIDE_BAR_SCROLL_DISTANCE {
-            self.parentNavigationController?.setNavigationBarHidden(true, animated: true)
-        }
-        self.lastContentOffset = scrollView.contentOffset.y
-        
         if (scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - Constants.FEED_LOAD_SCROLL_THRESHOLD {
             feedLoader?.loadMoreFeedItems()
         }

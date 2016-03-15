@@ -173,15 +173,6 @@ class RecommendedSellerViewController: UIViewController {
     
     // MARK: UIScrollview Delegate
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        if scrollView.contentOffset.y < 0 {
-            self.lastContentOffset = 0
-        } else if self.lastContentOffset > scrollView.contentOffset.y + Constants.SHOW_HIDE_BAR_SCROLL_DISTANCE {
-            self.parentNavigationController?.setNavigationBarHidden(false, animated: true)
-        } else if self.lastContentOffset < scrollView.contentOffset.y - Constants.SHOW_HIDE_BAR_SCROLL_DISTANCE {
-            self.parentNavigationController?.setNavigationBarHidden(true, animated: true)
-        }
-        self.lastContentOffset = scrollView.contentOffset.y
-        
         if (scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - Constants.FEED_LOAD_SCROLL_THRESHOLD {
             if (!loadedAll && !loading) {
                 ViewUtil.showActivityLoading(self.activityLoading)
@@ -221,7 +212,6 @@ class RecommendedSellerViewController: UIViewController {
             loadedAll = true
         }
         loading = false
-        self.lastContentOffset = 0
         ViewUtil.hideActivityLoading(self.activityLoading)
     }
     
