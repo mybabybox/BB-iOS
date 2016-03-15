@@ -81,10 +81,8 @@ class UserActivityViewController: CustomNavigationController {
         uiCollectionView.collectionViewLayout = flowLayout
         
         self.uiCollectionView.addPullToRefresh({ [weak self] in
-            self?.reloadActivities()
+            self?.reload()
         })
-        
-        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
@@ -292,12 +290,10 @@ class UserActivityViewController: CustomNavigationController {
         self.activityOffSet = 0
     }
     
-    func reloadActivities() {
+    func reload() {
         ViewUtil.showActivityLoading(self.activityLoading)
         clearActivities()
         ApiController.instance.getUserActivities(self.activityOffSet)
         self.loading = true
     }
- 
-    
 }

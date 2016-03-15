@@ -12,7 +12,6 @@ import PhotoSlider
 
 class FeedProductViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, PhotoSliderDelegate, UITextFieldDelegate {
 
-    
     @IBOutlet weak var soldBtn: UIButton!
     @IBOutlet weak var viewChatBtn: UIButton!
     @IBOutlet weak var markAsSoldBtn: UIButton!
@@ -56,17 +55,6 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
         SwiftEventBus.onMainThread(self, name: "productDetailsReceivedSuccess") { result in
             let productInfo: PostVM = result.object as! PostVM
             self.handleGetProductDetailsSuccess(productInfo)
-        }
-        
-        SwiftEventBus.onMainThread(self, name: "openConversationSuccess") { result in
-            let conversationVM: ConversationVM = result.object as! ConversationVM
-            let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("MessagesViewController") as? MessagesViewController
-            vController?.conversation = conversationVM
-            ViewUtil.resetBackButton(self.navigationItem)
-            self.navigationController?.pushViewController(vController!, animated: true)
-        }
-        
-        SwiftEventBus.onMainThread(self, name: "openConversationFailed") { result in
         }
         
         ApiController.instance.getProductDetails(feedItem.id)
@@ -505,7 +493,7 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
     }
     
     @IBAction func onClickChatNow(sender: AnyObject) {
-        ApiController.instance.openConversation(self.productInfo!.id)
+        ConversationCache.open(self.productInfo!.id, successCallback: handleOpenConversationSuccess, failureCallback: handleError)
     }
     
     @IBAction func onClickViewChat(sender: AnyObject) {
@@ -524,4 +512,14 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
         return true
     }
     
+    func handleOpenConversationSuccess(conversation: ConversationVM) {
+        let vController = self.storyboard!.instantiateViewControllerWithIdentifier("MessagesViewController") as? MessagesViewController
+        vController?.conversation = conversation
+        ViewUtil.resetBackButton(self.navigationItem)
+        self.navigationController?.pushViewController(vController!, animated: true)
+    }
+    
+    func handleError(message: String) {
+        ViewUtil.showDialog("Error", message: message, view: self)
+    }
 }

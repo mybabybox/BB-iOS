@@ -9,8 +9,9 @@
 import Foundation
 import UIKit
 import SwiftEventBus
+
 class ConversationsViewController: UIViewController, UIGestureRecognizerDelegate {
-    //showConversationsDetails
+
     var userId: Int = 0
     var currentIndex: Int = 0
     var viewCellIdentifier: String = "conversationsCollectionViewCell"
@@ -18,34 +19,34 @@ class ConversationsViewController: UIViewController, UIGestureRecognizerDelegate
     var myDate: NSDate = NSDate()
     var id: Double!
     var collectionViewCellSize : CGSize?
-    var offSet: Int64 = 0
+    var offset: Int64 = 0
     var loading: Bool = false
     var loadedAll: Bool = false
-    //todo create instance of collectionview
+    var updateOpenedConversation = false
+    
     @IBOutlet weak var collectionView: UICollectionView!
     
     @IBOutlet weak var activityLoading: UIActivityIndicatorView!
+    
     override func viewDidAppear(animated: Bool) {
+        if self.updateOpenedConversation && ConversationCache.openedConversation != nil {
+            ConversationCache.update(ConversationCache.openedConversation!.id, successCallback: handleUpdateConversationSuccess, failureCallback: nil)
+        }
+        self.updateOpenedConversation = false
         self.myDate = NSDate()
         ViewUtil.hideActivityLoading(self.activityLoading)
     }
     
+    func handleUpdateConversationSuccess(conversation: ConversationVM) {
+        collectionView.reloadData()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         self.navigationItem.title = "Chats"
         let titleDict: NSDictionary = [NSForegroundColorAttributeName: UIColor.whiteColor()]
         self.navigationController!.navigationBar.titleTextAttributes = titleDict as? [String : AnyObject]
-        
-        SwiftEventBus.onMainThread(self, name: "getConversationsSuccess") { result in
-            // UI thread
-            if result != nil {
-                let resultDto: [ConversationVM] = result.object as! [ConversationVM]
-                self.handleConversation(resultDto)
-            }
-        }
-        
-        SwiftEventBus.onMainThread(self, name: "getConversationsFailed") { result in
-        }
         self.setCollectionViewCellSize()
         
         let lpgr : UILongPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: "handleLongPress:")
@@ -55,12 +56,14 @@ class ConversationsViewController: UIViewController, UIGestureRecognizerDelegate
         self.collectionView?.addGestureRecognizer(lpgr)
         
         ViewUtil.showActivityLoading(self.activityLoading)
-        ApiController.instance.getConversations(offSet)
+        
+        ConversationCache.load(offset, successCallback: handleGetConversationsSuccess, failureCallback: handleError)
+        
         loading = true
         
         self.collectionView.addPullToRefresh({ [weak self] in
             ViewUtil.showActivityLoading(self!.activityLoading)
-            self!.reloadActivities()
+            self!.reload()
         })
     }
     
@@ -79,6 +82,9 @@ class ConversationsViewController: UIViewController, UIGestureRecognizerDelegate
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(viewCellIdentifier, forIndexPath: indexPath) as! ConversationsCollectionViewCell
+        if self.conversations.isEmpty {
+            return cell
+        }
         
         let item = self.conversations[indexPath.row]
         cell.productTitle.text = item.postTitle
@@ -104,7 +110,6 @@ class ConversationsViewController: UIViewController, UIGestureRecognizerDelegate
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        
         return collectionViewCellSize!
     }
     
@@ -113,14 +118,15 @@ class ConversationsViewController: UIViewController, UIGestureRecognizerDelegate
         //self.performSegueWithIdentifier("showConversationsDetails", sender: nil)
         
         let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("MessagesViewController") as? MessagesViewController
-        let _conversation = self.conversations[indexPath.row]
-        vController?.conversation = _conversation
+        let conversation = self.conversations[indexPath.row]
+        vController?.conversation = conversation
+        vController?.conversationViewController = self
         ViewUtil.resetBackButton(self.navigationItem)
+        ConversationCache.openedConversation = conversation
         self.navigationController?.pushViewController(vController!, animated: true)
-        
     }
     
-    func handleConversation(conversation: [ConversationVM]) {
+    func handleGetConversationsSuccess(conversation: [ConversationVM]) {
         
         if (!conversation.isEmpty) {
             if (self.conversations.count == 0) {
@@ -148,12 +154,11 @@ class ConversationsViewController: UIViewController, UIGestureRecognizerDelegate
             if (!loadedAll && !loading) {
                 ViewUtil.showActivityLoading(self.activityLoading)
                 loading = true
-                //var offSet: Int64 = 0
                 if (!self.conversations.isEmpty) {
-                    offSet = offSet + 1 //Int64(self.conversations[self.conversations.count-1].unread)
+                    offset = offset + 1 //Int64(self.conversations[self.conversations.count-1].unread)
                 }
                 
-                ApiController.instance.getConversations(offSet)
+                ConversationCache.load(offset, successCallback: handleGetConversationsSuccess, failureCallback: handleError)
             }
         }
     }
@@ -178,14 +183,18 @@ class ConversationsViewController: UIViewController, UIGestureRecognizerDelegate
         self.loadedAll = false
         self.conversations.removeAll()
         self.conversations = []
-        self.offSet = 0
+        self.offset = 0
     }
     
-    func reloadActivities() {
+    func reload() {
         ViewUtil.showActivityLoading(self.activityLoading)
         clearActivities()
-        ApiController.instance.getConversations(offSet)
+        ConversationCache.load(offset, successCallback: handleGetConversationsSuccess, failureCallback: handleError)
         self.loading = true
     }
     
+    func handleError(message: String) {
+        ViewUtil.showDialog("Error", message: message, view: self)
+        ViewUtil.hideActivityLoading(self.activityLoading)
+    }
 }

@@ -95,11 +95,11 @@ class ViewUtil {
         actInd.startAnimating()
     }
 
-    static func showOKDialog(title: String, message: String, view: UIViewController) {
-        let errorDialog = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
+    static func showDialog(title: String, message: String, view: UIViewController) {
+        let dialog = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
         let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil)
-        errorDialog.addAction(okAction)
-        view.presentViewController(errorDialog, animated: true, completion: nil)
+        dialog.addAction(okAction)
+        view.presentViewController(dialog, animated: true, completion: nil)
     }
     
     static func makeToast(message: String, view: UIView) {

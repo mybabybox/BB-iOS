@@ -24,6 +24,8 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, UIImagePick
     
     var imagePicker = UIImagePickerController()
     
+    var conversationViewController: ConversationsViewController?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -93,29 +95,32 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, UIImagePick
     }
     
     func keyboardWillHide(notification: NSNotification) {
-            UIView.animateWithDuration(1.0, animations: { () -> Void in
-                self.buttomLayoutConstraint.constant = 0.0
-                }) { (completed: Bool) -> Void in
-                    self.moveToLastMessage()
-            }
+        UIView.animateWithDuration(1.0, animations: { () -> Void in
+            self.buttomLayoutConstraint.constant = 0.0
+            }) { (completed: Bool) -> Void in
+                self.moveToLastMessage()
+        }
     }
-        
+    
     @IBAction func sendButtonClicked(sender: AnyObject) {
-            let bubbleData = ChatBubbleData(text: textField.text, image: selectedImage, date: NSDate(), type: .Mine, imgId: -1)
-            addChatBubble(bubbleData)
-            textField.resignFirstResponder()
-            
-        ApiController.instance.newMessage((self.conversation?.id)!, message: bubbleData.text!)
+        let bubbleData = ChatBubbleData(text: textField.text, image: selectedImage, date: NSDate(), type: .Mine, imgId: -1)
+        addChatBubble(bubbleData)
+        textField.resignFirstResponder()
+        
+        if self.conversationViewController != nil {
+            self.conversationViewController!.updateOpenedConversation = true
+        }
+        ApiController.instance.newMessage(self.conversation!.id, message: bubbleData.text!)
     }
         
     @IBAction func cameraButtonClicked(sender: AnyObject) {
-            self.presentViewController(imagePicker, animated: true, completion: nil)//4
+        self.presentViewController(imagePicker, animated: true, completion: nil)//4
     }
         
     
     func addRandomTypeChatBubble() {
-            let bubbleData = ChatBubbleData(text: textField.text, image: selectedImage, date: NSDate(), type: getRandomChatDataType(), imgId: -1)
-            addChatBubble(bubbleData)
+        let bubbleData = ChatBubbleData(text: textField.text, image: selectedImage, date: NSDate(), type: getRandomChatDataType(), imgId: -1)
+        addChatBubble(bubbleData)
     }
     
     func addChatBubble(data: ChatBubbleData) {

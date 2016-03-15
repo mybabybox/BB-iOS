@@ -58,7 +58,7 @@ class BaseLoginViewController: UIViewController, FBSDKLoginButtonDelegate {
         startLoading()
         
         self.isUserLoggedIn = false
-        ViewUtil.showOKDialog("Login Error", message: message, view: self)
+        ViewUtil.showDialog("Login Error", message: message, view: self)
         //self.performSegueWithIdentifier("clickToLogin", sender: nil)
         AppDelegate.getInstance().logout()
         
@@ -128,13 +128,67 @@ class BaseLoginViewController: UIViewController, FBSDKLoginButtonDelegate {
         ApiController.instance.loginByFacebook(access_token)
     }
     
+    func startLoading() {
+        // to be implemented in subclass
+    }
+    
+    func stopLoading() {
+        // to be implemented in subclass
+    }
+    
+    @IBAction func fbLoginClick(sender: AnyObject) {
+        self.view.alpha = 0.75
+        FBSDKLoginManager().logInWithReadPermissions(self.facebookReadPermissions, handler: { (result:FBSDKLoginManagerLoginResult!, error:NSError!) -> Void in
+            if error != nil {
+                //According to Facebook:
+                //Errors will rarely occur in the typical login flow because the login dialog
+                //presented by Facebook via single sign on will guide the users to resolve any errors.
+                self.view.alpha = 1.0
+                // Process error
+                FBSDKLoginManager().logOut()
+                self.handleError(error.localizedDescription)
+            } else if result.isCancelled {
+                // Handle cancellations
+                self.view.alpha = 1.0
+                FBSDKLoginManager().logOut()
+                self.handleError("Login is cancelled")
+            } else {
+                // If you ask for multiple permissions at once, you
+                // should check if specific permissions missing
+                var allPermsGranted = true
+                
+                //result.grantedPermissions returns an array of _NSCFString pointers
+                let grantedPermissions = result.grantedPermissions
+                for permission in self.facebookReadPermissions {
+                    if !grantedPermissions.contains(permission) {
+                        allPermsGranted = false
+                        break
+                    }
+                }
+                
+                if allPermsGranted {
+                    self.fbLoginSuccess(result.token.tokenString, userId: result.token.userID)
+                } else {
+                    //The user did not grant all permissions requested
+                    //Discover which permissions are granted
+                    //and if you can live without the declined ones
+                    self.view.alpha = 1.0
+                    self.handleError("Facebook permissions not granted")
+                }
+            }
+        })
+    }
+    
+    //
+    // Obsolete
+    //
     func fbLogin(successBlock: (token: String, userId: String) -> (), failureBlock: (NSError?) -> ()) {
         /*
         if FBSDKAccessToken.currentAccessToken() != nil {
-            //For debugging, when we want to ensure that facebook login always happens
-            //FBSDKLoginManager().logOut()
-            //Otherwise do:
-            return
+        //For debugging, when we want to ensure that facebook login always happens
+        //FBSDKLoginManager().logOut()
+        //Otherwise do:
+        return
         }
         */
         
@@ -168,7 +222,6 @@ class BaseLoginViewController: UIViewController, FBSDKLoginButtonDelegate {
                 if allPermsGranted {
                     let fbToken = result.token.tokenString
                     let fbUserID = result.token.userID
-                    
                     successBlock(token: fbToken, userId: fbUserID)
                 } else {
                     //The user did not grant all permissions requested
@@ -176,61 +229,6 @@ class BaseLoginViewController: UIViewController, FBSDKLoginButtonDelegate {
                     //and if you can live without the declined ones
                     
                     failureBlock(nil)
-                }
-            }
-        })
-    }
-    
-    func startLoading() {
-        // to be implemented in subclass
-    }
-    
-    func stopLoading() {
-        // to be implemented in subclass
-    }
-    
-    @IBAction func fbLoginClick(sender: AnyObject) {
-        self.view.alpha = 0.75
-        FBSDKLoginManager().logInWithReadPermissions(self.facebookReadPermissions, handler: { (result:FBSDKLoginManagerLoginResult!, error:NSError!) -> Void in
-            if error != nil {
-                //According to Facebook:
-                //Errors will rarely occur in the typical login flow because the login dialog
-                //presented by Facebook via single sign on will guide the users to resolve any errors.
-                self.view.alpha = 1.0
-                // Process error
-                FBSDKLoginManager().logOut()
-                //failureBlock(error)
-            } else if result.isCancelled {
-                // Handle cancellations
-                self.view.alpha = 1.0
-                FBSDKLoginManager().logOut()
-                //failureBlock(nil)
-            } else {
-                // If you ask for multiple permissions at once, you
-                // should check if specific permissions missing
-                var allPermsGranted = true
-                
-                //result.grantedPermissions returns an array of _NSCFString pointers
-                let grantedPermissions = result.grantedPermissions
-                for permission in self.facebookReadPermissions {
-                    if !grantedPermissions.contains(permission) {
-                        allPermsGranted = false
-                        break
-                    }
-                }
-                
-                if allPermsGranted {
-                    let fbToken = result.token.tokenString
-                    let fbUserID = result.token.userID
-                    self.fbLoginSuccess(result.token.tokenString, userId: result.token.userID)
-                    
-                    //successBlock(token: fbToken, userId: fbUserID)
-                } else {
-                    //The user did not grant all permissions requested
-                    //Discover which permissions are granted
-                    //and if you can live without the declined ones
-                    self.view.alpha = 1.0
-                    //failureBlock(nil)
                 }
             }
         })
