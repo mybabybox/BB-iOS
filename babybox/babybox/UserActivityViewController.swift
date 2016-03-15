@@ -105,7 +105,7 @@ class UserActivityViewController: CustomNavigationController {
         
         switch (self.userActivitesItems[indexPath.row].activityType) {
             
-            case "LIKED":
+            case "LIKED", "FOLLOWED":
                 
                 let cell = collectionView.dequeueReusableCellWithReuseIdentifier("UserActivity", forIndexPath: indexPath) as! UserActivityViewCell
                 
