@@ -216,9 +216,10 @@ class RecommendedSellerViewController: UIViewController {
     }
     
     func moveToUserProfile(index: Int) {
+        ViewUtil.resetBackButton(self.navigationItem)
         let vController = self.storyboard?.instantiateViewControllerWithIdentifier("UserProfileFeedViewController") as! UserProfileFeedViewController
         vController.userId = self.recommendedSellers[index].id
-        ViewUtil.resetBackButton(self.navigationItem)
+        vController.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(vController, animated: true)
     }
     
@@ -265,6 +266,7 @@ class RecommendedSellerViewController: UIViewController {
         let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("FeedProductViewController") as! FeedProductViewController
         let feedItem = self.recommendedSellers[indexPath.row]
         vController.feedItem = feedItem.posts[index]
+        vController.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(vController, animated: true)
     }
     
@@ -322,6 +324,7 @@ class RecommendedSellerViewController: UIViewController {
             let indexPath = self.uiCollectionView.indexPathForCell(cell)!
             let userItem = self.recommendedSellers[indexPath.row]
             let vc = segue.destinationViewController as! UserProfileFeedViewController
+            vc.hidesBottomBarWhenPushed = true
             vc.userId = userItem.id
         }
     }
