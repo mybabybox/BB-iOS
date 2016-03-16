@@ -106,11 +106,6 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        vController =  (self.storyboard!.instantiateViewControllerWithIdentifier("FeedProductViewController") as! FeedProductViewController)
-        let feedItem = feedLoader!.getItem(indexPath.row)
-        vController!.feedItem = feedItem
-        self.currentIndex = indexPath
-        self.navigationController?.pushViewController(vController!, animated: true)
     }
     
     // MARK: UICollectionViewDelegateFlowLayout
@@ -128,10 +123,22 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
     
     //MARK Segue handling methods.
     override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
-        return true
+        if (identifier == "fProductSegue") {
+            return true
+        }
+        return false
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if (segue.identifier == "fProductSegue") {
+            let cell = sender as! FeedProductCollectionViewCell
+            let indexPath = self.uiCollectionView!.indexPathForCell(cell)
+            let feedItem = feedLoader!.getItem(indexPath!.row)
+            self.currentIndex = indexPath
+            vController = segue.destinationViewController as? FeedProductViewController
+            vController!.feedItem = feedItem
+            vController!.hidesBottomBarWhenPushed = true
+        }
     }
     
     // MARK: UIScrollview Delegate

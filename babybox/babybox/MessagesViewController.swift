@@ -28,12 +28,12 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, UIImagePick
     var conversationViewController: ConversationsViewController?
     
     override func viewDidDisappear(animated: Bool) {
-        SwiftEventBus.unregister(self)
+        //SwiftEventBus.unregister(self)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        SwiftEventBus.unregister(self)
         self.navigationItem.title = self.conversation?.userName
         let titleDict: NSDictionary = [NSForegroundColorAttributeName: UIColor.whiteColor()]
         self.navigationController!.navigationBar.titleTextAttributes = titleDict as? [String : AnyObject]
@@ -136,6 +136,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, UIImagePick
         } else {
             ApiController.instance.newMessage(self.conversation!.id, message: bubbleData.text!, imagePath: self.uploadImgSrc.image!)
         }
+        
         self.moveToLastMessage()
     }
         
@@ -173,8 +174,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, UIImagePick
     
     func addChatBubble(data: ChatBubbleData) {
         let padding:CGFloat = lastMessageType == data.type ? internalPadding/3.0 :  internalPadding
-        //TODO...
-        data.image = nil
+        
         let chatBubble = ChatBubble(data: data, startY:lastChatBubbleY + padding)
         self.messageCointainerScroll.addSubview(chatBubble)
         
@@ -265,7 +265,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, UIImagePick
                 let chatBubbleData = ChatBubbleData(text: message.body, image:nil, date: messageDt, type: .Mine, imgId: -1)
                 addChatBubble(chatBubbleData)
             } else {
-                let chatBubbleData = ChatBubbleData(text: result.messages[i].body, image:nil, date: messageDt, type: .Opponent, imgId: message.senderId)
+                let chatBubbleData = ChatBubbleData(text: message.body, image:nil, date: messageDt, type: .Opponent, imgId: message.senderId)
                 addChatBubble(chatBubbleData)
             }
             

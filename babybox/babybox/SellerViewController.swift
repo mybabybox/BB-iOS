@@ -11,14 +11,19 @@ import SwiftEventBus
 
 class SellerViewController: CustomNavigationController {
     
-    var pageMenu : CAPSPageMenu?
+    @IBOutlet weak var uiContainerView: UIView!
 
-    var sellerRecommendationController : RecommendedSellerViewController? = nil
-    var followingController : FollowingFeedViewController? = nil
+    @IBOutlet weak var segController: UISegmentedControl!
+    var bottomLayer: CALayer? = nil
+    var sellerRecommendationController : UIViewController? = nil
+    var followingController : UIViewController? = nil
+    var activeSegment: Int = 0
+    var shapeLayer = CAShapeLayer()
+    static var instance: SellerViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        SellerViewController.instance = self
         let normalTextAttributes: [NSObject : AnyObject] = [
             NSForegroundColorAttributeName: UIColor.grayColor(),
             NSFontAttributeName: UIFont.systemFontOfSize(12.0)
@@ -28,45 +33,30 @@ class SellerViewController: CustomNavigationController {
             NSForegroundColorAttributeName: UIColor.blackColor(),
             NSFontAttributeName: UIFont.boldSystemFontOfSize(12.0)
         ]
-        // PageMenu
         
-        var controllerArray : [UIViewController] = []
+        UISegmentedControl.appearance().setTitleTextAttributes(normalTextAttributes, forState: .Normal)
+        UISegmentedControl.appearance().setTitleTextAttributes(activeTextAttributes, forState: .Selected)
         
-        self.sellerRecommendationController = self.storyboard!.instantiateViewControllerWithIdentifier("RecommendedSeller") as? RecommendedSellerViewController
-        self.sellerRecommendationController?.title = "Recommended Sellers"
-        self.sellerRecommendationController?.parentNavigationController = self.navigationController
-        controllerArray.append(self.sellerRecommendationController!)
+        // select home segment
+        segController.selectedSegmentIndex = 0
         
-        self.followingController = self.storyboard!.instantiateViewControllerWithIdentifier("FollowingFeedViewController") as? FollowingFeedViewController
-        self.followingController?.title = "Following"
-        self.followingController?.parentNavigationController = self.navigationController
-        controllerArray.append(self.followingController!)
-
-        // Customize menu (Optional)
-        let parameters: [CAPSPageMenuOption] = [
-            .MenuItemSeparatorWidth(0),
-            .ScrollMenuBackgroundColor(UIColor.whiteColor()),
-            .ViewBackgroundColor(UIColor(red: 247.0/255.0, green: 247.0/255.0, blue: 247.0/255.0, alpha: 1.0)),
-            .BottomMenuHairlineColor(UIColor(red: 20.0/255.0, green: 20.0/255.0, blue: 20.0/255.0, alpha: 0.1)),
-            .SelectionIndicatorColor(ImageUtil.getPinkColor()),
-            .MenuMargin(0.0),
-            .MenuHeight(40.0),
-            .SelectedMenuItemLabelColor(ImageUtil.getPinkColor()),
-            .UnselectedMenuItemLabelColor(UIColor(red: 40.0/255.0, green: 40.0/255.0, blue: 40.0/255.0, alpha: 1.0)),
-            .MenuItemFont(UIFont(name: "HelveticaNeue-Medium", size: 14.0)!),
-            .UseMenuLikeSegmentedControl(true),
-            .MenuItemSeparatorRoundEdges(true),
-            .SelectionIndicatorHeight(2.0),
-            .MenuItemSeparatorPercentageHeight(0.1)
-        ]
-        
-        // Initialize scroll menu
-        pageMenu = CAPSPageMenu(viewControllers: controllerArray, frame: CGRectMake(0.0, 0.0, self.view.frame.width, self.view.frame.height), pageMenuOptions: parameters)
-        
-        self.view.addSubview(pageMenu!.view)
+        self.segController.backgroundColor = UIColor.whiteColor()
+        self.segController.selectedSegmentIndex = self.activeSegment
+        self.segAction(self.segController)
+        self.navigationItem.hidesBackButton = true
     }
-        
+    
     override func viewDidAppear(animated: Bool) {
+        
+        let y = CGFloat(self.segController.frame.height)
+        let start: CGPoint = CGPoint(x: 0, y: y)
+        let end: CGPoint = CGPoint(x: self.segController.frame.size.width / 2, y: y)
+        
+        
+        if(self.segController.selectedSegmentIndex == 0){
+            let color: UIColor = UIColor(red: 255/255, green: 118/255, blue: 164/255, alpha: 1.0)
+            self.drawLineFromPoint(start, toPoint: end, ofColor: color, inView: self.segController)
+        }
         
     }
     
@@ -75,11 +65,76 @@ class SellerViewController: CustomNavigationController {
         // Dispose of any resources that can be recreated.
     }
     
+    @IBAction func segAction(sender: AnyObject) {
+        if (self.segController.selectedSegmentIndex == 0) {
+            // init HomeFeedViewController
+            if self.sellerRecommendationController == nil {
+                self.sellerRecommendationController = self.storyboard!.instantiateViewControllerWithIdentifier("RecommendedSeller") as! RecommendedSellerViewController
+            }
+            
+            let y = CGFloat(self.segController.frame.size.height)
+            let start: CGPoint = CGPoint(x: 0, y: y)
+            let end: CGPoint = CGPoint(x: self.segController.frame.size.width / 2, y: y)
+            
+            let color: UIColor = UIColor(red: 255/255, green: 118/255, blue: 164/255, alpha: 1.0)
+            self.drawLineFromPoint(start, toPoint: end, ofColor: color, inView: self.segController)
+            
+            self.followingController?.willMoveToParentViewController(nil)
+            self.followingController?.view.removeFromSuperview()
+            self.followingController?.removeFromParentViewController()
+            
+            addChildViewController(self.sellerRecommendationController!)
+            self.sellerRecommendationController!.view.frame = self.uiContainerView.bounds
+            self.uiContainerView.addSubview((self.sellerRecommendationController?.view)!)
+            self.sellerRecommendationController?.didMoveToParentViewController(self)
+        } else if(self.segController.selectedSegmentIndex == 1) {
+            // init FollowingFeedViewController
+            if self.followingController == nil {
+                self.followingController = self.storyboard!.instantiateViewControllerWithIdentifier("FollowingFeedViewController") as! FollowingFeedViewController
+            }
+            
+            let y = CGFloat(self.segController.frame.size.height)
+            let start: CGPoint = CGPoint(x: self.segController.frame.size.width / 2 , y: y)
+            let end: CGPoint = CGPoint(x: self.segController.frame.size.width, y: y)
+            
+            let color: UIColor = UIColor(red: 255/255, green: 118/255, blue: 164/255, alpha: 1.0)
+            self.drawLineFromPoint(start, toPoint: end, ofColor: color, inView: self.segController)
+            
+            self.sellerRecommendationController?.willMoveToParentViewController(nil)
+            self.sellerRecommendationController?.view.removeFromSuperview()
+            self.sellerRecommendationController?.removeFromParentViewController()
+            
+            addChildViewController(self.followingController!)
+            self.followingController!.view.frame = self.uiContainerView.bounds
+            self.uiContainerView.addSubview((self.followingController?.view)!)
+            self.followingController?.didMoveToParentViewController(self)
+        }
+    }
+    
+    func drawLineFromPoint(start : CGPoint, toPoint end:CGPoint, ofColor lineColor: UIColor, inView view:UIView) {
+        //design the path
+        let path = UIBezierPath()
+        path.moveToPoint(start)
+        path.addLineToPoint(end)
+        path.lineJoinStyle = CGLineJoin.Round
+        path.lineCapStyle = CGLineCap.Square
+        path.miterLimit = CGFloat(0.0)
+        //design path in layer
+        shapeLayer.fillColor = UIColor.whiteColor().CGColor
+        shapeLayer.path = path.CGPath
+        shapeLayer.strokeColor = lineColor.CGColor
+        shapeLayer.lineWidth = 2.0
+        shapeLayer.allowsEdgeAntialiasing = false
+        shapeLayer.allowsGroupOpacity = false
+        shapeLayer.autoreverses = false
+        self.view.layer.addSublayer(shapeLayer)
+        
+    }
+    
     override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
         return true
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
     }
-
 }
