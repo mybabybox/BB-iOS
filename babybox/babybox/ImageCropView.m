@@ -64,11 +64,11 @@ float IMAGE_MIN_WIDTH = 400;
 - (IBAction)cancel:(id)sender
 {
     
-    if ([self.delegate respondsToSelector:@selector(ImageCropViewControllerDidCancel:)])
-    {
+    //if ([self.delegate respondsToSelector:@selector(ImageCropViewControllerDidCancel:)])
+    //{
         [self.delegate ImageCropViewControllerDidCancel:self];
         [self.navigationController popViewControllerAnimated:YES];
-    }
+    //}
     
 }
 
