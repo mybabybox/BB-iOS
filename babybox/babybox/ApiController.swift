@@ -408,17 +408,6 @@ class ApiController {
         self.makeApiCall(callEvent)
     }
     
-    func getSellProduct(){
-        let callEvent=ApiCallEvent()
-        callEvent.method="/api/post/new"
-        callEvent.resultClass="NewPostVM"
-        callEvent.successEventbusName="getSellSucess"
-        callEvent.failedEventbusName="gerSellFailed"
-        callEvent.apiUrl=Constants.BASE_URL + callEvent.method
-        
-        self.makeApiCall(callEvent)
-    }
-    
     /*func signup(){
         let callEvent=ApiCallEvent()
         callEvent.method="/signup"
@@ -504,16 +493,15 @@ class ApiController {
         callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         self.makeApiCall(callEvent)
     }
-    //
     
-    func saveSellProduct(producttxt :String,sellingtext :String, categoryId:String, conditionType:String, pricetxt : String, imageCollection: [AnyObject]){
+    func newProduct(producttxt :String,sellingtext :String, categoryId:String, conditionType:String, pricetxt : String, imageCollection: [AnyObject]) {
         
         let callEvent=ApiCallEvent()
         callEvent.method="/api/post/new"
         callEvent.resultClass="NewPostVM"
         callEvent.apiUrl = Constants.BASE_URL + callEvent.method
-        callEvent.successEventbusName = "productSavedSuccess"
-        callEvent.failedEventbusName = "productSavedFailed"
+        callEvent.successEventbusName = "newProductSuccess"
+        callEvent.failedEventbusName = "newProductFailed"
         let url = callEvent.apiUrl + "?key=\(StringUtil.encode(AppDelegate.getInstance().sessionId!))"
         Alamofire.upload(
             .POST,

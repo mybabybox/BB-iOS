@@ -159,13 +159,8 @@ class ConversationCache {
         ApiController.instance.getConversation(id)
     }
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    static func clear() {
+        conversations = []
+        openedConversation = nil
+    }
 }

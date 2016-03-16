@@ -62,7 +62,7 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
         
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "actionbar_bg_pink"), forBarMetrics: UIBarMetrics.Default)
         
-        SwiftEventBus.onMainThread(self, name: "productSavedSuccess") { result in
+        SwiftEventBus.onMainThread(self, name: "newProductSuccess") { result in
             // UI thread
             NSLog("Product Saved Successfully")
             self.view.makeToast(message: "Product Added Successfully", duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
@@ -70,7 +70,7 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
             self.navigationController?.popViewControllerAnimated(true)
         }
         
-        SwiftEventBus.onMainThread(self, name: "productSavedFailed") { result in
+        SwiftEventBus.onMainThread(self, name: "newProductFailed") { result in
             // UI thread
             NSLog("Product Saved Successfully")
             self.view.makeToast(message: "Error Saving product", duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
@@ -267,7 +267,7 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
         
         if (validateSaveForm()) {
             var conditionType = ViewUtil.parsePostConditionTypeFromValue((conditionDropDown.titleLabel?.text!)!)
-            ApiController.instance.saveSellProduct(prodDescription.text!,sellingtext: sellingtext.text!, categoryId: selCategoryId,conditionType: String(conditionType), pricetxt: pricetxt.text!, imageCollection: self.imageCollection)
+            ApiController.instance.newProduct(prodDescription.text!,sellingtext: sellingtext.text!, categoryId: selCategoryId,conditionType: String(conditionType), pricetxt: pricetxt.text!, imageCollection: self.imageCollection)
         }
     }
     

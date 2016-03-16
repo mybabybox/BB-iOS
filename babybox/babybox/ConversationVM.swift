@@ -14,8 +14,8 @@ class ConversationVM: BaseArgVM {
     var postImage: Int = 0
     var postTitle: String = ""
     var postPrice: Int = 0
-    var postOwner: Bool?
-    var postSold: Bool?
+    var postOwner: Bool = false
+    var postSold: Bool = false
     var userId: Int = 0
     var userName: String = ""
     var lastMessageDate: Double = 0

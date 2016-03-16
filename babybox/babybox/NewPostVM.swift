@@ -9,7 +9,6 @@
 import UIKit
 import ObjectMapper
 
-
 class NewPostVM: BaseArgVM {
     var id: Int = 0
     var createdDate: Int = 0

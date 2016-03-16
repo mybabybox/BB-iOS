@@ -15,7 +15,6 @@ class ConversationsViewController: UIViewController, UIGestureRecognizerDelegate
     var userId: Int = 0
     var currentIndex: Int = 0
     var viewCellIdentifier: String = "conversationsCollectionViewCell"
-    var conversations: [ConversationVM] = []
     var myDate: NSDate = NSDate()
     var id: Double!
     var collectionViewCellSize : CGSize?
@@ -62,7 +61,6 @@ class ConversationsViewController: UIViewController, UIGestureRecognizerDelegate
         loading = true
         
         self.collectionView.addPullToRefresh({ [weak self] in
-            ViewUtil.showActivityLoading(self!.activityLoading)
             self!.reload()
         })
     }
@@ -77,35 +75,27 @@ class ConversationsViewController: UIViewController, UIGestureRecognizerDelegate
         return 1
     }
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.conversations.count
+        return ConversationCache.conversations.count
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(viewCellIdentifier, forIndexPath: indexPath) as! ConversationsCollectionViewCell
-        if self.conversations.isEmpty {
+        if ConversationCache.conversations.isEmpty {
             return cell
         }
         
-        let item = self.conversations[indexPath.row]
+        let item = ConversationCache.conversations[indexPath.row]
         cell.productTitle.text = item.postTitle
         cell.userDisplayName.text = item.userName
         cell.contentMode = .Redraw
         cell.userComment.numberOfLines = 0
         cell.userComment.text = item.lastMessage
         cell.userComment.sizeToFit()
-        
-        if item.postOwner == false {
-            cell.BuyText.hidden = true
-            cell.SellText.hidden=false
-            
-        } else if(item.postOwner == true){
-            cell.SellText.hidden = true
-            cell.BuyText.hidden = false
-        }
-        
+        cell.BuyText.hidden = item.postOwner
+        cell.SellText.hidden = !item.postOwner
         cell.comment.text = NSDate(timeIntervalSince1970:Double(item.lastMessageDate) / 1000.0).timeAgo
-        ImageUtil.displayPostImage(self.conversations[indexPath.row].postImage, imageView: cell.productImage)
-        ImageUtil.displayThumbnailProfileImage(self.conversations[indexPath.row].userId, imageView: cell.postImage)
+        ImageUtil.displayPostImage(ConversationCache.conversations[indexPath.row].postImage, imageView: cell.productImage)
+        ImageUtil.displayThumbnailProfileImage(ConversationCache.conversations[indexPath.row].userId, imageView: cell.postImage)
         return cell
     }
     
@@ -118,7 +108,7 @@ class ConversationsViewController: UIViewController, UIGestureRecognizerDelegate
         //self.performSegueWithIdentifier("showConversationsDetails", sender: nil)
         
         let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("MessagesViewController") as? MessagesViewController
-        let conversation = self.conversations[indexPath.row]
+        let conversation = ConversationCache.conversations[indexPath.row]
         vController?.conversation = conversation
         vController?.conversationViewController = self
         ViewUtil.resetBackButton(self.navigationItem)
@@ -126,21 +116,14 @@ class ConversationsViewController: UIViewController, UIGestureRecognizerDelegate
         self.navigationController?.pushViewController(vController!, animated: true)
     }
     
-    func handleGetConversationsSuccess(conversation: [ConversationVM]) {
-        
-        if (!conversation.isEmpty) {
-            if (self.conversations.count == 0) {
-                self.conversations = conversation
-            } else {
-                self.conversations.appendContentsOf(conversation)
-            }
+    func handleGetConversationsSuccess(conversations: [ConversationVM]) {
+        if (!conversations.isEmpty) {
             self.collectionView.reloadData()
         } else {
             loadedAll = true
         }
         loading = false
         ViewUtil.hideActivityLoading(self.activityLoading)
-        
     }
     
     func setCollectionViewCellSize() {
@@ -154,7 +137,7 @@ class ConversationsViewController: UIViewController, UIGestureRecognizerDelegate
             if (!loadedAll && !loading) {
                 ViewUtil.showActivityLoading(self.activityLoading)
                 loading = true
-                if (!self.conversations.isEmpty) {
+                if (!ConversationCache.conversations.isEmpty) {
                     offset = offset + 1 //Int64(self.conversations[self.conversations.count-1].unread)
                 }
                 
@@ -178,17 +161,15 @@ class ConversationsViewController: UIViewController, UIGestureRecognizerDelegate
         
     }
     
-    func clearActivities() {
+    func clear() {
         self.loading = false
         self.loadedAll = false
-        self.conversations.removeAll()
-        self.conversations = []
         self.offset = 0
+        ConversationCache.clear()
     }
     
     func reload() {
-        ViewUtil.showActivityLoading(self.activityLoading)
-        clearActivities()
+        clear()
         ConversationCache.load(offset, successCallback: handleGetConversationsSuccess, failureCallback: handleError)
         self.loading = true
     }
