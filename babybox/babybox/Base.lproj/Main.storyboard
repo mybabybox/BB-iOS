@@ -1809,10 +1809,10 @@ CEVudGVyIFBhc3N3b3JkA
                         <viewControllerLayoutGuide type="bottom" id="U6F-k1-xwG"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="BM0-RW-alN">
-                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="APP-GB-MSj">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="APP-GB-MSj">
                                 <rect key="frame" x="0.0" y="30" width="600" height="45"/>
                                 <color key="backgroundColor" red="0.92549019610000005" green="0.92549019610000005" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -1861,7 +1861,7 @@ CEVudGVyIFBhc3N3b3JkA
                                     <outlet property="delegate" destination="kD0-9F-RH4" id="9dH-67-jpq"/>
                                 </connections>
                             </collectionView>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="paQ-X9-HRt">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="paQ-X9-HRt">
                                 <rect key="frame" x="0.0" y="83" width="600" height="101"/>
                                 <subviews>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Product details" textAlignment="natural" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="oxq-Cc-oOA">
@@ -1918,7 +1918,7 @@ CEVudGVyIFBhc3N3b3JkA
                                     <constraint firstItem="bjF-St-W7d" firstAttribute="leading" secondItem="sRD-GY-hbO" secondAttribute="leading" id="xXj-k9-Z5z"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WIS-vR-yfH">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WIS-vR-yfH">
                                 <rect key="frame" x="0.0" y="194" width="600" height="140"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Price($):" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VSi-HF-R07">
@@ -2050,7 +2050,7 @@ CEVudGVyIFBhc3N3b3JkA
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="K6L-r1-x0y" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2199" y="3593"/>
+            <point key="canvasLocation" x="1895" y="3473"/>
         </scene>
         <!--Following Feed Scene-->
         <scene sceneID="oa7-k7-xV0">
@@ -4844,24 +4844,6 @@ CEVudGVyIFBhc3N3b3JkA
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gu4-vR-eN2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2308" y="493"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="D2L-Xg-uKe">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Iyi-fv-FpZ" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="1eF-Aa-q9y">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="kD0-9F-RH4" kind="relationship" relationship="rootViewController" id="8VX-6b-nuN"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="b9a-sO-vcS" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1195" y="3569"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="jBa-S2-J3Y">
