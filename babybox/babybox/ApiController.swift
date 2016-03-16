@@ -588,10 +588,10 @@ class ApiController {
             encodingCompletion: { encodingResult in
                 switch encodingResult {
                 case .Success( _, _, _):
-                    SwiftEventBus.post("newMessageUploadSuccess")
+                    SwiftEventBus.post("newMessageUploadSuccess", sender: "")
                     break
                 case .Failure( _):
-                    SwiftEventBus.post("newMessageUploadFailed")
+                    SwiftEventBus.post("newMessageUploadFailed", sender:"")
                     break
                 }
             }
