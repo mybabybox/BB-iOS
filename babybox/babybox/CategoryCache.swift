@@ -50,15 +50,22 @@ class CategoryCache {
         ApiController.instance.getCategories()
     }
     
-    static func getCategoryById(catId: Int) -> CategoryVM {
-        var category: CategoryVM? = nil
+    static func getCategoryById(catId: Int) -> CategoryVM? {
         for index in 0...CategoryCache.categories.count {
             if (Int(CategoryCache.categories[index].id) == catId) {
-                category = CategoryCache.categories[index]
-                break
+                return CategoryCache.categories[index]
             }
         }
-        return category!
+        return nil
+    }
+    
+    static func getCategoryByName(name: String) -> CategoryVM? {
+        for index in 0...CategoryCache.categories.count {
+            if (CategoryCache.categories[index].name == name) {
+                return CategoryCache.categories[index]
+            }
+        }
+        return nil
     }
     
     static func setCategories(cats: [CategoryVM]) {
