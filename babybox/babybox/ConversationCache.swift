@@ -18,6 +18,10 @@ class ConversationCache {
     init() {
     }
     
+    static func sort(var conversations: [ConversationVM]) {
+        conversations.sortInPlace({ $0.lastMessageDate > $1.lastMessageDate })
+    }
+    
     static func load(offset: Int64, successCallback: (([ConversationVM]) -> Void)?, failureCallback: ((error: String) -> Void)?) {
         SwiftEventBus.onMainThread(self, name: "getConversationsSuccess") { result in
             SwiftEventBus.unregister(self)
@@ -34,7 +38,7 @@ class ConversationCache {
             // add all and sort
             let conversations = result.object as! [ConversationVM]
             self.conversations.appendContentsOf(conversations)
-            self.conversations.sortInPlace({ $0.lastMessageDate < $1.lastMessageDate })
+            sort(self.conversations)
             
             if successCallback != nil {
                 successCallback!(conversations)
