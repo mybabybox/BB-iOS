@@ -338,9 +338,9 @@ class ApiController {
     }
     
     func uploadUserProfileImg(profileImg: UIImage) {
-        let callEvent=ApiCallEvent()
-        callEvent.method="/image/upload-profile-photo"
-        callEvent.resultClass="String"
+        let callEvent = ApiCallEvent()
+        callEvent.method = "/image/upload-profile-photo"
+        callEvent.resultClass = "String"
         callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         callEvent.successEventbusName = "profileImgUploadSuccess"
         callEvent.failedEventbusName = "profileImgUploadFailed"
@@ -494,10 +494,10 @@ class ApiController {
         self.makeApiCall(callEvent)
     }
     
-    func newProduct(producttxt :String,sellingtext :String, categoryId:String, conditionType:String, pricetxt : String, imageCollection: [AnyObject]) {
+    func newProduct(title: String, body: String, catId: Int, conditionType:String, pricetxt : String, imageCollection: [AnyObject]) {
         
-        let callEvent=ApiCallEvent()
-        callEvent.method="/api/post/new"
+        let callEvent = ApiCallEvent()
+        callEvent.method = "/api/post/new"
         callEvent.resultClass="NewPostVM"
         callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         callEvent.successEventbusName = "newProductSuccess"
@@ -522,9 +522,9 @@ class ApiController {
                 }
                 
                 //multipartFormData.appendBodyPart(data: UIImagePNGRepresentation(imageCollection[0] as! UIImage)!, name: "image", fileName: "upload.jpg", mimeType:"jpg")
-                multipartFormData.appendBodyPart(data: StringUtil.toEncodedData(categoryId), name :"catId")
-                multipartFormData.appendBodyPart(data: StringUtil.toEncodedData(sellingtext), name :"title")
-                multipartFormData.appendBodyPart(data: StringUtil.toEncodedData(producttxt), name :"body")
+                multipartFormData.appendBodyPart(data: StringUtil.toEncodedData(String(catId)), name :"catId")
+                multipartFormData.appendBodyPart(data: StringUtil.toEncodedData(title), name :"title")
+                multipartFormData.appendBodyPart(data: StringUtil.toEncodedData(body), name :"body")
                 multipartFormData.appendBodyPart(data: StringUtil.toEncodedData(pricetxt), name :"price")
                 multipartFormData.appendBodyPart(data: StringUtil.toEncodedData(conditionType), name :"conditionType")
                 multipartFormData.appendBodyPart(data: StringUtil.toEncodedData("ios"), name :"deviceType")
@@ -552,9 +552,8 @@ class ApiController {
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/message/new"
         callEvent.resultClass = "MessageVM"
-        //callEvent.body = parameter
-        //callEvent.successEventbusName = "postMessageSuccess"
-        //callEvent.failedEventbusName = "postMessageFailed"
+        callEvent.successEventbusName = "newMessageSuccess"
+        callEvent.failedEventbusName = "newMessageFailed"
         callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         let url = callEvent.apiUrl + "?key=\(StringUtil.encode(AppDelegate.getInstance().sessionId!))"
         Alamofire.upload(
@@ -563,7 +562,7 @@ class ApiController {
             multipartFormData: { multipartFormData in
                 if let _ = imagePath as? String {
                 } else {
-                    var index = 0
+                    let index = 0
                     multipartFormData.appendBodyPart(data: UIImagePNGRepresentation(imagePath as! UIImage)!, name:  "image\(index)", fileName: "upload.jpg", mimeType:"jpg")
                 }
                 
@@ -576,10 +575,10 @@ class ApiController {
             encodingCompletion: { encodingResult in
                 switch encodingResult {
                 case .Success( _, _, _):
-                    SwiftEventBus.post("newMessageUploadSuccess", sender: "")
+                    SwiftEventBus.post(callEvent.successEventbusName, sender: "")
                     break
                 case .Failure( _):
-                    SwiftEventBus.post("newMessageUploadFailed", sender:"")
+                    SwiftEventBus.post(callEvent.failedEventbusName, sender:"")
                     break
                 }
             }

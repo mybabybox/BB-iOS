@@ -14,25 +14,23 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
     
     @IBOutlet weak var hrBarHtConstraint: UIView!
     @IBOutlet var actionButton: UIButton!
-    let conditionTypeDropDown = DropDown()
     @IBOutlet var sellingtext: UITextField!
-    var categories: [CategoryVM] = []
-    
-    var save: String = ""
-    
     @IBOutlet weak var collectionViewHtConstraint: NSLayoutConstraint!
     @IBOutlet var categorydropdown: UIButton!
     @IBOutlet var conditionDropDown: UIButton!
-    
     @IBOutlet weak var prodDescription: UITextView!
-    let categoryOptions = DropDown()
     @IBOutlet var pricetxt: UITextField!
+    @IBOutlet weak var collectionView: UICollectionView!
+    
+    let categoryOptions = DropDown()
+    let conditionTypeDropDown = DropDown()
+    
+    var save: String = ""
     var collectionViewCellSize : CGSize?
     var collectionViewInsets : UIEdgeInsets?
     var reuseIdentifier = "CustomCell"
     var imageCollection = [AnyObject]()
     var selectedIndex :Int?
-    @IBOutlet weak var collectionView: UICollectionView!
     var selCategory: Int = -1
     let imagePicker = UIImagePickerController()
     
@@ -79,7 +77,6 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
             self.view.makeToast(message: "Error Saving product", duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
         }
         
-        self.categories = CategoryCache.categories
         initCategoryOptions()
         
         self.conditionTypeDropDown.dataSource = [
@@ -124,6 +121,7 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
     }
         
     func initCategoryOptions() {
+        let categories = CategoryCache.categories
         var selCategoryValue = "Choose a Category:"
         var catDataSource : [String] = []
         for (var i = 0; i < categories.count; i++) {
@@ -276,19 +274,10 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
     }
     
     func saveProduct(sender: AnyObject) {
-        
-        //Validate whether all values are selected by user...
-        var selCategoryId: String = ""
-        //iterate through categories to get the selected category as only name are shown in dropdown.
-        for category in self.categories as [CategoryVM] {
-            if (category.description == (categorydropdown.titleLabel?.text!)!) {
-                selCategoryId = String(category.id)
-            }
-        }
-        
+        let category = CategoryCache.getCategoryByName(categorydropdown.titleLabel!.text!)
         if (validateSaveForm()) {
-            var conditionType = ViewUtil.parsePostConditionTypeFromValue((conditionDropDown.titleLabel?.text!)!)
-            ApiController.instance.newProduct(prodDescription.text!,sellingtext: sellingtext.text!, categoryId: selCategoryId,conditionType: String(conditionType), pricetxt: pricetxt.text!, imageCollection: self.imageCollection)
+            let conditionType = ViewUtil.parsePostConditionTypeFromValue(conditionDropDown.titleLabel!.text!)
+            ApiController.instance.newProduct(sellingtext.text!, body: prodDescription.text!, catId: category!.id, conditionType: String(conditionType), pricetxt: pricetxt.text!, imageCollection: self.imageCollection)
         }
     }
     

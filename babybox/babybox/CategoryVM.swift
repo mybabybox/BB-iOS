@@ -10,7 +10,7 @@ import Foundation
 import ObjectMapper
 
 class CategoryVM: BaseArgVM {
-    var id: Double = 0
+    var id: Int = 0
     var icon: String = ""
     var name: String = ""
     var description: String = ""

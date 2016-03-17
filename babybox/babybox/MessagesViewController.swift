@@ -49,12 +49,12 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, UIImagePick
             self.handleChatMessageResponse(resultDto)
         }
         
-        SwiftEventBus.onMainThread(self, name: "newMessageUploadSuccess") { result in
+        SwiftEventBus.onMainThread(self, name: "newMessageSuccess") { result in
             self.uploadImgSrc.image = nil
             self.view.makeToast(message: "Message added successfully.")
         }
         
-        SwiftEventBus.onMainThread(self, name: "newMessageUploadFailed") { result in
+        SwiftEventBus.onMainThread(self, name: "newMessageFailed") { result in
             self.view.makeToast(message: "Error upload message")
         }
         
