@@ -39,6 +39,16 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        SwiftEventBus.onMainThread(self, name: "soldPostSuccess") { result in
+            self.feedItem.sold = true
+            self.productInfo?.sold = true
+            self.processButtonsVisibility()
+        }
+        
+        SwiftEventBus.onMainThread(self, name: "soldPostFailed") { result in
+            ViewUtil.makeToast("Failed to mark item as sold. Please try again later.", view: self.view)
+        }
+        
         setSizesForFilterButtons()
         
         self.detailTableView.separatorColor = UIColor.whiteColor()
@@ -283,7 +293,7 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
         detailTableView.contentInset =  UIEdgeInsetsZero
         
         self.detailTableView.reloadData()
-        self.view.makeToast(message: "Comment Deleted Successfully", duration: 1, position: HRToastPositionCenter)
+        ViewUtil.makeToast("Comment Deleted Successfully", view: self.view)
     }
     
     func PostComments(button: UIButton){
@@ -441,6 +451,12 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
     }
     
     func processButtonsVisibility() {
+        self.chatNowBtn.hidden = true
+        self.buyNowBtn.hidden = true
+        self.viewChatBtn.hidden = true
+        self.soldBtn.hidden = true
+        self.markAsSoldBtn.hidden = true
+        
         if (self.productInfo!.isOwner) {
             if (self.productInfo!.sold) {
                 self.soldBtn.hidden = false
@@ -462,8 +478,8 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
         let _messageDialog = UIAlertController(title: "", message: "Confirm product has been sold?\nYou will no longer receive chats and orders for this product", preferredStyle: UIAlertControllerStyle.Alert)
         let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: nil)
         let confirmAction = UIAlertAction(title: "Confirm", style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction!) in
-            //TODO: Logic here to make confirm action
-            self.view.makeToast(message: "Confirm Sold")
+            ApiController.instance.soldPost(self.feedItem.id)
+            //self.view.makeToast(message: "Confirm Sold")
         })
     
         _messageDialog.addAction(cancelAction)

@@ -67,14 +67,8 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, UIImagePick
         self.prodName.text = self.conversation?.postTitle
         self.prodPrice.text = Constants.CURRENCY_SYMBOL + String(self.conversation!.postPrice.toIntMax())
         
-        if self.conversation!.postOwner == false {
-            self.buyTextLbl.hidden = true
-            self.sellTextLbl.hidden=false
-            
-        } else if(self.conversation!.postOwner == true) {
-            self.sellTextLbl.hidden = true
-            self.buyTextLbl.hidden = false
-        }
+        self.buyTextLbl.hidden = self.conversation!.postOwner
+        self.sellTextLbl.hidden = !self.conversation!.postOwner
         
         let userProfileBtn: UIButton = UIButton()
         userProfileBtn.setImage(UIImage(named: "w_profile"), forState: UIControlState.Normal)

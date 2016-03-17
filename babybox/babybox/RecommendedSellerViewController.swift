@@ -40,22 +40,6 @@ class RecommendedSellerViewController: UIViewController {
             self.view.makeToast(message: "Error getting Recommended Seller!")
         }
         
-        SwiftEventBus.onMainThread(self, name: "followUserSuccess") { result in
-        
-        }
-        
-        SwiftEventBus.onMainThread(self, name: "followUserFailed") { result in
-            self.view.makeToast(message: "follow: failure")
-        }
-        
-        SwiftEventBus.onMainThread(self, name: "unfollowUserSuccess") { result in
-        
-        }
-        
-        SwiftEventBus.onMainThread(self, name: "unfollowUserFailed") { result in
-            self.view.makeToast(message: "unFollow: failure")
-        }
-        
         ViewUtil.showActivityLoading(self.activityLoading)
         
         ApiController.instance.getRecommendedSellersFeed(offSet)

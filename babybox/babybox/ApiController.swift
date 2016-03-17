@@ -122,7 +122,18 @@ class ApiController {
         
         self.makeApiCall(callEvent)
     }
-    
+
+    func soldPost(id: Int) {
+        let callEvent = ApiCallEvent()
+        callEvent.method = "/api/sold-post/\(id)"
+        callEvent.resultClass = "String"
+        callEvent.successEventbusName = "soldPostSuccess"
+        callEvent.failedEventbusName = "soldPostFailed"
+        callEvent.apiUrl = Constants.BASE_URL + callEvent.method
+        
+        self.makeApiCall(callEvent)
+    }
+
     func followUser(id: Int) {
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/follow-user/\(id)"
