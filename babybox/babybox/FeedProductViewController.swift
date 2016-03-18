@@ -449,7 +449,10 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
             vController.userId = self.productInfo!.ownerId
             vController.hidesBottomBarWhenPushed = true
         } else if (segue.identifier == "viewChats") {
-        
+            //postId
+            let vController = segue.destinationViewController as! ProductChatViewController
+            vController.postId = self.productInfo!.id
+            vController.hidesBottomBarWhenPushed = true
         }
         
         ViewUtil.resetBackButton(self.navigationItem)

@@ -12,6 +12,7 @@ import PullToRefreshSwift
 
 class UserActivityViewController: CustomNavigationController {
 
+    @IBOutlet weak var tipText: UILabel!
     @IBOutlet weak var activityLoading: UIActivityIndicatorView!
     @IBOutlet weak var uiCollectionView: UICollectionView!
     

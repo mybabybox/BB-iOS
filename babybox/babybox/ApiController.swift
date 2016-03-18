@@ -504,6 +504,16 @@ class ApiController {
         callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         self.makeApiCall(callEvent)
     }
+    ///api/get-post-conversations/
+    func getPostConversations(postId: Int) {
+        let callEvent = ApiCallEvent()
+        callEvent.method = "/api/get-post-conversations/\(postId)"
+        callEvent.resultClass = "[ConversationVM]"
+        callEvent.successEventbusName = "productConversationsSuccess"
+        callEvent.failedEventbusName = "productConversationsFailed"
+        callEvent.apiUrl = Constants.BASE_URL + callEvent.method
+        self.makeApiCall(callEvent)
+    }
     
     func newProduct(title: String, body: String, catId: Int, conditionType:String, pricetxt : String, imageCollection: [AnyObject]) {
         

@@ -100,7 +100,7 @@ class ChatBubble: UIView {
             
         } else {
             viewHeight = CGRectGetMaxY(timeAgoLbl!.frame) + padding/2
-            viewWidth = CGRectGetWidth(labelChatText!.frame) + CGRectGetMinX(labelChatText!.frame) + padding
+            viewWidth = CGRectGetWidth(timeAgoLbl!.frame) + CGRectGetMinX(labelChatText!.frame) + padding
         }
         
         // 5. Adding new width and height of the chat bubble frame
