@@ -57,7 +57,7 @@ class SellerViewController: CustomNavigationController {
             let color: UIColor = UIColor(red: 255/255, green: 118/255, blue: 164/255, alpha: 1.0)
             self.drawLineFromPoint(start, toPoint: end, ofColor: color, inView: self.segController)
         }
-        
+        NotificationCounter.mInstance.refresh(handleNotificationSuccess, failureCallback: handleNotificationError)
     }
     
     override func didReceiveMemoryWarning() {
@@ -136,5 +136,13 @@ class SellerViewController: CustomNavigationController {
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    }
+    
+    func handleNotificationSuccess(notifcationCounter: NotificationCounterVM) {
+        ViewUtil.refreshNotifications((self.tabBarController?.tabBar)!, navigationItem: self.navigationItem)
+    }
+    
+    func handleNotificationError(message: String) {
+        NSLog(message)
     }
 }

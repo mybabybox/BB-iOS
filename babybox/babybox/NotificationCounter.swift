@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftEventBus
 
 class NotificationCounter {
     
@@ -19,8 +20,39 @@ class NotificationCounter {
     init() {
     }
     
-    func refresh() {
+    /*func refresh() {
         NSLog("NotificationCounter", "refresh")
+        ApiController.instance.getNotificationCounter()
+    }*/
+    
+    func refresh(successCallback: ((NotificationCounterVM) -> Void)?, failureCallback: ((error: String) -> Void)?) {
+        
+        SwiftEventBus.onMainThread(self, name: "loadNotificationSuccess") { result in
+            SwiftEventBus.unregister(self)
+            
+            if ViewUtil.isEmptyResult(result) {
+                failureCallback!(error: "failed to get notifications!")
+                return
+            }
+            
+            NotificationCounter.counter = result.object as? NotificationCounterVM
+            if successCallback != nil {
+                successCallback!(NotificationCounter.counter!)
+            }
+        }
+        
+        SwiftEventBus.onMainThread(self, name: "loadNotificationFailure") { result in
+            SwiftEventBus.unregister(self)
+            
+            if failureCallback != nil {
+                var error = "failed to get notifications"
+                if result.object is NSString {
+                    error += "\n"+(result.object as! String)
+                }
+                failureCallback!(error: error)
+            }
+        }
+        
         ApiController.instance.getNotificationCounter()
     }
     
@@ -33,9 +65,9 @@ class NotificationCounter {
             counter!.activitiesCount = 0
         }
         
-        if (HomeFeedViewController.instance != nil) {
-            HomeFeedViewController.instance!.refreshNotifications()
-        }
+        //if (HomeFeedViewController.instance != nil) {
+        //    HomeFeedViewController.instance!.refreshNotifications()
+        //}
     }
     
     static func sameCounter(other: NotificationCounterVM) {
@@ -43,9 +75,9 @@ class NotificationCounter {
             counter!.activitiesCount = 0
         }
         //refresh the main activity
-        if (HomeFeedViewController.instance != nil) {
-            HomeFeedViewController.instance!.refreshNotifications()
-        }
+        //if (HomeFeedViewController.instance != nil) {
+        //    HomeFeedViewController.instance!.refreshNotifications()
+        //}
     }
     
 

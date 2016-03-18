@@ -59,7 +59,7 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
             feedLoader?.setItem(currentIndex!.row, item: item!)
             self.uiCollectionView.reloadItemsAtIndexPaths([currentIndex!])
         }
-        
+        NotificationCounter.mInstance.refresh(handleNotificationSuccess, failureCallback: handleNotificationError)
         //reloadFeedItems()
     }
     
@@ -391,4 +391,11 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
         self.uiCollectionView.layer.addSublayer(shapeLayer)
     }
     
+    func handleNotificationSuccess(notifcationCounter: NotificationCounterVM) {
+        ViewUtil.refreshNotifications((self.tabBarController?.tabBar)!, navigationItem: self.navigationItem)
+    }
+    
+    func handleNotificationError(message: String) {
+        NSLog(message)
+    }
 }

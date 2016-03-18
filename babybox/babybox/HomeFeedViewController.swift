@@ -29,7 +29,7 @@ class HomeFeedViewController: CustomNavigationController {
     var categories : [CategoryVM] = []
     
     var vController: FeedProductViewController?
-    var notificationCounterVM: NotificationCounterVM? = nil
+    //var notificationCounterVM: NotificationCounterVM? = nil
     
     func reloadDataToView() {
         self.uiCollectionView.reloadData()
@@ -48,6 +48,7 @@ class HomeFeedViewController: CustomNavigationController {
             feedLoader?.setItem(currentIndex!.row, item: item!)
             self.uiCollectionView.reloadItemsAtIndexPaths([currentIndex!])
         }
+        NotificationCounter.mInstance.refresh(handleNotificationSuccess, failureCallback: handleNotificationError)
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -60,13 +61,6 @@ class HomeFeedViewController: CustomNavigationController {
     override func viewDidLoad() {
         super.viewDidLoad()
         HomeFeedViewController.instance = self
-        SwiftEventBus.onMainThread(self, name: "loadNotificationSuccess") { result in
-            self.notificationCounterVM = result.object as? NotificationCounterVM
-            self.refreshNotifications()
-        }
-        SwiftEventBus.onMainThread(self, name: "loadNotificationFailure") { result in
-            NSLog("Error Getting Notification Counter!")
-        }
         
         feedLoader = FeedLoader(feedType: FeedFilter.FeedType.HOME_EXPLORE, reloadDataToView: reloadDataToView)
         feedLoader!.setActivityIndicator(activityLoading)
@@ -95,7 +89,6 @@ class HomeFeedViewController: CustomNavigationController {
         uiCollectionView.collectionViewLayout = flowLayout
         
         self.categories = CategoryCache.categories
-        NotificationCounter.mInstance.refresh()
         
         self.uiCollectionView.addPullToRefresh({ [weak self] in
             ViewUtil.showActivityLoading(self!.activityLoading)
@@ -272,28 +265,14 @@ class HomeFeedViewController: CustomNavigationController {
         feedViewAdapter!.onLikeBtnClick(cell, feedItem: feedItem)
     }
     
-    func refreshNotifications() {
-        let tabBarItem = (self.tabBarController?.tabBar.items![2])! as UITabBarItem
-        if (self.notificationCounterVM?.activitiesCount > 0) {
-            let aCount = (self.notificationCounterVM?.activitiesCount)! as Int
-            tabBarItem.badgeValue = String(aCount)
-        } else {
-            tabBarItem.badgeValue = nil
-        }
-        let chatNavItem = self.navigationItem.rightBarButtonItems?[1] as? ENMBadgedBarButtonItem
-        
-        if (self.notificationCounterVM?.conversationsCount > 0) {
-            let cCount = (self.notificationCounterVM?.conversationsCount)! as Int
-            chatNavItem?.badgeValue = String(cCount)
-        } else {
-            chatNavItem?.badgeValue = ""
-        }
+    func handleNotificationSuccess(notifcationCounter: NotificationCounterVM) {
+        ViewUtil.refreshNotifications((self.tabBarController?.tabBar)!, navigationItem: self.navigationItem)
     }
     
-    /**this method should have been in NotificationCounter class but since this didnt worked as NSTimer selector was not getting resolved within NotificationCounter class so specified the method here.*/
-    func refresh() {
-        NotificationCounter.mInstance.refresh()
+    func handleNotificationError(message: String) {
+        NSLog(message)
     }
+    
     
 }
 

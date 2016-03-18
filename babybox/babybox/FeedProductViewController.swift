@@ -129,7 +129,7 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
                 cell.btnPostComments.addTarget(self, action: "PostComments:", forControlEvents: UIControlEvents.TouchUpInside)
                 ImageUtil.displayButtonRoundBorder(cell.btnPostComments)
                 cell.btnPostComments.layer.borderColor = UIColor.lightGrayColor().CGColor
-                
+                cell.commentTxt.delegate = self
                 cell.commentTxt.layer.cornerRadius = 15.0
                 cell.commentTxt.layer.masksToBounds = true
                 
@@ -315,7 +315,7 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
     }
     
     //MARK: UITextfield Delegate
-    func textFieldDidBeginEditing(textField: UITextField!){
+    func textFieldDidBeginEditing(textField: UITextField){
         detailTableView.contentInset =  UIEdgeInsetsMake(0, 0, 250, 0)
         detailTableView.scrollToRowAtIndexPath(NSIndexPath(forRow: self.comments.count, inSection:2), atScrollPosition: UITableViewScrollPosition.Middle, animated: false)
     }
@@ -431,6 +431,8 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
             return true
         } else if (identifier == "userprofile") {
             return true
+        } else if (identifier == "viewChats") {
+            return true
         }
         return false
     }
@@ -446,7 +448,10 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
             let vController = segue.destinationViewController as! UserProfileFeedViewController
             vController.userId = self.productInfo!.ownerId
             vController.hidesBottomBarWhenPushed = true
+        } else if (segue.identifier == "viewChats") {
+        
         }
+        
         ViewUtil.resetBackButton(self.navigationItem)
     }
     

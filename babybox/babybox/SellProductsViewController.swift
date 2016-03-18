@@ -67,7 +67,7 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
             // UI thread
             NSLog("Product Saved Successfully")
             self.view.makeToast(message: "Product Added Successfully", duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
-            NotificationCounter.mInstance.refresh()
+            NotificationCounter.mInstance.refresh(self.handleNotificationSuccess, failureCallback: self.handleNotificationError)
             self.navigationController?.popViewControllerAnimated(true)
         }
         
@@ -322,5 +322,13 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         textField.keyboardType = UIKeyboardType.NumberPad
         return Int(string) != nil
+    }
+    
+    func handleNotificationSuccess(notifcationCounter: NotificationCounterVM) {
+        
+    }
+    
+    func handleNotificationError(message: String) {
+        NSLog(message)
     }
 }

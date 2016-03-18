@@ -7,7 +7,7 @@
 #import "ImageCropView.h"
 
 static CGFloat const DEFAULT_MASK_ALPHA = 0.75;
-static bool const square = NO;
+static bool const square = YES;
 float IMAGE_MIN_HEIGHT = 400;
 float IMAGE_MIN_WIDTH = 400;
 

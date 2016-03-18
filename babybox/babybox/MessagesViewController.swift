@@ -8,6 +8,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, UIImagePick
     @IBOutlet weak var prodName: UILabel!
     @IBOutlet weak var sellTextLbl: UILabel!
     @IBOutlet weak var buyTextLbl: UILabel!
+    @IBOutlet weak var soldTextLbl: UILabel!
     @IBOutlet var messageComposingView: UIView!
     @IBOutlet weak var messageCointainerScroll: UIScrollView!
     @IBOutlet weak var buttomLayoutConstraint: NSLayoutConstraint!
@@ -66,7 +67,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, UIImagePick
         ImageUtil.displayPostImage(self.conversation!.postImage, imageView: prodImg)
         self.prodName.text = self.conversation?.postTitle
         self.prodPrice.text = Constants.CURRENCY_SYMBOL + String(self.conversation!.postPrice.toIntMax())
-        
+        self.soldTextLbl.hidden = !self.conversation!.postSold
         self.buyTextLbl.hidden = self.conversation!.postOwner
         self.sellTextLbl.hidden = !self.conversation!.postOwner
         

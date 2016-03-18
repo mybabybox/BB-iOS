@@ -66,7 +66,7 @@ class ConversationsViewController: UIViewController, UIGestureRecognizerDelegate
     }
     
     override func viewDidDisappear(animated: Bool) {
-        NotificationCounter.mInstance.refresh()
+        NotificationCounter.mInstance.refresh(handleNotificationSuccess, failureCallback: handleNotificationError)
         SwiftEventBus.unregister(self)
     }
     
@@ -91,8 +91,13 @@ class ConversationsViewController: UIViewController, UIGestureRecognizerDelegate
         cell.userComment.numberOfLines = 0
         cell.userComment.text = item.lastMessage
         cell.userComment.sizeToFit()
-        cell.BuyText.hidden = item.postOwner
-        cell.SellText.hidden = !item.postOwner
+        if (item.postSold) {
+            cell.soldText.hidden = !item.postSold
+        } else {
+            cell.BuyText.hidden = item.postOwner
+            cell.SellText.hidden = !item.postOwner
+        }
+        
         cell.comment.text = NSDate(timeIntervalSince1970:Double(item.lastMessageDate) / 1000.0).timeAgo
         ImageUtil.displayPostImage(ConversationCache.conversations[indexPath.row].postImage, imageView: cell.productImage)
         ImageUtil.displayThumbnailProfileImage(ConversationCache.conversations[indexPath.row].userId, imageView: cell.postImage)
@@ -177,5 +182,13 @@ class ConversationsViewController: UIViewController, UIGestureRecognizerDelegate
     func handleError(message: String) {
         ViewUtil.showDialog("Error", message: message, view: self)
         ViewUtil.hideActivityLoading(self.activityLoading)
+    }
+    
+    func handleNotificationSuccess(notifcationCounter: NotificationCounterVM) {
+      //  ViewUtil.refreshNotifications((self.tabBarController?.tabBar)!, navigationItem: self.navigationItem)
+    }
+    
+    func handleNotificationError(message: String) {
+        NSLog(message)
     }
 }

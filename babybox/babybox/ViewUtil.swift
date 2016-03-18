@@ -163,4 +163,23 @@ class ViewUtil {
         button.layer.borderColor = ImageUtil.UIColorFromRGB(0xFF76A4).CGColor
         button.setTitle("Follow", forState: UIControlState.Normal)
     }
+    
+    static func refreshNotifications(uiTabbar: UITabBar, navigationItem: UINavigationItem) {
+        let tabBarItem = (uiTabbar.items![2]) as UITabBarItem
+        if (NotificationCounter.counter!.activitiesCount > 0) {
+            let aCount = (NotificationCounter.counter!.activitiesCount) as Int
+            tabBarItem.badgeValue = String(aCount)
+        } else {
+            tabBarItem.badgeValue = nil
+        }
+        let chatNavItem = navigationItem.rightBarButtonItems?[1] as? ENMBadgedBarButtonItem
+        
+        if (NotificationCounter.counter!.conversationsCount > 0) {
+            let cCount = (NotificationCounter.counter!.conversationsCount) as Int
+            chatNavItem?.badgeValue = String(cCount)
+        } else {
+            chatNavItem?.badgeValue = ""
+        }
+    }
+    
 }
