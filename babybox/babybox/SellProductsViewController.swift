@@ -274,8 +274,8 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
     }
     
     func saveProduct(sender: AnyObject) {
-        let category = CategoryCache.getCategoryByName(categorydropdown.titleLabel!.text!)
         if (validateSaveForm()) {
+            let category = CategoryCache.getCategoryByName(categorydropdown.titleLabel!.text!)
             let conditionType = ViewUtil.parsePostConditionTypeFromValue(conditionDropDown.titleLabel!.text!)
             ApiController.instance.newProduct(sellingtext.text!, body: prodDescription.text!, catId: category!.id, conditionType: String(conditionType), pricetxt: pricetxt.text!, imageCollection: self.imageCollection)
         }

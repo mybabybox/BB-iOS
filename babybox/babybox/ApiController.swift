@@ -419,6 +419,17 @@ class ApiController {
         self.makeApiCall(callEvent)
     }
     
+    func deletePost(id: Int) {
+        let callEvent = ApiCallEvent()
+        callEvent.method = "/api/post/delete/\(id)"
+        callEvent.resultClass = "String"
+        callEvent.successEventbusName = "deletePostSuccess"
+        callEvent.failedEventbusName = "deletePostFailed"
+        callEvent.apiUrl = Constants.BASE_URL + callEvent.method
+        
+        self.makeApiCall(callEvent)
+    }
+    
     /*func signup(){
         let callEvent=ApiCallEvent()
         callEvent.method="/signup"
@@ -513,6 +524,41 @@ class ApiController {
         callEvent.failedEventbusName = "productConversationsFailed"
         callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         self.makeApiCall(callEvent)
+    }
+    
+    func editPost(postId: Int, title: String, body: String, catId: Int, conditionType:String, pricetxt : String) {
+        
+        let callEvent = ApiCallEvent()
+        callEvent.method = "/api/post/edit"
+        callEvent.resultClass="String"
+        callEvent.apiUrl = Constants.BASE_URL + callEvent.method
+        callEvent.successEventbusName = "editProductSuccess"
+        callEvent.failedEventbusName = "editProductFailed"
+        let url = callEvent.apiUrl + "?key=\(StringUtil.encode(AppDelegate.getInstance().sessionId!))"
+        Alamofire.upload(
+            .POST,
+            url,
+            multipartFormData: { multipartFormData in
+                multipartFormData.appendBodyPart(data: StringUtil.toEncodedData(String(postId)), name :"id")
+                multipartFormData.appendBodyPart(data: StringUtil.toEncodedData(String(catId)), name :"catId")
+                multipartFormData.appendBodyPart(data: StringUtil.toEncodedData(title), name :"title")
+                multipartFormData.appendBodyPart(data: StringUtil.toEncodedData(body), name :"body")
+                multipartFormData.appendBodyPart(data: StringUtil.toEncodedData(pricetxt), name :"price")
+                multipartFormData.appendBodyPart(data: StringUtil.toEncodedData(conditionType), name :"conditionType")
+                multipartFormData.appendBodyPart(data: StringUtil.toEncodedData(Constants.DEVICE_TYPE), name :"deviceType")
+            },
+            encodingCompletion: { encodingResult in
+                switch encodingResult {
+                case .Success( _, _, _):
+                    SwiftEventBus.post(callEvent.successEventbusName, sender: "")
+                    break
+                case .Failure( _):
+                    SwiftEventBus.post(callEvent.failedEventbusName, sender: "")
+                    break
+                }
+            }
+        )
+        
     }
     
     func newProduct(title: String, body: String, catId: Int, conditionType:String, pricetxt : String, imageCollection: [AnyObject]) {

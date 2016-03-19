@@ -25,6 +25,7 @@ class DetailsTableViewCell: UITableViewCell {
     @IBOutlet weak var postTitle: UILabel!
     @IBOutlet weak var postedUserImg: UIImageView!
     
+    @IBOutlet weak var deletePostBtn: UIButton!
     @IBOutlet weak var viewBtnIns: UIButton!
     override func awakeFromNib() {
         super.awakeFromNib()

@@ -65,6 +65,16 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
         SwiftEventBus.onMainThread(self, name: "productDetailsReceivedSuccess") { result in
             let productInfo: PostVM = result.object as! PostVM
             self.handleGetProductDetailsSuccess(productInfo)
+            self.enableEditPost()
+        }
+        
+        SwiftEventBus.onMainThread(self, name: "deletePostSuccess") { result in
+            self.view.makeToast(message: "Post deleted!")
+            self.navigationController?.popViewControllerAnimated(true)
+        }
+        
+        SwiftEventBus.onMainThread(self, name: "deletePostFailure") { result in
+            self.view.makeToast(message: "Error Deleting Post!")
         }
         
         ApiController.instance.getProductDetails(feedItem.id)
@@ -202,9 +212,13 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
                     //cell.prodTimerCount.text = String(self.productInfo.numComments)
                     cell.categoryBtn.hidden = false
                     cell.prodTimerCount.text = NSDate(timeIntervalSince1970:Double(self.productInfo!.createdDate) / 1000.0).timeAgo
+                    if (self.productInfo!.isOwner) {
+                    	cell.deletePostBtn.hidden = false
+                    }
                 } else {
                     cell.categoryBtn.hidden = true
                 }
+                
                 
             case 2:
                 if self.productInfo != nil {
@@ -264,7 +278,7 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
             return CGFloat(95.0)
         case 3:
             return CGFloat(50.0)
-        default:
+        default:    
             return UITableViewAutomaticDimension
         }
     }
@@ -277,11 +291,6 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
         //on click of User section show the User profile screen.
         if (indexPath.section == 2) {
             self.performSegueWithIdentifier("userprofile", sender: nil)
-            /*let vController = self.storyboard?.instantiateViewControllerWithIdentifier("UserProfileFeedViewController") as! UserProfileFeedViewController
-            vController.userId = self.productInfo!.ownerId
-            ViewUtil.resetBackButton(self.navigationItem)
-            self.navigationController?.pushViewController(vController, animated: true)*/
-            
         }
     }
     
@@ -315,10 +324,10 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
     }
     
     //MARK: UITextfield Delegate
-    func textFieldDidBeginEditing(textField: UITextField){
+    /*func textFieldDidBeginEditing(textField: UITextField){
         detailTableView.contentInset =  UIEdgeInsetsMake(0, 0, 250, 0)
         detailTableView.scrollToRowAtIndexPath(NSIndexPath(forRow: self.comments.count, inSection:2), atScrollPosition: UITableViewScrollPosition.Middle, animated: false)
-    }
+    }*/
     
     func setSizesForFilterButtons() {
         let availableWidthForButtons:CGFloat = self.view.bounds.width - 40
@@ -545,5 +554,32 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
     
     func handleError(message: String) {
         ViewUtil.showDialog("Error", message: message, view: self)
+    }
+    
+    func enableEditPost() {
+        if (self.productInfo!.isOwner) {
+            let editProductImg: UIButton = UIButton()
+            editProductImg.setTitle("Edit", forState: UIControlState.Normal)
+            
+            editProductImg.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
+            editProductImg.titleLabel!.lineBreakMode = NSLineBreakMode.ByWordWrapping
+            editProductImg.frame = CGRectMake(0, 0, 35, 35)
+            editProductImg.addTarget(self, action: "onClickEditBtn:", forControlEvents: UIControlEvents.TouchUpInside)
+            let editProductBarBtn = UIBarButtonItem(customView: editProductImg)
+            self.navigationItem.rightBarButtonItems = [editProductBarBtn]
+        }
+    }
+    
+    func onClickEditBtn(sender: AnyObject?) {
+        let vController =
+            self.storyboard?.instantiateViewControllerWithIdentifier("editProductViewController") as? EditPostViewController
+        vController!.hidesBottomBarWhenPushed = true
+        vController!.postId = self.feedItem.id
+        ViewUtil.resetBackButton(self.navigationItem)
+        self.navigationController?.pushViewController(vController!, animated: true)
+    }
+    
+    @IBAction func deletePost(sender: AnyObject) {
+        ApiController.instance.deletePost(self.productInfo!.id)
     }
 }
