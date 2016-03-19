@@ -114,7 +114,7 @@ class UserActivityViewController: CustomNavigationController {
                 cell.sizeToFit()
                 cell.activityTime.text = NSDate(timeIntervalSince1970:Double(self.userActivitesItems[indexPath.row].createdDate) / 1000.0).timeAgo
                 ImageUtil.displayThumbnailProfileImage(Int(self.userActivitesItems[indexPath.row].actorImage), imageView: cell.profileImg)
-                cell.textMessage.text = self.setMessageText(self.userActivitesItems[indexPath.row])
+                cell.textMessage.text = self.getMessageText(self.userActivitesItems[indexPath.row])
                 cell.textMessage.numberOfLines = 0
                 cell.textMessage.sizeToFit()
                 cell.userName.setTitle(self.userActivitesItems[indexPath.row].actorName, forState: UIControlState.Normal)
@@ -132,7 +132,7 @@ class UserActivityViewController: CustomNavigationController {
                 cell.contentMode = UIViewContentMode.Redraw
                 cell.sizeToFit()
                 cell.activityTime.text = NSDate(timeIntervalSince1970:Double(self.userActivitesItems[indexPath.row].createdDate) / 1000.0).timeAgo
-                cell.textMessage.text = self.setMessageText(self.userActivitesItems[indexPath.row])
+                cell.textMessage.text = self.getMessageText(self.userActivitesItems[indexPath.row])
                 cell.textMessage.numberOfLines = 0
                 cell.textMessage.sizeToFit()
                 ImageUtil.displayThumbnailProfileImage(Int(self.userActivitesItems[indexPath.row].actorImage), imageView: cell.profileImg)
@@ -151,7 +151,7 @@ class UserActivityViewController: CustomNavigationController {
                 cell.sizeToFit()
                 
                 cell.activityTime.text = NSDate(timeIntervalSince1970:Double(self.userActivitesItems[indexPath.row].createdDate) / 1000.0).timeAgo
-                cell.textMessage.text = self.setMessageText(self.userActivitesItems[indexPath.row])
+                cell.textMessage.text = self.getMessageText(self.userActivitesItems[indexPath.row])
                 cell.textMessage.numberOfLines = 0
                 cell.textMessage.sizeToFit()
                 
@@ -216,7 +216,7 @@ class UserActivityViewController: CustomNavigationController {
         
     }
     
-    func setMessageText(item: ActivityVM) -> String {
+    func getMessageText(item: ActivityVM) -> String {
         
         var message: String = ""
         switch (item.activityType) {
