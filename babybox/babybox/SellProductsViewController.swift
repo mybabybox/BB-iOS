@@ -30,7 +30,7 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
     var collectionViewInsets : UIEdgeInsets?
     var reuseIdentifier = "CustomCell"
     var imageCollection = [AnyObject]()
-    var selectedIndex :Int?
+    var selectedIndex :Int? = 0
     var selCategory: Int = -1
     let imagePicker = UIImagePickerController()
     
@@ -68,6 +68,7 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
             NSLog("Product Saved Successfully")
             self.view.makeToast(message: "Product Added Successfully", duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
             NotificationCounter.mInstance.refresh(self.handleNotificationSuccess, failureCallback: self.handleNotificationError)
+            UserInfoCache.refresh(AppDelegate.getInstance().sessionId!)
             self.navigationController?.popViewControllerAnimated(true)
         }
         
@@ -266,12 +267,12 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
         dismissViewControllerAnimated(true, completion: nil)
     }
     
-    func handleCroppedImage(notification: NSNotification){
+    /*func handleCroppedImage(notification: NSNotification){
         self.imageCollection.removeAtIndex(selectedIndex!)
         self.imageCollection.insert(notification.object!, atIndex: selectedIndex!)
         self.collectionView.reloadData()
         
-    }
+    }*/
     
     func saveProduct(sender: AnyObject) {
         if (validateSaveForm()) {

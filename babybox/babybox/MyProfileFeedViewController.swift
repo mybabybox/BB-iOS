@@ -305,6 +305,12 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
         reloadFeedItems()
 
         redrawSegControlBorder(segControl!)
+        
+        if (self.activeHeaderViewCell != nil) {
+            self.activeHeaderViewCell?.segmentControl.setTitle("Products " + String(self.userInfo!.numProducts), forSegmentAtIndex: 0)
+            self.activeHeaderViewCell?.segmentControl.setTitle("Likes " + String(self.userInfo!.numLikes), forSegmentAtIndex: 1)
+        }
+        
     }
     
     // MARK: UIImagePickerControllerDelegate Methods

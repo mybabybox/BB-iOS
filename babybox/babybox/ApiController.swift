@@ -581,7 +581,9 @@ class ApiController {
                     } else {
                         if let image: UIImage? = _image as? UIImage {
                             if (image != nil) {
-                                multipartFormData.appendBodyPart(data: UIImagePNGRepresentation(imageCollection[0] as! UIImage)!, name: "image\(index)", fileName: "upload.jpg", mimeType:"jpg")
+                                let nsData = UIImageJPEGRepresentation(image!, 0.5)
+                                multipartFormData.appendBodyPart(data: nsData!, name: "image\(index)", fileName: "upload.jpg", mimeType:"jpg")
+                                //multipartFormData.appendBodyPart(data: ImageUtil.compressImage(image!), name: "image\(index)", fileName: "upload.jpg", mimeType:"jpg")
                                 index++
                             }
                         }
