@@ -12,14 +12,21 @@ import PhotoSlider
 
 class FeedProductViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, PhotoSliderDelegate, UITextFieldDelegate {
 
-    @IBOutlet weak var soldBtn: UIButton!
-    @IBOutlet weak var viewChatBtn: UIButton!
-    @IBOutlet weak var markAsSoldBtn: UIButton!
+    @IBOutlet weak var buyerSoldButtonsLayout: UIView!
+    @IBOutlet weak var buyerButtonsLayout: UIView!
+    @IBOutlet weak var sellerButtonsLayout: UIView!
+    @IBOutlet weak var sellerSoldButtonsLayout: UIView!
+    
+    @IBOutlet weak var soldViewChatsButton: UIButton!
+    @IBOutlet weak var viewChatsButton: UIButton!
+    @IBOutlet weak var soldButton: UIButton!
+    @IBOutlet weak var buyButton: UIButton!
+    @IBOutlet weak var chatButton: UIButton!
+    @IBOutlet weak var soldText: UILabel!
+    
     @IBOutlet weak var activityLoading: UIActivityIndicatorView!
     @IBOutlet weak var likeImgBtn: UIButton!
-    @IBOutlet weak var btnWidthConstraint: NSLayoutConstraint!
-    @IBOutlet weak var buyNowBtn: UIButton!
-    @IBOutlet weak var chatNowBtn: UIButton!
+    //@IBOutlet weak var btnWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var likeCountTxt: UIButton!
     @IBOutlet weak var detailTableView: UITableView!
     
@@ -332,12 +339,12 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
     func setSizesForFilterButtons() {
         let availableWidthForButtons:CGFloat = self.view.bounds.width - 40
         let buttonWidth :CGFloat = availableWidthForButtons / 2
-        self.btnWidthConstraint.constant = buttonWidth
+        //self.btnWidthConstraint.constant = buttonWidth
         
-        self.buyNowBtn.layer.borderColor = UIColor.lightGrayColor().CGColor
-        self.buyNowBtn.layer.borderWidth = 1.0
-        self.chatNowBtn.layer.borderColor = UIColor.lightGrayColor().CGColor
-        self.chatNowBtn.layer.borderWidth = 1.0
+        //self.buyNowBtn.layer.borderColor = UIColor.lightGrayColor().CGColor
+        //self.buyNowBtn.layer.borderWidth = 1.0
+        //self.chatNowBtn.layer.borderColor = UIColor.lightGrayColor().CGColor
+        //self.chatNowBtn.layer.borderWidth = 1.0
     }
     
     @IBAction func onClickLikeOrUnlikeButton(sender: AnyObject) {
@@ -468,25 +475,23 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
     }
     
     func processButtonsVisibility() {
-        self.chatNowBtn.hidden = true
-        self.buyNowBtn.hidden = true
-        self.viewChatBtn.hidden = true
-        self.soldBtn.hidden = true
-        self.markAsSoldBtn.hidden = true
+        
+        self.buyerButtonsLayout.hidden = true
+        self.sellerButtonsLayout.hidden = true
+        self.buyerSoldButtonsLayout.hidden = true
+        self.sellerSoldButtonsLayout.hidden = true
         
         if (self.productInfo!.isOwner) {
             if (self.productInfo!.sold) {
-                self.soldBtn.hidden = false
+                self.sellerSoldButtonsLayout.hidden = false
             } else {
-                self.viewChatBtn.hidden = false
-                self.markAsSoldBtn.hidden = false
+                self.sellerButtonsLayout.hidden = false                
             }
         } else {
             if (self.productInfo!.sold) {
-                self.soldBtn.hidden = false
+                self.buyerSoldButtonsLayout.hidden = false
             } else {
-                self.chatNowBtn.hidden = false
-                self.buyNowBtn.hidden = false
+                self.buyerButtonsLayout.hidden = false
             }
         }
     }
