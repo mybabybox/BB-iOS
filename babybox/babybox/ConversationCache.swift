@@ -100,10 +100,13 @@ class ConversationCache {
         SwiftEventBus.onMainThread(self, name: "deleteConversationSuccess") { result in
             SwiftEventBus.unregister(self)
             
-            if ViewUtil.isEmptyResult(result) {
+            //Apis does not return any api hence this condition is getting success and calling failure method 
+            //in target instead of calling success. 
+            //Need to discuss with Keith...
+            /*if ViewUtil.isEmptyResult(result) {
                 failureCallback!(error: "Response returned is empty")
                 return
-            }
+            }*/
             
             // remove from conversations
             self.conversations = self.conversations.filter({ $0.id != id })

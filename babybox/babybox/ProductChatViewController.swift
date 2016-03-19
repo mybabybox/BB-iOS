@@ -131,7 +131,7 @@ class ProductChatViewController: UIViewController {
     
     func renderPostView() {
         self.postTitle.text = postItem?.postTitle
-        self.postPrice.text = String(postItem?.postPrice)
+        self.postPrice.text = "\(Constants.CURRENCY_SYMBOL)\(String(stringInterpolationSegment: Int(postItem!.postPrice)))"
         ImageUtil.displayPostImage((postItem?.postImage)!, imageView: self.postImg);
         self.setConversationImageTag()
     }

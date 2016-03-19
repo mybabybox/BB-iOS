@@ -101,6 +101,12 @@ class ConversationsViewController: UIViewController, UIGestureRecognizerDelegate
         cell.comment.text = NSDate(timeIntervalSince1970:Double(item.lastMessageDate) / 1000.0).timeAgo
         ImageUtil.displayPostImage(ConversationCache.conversations[indexPath.row].postImage, imageView: cell.productImage)
         ImageUtil.displayThumbnailProfileImage(ConversationCache.conversations[indexPath.row].userId, imageView: cell.postImage)
+        
+        let cSelector = Selector("removeCell:")
+        let UpSwipe = UISwipeGestureRecognizer(target: self, action: cSelector )
+        UpSwipe.direction = UISwipeGestureRecognizerDirection.Right
+        cell.addGestureRecognizer(UpSwipe)
+        
         return cell
     }
     
@@ -191,4 +197,22 @@ class ConversationsViewController: UIViewController, UIGestureRecognizerDelegate
     func handleNotificationError(message: String) {
         NSLog(message)
     }
+    
+    func removeCell(sender: UISwipeGestureRecognizer) {
+        let cell = sender.view as! UICollectionViewCell
+        let i = self.collectionView.indexPathForCell(cell)!.item
+        //
+        ConversationCache.delete(ConversationCache.conversations[i].id, successCallback: deleteConversationHandler, failureCallback: deleteConversationError)
+    }
+    
+    func deleteConversationHandler(responseString: String) {
+        self.collectionView.reloadData()
+        self.view.makeToast(message: "Conversation Deleted Successfully!")
+    }
+    
+    func deleteConversationError(responseString: String) {
+        NSLog("Error deleting Conversion", responseString)
+        self.view.makeToast(message: "Error Deleting Conversation")
+    }
+    
 }
