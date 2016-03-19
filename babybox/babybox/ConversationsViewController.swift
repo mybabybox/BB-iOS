@@ -12,6 +12,7 @@ import SwiftEventBus
 
 class ConversationsViewController: UIViewController, UIGestureRecognizerDelegate {
 
+    @IBOutlet weak var tipText: UILabel!
     var userId: Int = 0
     var currentIndex: Int = 0
     var viewCellIdentifier: String = "conversationsCollectionViewCell"
@@ -135,6 +136,12 @@ class ConversationsViewController: UIViewController, UIGestureRecognizerDelegate
         }
         loading = false
         ViewUtil.hideActivityLoading(self.activityLoading)
+        
+        if (ConversationCache.conversations.count <= 0) {
+            self.tipText.hidden = false
+            self.collectionView.hidden = true
+        }
+        
     }
     
     func setCollectionViewCellSize() {
