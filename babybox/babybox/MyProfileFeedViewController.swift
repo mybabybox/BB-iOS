@@ -44,6 +44,7 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
     override func viewWillAppear(animated: Bool) {
         ViewUtil.hideActivityLoading(self.activityLoading)
         registerEvents()
+        
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -61,6 +62,7 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
         }
         NotificationCounter.mInstance.refresh(handleNotificationSuccess, failureCallback: handleNotificationError)
         //reloadFeedItems()
+	setUserInfo(UserInfoCache.getUser())
     }
     
     override func viewWillDisappear(animated: Bool) {

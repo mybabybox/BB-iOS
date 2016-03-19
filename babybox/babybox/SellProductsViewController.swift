@@ -68,8 +68,8 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
             NSLog("Product Saved Successfully")
             self.view.makeToast(message: "Product Added Successfully", duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
             NotificationCounter.mInstance.refresh(self.handleNotificationSuccess, failureCallback: self.handleNotificationError)
-            UserInfoCache.refresh(AppDelegate.getInstance().sessionId!)
-            self.navigationController?.popViewControllerAnimated(true)
+            UserInfoCache.refresh(AppDelegate.getInstance().sessionId!, successCallback: self.handleUserInfoSuccess, failureCallback: self.handleError)
+            //
         }
         
         SwiftEventBus.onMainThread(self, name: "newProductFailed") { result in
@@ -331,5 +331,15 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
     
     func handleNotificationError(message: String) {
         NSLog(message)
+    }
+    
+    func handleUserInfoSuccess(userInfo: UserVM) {
+        self.navigationController?.popViewControllerAnimated(true)
+        SwiftEventBus.unregister(self)
+        UserInfoCache.setUser(userInfo)
+    }
+    
+    func handleError(responseString: String) {
+        NSLog("Error getting User info")
     }
 }

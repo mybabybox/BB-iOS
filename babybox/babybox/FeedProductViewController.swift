@@ -70,6 +70,11 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
         ViewUtil.showActivityLoading(self.activityLoading)
         
         SwiftEventBus.onMainThread(self, name: "productDetailsReceivedSuccess") { result in
+            if let _ = result.object as? String {
+                self.view.makeToast(message: "The product may be deleted by Seller")
+                self.detailTableView.hidden = true
+                return
+            }
             let productInfo: PostVM = result.object as! PostVM
             self.handleGetProductDetailsSuccess(productInfo)
             self.enableEditPost()
