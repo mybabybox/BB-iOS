@@ -44,6 +44,7 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
     override func viewWillAppear(animated: Bool) {
         ViewUtil.hideActivityLoading(self.activityLoading)
         registerEvents()
+        
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -61,6 +62,7 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
         }
         NotificationCounter.mInstance.refresh(handleNotificationSuccess, failureCallback: handleNotificationError)
         //reloadFeedItems()
+	setUserInfo(UserInfoCache.getUser())
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -305,6 +307,12 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
         reloadFeedItems()
 
         redrawSegControlBorder(segControl!)
+        
+        if (self.activeHeaderViewCell != nil) {
+            self.activeHeaderViewCell?.segmentControl.setTitle("Products " + String(self.userInfo!.numProducts), forSegmentAtIndex: 0)
+            self.activeHeaderViewCell?.segmentControl.setTitle("Likes " + String(self.userInfo!.numLikes), forSegmentAtIndex: 1)
+        }
+        
     }
     
     // MARK: UIImagePickerControllerDelegate Methods

@@ -204,6 +204,11 @@ class UserActivityViewController: CustomNavigationController {
         }
         loading = false
         ViewUtil.hideActivityLoading(self.activityLoading)
+        
+        if (self.userActivitesItems.isEmpty) {
+            self.tipText.hidden = false
+            self.uiCollectionView.hidden = true
+        }
     }
 
     @IBAction func onClickPostImg(sender: AnyObject) {
