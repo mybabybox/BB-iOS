@@ -20,12 +20,12 @@ class UserInfoCache {
         refresh(sessionId, successCallback: nil, failureCallback: nil)
     }
     
-    static func refresh(sessionId: String, successCallback: ((UserVM) -> Void)?, failureCallback: ((error: String) -> Void)?) {
+    static func refresh(sessionId: String, successCallback: ((UserVM) -> Void)?, failureCallback: ((String?) -> Void)?) {
         SwiftEventBus.onMainThread(self, name: "userInfoSuccess") { result in
             SwiftEventBus.unregister(self)
             
             if ViewUtil.isEmptyResult(result) {
-                failureCallback!(error: "User returned is empty")
+                failureCallback!("User returned is empty")
                 return
             }
             
@@ -43,7 +43,7 @@ class UserInfoCache {
                 if result.object is NSString {
                     error += "\n"+(result.object as! String)
                 }
-                failureCallback!(error: error)
+                failureCallback!(error)
             }
         }
 
@@ -56,7 +56,7 @@ class UserInfoCache {
         SharedPreferencesUtil.getInstance().saveUserInfo(userInfo)
     }
     
-    static func getUser() -> UserVM {
+    static func getUser() -> UserVM? {
         if (userInfo == nil) {
             userInfo = SharedPreferencesUtil.getInstance().getUserInfo()
         }
@@ -68,19 +68,18 @@ class UserInfoCache {
     }
     
     static func incrementNumProducts() {
-        getUser().numProducts++
+        getUser()!.numProducts++
     }
     
     static func decrementNumProducts() {
-        getUser().numProducts--
+        getUser()!.numProducts--
     }
     
     static func incrementNumLikes() {
-        getUser().numLikes++
+        getUser()!.numLikes++
     }
     
     static func decrementNumLikes() {
-        getUser().numLikes--
+        getUser()!.numLikes--
     }
-    
 }

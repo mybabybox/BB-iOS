@@ -113,9 +113,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func logout() {
+        if UserInfoCache.getUser() != nil && UserInfoCache.getUser()!.isFBLogin {
+            FBSDKLoginManager().logOut()
+        }
         clearAll()
-        FBSDKLoginManager().logOut()
-        // open welcome screen
     }
 }
 

@@ -122,7 +122,7 @@ class RecommendedSellerViewController: UIViewController {
             }
         }
         
-        if (UserInfoCache.getUser().id == item.id) {
+        if (UserInfoCache.getUser()!.id == item.id) {
             cell.followBtn.hidden = true
         } else {
             cell.followBtn.hidden = false

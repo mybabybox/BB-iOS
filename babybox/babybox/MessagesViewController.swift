@@ -256,7 +256,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, UIImagePick
         for var i = 0; i < result.messages.count; i++ {
             let message: MessageVM = result.messages[i]
             let messageDt = NSDate(timeIntervalSince1970:Double(message.createdDate) / 1000.0)
-            if (UserInfoCache.getUser().id == message.senderId) {
+            if UserInfoCache.getUser()!.id == message.senderId {
                 let chatBubbleData = ChatBubbleData(text: message.body, image:nil, date: messageDt, type: .Mine, imgId: -1)
                 addChatBubble(chatBubbleData)
             } else {

@@ -37,14 +37,9 @@ class SettingsViewController: UIViewController {
     }
     
     func handleLogout(result: String) {
-        self.navigationController?.navigationBar.hidden = true
-        AppDelegate.getInstance().sessionId = ""
+        AppDelegate.getInstance().logout()
         let vController = self.storyboard!.instantiateViewControllerWithIdentifier("loginController") as! LoginViewController
         self.navigationController?.pushViewController(vController, animated: true)
-        if (UserInfoCache.getUser().isFBLogin) {
-            FBSDKLoginManager().logOut()
-        }
-        UserInfoCache.clear()
         SwiftEventBus.unregister(self)
     }
 

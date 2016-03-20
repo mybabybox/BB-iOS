@@ -8,11 +8,10 @@
 
 
 import UIKit
-import FBSDKCoreKit
 import FBSDKLoginKit
 import SwiftEventBus
 
-class BaseLoginViewController: UIViewController, FBSDKLoginButtonDelegate {
+class BaseLoginViewController: UIViewController {
     
     var isUserLoggedIn = false
 
@@ -54,13 +53,16 @@ class BaseLoginViewController: UIViewController, FBSDKLoginButtonDelegate {
         stopLoading()
     }
     
-    func handleError(message: String) {
+    func handleError(message: String?) {
         startLoading()
         
         self.isUserLoggedIn = false
-        ViewUtil.showDialog("Login Error", message: message, view: self)
-        //self.performSegueWithIdentifier("clickToLogin", sender: nil)
         AppDelegate.getInstance().logout()
+        SwiftEventBus.unregister(self)
+        //self.performSegueWithIdentifier("clickToLogin", sender: nil)
+        if message != nil {
+            ViewUtil.showDialog("Login Error", message: message!, view: self)
+        }
         
         stopLoading()
     }
@@ -137,52 +139,12 @@ class BaseLoginViewController: UIViewController, FBSDKLoginButtonDelegate {
     }
     
     @IBAction func fbLoginClick(sender: AnyObject) {
-        self.view.alpha = 0.75
-        FBSDKLoginManager().logInWithReadPermissions(self.facebookReadPermissions, handler: { (result:FBSDKLoginManagerLoginResult!, error:NSError!) -> Void in
-            if error != nil {
-                //According to Facebook:
-                //Errors will rarely occur in the typical login flow because the login dialog
-                //presented by Facebook via single sign on will guide the users to resolve any errors.
-                self.view.alpha = 1.0
-                // Process error
-                FBSDKLoginManager().logOut()
-                self.handleError(error.localizedDescription)
-            } else if result.isCancelled {
-                // Handle cancellations
-                self.view.alpha = 1.0
-                FBSDKLoginManager().logOut()
-                self.handleError("Login is cancelled")
-            } else {
-                // If you ask for multiple permissions at once, you
-                // should check if specific permissions missing
-                var allPermsGranted = true
-                
-                //result.grantedPermissions returns an array of _NSCFString pointers
-                let grantedPermissions = result.grantedPermissions
-                for permission in self.facebookReadPermissions {
-                    if !grantedPermissions.contains(permission) {
-                        allPermsGranted = false
-                        break
-                    }
-                }
-                
-                if allPermsGranted {
-                    self.fbLoginSuccess(result.token.tokenString, userId: result.token.userID)
-                } else {
-                    //The user did not grant all permissions requested
-                    //Discover which permissions are granted
-                    //and if you can live without the declined ones
-                    self.view.alpha = 1.0
-                    self.handleError("Facebook permissions not granted")
-                }
-            }
-        })
+        self.fbLogin(self.fbLoginSuccess, failureBlock: self.handleError)
     }
     
-    //
-    // Obsolete
-    //
-    func fbLogin(successBlock: (token: String, userId: String) -> (), failureBlock: (NSError?) -> ()) {
+    func fbLogin(successBlock: (token: String, userId: String) -> (), failureBlock: (String?) -> ()) {
+        self.view.alpha = 0.75
+        
         /*
         if FBSDKAccessToken.currentAccessToken() != nil {
         //For debugging, when we want to ensure that facebook login always happens
@@ -200,11 +162,11 @@ class BaseLoginViewController: UIViewController, FBSDKLoginButtonDelegate {
                 
                 // Process error
                 FBSDKLoginManager().logOut()
-                failureBlock(error)
+                failureBlock(error.localizedDescription)
             } else if result.isCancelled {
                 // Handle cancellations
                 FBSDKLoginManager().logOut()
-                failureBlock(nil)
+                failureBlock("Login is cancelled")
             } else {
                 // If you ask for multiple permissions at once, you
                 // should check if specific permissions missing
@@ -228,9 +190,10 @@ class BaseLoginViewController: UIViewController, FBSDKLoginButtonDelegate {
                     //Discover which permissions are granted
                     //and if you can live without the declined ones
                     
-                    failureBlock(nil)
+                    failureBlock("Facebook permissions not granted")
                 }
             }
+            self.view.alpha = 1.0
         })
     }
     
