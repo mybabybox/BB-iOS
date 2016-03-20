@@ -200,11 +200,11 @@ class ImageUtil {
         
         var actualHeight : CGFloat = image.size.height
         var actualWidth : CGFloat = image.size.width
-        let maxHeight : CGFloat = 1200.0
-        let maxWidth : CGFloat = 1200.0
+        let maxHeight : CGFloat = CGFloat(IMAGE_UPLOAD_MAX_HEIGHT)
+        let maxWidth : CGFloat = CGFloat(IMAGE_UPLOAD_MAX_WIDTH)
         var imgRatio : CGFloat = actualWidth/actualHeight
         let maxRatio : CGFloat = maxWidth/maxHeight
-        var compressionQuality : CGFloat = 0.5
+        var compressionQuality : CGFloat = CGFloat(IMAGE_COMPRESS_QUALITY / 100)
         
         if (actualHeight > maxHeight || actualWidth > maxWidth){
             if(imgRatio < maxRatio){
@@ -232,7 +232,6 @@ class ImageUtil {
         let img = UIGraphicsGetImageFromCurrentImageContext();
         let imageData = UIImageJPEGRepresentation(img, compressionQuality);
         UIGraphicsEndImageContext();
-        
         return imageData!;
     }
     

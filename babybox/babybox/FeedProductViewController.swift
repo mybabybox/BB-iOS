@@ -10,7 +10,7 @@ import UIKit
 import SwiftEventBus
 import PhotoSlider
 
-class FeedProductViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, PhotoSliderDelegate, UITextFieldDelegate {
+class FeedProductViewController: ProductNavigationController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, PhotoSliderDelegate, UITextFieldDelegate {
 
     @IBOutlet weak var buyerSoldButtonsLayout: UIView!
     @IBOutlet weak var buyerButtonsLayout: UIView!
@@ -56,8 +56,6 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
             ViewUtil.makeToast("Failed to mark item as sold. Please try again later.", view: self.view)
         }
         
-        setSizesForFilterButtons()
-        
         self.detailTableView.separatorColor = UIColor.whiteColor()
         self.detailTableView.estimatedRowHeight = 300.0
         self.detailTableView.rowHeight = UITableViewAutomaticDimension
@@ -82,6 +80,7 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
         
         SwiftEventBus.onMainThread(self, name: "deletePostSuccess") { result in
             self.view.makeToast(message: "Post deleted!")
+            UserInfoCache.decrementNumProducts()
             self.navigationController?.popViewControllerAnimated(true)
         }
         
@@ -340,18 +339,7 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
         detailTableView.contentInset =  UIEdgeInsetsMake(0, 0, 250, 0)
         detailTableView.scrollToRowAtIndexPath(NSIndexPath(forRow: self.comments.count, inSection:2), atScrollPosition: UITableViewScrollPosition.Middle, animated: false)
     }*/
-    
-    func setSizesForFilterButtons() {
-        let availableWidthForButtons:CGFloat = self.view.bounds.width - 40
-        let buttonWidth :CGFloat = availableWidthForButtons / 2
-        //self.btnWidthConstraint.constant = buttonWidth
         
-        //self.buyNowBtn.layer.borderColor = UIColor.lightGrayColor().CGColor
-        //self.buyNowBtn.layer.borderWidth = 1.0
-        //self.chatNowBtn.layer.borderColor = UIColor.lightGrayColor().CGColor
-        //self.chatNowBtn.layer.borderWidth = 1.0
-    }
-    
     @IBAction func onClickLikeOrUnlikeButton(sender: AnyObject) {
         if (self.productInfo!.isLiked) {
             self.productInfo!.numLikes--
@@ -576,10 +564,15 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
             editProductImg.frame = CGRectMake(0, 0, 35, 35)
             editProductImg.addTarget(self, action: "onClickEditBtn:", forControlEvents: UIControlEvents.TouchUpInside)
             let editProductBarBtn = UIBarButtonItem(customView: editProductImg)
-            self.navigationItem.rightBarButtonItems = [editProductBarBtn]
+            self.navigationItem.rightBarButtonItems?.insert(editProductBarBtn, atIndex: 0)
         }
     }
+        
+    @IBAction func deletePost(sender: AnyObject) {
+        ApiController.instance.deletePost(self.productInfo!.id)
+    }
     
+    /* Product Navigation Method Implementation */
     func onClickEditBtn(sender: AnyObject?) {
         let vController =
             self.storyboard?.instantiateViewControllerWithIdentifier("editProductViewController") as? EditPostViewController
@@ -589,7 +582,17 @@ class FeedProductViewController: UIViewController, UICollectionViewDelegate, UIC
         self.navigationController?.pushViewController(vController!, animated: true)
     }
     
-    @IBAction func deletePost(sender: AnyObject) {
-        ApiController.instance.deletePost(self.productInfo!.id)
+    func onClickWhatsupBtn(sender: AnyObject?) {
+        SharingUtil.shareToWhatsapp(self.productInfo!)
     }
+    
+    func onClickCopyLinkBtn(sender: AnyObject?) {
+        //copy url to cliboard
+        ViewUtil.copyToClipboard(UrlUtil.createProductUrl(self.productInfo!))
+    }
+    
+    func onClickFacebookLinkBtn(sender: AnyObject?) {
+        SharingUtil.shareToFacebook(self.productInfo!, vController: self)
+    }
+    
 }

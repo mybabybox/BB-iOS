@@ -31,5 +31,6 @@ struct Constants {
     static let ACTIVITY_FOLLOWED = "started following you."
     static let ACTIVITY_SOLD = "already sold."
     static let ACTIVITY_GAME_BADGE = "Congratulations! You got a new badge:\r\n"
+    static let SHARING_SELLER_MSG_PREFIX: String = "Check out BabyBox Seller"
     
 }

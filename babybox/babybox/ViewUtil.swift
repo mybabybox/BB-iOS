@@ -13,6 +13,7 @@ class ViewUtil {
     static let SHOW_TOAST_DURATION_SHORT = 1.0
     static let SHOW_TOAST_DURATION_LONG = 1.5
     static let DEFAULT_TOAST_POSITION = HRToastPositionCenter
+    static let HTML_LINE_BREAK: String = "<br>"
     
     enum PostConditionType: String {
         case NEW_WITH_TAG = "New(Sealed/with tags)"
@@ -180,6 +181,10 @@ class ViewUtil {
         } else {
             chatNavItem?.badgeValue = ""
         }
+    }
+    
+    static func copyToClipboard(text: String) -> Void {
+        UIPasteboard.generalPasteboard().string = text
     }
     
 }

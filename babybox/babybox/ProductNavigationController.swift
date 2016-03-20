@@ -24,27 +24,37 @@ class ProductNavigationController: UIViewController {
         
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "actionbar_bg_pink"), forBarMetrics: UIBarMetrics.Default)
         
-        let editProductImg: UIButton = UIButton()
-        editProductImg.setTitle("Edit", forState: UIControlState.Normal)
+        let whatsupBtn: UIButton = UIButton()
+        whatsupBtn.setImage(UIImage(named: "ic_whatsapp"), forState: UIControlState.Normal)
+        whatsupBtn.addTarget(self, action: "onClickWhatsupBtn:", forControlEvents: UIControlEvents.TouchUpInside)
+        whatsupBtn.frame = CGRectMake(0, 0, 35, 35)
+        let whatsupBarBtn = UIBarButtonItem(customView: whatsupBtn)
+    
+        let facebookBtn: UIButton = UIButton()
+        facebookBtn.setImage(UIImage(named: "ic_facebook"), forState: UIControlState.Normal)
+        facebookBtn.addTarget(self, action: "onClickFacebookLinkBtn:", forControlEvents: UIControlEvents.TouchUpInside)
+        facebookBtn.frame = CGRectMake(0, 0, 35, 35)
+        let facebookBarBtn = UIBarButtonItem(customView: facebookBtn)
         
-        editProductImg.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
-        editProductImg.titleLabel!.lineBreakMode = NSLineBreakMode.ByWordWrapping
-        editProductImg.frame = CGRectMake(0, 0, 35, 35)
-        editProductImg.addTarget(self, action: "onClickEditBtn:", forControlEvents: UIControlEvents.TouchUpInside)
-        let editProductBarBtn = UIBarButtonItem(customView: editProductImg)
-        self.navigationItem.rightBarButtonItems = [editProductBarBtn]
+        let copyLinkBtn: UIButton = UIButton()
+        copyLinkBtn.setImage(UIImage(named: "ic_link_copy"), forState: UIControlState.Normal)
+        copyLinkBtn.addTarget(self, action: "onClickCopyLinkBtn:", forControlEvents: UIControlEvents.TouchUpInside)
+        copyLinkBtn.frame = CGRectMake(0, 0, 35, 35)
+        let copyLinkBarBtn = UIBarButtonItem(customView: copyLinkBtn)
+    
+        self.navigationItem.rightBarButtonItems = [copyLinkBarBtn, facebookBarBtn, whatsupBarBtn]
         
         //self.navigationItem.leftItemsSupplementBackButton = true
         //self.navigationItem.leftBarButtonItems = []
         
     }
     
-    func onClickEditBtn(sender: AnyObject?) {
+    /*func onClickEditBtn(sender: AnyObject?) {
         let vController = self.storyboard?.instantiateViewControllerWithIdentifier("editProductViewController")
         vController?.hidesBottomBarWhenPushed = true
         ViewUtil.resetBackButton(self.navigationItem)
         self.navigationController?.pushViewController(vController!, animated: true)
-    }
+    }*/
 
     /*
     // MARK: - Navigation
@@ -55,5 +65,6 @@ class ProductNavigationController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
 
 }
