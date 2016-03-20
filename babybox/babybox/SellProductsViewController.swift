@@ -339,7 +339,10 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
         UserInfoCache.setUser(userInfo)
     }
     
-    func handleError(responseString: String) {
-        NSLog("Error getting User info")
+    func handleError(message: String?) {
+        SwiftEventBus.unregister(self)
+        if message != nil {
+            ViewUtil.showDialog("Error", message: message!, view: self)
+        }
     }
 }
