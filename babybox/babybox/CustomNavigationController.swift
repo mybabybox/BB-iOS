@@ -14,6 +14,7 @@ class CustomNavigationController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         /** Creating Custom Navigation Controller Component */
         initNavigationComponent()
     }
