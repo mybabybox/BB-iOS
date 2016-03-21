@@ -48,7 +48,9 @@ class BaseLoginViewController: UIViewController {
         self.isUserLoggedIn = true
         UserInfoCache.setUser(userInfo)
         SwiftEventBus.unregister(self)
-        self.performSegueWithIdentifier("clickToLogin", sender: nil)
+        
+        // call subclass 
+        loginSuccess()
         
         stopLoading()
     }
@@ -59,12 +61,15 @@ class BaseLoginViewController: UIViewController {
         self.isUserLoggedIn = false
         AppDelegate.getInstance().logout()
         SwiftEventBus.unregister(self)
-        //self.performSegueWithIdentifier("clickToLogin", sender: nil)
         if message != nil {
             ViewUtil.showDialog("Login Error", message: message!, view: self)
         }
         
         stopLoading()
+    }
+    
+    func loginSuccess() {
+        // to be implemented by subclass
     }
     
     override func viewDidLoad() {

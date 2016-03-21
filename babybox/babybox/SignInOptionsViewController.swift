@@ -11,7 +11,7 @@ import UIKit
 import FBSDKCoreKit
 import FBSDKLoginKit
 
-class SignInOptionsViewController: FbLoginViewController {
+class SignInOptionsViewController: BaseLoginViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,21 +24,17 @@ class SignInOptionsViewController: FbLoginViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func signInByFb(sender: AnyObject) {
-        /*var fbLoginManager = FBSDKLoginManager()
-        fbLoginManager.logInWithReadPermissions(["public_profile"], fromViewController: self) {
-            (result: FBSDKLoginManagerLoginResult!, error: NSError!) -> Void in
-            
-            if (error != nil) {
-                NSLog("User Logged In.")
-            } else if (result.isCancelled) {
-                NSLog("User Cancelled")
-            } else {
-                NSLog("User Not Logged In.")
-            }
-        }*/
-        self.loginWithFacebook()
+    override func loginSuccess() {
+        self.performSegueWithIdentifier("clickToLogin", sender: nil)
     }
+    
+    override func shouldPerformSegueWithIdentifier(identifier: String?, sender: AnyObject?) -> Bool {
+        if identifier == "clickToLogin" {
+            return false
+        }
+        return true
+    }
+
     /*
     // MARK: - Navigation
 

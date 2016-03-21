@@ -60,7 +60,7 @@ class UserInfoCache {
         if (userInfo == nil) {
             userInfo = SharedPreferencesUtil.getInstance().getUserInfo()
         }
-        return userInfo!
+        return userInfo
     }
     
     static func clear() {

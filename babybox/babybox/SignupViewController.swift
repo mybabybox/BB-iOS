@@ -11,30 +11,25 @@ import SwiftEventBus
 import FBSDKCoreKit
 import FBSDKLoginKit
 
-class SignupViewController: FbLoginViewController {
-    
+class SignupViewController: BaseLoginViewController {
     
     @IBOutlet weak var firstNametxtWidth: NSLayoutConstraint!
     @IBOutlet weak var widthConstraint: NSLayoutConstraint!
     @IBOutlet weak var policyBtn: UIButton!
     @IBOutlet weak var licenseBtn: UIButton!
+    
     var isLicenseDisplay = true
     var isPolicyDisplay = true
     var categories : [CategoryVM] = []
     var isValidForm: Bool = false
     
     @IBOutlet weak var firstNameText: UITextField!
-    
     @IBOutlet weak var lastNameText: UITextField!
-
     @IBOutlet weak var emailText: UITextField!
-    
     @IBOutlet weak var passwordText: UITextField!
-    
-       @IBOutlet weak var confirmPasswordText: UITextField!
-    
-   
+    @IBOutlet weak var confirmPasswordText: UITextField!
     @IBOutlet var signUp: UIButton!
+    
     override func viewDidAppear(animated: Bool) {
         //self.navigationController?.navigationBar.hidden = true
         
@@ -61,14 +56,11 @@ class SignupViewController: FbLoginViewController {
         ImageUtil.imageUtil.displayCornerView(self.confirmPasswordText)
         ImageUtil.imageUtil.displayCornerView(self.signUp)
         
-        DistrictCache.refresh()
-        
         let availableWidthForButtons:CGFloat = self.view.bounds.width - 100
         let buttonWidth :CGFloat = availableWidthForButtons / 2
         
         self.firstNametxtWidth.constant = buttonWidth
         self.widthConstraint.constant = buttonWidth
-
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -145,7 +137,7 @@ class SignupViewController: FbLoginViewController {
     
     //MARK Segue handling methods.
     override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
-        if (identifier == "signupstep2") {
+        if (identifier == "signUpDetails") {
             if(self.validateSignup()){
                 ApiController.instance.signIn(firstNameText.text!, lastNameText: lastNameText.text!,
                     emailText: emailText.text!, passwordText: passwordText.text!, confirmPasswordText: confirmPasswordText.text!)
@@ -156,7 +148,7 @@ class SignupViewController: FbLoginViewController {
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        /*if (segue.identifier == "signupstep2") {
+        /*if (segue.identifier == "signUpDetails") {
             if(self.validateSignup()){
                 ApiController.instance.signIn(firstNameText.text!, lastNameText: lastNameText.text!,
                     emailText: emailText.text!, passwordText: passwordText.text!, confirmPasswordText: confirmPasswordText.text!)
@@ -164,23 +156,4 @@ class SignupViewController: FbLoginViewController {
             }
         }*/
     }
-    
-    @IBAction func onSignInByfb(sender: AnyObject) {
-        /*
-        var fbLoginManager = FBSDKLoginManager()
-        fbLoginManager.logInWithReadPermissions(["public_profile"], fromViewController: self) {
-            (result: FBSDKLoginManagerLoginResult!, error: NSError!) -> Void in
-            
-            if (error != nil) {
-                NSLog("User Logged In.")
-            } else if (result.isCancelled) {
-                   NSLog("User Cancelled")
-            } else {
-                NSLog("User Not Logged In.")
-            }
-        }
-        */
-        self.loginWithFacebook()
-    }
-
 }

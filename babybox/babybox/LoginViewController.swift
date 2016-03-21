@@ -93,6 +93,10 @@ class LoginViewController: BaseLoginViewController, UITextFieldDelegate {
          NSLog("Sign up click")
     }
     
+    override func loginSuccess() {
+        self.performSegueWithIdentifier("clickToLogin", sender: nil)
+    }
+    
     override func startLoading() {
         ViewUtil.showActivityLoading(self.progressIndicator)
         self.loginButton.enabled = false
