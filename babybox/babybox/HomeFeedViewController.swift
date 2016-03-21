@@ -138,7 +138,7 @@ class HomeFeedViewController: CustomNavigationController {
             
             gradientLayer.colors = [
                 UIColor(white: 0, alpha: 0.0).CGColor,
-                UIColor(white: 0, alpha: 0.2).CGColor,
+                UIColor(white: 0, alpha: 0.4).CGColor,
                 UIColor.lightGrayColor().CGColor
             ]
             cell.categoryIcon.layer.sublayers = nil

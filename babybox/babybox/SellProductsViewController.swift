@@ -8,9 +8,9 @@
 
 import UIKit
 import SwiftEventBus
+import ALCameraViewController
 
-class SellProductsViewController: UIViewController, UIImagePickerControllerDelegate,
-    UINavigationControllerDelegate, UITextFieldDelegate {
+class SellProductsViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var hrBarHtConstraint: UIView!
     @IBOutlet var actionButton: UIButton!
@@ -32,8 +32,7 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
     var imageCollection = [AnyObject]()
     var selectedIndex :Int? = 0
     var selCategory: Int = -1
-    let imagePicker = UIImagePickerController()
-    
+    let croppingEnabled: Bool = true
     var keyboardType: UIKeyboardType {
         get{
             return textFieldKeyboardType.keyboardType
@@ -53,10 +52,6 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        imagePicker.delegate = self
-        imagePicker.allowsEditing = true //2
-        imagePicker.sourceType = .PhotoLibrary //3
-        
         self.loadDataSource()
         self.pricetxt.delegate = self
         self.pricetxt.keyboardType = .NumberPad
@@ -105,11 +100,11 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
         
         self.setCollectionViewSizesInsets()
         
-        NSNotificationCenter.defaultCenter().addObserverForName("CroppedImage", object: nil, queue: NSOperationQueue.mainQueue()) { (notification) -> Void in
+        /*NSNotificationCenter.defaultCenter().addObserverForName("CroppedImage", object: nil, queue: NSOperationQueue.mainQueue()) { (notification) -> Void in
             self.imageCollection.removeAtIndex(self.selectedIndex!)
             self.imageCollection.insert(notification.object!, atIndex: self.selectedIndex!)
             self.collectionView.reloadData()
-        }
+        }*/
 
         self.collectionView.reloadData()
         
@@ -218,20 +213,29 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
         self.collectionView.reloadItemsAtIndexPaths([indexPath])
         
         self.selectedIndex = selectedButton.tag
+        
         let optionMenu = UIAlertController(title: "Select Photo:", message: "", preferredStyle: .ActionSheet)
         let cameraAction = UIAlertAction(title: "Camera", style: .Default, handler: {
             (alert: UIAlertAction!) -> Void in
-            self.imagePicker.allowsEditing = false
-            self.imagePicker.sourceType = .Camera
-            
-            self.presentViewController(self.imagePicker, animated: true, completion: nil)
+            let libraryViewController = ALCameraViewController.imagePickerViewController(self.croppingEnabled) { (image) -> Void in
+                self.imageCollection.removeAtIndex(self.selectedIndex!)
+                self.imageCollection.insert(image!, atIndex: self.selectedIndex!)
+                self.collectionView.reloadData()
+                self.dismissViewControllerAnimated(true, completion: nil)
+            }
+            self.presentViewController(libraryViewController, animated: true, completion: nil)
         })
         let photoGalleryAction = UIAlertAction(title: "Photo Album", style: .Default, handler: {
             (alert: UIAlertAction!) -> Void in
-            self.imagePicker.allowsEditing = false
-            self.imagePicker.sourceType = .PhotoLibrary
+            let libraryViewController = ALCameraViewController.imagePickerViewController(self.croppingEnabled) { (image) -> Void in
+                self.imageCollection.removeAtIndex(self.selectedIndex!)
+                self.imageCollection.insert(image!, atIndex: self.selectedIndex!)
+                self.collectionView.reloadData()
+                self.dismissViewControllerAnimated(true, completion: nil)
+            }
+            self.presentViewController(libraryViewController, animated: true, completion: nil)
             
-            self.presentViewController(self.imagePicker, animated: true, completion: nil)
+            //self.presentViewController(self.imagePicker, animated: true, completion: nil)
         })
         let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: {
             (alert: UIAlertAction!) -> Void in
@@ -255,18 +259,15 @@ class SellProductsViewController: UIViewController, UIImagePickerControllerDeleg
     
     // MARK: UIImagePickerControllerDelegate Methods
     
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+    /*func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
             
             let controller = ImageCropViewController.init(image: pickedImage)
             self.navigationController?.pushViewController(controller, animated: true)
             
-            /*self.imageCollection.removeAtIndex(selectedIndex!)
-            self.imageCollection.insert(pickedImage, atIndex: selectedIndex!)*/
         }
-        /*self.collectionView.reloadData()*/
         dismissViewControllerAnimated(true, completion: nil)
-    }
+    }*/
     
     /*func handleCroppedImage(notification: NSNotification){
         self.imageCollection.removeAtIndex(selectedIndex!)

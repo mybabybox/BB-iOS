@@ -3,6 +3,7 @@ import UIKit
 class ChatBubble: UIView {
 
     var imageViewChat: UIImageView?
+    var imageViewUpload: UIImageView?
     var imageViewBG: UIImageView?
     var text: String?
     var labelChatText: UILabel?
@@ -25,19 +26,29 @@ class ChatBubble: UIView {
         
         let padding: CGFloat = 10.0
         // 2. Drawing image if any
-        if let chatImage = data.image {
+        //if let chatImage = data.image {
             
-            let width: CGFloat = min(chatImage.size.width, CGRectGetWidth(self.frame) - 2 * padding)
+            /*let width: CGFloat = min(chatImage.size.width, CGRectGetWidth(self.frame) - 2 * padding)
             let height: CGFloat = chatImage.size.height * (width / chatImage.size.width)
             imageViewChat = UIImageView(frame: CGRectMake(padding, padding, width, height))
             imageViewChat?.image = chatImage
             imageViewChat?.layer.cornerRadius = 5.0
             imageViewChat?.layer.masksToBounds = true
-            self.addSubview(imageViewChat!)
-        } else if (data.imgId != -1 && data.imgId != nil) {
+            self.addSubview(imageViewChat!)*/
+        //} else 
+        if (data.imgId != nil && data.imgId != -1) {
             imageViewChat = UIImageView(frame: CGRectMake(-10, 5, 30, 30))
             ImageUtil.displayThumbnailProfileImage(data.imgId!, imageView: imageViewChat!)
             self.addSubview(imageViewChat!)
+        }
+        if (data.uploadImgId != nil && data.uploadImgId != -1) {
+            //let width: CGFloat = min(chatImage.size.width, CGRectGetWidth(self.frame) - 2 * padding)
+            //let height: CGFloat = chatImage.size.height * (width / chatImage.size.width)
+            //imageViewChat = UIImageView(frame: CGRectMake(padding, padding, width, height))
+            imageViewUpload = UIImageView(frame: CGRectMake(-10, 5, 30, 30))
+            imageViewUpload?.contentMode = .ScaleAspectFill
+            ImageUtil.displayMessageImage(data.uploadImgId!, imageView: imageViewUpload!)
+            self.addSubview(imageViewUpload!)
         }
         
         //Create Child SubView for showing opponet details
@@ -65,10 +76,7 @@ class ChatBubble: UIView {
             labelChatText?.numberOfLines = 0 // Making it multiline
             labelChatText?.text = data.text
             labelChatText?.sizeToFit() // Getting fullsize of it
-            if data.type == .Mine {
-            } else {
-            }
-            
+        
             var _startY:CGFloat = 0.0
             if let _ = labelChatText {
                 _startY += CGRectGetMaxY(labelChatText!.frame)
@@ -89,6 +97,8 @@ class ChatBubble: UIView {
             timeAgoLbl?.font = UIFont.systemFontOfSize(10)
             timeAgoLbl?.text = data.date?.timeAgo
         }
+        
+        
         
         // 4. Calculation of new width and height of the chat bubble view
         var viewHeight: CGFloat = 0.0

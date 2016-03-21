@@ -59,7 +59,20 @@ class FollowersFollowingViewController: UICollectionViewController {
                 self.loadedAll = true
             }
             self.loading = false
+            /*var dummyAdded = false
+            if (self.followersFollowings.isEmpty) {
+                //no result hence show tooltip text... by adding dummy record in collection...
+                let dummyVM = UserVMLite()
+                dummyVM.id = -1
+                self.followersFollowings = [dummyVM]
+                dummyAdded = true
+            }*/
             self.collectionView?.reloadData()
+            
+            /*if (dummyAdded) {
+                self.followersFollowings.removeAll()
+            }*/
+
         }
         
         SwiftEventBus.onMainThread(self, name: "userFollowersFollowingsFailed") { result in
@@ -97,9 +110,23 @@ class FollowersFollowingViewController: UICollectionViewController {
     
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
+        let userInfo = self.followersFollowings[indexPath.row]
+        /*if (userInfo.id == -1) {
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier("toolTipCell", forIndexPath: indexPath) as! TooltipViewCell
+            switch optionType {
+                case "followingCalls":
+                    cell.toolTipText.text = Constants.NO_FOLLOWINGS
+                    break
+                case "followersCall":
+                    cell.toolTipText.text = Constants.NO_FOLLOWERS
+                    break
+                default: break
+            }
+            return cell
+        }*/
+        
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! FollowingCollectionViewCell
         
-        let userInfo = self.followersFollowings[indexPath.row]
         cell.userName.text = userInfo.displayName
         ImageUtil.displayThumbnailProfileImage(userInfo.id, imageView: cell.userImage)
         cell.followersCount.text = String(userInfo.numFollowers)
