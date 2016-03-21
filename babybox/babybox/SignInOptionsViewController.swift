@@ -19,9 +19,8 @@ class SignInOptionsViewController: BaseLoginViewController {
         // Do any additional setup after loading the view.
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    @IBAction func onClickBackButton(sender: UIButton) {
+        self.navigationController?.popViewControllerAnimated(true)
     }
     
     override func loginSuccess() {
@@ -45,4 +44,8 @@ class SignInOptionsViewController: BaseLoginViewController {
     }
     */
 
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
 }

@@ -19,11 +19,9 @@ class SignupDetailViewController: UIViewController, UITextFieldDelegate, SSRadio
     var locations: [LocationVM] = []
     
     override func viewDidAppear(animated: Bool) {
-        self.navigationController?.navigationBar.hidden = true
-        
         self.locations = DistrictCache.districts
         var locs: [String] = []
-        for (index, element) in locations.enumerate() {
+        for (_, element) in locations.enumerate() {
             locs.append(element.displayName)
         }
         self.locationDropDown.dataSource = locs
@@ -32,6 +30,7 @@ class SignupDetailViewController: UIViewController, UITextFieldDelegate, SSRadio
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.navigationController?.toolbar.hidden = true
         self.navigationController?.navigationBar.hidden = true
         
         SwiftEventBus.onMainThread(self, name: "saveSignInfoSuccess") { result in
@@ -50,8 +49,6 @@ class SignupDetailViewController: UIViewController, UITextFieldDelegate, SSRadio
         self.locationDropDown.anchorView = self.location
         self.locationDropDown.bottomOffset = CGPoint(x: 0, y:self.location.bounds.height)
         self.locationDropDown.direction = .Top
-        
-        
     }
 
     override func viewDidLayoutSubviews() {

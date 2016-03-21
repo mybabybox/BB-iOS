@@ -108,7 +108,11 @@ class SignupViewController: BaseLoginViewController {
         return isValidated
     }
     
-    @IBAction func onClickLicenseBtn(sender: AnyObject) {
+    @IBAction func onClickBackButton(sender: UIButton) {
+        self.navigationController?.popViewControllerAnimated(true)
+    }
+    
+    @IBAction func onClickPrivacyCheckbox(sender: AnyObject) {
         isLicenseDisplay = !isLicenseDisplay
         if (isLicenseDisplay) {
             //show another controller
@@ -122,7 +126,7 @@ class SignupViewController: BaseLoginViewController {
         }
     }
     
-    @IBAction func onClickPolicyBtm(sender: AnyObject) {
+    @IBAction func onClickTermsCheckbox(sender: UIButton) {
         isPolicyDisplay = !isPolicyDisplay
         if (isPolicyDisplay) {
             //show another controller

@@ -14,7 +14,6 @@ import FBSDKLoginKit
 class SplashViewController: UIViewController {
 
     override func viewDidAppear(animated: Bool) {
-        
     }
     
     override func viewDidLoad() {
@@ -74,7 +73,7 @@ class SplashViewController: UIViewController {
     }
     
     func showLoginPage() {
-        /*let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("LandingPageViewController") as! LandingPageViewController
+        /*let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("WelcomeViewController") as! WelcomeViewController
         self.navigationController?.pushViewController(vController, animated: true)
         */
         SwiftEventBus.unregister(self)

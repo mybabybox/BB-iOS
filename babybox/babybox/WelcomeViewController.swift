@@ -1,5 +1,5 @@
 //
-//  LandingPageViewController.swift
+//  WelcomeViewController.swift
 //  babybox
 //
 //  Created by Mac on 06/12/15.
@@ -9,7 +9,7 @@
 import UIKit
 import PhotoSlider
 
-class LandingPageViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, PhotoSliderDelegate {
+class WelcomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, PhotoSliderDelegate {
 
     @IBOutlet weak var signUpBtn: UIButton!
     @IBOutlet weak var loginBtn: UIButton!
@@ -23,13 +23,14 @@ class LandingPageViewController: UIViewController, UITableViewDelegate, UITableV
     ]
     
     override func viewDidAppear(animated: Bool) {
-        self.navigationController?.toolbar.hidden = true
-        self.navigationController?.navigationBar.hidden = true
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
+        self.navigationController?.toolbar.hidden = true
+        self.navigationController?.navigationBar.hidden = true
+
         self.navigationController?.interactivePopGestureRecognizer?.enabled = false
         
         let color = ImageUtil.UIColorFromRGB(0xFF76A4).CGColor

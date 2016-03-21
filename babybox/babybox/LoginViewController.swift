@@ -23,8 +23,6 @@ class LoginViewController: BaseLoginViewController, UITextFieldDelegate {
     }
     
     override func viewDidAppear(animated: Bool) {
-        self.navigationController?.toolbar.hidden = true
-        self.navigationController?.navigationBar.hidden = true
     }
     
     override func viewDidLoad() {
@@ -55,6 +53,10 @@ class LoginViewController: BaseLoginViewController, UITextFieldDelegate {
         uImageView.frame = CGRect(x: 0, y: 0, width: 25, height: 25)
         self.userNameTxt.addSubview(uImageView)
         */
+    }
+    
+    @IBAction func onClickBackButton(sender: UIButton) {
+        self.navigationController?.popViewControllerAnimated(true)
     }
     
     override func shouldPerformSegueWithIdentifier(identifier: String?, sender: AnyObject?) -> Bool {

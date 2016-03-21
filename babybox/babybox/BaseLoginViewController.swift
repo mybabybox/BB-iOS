@@ -79,6 +79,9 @@ class BaseLoginViewController: UIViewController {
         
         self.isUserLoggedIn = false
         
+        self.navigationController?.toolbarHidden = true
+        self.navigationController?.navigationBarHidden = true
+        
         SwiftEventBus.onMainThread(self, name: "loginReceivedSuccess") { result in
             if ViewUtil.isEmptyResult(result) {
                 self.handleError("User is not logged in")

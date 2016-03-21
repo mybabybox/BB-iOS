@@ -38,7 +38,7 @@ class SettingsViewController: UIViewController {
     
     func handleLogout(result: String) {
         AppDelegate.getInstance().logout()
-        let vController = self.storyboard!.instantiateViewControllerWithIdentifier("loginController") as! LoginViewController
+        let vController = self.storyboard!.instantiateViewControllerWithIdentifier("WelcomeViewController") as! WelcomeViewController
         self.navigationController?.pushViewController(vController, animated: true)
         SwiftEventBus.unregister(self)
     }

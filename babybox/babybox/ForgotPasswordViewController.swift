@@ -21,6 +21,10 @@ class ForgotPasswordViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.navigationController?.toolbar.hidden = true
+        self.navigationController?.navigationBar.hidden = true
+
         self.emailAddress.delegate = self
         
         SwiftEventBus.onMainThread(self, name: "forgotPasswordSuccess") { result in
@@ -28,7 +32,6 @@ class ForgotPasswordViewController: UIViewController, UITextFieldDelegate {
             let resultDto: String = result.object as! String
             self.handleForgotPassword(resultDto)
         }
-        
     }
 
     func handleForgotPassword(resultDto: String) {
@@ -39,7 +42,6 @@ class ForgotPasswordViewController: UIViewController, UITextFieldDelegate {
         let webViewController = self.storyboard?.instantiateViewControllerWithIdentifier("webViewController") as? WebViewController
         webViewController?.resultString = resultDto
         self.presentViewController(webViewController!, animated: true, completion: nil)
-        
     }
     
     override func didReceiveMemoryWarning() {
