@@ -223,9 +223,12 @@ class SellProductsViewController: UIViewController, UITextFieldDelegate, UITextV
         let cameraAction = UIAlertAction(title: "Camera", style: .Default, handler: {
             (alert: UIAlertAction!) -> Void in
             let cameraViewController = ALCameraViewController(croppingEnabled: self.croppingEnabled, allowsLibraryAccess: self.libraryEnabled) { (image) -> Void in
-                self.imageCollection.removeAtIndex(self.selectedIndex!)
-                self.imageCollection.insert(image!, atIndex: self.selectedIndex!)
-                self.collectionView.reloadData()
+                if (image != nil) {
+                    self.imageCollection.removeAtIndex(self.selectedIndex!)
+                    self.imageCollection.insert(image!, atIndex: self.selectedIndex!)
+                    self.collectionView.reloadData()
+                    
+                }
                 self.dismissViewControllerAnimated(true, completion: nil)
             }
             
@@ -234,9 +237,12 @@ class SellProductsViewController: UIViewController, UITextFieldDelegate, UITextV
         let photoGalleryAction = UIAlertAction(title: "Photo Album", style: .Default, handler: {
             (alert: UIAlertAction!) -> Void in
             let libraryViewController = ALCameraViewController.imagePickerViewController(self.croppingEnabled) { (image) -> Void in
-                self.imageCollection.removeAtIndex(self.selectedIndex!)
-                self.imageCollection.insert(image!, atIndex: self.selectedIndex!)
-                self.collectionView.reloadData()
+                if (image != nil) {
+                    self.imageCollection.removeAtIndex(self.selectedIndex!)
+                    self.imageCollection.insert(image!, atIndex: self.selectedIndex!)
+                    self.collectionView.reloadData()
+                    
+                }
                 self.dismissViewControllerAnimated(true, completion: nil)
             }
             self.presentViewController(libraryViewController, animated: true, completion: nil)
