@@ -1898,13 +1898,13 @@ CEVudGVyIFBhc3N3b3JkA
                                     <constraint firstAttribute="height" constant="180" id="sfo-3h-DCz"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r5H-Ek-Kdo">
-                                <rect key="frame" x="0.0" y="20" width="46" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r5H-Ek-Kdo">
+                                <rect key="frame" x="10" y="20" width="40" height="40"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="46" id="XP2-Ud-naN"/>
+                                    <constraint firstAttribute="height" constant="40" id="Qjf-8L-oPd"/>
+                                    <constraint firstAttribute="width" constant="40" id="XP2-Ud-naN"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <state key="normal" title="Back">
+                                <state key="normal" image="ic_back_round">
                                     <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -1940,7 +1940,7 @@ CEVudGVyIFBhc3N3b3JkA
                             <constraint firstItem="Qo5-rh-gNb" firstAttribute="trailing" secondItem="3dc-Qe-bpQ" secondAttribute="trailing" id="Gg5-7W-zVe"/>
                             <constraint firstItem="bbb-sT-3lB" firstAttribute="top" secondItem="8Ua-mm-sxP" secondAttribute="top" constant="190" id="Hva-KV-D5s"/>
                             <constraint firstItem="rLW-ZP-6C2" firstAttribute="leading" secondItem="8Ua-mm-sxP" secondAttribute="leadingMargin" constant="40" id="L5h-xS-YhK"/>
-                            <constraint firstItem="r5H-Ek-Kdo" firstAttribute="top" secondItem="2ZK-RU-qSR" secondAttribute="bottom" id="Mbi-Ac-s3l"/>
+                            <constraint firstItem="r5H-Ek-Kdo" firstAttribute="top" secondItem="2ZK-RU-qSR" secondAttribute="bottom" constant="10" id="Mbi-Ac-s3l"/>
                             <constraint firstItem="YFW-1f-Url" firstAttribute="top" secondItem="2ZK-RU-qSR" secondAttribute="bottom" constant="64" id="Mxr-5v-ycV"/>
                             <constraint firstItem="YFW-1f-Url" firstAttribute="leading" secondItem="bbb-sT-3lB" secondAttribute="leading" constant="-30" id="O7R-N5-g8Z"/>
                             <constraint firstItem="3dc-Qe-bpQ" firstAttribute="width" secondItem="8Ua-mm-sxP" secondAttribute="height" multiplier="275:736" id="Q1B-G2-Jh4"/>
@@ -1968,7 +1968,7 @@ CEVudGVyIFBhc3N3b3JkA
                             <constraint firstItem="bVW-SX-0iC" firstAttribute="centerX" secondItem="Qo5-rh-gNb" secondAttribute="centerX" id="l9q-Dm-aix"/>
                             <constraint firstAttribute="trailing" secondItem="bVW-SX-0iC" secondAttribute="trailing" id="mAJ-Tx-q5D"/>
                             <constraint firstItem="Qo5-rh-gNb" firstAttribute="centerX" secondItem="6DK-oo-i43" secondAttribute="centerX" id="mcJ-eN-gZk"/>
-                            <constraint firstItem="r5H-Ek-Kdo" firstAttribute="leading" secondItem="8Ua-mm-sxP" secondAttribute="leading" id="nSb-eu-T10"/>
+                            <constraint firstItem="r5H-Ek-Kdo" firstAttribute="leading" secondItem="8Ua-mm-sxP" secondAttribute="leading" constant="10" id="nSb-eu-T10"/>
                             <constraint firstItem="bVW-SX-0iC" firstAttribute="centerX" secondItem="8Ua-mm-sxP" secondAttribute="centerX" id="oQm-j8-xaR"/>
                             <constraint firstAttribute="trailingMargin" secondItem="rLW-ZP-6C2" secondAttribute="trailing" constant="66" id="q7M-c5-tgn"/>
                             <constraint firstItem="rLW-ZP-6C2" firstAttribute="leading" secondItem="YFW-1f-Url" secondAttribute="leading" id="qHS-zz-kTN"/>
@@ -5654,13 +5654,13 @@ CEVudGVyIFBhc3N3b3JkA
         <image name="user_thumbnail" width="48" height="48"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="HAi-FC-0vp"/>
-        <segue reference="NRf-cI-JqS"/>
-        <segue reference="QZR-Jz-NIW"/>
+        <segue reference="ac7-3L-0vi"/>
+        <segue reference="xlr-H1-EYH"/>
+        <segue reference="UfZ-y4-j3J"/>
+        <segue reference="ncj-ht-WX7"/>
+        <segue reference="fRU-pM-mSi"/>
         <segue reference="BGy-Vf-KdP"/>
         <segue reference="jhO-y7-EXF"/>
-        <segue reference="Aso-Du-fLI"/>
-        <segue reference="fRU-pM-mSi"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>

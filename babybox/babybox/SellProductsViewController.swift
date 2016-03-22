@@ -10,7 +10,7 @@ import UIKit
 import SwiftEventBus
 import ALCameraViewController
 
-class SellProductsViewController: UIViewController, UITextFieldDelegate {
+class SellProductsViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate {
     
     @IBOutlet weak var hrBarHtConstraint: UIView!
     @IBOutlet var actionButton: UIButton!
@@ -33,6 +33,8 @@ class SellProductsViewController: UIViewController, UITextFieldDelegate {
     var selectedIndex :Int? = 0
     var selCategory: Int = -1
     let croppingEnabled: Bool = true
+    let libraryEnabled: Bool = true
+    
     var keyboardType: UIKeyboardType {
         get{
             return textFieldKeyboardType.keyboardType
@@ -46,7 +48,7 @@ class SellProductsViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var textFieldKeyboardType: UITextField!{
         didSet{
-            //textFieldKeyboardType.keyboardType = UIKeyboardType.NumberPad
+            textFieldKeyboardType.keyboardType = UIKeyboardType.NumberPad
         }
     }
     
@@ -55,6 +57,9 @@ class SellProductsViewController: UIViewController, UITextFieldDelegate {
         self.loadDataSource()
         self.pricetxt.delegate = self
         self.pricetxt.keyboardType = .NumberPad
+        
+        self.sellingtext.delegate = self
+        //self.prodDescription.delegate = self
         
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "actionbar_bg_pink"), forBarMetrics: UIBarMetrics.Default)
         
@@ -217,13 +222,14 @@ class SellProductsViewController: UIViewController, UITextFieldDelegate {
         let optionMenu = UIAlertController(title: "Select Photo:", message: "", preferredStyle: .ActionSheet)
         let cameraAction = UIAlertAction(title: "Camera", style: .Default, handler: {
             (alert: UIAlertAction!) -> Void in
-            let libraryViewController = ALCameraViewController.imagePickerViewController(self.croppingEnabled) { (image) -> Void in
+            let cameraViewController = ALCameraViewController(croppingEnabled: self.croppingEnabled, allowsLibraryAccess: self.libraryEnabled) { (image) -> Void in
                 self.imageCollection.removeAtIndex(self.selectedIndex!)
                 self.imageCollection.insert(image!, atIndex: self.selectedIndex!)
                 self.collectionView.reloadData()
                 self.dismissViewControllerAnimated(true, completion: nil)
             }
-            self.presentViewController(libraryViewController, animated: true, completion: nil)
+            
+            self.presentViewController(cameraViewController, animated: true, completion: nil)
         })
         let photoGalleryAction = UIAlertAction(title: "Photo Album", style: .Default, handler: {
             (alert: UIAlertAction!) -> Void in
@@ -322,10 +328,10 @@ class SellProductsViewController: UIViewController, UITextFieldDelegate {
         return isValidated
     }
     
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+    /*func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         textField.keyboardType = UIKeyboardType.NumberPad
         return Int(string) != nil
-    }
+    }*/
     
     func handleNotificationSuccess(notifcationCounter: NotificationCounterVM) {
         
@@ -335,16 +341,30 @@ class SellProductsViewController: UIViewController, UITextFieldDelegate {
         NSLog(message)
     }
     
-    /*func handleUserInfoSuccess(userInfo: UserVM) {
-        self.navigationController?.popViewControllerAnimated(true)
-        SwiftEventBus.unregister(self)
-        UserInfoCache.setUser(userInfo)
+    func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+        if(text == "\n") {
+            textView.resignFirstResponder()
+            return false
+        }
+        return true
     }
     
-    func handleError(message: String?) {
-        SwiftEventBus.unregister(self)
-        if message != nil {
-            ViewUtil.showDialog("Error", message: message!, view: self)
+    // MARK:- Notification
+    func keyboardWillShow(notification: NSNotification) {
+        var info = notification.userInfo!
+        let keyboardFrame: CGRect = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
+        
+        UIView.animateWithDuration(1.0, animations: { () -> Void in
+            //self.buttomLayoutConstraint = keyboardFrame.size.height
+            }) { (completed: Bool) -> Void in
+                
         }
-    }*/
+    }
+    
+    func keyboardWillHide(notification: NSNotification) {
+        UIView.animateWithDuration(1.0, animations: { () -> Void in
+            }) { (completed: Bool) -> Void in
+                
+        }
+    }
 }

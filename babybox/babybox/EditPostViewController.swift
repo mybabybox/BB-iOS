@@ -9,7 +9,7 @@
 import UIKit
 import SwiftEventBus
 
-class EditPostViewController: UIViewController, UITextFieldDelegate {
+class EditPostViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate {
 
     @IBOutlet weak var activityLoading: UIActivityIndicatorView!
     @IBOutlet var postTitle: UITextField!
@@ -49,6 +49,9 @@ class EditPostViewController: UIViewController, UITextFieldDelegate {
         ViewUtil.showActivityLoading(self.activityLoading)
         self.pricetxt.delegate = self
         self.pricetxt.keyboardType = .NumberPad
+        
+        self.postTitle.delegate = self
+        //self.prodDescription.delegate = self
         
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "actionbar_bg_pink"), forBarMetrics: UIBarMetrics.Default)
         
@@ -220,10 +223,10 @@ class EditPostViewController: UIViewController, UITextFieldDelegate {
         return isValidated
     }
     
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+    /*func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         textField.keyboardType = UIKeyboardType.NumberPad
         return Int(string) != nil
-    }
+    }*/
     
     func handleNotificationSuccess(notifcationCounter: NotificationCounterVM) {
         

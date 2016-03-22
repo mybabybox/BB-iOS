@@ -11,7 +11,7 @@ import ObjectMapper
 
 class MessageVM: BaseArgVM {
     var id: Int = 0
-    var createdDate: Int = 0
+    var createdDate: Double = 0
     var senderId: Int = 0
     var senderName: String = ""
     var body: String = ""

@@ -159,8 +159,9 @@ class FeedProductViewController: ProductNavigationController, UICollectionViewDe
                 cell.lblComments.text = comment.body
                 cell.postedUserName.text = comment.ownerName
                 cell.btnDeleteComments.tag = indexPath.row
-                
-                cell.postedTime.text = NSDate(timeIntervalSince1970:Double(comment.createdDate) / 1000.0).timeAgo
+                if (comment.id != -1) {
+                    cell.postedTime.text = NSDate(timeIntervalSince1970:Double(comment.createdDate) / 1000.0).timeAgo
+                }
                 if (comment.ownerId == UserInfoCache.getUser()!.id) {
                     cell.btnDeleteComments.hidden = false
                 } else {
@@ -169,8 +170,8 @@ class FeedProductViewController: ProductNavigationController, UICollectionViewDe
                 ImageUtil.displayThumbnailProfileImage(self.comments[indexPath.row].ownerId, imageView: cell.postedUserImg)
                 cell.btnDeleteComments.addTarget(self, action: "DeleteComments:", forControlEvents: UIControlEvents.TouchUpInside)
                 
-                let time = comment.createdDate
-                cell.postedTime.text = NSDate(timeIntervalSince1970:Double(time) / 1000.0).timeAgo
+                //let time = comment.createdDate
+                //cell.postedTime.text = NSDate(timeIntervalSince1970:Double(time) / 1000.0).timeAgo
                 
             }
             cell.separatorInset = UIEdgeInsetsMake(0, 0, 0, cell.bounds.size.width)

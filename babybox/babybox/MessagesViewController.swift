@@ -24,7 +24,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate {
     var internalPadding: CGFloat = 8.0
     var lastMessageType: BubbleDataType?
     let croppingEnabled: Bool = true
-    
+    let libraryEnabled: Bool = true
     var conversationViewController: ConversationsViewController?
     
     override func viewDidDisappear(animated: Bool) {
@@ -59,6 +59,8 @@ class MessagesViewController: UIViewController, UITextFieldDelegate {
         
         self.messageCointainerScroll.contentSize = CGSizeMake(CGRectGetWidth(messageCointainerScroll.frame), lastChatBubbleY + internalPadding)
         self.addKeyboardNotifications()
+        
+        //textField.delegate = self
         
         ImageUtil.displayPostImage(self.conversation!.postImage, imageView: prodImg)
         self.prodName.text = self.conversation?.postTitle
@@ -131,14 +133,17 @@ class MessagesViewController: UIViewController, UITextFieldDelegate {
     @IBAction func cameraButtonClicked(sender: AnyObject) {
         
         let optionMenu = UIAlertController(title: nil, message: "Take Photo:", preferredStyle: .ActionSheet)
+        
         let cameraAction = UIAlertAction(title: "Camera", style: .Default, handler: {
             (alert: UIAlertAction!) -> Void in
-            let libraryViewController = ALCameraViewController.imagePickerViewController(self.croppingEnabled) { (image) -> Void in
+            let cameraViewController = ALCameraViewController(croppingEnabled: self.croppingEnabled, allowsLibraryAccess: self.libraryEnabled) { (image) -> Void in
                 self.uploadImgSrc.image = image
                 self.dismissViewControllerAnimated(true, completion: nil)
             }
-            self.presentViewController(libraryViewController, animated: true, completion: nil)
+            
+            self.presentViewController(cameraViewController, animated: true, completion: nil)
         })
+        
         let photoGalleryAction = UIAlertAction(title: "Photo Album", style: .Default, handler: {
             (alert: UIAlertAction!) -> Void in
             let libraryViewController = ALCameraViewController.imagePickerViewController(self.croppingEnabled) { (image) -> Void in
@@ -286,5 +291,11 @@ class MessagesViewController: UIViewController, UITextFieldDelegate {
         print("")
         
     }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
     
 }
