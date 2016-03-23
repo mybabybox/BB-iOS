@@ -12,11 +12,11 @@ import SwiftEventBus
 class EditProductViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate {
 
     @IBOutlet weak var activityLoading: UIActivityIndicatorView!
-    @IBOutlet var postTitle: UITextField!
+    @IBOutlet weak var postTitle: UITextField!
     @IBOutlet weak var prodDescription: UITextView!
-    @IBOutlet var pricetxt: UITextField!
-    @IBOutlet var categorydropdown: UIButton!
-    @IBOutlet var conditionDropDown: UIButton!
+    @IBOutlet weak var pricetxt: UITextField!
+    @IBOutlet weak var categoryDropDown: UIButton!
+    @IBOutlet weak var conditionDropDown: UIButton!
     
     var postId: Int = 0
     var postItem: PostVM? = nil
@@ -46,6 +46,7 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         ViewUtil.showActivityLoading(self.activityLoading)
         self.pricetxt.delegate = self
         self.pricetxt.keyboardType = .NumberPad
@@ -100,13 +101,13 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         }
         
         self.categoryOptions.selectionAction = { [unowned self] (index, item) in
-            self.categorydropdown.setTitle(item, forState: .Normal)
+            self.categoryDropDown.setTitle(item, forState: .Normal)
         }
         
         self.conditionTypeDropDown.anchorView = conditionDropDown
         self.conditionTypeDropDown.bottomOffset = CGPoint(x: 0, y:conditionDropDown.bounds.height)
         self.conditionTypeDropDown.direction = .Top
-        self.categoryOptions.anchorView=categorydropdown
+        self.categoryOptions.anchorView = categoryDropDown
         self.categoryOptions.bottomOffset = CGPoint(x: 0, y:conditionDropDown.bounds.height)
         self.categoryOptions.direction = .Top
         
@@ -152,11 +153,10 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
             self.categoryOptions.reloadAllComponents()
         })
         
-        self.categorydropdown.setTitle(selCategoryValue, forState: UIControlState.Normal)
+        self.categoryDropDown.setTitle(selCategoryValue, forState: UIControlState.Normal)
     }
     
     @IBAction func ShoworDismiss(sender: AnyObject) {
-        
         if self.conditionTypeDropDown.hidden {
             self.conditionTypeDropDown.show()
         } else {
@@ -165,7 +165,6 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     }
     
     @IBAction func categorySellDropDown(sender: AnyObject) {
-        
         if self.categoryOptions.hidden {
             self.categoryOptions.show()
         } else {
@@ -194,7 +193,7 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         }
         
         if (validateSaveForm()) {
-            let category = CategoryCache.getCategoryByName(categorydropdown.titleLabel!.text!)
+            let category = CategoryCache.getCategoryByName(categoryDropDown.titleLabel!.text!)
             let conditionType = ViewUtil.parsePostConditionTypeFromValue(conditionDropDown.titleLabel!.text!)
             ApiController.instance.editPost(self.postId, title: postTitle.text!, body: prodDescription.text!, catId: category!.id, conditionType: String(conditionType), pricetxt: pricetxt.text!)
         }
@@ -215,7 +214,7 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         } else if (self.conditionDropDown.titleLabel?.text == nil || self.conditionDropDown.titleLabel?.text == "-Select-") {
             self.view.makeToast(message: "Please select condition type", duration: ViewUtil.SHOW_TOAST_DURATION_LONG, position: ViewUtil.DEFAULT_TOAST_POSITION)
             isValidated = false
-        } else if (self.categorydropdown.titleLabel!.text == nil || self.categorydropdown.titleLabel!.text == "Choose a Category:") {
+        } else if (self.categoryDropDown.titleLabel!.text == nil || self.categoryDropDown.titleLabel!.text == "Choose a Category:") {
             self.view.makeToast(message: "Please select category", duration: ViewUtil.SHOW_TOAST_DURATION_LONG, position: ViewUtil.DEFAULT_TOAST_POSITION)
             isValidated = false
         }

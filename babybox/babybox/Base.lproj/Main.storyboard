@@ -2019,7 +2019,7 @@
         <!--New Product View Controller-->
         <scene sceneID="GD9-ht-nWw">
             <objects>
-                <viewController storyboardIdentifier="NewProductViewController" id="kD0-9F-RH4" customClass="NewProductViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="NewProductViewController" id="kD0-9F-RH4" customClass="NewProductViewController" customModule="BabyBox" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="NXB-c1-QIR"/>
                         <viewControllerLayoutGuide type="bottom" id="U6F-k1-xwG"/>
@@ -2254,9 +2254,8 @@
                     <navigationItem key="navigationItem" id="4ub-pW-6xf"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
-                        <outlet property="actionButton" destination="mG2-ZN-k9U" id="ivY-Rb-LY5"/>
-                        <outlet property="categorydropdown" destination="uR9-g6-h0i" id="QNO-qI-z41"/>
-                        <outlet property="collectionView" destination="APP-GB-MSj" id="xXq-HD-xQg"/>
+                        <outlet property="categoryDropDown" destination="uR9-g6-h0i" id="AE7-6p-s2H"/>
+                        <outlet property="collectionView" destination="APP-GB-MSj" id="8rQ-9J-8Pb"/>
                         <outlet property="collectionViewHtConstraint" destination="dIf-Pg-tis" id="IiM-5w-rbK"/>
                         <outlet property="conditionDropDown" destination="mG2-ZN-k9U" id="Gag-qN-7aa"/>
                         <outlet property="hrBarHtConstraint" destination="sRD-GY-hbO" id="KqY-yf-RXJ"/>
@@ -5574,7 +5573,7 @@
         <!--Edit Product View Controller-->
         <scene sceneID="ztw-Uv-uHf">
             <objects>
-                <viewController storyboardIdentifier="EditProductViewController" id="mKv-sf-rch" customClass="EditProductViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="EditProductViewController" id="mKv-sf-rch" customClass="EditProductViewController" customModule="BabyBox" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="J2n-H1-XTM"/>
                         <viewControllerLayoutGuide type="bottom" id="h5k-Wd-tZl"/>
@@ -5763,7 +5762,7 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
                         <outlet property="activityLoading" destination="jxT-Br-3ed" id="mBR-5A-9nh"/>
-                        <outlet property="categorydropdown" destination="YdX-WE-SMq" id="p5J-zB-frG"/>
+                        <outlet property="categoryDropDown" destination="YdX-WE-SMq" id="baQ-oF-A7H"/>
                         <outlet property="conditionDropDown" destination="ngh-M2-nYZ" id="oze-sr-lgM"/>
                         <outlet property="postTitle" destination="4in-Kj-5fZ" id="nNX-2Q-HUp"/>
                         <outlet property="pricetxt" destination="4PR-st-EBc" id="jDb-XL-KZq"/>
