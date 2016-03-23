@@ -63,7 +63,7 @@ class UserActivityViewController: CustomNavigationController {
             }
             
             let resultDto: PostVMLite = result.object as! PostVMLite
-            let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("FeedProductViewController") as! FeedProductViewController
+            let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("ProductViewController") as! ProductViewController
             vController.feedItem = resultDto
             vController.hidesBottomBarWhenPushed = true
             self.navigationController?.pushViewController(vController, animated: true)

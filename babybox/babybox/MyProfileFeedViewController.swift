@@ -24,7 +24,7 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
     let shapeLayer = CAShapeLayer()
     let imagePicker = UIImagePickerController()
     
-    var vController: FeedProductViewController?
+    var vController: ProductViewController?
     var currentIndex: NSIndexPath?
     
     override func reloadDataToView() {
@@ -242,7 +242,7 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
             let indexPath = self.uiCollectionView!.indexPathForCell(cell)
             let feedItem = feedLoader!.getItem(indexPath!.row)
             self.currentIndex = indexPath
-            vController = segue.destinationViewController as? FeedProductViewController
+            vController = segue.destinationViewController as? ProductViewController
             vController!.feedItem = feedItem
             vController!.hidesBottomBarWhenPushed = true
         } else if (segue.identifier == "settings") {
@@ -372,7 +372,7 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
             cell.tipsConstraint.constant = 6
         }
         
-        ViewUtil.displayRoundedBorderButton(cell.editProfile)
+        ViewUtil.displayRoundedCornerView(cell.editProfile)
     }
    
     func drawLineFromPoint(start : CGPoint, toPoint end:CGPoint, ofColor lineColor: UIColor, inView view: UIView) {

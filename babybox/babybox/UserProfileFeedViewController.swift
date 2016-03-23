@@ -24,7 +24,7 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
     var activeHeaderViewCell: UserFeedHeaderViewCell? = nil
     let shapeLayer = CAShapeLayer()
     
-    var vController: FeedProductViewController?
+    var vController: ProductViewController?
     var currentIndex: NSIndexPath?
     
     override func reloadDataToView() {
@@ -154,10 +154,10 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
                 
                 if (self.userInfo!.isFollowing) {
                     cell.editProfile.setTitle("Following", forState: UIControlState.Normal)
-                    ViewUtil.displayRoundedCornerButton(cell.editProfile, color: Color.GRAY)
+                    ViewUtil.displayRoundedCornerView(cell.editProfile, bgColor: Color.GRAY)
                 } else {
                     cell.editProfile.setTitle("Follow", forState: UIControlState.Normal)
-                    ViewUtil.displayRoundedCornerButton(cell.editProfile, color: Color.PINK)
+                    ViewUtil.displayRoundedCornerView(cell.editProfile, bgColor: Color.PINK)
                 }
             }
             
@@ -173,7 +173,7 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
         if (collectionView.tag == 2) {
             
         } else {
-            /*vController =  self.storyboard!.instantiateViewControllerWithIdentifier("FeedProductViewController") as! FeedProductViewController
+            /*vController =  self.storyboard!.instantiateViewControllerWithIdentifier("ProductViewController") as! ProductViewController
             let feedItem = self.getFeedItems()[indexPath.row]
             vController!.feedItem = feedItem
             self.currentIndex = indexPath
@@ -258,7 +258,7 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
             let indexPath = self.uiCollectionView!.indexPathForCell(cell)
             let feedItem = feedLoader!.getItem(indexPath!.row)
             self.currentIndex = indexPath
-            vController = segue.destinationViewController as? FeedProductViewController
+            vController = segue.destinationViewController as? ProductViewController
             vController!.feedItem = feedItem
             vController!.hidesBottomBarWhenPushed = true
         }
@@ -346,14 +346,10 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
         cell.followingBtn.layer.borderColor = Color.LIGHT_GRAY.CGColor
         cell.followingBtn.layer.borderWidth = 1.0        */
         
-        cell.editProfile.layer.borderColor = Color.LIGHT_GRAY.CGColor
-        cell.editProfile.layer.borderWidth = 1.0
-        
-        ViewUtil.displayRoundedBorderButton(cell.editProfile)
+        ViewUtil.displayRoundedCornerView(cell.editProfile, bgColor: Color.LIGHT_GRAY)
         
         if (UserInfoCache.getUser()!.id != self.userId) {
             cell.editProfile.hidden = false
-            ViewUtil.displayRoundedBorderButton(cell.editProfile)
         } else {
             cell.editProfile.hidden = true
         }
@@ -388,12 +384,12 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
             ApiController.instance.unfollowUser((self.userInfo!.id))
             self.userInfo!.isFollowing = false
             cell.editProfile.setTitle("Follow", forState: UIControlState.Normal)
-            ViewUtil.displayRoundedCornerButton(cell.editProfile, color: Color.PINK)
+            ViewUtil.displayRoundedCornerView(cell.editProfile, bgColor: Color.PINK)
         } else {
             ApiController.instance.followUser(self.userInfo!.id)
             self.userInfo!.isFollowing = true
             cell.editProfile.setTitle("Following", forState: UIControlState.Normal)
-            ViewUtil.displayRoundedCornerButton(cell.editProfile, color: Color.GRAY)
+            ViewUtil.displayRoundedCornerView(cell.editProfile, bgColor: Color.GRAY)
         }
     }
 }

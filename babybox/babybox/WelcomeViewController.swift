@@ -36,12 +36,11 @@ class WelcomeViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         let color = Color.PINK.CGColor
         self.signUpBtn.backgroundColor = Color.CLEAR
-        
-        ViewUtil.displayRoundedBorderButton(self.signUpBtn)
+
+        ViewUtil.displayRoundedCornerView(self.loginBtn, bgColor: Color.PINK)
+        ViewUtil.displayRoundedCornerView(self.signUpBtn)
         self.signUpBtn.layer.borderColor = color
         self.signUpBtn.setTitleColor(Color.PINK, forState: UIControlState.Normal)
-        ViewUtil.displayRoundedBorderButton(self.loginBtn)
-        self.loginBtn.layer.borderColor = color
     }
     
     override func didReceiveMemoryWarning() {

@@ -12,12 +12,10 @@ import SwiftEventBus
 
 class SettingsViewController: UIViewController {
 
+    @IBOutlet weak var logOutBtn: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.tabBarController?.tabBar.hidden = true
-        // Do any additional setup after loading the view.
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "actionbar_bg_pink"), forBarMetrics: UIBarMetrics.Default)
         
         SwiftEventBus.onMainThread(self, name: "logoutSuccess") { result in
             // UI thread
@@ -25,6 +23,11 @@ class SettingsViewController: UIViewController {
             self.handleLogout(resultDto)
         }
         
+        self.tabBarController?.tabBar.hidden = true
+        // Do any additional setup after loading the view.
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "actionbar_bg_pink"), forBarMetrics: UIBarMetrics.Default)
+        
+        ViewUtil.displayRoundedCornerView(logOutBtn, bgColor: Color.PINK)
     }
 
     override func didReceiveMemoryWarning() {
@@ -37,7 +40,7 @@ class SettingsViewController: UIViewController {
     }
     
     func handleLogout(result: String) {
-        AppDelegate.getInstance().logout()
+        AppDelegate.getInstance().logOut()
         let vController = self.storyboard!.instantiateViewControllerWithIdentifier("WelcomeViewController") as! WelcomeViewController
         self.navigationController?.pushViewController(vController, animated: true)
         SwiftEventBus.unregister(self)

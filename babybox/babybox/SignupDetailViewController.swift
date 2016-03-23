@@ -42,7 +42,7 @@ class SignupDetailViewController: UIViewController, UITextFieldDelegate, SSRadio
             self.view.makeToast(message: (result.object as? String)!)
         }
         
-        ViewUtil.displayRoundedBorderButton(self.submitBtn)
+        ViewUtil.displayRoundedCornerView(self.submitBtn, bgColor: Color.PINK)
         
         self.locationDropDown.selectionAction = { [unowned self] (index, item) in
             self.location.setTitle(item, forState: .Normal)

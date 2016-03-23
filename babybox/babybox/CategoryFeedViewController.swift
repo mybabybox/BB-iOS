@@ -28,7 +28,7 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
     var loadingProducts: Bool = false
     var selCategory: CategoryVM? = nil
     
-    var vController: FeedProductViewController?
+    var vController: ProductViewController?
     var currentIndex: NSIndexPath?
     
     func reloadDataToView() {
@@ -165,7 +165,7 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
             
         } else {
             //self.performSegueWithIdentifier("gotoproductdetail", sender: nil)
-            vController =  self.storyboard!.instantiateViewControllerWithIdentifier("FeedProductViewController") as! FeedProductViewController
+            vController =  self.storyboard!.instantiateViewControllerWithIdentifier("ProductViewController") as? ProductViewController
             let feedItem = feedLoader!.getItem(indexPath.row)
             vController!.feedItem = feedItem
             vController!.category = self.selCategory

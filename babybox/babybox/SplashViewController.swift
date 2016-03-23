@@ -64,7 +64,7 @@ class SplashViewController: UIViewController {
     }
     
     func handleError(message: String?) {
-        AppDelegate.getInstance().logout()
+        AppDelegate.getInstance().logOut()
         SwiftEventBus.unregister(self)
         if message != nil {
             ViewUtil.showDialog("Login Error", message: message!, view: self)

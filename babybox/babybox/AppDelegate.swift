@@ -112,8 +112,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.sessionId = ""
     }
     
-    func logout() {
-        if UserInfoCache.getUser() != nil && UserInfoCache.getUser()!.isFBLogin {
+    func logOut() {
+        if FBSDKAccessToken.currentAccessToken() != nil {
             FBSDKLoginManager().logOut()
         }
         clearAll()

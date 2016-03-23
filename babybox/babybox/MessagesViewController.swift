@@ -76,7 +76,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate {
         let userProfileBarBtn = UIBarButtonItem(customView: userProfileBtn)
         self.navigationItem.rightBarButtonItems = [userProfileBarBtn]
         
-        ViewUtil.displayRoundedBorderButton(self.sendButton)
+        ViewUtil.displayRoundedCornerView(self.sendButton)
         
     }
     
@@ -218,7 +218,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate {
         let feedItem: PostVMLite = PostVMLite()
         feedItem.id = (self.conversation?.postId)!
         
-        let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("FeedProductViewController") as? FeedProductViewController
+        let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("ProductViewController") as? ProductViewController
         vController!.feedItem = feedItem
         ViewUtil.resetBackButton(self.navigationItem)
         self.navigationController?.pushViewController(vController!, animated: true)

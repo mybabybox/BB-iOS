@@ -49,7 +49,7 @@ class SignupViewController: BaseLoginViewController {
             self.handleError("Failed to sign up user. Please check your info and try again.")
         }
         
-        ViewUtil.displayRoundedBorderButton(self.signUpBtn)
+        ViewUtil.displayRoundedCornerView(self.signUpBtn, bgColor: Color.PINK)
         
         self.licenseBtn.layer.borderWidth = 1.0
         self.licenseBtn.layer.borderColor = Color.DARK_GRAY.CGColor

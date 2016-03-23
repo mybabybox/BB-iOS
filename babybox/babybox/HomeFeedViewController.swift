@@ -28,7 +28,7 @@ class HomeFeedViewController: CustomNavigationController {
     var currentIndex: NSIndexPath?
     var categories : [CategoryVM] = []
     
-    var vController: FeedProductViewController?
+    var vController: ProductViewController?
     //var notificationCounterVM: NotificationCounterVM? = nil
     
     func reloadDataToView() {
@@ -222,7 +222,7 @@ class HomeFeedViewController: CustomNavigationController {
             let indexPath = self.uiCollectionView!.indexPathForCell(cell)
             let feedItem = feedLoader!.getItem(indexPath!.row)
             self.currentIndex = indexPath
-            vController = segue.destinationViewController as? FeedProductViewController
+            vController = segue.destinationViewController as? ProductViewController
             vController!.feedItem = feedItem
             vController!.hidesBottomBarWhenPushed = true
         }

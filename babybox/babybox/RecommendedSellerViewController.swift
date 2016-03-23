@@ -246,7 +246,7 @@ class RecommendedSellerViewController: UIViewController {
         
         let indexPath = self.uiCollectionView.indexPathForCell(cell)!
         
-        let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("FeedProductViewController") as! FeedProductViewController
+        let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("ProductViewController") as! ProductViewController
         let feedItem = self.recommendedSellers[indexPath.row]
         vController.feedItem = feedItem.posts[index]
         vController.hidesBottomBarWhenPushed = true

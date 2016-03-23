@@ -29,11 +29,7 @@ class LoginViewController: BaseLoginViewController, UITextFieldDelegate {
         self.userNameTxt.delegate = self
         self.passwordTxt.delegate = self
         
-        let color = Color.PINK.CGColor
-        //self.loginButton.layer.cornerRadius = 5
-        //self.loginButton.layer.borderWidth = 1
-        self.loginButton.layer.borderColor = color
-        ViewUtil.displayRoundedBorderButton(self.loginButton)
+        ViewUtil.displayRoundedCornerView(self.loginButton, bgColor: Color.PINK)
         
         // Do any additional setup after loading the view, typically from a nib.
         
@@ -54,7 +50,7 @@ class LoginViewController: BaseLoginViewController, UITextFieldDelegate {
         }
         
         startLoading()
-        ApiController.instance.loginByEmail(self.userNameTxt.text!, password: self.passwordTxt.text!)
+        emailLogin(self.userNameTxt.text!, password: self.passwordTxt.text!)
     }
     
     @IBAction func onClickBackButton(sender: UIButton) {

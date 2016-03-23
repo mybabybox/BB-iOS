@@ -34,12 +34,12 @@ class FollowersFollowingViewController: UICollectionViewController {
             ApiController.instance.unfollowUser(item.id)
             self.followersFollowings[self.currentIndex].isFollowing = false
             cell.followingsBtn.setTitle("Follow", forState: UIControlState.Normal)
-            ViewUtil.displayRoundedCornerButton(cell.followingsBtn, color: Color.PINK)
+            ViewUtil.displayRoundedCornerView(cell.followingsBtn, bgColor: Color.PINK)
         } else {
             ApiController.instance.followUser(item.id)
             self.followersFollowings[self.currentIndex].isFollowing = true
             cell.followingsBtn.setTitle("Following", forState: UIControlState.Normal)
-            ViewUtil.displayRoundedCornerButton(cell.followingsBtn, color: Color.GRAY)
+            ViewUtil.displayRoundedCornerView(cell.followingsBtn, bgColor: Color.GRAY)
         }
     }
     
@@ -131,10 +131,10 @@ class FollowersFollowingViewController: UICollectionViewController {
         cell.followersCount.text = String(userInfo.numFollowers)
         
         if (userInfo.isFollowing) {
-            ViewUtil.displayRoundedCornerButton(cell.followingsBtn, color: Color.GRAY)
+            ViewUtil.displayRoundedCornerView(cell.followingsBtn, bgColor: Color.GRAY)
             cell.followingsBtn.setTitle("Following", forState: UIControlState.Normal)
         } else {
-            ViewUtil.displayRoundedCornerButton(cell.followingsBtn, color: Color.PINK)
+            ViewUtil.displayRoundedCornerView(cell.followingsBtn, bgColor: Color.PINK)
             cell.followingsBtn.setTitle("Follow", forState: UIControlState.Normal)
         }
         

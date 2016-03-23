@@ -1,6 +1,6 @@
 //
-//  FeedProductViewController.swift
-//  GallerySwiftApp
+//  ProductViewController.swift
+//  babybox
 //
 //  Created by Apple on 14/12/15.
 //  Copyright © 2015 Apple. All rights reserved.
@@ -10,7 +10,7 @@ import UIKit
 import SwiftEventBus
 import PhotoSlider
 
-class FeedProductViewController: ProductNavigationController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, PhotoSliderDelegate, UITextFieldDelegate {
+class ProductViewController: ProductNavigationController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, PhotoSliderDelegate, UITextFieldDelegate {
 
     @IBOutlet weak var buyerSoldButtonsLayout: UIView!
     @IBOutlet weak var buyerButtonsLayout: UIView!
@@ -148,7 +148,7 @@ class FeedProductViewController: ProductNavigationController, UICollectionViewDe
             if indexPath.row == self.comments.count {
                 cell.btnPostComments.tag = indexPath.row
                 cell.btnPostComments.addTarget(self, action: "PostComments:", forControlEvents: UIControlEvents.TouchUpInside)
-                ViewUtil.displayRoundedBorderButton(cell.btnPostComments)
+                ViewUtil.displayRoundedCornerView(cell.btnPostComments)
                 cell.btnPostComments.layer.borderColor = Color.LIGHT_GRAY.CGColor
                 cell.commentTxt.delegate = self
                 cell.commentTxt.layer.cornerRadius = 15.0
@@ -217,7 +217,6 @@ class FeedProductViewController: ProductNavigationController, UICollectionViewDe
                 
                 }
                 
-                
                 if self.productInfo != nil {
                     cell.prodCategory.text = self.productInfo!.categoryName
                     //cell.prodTimerCount.text = String(self.productInfo.numComments)
@@ -229,7 +228,6 @@ class FeedProductViewController: ProductNavigationController, UICollectionViewDe
                 } else {
                     cell.categoryBtn.hidden = true
                 }
-                
                 
             case 2:
                 if self.productInfo != nil {
@@ -247,9 +245,7 @@ class FeedProductViewController: ProductNavigationController, UICollectionViewDe
                     }
                 }
                 
-                cell.viewBtnIns.layer.borderWidth = CGFloat(1)
-                cell.viewBtnIns.layer.borderColor = Color.PINK.CGColor
-                ViewUtil.displayRoundedBorderButton(cell.viewBtnIns)
+                ViewUtil.displayRoundedCornerView(cell.viewBtnIns, bgColor: Color.PINK)
             default:
                 reuseidentifier = ""
             }

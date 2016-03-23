@@ -76,7 +76,7 @@
 		047706F61C2485FC00E851D3 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047706F51C2485FC00E851D3 /* MessagesViewController.swift */; };
 		047706F91C24900200E851D3 /* ChatBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047706F71C24900200E851D3 /* ChatBubble.swift */; };
 		047706FA1C24900200E851D3 /* ChatBubbleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047706F81C24900200E851D3 /* ChatBubbleData.swift */; };
-		0487CE9A1C61007F00CFA3F8 /* FeedProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0487CE991C61007F00CFA3F8 /* FeedProductViewController.swift */; };
+		0487CE9A1C61007F00CFA3F8 /* ProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0487CE991C61007F00CFA3F8 /* ProductViewController.swift */; };
 		04A2317C1C1C4D79002FB013 /* HomeReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A2317B1C1C4D79002FB013 /* HomeReusableView.swift */; };
 		04A2317E1C1C4DCB002FB013 /* StaticCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A2317D1C1C4DCB002FB013 /* StaticCollectionViewCell.swift */; };
 		04A231801C1C5D9D002FB013 /* HomeFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A2317F1C1C5D9D002FB013 /* HomeFeedViewController.swift */; };
@@ -199,7 +199,7 @@
 		047706F51C2485FC00E851D3 /* MessagesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
 		047706F71C24900200E851D3 /* ChatBubble.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatBubble.swift; sourceTree = "<group>"; };
 		047706F81C24900200E851D3 /* ChatBubbleData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatBubbleData.swift; sourceTree = "<group>"; };
-		0487CE991C61007F00CFA3F8 /* FeedProductViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedProductViewController.swift; sourceTree = "<group>"; };
+		0487CE991C61007F00CFA3F8 /* ProductViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductViewController.swift; sourceTree = "<group>"; };
 		04A2317B1C1C4D79002FB013 /* HomeReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeReusableView.swift; sourceTree = "<group>"; };
 		04A2317D1C1C4DCB002FB013 /* StaticCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StaticCollectionViewCell.swift; sourceTree = "<group>"; };
 		04A2317F1C1C5D9D002FB013 /* HomeFeedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeFeedViewController.swift; sourceTree = "<group>"; };
@@ -405,37 +405,37 @@
 		046BB69F1C5794320007CCE6 /* viewcontroller */ = {
 			isa = PBXGroup;
 			children = (
-				04A8503A1CA277CF001915AD /* EditProductViewController.swift */,
-				04A850371CA2779E001915AD /* NewProductViewController.swift */,
 				0431232F1C7F3551007EAC4D /* BaseLoginViewController.swift */,
 				043A53941C71C0D300C70DBC /* BaseProfileFeedViewController.swift */,
-				043A53951C71C0D300C70DBC /* MyProfileFeedViewController.swift */,
-				043A53961C71C0D300C70DBC /* UserProfileFeedViewController.swift */,
-				0449B0091C63C6250077049C /* LicenseViewController.swift */,
-				0487CE991C61007F00CFA3F8 /* FeedProductViewController.swift */,
-				047706F51C2485FC00E851D3 /* MessagesViewController.swift */,
-				04E6F6CF1C15CE5A0057C94E /* WebViewController.swift */,
-				04A2317F1C1C5D9D002FB013 /* HomeFeedViewController.swift */,
+				0408FA161C13633B00CC8803 /* CategoryFeedViewController.swift */,
 				04EB21751C1F4A11001A14DB /* ConversationsViewController.swift */,
-				04EB217D1C1FFE32001A14DB /* FollowersFollowingViewController.swift */,
-				04EB217F1C1FFE4D001A14DB /* EditProfileViewController.swift */,
-				04EB21811C1FFE98001A14DB /* UserActivityViewController.swift */,
-				04EB21831C1FFFF9001A14DB /* SettingsViewController.swift */,
 				04D184571C3EF04200A6C35B /* CustomNavigationController.swift */,
 				044DC84C1C51EBB700B9FD49 /* CustomTabViewController.swift */,
-				0408FA161C13633B00CC8803 /* CategoryFeedViewController.swift */,
-				0408FA581C13FB3C00CC8803 /* WelcomeViewController.swift */,
+				04A8503A1CA277CF001915AD /* EditProductViewController.swift */,
+				04EB217F1C1FFE4D001A14DB /* EditProfileViewController.swift */,
+				0487CE991C61007F00CFA3F8 /* ProductViewController.swift */,
+				04EB217D1C1FFE32001A14DB /* FollowersFollowingViewController.swift */,
 				0408FA031C13632300CC8803 /* FollowingFeedViewController.swift */,
-				0408F9D91C1362AA00CC8803 /* LoginViewController.swift */,
 				04E6F6CD1C15A9FC0057C94E /* ForgotPasswordViewController.swift */,
-				04521FB71C59060200515C40 /* SplashViewController.swift */,
-				044928DF1C6093720016F32C /* SignupViewController.swift */,
-				043A53651C68605100C70DBC /* SignupDetailViewController.swift */,
-				043A53701C6A31C900C70DBC /* SignInOptionsViewController.swift */,
-				046633D41C846928000F18AE /* SellerViewController.swift */,
-				046633D61C84876C000F18AE /* RecommendedSellerViewController.swift */,
+				04A2317F1C1C5D9D002FB013 /* HomeFeedViewController.swift */,
+				0449B0091C63C6250077049C /* LicenseViewController.swift */,
+				0408F9D91C1362AA00CC8803 /* LoginViewController.swift */,
+				047706F51C2485FC00E851D3 /* MessagesViewController.swift */,
+				043A53951C71C0D300C70DBC /* MyProfileFeedViewController.swift */,
+				04A850371CA2779E001915AD /* NewProductViewController.swift */,
 				844845261C9C422300714EBE /* ProductChatViewController.swift */,
 				848508831C9D37BB00E0F7AE /* ProductNavigationController.swift */,
+				046633D61C84876C000F18AE /* RecommendedSellerViewController.swift */,
+				046633D41C846928000F18AE /* SellerViewController.swift */,
+				04EB21831C1FFFF9001A14DB /* SettingsViewController.swift */,
+				043A53701C6A31C900C70DBC /* SignInOptionsViewController.swift */,
+				043A53651C68605100C70DBC /* SignupDetailViewController.swift */,
+				044928DF1C6093720016F32C /* SignupViewController.swift */,
+				04521FB71C59060200515C40 /* SplashViewController.swift */,
+				04EB21811C1FFE98001A14DB /* UserActivityViewController.swift */,
+				043A53961C71C0D300C70DBC /* UserProfileFeedViewController.swift */,
+				04E6F6CF1C15CE5A0057C94E /* WebViewController.swift */,
+				0408FA581C13FB3C00CC8803 /* WelcomeViewController.swift */,
 			);
 			name = viewcontroller;
 			sourceTree = "<group>";
@@ -751,7 +751,7 @@
 				0459BB211C7479040096A330 /* ActivityVM.swift in Sources */,
 				047706F91C24900200E851D3 /* ChatBubble.swift in Sources */,
 				0408FA181C13633B00CC8803 /* ApiCallEvent.swift in Sources */,
-				0487CE9A1C61007F00CFA3F8 /* FeedProductViewController.swift in Sources */,
+				0487CE9A1C61007F00CFA3F8 /* ProductViewController.swift in Sources */,
 				04010CBA1CA044DB00CBD3A5 /* SharingUtil.swift in Sources */,
 				0408FA4C1C13699900CC8803 /* SettingVM.swift in Sources */,
 				0459BB1F1C7475970096A330 /* UserActivityViewCell.swift in Sources */,

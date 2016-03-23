@@ -57,30 +57,23 @@ class ViewUtil {
         return CGSizeMake(cellWidth, cellHeight)
     }
     
-    static func displayCircularBorderView(view: UIView) {
+    static func displayCircularView(view: UIView) {
         view.layer.cornerRadius = view.frame.height/2
         view.layer.masksToBounds = true
     }
     
-    static func displayRoundedBorderButton(view: UIView) {
+    static func displayRoundedCornerView(view: UIView) {
         view.layer.cornerRadius = 5.0
         view.layer.masksToBounds = true
         view.layer.borderWidth = 1
     }
     
-    static func displayRoundedCornerView(view: UIView) {
-        let color = Color.PINK.CGColor
-        view.layer.borderColor = color
-        view.layer.cornerRadius = 5.0
-        view.layer.masksToBounds = true
-        view.layer.borderWidth = 1
-    }
-
-    static func displayRoundedCornerButton(view: UIButton, color: UIColor) {
+    static func displayRoundedCornerView(view: UIView, bgColor: UIColor) {
         view.layer.cornerRadius = 5.0
         view.layer.masksToBounds = true
         view.layer.borderWidth = 0
-        view.layer.backgroundColor = color.CGColor
+        view.layer.backgroundColor = bgColor.CGColor
+        view.layer.borderColor = bgColor.CGColor
     }
     
     static func getScreenWidth(view: UIView) -> CGFloat {

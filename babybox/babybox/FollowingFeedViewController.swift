@@ -21,7 +21,7 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
     var feedViewAdapter: FeedViewAdapter? = nil
     
     var parentNavigationController : UINavigationController?
-    var vController: FeedProductViewController?
+    var vController: ProductViewController?
     var collectionViewCellSize : CGSize?
     var collectionViewTopCellSize : CGSize?
     var reuseIdentifier = "CellType1"
@@ -135,7 +135,7 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
             let indexPath = self.uiCollectionView!.indexPathForCell(cell)
             let feedItem = feedLoader!.getItem(indexPath!.row)
             self.currentIndex = indexPath
-            vController = segue.destinationViewController as? FeedProductViewController
+            vController = segue.destinationViewController as? ProductViewController
             vController!.feedItem = feedItem
             vController!.hidesBottomBarWhenPushed = true
         }

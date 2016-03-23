@@ -58,7 +58,7 @@ class BaseLoginViewController: UIViewController {
         startLoading()
         
         self.isUserLoggedIn = false
-        AppDelegate.getInstance().logout()
+        AppDelegate.getInstance().logOut()
         if message != nil {
             ViewUtil.showDialog("Login Error", message: message!, view: self)
         }
@@ -121,7 +121,7 @@ class BaseLoginViewController: UIViewController {
     func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
         if (error == nil) {
             if (!result.isCancelled) {
-                fbLoginSuccess(result.token.tokenString, userId: result.token.userID)
+                fbLogin(result.token.tokenString, userId: result.token.userID)
             }
         } else {
             NSLog(error.localizedDescription)
@@ -132,34 +132,26 @@ class BaseLoginViewController: UIViewController {
         NSLog("User Logged out")
     }
     
-    func fbLoginSuccess(access_token: String, userId: String) {
-        NSLog("fbLogin: access_token="+access_token)
+    func emailLogin(email: String, password: String) {
+        AppDelegate.getInstance().logOut()
+        ApiController.instance.loginByEmail(email, password: password)
+    }
+    
+    func fbLogin(access_token: String, userId: String) {
+        AppDelegate.getInstance().logOut()
         ApiController.instance.loginByFacebook(access_token)
     }
     
-    func startLoading() {
-        // to be implemented in subclass
-    }
-    
-    func stopLoading() {
-        // to be implemented in subclass
-    }
-    
     @IBAction func fbLoginClick(sender: AnyObject) {
-        self.fbLogin(self.fbLoginSuccess, failureBlock: self.handleError)
+        self.fbNativeLogin(self.fbLogin, failureBlock: self.handleError)
     }
     
-    func fbLogin(successBlock: (token: String, userId: String) -> (), failureBlock: (String?) -> ()) {
+    func fbNativeLogin(successBlock: (token: String, userId: String) -> (), failureBlock: (String?) -> ()) {
         self.view.alpha = 0.75
         
-        /*
         if FBSDKAccessToken.currentAccessToken() != nil {
-        //For debugging, when we want to ensure that facebook login always happens
-        //FBSDKLoginManager().logOut()
-        //Otherwise do:
-        return
+            FBSDKLoginManager().logOut()
         }
-        */
         
         FBSDKLoginManager().logInWithReadPermissions(self.facebookReadPermissions, handler: { (result:FBSDKLoginManagerLoginResult!, error:NSError!) -> Void in
             if error != nil {
@@ -191,6 +183,7 @@ class BaseLoginViewController: UIViewController {
                 if allPermsGranted {
                     let fbToken = result.token.tokenString
                     let fbUserID = result.token.userID
+                    NSLog("fbNativeLogin: access_token="+fbToken)
                     successBlock(token: fbToken, userId: fbUserID)
                 } else {
                     //The user did not grant all permissions requested
@@ -204,28 +197,16 @@ class BaseLoginViewController: UIViewController {
         })
     }
     
+    func startLoading() {
+        // to be implemented in subclass
+    }
+    
+    func stopLoading() {
+        // to be implemented in subclass
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -2729,12 +2729,12 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GA2-n7-0TT">
-                                <rect key="frame" x="125" y="107" width="180" height="35"/>
+                                <rect key="frame" x="20" y="122" width="374" height="45"/>
                                 <color key="backgroundColor" red="1" green="0.46274509803921571" blue="0.64313725490196072" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="35" id="624-zT-xXL"/>
+                                    <constraint firstAttribute="height" constant="45" id="624-zT-xXL"/>
                                     <constraint firstAttribute="width" constant="120" id="FWb-qU-tXE"/>
-                                    <constraint firstAttribute="width" secondItem="GA2-n7-0TT" secondAttribute="height" multiplier="36:7" id="NEU-Db-qqq"/>
+                                    <constraint firstAttribute="width" secondItem="GA2-n7-0TT" secondAttribute="height" multiplier="36:7" constant="18.571428571428555" id="NEU-Db-qqq"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                 <state key="normal" title="Logout">
@@ -2744,6 +2744,7 @@
                                 <variation key="default">
                                     <mask key="constraints">
                                         <exclude reference="FWb-qU-tXE"/>
+                                        <exclude reference="NEU-Db-qqq"/>
                                     </mask>
                                 </variation>
                                 <connections>
@@ -2758,13 +2759,24 @@
                             <constraint firstItem="vZZ-c7-cqZ" firstAttribute="leading" secondItem="AHU-ZA-hwK" secondAttribute="trailing" constant="20" id="6Vl-Sf-ghF"/>
                             <constraint firstItem="GA2-n7-0TT" firstAttribute="top" secondItem="MFE-It-ttq" secondAttribute="top" constant="40" id="DaQ-Gv-tKn"/>
                             <constraint firstItem="AHU-ZA-hwK" firstAttribute="top" secondItem="Fbo-T9-dVf" secondAttribute="bottom" constant="15" id="HHz-YM-AtU"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="GA2-n7-0TT" secondAttribute="trailing" constant="25" id="MO7-np-3bB"/>
                             <constraint firstItem="AHU-ZA-hwK" firstAttribute="leading" secondItem="jes-7y-cdd" secondAttribute="leadingMargin" constant="11" id="Zc3-0R-nAe"/>
+                            <constraint firstItem="GA2-n7-0TT" firstAttribute="leading" secondItem="jes-7y-cdd" secondAttribute="leadingMargin" constant="25" id="acD-wk-3Il"/>
+                            <constraint firstItem="GA2-n7-0TT" firstAttribute="top" secondItem="MFE-It-ttq" secondAttribute="bottom" constant="35" id="bxC-8r-gPf"/>
                             <constraint firstItem="vZZ-c7-cqZ" firstAttribute="top" secondItem="Fbo-T9-dVf" secondAttribute="bottom" constant="15" id="yiW-V8-yVI"/>
                             <constraint firstItem="MFE-It-ttq" firstAttribute="top" secondItem="AHU-ZA-hwK" secondAttribute="bottom" constant="15" id="z8q-TZ-E7O"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="DaQ-Gv-tKn"/>
+                            </mask>
+                        </variation>
                     </view>
                     <navigationItem key="navigationItem" id="cwm-tp-kTp"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
+                    <connections>
+                        <outlet property="logOutBtn" destination="GA2-n7-0TT" id="aP7-rA-Fwz"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="geT-I0-B5I" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -3567,10 +3579,10 @@
             </objects>
             <point key="canvasLocation" x="8972" y="725"/>
         </scene>
-        <!--Feed Product View Controller-->
+        <!--Product View Controller-->
         <scene sceneID="p4r-a2-2p5">
             <objects>
-                <viewController storyboardIdentifier="FeedProductViewController" id="a39-f0-7jx" customClass="FeedProductViewController" customModule="BabyBox" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ProductViewController" id="a39-f0-7jx" customClass="ProductViewController" customModule="BabyBox" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="8Sw-SE-sJt"/>
                         <viewControllerLayoutGuide type="bottom" id="Fsn-8h-2Hq"/>
@@ -4837,7 +4849,6 @@
                         <outlet property="licenseBtn" destination="IkR-lz-Cb5" id="RVf-UM-1H8"/>
                         <outlet property="passwordText" destination="p3q-kZ-giP" id="MxV-b2-QJp"/>
                         <outlet property="policyBtn" destination="VhO-Sn-9vk" id="JMf-zU-GAm"/>
-                        <outlet property="signUp" destination="C0p-5S-sY8" id="NtT-Np-r4S"/>
                         <outlet property="signUpBtn" destination="C0p-5S-sY8" id="Prl-h9-dpa"/>
                         <segue destination="7xL-U6-oa5" kind="show" identifier="showSignUpDetails" id="ODk-g2-7C4"/>
                     </connections>
@@ -5797,9 +5808,9 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="ODk-g2-7C4"/>
-        <segue reference="UfZ-y4-j3J"/>
-        <segue reference="f1D-EY-plH"/>
+        <segue reference="NRf-cI-JqS"/>
         <segue reference="xlr-H1-EYH"/>
+        <segue reference="f1D-EY-plH"/>
         <segue reference="QOH-0N-qqT"/>
         <segue reference="ijV-Zs-EsV"/>
         <segue reference="2g9-O4-duU"/>
