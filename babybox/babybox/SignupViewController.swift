@@ -26,7 +26,7 @@ class SignupViewController: BaseLoginViewController {
     @IBOutlet weak var emailText: UITextField!
     @IBOutlet weak var passwordText: UITextField!
     @IBOutlet weak var confirmPasswordText: UITextField!
-    @IBOutlet var signUp: UIButton!
+    @IBOutlet weak var signUpBtn: UIButton!
     
     override func viewDidAppear(animated: Bool) {
         //self.navigationController?.navigationBar.hidden = true
@@ -49,11 +49,13 @@ class SignupViewController: BaseLoginViewController {
             self.handleError("Failed to sign up user. Please check your info and try again.")
         }
         
+        ViewUtil.displayRoundedBorderButton(self.signUpBtn)
+        
         self.licenseBtn.layer.borderWidth = 1.0
-        self.licenseBtn.layer.borderColor = UIColor.darkGrayColor().CGColor
+        self.licenseBtn.layer.borderColor = Color.DARK_GRAY.CGColor
         
         self.policyBtn.layer.borderWidth = 1.0
-        self.policyBtn.layer.borderColor = UIColor.darkGrayColor().CGColor
+        self.policyBtn.layer.borderColor = Color.DARK_GRAY.CGColor
     }
     
     override func viewDidDisappear(animated: Bool) {

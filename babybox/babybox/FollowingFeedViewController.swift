@@ -153,7 +153,7 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
     }*/
     
     func setCollectionViewSizesInsets() {
-        collectionViewCellSize = ImageUtil.imageUtil.getProductItemCellSize(self.view.bounds.width)
+        collectionViewCellSize = ViewUtil.getProductItemCellSize(self.view.bounds.width)
     }
     
     @IBAction func onLikeBtnClick(sender: AnyObject) {

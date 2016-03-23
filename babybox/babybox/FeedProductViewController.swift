@@ -56,7 +56,7 @@ class FeedProductViewController: ProductNavigationController, UICollectionViewDe
             ViewUtil.makeToast("Failed to mark item as sold. Please try again later.", view: self.view)
         }
         
-        self.detailTableView.separatorColor = UIColor.whiteColor()
+        self.detailTableView.separatorColor = Color.WHITE
         self.detailTableView.estimatedRowHeight = 300.0
         self.detailTableView.rowHeight = UITableViewAutomaticDimension
         
@@ -148,8 +148,8 @@ class FeedProductViewController: ProductNavigationController, UICollectionViewDe
             if indexPath.row == self.comments.count {
                 cell.btnPostComments.tag = indexPath.row
                 cell.btnPostComments.addTarget(self, action: "PostComments:", forControlEvents: UIControlEvents.TouchUpInside)
-                ImageUtil.displayButtonRoundBorder(cell.btnPostComments)
-                cell.btnPostComments.layer.borderColor = UIColor.lightGrayColor().CGColor
+                ViewUtil.displayRoundedBorderButton(cell.btnPostComments)
+                cell.btnPostComments.layer.borderColor = Color.LIGHT_GRAY.CGColor
                 cell.commentTxt.delegate = self
                 cell.commentTxt.layer.cornerRadius = 15.0
                 cell.commentTxt.layer.masksToBounds = true
@@ -248,8 +248,8 @@ class FeedProductViewController: ProductNavigationController, UICollectionViewDe
                 }
                 
                 cell.viewBtnIns.layer.borderWidth = CGFloat(1)
-                cell.viewBtnIns.layer.borderColor = ImageUtil.UIColorFromRGB(0xFF76A4).CGColor
-                ImageUtil.displayButtonRoundBorder(cell.viewBtnIns)
+                cell.viewBtnIns.layer.borderColor = Color.PINK.CGColor
+                ViewUtil.displayRoundedBorderButton(cell.viewBtnIns)
             default:
                 reuseidentifier = ""
             }
@@ -264,7 +264,7 @@ class FeedProductViewController: ProductNavigationController, UICollectionViewDe
             return nil
         }else{
             let returnedView = UIView(frame: CGRectMake(0, 0, self.detailTableView.bounds.width, 15.0))
-            returnedView.backgroundColor = UIColor.darkGrayColor()
+            returnedView.backgroundColor = Color.DARK_GRAY
             return returnedView
         }
     }

@@ -22,7 +22,7 @@ class ChatBubble: UIView {
         super.init(frame: ChatBubble.framePrimary(data.type, startY:startY))
         
         // Making Background transparent
-        self.backgroundColor = UIColor.clearColor()
+        self.backgroundColor = Color.CLEAR
         
         let padding: CGFloat = 10.0
         // 2. Drawing image if any
@@ -53,8 +53,8 @@ class ChatBubble: UIView {
         
         //Create Child SubView for showing opponet details
         let subView = UIView(frame: CGRectMake(0, 0, 25, 25))
-        subView.backgroundColor = UIColor.grayColor()
-        subView.layer.backgroundColor = ImageUtil.UIColorFromRGB(0xffffff).CGColor
+        subView.backgroundColor = Color.GRAY
+        subView.layer.backgroundColor = Color.WHITE.CGColor
         self.addSubview(subView)
         
         // 3. Going to add Text if any
@@ -123,11 +123,12 @@ class ChatBubble: UIView {
         
         if data.type == .Mine {
             imageViewBG?.image = UIImage(named: bubbleImageFileName)?.resizableImageWithCapInsets(UIEdgeInsetsMake(14, 14, 17, 28))
-            vChat.layer.backgroundColor = ImageUtil.UIColorFromRGB(0xdcf8c6).CGColor  //UIColor.yellowColor().CGColor
+            vChat.layer.backgroundColor = Color.CHAT_YOU.CGColor
         } else {
             imageViewBG?.image = UIImage(named: bubbleImageFileName)?.resizableImageWithCapInsets(UIEdgeInsetsMake(14, 22, 17, 20))
-            vChat.layer.backgroundColor = ImageUtil.UIColorFromRGB(0xEFEFF4).CGColor
+            vChat.layer.backgroundColor = Color.CHAT_ME.CGColor
         }
+        
         self.addSubview(vChat)
         self.sendSubviewToBack(vChat)
         //self.addSubview(imageViewBG!)

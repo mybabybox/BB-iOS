@@ -14,6 +14,7 @@ class WelcomeViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBOutlet weak var signUpBtn: UIButton!
     @IBOutlet weak var loginBtn: UIButton!
     @IBOutlet var tableView:UITableView!
+    
     var collectionView:UICollectionView!
     
     var images = [
@@ -33,12 +34,13 @@ class WelcomeViewController: UIViewController, UITableViewDelegate, UITableViewD
 
         self.navigationController?.interactivePopGestureRecognizer?.enabled = false
         
-        let color = ImageUtil.UIColorFromRGB(0xFF76A4).CGColor
-        self.signUpBtn.backgroundColor = UIColor.clearColor()
-        ImageUtil.displayButtonRoundBorder(self.signUpBtn)
-        self.signUpBtn.layer.borderColor = color
+        let color = Color.PINK.CGColor
+        self.signUpBtn.backgroundColor = Color.CLEAR
         
-        ImageUtil.displayButtonRoundBorder(self.loginBtn)
+        ViewUtil.displayRoundedBorderButton(self.signUpBtn)
+        self.signUpBtn.layer.borderColor = color
+        self.signUpBtn.setTitleColor(Color.PINK, forState: UIControlState.Normal)
+        ViewUtil.displayRoundedBorderButton(self.loginBtn)
         self.loginBtn.layer.borderColor = color
     }
     

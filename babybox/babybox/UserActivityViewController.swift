@@ -118,12 +118,12 @@ class UserActivityViewController: CustomNavigationController {
                 cell.textMessage.numberOfLines = 0
                 cell.textMessage.sizeToFit()
                 cell.userName.setTitle(self.userActivitesItems[indexPath.row].actorName, forState: UIControlState.Normal)
-                cell.userName.setTitleColor(ImageUtil.getPinkColor(), forState: UIControlState.Normal)
+                cell.userName.setTitleColor(Color.PINK, forState: UIControlState.Normal)
                 //cell.userName.addTarget(self, action: "onClickActor:", forControlEvents: UIControlEvents.TouchUpInside)
                 ImageUtil.displayPostImage(Int(self.userActivitesItems[indexPath.row].targetImage), imageView: cell.postImage)
                 
                 if (!viewStatus) {
-                    cell.layer.backgroundColor = ImageUtil.UIColorFromRGB(0xFFF2EF).CGColor
+                    cell.layer.backgroundColor = Color.IMAGE_LOAD_BG.CGColor
                 }
                 
                 return cell
@@ -139,7 +139,7 @@ class UserActivityViewController: CustomNavigationController {
                 ImageUtil.displayPostImage(Int(self.userActivitesItems[indexPath.row].targetImage), imageView: cell.postImage)
                 
                 if (!viewStatus) {
-                    cell.layer.backgroundColor = ImageUtil.UIColorFromRGB(0xFFF2EF).CGColor
+                    cell.layer.backgroundColor = Color.IMAGE_LOAD_BG.CGColor
                 }
                 
                 return cell
@@ -156,7 +156,7 @@ class UserActivityViewController: CustomNavigationController {
                 cell.textMessage.sizeToFit()
                 
                 if (!viewStatus) {
-                    cell.layer.backgroundColor = ImageUtil.UIColorFromRGB(0xFFF2EF).CGColor
+                    cell.layer.backgroundColor = Color.IMAGE_LOAD_BG.CGColor
                 }
                 
                 return cell

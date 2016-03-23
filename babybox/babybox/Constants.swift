@@ -13,11 +13,14 @@ struct Constants {
     
     static let APP_NAME = "BabyBox"
     
-    static let BASE_URL = "http://www.baby-box.com.hk"
-    static let BASE_IMAGE_URL = "http://www.baby-box.com.hk"
+    static let BASE_URL = "http://119.81.228.91"
+    static let BASE_IMAGE_URL = "http://119.81.228.91"
     
     static let DEVICE_TYPE = "IOS";
     static let CURRENCY_SYMBOL = "$"
+    
+    static let HTTP_STATUS_OK = 200;
+    static let HTTP_STATUS_BAD_REQUEST = 400;
     
     static let SPLASH_SHOW_DURATION = 0.5
     static let FEED_LOAD_SCROLL_THRESHOLD = CGFloat(50.0)

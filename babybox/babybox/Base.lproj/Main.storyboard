@@ -1716,7 +1716,7 @@
                                         </constraints>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                         <state key="normal" title="Signup">
-                                            <color key="titleColor" red="1" green="0.46274509803921571" blue="0.90196078431372551" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleColor" red="0.9882352941176471" green="0.36078431372549019" blue="0.57647058823529407" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <variation key="default">
@@ -4838,6 +4838,7 @@
                         <outlet property="passwordText" destination="p3q-kZ-giP" id="MxV-b2-QJp"/>
                         <outlet property="policyBtn" destination="VhO-Sn-9vk" id="JMf-zU-GAm"/>
                         <outlet property="signUp" destination="C0p-5S-sY8" id="NtT-Np-r4S"/>
+                        <outlet property="signUpBtn" destination="C0p-5S-sY8" id="Prl-h9-dpa"/>
                         <segue destination="7xL-U6-oa5" kind="show" identifier="showSignUpDetails" id="ODk-g2-7C4"/>
                     </connections>
                 </viewController>
@@ -5796,9 +5797,9 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="ODk-g2-7C4"/>
-        <segue reference="NRf-cI-JqS"/>
-        <segue reference="QZR-Jz-NIW"/>
+        <segue reference="UfZ-y4-j3J"/>
         <segue reference="f1D-EY-plH"/>
+        <segue reference="xlr-H1-EYH"/>
         <segue reference="QOH-0N-qqT"/>
         <segue reference="ijV-Zs-EsV"/>
         <segue reference="2g9-O4-duU"/>

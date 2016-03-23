@@ -35,7 +35,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         SwiftEventBus.unregister(self)
         self.navigationItem.title = self.conversation?.userName
-        let titleDict: NSDictionary = [NSForegroundColorAttributeName: UIColor.whiteColor()]
+        let titleDict: NSDictionary = [NSForegroundColorAttributeName: Color.WHITE]
         self.navigationController!.navigationBar.titleTextAttributes = titleDict as? [String : AnyObject]
         
         sendButton.enabled = false
@@ -76,7 +76,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate {
         let userProfileBarBtn = UIBarButtonItem(customView: userProfileBtn)
         self.navigationItem.rightBarButtonItems = [userProfileBarBtn]
         
-        ImageUtil.displayButtonRoundBorder(self.sendButton)
+        ViewUtil.displayRoundedBorderButton(self.sendButton)
         
     }
     

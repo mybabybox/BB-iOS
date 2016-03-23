@@ -267,7 +267,7 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
     }
     
     func setCollectionViewSizesInsets() {
-        collectionViewCellSize = ImageUtil.imageUtil.getProductItemCellSize(self.view.bounds.width)
+        collectionViewCellSize = ViewUtil.getProductItemCellSize(self.view.bounds.width)
     }
     
     @IBAction func onLikeBtnClick(sender: AnyObject) {
@@ -339,22 +339,16 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
             let y = CGFloat(segControl.frame.size.height)
             let start: CGPoint = CGPoint(x: 0, y: (segControl.frame.origin.y) + y - extraHt)
             let end: CGPoint = CGPoint(x: self.view.frame.size.width / 2, y: (segControl.frame.origin.y) + y - extraHt)
-            
-            let color: UIColor = UIColor(red: 255/255, green: 118/255, blue: 164/255, alpha: 1.0)
-            self.drawLineFromPoint(start, toPoint: end, ofColor: color, inView: segControl)
-            
+            self.drawLineFromPoint(start, toPoint: end, ofColor: Color.PINK, inView: segControl)
         } else if(segControl.selectedSegmentIndex == 1){
-            
             let y = CGFloat(segControl.frame.size.height)
             let start: CGPoint = CGPoint(x: segControl.frame.size.width / 2 , y: (segControl.frame.origin.y) + y - extraHt)
             let end: CGPoint = CGPoint(x: segControl.frame.size.width, y: (segControl.frame.origin.y) + y - extraHt)
-            
-            let color: UIColor = UIColor(red: 255/255, green: 118/255, blue: 164/255, alpha: 1.0)
-            self.drawLineFromPoint(start, toPoint: end, ofColor: color, inView: segControl)
+            self.drawLineFromPoint(start, toPoint: end, ofColor: Color.PINK, inView: segControl)
         }
-        segControl.setTitleTextAttributes([NSForegroundColorAttributeName: ImageUtil.UIColorFromRGB(0xFF76A4)],
+        segControl.setTitleTextAttributes([NSForegroundColorAttributeName: Color.PINK],
             forState: UIControlState.Selected)
-        segControl.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.lightGrayColor()],
+        segControl.setTitleTextAttributes([NSForegroundColorAttributeName: Color.LIGHT_GRAY],
             forState: UIControlState.Normal)
     }
     
@@ -363,12 +357,12 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
         let availableWidthForButtons:CGFloat = self.view.bounds.width
         let buttonWidth :CGFloat = availableWidthForButtons / 3
         
-        cell.segmentControl.backgroundColor = UIColor.whiteColor()
+        cell.segmentControl.backgroundColor = Color.WHITE
         
         redrawSegControlBorder(cell.segmentControl)
         
         cell.btnWidthConsttraint.constant = buttonWidth
-        cell.editProfile.layer.borderColor = UIColor.lightGrayColor().CGColor
+        cell.editProfile.layer.borderColor = Color.LIGHT_GRAY.CGColor
         cell.editProfile.layer.borderWidth = 1.0
         
         if (!SharedPreferencesUtil.getInstance().isScreenViewed(SharedPreferencesUtil.Screen.MY_PROFILE_TIPS)) {
@@ -378,7 +372,7 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
             cell.tipsConstraint.constant = 6
         }
         
-        ImageUtil.displayButtonRoundBorder(cell.editProfile)
+        ViewUtil.displayRoundedBorderButton(cell.editProfile)
     }
    
     func drawLineFromPoint(start : CGPoint, toPoint end:CGPoint, ofColor lineColor: UIColor, inView view: UIView) {
@@ -391,7 +385,7 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
         path.miterLimit = CGFloat(0.0)
         //design path in layer
         
-        shapeLayer.fillColor = UIColor.whiteColor().CGColor
+        shapeLayer.fillColor = Color.WHITE.CGColor
         shapeLayer.path = path.CGPath
         shapeLayer.strokeColor = lineColor.CGColor
         shapeLayer.lineWidth = 2.0

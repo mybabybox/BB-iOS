@@ -56,7 +56,7 @@ class FeedViewAdapter {
 
         // Owner
         if (showOwner && cell.userCircleImg != nil) {
-            cell.userCircleImg.layer.borderColor = UIColor.whiteColor().CGColor
+            cell.userCircleImg.layer.borderColor = Color.WHITE.CGColor
             cell.userCircleImg.layer.borderWidth = CGFloat(1.0)
             ImageUtil.displayThumbnailProfileImage(feedItem.ownerId, imageView: cell.userCircleImg)
         }

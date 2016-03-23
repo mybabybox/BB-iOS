@@ -139,7 +139,7 @@ class HomeFeedViewController: CustomNavigationController {
             gradientLayer.colors = [
                 UIColor(white: 0, alpha: 0.0).CGColor,
                 UIColor(white: 0, alpha: 0.4).CGColor,
-                UIColor.lightGrayColor().CGColor
+                Color.LIGHT_GRAY.CGColor
             ]
             cell.categoryIcon.layer.sublayers = nil
             cell.categoryIcon.layer.insertSublayer(gradientLayer, atIndex: 0)
@@ -251,7 +251,7 @@ class HomeFeedViewController: CustomNavigationController {
     }
     
     func setCollectionViewSizesInsets() {
-        collectionViewCellSize = ImageUtil.imageUtil.getProductItemCellSize(self.view.bounds.width)
+        collectionViewCellSize = ViewUtil.getProductItemCellSize(self.view.bounds.width)
     }
     
     @IBAction func onLikeBtnClick(sender: AnyObject) {

@@ -27,8 +27,6 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
     var reuseIdentifier = "CellType1"
     var loadingProducts: Bool = false
     var selCategory: CategoryVM? = nil
-    var txtWhiteColor = UIColor(red: CGFloat(255.0), green: CGFloat(255.0), blue: CGFloat(255.0), alpha: CGFloat(1.0))
-    var txtPinkColor = ImageUtil.UIColorFromRGB(0xFF76A4)
     
     var vController: FeedProductViewController?
     var currentIndex: NSIndexPath?
@@ -42,13 +40,11 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
     }
     
     override func viewDidAppear(animated: Bool) {
-        
         if (currentIndex != nil) {
             let item = vController?.feedItem
             feedLoader?.setItem(currentIndex!.row, item: item!)
             self.uiCollectionView.reloadItemsAtIndexPaths([currentIndex!])
         }
-        
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -246,7 +242,7 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func setCollectionViewSizesInsets() {
-        collectionViewCellSize = ImageUtil.imageUtil.getProductItemCellSize(self.view.bounds.width)
+        collectionViewCellSize = ViewUtil.getProductItemCellSize(self.view.bounds.width)
     }
     
     @IBAction func onLikeBtnClick(sender: AnyObject) {
@@ -290,13 +286,13 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func setClickedBtnBackgroundAndText(sender: UIButton) {
-        sender.backgroundColor = txtPinkColor
-        sender.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+        sender.backgroundColor = Color.PINK
+        sender.setTitleColor(Color.WHITE, forState: UIControlState.Normal)
     }
     
     func setUnClickedBtnBackgroundAndText(sender: UIButton) {
-        sender.backgroundColor = UIColor.whiteColor()
-        sender.setTitleColor(UIColor.darkGrayColor(), forState: UIControlState.Normal)
+        sender.backgroundColor = Color.WHITE
+        sender.setTitleColor(Color.DARK_GRAY, forState: UIControlState.Normal)
     }
     
     func onClickSellBtn(sender: AnyObject?) {
@@ -311,16 +307,16 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
         let availableWidthForButtons:CGFloat = self.view.bounds.width - 30
         let buttonWidth :CGFloat = availableWidthForButtons / 4
         cell.btnWidthConstraint.constant = buttonWidth
-        cell.popularBtn.layer.borderColor = UIColor.lightGrayColor().CGColor
+        cell.popularBtn.layer.borderColor = Color.LIGHT_GRAY.CGColor
         cell.popularBtn.layer.borderWidth = 0.5
         
-        cell.newestBtn.layer.borderColor = UIColor.lightGrayColor().CGColor
+        cell.newestBtn.layer.borderColor = Color.LIGHT_GRAY.CGColor
         cell.newestBtn.layer.borderWidth = 0.5
         
-        cell.lowToHighBtn.layer.borderColor = UIColor.lightGrayColor().CGColor
+        cell.lowToHighBtn.layer.borderColor = Color.LIGHT_GRAY.CGColor
         cell.lowToHighBtn.layer.borderWidth = 0.5
         
-        cell.highToLow.layer.borderColor = UIColor.lightGrayColor().CGColor
+        cell.highToLow.layer.borderColor = Color.LIGHT_GRAY.CGColor
         cell.highToLow.layer.borderWidth = 0.5
     }
 }

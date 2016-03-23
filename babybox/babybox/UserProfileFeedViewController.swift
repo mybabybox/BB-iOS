@@ -96,11 +96,8 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
         flowLayout.minimumLineSpacing = 5
         uiCollectionView.collectionViewLayout = flowLayout
         
-        //let titleDict: NSDictionary = [NSForegroundColorAttributeName: UIColor.whiteColor()]
-        
         self.navigationItem.rightBarButtonItems = []
         self.navigationItem.leftBarButtonItems = []
-        //self.navigationController!.navigationBar.titleTextAttributes = titleDict as? [String : AnyObject]
         
         self.uiCollectionView.addPullToRefresh({ [weak self] in
             ViewUtil.showActivityLoading(self!.activityLoading)
@@ -157,10 +154,10 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
                 
                 if (self.userInfo!.isFollowing) {
                     cell.editProfile.setTitle("Following", forState: UIControlState.Normal)
-                    ImageUtil.displayCornerButton(cell.editProfile, colorCode: 0xAAAAAA)
+                    ViewUtil.displayRoundedCornerButton(cell.editProfile, color: Color.GRAY)
                 } else {
                     cell.editProfile.setTitle("Follow", forState: UIControlState.Normal)
-                    ImageUtil.displayCornerButton(cell.editProfile, colorCode: 0xFF76A4)
+                    ViewUtil.displayRoundedCornerButton(cell.editProfile, color: Color.PINK)
                 }
             }
             
@@ -282,7 +279,7 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
     }
     
     func setCollectionViewSizesInsets() {
-        collectionViewCellSize = ImageUtil.imageUtil.getProductItemCellSize(self.view.bounds.width)
+        collectionViewCellSize = ViewUtil.getProductItemCellSize(self.view.bounds.width)
     }
     
     @IBAction func onLikeBtnClick(sender: AnyObject) {
@@ -316,24 +313,20 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
             let y = CGFloat(segControl.frame.size.height)
             let start: CGPoint = CGPoint(x: 0, y: (segControl.frame.origin.y) + y - extraHt)
             let end: CGPoint = CGPoint(x: self.view.frame.size.width / 2, y: (segControl.frame.origin.y) + y - extraHt)
-            
-            let color: UIColor = UIColor(red: 255/255, green: 118/255, blue: 164/255, alpha: 1.0)
-            self.drawLineFromPoint(start, toPoint: end, ofColor: color, inView: segControl)
+            self.drawLineFromPoint(start, toPoint: end, ofColor: Color.PINK, inView: segControl)
             
         } else if(segControl.selectedSegmentIndex == 1){
             
             let y = CGFloat(segControl.frame.size.height)
             let start: CGPoint = CGPoint(x: segControl.frame.size.width / 2 , y: (segControl.frame.origin.y) + y - extraHt)
             let end: CGPoint = CGPoint(x: segControl.frame.size.width, y: (segControl.frame.origin.y) + y - extraHt)
-            
-            let color: UIColor = UIColor(red: 255/255, green: 118/255, blue: 164/255, alpha: 1.0)
-            self.drawLineFromPoint(start, toPoint: end, ofColor: color, inView: segControl)
+            self.drawLineFromPoint(start, toPoint: end, ofColor: Color.PINK, inView: segControl)
         }
         
         segControl.setTitleTextAttributes(
-            [NSForegroundColorAttributeName: ImageUtil.UIColorFromRGB(0xFF76A4)],
+            [NSForegroundColorAttributeName: Color.PINK],
             forState: UIControlState.Selected)
-        segControl.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.lightGrayColor()],
+        segControl.setTitleTextAttributes([NSForegroundColorAttributeName: Color.LIGHT_GRAY],
             forState: UIControlState.Normal)
     }
     
@@ -342,25 +335,25 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
         let availableWidthForButtons:CGFloat = self.view.bounds.width
         let buttonWidth :CGFloat = availableWidthForButtons / 3
         
-        cell.segmentControl.backgroundColor = UIColor.whiteColor()
+        cell.segmentControl.backgroundColor = Color.WHITE
         
         redrawSegControlBorder(cell.segmentControl)
         
         cell.btnWidthConsttraint.constant = buttonWidth
-        /*cell.followersBtn.layer.borderColor = UIColor.lightGrayColor().CGColor
+        /*cell.followersBtn.layer.borderColor = Color.LIGHT_GRAY.CGColor
         cell.followersBtn.layer.borderWidth = 1.0
         
-        cell.followingBtn.layer.borderColor = UIColor.lightGrayColor().CGColor
+        cell.followingBtn.layer.borderColor = Color.LIGHT_GRAY.CGColor
         cell.followingBtn.layer.borderWidth = 1.0        */
         
-        cell.editProfile.layer.borderColor = UIColor.lightGrayColor().CGColor
+        cell.editProfile.layer.borderColor = Color.LIGHT_GRAY.CGColor
         cell.editProfile.layer.borderWidth = 1.0
         
-        ImageUtil.displayButtonRoundBorder(cell.editProfile)
+        ViewUtil.displayRoundedBorderButton(cell.editProfile)
         
         if (UserInfoCache.getUser()!.id != self.userId) {
             cell.editProfile.hidden = false
-            ImageUtil.displayButtonRoundBorder(cell.editProfile)
+            ViewUtil.displayRoundedBorderButton(cell.editProfile)
         } else {
             cell.editProfile.hidden = true
         }
@@ -376,7 +369,7 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
         path.miterLimit = CGFloat(0.0)
         //design path in layer
         
-        shapeLayer.fillColor = UIColor.whiteColor().CGColor
+        shapeLayer.fillColor = Color.WHITE.CGColor
         shapeLayer.path = path.CGPath
         shapeLayer.strokeColor = lineColor.CGColor
         shapeLayer.lineWidth = 2.0
@@ -395,13 +388,12 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
             ApiController.instance.unfollowUser((self.userInfo!.id))
             self.userInfo!.isFollowing = false
             cell.editProfile.setTitle("Follow", forState: UIControlState.Normal)
-            ImageUtil.displayCornerButton(cell.editProfile, colorCode: 0xFF76A4)
+            ViewUtil.displayRoundedCornerButton(cell.editProfile, color: Color.PINK)
         } else {
             ApiController.instance.followUser(self.userInfo!.id)
             self.userInfo!.isFollowing = true
             cell.editProfile.setTitle("Following", forState: UIControlState.Normal)
-            ImageUtil.displayCornerButton(cell.editProfile, colorCode: 0xAAAAAA)
+            ViewUtil.displayRoundedCornerButton(cell.editProfile, color: Color.GRAY)
         }
-        
     }
 }

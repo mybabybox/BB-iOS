@@ -25,12 +25,12 @@ class SellerViewController: CustomNavigationController {
         super.viewDidLoad()
         SellerViewController.instance = self
         let normalTextAttributes: [NSObject : AnyObject] = [
-            NSForegroundColorAttributeName: UIColor.grayColor(),
+            NSForegroundColorAttributeName: Color.GRAY,
             NSFontAttributeName: UIFont.systemFontOfSize(12.0)
         ]
         
         let activeTextAttributes: [NSObject : AnyObject] = [
-            NSForegroundColorAttributeName: UIColor.blackColor(),
+            NSForegroundColorAttributeName: Color.BLACK,
             NSFontAttributeName: UIFont.boldSystemFontOfSize(12.0)
         ]
         
@@ -40,22 +40,18 @@ class SellerViewController: CustomNavigationController {
         // select home segment
         segController.selectedSegmentIndex = 0
         
-        self.segController.backgroundColor = UIColor.whiteColor()
+        self.segController.backgroundColor = Color.WHITE
         self.segController.selectedSegmentIndex = self.activeSegment
         self.segAction(self.segController)
         self.navigationItem.hidesBackButton = true
     }
     
     override func viewDidAppear(animated: Bool) {
-        
         let y = CGFloat(self.segController.frame.height)
         let start: CGPoint = CGPoint(x: 0, y: y)
         let end: CGPoint = CGPoint(x: self.segController.frame.size.width / 2, y: y)
-        
-        
         if(self.segController.selectedSegmentIndex == 0){
-            let color: UIColor = UIColor(red: 255/255, green: 118/255, blue: 164/255, alpha: 1.0)
-            self.drawLineFromPoint(start, toPoint: end, ofColor: color, inView: self.segController)
+            self.drawLineFromPoint(start, toPoint: end, ofColor: Color.PINK, inView: self.segController)
         }
         NotificationCounter.mInstance.refresh(handleNotificationSuccess, failureCallback: handleNotificationError)
     }
@@ -75,9 +71,7 @@ class SellerViewController: CustomNavigationController {
             let y = CGFloat(self.segController.frame.size.height)
             let start: CGPoint = CGPoint(x: 0, y: y)
             let end: CGPoint = CGPoint(x: self.segController.frame.size.width / 2, y: y)
-            
-            let color: UIColor = UIColor(red: 255/255, green: 118/255, blue: 164/255, alpha: 1.0)
-            self.drawLineFromPoint(start, toPoint: end, ofColor: color, inView: self.segController)
+            self.drawLineFromPoint(start, toPoint: end, ofColor: Color.PINK, inView: self.segController)
             
             self.followingController?.willMoveToParentViewController(nil)
             self.followingController?.view.removeFromSuperview()
@@ -96,9 +90,7 @@ class SellerViewController: CustomNavigationController {
             let y = CGFloat(self.segController.frame.size.height)
             let start: CGPoint = CGPoint(x: self.segController.frame.size.width / 2 , y: y)
             let end: CGPoint = CGPoint(x: self.segController.frame.size.width, y: y)
-            
-            let color: UIColor = UIColor(red: 255/255, green: 118/255, blue: 164/255, alpha: 1.0)
-            self.drawLineFromPoint(start, toPoint: end, ofColor: color, inView: self.segController)
+            self.drawLineFromPoint(start, toPoint: end, ofColor: Color.PINK, inView: self.segController)
             
             self.sellerRecommendationController?.willMoveToParentViewController(nil)
             self.sellerRecommendationController?.view.removeFromSuperview()
@@ -120,7 +112,7 @@ class SellerViewController: CustomNavigationController {
         path.lineCapStyle = CGLineCap.Square
         path.miterLimit = CGFloat(0.0)
         //design path in layer
-        shapeLayer.fillColor = UIColor.whiteColor().CGColor
+        shapeLayer.fillColor = Color.WHITE.CGColor
         shapeLayer.path = path.CGPath
         shapeLayer.strokeColor = lineColor.CGColor
         shapeLayer.lineWidth = 2.0
@@ -128,7 +120,6 @@ class SellerViewController: CustomNavigationController {
         shapeLayer.allowsGroupOpacity = false
         shapeLayer.autoreverses = false
         self.view.layer.addSublayer(shapeLayer)
-        
     }
     
     override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {

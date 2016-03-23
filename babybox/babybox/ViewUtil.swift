@@ -46,6 +46,43 @@ class ViewUtil {
         }
     }
     
+    //
+    // UI
+    //
+    
+    static func getProductItemCellSize(width: CGFloat) -> CGSize {
+        let availableWidthForCells:CGFloat = width - 15
+        let cellWidth :CGFloat = availableWidthForCells / 2
+        let cellHeight = cellWidth + 35
+        return CGSizeMake(cellWidth, cellHeight)
+    }
+    
+    static func displayCircularBorderView(view: UIView) {
+        view.layer.cornerRadius = view.frame.height/2
+        view.layer.masksToBounds = true
+    }
+    
+    static func displayRoundedBorderButton(view: UIView) {
+        view.layer.cornerRadius = 5.0
+        view.layer.masksToBounds = true
+        view.layer.borderWidth = 1
+    }
+    
+    static func displayRoundedCornerView(view: UIView) {
+        let color = Color.PINK.CGColor
+        view.layer.borderColor = color
+        view.layer.cornerRadius = 5.0
+        view.layer.masksToBounds = true
+        view.layer.borderWidth = 1
+    }
+
+    static func displayRoundedCornerButton(view: UIButton, color: UIColor) {
+        view.layer.cornerRadius = 5.0
+        view.layer.masksToBounds = true
+        view.layer.borderWidth = 0
+        view.layer.backgroundColor = color.CGColor
+    }
+    
     static func getScreenWidth(view: UIView) -> CGFloat {
         let screenWidth:CGFloat = view.bounds.width
         return screenWidth
@@ -61,24 +98,14 @@ class ViewUtil {
         container.frame = uiView.frame
         container.center = uiView.center
         
-        let v = UIColor(
-            red: CGFloat((0xffffff & 0xFF0000) >> 16) / 255.0,
-            green: CGFloat((0xffffff & 0x00FF00) >> 8) / 255.0,
-            blue: CGFloat(0xffffff & 0x0000FF) / 255.0,
-            alpha: CGFloat(0.3)
-        )
+        let v = Color.fromRGB(0xFFFFFF, alpha: 0.3)
+        let v1 = Color.fromRGB(0xFFFFFF, alpha: 0.7)
         
         container.backgroundColor = v
         
         let loadingView: UIView = UIView()
         loadingView.frame = CGRectMake(0, 0, 80, 80)
         loadingView.center = uiView.center
-        let v1 = UIColor(
-            red: CGFloat((0xffffff & 0xFF0000) >> 16) / 255.0,
-            green: CGFloat((0xffffff & 0x00FF00) >> 8) / 255.0,
-            blue: CGFloat(0xffffff & 0x0000FF) / 255.0,
-            alpha: CGFloat(0.7)
-        )
         loadingView.backgroundColor = v1
         loadingView.clipsToBounds = true
         loadingView.layer.cornerRadius = 10
@@ -165,8 +192,8 @@ class ViewUtil {
         button.layer.cornerRadius = 5.0
         button.layer.masksToBounds = true
         button.layer.borderWidth = 1
-        button.setTitleColor(ImageUtil.UIColorFromRGB(0xFF76A4), forState: UIControlState.Normal)
-        button.layer.borderColor = ImageUtil.UIColorFromRGB(0xFF76A4).CGColor
+        button.setTitleColor(Color.PINK, forState: UIControlState.Normal)
+        button.layer.borderColor = Color.PINK.CGColor
         button.setTitle("Follow", forState: UIControlState.Normal)
     }
     

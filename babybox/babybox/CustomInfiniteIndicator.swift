@@ -6,7 +6,7 @@ private let rotationAnimationKey = "rotation"
 class CustomInfiniteIndicator: UIView {
     
     var thickness: CGFloat = 2
-    var outerColor = UIColor.grayColor().colorWithAlphaComponent(0.2)
+    var outerColor = Color.GRAY.colorWithAlphaComponent(0.2)
     
     lazy var innerColor: UIColor = {
         return self.tintColor
@@ -48,14 +48,14 @@ class CustomInfiniteIndicator: UIView {
         registerForAppStateNotifications()
         
         hidden = true
-        backgroundColor = UIColor.clearColor()
+        backgroundColor = Color.CLEAR
         
         outerCircle.strokeColor = outerColor.CGColor
-        outerCircle.fillColor = UIColor.clearColor().CGColor
+        outerCircle.fillColor = Color.CLEAR.CGColor
         outerCircle.lineWidth = thickness
         
         innerCircle.strokeColor = innerColor.CGColor
-        innerCircle.fillColor = UIColor.clearColor().CGColor
+        innerCircle.fillColor = Color.CLEAR.CGColor
         innerCircle.lineWidth = thickness
         
         layer.addSublayer(outerCircle)

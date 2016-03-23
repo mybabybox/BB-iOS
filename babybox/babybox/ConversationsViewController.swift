@@ -46,7 +46,7 @@ class ConversationsViewController: UIViewController, UIGestureRecognizerDelegate
         
         self.navigationController?.navigationBar.opaque = true
         self.navigationItem.title = "Chats"
-        let titleDict: NSDictionary = [NSForegroundColorAttributeName: UIColor.whiteColor()]
+        let titleDict: NSDictionary = [NSForegroundColorAttributeName: Color.WHITE]
         self.navigationController!.navigationBar.titleTextAttributes = titleDict as? [String : AnyObject]
         self.setCollectionViewCellSize()
         

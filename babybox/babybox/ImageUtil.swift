@@ -36,53 +36,7 @@ class ImageUtil {
     static let ORIGINAL_MESSAGE_IMAGE_BY_ID_URL = Constants.BASE_IMAGE_URL + "/image/get-original-message-image-by-id/"
     static let MINI_MESSAGE_IMAGE_BY_ID_URL = Constants.BASE_IMAGE_URL + "/image/get-mini-message-image-by-id/"
     
-    static var imageUtil: ImageUtil = ImageUtil()
-    
-    static func UIColorFromRGB(rgbValue: UInt) -> UIColor {
-        
-        return UIColor(
-            red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
-            green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
-            blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
-            alpha: CGFloat(1.0)
-        )
-    }
-    
-    func getProductItemCellSize(width: CGFloat) -> CGSize {
-        let availableWidthForCells:CGFloat = width - 15
-        let cellWidth :CGFloat = availableWidthForCells / 2
-        let cellHeight = cellWidth + 35
-        return CGSizeMake(cellWidth, cellHeight)
-    }
-    
-    static func displayButtonRoundBorder(view: UIView) {
-        view.layer.cornerRadius = 5.0
-        view.layer.masksToBounds = true
-        view.layer.borderWidth = 1
-    }
-    
-    /*func setCircularImgStyle(view: UIView) {
-        view.layer.cornerRadius = view.frame.height/2
-        view.layer.masksToBounds = true
-    }*/
-        
-    static func displayCornerView(view: UIView) {
-        let color = ImageUtil.UIColorFromRGB(0xFF76A4).CGColor
-        view.layer.borderColor = color
-        view.layer.cornerRadius = 5.0
-        view.layer.masksToBounds = true
-        view.layer.borderWidth = 1
-    }
-    
-    static func getPinkColor() -> UIColor {
-        let rgbValue: UInt = 0xFF76A4
-        return UIColor(
-            red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
-            green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
-            blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
-            alpha: CGFloat(1.0)
-        )
-    }
+    static var instance: ImageUtil = ImageUtil()
     
     static func displayImage(url: String, view: UIImageView, centerCrop: Bool, noCahe: Bool) {
         let imageUrl  = NSURL(string: url)
@@ -176,15 +130,6 @@ class ImageUtil {
             optionsInfo: [.Transition(ImageTransition.Fade(IMAGE_DISPLAY_CROSS_FADE_DURATION))])
         view.layer.cornerRadius = 15
         view.layer.masksToBounds = true
-    }
-    
-    //Round Corner button
-    static func displayCornerButton(view: UIButton, colorCode: UInt) {
-        let color = UIColorFromRGB(colorCode).CGColor
-        view.layer.cornerRadius = 5.0
-        view.layer.masksToBounds = true
-        view.layer.borderWidth = 0
-        view.layer.backgroundColor = color
     }
     
     static func getProductImageUrl(imageId: String) -> NSURL {
