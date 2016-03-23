@@ -153,13 +153,18 @@ class ViewUtil {
     }
     
     static func selectFollowButtonStyleLite(button: UIButton) {
+        button.layer.cornerRadius = 5.0
+        button.layer.masksToBounds = true
+        button.layer.borderWidth = 1
         button.setTitleColor(UIColor.grayColor(), forState: UIControlState.Normal)
-        button.layer.borderColor = UIColor.lightGrayColor().CGColor
+        button.layer.borderColor = UIColor.grayColor().CGColor
         button.setTitle("Following", forState: UIControlState.Normal)
     }
     
     static func unselectFollowButtonStyleLite(button: UIButton) {
-    
+        button.layer.cornerRadius = 5.0
+        button.layer.masksToBounds = true
+        button.layer.borderWidth = 1
         button.setTitleColor(ImageUtil.UIColorFromRGB(0xFF76A4), forState: UIControlState.Normal)
         button.layer.borderColor = ImageUtil.UIColorFromRGB(0xFF76A4).CGColor
         button.setTitle("Follow", forState: UIControlState.Normal)

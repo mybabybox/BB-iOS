@@ -195,6 +195,10 @@ class ImageUtil {
         view.layer.backgroundColor = color
     }
     
+    static func getProductImageUrl(imageId: String) -> NSURL {
+        return NSURL(string: ORIGINAL_POST_IMAGE_BY_ID_URL + imageId)!
+    }
+    
     static func compressImage(image:UIImage) -> NSData {
         // Reducing file size to a 10th
         

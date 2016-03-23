@@ -191,9 +191,8 @@ class FeedProductViewController: ProductNavigationController, UICollectionViewDe
                     self.collectionView.delegate = self
                     self.collectionView.dataSource = self
                     cell.soldImage.hidden = !self.productInfo!.sold
+                    
                 }
-                
-                
                 
             case 1:
                 cell.contentMode = UIViewContentMode.Redraw
@@ -407,7 +406,15 @@ class FeedProductViewController: ProductNavigationController, UICollectionViewDe
     // MARK: - UICollectionViewDelegate
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        //let tCell = collectionView.cellForItemAtIndexPath(indexPath) as? ImageCollectionViewCell
+        let imageUrl = ImageUtil.getProductImageUrl(self.images[indexPath.row])
+        let photoSlider = PhotoSlider.ViewController(imageURLs: [imageUrl])
+        photoSlider.delegate = self
+        photoSlider.currentPage = 0
         
+        self.presentViewController(photoSlider, animated: true) { () -> Void in
+            UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.Fade)
+        }
     }
     
     // MARK: - PhotoSliderDelegate

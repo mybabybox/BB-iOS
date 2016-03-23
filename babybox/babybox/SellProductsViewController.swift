@@ -68,9 +68,15 @@ class SellProductsViewController: UIViewController, UITextFieldDelegate, UITextV
             NSLog("Product Saved Successfully")
             self.view.makeToast(message: "Product Added Successfully", duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
             NotificationCounter.mInstance.refresh(self.handleNotificationSuccess, failureCallback: self.handleNotificationError)
-            //UserInfoCache.refresh(AppDelegate.getInstance().sessionId!, successCallback: self.handleUserInfoSuccess, failureCallback: self.handleError)
             UserInfoCache.incrementNumProducts()
-            self.navigationController?.popViewControllerAnimated(true)
+            //self.navigationController?.popViewControllerAnimated(true)
+            
+            let vController = self.storyboard?.instantiateViewControllerWithIdentifier("MyProfileFeedViewController") as! MyProfileFeedViewController
+            //vController.hidesBottomBarWhenPushed = true
+            
+            self.navigationController?.pushViewController(vController, animated: true)
+            //self.tabBarController!.selectedIndex = 3
+            
         }
         
         SwiftEventBus.onMainThread(self, name: "newProductFailed") { result in

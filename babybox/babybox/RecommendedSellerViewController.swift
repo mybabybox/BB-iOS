@@ -96,7 +96,7 @@ class RecommendedSellerViewController: UIViewController {
         } else {
             ViewUtil.unselectFollowButtonStyleLite(cell.followBtn)
         }
-        ImageUtil.displayCornerView(cell.followBtn)
+        //ImageUtil.displayCornerView(cell.followBtn)
         
         self.setSizesFoProdImgs(cell)
         
