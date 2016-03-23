@@ -406,15 +406,16 @@ class FeedProductViewController: ProductNavigationController, UICollectionViewDe
     // MARK: - UICollectionViewDelegate
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        //let tCell = collectionView.cellForItemAtIndexPath(indexPath) as? ImageCollectionViewCell
+        let tCell = collectionView.cellForItemAtIndexPath(indexPath) as? ImageCollectionViewCell
         let imageUrl = ImageUtil.getProductImageUrl(self.images[indexPath.row])
         let photoSlider = PhotoSlider.ViewController(imageURLs: [imageUrl])
-        photoSlider.delegate = self
-        photoSlider.currentPage = 0
+        //photoSlider.delegate = self
+        photoSlider.currentPage = indexPath.row
         
         self.presentViewController(photoSlider, animated: true) { () -> Void in
             UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.Fade)
         }
+        tCell?.pageControl.currentPage = indexPath.row
     }
     
     // MARK: - PhotoSliderDelegate
