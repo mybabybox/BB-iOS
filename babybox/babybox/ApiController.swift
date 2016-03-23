@@ -172,7 +172,7 @@ class ApiController {
         self.makePostApiCall(callEvent)
     }
 
-    func loginByFacebook(authToken: String) -> Bool {
+    func loginByFacebook(authToken: String) {
         let url = Constants.BASE_URL + "/authenticate/mobile/facebook?access_token=\(authToken)"
         let callEvent = ApiCallEvent()
         callEvent.method = "/authenticate/mobile/facebook"
@@ -180,42 +180,29 @@ class ApiController {
         callEvent.successEventbusName = "loginReceivedSuccess"
         callEvent.failedEventbusName = "loginReceivedFailed"
         callEvent.apiUrl = url
-        
         makePostApiCall(callEvent, appendSessionId: false)
-        
-        return true
     }
     
-    func loginByEmail(userName: String, password: String) -> Bool {
-        
+    func loginByEmail(userName: String, password: String) {
         let url = Constants.BASE_URL + "/login/mobile?email=\(userName)&password=\(password)"
-        
         let callEvent = ApiCallEvent()
         callEvent.method = "/login/mobile"
         callEvent.resultClass = "String"
         callEvent.successEventbusName = "loginReceivedSuccess"
         callEvent.failedEventbusName = "loginReceivedFailed"
         callEvent.apiUrl = url
-        
         makePostApiCall(callEvent, appendSessionId: false)
-        
-        return true
     }
     
-    func forgotPasswordRequest(emailAddress: String) -> Bool {
+    func forgotPasswordRequest(emailAddress: String) {
         let url = Constants.BASE_URL + "/login/password/forgot?email=\(emailAddress)"
-        
         let callEvent = ApiCallEvent()
         callEvent.method = "/login/password/forgot"
         callEvent.resultClass = "String"
         callEvent.successEventbusName = "forgotPasswordSuccess"
         callEvent.failedEventbusName = "forgotPasswordFailed"
         callEvent.apiUrl = url
-        
         self.makeApiCall(callEvent)
-        
-        return true
-        
     }
     
     //Categories products filter APIs calls
@@ -344,7 +331,6 @@ class ApiController {
         callEvent.successEventbusName = "saveSignInfoSuccess"
         callEvent.failedEventbusName = "saveSignInfoFailed"
         callEvent.apiUrl = Constants.BASE_URL + callEvent.method
-        
         self.makePostApiCall(callEvent)
     }
     
@@ -419,48 +405,23 @@ class ApiController {
         self.makeApiCall(callEvent)
     }
     
-    func deletePost(id: Int) {
-        let callEvent = ApiCallEvent()
-        callEvent.method = "/api/post/delete/\(id)"
-        callEvent.resultClass = "String"
-        callEvent.successEventbusName = "deletePostSuccess"
-        callEvent.failedEventbusName = "deletePostFailed"
-        callEvent.apiUrl = Constants.BASE_URL + callEvent.method
-        
-        self.makeApiCall(callEvent)
-    }
-    
-    /*func signup(){
-        let callEvent=ApiCallEvent()
-        callEvent.method="/signup"
-        callEvent.resultClass="String"
-        callEvent.successEventbusName="getSignUpSucess"
-        callEvent.failedEventbusName="getSignUpFailed"
-        callEvent.apiUrl=Constants.BASE_URL + callEvent.method
-        
-        self.makeApiCall(callEvent)
-        
-    }*/
-    
-    func signIn(firstNameText: String, lastNameText: String , emailText: String , passwordText: String , confirmPasswordText: String){
-        
+    func signUp(fname: String, lname: String , email: String , password: String , repeatPassword: String){
         var strData = [String]()
-        strData.append("fname=\(firstNameText)")
-        strData.append("lname=\(lastNameText)")
-        strData.append("email=\(emailText)")
-        strData.append("password=\(passwordText)")
-        strData.append("repeatpassword=\(confirmPasswordText)")
+        strData.append("fname=\(fname)")
+        strData.append("lname=\(lname)")
+        strData.append("email=\(email)")
+        strData.append("password=\(password)")
+        strData.append("repeatPassword=\(repeatPassword)")
         let parameter = self.makeBodyString(strData)
         
         let callEvent = ApiCallEvent()
         callEvent.method = "/signup"
-        callEvent.resultClass = "signingin"
+        callEvent.resultClass = "String"
         callEvent.body = parameter
-        //callEvent.successEventbusName = ""
-        //callEvent.failedEventbusName = ""
+        callEvent.successEventbusName = "signUpSuccess"
+        callEvent.failedEventbusName = "signUpFailed"
         
         callEvent.apiUrl = Constants.BASE_URL + callEvent.method
-        
         self.makePostApiCall(callEvent)
     }
     
@@ -561,7 +522,7 @@ class ApiController {
         
     }
     
-    func newProduct(title: String, body: String, catId: Int, conditionType:String, pricetxt : String, imageCollection: [AnyObject]) {
+    func newPost(title: String, body: String, catId: Int, conditionType:String, pricetxt : String, imageCollection: [AnyObject]) {
         
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/post/new"
@@ -612,6 +573,17 @@ class ApiController {
         
     }
 
+    func deletePost(id: Int) {
+        let callEvent = ApiCallEvent()
+        callEvent.method = "/api/post/delete/\(id)"
+        callEvent.resultClass = "String"
+        callEvent.successEventbusName = "deletePostSuccess"
+        callEvent.failedEventbusName = "deletePostFailed"
+        callEvent.apiUrl = Constants.BASE_URL + callEvent.method
+        
+        self.makeApiCall(callEvent)
+    }
+
     func newMessage(id: Int, message: String, imagePath: AnyObject) {
         newMessage(id, message: message, system: false, imagePath: imagePath)
     }
@@ -655,7 +627,6 @@ class ApiController {
     }
     
     func makeApiCall(arg: ApiCallEvent) {
-        
         NSLog("makeApiCall")
         
         let request: NSMutableURLRequest = NSMutableURLRequest()
@@ -666,19 +637,8 @@ class ApiController {
         NSLog("sending string %@", url)
         
         let session = NSURLSession.sharedSession()
-        
         let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
-            if error != nil {
-                SwiftEventBus.post(arg.failedEventbusName, sender: error)
-            } else {
-                let result: AnyObject?
-                do {
-                    result = try self.handleResult(data!, arg: arg)
-                    SwiftEventBus.post(arg.successEventbusName, sender: result)
-                } catch {
-                    SwiftEventBus.post(arg.failedEventbusName, sender: nil)
-                }
-            }
+            self.handleApiResponse(arg, data: data, response: response, error: error)
         })
         task.resume()
     }
@@ -706,24 +666,34 @@ class ApiController {
         
         let session = NSURLSession.sharedSession()
         let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
-            if error != nil {
-                SwiftEventBus.post(arg.failedEventbusName, sender: error)
-            } else {
-                let result: AnyObject?
-                do {
-                    result = try self.handleResult(data!, arg: arg)
-                    SwiftEventBus.post(arg.successEventbusName, sender: result)
-                } catch {
-                    SwiftEventBus.post(arg.failedEventbusName, sender: nil)
-                }
-            }
-        })  
+            self.handleApiResponse(arg, data: data, response: response, error: error)
+        })
         task.resume()
     }
     
-    func handleResult(data: NSData, arg: ApiCallEvent) throws -> AnyObject {
+    func handleApiResponse(arg: ApiCallEvent, data: NSData?, response: NSURLResponse?, error: NSError?) {
+        if error != nil {
+            SwiftEventBus.post(arg.failedEventbusName, sender: error)
+        } else {
+            let result: AnyObject?
+            do {
+                result = try self.handleApiResult(data!, arg: arg)
+                if let httpResponse = response as? NSHTTPURLResponse {
+                    if httpResponse.statusCode == Constants.HTTP_STATUS_OK {
+                        SwiftEventBus.post(arg.successEventbusName, sender: result)
+                    } else {
+                        SwiftEventBus.post(arg.failedEventbusName, sender: result)
+                    }
+                }
+            } catch {
+                SwiftEventBus.post(arg.failedEventbusName, sender: nil)
+            }
+        }
+    }
+    
+    func handleApiResult(data: NSData, arg: ApiCallEvent) throws -> AnyObject {
         let responseString: String = NSString(data: data, encoding: NSUTF8StringEncoding) as! String
-        if (responseString == "") {
+        if responseString.isEmpty {
             return ""
         }
         let result: AnyObject = try self.parseStr(arg.resultClass, inputStr: responseString as String)

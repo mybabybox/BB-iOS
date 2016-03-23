@@ -9,7 +9,6 @@
 import UIKit
 import FBSDKCoreKit
 import FBSDKLoginKit
-import SwiftEventBus
 
 class LoginViewController: BaseLoginViewController, UITextFieldDelegate {
     
@@ -17,11 +16,7 @@ class LoginViewController: BaseLoginViewController, UITextFieldDelegate {
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var userNameTxt: UITextField!
     @IBOutlet weak var passwordTxt: UITextField!
-    
-    @IBAction func onBackButton(sender: AnyObject) {
-        navigationController?.popViewControllerAnimated(true)
-    }
-    
+        
     override func viewDidAppear(animated: Bool) {
     }
     
@@ -50,24 +45,24 @@ class LoginViewController: BaseLoginViewController, UITextFieldDelegate {
         */
     }
     
+    @IBAction func onEmailLogin(sender: UIButton) {
+        if (userNameTxt.text!.isEmpty || passwordTxt.text!.isEmpty) {
+            let _errorDialog = UIAlertController(title: "Warning Message", message: "Please Enter UserName & Password", preferredStyle: UIAlertControllerStyle.Alert)
+            let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil)
+            _errorDialog.addAction(okAction)
+            self.presentViewController(_errorDialog, animated: true, completion: nil)
+        }
+        
+        startLoading()
+        ApiController.instance.loginByEmail(self.userNameTxt.text!, password: self.passwordTxt.text!)
+    }
+    
     @IBAction func onClickBackButton(sender: UIButton) {
         self.navigationController?.popViewControllerAnimated(true)
     }
     
     override func shouldPerformSegueWithIdentifier(identifier: String?, sender: AnyObject?) -> Bool {
-        if identifier == "clickToLogin" {
-            if (userNameTxt.text!.isEmpty || passwordTxt.text!.isEmpty) {
-                let _errorDialog = UIAlertController(title: "Warning Message", message: "Please Enter UserName & Password", preferredStyle: UIAlertControllerStyle.Alert)
-                let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil)
-                _errorDialog.addAction(okAction)
-                self.presentViewController(_errorDialog, animated: true, completion: nil)
-                return false
-            }
-            
-            startLoading()
-            ApiController.instance.loginByEmail(self.userNameTxt.text!, password: self.passwordTxt.text!)
-            return false
-        } else if (identifier == "gotoforgotpassword") {
+        if (identifier == "gotoforgotpassword") {
             return true
         } else if (identifier == "showSignupView") {
             self.navigationController?.navigationBar.hidden = false
@@ -88,10 +83,6 @@ class LoginViewController: BaseLoginViewController, UITextFieldDelegate {
     
     @IBAction func onSignUpClick(sender: AnyObject) {
          NSLog("Sign up click")
-    }
-    
-    override func loginSuccess() {
-        self.performSegueWithIdentifier("clickToLogin", sender: nil)
     }
     
     override func startLoading() {

@@ -25,7 +25,6 @@ class BaseLoginViewController: UIViewController {
             self.isUserLoggedIn = true
             AppDelegate.getInstance().sessionId = sessionId
             UserInfoCache.refresh(sessionId, successCallback: handleUserInfoSuccess, failureCallback: handleError)
-            onSuccessLogin()
         } else {
             //authentication failed.. show error message...
             let _errorDialog = UIAlertController(title: "Error Message", message: "Invalid UserName or Password", preferredStyle: UIAlertControllerStyle.Alert)
@@ -50,7 +49,7 @@ class BaseLoginViewController: UIViewController {
         SwiftEventBus.unregister(self)
         
         // call subclass 
-        loginSuccess()
+        onLoginSuccess()
         
         stopLoading()
     }
@@ -60,7 +59,6 @@ class BaseLoginViewController: UIViewController {
         
         self.isUserLoggedIn = false
         AppDelegate.getInstance().logout()
-        SwiftEventBus.unregister(self)
         if message != nil {
             ViewUtil.showDialog("Login Error", message: message!, view: self)
         }
@@ -68,8 +66,15 @@ class BaseLoginViewController: UIViewController {
         stopLoading()
     }
     
-    func loginSuccess() {
-        // to be implemented by subclass
+    func onLoginSuccess() {
+        self.isUserLoggedIn = true
+        
+        // register notif
+        
+        //self.performSegueWithIdentifier("clickToLogin", sender: nil)
+        let vController = self.storyboard?.instantiateViewControllerWithIdentifier("SplashViewController")
+        vController?.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(vController!, animated: true)
     }
     
     override func viewDidLoad() {
@@ -93,14 +98,13 @@ class BaseLoginViewController: UIViewController {
         
         SwiftEventBus.onMainThread(self, name: "loginReceivedFailed") { result in
             var message = ""
-            if result == nil {
-                message = "Error Authenticating User"
-            } else if result.object is NSString {
+            if result.object is NSString {
                 message = result.object as! String
-            } else {
-                message = "Connection Failure"
             }
             
+            if message.isEmpty {
+                message = "Failed to authenticate user"
+            }
             self.handleError(message)
         }
         
@@ -112,11 +116,6 @@ class BaseLoginViewController: UIViewController {
         //fbLoginButton.center.y += 150
         //fbLoginButton.readPermissions = facebookReadPermissions
         //fbLoginButton.delegate = self
-    }
-    
-    func onSuccessLogin() {
-        self.isUserLoggedIn = true
-        // register notif
     }
     
     func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {

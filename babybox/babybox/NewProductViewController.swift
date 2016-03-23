@@ -1,5 +1,5 @@
 //
-//  SellProductsViewController.swift
+//  NewProductViewController.swift
 //  babybox
 //
 //  Created by Mac on 09/12/15.
@@ -10,7 +10,7 @@ import UIKit
 import SwiftEventBus
 import ALCameraViewController
 
-class SellProductsViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate {
+class NewProductViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate {
     
     @IBOutlet weak var hrBarHtConstraint: UIView!
     @IBOutlet var actionButton: UIButton!
@@ -298,7 +298,7 @@ class SellProductsViewController: UIViewController, UITextFieldDelegate, UITextV
         if (validateSaveForm()) {
             let category = CategoryCache.getCategoryByName(categorydropdown.titleLabel!.text!)
             let conditionType = ViewUtil.parsePostConditionTypeFromValue(conditionDropDown.titleLabel!.text!)
-            ApiController.instance.newProduct(sellingtext.text!, body: prodDescription.text!, catId: category!.id, conditionType: String(conditionType), pricetxt: pricetxt.text!, imageCollection: self.imageCollection)
+            ApiController.instance.newPost(sellingtext.text!, body: prodDescription.text!, catId: category!.id, conditionType: String(conditionType), pricetxt: pricetxt.text!, imageCollection: self.imageCollection)
         }
     }
     

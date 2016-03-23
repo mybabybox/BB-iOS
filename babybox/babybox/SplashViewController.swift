@@ -82,7 +82,9 @@ class SplashViewController: UIViewController {
     }
     
     func showSignupDetailPage() {
-        
+        SwiftEventBus.unregister(self)
+        self.navigationController?.navigationBar.hidden = true
+        self.performSegueWithIdentifier("showSignUpDetails", sender: nil)
     }
     
     override func didReceiveMemoryWarning() {

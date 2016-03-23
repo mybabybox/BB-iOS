@@ -22,11 +22,7 @@ class SignInOptionsViewController: BaseLoginViewController {
     @IBAction func onClickBackButton(sender: UIButton) {
         self.navigationController?.popViewControllerAnimated(true)
     }
-    
-    override func loginSuccess() {
-        self.performSegueWithIdentifier("clickToLogin", sender: nil)
-    }
-    
+        
     override func shouldPerformSegueWithIdentifier(identifier: String?, sender: AnyObject?) -> Bool {
         if identifier == "clickToLogin" {
             return false

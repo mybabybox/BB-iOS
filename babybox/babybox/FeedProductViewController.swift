@@ -584,7 +584,7 @@ class FeedProductViewController: ProductNavigationController, UICollectionViewDe
     /* Product Navigation Method Implementation */
     func onClickEditBtn(sender: AnyObject?) {
         let vController =
-            self.storyboard?.instantiateViewControllerWithIdentifier("editProductViewController") as? EditPostViewController
+            self.storyboard?.instantiateViewControllerWithIdentifier("EditProductViewController") as? EditProductViewController
         vController!.hidesBottomBarWhenPushed = true
         vController!.postId = self.feedItem.id
         ViewUtil.resetBackButton(self.navigationItem)

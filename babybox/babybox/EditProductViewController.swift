@@ -1,5 +1,5 @@
 //
-//  EditPostViewController.swift
+//  EditProductViewController.swift
 //  babybox
 //
 //  Created by admin on 19/03/16.
@@ -9,7 +9,7 @@
 import UIKit
 import SwiftEventBus
 
-class EditPostViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate {
+class EditProductViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate {
 
     @IBOutlet weak var activityLoading: UIActivityIndicatorView!
     @IBOutlet var postTitle: UITextField!

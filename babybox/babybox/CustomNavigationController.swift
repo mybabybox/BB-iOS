@@ -33,7 +33,7 @@ class CustomNavigationController: UIViewController {
     
     func onClickSellBtn(sender: AnyObject?) {
         //self.tabBarController!.tabBar.hidden = true
-        let vController = self.storyboard?.instantiateViewControllerWithIdentifier("sellProductsViewController")
+        let vController = self.storyboard?.instantiateViewControllerWithIdentifier("NewProductViewController")
         vController?.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(vController!, animated: true)
     }
@@ -46,7 +46,7 @@ class CustomNavigationController: UIViewController {
     }
     
     func onClickBadgebtn(sender: AnyObject?) {
-        //let vController = self.storyboard?.instantiateViewControllerWithIdentifier("sellProductsViewController")
+        //let vController = self.storyboard?.instantiateViewControllerWithIdentifier("NewProductViewController")
         //self.navigationController?.pushViewController(vController!, animated: true)
     }
     

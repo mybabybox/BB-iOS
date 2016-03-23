@@ -34,6 +34,21 @@ class SignupViewController: BaseLoginViewController {
     }
    
     override func viewDidLoad() {
+
+        SwiftEventBus.onMainThread(self, name: "signUpSuccess") { result in
+            if ViewUtil.isEmptyResult(result) {
+                self.handleError("No response for sign up")
+            } else {
+                self.performSegueWithIdentifier("showSignUpDetails", sender: nil)
+                //let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("SignupDetailViewController") as! SignupDetailViewController
+                //self.navigationController?.pushViewController(vController, animated: true)
+            }
+        }
+        
+        SwiftEventBus.onMainThread(self, name: "signUpFailed") { result in
+            self.handleError("Failed to sign up user. Please check your info and try again.")
+        }
+        
         self.licenseBtn.layer.borderWidth = 1.0
         self.licenseBtn.layer.borderColor = UIColor.darkGrayColor().CGColor
         
@@ -45,22 +60,19 @@ class SignupViewController: BaseLoginViewController {
         //self.navigationController?.navigationBar.hidden = true
     }
     
-    /*@IBAction func onSignup(sender: AnyObject) {
-        if(validateSignup()){
-            ApiController.instance.signIn(firstNameText.text!, lastNameText: lastNameText.text!,
-                emailText: emailText.text!, passwordText: passwordText.text!, confirmPasswordText: confirmPasswordText.text!)
+    @IBAction func onSignUp(sender: UIButton) {
+        if isValid() {
+            ApiController.instance.signUp(firstNameText.text!, lname: lastNameText.text!,
+                email: emailText.text!, password: passwordText.text!, repeatPassword: confirmPasswordText.text!)
             self.isValidForm = true
-            //self.performSegueWithIdentifier("signinInfo", sender: nil)
-            let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("SignupDetailViewController") as! SignupDetailViewController
-            self.navigationController?.pushViewController(vController, animated: true)
         }
-    }*/
+    }
     
     func handleGetCateogriesSuccess(categories: [CategoryVM]) {
         self.categories = categories
     }
     
-    func validateSignup() -> Bool {
+    func isValid() -> Bool {
         var isValidated = true
         
         if (self.firstNameText.text == nil || self.firstNameText.text == "" ) {
@@ -118,6 +130,7 @@ class SignupViewController: BaseLoginViewController {
     }
     
     //MARK Segue handling methods.
+    /*
     override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
         if (identifier == "signUpDetails") {
             if(self.validateSignup()){
@@ -128,6 +141,7 @@ class SignupViewController: BaseLoginViewController {
         }
         return self.isValidForm
     }
+    */
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         /*if (segue.identifier == "signUpDetails") {
