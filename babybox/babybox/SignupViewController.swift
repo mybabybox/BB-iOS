@@ -13,8 +13,6 @@ import FBSDKLoginKit
 
 class SignupViewController: BaseLoginViewController {
     
-    @IBOutlet weak var firstNametxtWidth: NSLayoutConstraint!
-    @IBOutlet weak var widthConstraint: NSLayoutConstraint!
     @IBOutlet weak var policyBtn: UIButton!
     @IBOutlet weak var licenseBtn: UIButton!
     
@@ -41,26 +39,6 @@ class SignupViewController: BaseLoginViewController {
         
         self.policyBtn.layer.borderWidth = 1.0
         self.policyBtn.layer.borderColor = UIColor.darkGrayColor().CGColor
-        
-        
-        self.firstNameText.backgroundColor = UIColor.clearColor()
-        self.lastNameText.backgroundColor = UIColor.clearColor()
-        self.passwordText.backgroundColor = UIColor.clearColor()
-        self.emailText.backgroundColor = UIColor.clearColor()
-        self.confirmPasswordText.backgroundColor = UIColor.clearColor()
-        
-        ImageUtil.imageUtil.displayCornerView(self.firstNameText)
-        ImageUtil.imageUtil.displayCornerView(self.lastNameText)
-        ImageUtil.imageUtil.displayCornerView(self.passwordText)
-        ImageUtil.imageUtil.displayCornerView(self.emailText)
-        ImageUtil.imageUtil.displayCornerView(self.confirmPasswordText)
-        ImageUtil.imageUtil.displayCornerView(self.signUp)
-        
-        let availableWidthForButtons:CGFloat = self.view.bounds.width - 100
-        let buttonWidth :CGFloat = availableWidthForButtons / 2
-        
-        self.firstNametxtWidth.constant = buttonWidth
-        self.widthConstraint.constant = buttonWidth
     }
     
     override func viewDidDisappear(animated: Bool) {

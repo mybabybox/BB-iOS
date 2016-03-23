@@ -42,11 +42,6 @@ class LoginViewController: BaseLoginViewController, UITextFieldDelegate {
         
         // Do any additional setup after loading the view, typically from a nib.
         
-        self.userNameTxt.layer.borderWidth = 0
-        self.passwordTxt.layer.borderWidth = 0
-        self.userNameTxt.layer.borderColor = UIColor.whiteColor().CGColor
-        self.passwordTxt.layer.borderColor = UIColor.whiteColor().CGColor
-        
         /*
         let uImageView = UIImageView()
         uImageView.image = UIImage(named: "login_user")
