@@ -12,18 +12,17 @@ import SwiftEventBus
 class SellerViewController: CustomNavigationController {
     
     @IBOutlet weak var uiContainerView: UIView!
-
     @IBOutlet weak var segController: UISegmentedControl!
+    
     var bottomLayer: CALayer? = nil
     var sellerRecommendationController : UIViewController? = nil
     var followingController : UIViewController? = nil
     var activeSegment: Int = 0
     var shapeLayer = CAShapeLayer()
-    static var instance: SellerViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        SellerViewController.instance = self
+
         let normalTextAttributes: [NSObject : AnyObject] = [
             NSForegroundColorAttributeName: Color.GRAY,
             NSFontAttributeName: UIFont.systemFontOfSize(12.0)
@@ -50,15 +49,10 @@ class SellerViewController: CustomNavigationController {
         let y = CGFloat(self.segController.frame.height)
         let start: CGPoint = CGPoint(x: 0, y: y)
         let end: CGPoint = CGPoint(x: self.segController.frame.size.width / 2, y: y)
-        if(self.segController.selectedSegmentIndex == 0){
+        if self.segController.selectedSegmentIndex == 0 {
             self.drawLineFromPoint(start, toPoint: end, ofColor: Color.PINK, inView: self.segController)
         }
         NotificationCounter.mInstance.refresh(handleNotificationSuccess, failureCallback: handleNotificationError)
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     @IBAction func segAction(sender: AnyObject) {
@@ -135,5 +129,10 @@ class SellerViewController: CustomNavigationController {
     
     func handleNotificationError(message: String) {
         NSLog(message)
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
     }
 }

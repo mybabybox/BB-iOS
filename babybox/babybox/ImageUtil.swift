@@ -36,8 +36,6 @@ class ImageUtil {
     static let ORIGINAL_MESSAGE_IMAGE_BY_ID_URL = Constants.BASE_IMAGE_URL + "/image/get-original-message-image-by-id/"
     static let MINI_MESSAGE_IMAGE_BY_ID_URL = Constants.BASE_IMAGE_URL + "/image/get-mini-message-image-by-id/"
     
-    static var instance: ImageUtil = ImageUtil()
-    
     static func displayImage(url: String, view: UIImageView, centerCrop: Bool, noCahe: Bool) {
         let imageUrl  = NSURL(string: url)
         view.kf_setImageWithURL(imageUrl!,
