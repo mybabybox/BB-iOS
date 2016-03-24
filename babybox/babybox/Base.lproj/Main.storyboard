@@ -4849,12 +4849,11 @@
                         <outlet property="passwordText" destination="p3q-kZ-giP" id="MxV-b2-QJp"/>
                         <outlet property="policyBtn" destination="VhO-Sn-9vk" id="JMf-zU-GAm"/>
                         <outlet property="signUpBtn" destination="C0p-5S-sY8" id="Prl-h9-dpa"/>
-                        <segue destination="7xL-U6-oa5" kind="show" identifier="showSignUpDetails" id="ODk-g2-7C4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="muU-lV-dxI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1747" y="-2635"/>
+            <point key="canvasLocation" x="1565" y="-2646"/>
         </scene>
         <!--Signup Detail Controller-->
         <scene sceneID="5W1-D2-KNr">
@@ -4964,9 +4963,6 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="titleShadowColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
-                                        <connections>
-                                            <segue destination="vXZ-lx-hvc" kind="show" identifier="completesignup" id="QZR-Jz-NIW"/>
-                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -5011,7 +5007,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ScY-rO-vRh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2320" y="-2628"/>
+            <point key="canvasLocation" x="166" y="-1434"/>
         </scene>
         <!--License View Controller-->
         <scene sceneID="ToO-xk-w15">
@@ -5806,13 +5802,12 @@
         <image name="user_thumbnail" width="48" height="48"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ODk-g2-7C4"/>
-        <segue reference="NRf-cI-JqS"/>
-        <segue reference="xlr-H1-EYH"/>
-        <segue reference="f1D-EY-plH"/>
+        <segue reference="2g9-O4-duU"/>
         <segue reference="QOH-0N-qqT"/>
         <segue reference="ijV-Zs-EsV"/>
-        <segue reference="2g9-O4-duU"/>
+        <segue reference="xlr-H1-EYH"/>
+        <segue reference="NRf-cI-JqS"/>
+        <segue reference="f1D-EY-plH"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>

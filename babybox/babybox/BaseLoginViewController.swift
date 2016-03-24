@@ -24,7 +24,12 @@ class BaseLoginViewController: UIViewController {
         if !sessionId.isEmpty {
             self.isUserLoggedIn = true
             AppDelegate.getInstance().sessionId = sessionId
-            UserInfoCache.refresh(sessionId, successCallback: handleUserInfoSuccess, failureCallback: handleError)
+            
+            // call subclass
+            onLoginSuccess()
+            
+            SwiftEventBus.unregister(self)
+            //UserInfoCache.refresh(sessionId, successCallback: handleUserInfoSuccess, failureCallback: handleError)
         } else {
             //authentication failed.. show error message...
             let _errorDialog = UIAlertController(title: "Error Message", message: "Invalid UserName or Password", preferredStyle: UIAlertControllerStyle.Alert)

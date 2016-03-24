@@ -29,24 +29,20 @@ class SignupViewController: BaseLoginViewController {
     @IBOutlet weak var signUpBtn: UIButton!
     
     override func viewDidAppear(animated: Bool) {
-        //self.navigationController?.navigationBar.hidden = true
-        
     }
    
     override func viewDidLoad() {
 
         SwiftEventBus.onMainThread(self, name: "signUpSuccess") { result in
             if ViewUtil.isEmptyResult(result) {
-                self.handleError("No response for sign up")
+                self.handleError("No response for sign up. Please try again later.")
             } else {
-                self.performSegueWithIdentifier("showSignUpDetails", sender: nil)
-                //let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("SignupDetailViewController") as! SignupDetailViewController
-                //self.navigationController?.pushViewController(vController, animated: true)
+                self.emailLogin(self.emailText.text!, password: self.passwordText.text!)
             }
         }
         
         SwiftEventBus.onMainThread(self, name: "signUpFailed") { result in
-            self.handleError("Failed to sign up user. Please check your info and try again.")
+            self.handleError("Email is already registered")
         }
         
         ViewUtil.displayRoundedCornerView(self.signUpBtn, bgColor: Color.PINK)
@@ -58,20 +54,12 @@ class SignupViewController: BaseLoginViewController {
         self.policyBtn.layer.borderColor = Color.DARK_GRAY.CGColor
     }
     
-    override func viewDidDisappear(animated: Bool) {
-        //self.navigationController?.navigationBar.hidden = true
-    }
-    
     @IBAction func onSignUp(sender: UIButton) {
         if isValid() {
-            ApiController.instance.signUp(firstNameText.text!, lname: lastNameText.text!,
-                email: emailText.text!, password: passwordText.text!, repeatPassword: confirmPasswordText.text!)
+            ApiController.instance.signUp(emailText.text!, fname: firstNameText.text!, lname: lastNameText.text!,
+                password: passwordText.text!, repeatPassword: confirmPasswordText.text!)
             self.isValidForm = true
         }
-    }
-    
-    func handleGetCateogriesSuccess(categories: [CategoryVM]) {
-        self.categories = categories
     }
     
     func isValid() -> Bool {

@@ -405,7 +405,7 @@ class ApiController {
         self.makeApiCall(callEvent)
     }
     
-    func signUp(fname: String, lname: String , email: String , password: String , repeatPassword: String){
+    func signUp(email: String, fname: String, lname: String, password: String, repeatPassword: String){
         var strData = [String]()
         strData.append("fname=\(fname)")
         strData.append("lname=\(lname)")
