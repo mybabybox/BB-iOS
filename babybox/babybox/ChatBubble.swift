@@ -1,4 +1,5 @@
 import UIKit
+import PhotoSlider
 
 class ChatBubble: UIView {
     // Properties
@@ -8,6 +9,8 @@ class ChatBubble: UIView {
     var text: String?
     var labelChatText: UILabel?
     var timeAgoText: UILabel?
+    var imageId: Int?
+    var image: UIImage = UIImage()
     /**
      Initializes a chat bubble view
      
@@ -30,7 +33,7 @@ class ChatBubble: UIView {
         //self.backgroundColor = Color.CLEAR
         self.layer.cornerRadius = 4
         
-        let padding: CGFloat = 5.0
+        let padding: CGFloat = 10.0
         
         // 1. Drawing buyer image
         var startX = padding
@@ -74,32 +77,35 @@ class ChatBubble: UIView {
         // 2. Drawing image if any
         //if let chatImage = data.image {
         if (data.imageId != -1) {
-            //let width: CGFloat = min(chatImage.size.width, CGRectGetWidth(messageView.frame) - 2 * padding)
-            //let height: CGFloat = chatImage.size.height * (width / chatImage.size.width)
             let frameWidth = UIScreen.mainScreen().bounds.size.width  * Constants.MESSAGE_IMAGE_WIDTH
             imageViewChat = UIImageView(frame: CGRectMake(startX, CGRectGetHeight(labelChatText!.frame) + 10, frameWidth, frameWidth))
-            //imageViewChat?.image = chatImage
-            //imageViewChat?.backgroundColor = Color.WHITE
             ImageUtil.displayOriginalMessageImage(data.imageId, imageView: imageViewChat!)
             if (data.type == .Opponent) {
                 messageView.addSubview(imageViewChat!)
             } else {
                 self.addSubview(imageViewChat!)
             }
-            //self.addSubview(imageViewChat!)
+            self.imageId = data.imageId
+            let singleTap = UITapGestureRecognizer(target: self, action: "viewFullScreenImageById:")
+            singleTap.numberOfTapsRequired = 1 // Initialized to 1 by default
+            singleTap.numberOfTouchesRequired = 1 // Initialized to 1 by default
+            imageViewChat!.addGestureRecognizer(singleTap)
+            imageViewChat!.userInteractionEnabled = true
         }
         
         if let chatImage = data.image {
-            
-            let width: CGFloat = min(chatImage.size.width, CGRectGetWidth(self.frame) - 2 * padding)
-            let height: CGFloat = chatImage.size.height * (width / chatImage.size.width)
-            imageViewChat = UIImageView(frame: CGRectMake(padding, padding, width, height))
+            let frameWidth = UIScreen.mainScreen().bounds.size.width  * Constants.MESSAGE_IMAGE_WIDTH
+            imageViewChat = UIImageView(frame: CGRectMake(startX, CGRectGetHeight(labelChatText!.frame) + 10, frameWidth, frameWidth))
             imageViewChat?.image = chatImage
             imageViewChat?.layer.cornerRadius = 5.0
             imageViewChat?.layer.masksToBounds = true
-            
             self.addSubview(imageViewChat!)
-            
+            self.image = data.image!
+            let singleTap = UITapGestureRecognizer(target: self, action: "viewFullScreenImage:")
+            singleTap.numberOfTapsRequired = 1 // Initialized to 1 by default
+            singleTap.numberOfTouchesRequired = 1 // Initialized to 1 by default
+            imageViewChat!.addGestureRecognizer(singleTap)
+            imageViewChat!.userInteractionEnabled = true
         }
         
         
@@ -119,12 +125,12 @@ class ChatBubble: UIView {
             timeAgoText?.numberOfLines = 0 // Making it multiline
             timeAgoText?.text = data.date?.timeAgo
             timeAgoText?.sizeToFit() // Getting fullsize of it
+            timeAgoText?.textColor = Color.LIGHT_GRAY
             if (data.type == .Opponent) {
                 messageView.addSubview(timeAgoText!)
             } else {
                 self.addSubview(timeAgoText!)
             }
-            //self.addSubview(timeAgoText!)
         }
         
         // 4. Calculation of new width and height of the chat bubble view
@@ -199,4 +205,24 @@ class ChatBubble: UIView {
         return CGRectMake(startX, startY, maxWidth, 5) // 5 is the primary height before drawing starts
     }
 
+    func viewFullScreenImageById(recognizer: UITapGestureRecognizer) {
+        if(recognizer.state == UIGestureRecognizerState.Ended){
+            let imageUrl = ImageUtil.getOriginalMessageImageUrl(self.imageId!)
+            let photoSlider = PhotoSlider.ViewController(imageURLs: [imageUrl])
+            photoSlider.currentPage = 0
+            MessagesViewController.instance!.presentViewController(photoSlider, animated: true) { () -> Void in
+                UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.Fade)
+            }
+        }
+    }
+    
+    func viewFullScreenImage(recognizer: UITapGestureRecognizer) {
+        if(recognizer.state == UIGestureRecognizerState.Ended){
+            let photoSlider = PhotoSlider.ViewController(images: [self.image])
+            photoSlider.currentPage = 0
+            MessagesViewController.instance!.presentViewController(photoSlider, animated: true) { () -> Void in
+                UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.Fade)
+            }
+        }
+    }
 }

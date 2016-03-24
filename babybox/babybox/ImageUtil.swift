@@ -174,4 +174,8 @@ class ImageUtil {
         return imageData!;
     }
     
+    static func getOriginalMessageImageUrl(id: Int) -> NSURL {
+        return NSURL(string: ViewUtil.urlAppendSessionId(MESSAGE_IMAGE_BY_ID_URL + String(id)))!
+    }
+    
 }

@@ -26,13 +26,14 @@ class MessagesViewController: UIViewController, UITextFieldDelegate {
     let croppingEnabled: Bool = true
     let libraryEnabled: Bool = true
     var conversationViewController: ConversationsViewController?
-    
+    static var instance: MessagesViewController?
     override func viewDidDisappear(animated: Bool) {
         //SwiftEventBus.unregister(self)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        MessagesViewController.instance = self
         SwiftEventBus.unregister(self)
         self.navigationItem.title = self.conversation?.userName
         let titleDict: NSDictionary = [NSForegroundColorAttributeName: Color.WHITE]
