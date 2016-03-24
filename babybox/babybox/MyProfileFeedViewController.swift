@@ -245,6 +245,8 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
             vController = segue.destinationViewController as? ProductViewController
             vController!.feedItem = feedItem
             vController!.hidesBottomBarWhenPushed = true
+            self.tabBarController?.tabBar.hidden = true
+            
         } else if (segue.identifier == "settings") {
             //self.uiCollectionView.delegate = nil
             let vController = segue.destinationViewController as! SettingsViewController

@@ -77,16 +77,35 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         
         SwiftEventBus.onMainThread(self, name: "editProductSuccess") { result in
             // UI thread
+            SwiftEventBus.unregister(self)
             NSLog("Product Saved Successfully")
             self.view.makeToast(message: "Product Updated Successfully", duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
             NotificationCounter.mInstance.refresh(self.handleNotificationSuccess, failureCallback: self.handleNotificationError)
-            //self.navigationController?.popViewControllerAnimated(true)
+            
+            let vController = self.storyboard?.instantiateViewControllerWithIdentifier("MyProfileFeedViewController") as! MyProfileFeedViewController
+            vController.hidesBottomBarWhenPushed = false
+            self.navigationController?.pushViewController(vController, animated: true)
         }
         
         SwiftEventBus.onMainThread(self, name: "editProductFailed") { result in
             // UI thread
             NSLog("Product Saved Successfully")
             self.view.makeToast(message: "Error Saving product", duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
+        }
+        
+        SwiftEventBus.onMainThread(self, name: "deletePostSuccess") { result in
+            SwiftEventBus.unregister(self)
+            self.view.makeToast(message: "Post deleted!")
+            UserInfoCache.decrementNumProducts()
+            let vController = self.storyboard?.instantiateViewControllerWithIdentifier("MyProfileFeedViewController") as! MyProfileFeedViewController
+            //vController.hidesBottomBarWhenPushed = true
+            vController.hidesBottomBarWhenPushed = false
+            self.navigationController?.pushViewController(vController, animated: true)
+            //self.navigationController?.popViewControllerAnimated(true)
+        }
+        
+        SwiftEventBus.onMainThread(self, name: "deletePostFailure") { result in
+            self.view.makeToast(message: "Error Deleting Post!")
         }
         
         self.conditionTypeDropDown.dataSource = [
@@ -233,6 +252,10 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     
     func handleNotificationError(message: String) {
         NSLog(message)
+    }
+    
+    @IBAction func deletePost(sender: AnyObject) {
+        ApiController.instance.deletePost(self.postId)
     }
 
 }

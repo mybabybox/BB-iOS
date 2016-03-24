@@ -113,7 +113,8 @@ class MessagesViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func sendButtonClicked(sender: AnyObject) {
-        let bubbleData = ChatBubbleData(text: textField.text, date: NSDate(), type: .Mine, imgId: -1, uploadImgId: -1)
+        let msgCreatDt = NSDate(timeIntervalSinceNow: NSDate().timeIntervalSinceNow / 1000.0)
+        let bubbleData = ChatBubbleData(text: textField.text, date: msgCreatDt, type: .Mine, imgId: -1, uploadImgId: -1)
         addChatBubble(bubbleData)
         textField.resignFirstResponder()
         

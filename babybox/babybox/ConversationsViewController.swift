@@ -211,6 +211,10 @@ class ConversationsViewController: UIViewController, UIGestureRecognizerDelegate
         let i = self.collectionView.indexPathForCell(cell)!.item
         //
         ConversationCache.delete(ConversationCache.conversations[i].id, successCallback: deleteConversationHandler, failureCallback: deleteConversationError)
+        if (ConversationCache.conversations.count <= 0) {
+            self.tipText.hidden = false
+            self.collectionView.hidden = true
+        }
     }
     
     func deleteConversationHandler(responseString: String) {

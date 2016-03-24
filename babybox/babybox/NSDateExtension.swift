@@ -90,7 +90,7 @@ extension NSDate {
             if components.year < 2 {
                 return "Last year"
             } else {
-                return stringFromFormat(" years ago", withValue: components.year)
+                return stringFromFormat("years ago", withValue: components.year)
             }
         }
         
@@ -98,7 +98,7 @@ extension NSDate {
             if components.month < 2 {
                 return "Last month"
             } else {
-                return stringFromFormat(" months ago", withValue: components.month)
+                return stringFromFormat("months ago", withValue: components.month)
             }
         }
         
@@ -108,7 +108,7 @@ extension NSDate {
             if week < 2 {
                 return "7 days ago"
             } else {
-                return stringFromFormat(" weeks ago", withValue: week)
+                return stringFromFormat("weeks ago", withValue: week)
             }
         }
         
@@ -116,7 +116,7 @@ extension NSDate {
             if components.day < 2 {
                 return "Yesterday"
             } else  {
-                return stringFromFormat(" days ago", withValue: components.day)
+                return stringFromFormat("days ago", withValue: components.day)
             }
         }
         
@@ -124,25 +124,29 @@ extension NSDate {
             if components.hour < 2 {
                 return "An hour ago"
             } else  {
-                return stringFromFormat(" hours ago", withValue: components.hour)
+                return stringFromFormat("hours ago", withValue: components.hour)
             }
         }
         
         if components.minute > 0 {
             if components.minute < 2 {
-                return "A minute ago"
+                return "1min ago"
             } else {
-                return stringFromFormat(" minutes ago", withValue: components.minute)
+                return stringFromFormat("mins ago", withValue: components.minute)
             }
         }
         
         if components.second > 0 {
             if components.second < 5 {
-                return "Just now"
+                return "moments ago"
             } else {
-                return stringFromFormat(" seconds ago", withValue: components.second)
+                return stringFromFormat("seconds ago", withValue: components.second)
                 //return String(components.second + " seconds ago"
             }
+        }
+        print(components.second)
+        if components.second <= 0 {
+            return "moments ago"
         }
         
         return ""

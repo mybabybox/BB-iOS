@@ -78,16 +78,6 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
             self.enableEditPost()
         }
         
-        SwiftEventBus.onMainThread(self, name: "deletePostSuccess") { result in
-            self.view.makeToast(message: "Post deleted!")
-            UserInfoCache.decrementNumProducts()
-            self.navigationController?.popViewControllerAnimated(true)
-        }
-        
-        SwiftEventBus.onMainThread(self, name: "deletePostFailure") { result in
-            self.view.makeToast(message: "Error Deleting Post!")
-        }
-        
         ApiController.instance.getProductDetails(feedItem.id)
     }
     
@@ -161,6 +151,8 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
                 cell.btnDeleteComments.tag = indexPath.row
                 if (comment.id != -1) {
                     cell.postedTime.text = NSDate(timeIntervalSince1970:Double(comment.createdDate) / 1000.0).timeAgo
+                } else {
+                    cell.postedTime.text = NSDate(timeIntervalSinceNow: comment.createdDate / 1000.0).timeAgo
                 }
                 if (comment.ownerId == UserInfoCache.getUser()!.id) {
                     cell.btnDeleteComments.hidden = false
@@ -222,9 +214,7 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
                     //cell.prodTimerCount.text = String(self.productInfo.numComments)
                     cell.categoryBtn.hidden = false
                     cell.prodTimerCount.text = NSDate(timeIntervalSince1970:Double(self.productInfo!.createdDate) / 1000.0).timeAgo
-                    if (self.productInfo!.isOwner) {
-                    	cell.deletePostBtn.hidden = false
-                    }
+                    
                 } else {
                     cell.categoryBtn.hidden = true
                 }
@@ -572,10 +562,7 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
             self.navigationItem.rightBarButtonItems?.insert(editProductBarBtn, atIndex: 0)
         }
     }
-        
-    @IBAction func deletePost(sender: AnyObject) {
-        ApiController.instance.deletePost(self.productInfo!.id)
-    }
+    
     
     /* Product Navigation Method Implementation */
     func onClickEditBtn(sender: AnyObject?) {
