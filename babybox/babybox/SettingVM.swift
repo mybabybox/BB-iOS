@@ -11,7 +11,7 @@ import ObjectMapper
 
 class SettingVM: BaseArgVM {
 
-    var id: Double = 0
+    var id: Int = 0
     var emailNewPost: Bool = false
     var emailNewConversation: Bool = false
     var emailNewComment: Bool = false

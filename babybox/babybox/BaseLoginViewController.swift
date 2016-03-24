@@ -138,11 +138,13 @@ class BaseLoginViewController: UIViewController {
     }
     
     func emailLogin(email: String, password: String) {
+        self.view.alpha = 0.75
         AppDelegate.getInstance().logOut()
         ApiController.instance.loginByEmail(email, password: password)
     }
     
     func fbLogin(access_token: String, userId: String) {
+        self.view.alpha = 0.75
         AppDelegate.getInstance().logOut()
         ApiController.instance.loginByFacebook(access_token)
     }
@@ -152,7 +154,7 @@ class BaseLoginViewController: UIViewController {
     }
     
     func fbNativeLogin(successBlock: (token: String, userId: String) -> (), failureBlock: (String?) -> ()) {
-        self.view.alpha = 0.75
+        startLoading()
         
         if FBSDKAccessToken.currentAccessToken() != nil {
             FBSDKLoginManager().logOut()
@@ -198,15 +200,18 @@ class BaseLoginViewController: UIViewController {
                     failureBlock("Facebook permissions not granted")
                 }
             }
-            self.view.alpha = 1.0
+            
+            self.stopLoading()
         })
     }
     
     func startLoading() {
+        self.view.alpha = 0.75
         // to be implemented in subclass
     }
     
     func stopLoading() {
+        self.view.alpha = 1.0
         // to be implemented in subclass
     }
     

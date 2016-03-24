@@ -10,7 +10,7 @@ import Foundation
 import ObjectMapper
 
 class CountryVM: BaseArgVM {
-    var id: Double = 0
+    var id: Int = 0
     var name: String = ""
     var code: String = ""
     var icon: String = ""

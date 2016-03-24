@@ -1,5 +1,5 @@
 //
-//  Login.swift
+//  ApiController.swift
 //  Baby Box
 //
 //  Created by Mac on 06/11/15.
@@ -31,7 +31,6 @@ class ApiController {
         callEvent.successEventbusName = "categoriesReceivedSuccess"
         callEvent.failedEventbusName = "categoriesReceivedFailed"
         callEvent.apiUrl = Constants.BASE_URL + callEvent.method
-        
         self.makeApiCall(callEvent)
     }
     
@@ -43,7 +42,6 @@ class ApiController {
         callEvent.successEventbusName = "homeExploreFeedLoadSuccess"
         callEvent.failedEventbusName = "homeExploreFeedLoadFailed"
         callEvent.apiUrl = Constants.BASE_URL + callEvent.method
-        
         self.makeApiCall(callEvent)
     }
     
@@ -54,7 +52,6 @@ class ApiController {
         callEvent.successEventbusName = "homeFollowingFeedLoadSuccess"
         callEvent.failedEventbusName = "homeFollowingFeedLoadFailed"
         callEvent.apiUrl = Constants.BASE_URL + callEvent.method
-        
         self.makeApiCall(callEvent)
     }
     
@@ -87,7 +84,6 @@ class ApiController {
         callEvent.failedEventbusName = "userActivitiesFailed"
         callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         self.makeApiCall(callEvent)
-        
     }
     
     func likePost(id: Int) {
@@ -97,7 +93,6 @@ class ApiController {
         //callEvent.successEventbusName = ""
         //callEvent.failedEventbusName = ""
         callEvent.apiUrl = Constants.BASE_URL + callEvent.method
-        
         self.makeApiCall(callEvent)
     }
     
@@ -194,6 +189,42 @@ class ApiController {
         makePostApiCall(callEvent, appendSessionId: false)
     }
     
+    func signUp(email: String, fname: String, lname: String, password: String, repeatPassword: String){
+        var strData = [String]()
+        strData.append("fname=\(fname)")
+        strData.append("lname=\(lname)")
+        strData.append("email=\(email)")
+        strData.append("password=\(password)")
+        strData.append("repeatPassword=\(repeatPassword)")
+        let parameter = self.makeBodyString(strData)
+        
+        let callEvent = ApiCallEvent()
+        callEvent.method = "/signup"
+        callEvent.resultClass = "String"
+        callEvent.body = parameter
+        callEvent.successEventbusName = "signUpSuccess"
+        callEvent.failedEventbusName = "signUpFailed"
+        
+        callEvent.apiUrl = Constants.BASE_URL + callEvent.method
+        self.makePostApiCall(callEvent)
+    }
+    
+    func saveSignUpInfo(displayName: String, locationId: Int) {
+        var strData = [String]()
+        strData.append("parent_displayname=\(displayName)")
+        strData.append("parent_location=\(locationId)")
+        let parameter = self.makeBodyString(strData)
+        
+        let callEvent = ApiCallEvent()
+        callEvent.method = "/saveSignupInfo"
+        callEvent.resultClass = "String"
+        callEvent.body = parameter
+        callEvent.successEventbusName = "saveSignUpInfoSuccess"
+        callEvent.failedEventbusName = "saveSignUpInfoFailed"
+        callEvent.apiUrl = Constants.BASE_URL + callEvent.method
+        self.makePostApiCall(callEvent)
+    }
+    
     func forgotPasswordRequest(emailAddress: String) {
         let url = Constants.BASE_URL + "/login/password/forgot?email=\(emailAddress)"
         let callEvent = ApiCallEvent()
@@ -205,7 +236,6 @@ class ApiController {
         self.makeApiCall(callEvent)
     }
     
-    //Categories products filter APIs calls
     func logoutUser() {
         let callEvent = ApiCallEvent()
         callEvent.method = "/logout"
@@ -216,7 +246,16 @@ class ApiController {
         self.makeApiCall(callEvent)
     }
     
-    //Categories products filter APIs calls
+    func initNewUser() {
+        let callEvent = ApiCallEvent()
+        callEvent.method = "/init-new-user"
+        callEvent.resultClass = "UserVM"
+        callEvent.successEventbusName = "initNewUserSuccess"
+        callEvent.failedEventbusName = "initNewUserFailed"
+        callEvent.apiUrl = Constants.BASE_URL + callEvent.method
+        self.makeApiCall(callEvent)
+    }
+    
     func getCategoryPopularFeed(id: Int, offset: Int64) {
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/get-category-popular-feed/\(id)/ALL/\(offset)"
@@ -316,23 +355,6 @@ class ApiController {
         callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         self.makeApiCall(callEvent)
     }
-
-    //User Security APIs
-    func saveUserSignUpInfo(displayName: String, locationId: Int) {
-        var strData = [String]()
-        strData.append("parent_displayname=\(displayName)")
-        strData.append("parent_location=\(locationId)")
-        let parameter = self.makeBodyString(strData)
-        
-        let callEvent = ApiCallEvent()
-        callEvent.method = "/saveSignupInfo"
-        callEvent.resultClass = "String"
-        callEvent.body = parameter
-        callEvent.successEventbusName = "saveSignInfoSuccess"
-        callEvent.failedEventbusName = "saveSignInfoFailed"
-        callEvent.apiUrl = Constants.BASE_URL + callEvent.method
-        self.makePostApiCall(callEvent)
-    }
     
     func uploadUserProfileImg(profileImg: UIImage) {
         let callEvent = ApiCallEvent()
@@ -403,26 +425,6 @@ class ApiController {
         callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         
         self.makeApiCall(callEvent)
-    }
-    
-    func signUp(email: String, fname: String, lname: String, password: String, repeatPassword: String){
-        var strData = [String]()
-        strData.append("fname=\(fname)")
-        strData.append("lname=\(lname)")
-        strData.append("email=\(email)")
-        strData.append("password=\(password)")
-        strData.append("repeatPassword=\(repeatPassword)")
-        let parameter = self.makeBodyString(strData)
-        
-        let callEvent = ApiCallEvent()
-        callEvent.method = "/signup"
-        callEvent.resultClass = "String"
-        callEvent.body = parameter
-        callEvent.successEventbusName = "signUpSuccess"
-        callEvent.failedEventbusName = "signUpFailed"
-        
-        callEvent.apiUrl = Constants.BASE_URL + callEvent.method
-        self.makePostApiCall(callEvent)
     }
     
     func getMessages(id: Int, offset: Int64) {

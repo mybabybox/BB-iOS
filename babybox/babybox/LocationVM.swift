@@ -10,7 +10,7 @@ import Foundation
 import ObjectMapper
 
 class LocationVM: BaseArgVM {
-    var id: Double = 0
+    var id: Int = 0
     var type: String = ""
     var name: String = ""
     var displayName: String = ""

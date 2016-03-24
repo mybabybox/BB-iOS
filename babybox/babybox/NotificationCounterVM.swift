@@ -10,8 +10,8 @@ import Foundation
 import ObjectMapper
 
 class NotificationCounterVM: BaseArgVM {
-    var id: Double = 0
-    var userId: Double = 0
+    var id: Int = 0
+    var userId: Int = 0
     var activitiesCount: Int = 0
     var conversationsCount: Int = 0
     

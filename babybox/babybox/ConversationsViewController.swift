@@ -13,11 +13,11 @@ import SwiftEventBus
 class ConversationsViewController: UIViewController, UIGestureRecognizerDelegate {
 
     @IBOutlet weak var tipText: UILabel!
+    
     var userId: Int = 0
     var currentIndex: Int = 0
     var viewCellIdentifier: String = "conversationsCollectionViewCell"
     var myDate: NSDate = NSDate()
-    var id: Double!
     var collectionViewCellSize : CGSize?
     var offset: Int64 = 0
     var loading: Bool = false

@@ -82,19 +82,19 @@ class LoginViewController: BaseLoginViewController, UITextFieldDelegate {
     }
     
     override func startLoading() {
+        super.startLoading()
+        
         ViewUtil.showActivityLoading(self.progressIndicator)
         self.loginButton.enabled = false
         self.loginButton.alpha = 0.75
-        //self.fbButton.enabled = false
-        //self.fbButton.alpha = 0.75
     }
     
     override func stopLoading() {
+        super.stopLoading()
+        
         ViewUtil.hideActivityLoading(self.progressIndicator)
         self.loginButton.enabled = true
         self.loginButton.alpha = 1.0
-        //self.fbButton.enabled = true
-        //self.fbButton.alpha = 1.0
     }
 }
 

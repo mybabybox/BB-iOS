@@ -49,4 +49,13 @@ class DistrictCache {
         
         ApiController.instance.getDistricts()
     }
+    
+    static func getDistrictByName(name: String) -> LocationVM? {
+        for index in 0...DistrictCache.districts.count {
+            if (DistrictCache.districts[index].name == name) {
+                return DistrictCache.districts[index]
+            }
+        }
+        return nil
+    }
 }
