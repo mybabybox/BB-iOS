@@ -212,4 +212,8 @@ class ViewUtil {
         UIPasteboard.generalPasteboard().string = text
     }
     
+    static func urlAppendSessionId(url: String) -> String {
+        return url + "?key=\(StringUtil.encode(AppDelegate.getInstance().sessionId!))"
+    }
+    
 }

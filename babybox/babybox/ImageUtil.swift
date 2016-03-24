@@ -80,15 +80,15 @@ class ImageUtil {
     }
     
     static func displayMessageImage(id: Int, imageView: UIImageView) {
-        displayImage(MESSAGE_IMAGE_BY_ID_URL + String(id), view: imageView, centerCrop: false, noCahe: false)
+        displayImage(ViewUtil.urlAppendSessionId(MESSAGE_IMAGE_BY_ID_URL + String(id)), view: imageView, centerCrop: false, noCahe: false)
     }
     
     static func displayOriginalMessageImage(id: Int, imageView: UIImageView) {
-        displayImage(ORIGINAL_MESSAGE_IMAGE_BY_ID_URL + String(id), view: imageView, centerCrop: false, noCahe: false)
+        displayImage(ViewUtil.urlAppendSessionId(ORIGINAL_MESSAGE_IMAGE_BY_ID_URL + String(id)), view: imageView, centerCrop: false, noCahe: false)
     }
     
     static func displayMiniMessageImage(id: Int, imageView: UIImageView) {
-        displayImage(MINI_MESSAGE_IMAGE_BY_ID_URL + String(id), view: imageView, centerCrop: false, noCahe: false)
+        displayImage(ViewUtil.urlAppendSessionId(MINI_MESSAGE_IMAGE_BY_ID_URL + String(id)), view: imageView, centerCrop: false, noCahe: false)
     }
     
     // Circle image

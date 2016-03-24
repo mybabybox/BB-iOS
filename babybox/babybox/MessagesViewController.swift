@@ -77,7 +77,6 @@ class MessagesViewController: UIViewController, UITextFieldDelegate {
         self.navigationItem.rightBarButtonItems = [userProfileBarBtn]
         
         ViewUtil.displayRoundedCornerView(self.sendButton)
-        
     }
     
     override func didReceiveMemoryWarning() {
@@ -114,18 +113,28 @@ class MessagesViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func sendButtonClicked(sender: AnyObject) {
         let msgCreatDt = NSDate(timeIntervalSinceNow: NSDate().timeIntervalSinceNow / 1000.0)
-        let bubbleData = ChatBubbleData(text: textField.text, date: msgCreatDt, type: .Mine, imgId: -1, uploadImgId: -1)
-        addChatBubble(bubbleData)
+        //let bubbleData = ChatBubbleData(text: textField.text, date: msgCreatDt, type: .Mine, imgId: -1, uploadImgId: -1)
+        let bubbleData:ChatBubbleData?
+        
+        if (self.uploadImgSrc.image == nil) {
+            bubbleData = ChatBubbleData(text: textField.text, image: nil, date: msgCreatDt, type: .Mine, buyerId: -1, imageId: -1)
+            
+            addChatBubble(bubbleData!)
+        } else {
+            bubbleData = ChatBubbleData(text: textField.text, image: self.uploadImgSrc.image!, date: msgCreatDt, type: .Mine, buyerId: -1, imageId: -1)
+            
+            addChatBubble(bubbleData!)
+        }
         textField.resignFirstResponder()
         
         if self.conversationViewController != nil {
             self.conversationViewController!.updateOpenedConversation = true
         }
         if (self.uploadImgSrc.image == nil) {
-            ApiController.instance.newMessage(self.conversation!.id, message: bubbleData.text!, imagePath: "")
+            ApiController.instance.newMessage(self.conversation!.id, message: bubbleData!.text!, imagePath: "")
             ConversationCache.update(self.conversation!.id, successCallback: nil, failureCallback: nil)
         } else {
-            ApiController.instance.newMessage(self.conversation!.id, message: bubbleData.text!, imagePath: self.uploadImgSrc.image!)
+            ApiController.instance.newMessage(self.conversation!.id, message: bubbleData!.text!, imagePath: self.uploadImgSrc.image!)
         }
         
         self.moveToLastMessage()
@@ -205,11 +214,11 @@ class MessagesViewController: UIViewController, UITextFieldDelegate {
             let string = txtField.text! as NSString
             text = string.substringToIndex(string.length - 1) as String
         }
-        if text.characters.count > 0 {
-            sendButton.enabled = true
-        } else {
-            sendButton.enabled = false
-        }
+        //if text.characters.count > 0 {
+        //    sendButton.enabled = true
+        //} else {
+        //    sendButton.enabled = false
+        //}
         return true
     }
     
@@ -244,20 +253,20 @@ class MessagesViewController: UIViewController, UITextFieldDelegate {
             let messageDt = NSDate(timeIntervalSince1970:Double(message.createdDate) / 1000.0)
             if UserInfoCache.getUser()!.id == message.senderId {
                 if (message.hasImage) {
-                    let chatBubbleData = ChatBubbleData(text: message.body, date: messageDt, type: .Mine, imgId: -1, uploadImgId: message.image)
-                    addChatBubble(chatBubbleData)
+                    let chatBubbleDataMine = ChatBubbleData(text: message.body, image: nil, date: messageDt, type: .Mine, buyerId: -1, imageId: message.image)
+                    addChatBubble(chatBubbleDataMine)
                 } else {
-                    let chatBubbleData = ChatBubbleData(text: message.body, date: messageDt, type: .Mine, imgId: -1, uploadImgId: -1)
-                    addChatBubble(chatBubbleData)
+                    let chatBubbleDataMine = ChatBubbleData(text: message.body, image: nil, date: messageDt, type: .Mine, buyerId: -1, imageId: -1)
+                    addChatBubble(chatBubbleDataMine)
                 }
                 
             } else {
                 if (message.hasImage) {
-                    let chatBubbleData = ChatBubbleData(text: message.body, date: messageDt, type: .Opponent, imgId: message.senderId, uploadImgId: message.image)
-                    addChatBubble(chatBubbleData)
+                    let chatBubbleDataOpponent = ChatBubbleData(text: message.body, image: nil, date: messageDt, type: .Opponent, buyerId: message.senderId, imageId: message.image)
+                    addChatBubble(chatBubbleDataOpponent)
                 } else {
-                    let chatBubbleData = ChatBubbleData(text: message.body, date: messageDt, type: .Opponent, imgId: message.senderId, uploadImgId: -1)
-                    addChatBubble(chatBubbleData)
+                    let chatBubbleDataOpponent = ChatBubbleData(text: message.body, image: nil, date: messageDt, type: .Opponent, buyerId: message.senderId, imageId: -1)
+                    addChatBubble(chatBubbleDataOpponent)
                 }
             }
             

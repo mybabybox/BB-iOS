@@ -1,5 +1,3 @@
-
-import Foundation
 import UIKit // For using UIImage
 
 // 1. Type Enum
@@ -16,22 +14,23 @@ enum BubbleDataType: Int{
 
 /// DataModel for maintaining the message data for a single chat bubble
 class ChatBubbleData {
+    
     // 2.Properties
     var text: String?
-    //var image: UIImage?
+    var image: UIImage?
     var date: NSDate?
     var type: BubbleDataType
-    var imgId: Int?
-    var uploadImgId: Int?
+    var buyerId: Int
+    var imageId: Int
+    
     // 3. Initialization
-    //init(text: String?,image: UIImage?,date: NSDate? , type:BubbleDataType = .Mine, imgId: Int, uploadImgId: Int) {
-    init(text: String?,date: NSDate? , type:BubbleDataType = .Mine, imgId: Int, uploadImgId: Int) {
+    init(text: String?,image: UIImage?,date: NSDate? , type:BubbleDataType = .Mine, buyerId: Int, imageId: Int) {
         // Default type is Mine
         self.text = text
-        //self.image = image
+        self.image = image
         self.date = date
         self.type = type
-        self.imgId = imgId
-        self.uploadImgId = uploadImgId
+        self.buyerId = buyerId
+        self.imageId = imageId
     }
 }

@@ -1,178 +1,178 @@
 import UIKit
 
 class ChatBubble: UIView {
-
+    // Properties
+    var buyerImageView: UIImageView?
     var imageViewChat: UIImageView?
-    var imageViewUpload: UIImageView?
     var imageViewBG: UIImageView?
     var text: String?
     var labelChatText: UILabel?
-    var timeAgoLbl: UILabel?
+    var timeAgoText: UILabel?
     /**
-    Initializes a chat bubble view
-    
-    - parameter data:   ChatBubble Data
-    - parameter startY: origin.y of the chat bubble frame in parent view
-    
-    - returns: Chat Bubble
-    */
+     Initializes a chat bubble view
+     
+     :param: data   ChatBubble Data
+     :param: startY origin.y of the chat bubble frame in parent view
+     
+     :returns: Chat Bubble
+     */
     init(data: ChatBubbleData, startY: CGFloat){
         
         // 1. Initializing parent view with calculated frame
         super.init(frame: ChatBubble.framePrimary(data.type, startY:startY))
         
-        // Making Background transparent
-        self.backgroundColor = Color.CLEAR
-        
-        let padding: CGFloat = 10.0
-        // 2. Drawing image if any
-        //if let chatImage = data.image {
-            
-            /*let width: CGFloat = min(chatImage.size.width, CGRectGetWidth(self.frame) - 2 * padding)
-            let height: CGFloat = chatImage.size.height * (width / chatImage.size.width)
-            imageViewChat = UIImageView(frame: CGRectMake(padding, padding, width, height))
-            imageViewChat?.image = chatImage
-            imageViewChat?.layer.cornerRadius = 5.0
-            imageViewChat?.layer.masksToBounds = true
-            self.addSubview(imageViewChat!)*/
-        //} else 
-        if (data.imgId != nil && data.imgId != -1) {
-            imageViewChat = UIImageView(frame: CGRectMake(-10, 5, 30, 30))
-            ImageUtil.displayThumbnailProfileImage(data.imgId!, imageView: imageViewChat!)
-            self.addSubview(imageViewChat!)
+        // Making Background color as gray color
+        if (data.type == .Mine) {
+            self.backgroundColor = Color.CHAT_YOU
+        } else {
+            self.backgroundColor = Color.CLEAR
         }
-        if (data.uploadImgId != nil && data.uploadImgId != -1) {
-            //let width: CGFloat = min(chatImage.size.width, CGRectGetWidth(self.frame) - 2 * padding)
-            //let height: CGFloat = chatImage.size.height * (width / chatImage.size.width)
-            //imageViewChat = UIImageView(frame: CGRectMake(padding, padding, width, height))
-            imageViewUpload = UIImageView(frame: CGRectMake(-10, 5, 30, 30))
-            imageViewUpload?.contentMode = .ScaleAspectFill
-            ImageUtil.displayMessageImage(data.uploadImgId!, imageView: imageViewUpload!)
-            self.addSubview(imageViewUpload!)
+        //self.backgroundColor = Color.CLEAR
+        self.layer.cornerRadius = 4
+        
+        let padding: CGFloat = 5.0
+        
+        // 1. Drawing buyer image
+        var startX = padding
+        if (data.type == .Opponent) {
+            //if let chatImage = data.image {
+            if (data.buyerId != -1) {
+                let userImgView = UIView()
+                buyerImageView = UIImageView(frame: CGRectMake(-5, 0, 30, 30))
+                ImageUtil.displayThumbnailProfileImage(data.buyerId, imageView: buyerImageView!)
+                userImgView.addSubview(buyerImageView!)
+                self.addSubview(userImgView)
+            }
         }
         
-        //Create Child SubView for showing opponet details
-        let subView = UIView(frame: CGRectMake(0, 0, 25, 25))
-        subView.backgroundColor = Color.GRAY
-        subView.layer.backgroundColor = Color.WHITE.CGColor
-        self.addSubview(subView)
+        let messageView: UIView = UIView(frame: CGRectMake(startX, 0, self.frame.width, self.frame.height))
+        if (data.type == .Opponent) {
+            messageView.backgroundColor = Color.WHITE
+            messageView.layer.cornerRadius = 4
+            self.addSubview(messageView)
+        }
         
-        // 3. Going to add Text if any
+        // 2. Going to add Text if any
         if let _ = data.text {
             // frame calculation
-            var startX = padding
             let startY:CGFloat = 5.0
-            if let _ = imageViewChat {
-                startX += CGRectGetMaxX(imageViewChat!.frame)
-            }
-            
-            if data.type == .Mine {
-                labelChatText = UILabel(frame: CGRectMake(startX, startY, CGRectGetWidth(self.frame) - 2 * startX , 5))
-            } else {
-                labelChatText = UILabel(frame: CGRectMake(-5, startY, CGRectGetWidth(self.frame) - 2 * startX + 10 , 5))
-            }
+            labelChatText = UILabel(frame: CGRectMake(startX, startY, CGRectGetWidth(self.frame) - 2 * startX , 5))
             labelChatText?.textAlignment = data.type == .Mine ? .Right : .Left
             labelChatText?.font = UIFont.systemFontOfSize(12)
+            labelChatText?.textColor = UIColor.blackColor()
             labelChatText?.numberOfLines = 0 // Making it multiline
             labelChatText?.text = data.text
             labelChatText?.sizeToFit() // Getting fullsize of it
-        
-            var _startY:CGFloat = 0.0
-            if let _ = labelChatText {
-                _startY += CGRectGetMaxY(labelChatText!.frame)
-            }
-            
-            if data.type == .Mine {
-                self.addSubview(labelChatText!)
-                timeAgoLbl = UILabel(frame: CGRectMake(startX, _startY, CGRectGetWidth(self.frame) - 2 * startX , 10))
-                self.addSubview(timeAgoLbl!)
-                subView.hidden = true
+            if (data.type == .Opponent) {
+                messageView.addSubview(labelChatText!)
             } else {
-                subView.addSubview(labelChatText!)
-                timeAgoLbl = UILabel(frame: CGRectMake(-5, _startY, CGRectGetWidth(self.frame) - 2 * startX, 10))
-                subView.addSubview(timeAgoLbl!)
+                self.addSubview(labelChatText!)
             }
             
-            timeAgoLbl?.textAlignment = .Left
-            timeAgoLbl?.font = UIFont.systemFontOfSize(10)
-            timeAgoLbl?.text = data.date?.timeAgo
         }
         
+        // 2. Drawing image if any
+        //if let chatImage = data.image {
+        if (data.imageId != -1) {
+            //let width: CGFloat = min(chatImage.size.width, CGRectGetWidth(messageView.frame) - 2 * padding)
+            //let height: CGFloat = chatImage.size.height * (width / chatImage.size.width)
+            let frameWidth = UIScreen.mainScreen().bounds.size.width  * Constants.MESSAGE_IMAGE_WIDTH
+            imageViewChat = UIImageView(frame: CGRectMake(startX, CGRectGetHeight(labelChatText!.frame) + 10, frameWidth, frameWidth))
+            //imageViewChat?.image = chatImage
+            //imageViewChat?.backgroundColor = Color.WHITE
+            ImageUtil.displayOriginalMessageImage(data.imageId, imageView: imageViewChat!)
+            if (data.type == .Opponent) {
+                messageView.addSubview(imageViewChat!)
+            } else {
+                self.addSubview(imageViewChat!)
+            }
+            //self.addSubview(imageViewChat!)
+        }
         
+        // 3. Going to add Text if any
+        if let chatText = data.text {
+            // frame calculation
+            //var startX = padding
+            var startY:CGFloat = 5.0
+            if let imageView = imageViewChat {
+                startY += CGRectGetMaxY(imageViewChat!.frame)
+            } else {
+                startY += CGRectGetMaxY(labelChatText!.frame)
+            }
+            timeAgoText = UILabel(frame: CGRectMake(startX, startY, CGRectGetWidth(self.frame) - 2 * startX , 5))
+            timeAgoText?.textAlignment = data.type == .Mine ? .Right : .Left
+            timeAgoText?.font = UIFont.systemFontOfSize(10)
+            timeAgoText?.numberOfLines = 0 // Making it multiline
+            timeAgoText?.text = data.date?.timeAgo
+            timeAgoText?.sizeToFit() // Getting fullsize of it
+            if (data.type == .Opponent) {
+                messageView.addSubview(timeAgoText!)
+            } else {
+                self.addSubview(timeAgoText!)
+            }
+            //self.addSubview(timeAgoText!)
+        }
         
         // 4. Calculation of new width and height of the chat bubble view
         var viewHeight: CGFloat = 0.0
         var viewWidth: CGFloat = 0.0
         if let imageView = imageViewChat {
             // Height calculation of the parent view depending upon the image view and text label
-            viewWidth = max(CGRectGetMaxX(labelChatText!.frame), CGRectGetMaxX(timeAgoLbl!.frame)) + padding
-            viewHeight = max(CGRectGetMaxY(labelChatText!.frame), CGRectGetMaxY(timeAgoLbl!.frame)) + padding
+            viewWidth = max(CGRectGetMaxX(imageViewChat!.frame), CGRectGetMaxX(timeAgoText!.frame)) + padding
+            viewHeight = max(CGRectGetMaxY(imageViewChat!.frame), CGRectGetMaxY(timeAgoText!.frame)) + padding
             
         } else {
-            viewHeight = CGRectGetMaxY(timeAgoLbl!.frame) + padding/2
-            viewWidth = CGRectGetWidth(timeAgoLbl!.frame) + CGRectGetMinX(labelChatText!.frame) + padding
+            viewHeight = CGRectGetMaxY(timeAgoText!.frame) + padding/2
+            
+            viewWidth = max(CGRectGetMaxX(labelChatText!.frame), CGRectGetMaxX(timeAgoText!.frame)) + CGRectGetMinX(timeAgoText!.frame) + padding
+            //viewWidth = CGRectGetWidth(labelChatText!.frame) + CGRectGetMinX(timeAgoText!.frame) + padding
         }
         
         // 5. Adding new width and height of the chat bubble frame
+        messageView.frame = CGRectMake(CGRectGetMinX(self.frame), CGRectGetMinY(self.frame), viewWidth, viewHeight)
         self.frame = CGRectMake(CGRectGetMinX(self.frame), CGRectGetMinY(self.frame), viewWidth, viewHeight)
         
         // 6. Adding the resizable image view to give it bubble like shape
-        let bubbleImageFileName = data.type == .Mine ? "bubbleMine" : "bubbleSomeone"
+        let bubbleImageFileName = data.type == .Mine ? "" : ""
         imageViewBG = UIImageView(frame: CGRectMake(0.0, 0.0, CGRectGetWidth(self.frame), CGRectGetHeight(self.frame)))
-        let vChat = UIView(frame: CGRectMake(0.0, 0.0, CGRectGetWidth(self.frame), CGRectGetHeight(self.frame)))
-        
         if data.type == .Mine {
             imageViewBG?.image = UIImage(named: bubbleImageFileName)?.resizableImageWithCapInsets(UIEdgeInsetsMake(14, 14, 17, 28))
-            vChat.layer.backgroundColor = Color.CHAT_YOU.CGColor
         } else {
             imageViewBG?.image = UIImage(named: bubbleImageFileName)?.resizableImageWithCapInsets(UIEdgeInsetsMake(14, 22, 17, 20))
-            vChat.layer.backgroundColor = Color.CHAT_ME.CGColor
         }
         
-        self.addSubview(vChat)
-        self.sendSubviewToBack(vChat)
-        //self.addSubview(imageViewBG!)
-        //self.sendSubviewToBack(imageViewBG!)
+        if (data.type == .Opponent) {
+            messageView.addSubview(imageViewBG!)
+            messageView.sendSubviewToBack(imageViewBG!)
+        } else {
+            self.addSubview(imageViewBG!)
+            self.sendSubviewToBack(imageViewBG!)
+        }
         
         // Frame recalculation for filling up the bubble with background bubble image
-        let repsotionXFactor:CGFloat = data.type == .Mine ? 0.0 : -15.0
+        let repsotionXFactor:CGFloat = data.type == .Mine ? 0.0 : -8.0
         let bgImageNewX = CGRectGetMinX(imageViewBG!.frame) + repsotionXFactor
         let bgImageNewWidth =  CGRectGetWidth(imageViewBG!.frame) + CGFloat(12.0)
         let bgImageNewHeight =  CGRectGetHeight(imageViewBG!.frame) + CGFloat(6.0)
-        imageViewBG?.frame = CGRectMake(bgImageNewX - 5, -3.0, bgImageNewWidth + 5, bgImageNewHeight + 5)
-        vChat.frame = CGRectMake(bgImageNewX - 5, -3.0, bgImageNewWidth + 5, bgImageNewHeight )
-        vChat.bounds = CGRectInset(vChat.frame, 5.0, 3.0)
+        imageViewBG?.frame = CGRectMake(bgImageNewX, 0.0, bgImageNewWidth, bgImageNewHeight)
         
-        vChat.layer.cornerRadius = 5.0
-        vChat.layer.masksToBounds = true
-        
-        subView.frame = CGRectMake(20, -3.0, bgImageNewWidth + 5, bgImageNewHeight )
-        subView.bounds = CGRectInset(vChat.frame, 0.0, 0.0)
-        
-        subView.layer.cornerRadius = 5.0
-        subView.layer.masksToBounds = true
-        
-        //if data.type == .Mine {
-        //    subView.hidden = true
-        //}
-        // Keepping a minimum distance from the edge of the screen
         var newStartX:CGFloat = 0.0
         if data.type == .Mine {
             // Need to maintain the minimum right side padding from the right edge of the screen
             let extraWidthToConsider = CGRectGetWidth(imageViewBG!.frame)
-            //newStartX = ScreenSize.SCREEN_WIDTH - extraWidthToConsider
             newStartX = UIScreen.mainScreen().bounds.size.width - extraWidthToConsider
         } else {
             // Need to maintain the minimum left side padding from the left edge of the screen
             newStartX = -CGRectGetMinX(imageViewBG!.frame) + 3.0
         }
-        
+        messageView.frame = CGRectMake(30, 0, CGRectGetWidth(frame), CGRectGetHeight(frame))
+        print(messageView.subviews)
         self.frame = CGRectMake(newStartX, CGRectGetMinY(self.frame), CGRectGetWidth(frame), CGRectGetHeight(frame))
         
     }
-
+    
     // 6. View persistance support
-    required init?(coder aDecoder: NSCoder) {
+    required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -180,8 +180,8 @@ class ChatBubble: UIView {
     class func framePrimary(type:BubbleDataType, startY: CGFloat) -> CGRect{
         let paddingFactor: CGFloat = 0.02
         let sidePadding = UIScreen.mainScreen().bounds.size.width * paddingFactor
-        let maxWidth = UIScreen.mainScreen().bounds.size.width * 0.65 // We are cosidering 65% of the screen width as the Maximum with of a single bubble
-        let startX: CGFloat = type == .Mine ? UIScreen.mainScreen().bounds.size.width * (CGFloat(1.0) - paddingFactor) - maxWidth : sidePadding
+        let maxWidth = UIScreen.mainScreen().bounds.size.width  * Constants.MESSAGE_IMAGE_WIDTH // We are cosidering 65% of the screen width as the Maximum with of a single bubble
+        let startX: CGFloat = type == .Mine ? UIScreen.mainScreen().bounds.size.width  * (CGFloat(1.0) - paddingFactor) - maxWidth : sidePadding
         return CGRectMake(startX, startY, maxWidth, 5) // 5 is the primary height before drawing starts
     }
 

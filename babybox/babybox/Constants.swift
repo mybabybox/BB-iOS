@@ -27,6 +27,8 @@ struct Constants {
     static let SHOW_HIDE_BAR_SCROLL_DISTANCE = CGFloat(5.0)
     static let MAIN_BOTTOM_BAR_ALPHA = 0.9
     
+    static let MESSAGE_IMAGE_WIDTH = CGFloat(0.65)
+    
     static let ACTIVITY_FIRST_POST = "Congratulations! You are now a BabyBox seller! Your first product has been listed:\r\n"
     static let ACTIVITY_NEW_POST = "New product listed:\r\n"
     static let ACTIVITY_COMMENTED = "commented on product:\n"
