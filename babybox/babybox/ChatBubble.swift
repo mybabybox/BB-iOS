@@ -89,6 +89,20 @@ class ChatBubble: UIView {
             //self.addSubview(imageViewChat!)
         }
         
+        if let chatImage = data.image {
+            
+            let width: CGFloat = min(chatImage.size.width, CGRectGetWidth(self.frame) - 2 * padding)
+            let height: CGFloat = chatImage.size.height * (width / chatImage.size.width)
+            imageViewChat = UIImageView(frame: CGRectMake(padding, padding, width, height))
+            imageViewChat?.image = chatImage
+            imageViewChat?.layer.cornerRadius = 5.0
+            imageViewChat?.layer.masksToBounds = true
+            
+            self.addSubview(imageViewChat!)
+            
+        }
+        
+        
         // 3. Going to add Text if any
         if let chatText = data.text {
             // frame calculation

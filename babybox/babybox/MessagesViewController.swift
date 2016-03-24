@@ -38,7 +38,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate {
         let titleDict: NSDictionary = [NSForegroundColorAttributeName: Color.WHITE]
         self.navigationController!.navigationBar.titleTextAttributes = titleDict as? [String : AnyObject]
         
-        sendButton.enabled = false
+        sendButton.enabled = true
         
         SwiftEventBus.onMainThread(self, name: "getMessagesSuccess") { result in
             // UI thread
@@ -115,7 +115,9 @@ class MessagesViewController: UIViewController, UITextFieldDelegate {
         let msgCreatDt = NSDate(timeIntervalSinceNow: NSDate().timeIntervalSinceNow / 1000.0)
         //let bubbleData = ChatBubbleData(text: textField.text, date: msgCreatDt, type: .Mine, imgId: -1, uploadImgId: -1)
         let bubbleData:ChatBubbleData?
-        
+        if (textField.text == nil) {
+            textField.text = ""
+        }
         if (self.uploadImgSrc.image == nil) {
             bubbleData = ChatBubbleData(text: textField.text, image: nil, date: msgCreatDt, type: .Mine, buyerId: -1, imageId: -1)
             
@@ -191,7 +193,6 @@ class MessagesViewController: UIViewController, UITextFieldDelegate {
         self.moveToLastMessage()
         lastMessageType = data.type
         textField.text = ""
-        sendButton.enabled = false
     }
     
     func moveToLastMessage() {
@@ -214,11 +215,6 @@ class MessagesViewController: UIViewController, UITextFieldDelegate {
             let string = txtField.text! as NSString
             text = string.substringToIndex(string.length - 1) as String
         }
-        //if text.characters.count > 0 {
-        //    sendButton.enabled = true
-        //} else {
-        //    sendButton.enabled = false
-        //}
         return true
     }
     
