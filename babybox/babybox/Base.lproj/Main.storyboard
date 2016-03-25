@@ -741,11 +741,11 @@
                         <viewControllerLayoutGuide type="bottom" id="VvV-UB-afa"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="OOG-iO-Seq">
-                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                        <rect key="frame" x="0.0" y="64" width="414" height="672"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="s3p-yV-JwM">
-                                <rect key="frame" x="10" y="10" width="580" height="526"/>
+                                <rect key="frame" x="10" y="10" width="394" height="662"/>
                                 <color key="backgroundColor" red="0.92941176470588238" green="0.92941176470588238" blue="0.92941176470588238" alpha="1" colorSpace="calibratedRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="AUS-TA-pcc">
                                     <size key="itemSize" width="314" height="126"/>
@@ -755,7 +755,7 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="recommendedSellerViewCell" id="zGl-Ie-hkI" customClass="RecommendedSellerViewCell" customModule="BabyBox" customModuleProvider="target">
-                                        <rect key="frame" x="133" y="0.0" width="314" height="126"/>
+                                        <rect key="frame" x="40" y="0.0" width="314" height="126"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="314" height="126"/>
@@ -967,7 +967,7 @@
                                 </connections>
                             </collectionView>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="ebf-8h-PPR">
-                                <rect key="frame" x="290" y="258" width="20" height="20"/>
+                                <rect key="frame" x="197" y="326" width="20" height="20"/>
                             </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" red="0.92549019607843142" green="0.92549019607843142" blue="0.92549019607843142" alpha="1" colorSpace="calibratedRGB"/>
@@ -5531,7 +5531,7 @@
         <!--Home-->
         <scene sceneID="bn9-Zl-qmc">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="MZN-3D-Nbg" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="MZN-3D-Nbg" customClass="ScrollingNavigationController" customModule="AMScrollingNavbar" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Home" id="SfA-k4-QbK"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" opaque="NO" contentMode="scaleToFill" translucent="NO" backIndicatorImage="actionbar_bg_pink" id="Fm4-5L-jDQ">
@@ -5552,6 +5552,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="nc0-70-Tgi" sceneMemberID="viewController">
                     <toolbarItems/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="2k3-Xe-DNz">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>

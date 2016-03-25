@@ -7,20 +7,21 @@
 //
 
 import UIKit
+import AMScrollingNavbar
 
-class CustomNavigationController: UIViewController {
+class CustomNavigationController: ScrollingNavigationViewController, ScrollingNavigationControllerDelegate {
     
     var isProfileView = false
+    
+    override func viewDidAppear(animated: Bool) {
+        
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         /** Creating Custom Navigation Controller Component */
         initNavigationComponent()
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        //initNavigationComponent()
     }
     
     override func didReceiveMemoryWarning() {
@@ -46,15 +47,16 @@ class CustomNavigationController: UIViewController {
         //self.navigationController?.pushViewController(vController!, animated: true)
     }
     
-    /*
-    // MARK: - Navigation
-    
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-    // Get the new view controller using segue.destinationViewController.
-    // Pass the selected object to the new view controller.
+    func scrollingNavigationController(controller: ScrollingNavigationController, didChangeState state: NavigationBarState) {
+        switch state {
+        case .Collapsed:
+            print("navbar collapsed")
+        case .Expanded:
+            print("navbar expanded")
+        case .Scrolling:
+            print("navbar is moving")
+        }
     }
-    */
     
     /*
     // MARK: - Custom Component Implementation

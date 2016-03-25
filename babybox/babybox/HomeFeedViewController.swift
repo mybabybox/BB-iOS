@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AMScrollingNavbar
 import SwiftEventBus
 import Kingfisher
 
@@ -43,6 +44,11 @@ class HomeFeedViewController: CustomNavigationController {
     override func viewDidAppear(animated: Bool) {
         self.tabBarController?.tabBar.alpha = CGFloat(Constants.MAIN_BOTTOM_BAR_ALPHA)
         
+        if let navigationController = self.navigationController as? ScrollingNavigationController {
+            navigationController.followScrollView(uiCollectionView, delay: 50.0)
+            navigationController.scrollingNavbarDelegate = self
+        }
+        
         if (currentIndex != nil && vController?.feedItem != nil) {
             let item = vController?.feedItem
             feedLoader?.setItem(currentIndex!.row, item: item!)
@@ -60,6 +66,7 @@ class HomeFeedViewController: CustomNavigationController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         HomeFeedViewController.instance = self
         
         feedLoader = FeedLoader(feedType: FeedFilter.FeedType.HOME_EXPLORE, reloadDataToView: reloadDataToView)
@@ -230,6 +237,7 @@ class HomeFeedViewController: CustomNavigationController {
     
     // MARK: UIScrollview Delegate
     func scrollViewDidScroll(scrollView: UIScrollView) {
+        /*
         if scrollView.contentOffset.y < 0 {
             self.lastContentOffset = 0
         } else if self.lastContentOffset > scrollView.contentOffset.y + Constants.SHOW_HIDE_BAR_SCROLL_DISTANCE {
@@ -238,6 +246,7 @@ class HomeFeedViewController: CustomNavigationController {
             self.navigationController?.setNavigationBarHidden(true, animated: true)
         }
         self.lastContentOffset = scrollView.contentOffset.y
+        */
         
         if (scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - Constants.FEED_LOAD_SCROLL_THRESHOLD {
             feedLoader!.loadMoreFeedItems()
