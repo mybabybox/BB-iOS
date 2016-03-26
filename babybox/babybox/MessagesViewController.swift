@@ -1,6 +1,7 @@
 import UIKit
 import SwiftEventBus
 import ALCameraViewController
+
 class MessagesViewController: UIViewController, UITextFieldDelegate {
         
     @IBOutlet weak var prodImg: UIImageView!
@@ -9,13 +10,13 @@ class MessagesViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var sellTextLbl: UILabel!
     @IBOutlet weak var buyTextLbl: UILabel!
     @IBOutlet weak var soldTextLbl: UILabel!
-    @IBOutlet var messageComposingView: UIView!
+    @IBOutlet weak var messageComposingView: UIView!
     @IBOutlet weak var messageCointainerScroll: UIScrollView!
     @IBOutlet weak var buttomLayoutConstraint: NSLayoutConstraint!
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var sendButton: UIButton!
-    
     @IBOutlet weak var uploadImgSrc: UIImageView!
+    
     var offset: Int64 = 0
     var loading: Bool = false
     var conversation: ConversationVM? = nil
@@ -26,7 +27,9 @@ class MessagesViewController: UIViewController, UITextFieldDelegate {
     let croppingEnabled: Bool = true
     let libraryEnabled: Bool = true
     var conversationViewController: ConversationsViewController?
+    
     static var instance: MessagesViewController?
+    
     override func viewDidDisappear(animated: Bool) {
         //SwiftEventBus.unregister(self)
     }

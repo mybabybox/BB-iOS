@@ -394,22 +394,14 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         let tCell = collectionView.cellForItemAtIndexPath(indexPath) as? ImageCollectionViewCell
         let imageUrl = ImageUtil.getProductImageUrl(self.images[indexPath.row])
-        let photoSlider = PhotoSlider.ViewController(imageURLs: [imageUrl])
-        //photoSlider.delegate = self
-        photoSlider.currentPage = indexPath.row
-        
-        self.presentViewController(photoSlider, animated: true) { () -> Void in
-            UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.Fade)
-        }
+        ViewUtil.viewFullScreenImageByUrl(imageUrl, viewController: self)
         tCell?.pageControl.currentPage = indexPath.row
     }
     
     // MARK: - PhotoSliderDelegate
     
     func photoSliderControllerWillDismiss(viewController: PhotoSlider.ViewController) {
-        
         UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.Fade)
-        
         let indexPath = NSIndexPath(forItem: viewController.currentPage, inSection: 0)
         self.collectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.None, animated: false)
     }

@@ -1,5 +1,4 @@
 import UIKit
-import PhotoSlider
 
 class ChatBubble: UIView {
     // Properties
@@ -11,6 +10,7 @@ class ChatBubble: UIView {
     var timeAgoText: UILabel?
     var imageId: Int?
     var image: UIImage = UIImage()
+    
     /**
      Initializes a chat bubble view
      
@@ -36,7 +36,7 @@ class ChatBubble: UIView {
         let padding: CGFloat = 10.0
         
         // 1. Drawing buyer image
-        var startX = padding
+        let startX = padding
         if (data.type == .Opponent) {
             //if let chatImage = data.image {
             if (data.buyerId != -1) {
@@ -86,7 +86,7 @@ class ChatBubble: UIView {
                 self.addSubview(imageViewChat!)
             }
             self.imageId = data.imageId
-            let singleTap = UITapGestureRecognizer(target: self, action: "viewFullScreenImageById:")
+            let singleTap = UITapGestureRecognizer(target: self, action: "viewFullScreenImageByUrl:")
             singleTap.numberOfTapsRequired = 1 // Initialized to 1 by default
             singleTap.numberOfTouchesRequired = 1 // Initialized to 1 by default
             imageViewChat!.addGestureRecognizer(singleTap)
@@ -110,11 +110,11 @@ class ChatBubble: UIView {
         
         
         // 3. Going to add Text if any
-        if let chatText = data.text {
+        if let _ = data.text {
             // frame calculation
             //var startX = padding
             var startY:CGFloat = 5.0
-            if let imageView = imageViewChat {
+            if let _ = imageViewChat {
                 startY += CGRectGetMaxY(imageViewChat!.frame)
             } else {
                 startY += CGRectGetMaxY(labelChatText!.frame)
@@ -136,7 +136,7 @@ class ChatBubble: UIView {
         // 4. Calculation of new width and height of the chat bubble view
         var viewHeight: CGFloat = 0.0
         var viewWidth: CGFloat = 0.0
-        if let imageView = imageViewChat {
+        if let _ = imageViewChat {
             // Height calculation of the parent view depending upon the image view and text label
             viewWidth = max(CGRectGetMaxX(imageViewChat!.frame), CGRectGetMaxX(timeAgoText!.frame)) + padding
             viewHeight = max(CGRectGetMaxY(imageViewChat!.frame), CGRectGetMaxY(timeAgoText!.frame)) + padding
@@ -205,24 +205,16 @@ class ChatBubble: UIView {
         return CGRectMake(startX, startY, maxWidth, 5) // 5 is the primary height before drawing starts
     }
 
-    func viewFullScreenImageById(recognizer: UITapGestureRecognizer) {
-        if(recognizer.state == UIGestureRecognizerState.Ended){
-            let imageUrl = ImageUtil.getOriginalMessageImageUrl(self.imageId!)
-            let photoSlider = PhotoSlider.ViewController(imageURLs: [imageUrl])
-            photoSlider.currentPage = 0
-            MessagesViewController.instance!.presentViewController(photoSlider, animated: true) { () -> Void in
-                UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.Fade)
-            }
+    func viewFullScreenImage(recognizer: UITapGestureRecognizer) {
+        if recognizer.state == UIGestureRecognizerState.Ended {
+            ViewUtil.viewFullScreenImage(self.image, viewController: MessagesViewController.instance!)
         }
     }
-    
-    func viewFullScreenImage(recognizer: UITapGestureRecognizer) {
-        if(recognizer.state == UIGestureRecognizerState.Ended){
-            let photoSlider = PhotoSlider.ViewController(images: [self.image])
-            photoSlider.currentPage = 0
-            MessagesViewController.instance!.presentViewController(photoSlider, animated: true) { () -> Void in
-                UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.Fade)
-            }
+
+    func viewFullScreenImageByUrl(recognizer: UITapGestureRecognizer) {
+        if recognizer.state == UIGestureRecognizerState.Ended {
+            let imageUrl = ImageUtil.getOriginalMessageImageUrl(self.imageId!)
+            ViewUtil.viewFullScreenImageByUrl(imageUrl, viewController: MessagesViewController.instance!)
         }
     }
 }

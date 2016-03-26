@@ -51,6 +51,16 @@ class ImageUtil {
         displayImage(THUMBNAIL_COVER_IMAGE_BY_ID_URL + String(id), view: imageView, centerCrop: true, noCahe: true)
     }
     
+    // URL helper
+    
+    static func getOriginalPostImageUrl(id: Int) -> NSURL {
+        return NSURL(string: ORIGINAL_POST_IMAGE_BY_ID_URL + String(id))!
+    }
+
+    static func getOriginalMessageImageUrl(id: Int) -> NSURL {
+        return NSURL(string: ViewUtil.urlAppendSessionId(ORIGINAL_MESSAGE_IMAGE_BY_ID_URL + String(id)))!
+    }
+
     // Profile image
     
     static func displayProfileImage(id: Int, imageView: UIImageView) {
@@ -173,9 +183,4 @@ class ImageUtil {
         UIGraphicsEndImageContext();
         return imageData!;
     }
-    
-    static func getOriginalMessageImageUrl(id: Int) -> NSURL {
-        return NSURL(string: ViewUtil.urlAppendSessionId(MESSAGE_IMAGE_BY_ID_URL + String(id)))!
-    }
-    
 }

@@ -111,11 +111,8 @@ class WelcomeViewController: UIViewController, UITableViewDelegate, UITableViewD
     // MARK: - PhotoSliderDelegate
     
     func photoSliderControllerWillDismiss(viewController: PhotoSlider.ViewController) {
-        
         UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.Fade)
-        
         let indexPath = NSIndexPath(forItem: viewController.currentPage, inSection: 0)
         self.collectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.None, animated: false)
     }
-    
 }

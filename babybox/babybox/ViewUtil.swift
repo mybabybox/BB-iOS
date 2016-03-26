@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import PhotoSlider
 
 class ViewUtil {
     
@@ -50,6 +51,22 @@ class ViewUtil {
     // UI
     //
     
+    static func viewFullScreenImage(image: UIImage, viewController: UIViewController) {
+        let photoSlider = PhotoSlider.ViewController(images: [image])
+        photoSlider.currentPage = 0
+        viewController.presentViewController(photoSlider, animated: true) { () -> Void in
+            UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.Fade)
+        }
+    }
+
+    static func viewFullScreenImageByUrl(url: NSURL, viewController: UIViewController) {
+        let photoSlider = PhotoSlider.ViewController(imageURLs: [url])
+        photoSlider.currentPage = 0
+        viewController.presentViewController(photoSlider, animated: true) { () -> Void in
+            UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.Fade)
+        }
+    }
+
     static func getProductItemCellSize(width: CGFloat) -> CGSize {
         let availableWidthForCells:CGFloat = width - 15
         let cellWidth :CGFloat = availableWidthForCells / 2

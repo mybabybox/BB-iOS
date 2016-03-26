@@ -61,7 +61,7 @@ class HomeFeedViewController: CustomNavigationController {
         self.navigationController?.setNavigationBarHidden(false, animated: false)
         
         if let navigationController = self.navigationController as? ScrollingNavigationController {
-            navigationController.showNavbar(animated: false)
+            navigationController.stopFollowingScrollView()
         }
     }
     
