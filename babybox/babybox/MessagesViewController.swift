@@ -1,8 +1,17 @@
+//
+//  MessagesViewController.swift
+//  babybox
+//
+//  Created by Mac on 06/12/15.
+//  Copyright (c) 2015 Mac. All rights reserved.
+//
+
 import UIKit
+import PhotoSlider
 import SwiftEventBus
 import ALCameraViewController
 
-class MessagesViewController: UIViewController, UITextFieldDelegate {
+class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSliderDelegate {
         
     @IBOutlet weak var prodImg: UIImageView!
     @IBOutlet weak var prodPrice: UILabel!
@@ -307,5 +316,9 @@ class MessagesViewController: UIViewController, UITextFieldDelegate {
         return true
     }
     
+    // MARK: - PhotoSliderDelegate
     
+    func photoSliderControllerWillDismiss(viewController: PhotoSlider.ViewController) {
+        UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.Fade)
+    }
 }
