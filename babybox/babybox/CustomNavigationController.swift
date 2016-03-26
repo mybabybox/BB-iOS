@@ -47,6 +47,7 @@ class CustomNavigationController: ScrollingNavigationViewController, ScrollingNa
         //self.navigationController?.pushViewController(vController!, animated: true)
     }
     
+    /*
     func scrollingNavigationController(controller: ScrollingNavigationController, didChangeState state: NavigationBarState) {
         switch state {
         case .Collapsed:
@@ -57,6 +58,7 @@ class CustomNavigationController: ScrollingNavigationViewController, ScrollingNa
             print("navbar is moving")
         }
     }
+    */
     
     /*
     // MARK: - Custom Component Implementation
