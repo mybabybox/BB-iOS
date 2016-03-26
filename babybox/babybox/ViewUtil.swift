@@ -54,16 +54,22 @@ class ViewUtil {
     static func viewFullScreenImage(image: UIImage, viewController: UIViewController) {
         let photoSlider = PhotoSlider.ViewController(images: [image])
         photoSlider.currentPage = 0
+        if let delegate = viewController as? PhotoSliderDelegate {
+            photoSlider.delegate = delegate
+        }
         viewController.presentViewController(photoSlider, animated: true) { () -> Void in
-            UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.Fade)
+            UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.None)
         }
     }
 
     static func viewFullScreenImageByUrl(url: NSURL, viewController: UIViewController) {
         let photoSlider = PhotoSlider.ViewController(imageURLs: [url])
         photoSlider.currentPage = 0
+        if let delegate = viewController as? PhotoSliderDelegate {
+            photoSlider.delegate = delegate
+        }
         viewController.presentViewController(photoSlider, animated: true) { () -> Void in
-            UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.Fade)
+            UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.None)
         }
     }
 
