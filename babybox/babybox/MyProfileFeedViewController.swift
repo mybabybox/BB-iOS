@@ -331,7 +331,7 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
         
         if let pickedImage = info[UIImagePickerControllerEditedImage] as? UIImage {
             self.activeHeaderViewCell?.userImg.image = pickedImage
-            ApiController.instance.uploadUserProfileImg(pickedImage)
+            ApiController.instance.uploadUserProfileImage(pickedImage)
         }
         dismissViewControllerAnimated(true, completion: nil)
     }

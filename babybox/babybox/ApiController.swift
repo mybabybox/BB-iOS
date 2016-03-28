@@ -356,7 +356,7 @@ class ApiController {
         self.makeApiCall(callEvent)
     }
     
-    func uploadUserProfileImg(profileImg: UIImage) {
+    func uploadUserProfileImage(profileImg: UIImage) {
         let callEvent = ApiCallEvent()
         callEvent.method = "/image/upload-profile-photo"
         callEvent.resultClass = "String"
@@ -372,12 +372,10 @@ class ApiController {
             },
             encodingCompletion: { encodingResult in
                 switch encodingResult {
-                case .Success( _, _, _):
-                    SwiftEventBus.post(callEvent.successEventbusName, sender: "")
-                    break
-                case .Failure( _):
+                case .Success(let upload, _, _):
+                    self.handleUploadResponse(upload, callEvent: callEvent)
+                case .Failure(_):
                     SwiftEventBus.post(callEvent.failedEventbusName, sender: "")
-                    break
                 }
             }
         )
@@ -490,7 +488,6 @@ class ApiController {
     }
     
     func editPost(postId: Int, title: String, body: String, catId: Int, conditionType:String, pricetxt : String) {
-        
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/post/edit"
         callEvent.resultClass="String"
@@ -512,20 +509,16 @@ class ApiController {
             },
             encodingCompletion: { encodingResult in
                 switch encodingResult {
-                case .Success( _, _, _):
-                    SwiftEventBus.post(callEvent.successEventbusName, sender: "")
-                    break
-                case .Failure( _):
+                case .Success(let upload, _, _):
+                    self.handleUploadResponse(upload, callEvent: callEvent)
+                case .Failure(_):
                     SwiftEventBus.post(callEvent.failedEventbusName, sender: "")
-                    break
                 }
             }
         )
-        
     }
     
     func newPost(title: String, body: String, catId: Int, conditionType:String, pricetxt : String, imageCollection: [AnyObject]) {
-        
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/post/new"
         callEvent.resultClass="NewPostVM"
@@ -563,18 +556,15 @@ class ApiController {
             },
             encodingCompletion: { encodingResult in
                 switch encodingResult {
-                case .Success( _, _, _):
-                    SwiftEventBus.post(callEvent.successEventbusName, sender: "")
-                    break
-                case .Failure( _):
+                case .Success(let upload, _, _):
+                    self.handleUploadResponse(upload, callEvent: callEvent)
+                case .Failure(_):
                     SwiftEventBus.post(callEvent.failedEventbusName, sender: "")
-                    break
                 }
             }
         )
-        
     }
-
+    
     func deletePost(id: Int) {
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/post/delete/\(id)"
@@ -582,7 +572,6 @@ class ApiController {
         callEvent.successEventbusName = "deletePostSuccess"
         callEvent.failedEventbusName = "deletePostFailed"
         callEvent.apiUrl = Constants.BASE_URL + callEvent.method
-        
         self.makeApiCall(callEvent)
     }
 
@@ -591,7 +580,6 @@ class ApiController {
     }
     
     func newMessage(id: Int, message: String, system: Bool, imagePath: AnyObject) {
-        
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/message/new"
         callEvent.resultClass = "MessageVM"
@@ -617,12 +605,10 @@ class ApiController {
             },
             encodingCompletion: { encodingResult in
                 switch encodingResult {
-                case .Success( _, _, _):
-                    SwiftEventBus.post(callEvent.successEventbusName, sender: "")
-                    break
-                case .Failure( _):
-                    SwiftEventBus.post(callEvent.failedEventbusName, sender:"")
-                    break
+                case .Success(let upload, _, _):
+                    self.handleUploadResponse(upload, callEvent: callEvent)
+                case .Failure(_):
+                    SwiftEventBus.post(callEvent.failedEventbusName, sender: "")
                 }
             }
         )
@@ -700,6 +686,17 @@ class ApiController {
         }
         let result: AnyObject = try self.parseStr(arg.resultClass, inputStr: responseString as String)
         return result
+    }
+    
+    func handleUploadResponse(upload: Request, callEvent: ApiCallEvent) {
+        upload.responseJSON { response in
+            switch response.result {
+            case .Success:
+                SwiftEventBus.post(callEvent.successEventbusName, sender: "")
+            case .Failure(let error):
+                SwiftEventBus.post(callEvent.failedEventbusName, sender: error)
+            }
+        }
     }
     
     func parseStr(cName: String, inputStr: String) throws -> AnyObject {
