@@ -67,7 +67,6 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
             // UI thread
             SwiftEventBus.unregister(self)
             NSLog("Product Saved Successfully")
-            self.view.makeToast(message: "Product Added Successfully", duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
             //NotificationCounter.mInstance.refresh(self.handleNotificationSuccess, failureCallback: self.handleNotificationError)
             UserInfoCache.incrementNumProducts()
             
@@ -80,10 +79,10 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
             let firstViewController = selIndexNavController.viewControllers[0]
             if let myProfileController = firstViewController as? MyProfileFeedViewController {
                 myProfileController.isRefresh = true
+                ViewUtil.makeToast("Product Added Successfully", view: myProfileController.view)
             }
             
             tabbarcontroller.selectedIndex = 3
-            
         }
         
         SwiftEventBus.onMainThread(self, name: "newProductFailed") { result in

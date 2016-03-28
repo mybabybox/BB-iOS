@@ -64,14 +64,13 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
             feedLoader?.setItem(currentIndex!.row, item: item!)
             self.uiCollectionView.reloadItemsAtIndexPaths([currentIndex!])
         }
+        
         NotificationCounter.mInstance.refresh(handleNotificationSuccess, failureCallback: handleNotificationError)
-        //reloadFeedItems()
         setUserInfo(UserInfoCache.getUser())
         
         //check for flag and if found refresh the data..
         if (self.isRefresh) {
-            feedLoader?.setFeedType(FeedFilter.FeedType.USER_POSTED)
-            feedLoader?.reloadFeedItems((UserInfoCache.getUser()?.id)!)
+            reloadFeedItems()
             self.isRefresh = false
         }
     }

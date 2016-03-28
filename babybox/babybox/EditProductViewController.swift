@@ -89,7 +89,6 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         
         SwiftEventBus.onMainThread(self, name: "editProductFailed") { result in
             // UI thread
-            NSLog("Product Saved Successfully")
             self.view.makeToast(message: "Error Saving product", duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
         }
         
