@@ -27,6 +27,8 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
     var vController: ProductViewController?
     var currentIndex: NSIndexPath?
     
+    var isRefresh: Bool = false
+    
     override func reloadDataToView() {
         self.uiCollectionView.reloadData()
     }
@@ -49,8 +51,8 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
     
     override func viewDidAppear(animated: Bool) {
         self.tabBarController?.tabBar.alpha = CGFloat(Constants.MAIN_BOTTOM_BAR_ALPHA)
-        self.navigationItem.hidesBackButton = true
-        self.tabBarController?.tabBar.hidden = false
+        //self.navigationItem.hidesBackButton = true
+        //self.tabBarController?.tabBar.hidden = false
         
         if (self.activeHeaderViewCell != nil) {
             self.activeHeaderViewCell?.segmentControl.setTitle("Products " + String(self.userInfo!.numProducts), forSegmentAtIndex: 0)
@@ -64,7 +66,14 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
         }
         NotificationCounter.mInstance.refresh(handleNotificationSuccess, failureCallback: handleNotificationError)
         //reloadFeedItems()
-	setUserInfo(UserInfoCache.getUser())
+        setUserInfo(UserInfoCache.getUser())
+        
+        //check for flag and if found refresh the data..
+        if (self.isRefresh) {
+            feedLoader?.setFeedType(FeedFilter.FeedType.USER_POSTED)
+            feedLoader?.reloadFeedItems((UserInfoCache.getUser()?.id)!)
+            self.isRefresh = false
+        }
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -316,7 +325,6 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
             self.activeHeaderViewCell?.segmentControl.setTitle("Products " + String(self.userInfo!.numProducts), forSegmentAtIndex: 0)
             self.activeHeaderViewCell?.segmentControl.setTitle("Likes " + String(self.userInfo!.numLikes), forSegmentAtIndex: 1)
         }
-        
     }
     
     // MARK: UIImagePickerControllerDelegate Methods

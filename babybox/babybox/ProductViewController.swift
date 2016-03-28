@@ -555,7 +555,6 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
         }
     }
     
-    
     /* Product Navigation Method Implementation */
     func onClickEditBtn(sender: AnyObject?) {
         let vController =
@@ -573,6 +572,7 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
     func onClickCopyLinkBtn(sender: AnyObject?) {
         //copy url to cliboard
         ViewUtil.copyToClipboard(UrlUtil.createProductUrl(self.productInfo!))
+        self.view.makeToast(message: "Link Copied", duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
     }
     
     func onClickFacebookLinkBtn(sender: AnyObject?) {

@@ -544,8 +544,8 @@ class ApiController {
                     } else {
                         if let image: UIImage? = _image as? UIImage {
                             if (image != nil) {
-                                let nsData = UIImageJPEGRepresentation(image!, 0.5)
-                                multipartFormData.appendBodyPart(data: nsData!, name: "image\(index)", fileName: "upload.jpg", mimeType:"jpg")
+                                let nsData = image!.lowestQualityJPEGNSData //UIImageJPEGRepresentation(image!, 0.5)
+                                multipartFormData.appendBodyPart(data: nsData, name: "image\(index)", fileName: "upload.jpg", mimeType:"jpg")
                                 //multipartFormData.appendBodyPart(data: ImageUtil.compressImage(image!), name: "image\(index)", fileName: "upload.jpg", mimeType:"jpg")
                                 index++
                             }
@@ -739,3 +739,14 @@ class ApiController {
         return result
     }
 }
+
+//http://stackoverflow.com/questions/29726643/how-to-compress-of-reduce-the-size-of-an-image-before-uploading-to-parse-as-pffi
+extension UIImage
+{
+    var highestQualityJPEGNSData: NSData { return UIImageJPEGRepresentation(self, 1.0)! }
+    var highQualityJPEGNSData: NSData    { return UIImageJPEGRepresentation(self, 0.75)!}
+    var mediumQualityJPEGNSData: NSData  { return UIImageJPEGRepresentation(self, 0.5)! }
+    var lowQualityJPEGNSData: NSData     { return UIImageJPEGRepresentation(self, 0.25)!}
+    var lowestQualityJPEGNSData: NSData  { return UIImageJPEGRepresentation(self, 0.0)! }
+}
+

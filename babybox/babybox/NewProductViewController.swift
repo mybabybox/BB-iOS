@@ -65,23 +65,32 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
         
         SwiftEventBus.onMainThread(self, name: "newProductSuccess") { result in
             // UI thread
+            SwiftEventBus.unregister(self)
             NSLog("Product Saved Successfully")
             self.view.makeToast(message: "Product Added Successfully", duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
-            NotificationCounter.mInstance.refresh(self.handleNotificationSuccess, failureCallback: self.handleNotificationError)
+            //NotificationCounter.mInstance.refresh(self.handleNotificationSuccess, failureCallback: self.handleNotificationError)
             UserInfoCache.incrementNumProducts()
-            //self.navigationController?.popViewControllerAnimated(true)
             
-            let vController = self.storyboard?.instantiateViewControllerWithIdentifier("MyProfileFeedViewController") as! MyProfileFeedViewController
-            //vController.hidesBottomBarWhenPushed = true
+            self.navigationController?.popViewControllerAnimated(false)
+            let appDel = UIApplication.sharedApplication().delegate as! AppDelegate
+            let navcontroller = appDel.window?.rootViewController as! UINavigationController
+            let tabbarcontroller = navcontroller.viewControllers[1] as! CustomTabViewController
             
-            self.navigationController?.pushViewController(vController, animated: true)
-            //self.tabBarController!.selectedIndex = 3
+            let selIndexNavController = tabbarcontroller.viewControllers![3] as! UINavigationController
+            let firstViewController = selIndexNavController.viewControllers[0]
+            if let myProfileController = firstViewController as? MyProfileFeedViewController {
+                myProfileController.isRefresh = true
+            }
+            
+            tabbarcontroller.selectedIndex = 3
             
         }
         
         SwiftEventBus.onMainThread(self, name: "newProductFailed") { result in
             // UI thread
-            NSLog("Product Saved Successfully")
+            
+            //SwiftEventBus.unregister(self)
+            NSLog("Saved Product failed")
             self.view.makeToast(message: "Error Saving product", duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
         }
         
