@@ -29,7 +29,7 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
     //@IBOutlet weak var btnWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var likeCountTxt: UIButton!
     @IBOutlet weak var detailTableView: UITableView!
-    
+    @IBOutlet weak var activeText: UITextField!
     var lcontentSize = CGFloat(0.0)
     var feedItem: PostVMLite = PostVMLite()
     var myDate: NSDate = NSDate()
@@ -79,6 +79,18 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
         }
         
         ApiController.instance.getProductDetails(feedItem.id)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self,
+            selector: Selector("keyboardWillShow:"),
+            name: UIKeyboardWillShowNotification,
+            object: nil)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self,
+            selector: Selector("keyboardWillHide:"),
+            name: UIKeyboardWillHideNotification,
+            object: nil)
+
+        
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -141,7 +153,7 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
                 ViewUtil.displayRoundedCornerView(cell.btnPostComments)
                 cell.btnPostComments.layer.borderColor = Color.LIGHT_GRAY.CGColor
                 cell.commentTxt.delegate = self
-                cell.commentTxt.layer.cornerRadius = 15.0
+                cell.commentTxt.layer.cornerRadius = 5.0
                 cell.commentTxt.layer.masksToBounds = true
                 
             } else {
@@ -577,6 +589,45 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
     
     func onClickFacebookLinkBtn(sender: AnyObject?) {
         SharingUtil.shareToFacebook(self.productInfo!, vController: self)
+    }
+ 
+    func textFieldDidBeginEditing(textField: UITextField) {
+        activeText = textField
+    }
+    
+    func textFieldDidEndEditing(textField: UITextField) {
+        activeText = nil
+    }
+    
+    //Keyboard Overlapping UITextField solution approach
+    //http://stackoverflow.com/questions/594181/making-a-uitableview-scroll-when-text-field-is-selected
+    func keyboardWillShow(note: NSNotification) {
+        if let keyboardSize = (note.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
+            var frame = self.detailTableView.frame
+            UIView.beginAnimations(nil, context: nil)
+            UIView.setAnimationBeginsFromCurrentState(true)
+            UIView.setAnimationDuration(0.3)
+            frame.size.height -= keyboardSize.height
+            frame.size.height -= 15
+            self.detailTableView.frame = frame
+            if activeText != nil {
+                let rect = self.detailTableView.convertRect(activeText.bounds, fromView: activeText)
+                self.detailTableView.scrollRectToVisible(rect, animated: false)
+            }
+            UIView.commitAnimations()
+        }
+    }
+    
+    func keyboardWillHide(note: NSNotification) {
+        if let keyboardSize = (note.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
+            var frame = self.detailTableView.frame
+            UIView.beginAnimations(nil, context: nil)
+            UIView.setAnimationBeginsFromCurrentState(true)
+            UIView.setAnimationDuration(0.3)
+            frame.size.height += keyboardSize.height
+            self.detailTableView.frame = frame
+            UIView.commitAnimations()
+        }
     }
     
 }

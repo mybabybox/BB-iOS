@@ -73,16 +73,23 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
             self.navigationController?.popViewControllerAnimated(false)
             let appDel = UIApplication.sharedApplication().delegate as! AppDelegate
             let navcontroller = appDel.window?.rootViewController as! UINavigationController
-            let tabbarcontroller = navcontroller.viewControllers[1] as! CustomTabViewController
+            var controllers = navcontroller.viewControllers
             
-            let selIndexNavController = tabbarcontroller.viewControllers![3] as! UINavigationController
-            let firstViewController = selIndexNavController.viewControllers[0]
-            if let myProfileController = firstViewController as? MyProfileFeedViewController {
-                myProfileController.isRefresh = true
-                ViewUtil.makeToast("Product Added Successfully", view: myProfileController.view)
+            for i in 0...controllers.count-1 {
+                if (controllers[i].isKindOfClass(CustomTabViewController)) {
+                    let tabbarcontroller = controllers[i] as! CustomTabViewController
+                
+                    let selIndexNavController = tabbarcontroller.viewControllers![3] as! UINavigationController
+                    let firstViewController = selIndexNavController.viewControllers[0]
+                    if let myProfileController = firstViewController as? MyProfileFeedViewController {
+                        myProfileController.isRefresh = true
+                	ViewUtil.makeToast("Product Added Successfully", view: myProfileController.view)
+                    }
+                    tabbarcontroller.selectedIndex = 3
+                    return
+                }
             }
             
-            tabbarcontroller.selectedIndex = 3
         }
         
         SwiftEventBus.onMainThread(self, name: "newProductFailed") { result in
