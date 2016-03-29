@@ -10,22 +10,28 @@ import UIKit
 import Kingfisher
 
 class Color {
-    
+    // Base colors
     static let CLEAR: UIColor = UIColor.clearColor()
     static let WHITE: UIColor = UIColor.whiteColor()
     static let BLACK: UIColor = UIColor.blackColor()
     static let RED: UIColor = UIColor.redColor()
-    static let GRAY: UIColor = UIColor.grayColor()
-    static let LIGHT_GRAY: UIColor = UIColor.lightGrayColor()
-    static let DARK_GRAY: UIColor = UIColor.darkGrayColor()
+    static let GRAY: UIColor = Color.fromRGB(0x888888)
+    static let LIGHT_GRAY: UIColor = Color.fromRGB(0xBBBBBB)
+    static let LIGHT_GRAY_2: UIColor = Color.fromRGB(0xDDDDDD)
+    static let LIGHT_GRAY_3: UIColor = Color.fromRGB(0xF6F6F6)
+    static let DARK_GRAY: UIColor = Color.fromRGB(0x555555)
+    static let DARK_GRAY_2: UIColor = Color.fromRGB(0x222222)
+    static let DARK_GRAY_3: UIColor = Color.fromRGB(0x111111)
     static let PINK: UIColor = Color.fromRGB(0xFF76A4)
     
+    // Theme colors
     static let MENU_BAR_BG: UIColor = Color.fromRGB(0xFCFAF8)
     static let IMAGE_LOAD_BG: UIColor = Color.fromRGB(0xFFF2EF)
+    static let FEED_ITEM_BORDER: UIColor = LIGHT_GRAY_2
     static let CHAT_YOU: UIColor = Color.fromRGB(0xDCF8C6)
     static let CHAT_ME: UIColor = Color.fromRGB(0xFFFFFF)
     
-    
+    // Utils
     static func fromRGB(rgbValue: UInt) -> UIColor {
         return fromRGB(rgbValue, alpha: 1.0)
     }

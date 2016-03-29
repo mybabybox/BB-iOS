@@ -78,8 +78,8 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.itemSize = CGSizeMake(self.view.bounds.width, self.view.bounds.height)
         flowLayout.scrollDirection = UICollectionViewScrollDirection.Vertical
-        flowLayout.minimumInteritemSpacing = 0
-        flowLayout.minimumLineSpacing = 5
+        flowLayout.minimumInteritemSpacing = Constants.FEED_ITEM_SIDE_SPACING
+        flowLayout.minimumLineSpacing = Constants.FEED_ITEM_LINE_SPACING
         uiCollectionView.collectionViewLayout = flowLayout
         
         let sellBtn: UIButton = UIButton()
