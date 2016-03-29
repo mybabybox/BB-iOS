@@ -79,12 +79,27 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
             // UI thread
             SwiftEventBus.unregister(self)
             NSLog("Product Saved Successfully")
-            self.view.makeToast(message: "Product Updated Successfully", duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
             NotificationCounter.mInstance.refresh(self.handleNotificationSuccess, failureCallback: self.handleNotificationError)
             
-            let vController = self.storyboard?.instantiateViewControllerWithIdentifier("MyProfileFeedViewController") as! MyProfileFeedViewController
-            vController.hidesBottomBarWhenPushed = false
-            self.navigationController?.pushViewController(vController, animated: true)
+            self.navigationController?.popToRootViewControllerAnimated(false)
+            let appDel = UIApplication.sharedApplication().delegate as! AppDelegate
+            let navcontroller = appDel.window?.rootViewController as! UINavigationController
+            var controllers = navcontroller.viewControllers
+            
+            for i in 0...controllers.count-1 {
+                if (controllers[i].isKindOfClass(CustomTabViewController)) {
+                    let tabbarcontroller = controllers[i] as! CustomTabViewController
+                    self.navigationController?.popViewControllerAnimated(false)
+                    let selIndexNavController = tabbarcontroller.viewControllers![3] as! UINavigationController
+                    let firstViewController = selIndexNavController.viewControllers[0]
+                    if let myProfileController = firstViewController as? MyProfileFeedViewController {
+                        myProfileController.isRefresh = true
+                        ViewUtil.makeToast("Product Edited Successfully", view: myProfileController.view)
+                    }
+                    tabbarcontroller.selectedIndex = 3
+                    return
+                }
+            }
         }
         
         SwiftEventBus.onMainThread(self, name: "editProductFailed") { result in
@@ -96,11 +111,27 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
             SwiftEventBus.unregister(self)
             self.view.makeToast(message: "Post deleted!")
             UserInfoCache.decrementNumProducts()
-            let vController = self.storyboard?.instantiateViewControllerWithIdentifier("MyProfileFeedViewController") as! MyProfileFeedViewController
-            //vController.hidesBottomBarWhenPushed = true
-            vController.hidesBottomBarWhenPushed = false
-            self.navigationController?.pushViewController(vController, animated: true)
-            //self.navigationController?.popViewControllerAnimated(true)
+            
+            self.navigationController?.popToRootViewControllerAnimated(false)
+            let appDel = UIApplication.sharedApplication().delegate as! AppDelegate
+            let navcontroller = appDel.window?.rootViewController as! UINavigationController
+            var controllers = navcontroller.viewControllers
+            
+            for i in 0...controllers.count-1 {
+                if (controllers[i].isKindOfClass(CustomTabViewController)) {
+                    let tabbarcontroller = controllers[i] as! CustomTabViewController
+                    self.navigationController?.popViewControllerAnimated(false)
+                    let selIndexNavController = tabbarcontroller.viewControllers![3] as! UINavigationController
+                    let firstViewController = selIndexNavController.viewControllers[0]
+                    if let myProfileController = firstViewController as? MyProfileFeedViewController {
+                        myProfileController.isRefresh = true
+                        ViewUtil.makeToast("Product Deleted Successfully", view: myProfileController.view)
+                    }
+                    tabbarcontroller.selectedIndex = 3
+                    return
+                }
+            }
+            
         }
         
         SwiftEventBus.onMainThread(self, name: "deletePostFailure") { result in
