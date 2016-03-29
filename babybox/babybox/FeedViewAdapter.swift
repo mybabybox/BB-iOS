@@ -51,8 +51,8 @@ class FeedViewAdapter {
             cell.originalPrice.attributedText = NSAttributedString(string: "")
         }
         
-        cell.layer.borderColor = CGColorCreate(CGColorSpaceCreateDeviceRGB(), [194/255, 195/255, 200/255, 1.0])
-        cell.layer.borderWidth = 1
+        cell.layer.borderColor = Color.FEED_ITEM_BORDER.CGColor
+        cell.layer.borderWidth = 0.5
 
         // Owner
         if (showOwner && cell.userCircleImg != nil) {

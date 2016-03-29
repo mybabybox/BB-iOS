@@ -95,8 +95,8 @@ class HomeFeedViewController: CustomNavigationController {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.itemSize = CGSizeMake(self.view.bounds.width, self.view.bounds.height)
         flowLayout.scrollDirection = UICollectionViewScrollDirection.Vertical
-        flowLayout.minimumInteritemSpacing = 0
-        flowLayout.minimumLineSpacing = 5
+        flowLayout.minimumInteritemSpacing = Constants.FEED_ITEM_SIDE_SPACING
+        flowLayout.minimumLineSpacing = Constants.FEED_ITEM_LINE_SPACING
         uiCollectionView.collectionViewLayout = flowLayout
         
         self.categories = CategoryCache.categories
@@ -140,8 +140,8 @@ class HomeFeedViewController: CustomNavigationController {
             cell.categoryIcon.kf_setImageWithURL(imageUrl!)
             cell.categoryName.text = categoryVM.name
             
-            cell.layer.borderColor = CGColorCreate(CGColorSpaceCreateDeviceRGB(), [194/255, 195/255, 200/255, 1.0])
-            cell.layer.borderWidth = 1
+            cell.layer.borderColor = Color.FEED_ITEM_BORDER.CGColor
+            cell.layer.borderWidth = 0.5
                 
             let gradientLayer = CAGradientLayer()
             gradientLayer.frame = cell.bounds

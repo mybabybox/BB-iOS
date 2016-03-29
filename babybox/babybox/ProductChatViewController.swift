@@ -34,14 +34,17 @@ class ProductChatViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         ViewUtil.showActivityLoading(self.activityLoading)
-        SwiftEventBus.unregister(self)
+        
         SwiftEventBus.onMainThread(self, name: "productConversationsSuccess") { result in
+            SwiftEventBus.unregister(self)
             let conversations = result.object as! [ConversationVM]
             self.handleProductConversations(conversations)
         }
         
         SwiftEventBus.onMainThread(self, name: "productConversationsFailed") { result in
+            SwiftEventBus.unregister(self)
             self.view.makeToast(message: "Error getting Product Conversations!")
         }
         
@@ -55,7 +58,6 @@ class ProductChatViewController: UIViewController {
         flowLayout.minimumInteritemSpacing = 1
         flowLayout.minimumLineSpacing = 1
         self.uiCollectionView.collectionViewLayout = flowLayout
-
     }
 
     override func didReceiveMemoryWarning() {
@@ -63,7 +65,6 @@ class ProductChatViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return 1
     }
