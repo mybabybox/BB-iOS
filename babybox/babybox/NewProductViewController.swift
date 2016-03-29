@@ -64,14 +64,12 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "actionbar_bg_pink"), forBarMetrics: UIBarMetrics.Default)
         
         SwiftEventBus.onMainThread(self, name: "newProductSuccess") { result in
-            // UI thread
             SwiftEventBus.unregister(self)
             NSLog("New product created successfully")
             
-            //NotificationCounter.mInstance.refresh(self.handleNotificationSuccess, failureCallback: self.handleNotificationError)
             UserInfoCache.incrementNumProducts()
             
-            self.navigationController?.popViewControllerAnimated(false)
+            self.navigationController?.popToRootViewControllerAnimated(false)
             
             // select and refresh my profile tab
             if let myProfileController = CustomTabBarController.selectProfileTab() {
@@ -81,11 +79,8 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
         }
         
         SwiftEventBus.onMainThread(self, name: "newProductFailed") { result in
-            // UI thread
-            
             //SwiftEventBus.unregister(self)
-            NSLog("Saved Product failed")
-            self.view.makeToast(message: "Error Saving product", duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
+            self.view.makeToast(message: "Error when listing product", duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
         }
         
         initCategoryOptions()
@@ -128,7 +123,6 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
         saveProductImg.frame = CGRectMake(0, 0, 60, 35)
         let saveProductBarBtn = UIBarButtonItem(customView: saveProductImg)
         self.navigationItem.rightBarButtonItems = [saveProductBarBtn]
-        
     }
         
     func initCategoryOptions() {
@@ -182,18 +176,18 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
     //MARK: UICollectionViewDataSource
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return 1
-        
     }
+    
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.imageCollection.count
     }
   
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! CustomCollectionViewCell
-        if(self.imageCollection[indexPath.row].isKindOfClass(UIImage)){
+        if self.imageCollection[indexPath.row].isKindOfClass(UIImage) {
             let image = self.imageCollection[indexPath.row] as! UIImage
             cell.imageHolder.setBackgroundImage(image, forState: UIControlState.Normal)
-       }else{
+        } else {
             let image = UIImage(named:"img_camera")
             cell.imageHolder.setBackgroundImage(image, forState: UIControlState.Normal)
         }

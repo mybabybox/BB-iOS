@@ -111,7 +111,7 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
         
         self.uiCollectionView.addPullToRefresh({ [weak self] in
             ViewUtil.showActivityLoading(self!.activityLoading)
-            self!.feedLoader?.reloadFeedItems((self!.userInfo?.id)!)
+            self?.reloadFeedItems()
         })
     }
     

@@ -76,31 +76,10 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         }
         
         SwiftEventBus.onMainThread(self, name: "editProductSuccess") { result in
-            // UI thread
             SwiftEventBus.unregister(self)
-            NSLog("Product Saved Successfully")
-            NotificationCounter.mInstance.refresh(self.handleNotificationSuccess, failureCallback: self.handleNotificationError)
+            NSLog("Product edited Successfully")
             
             self.navigationController?.popToRootViewControllerAnimated(false)
-            
-            /*let appDel = UIApplication.sharedApplication().delegate as! AppDelegate
-            let navcontroller = appDel.window?.rootViewController as! UINavigationController
-            var controllers = navcontroller.viewControllers
-            
-            for i in 0...controllers.count-1 {
-                if (controllers[i].isKindOfClass(CustomTabViewController)) {
-                    let tabbarcontroller = controllers[i] as! CustomTabViewController
-                    self.navigationController?.popViewControllerAnimated(false)
-                    let selIndexNavController = tabbarcontroller.viewControllers![3] as! UINavigationController
-                    let firstViewController = selIndexNavController.viewControllers[0]
-                    if let myProfileController = firstViewController as? MyProfileFeedViewController {
-                        myProfileController.isRefresh = true
-                        ViewUtil.makeToast("Product Edited Successfully", view: myProfileController.view)
-                    }
-                    tabbarcontroller.selectedIndex = 3
-                    return
-                }
-            }*/
             
             if let myProfileController = CustomTabBarController.selectProfileTab() {
                 myProfileController.isRefresh = true
@@ -109,24 +88,26 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         }
         
         SwiftEventBus.onMainThread(self, name: "editProductFailed") { result in
-            // UI thread
-            self.view.makeToast(message: "Error Saving product", duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
+            //SwiftEventBus.unregister(self)
+            self.view.makeToast(message: "Error when editing product", duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
         }
         
         SwiftEventBus.onMainThread(self, name: "deletePostSuccess") { result in
             SwiftEventBus.unregister(self)
-            self.view.makeToast(message: "Post deleted!")
+            NSLog("Product deleted successfully")
+            
             UserInfoCache.decrementNumProducts()
             
             self.navigationController?.popToRootViewControllerAnimated(false)
             
-            /*(let appDel = UIApplication.sharedApplication().delegate as! AppDelegate
+            /*
+            let appDel = UIApplication.sharedApplication().delegate as! AppDelegate
             let navcontroller = appDel.window?.rootViewController as! UINavigationController
             var controllers = navcontroller.viewControllers
             
             for i in 0...controllers.count-1 {
-                if (controllers[i].isKindOfClass(CustomTabViewController)) {
-                    let tabbarcontroller = controllers[i] as! CustomTabViewController
+                if controllers[i].isKindOfClass(CustomTabBarController) {
+                    let tabbarcontroller = controllers[i] as! CustomTabBarController
                     self.navigationController?.popViewControllerAnimated(false)
                     let selIndexNavController = tabbarcontroller.viewControllers![3] as! UINavigationController
                     let firstViewController = selIndexNavController.viewControllers[0]
@@ -135,19 +116,21 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
                         ViewUtil.makeToast("Product Deleted Successfully", view: myProfileController.view)
                     }
                     tabbarcontroller.selectedIndex = 3
-                    return
+                    
                 }
-            } */
+            }
+            */
+            
             // select and refresh my profile tab
             if let myProfileController = CustomTabBarController.selectProfileTab() {
                 myProfileController.isRefresh = true
-                ViewUtil.makeToast("Product Deleted Successfully.", view: myProfileController.view)
+                ViewUtil.makeToast("Product is deleted.", view: myProfileController.view)
             }
-            
         }
         
         SwiftEventBus.onMainThread(self, name: "deletePostFailure") { result in
-            self.view.makeToast(message: "Error Deleting Post!")
+            //SwiftEventBus.unregister(self)
+            self.view.makeToast(message: "Error when deleting product")
         }
         
         self.conditionTypeDropDown.dataSource = [
