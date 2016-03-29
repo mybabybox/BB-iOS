@@ -21,6 +21,7 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
     @IBOutlet weak var categoryDropDown: UIButton!
     @IBOutlet weak var conditionDropDown: UIButton!
     
+    @IBOutlet weak var activityLoading: UIActivityIndicatorView!
     let categoryOptions = DropDown()
     let conditionTypeDropDown = DropDown()
     
@@ -51,6 +52,9 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
         }
     }
     
+    override func viewDidAppear(animated: Bool) {
+        ViewUtil.hideActivityLoading(self.activityLoading)
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -66,11 +70,10 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
         SwiftEventBus.onMainThread(self, name: "newProductSuccess") { result in
             SwiftEventBus.unregister(self)
             NSLog("New product created successfully")
-            
             UserInfoCache.incrementNumProducts()
-            
+            ViewUtil.hideActivityLoading(self.activityLoading)
             self.navigationController?.popToRootViewControllerAnimated(false)
-            
+            self.view.alpha = 1
             // select and refresh my profile tab
             if let myProfileController = CustomTabBarController.selectProfileTab() {
                 myProfileController.isRefresh = true
@@ -291,6 +294,8 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
     
     func saveProduct(sender: AnyObject) {
         if (validateSaveForm()) {
+            ViewUtil.showActivityLoading(self.activityLoading)
+            self.view.alpha = 0.75
             let category = CategoryCache.getCategoryByName(categoryDropDown.titleLabel!.text!)
             let conditionType = ViewUtil.parsePostConditionTypeFromValue(conditionDropDown.titleLabel!.text!)
             ApiController.instance.newPost(sellingtext.text!, body: prodDescription.text!, catId: category!.id, conditionType: String(conditionType), pricetxt: pricetxt.text!, imageCollection: self.imageCollection)

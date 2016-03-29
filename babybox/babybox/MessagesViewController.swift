@@ -11,8 +11,9 @@ import PhotoSlider
 import SwiftEventBus
 import ALCameraViewController
 
-class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSliderDelegate {
+class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSliderDelegate, UIScrollViewDelegate {
         
+    @IBOutlet weak var activityLoading: UIActivityIndicatorView!
     @IBOutlet weak var prodImg: UIImageView!
     @IBOutlet weak var prodPrice: UILabel!
     @IBOutlet weak var prodName: UILabel!
@@ -27,32 +28,40 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
     @IBOutlet weak var uploadImgSrc: UIImageView!
     
     var offset: Int64 = 0
-    var loading: Bool = false
     var conversation: ConversationVM? = nil
     var selectedImage : UIImage?
-    var lastChatBubbleY: CGFloat = 10.0
+    var lastChatBubbleY: CGFloat = 40.0
     var internalPadding: CGFloat = 8.0
     var lastMessageType: BubbleDataType?
     let croppingEnabled: Bool = true
     let libraryEnabled: Bool = true
     var conversationViewController: ConversationsViewController?
+    var messages: [MessageVM] = []
+    var loadMoreMessages: Bool = false
+    var lastItemPosition = 0
+    
+    //var loading: Bool = false
+    //var loadingAll: Bool = false
     
     static var instance: MessagesViewController?
     
     override func viewDidDisappear(animated: Bool) {
-        //SwiftEventBus.unregister(self)
+        SwiftEventBus.unregister(self)
     }
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         MessagesViewController.instance = self
+        messageCointainerScroll.delegate = self
         SwiftEventBus.unregister(self)
         self.navigationItem.title = self.conversation?.userName
         let titleDict: NSDictionary = [NSForegroundColorAttributeName: Color.WHITE]
         self.navigationController!.navigationBar.titleTextAttributes = titleDict as? [String : AnyObject]
         
         sendButton.enabled = true
-        
+        SwiftEventBus.unregister(self)
         SwiftEventBus.onMainThread(self, name: "getMessagesSuccess") { result in
             // UI thread
             let resultDto = result.object as! MessageResponseVM
@@ -68,12 +77,12 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
             self.view.makeToast(message: "Error upload message")
         }
         
-        ApiController.instance.getMessages((self.conversation?.id)!, offset: offset)
+        ViewUtil.showActivityLoading(self.activityLoading)
         
+        ApiController.instance.getMessages((self.conversation?.id)!, offset: offset)
+        offset++
         self.messageCointainerScroll.contentSize = CGSizeMake(CGRectGetWidth(messageCointainerScroll.frame), lastChatBubbleY + internalPadding)
         self.addKeyboardNotifications()
-        
-        //textField.delegate = self
         
         ImageUtil.displayPostImage(self.conversation!.postImage, imageView: prodImg)
         self.prodName.text = self.conversation?.postTitle
@@ -126,14 +135,12 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
     
     @IBAction func sendButtonClicked(sender: AnyObject) {
         let msgCreatDt = NSDate(timeIntervalSinceNow: NSDate().timeIntervalSinceNow / 1000.0)
-        //let bubbleData = ChatBubbleData(text: textField.text, date: msgCreatDt, type: .Mine, imgId: -1, uploadImgId: -1)
         let bubbleData:ChatBubbleData?
         if (textField.text == nil) {
             textField.text = ""
         }
         if (self.uploadImgSrc.image == nil) {
             bubbleData = ChatBubbleData(text: textField.text, image: nil, date: msgCreatDt, type: .Mine, buyerId: -1, imageId: -1)
-            
             addChatBubble(bubbleData!)
         } else {
             bubbleData = ChatBubbleData(text: textField.text, image: self.uploadImgSrc.image!, date: msgCreatDt, type: .Mine, buyerId: -1, imageId: -1)
@@ -151,7 +158,6 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         } else {
             ApiController.instance.newMessage(self.conversation!.id, message: bubbleData!.text!, imagePath: self.uploadImgSrc.image!)
         }
-        
         self.moveToLastMessage()
     }
         
@@ -176,8 +182,6 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
                 self.dismissViewControllerAnimated(true, completion: nil)
             }
             self.presentViewController(libraryViewController, animated: true, completion: nil)
-            
-            //self.presentViewController(self.imagePicker, animated: true, completion: nil)
         })
         let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: {
             (alert: UIAlertAction!) -> Void in
@@ -189,17 +193,11 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         //self.presentViewController(imagePicker, animated: true, completion: nil)//4
     }
     
-    /*func addRandomTypeChatBubble() {
-        let bubbleData = ChatBubbleData(text: textField.text, image: selectedImage, date: NSDate(), type: getRandomChatDataType(), imgId: -1)
-        addChatBubble(bubbleData)
-    }*/
-    
     func addChatBubble(data: ChatBubbleData) {
         let padding:CGFloat = lastMessageType == data.type ? internalPadding/3.0 :  internalPadding
         
         let chatBubble = ChatBubble(data: data, startY:lastChatBubbleY + padding)
         self.messageCointainerScroll.addSubview(chatBubble)
-        
         lastChatBubbleY = CGRectGetMaxY(chatBubble.frame)
         
         self.messageCointainerScroll.contentSize = CGSizeMake(CGRectGetWidth(messageCointainerScroll.frame), lastChatBubbleY + internalPadding)
@@ -215,8 +213,12 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         }
     }
     
+    func moveToSpecificMessage() {
+        self.messageCointainerScroll.scrollRectToVisible(self.messageCointainerScroll.subviews[lastItemPosition].frame, animated: false)
+    }
+    
     func getRandomChatDataType() -> BubbleDataType {
-            return BubbleDataType(rawValue: Int(arc4random() % 2))!
+        return BubbleDataType(rawValue: Int(arc4random() % 2))!
     }
     
     func textField(txtField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
@@ -253,12 +255,25 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         })
     }
     
-    func handleChatMessageResponse(result: MessageResponseVM){
-        result.messages.sortInPlace({ $0.createdDate < $1.createdDate })
+    func handleChatMessageResponse(result: MessageResponseVM) {
+        //result.messages.sortInPlace({ $0.createdDate < $1.createdDate })
         //result.messages.sortInPlace({ $0.createdDate.compare($1.createdDate) == NSComparisonResult.OrderedAscending })
         
-        for var i = 0; i < result.messages.count; i++ {
-            let message: MessageVM = result.messages[i]
+        lastItemPosition = result.messages.count
+        
+        for uiView in self.messageCointainerScroll.subviews {
+            uiView.removeFromSuperview()
+        }
+        
+        self.messageCointainerScroll.contentSize = CGSizeMake(0, 0)
+        self.lastChatBubbleY = 40.0
+        self.messages.appendContentsOf(result.messages)
+        var totalMessages = self.messages
+        
+        totalMessages.sortInPlace({ $0.createdDate < $1.createdDate })
+        
+        for var i = 0; i < totalMessages.count; i++ {
+            let message: MessageVM = totalMessages[i]
             let messageDt = NSDate(timeIntervalSince1970:Double(message.createdDate) / 1000.0)
             if UserInfoCache.getUser()!.id == message.senderId {
                 if (message.hasImage) {
@@ -280,20 +295,21 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
             }
             
         }
-        loading = false
-        self.moveToLastMessage()
-        //ViewUtil.hideActivityLoading(self.activityLoading)
-    
-    }
-    
-    // MARK: UIScrollview Delegate
-    func scrollViewDidScroll(scrollView: UIScrollView) {
-        if (scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - Constants.FEED_LOAD_SCROLL_THRESHOLD {
-            if (!loading) {
-                //ApiController.instance.getMessages((self.conversation?.id)!, offset: feedOffset)
-                self.loading = false
-            }
+        
+        if (result.messages.count >= Constants.CONVERSATION_MESSAGE_COUNT) {
+            addMoreMessageLoaderLayout()
+        } else {
+            removeMoreMessageLoaderLayout()
         }
+        
+        if (!loadMoreMessages) {
+            self.moveToLastMessage()
+        } else {
+            self.moveToSpecificMessage()
+        }
+        
+        ViewUtil.hideActivityLoading(self.activityLoading)
+        
     }
     
     func onClickProfileBtn(sender: AnyObject?) {
@@ -307,7 +323,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         self.uploadImgSrc.image = nil
     }
     
-    func handleCroppedImage(notification: NSNotification){
+    func handleCroppedImage(notification: NSNotification) {
         print("")
         
     }
@@ -322,4 +338,34 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
     func photoSliderControllerWillDismiss(viewController: PhotoSlider.ViewController) {
         UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.Fade)
     }
+    
+    func addMoreMessageLoaderLayout() {
+        let loaderLayout: UIButton = UIButton(frame: CGRectMake(0, 0, self.view.frame.width, 40))
+        loaderLayout.setTitle("LOAD EARLIER MESSAGES", forState: .Normal)
+        loaderLayout.addTarget(self, action: "loadMoreMessages:", forControlEvents: UIControlEvents.TouchUpInside)
+        loaderLayout.layer.backgroundColor = Color.LIGHT_GRAY.CGColor
+        let titleFont : UIFont = UIFont.systemFontOfSize(12.0)
+        loaderLayout.titleLabel?.font = titleFont
+        self.messageCointainerScroll.insertSubview(loaderLayout, atIndex: 0)
+        self.messageCointainerScroll.contentSize = CGSizeMake(CGRectGetWidth(messageCointainerScroll.frame), lastChatBubbleY + internalPadding)
+    }
+    
+    func removeMoreMessageLoaderLayout() {
+       self.messageCointainerScroll.subviews[0].removeFromSuperview()
+    }
+    
+    
+    func loadMoreMessages(sender: AnyObject?) {
+        //
+        ApiController.instance.getMessages((self.conversation?.id)!, offset: self.offset)
+        ViewUtil.showActivityLoading(self.activityLoading)
+        self.offset++
+        loadMoreMessages = true
+    }
+    var _contentSizeO: CGPoint = CGPointMake(0.0, 0.0)
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        
+         _contentSizeO = CGPointMake(scrollView.frame.origin.x, scrollView.frame.origin.y)
+    }
+    
 }

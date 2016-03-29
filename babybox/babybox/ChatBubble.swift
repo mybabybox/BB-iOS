@@ -186,7 +186,6 @@ class ChatBubble: UIView {
             newStartX = -CGRectGetMinX(imageViewBG!.frame) + 3.0
         }
         messageView.frame = CGRectMake(30, 0, CGRectGetWidth(frame), CGRectGetHeight(frame))
-        print(messageView.subviews)
         self.frame = CGRectMake(newStartX, CGRectGetMinY(self.frame), CGRectGetWidth(frame), CGRectGetHeight(frame))
         
     }

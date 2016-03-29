@@ -100,27 +100,6 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
             
             self.navigationController?.popToRootViewControllerAnimated(false)
             
-            /*
-            let appDel = UIApplication.sharedApplication().delegate as! AppDelegate
-            let navcontroller = appDel.window?.rootViewController as! UINavigationController
-            var controllers = navcontroller.viewControllers
-            
-            for i in 0...controllers.count-1 {
-                if controllers[i].isKindOfClass(CustomTabBarController) {
-                    let tabbarcontroller = controllers[i] as! CustomTabBarController
-                    self.navigationController?.popViewControllerAnimated(false)
-                    let selIndexNavController = tabbarcontroller.viewControllers![3] as! UINavigationController
-                    let firstViewController = selIndexNavController.viewControllers[0]
-                    if let myProfileController = firstViewController as? MyProfileFeedViewController {
-                        myProfileController.isRefresh = true
-                        ViewUtil.makeToast("Product Deleted Successfully", view: myProfileController.view)
-                    }
-                    tabbarcontroller.selectedIndex = 3
-                    
-                }
-            }
-            */
-            
             // select and refresh my profile tab
             if let myProfileController = CustomTabBarController.selectProfileTab() {
                 myProfileController.isRefresh = true

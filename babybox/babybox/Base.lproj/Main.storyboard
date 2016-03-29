@@ -2236,13 +2236,18 @@
                                     <constraint firstItem="uR9-g6-h0i" firstAttribute="leading" secondItem="mG2-ZN-k9U" secondAttribute="leading" constant="27" id="yb1-lK-kFQ"/>
                                 </constraints>
                             </view>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="knU-as-N0t">
+                                <rect key="frame" x="197" y="358" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" red="0.92549019610000005" green="0.92549019610000005" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
+                            <constraint firstItem="knU-as-N0t" firstAttribute="centerX" secondItem="BM0-RW-alN" secondAttribute="centerX" id="266-u7-0Ip"/>
                             <constraint firstItem="APP-GB-MSj" firstAttribute="leading" secondItem="BM0-RW-alN" secondAttribute="leading" id="8y2-BL-Z1m"/>
                             <constraint firstItem="WIS-vR-yfH" firstAttribute="leading" secondItem="paQ-X9-HRt" secondAttribute="leading" id="Bky-ZP-2iX"/>
                             <constraint firstItem="WIS-vR-yfH" firstAttribute="top" secondItem="paQ-X9-HRt" secondAttribute="bottom" constant="10" id="OxO-zl-dih"/>
                             <constraint firstItem="WIS-vR-yfH" firstAttribute="trailing" secondItem="paQ-X9-HRt" secondAttribute="trailing" id="V5O-zE-XDP"/>
+                            <constraint firstItem="knU-as-N0t" firstAttribute="centerY" secondItem="BM0-RW-alN" secondAttribute="centerY" id="gQb-jd-rSr"/>
                             <constraint firstAttribute="trailing" secondItem="APP-GB-MSj" secondAttribute="trailing" id="gjy-YB-wa4"/>
                             <constraint firstItem="paQ-X9-HRt" firstAttribute="leading" secondItem="APP-GB-MSj" secondAttribute="leading" id="meY-Mc-eeD"/>
                             <constraint firstItem="paQ-X9-HRt" firstAttribute="trailing" secondItem="APP-GB-MSj" secondAttribute="trailing" id="nKS-d9-nrb"/>
@@ -2254,6 +2259,7 @@
                     <navigationItem key="navigationItem" id="4ub-pW-6xf"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
+                        <outlet property="activityLoading" destination="knU-as-N0t" id="mKj-5J-CUg"/>
                         <outlet property="categoryDropDown" destination="uR9-g6-h0i" id="AE7-6p-s2H"/>
                         <outlet property="collectionView" destination="APP-GB-MSj" id="8rQ-9J-8Pb"/>
                         <outlet property="collectionViewHtConstraint" destination="dIf-Pg-tis" id="IiM-5w-rbK"/>
@@ -4547,6 +4553,9 @@
                                     <constraint firstAttribute="centerY" secondItem="8yU-fu-6uV" secondAttribute="centerY" constant="-10" id="sox-2B-cT0"/>
                                 </constraints>
                             </view>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="bSp-Cf-vA3">
+                                <rect key="frame" x="197" y="326" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
@@ -4555,6 +4564,7 @@
                             <constraint firstItem="SnP-qc-jOf" firstAttribute="leading" secondItem="7Sb-GB-MCY" secondAttribute="leading" id="4E3-SC-c3K"/>
                             <constraint firstItem="2Yd-Jp-cx4" firstAttribute="top" secondItem="pcG-pe-8Kf" secondAttribute="bottom" constant="5" id="4wj-tA-tVB"/>
                             <constraint firstItem="YyM-AO-4a1" firstAttribute="top" secondItem="uya-Wl-YBw" secondAttribute="top" id="7Ar-rd-O1v"/>
+                            <constraint firstItem="bSp-Cf-vA3" firstAttribute="centerX" secondItem="7Sb-GB-MCY" secondAttribute="centerX" id="93l-aG-w3h"/>
                             <constraint firstItem="z8M-4u-MXM" firstAttribute="top" secondItem="7Sb-GB-MCY" secondAttribute="top" constant="10" id="HFN-E9-cru"/>
                             <constraint firstItem="fhe-S6-Wd6" firstAttribute="top" secondItem="9LA-QQ-qMg" secondAttribute="bottom" id="IAd-Bd-TF9"/>
                             <constraint firstItem="NJW-6b-MfY" firstAttribute="top" secondItem="7Sb-GB-MCY" secondAttribute="top" constant="61" id="Lmy-Da-xlq"/>
@@ -4573,6 +4583,7 @@
                             <constraint firstItem="YyM-AO-4a1" firstAttribute="bottom" secondItem="uya-Wl-YBw" secondAttribute="bottom" id="iMk-Nx-AaP"/>
                             <constraint firstAttribute="trailingMargin" secondItem="NJW-6b-MfY" secondAttribute="trailing" constant="-16" id="mVH-Qm-WMv"/>
                             <constraint firstItem="NJW-6b-MfY" firstAttribute="leading" secondItem="7Sb-GB-MCY" secondAttribute="leadingMargin" constant="-16" id="q2D-Lp-Dlt"/>
+                            <constraint firstItem="bSp-Cf-vA3" firstAttribute="centerY" secondItem="7Sb-GB-MCY" secondAttribute="centerY" id="qaI-61-oh5"/>
                             <constraint firstAttribute="centerX" secondItem="9LA-QQ-qMg" secondAttribute="centerX" id="sdY-Bp-af4"/>
                             <constraint firstItem="NJW-6b-MfY" firstAttribute="top" secondItem="SnP-qc-jOf" secondAttribute="bottom" constant="1" id="toZ-ab-n7z"/>
                             <constraint firstItem="9LA-QQ-qMg" firstAttribute="leading" secondItem="7Sb-GB-MCY" secondAttribute="leadingMargin" constant="-16" id="tva-1f-dS5"/>
@@ -4584,6 +4595,7 @@
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <navigationItem key="navigationItem" id="RGD-TQ-6mc"/>
                     <connections>
+                        <outlet property="activityLoading" destination="bSp-Cf-vA3" id="HIt-E6-quY"/>
                         <outlet property="buttomLayoutConstraint" destination="IAd-Bd-TF9" id="LoD-wC-o65"/>
                         <outlet property="buyTextLbl" destination="uya-Wl-YBw" id="95D-5q-kD5"/>
                         <outlet property="messageCointainerScroll" destination="NJW-6b-MfY" id="A2n-c5-A1F"/>
