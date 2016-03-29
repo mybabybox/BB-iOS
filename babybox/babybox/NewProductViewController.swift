@@ -66,30 +66,18 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
         SwiftEventBus.onMainThread(self, name: "newProductSuccess") { result in
             // UI thread
             SwiftEventBus.unregister(self)
-            NSLog("Product Saved Successfully")
+            NSLog("New product created successfully")
+            
             //NotificationCounter.mInstance.refresh(self.handleNotificationSuccess, failureCallback: self.handleNotificationError)
             UserInfoCache.incrementNumProducts()
             
             self.navigationController?.popViewControllerAnimated(false)
-            let appDel = UIApplication.sharedApplication().delegate as! AppDelegate
-            let navcontroller = appDel.window?.rootViewController as! UINavigationController
-            var controllers = navcontroller.viewControllers
             
-            for i in 0...controllers.count-1 {
-                if (controllers[i].isKindOfClass(CustomTabViewController)) {
-                    let tabbarcontroller = controllers[i] as! CustomTabViewController
-                
-                    let selIndexNavController = tabbarcontroller.viewControllers![3] as! UINavigationController
-                    let firstViewController = selIndexNavController.viewControllers[0]
-                    if let myProfileController = firstViewController as? MyProfileFeedViewController {
-                        myProfileController.isRefresh = true
-                	ViewUtil.makeToast("Product Added Successfully", view: myProfileController.view)
-                    }
-                    tabbarcontroller.selectedIndex = 3
-                    return
-                }
+            // select and refresh my profile tab
+            if let myProfileController = CustomTabBarController.selectProfileTab() {
+                myProfileController.isRefresh = true
+                ViewUtil.makeToast("Congratulations! Product has been listed.", view: myProfileController.view)
             }
-            
         }
         
         SwiftEventBus.onMainThread(self, name: "newProductFailed") { result in
