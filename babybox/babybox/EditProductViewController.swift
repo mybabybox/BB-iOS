@@ -101,9 +101,10 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
                     return
                 }
             }*/
+            
             if let myProfileController = CustomTabBarController.selectProfileTab() {
                 myProfileController.isRefresh = true
-                ViewUtil.makeToast("Product Deleted Successfully.", view: myProfileController.view)
+                ViewUtil.makeToast("Product Updated Successfully.", view: myProfileController.view)
             }
         }
         
