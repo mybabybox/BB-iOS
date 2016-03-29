@@ -22,6 +22,8 @@ class CustomNavigationController: ScrollingNavigationViewController, ScrollingNa
         
         /** Creating Custom Navigation Controller Component */
         initNavigationComponent()
+        self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: Color.WHITE]
+
     }
     
     override func didReceiveMemoryWarning() {
