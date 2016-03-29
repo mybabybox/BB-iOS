@@ -82,7 +82,8 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
             NotificationCounter.mInstance.refresh(self.handleNotificationSuccess, failureCallback: self.handleNotificationError)
             
             self.navigationController?.popToRootViewControllerAnimated(false)
-            let appDel = UIApplication.sharedApplication().delegate as! AppDelegate
+            
+            /*let appDel = UIApplication.sharedApplication().delegate as! AppDelegate
             let navcontroller = appDel.window?.rootViewController as! UINavigationController
             var controllers = navcontroller.viewControllers
             
@@ -99,6 +100,10 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
                     tabbarcontroller.selectedIndex = 3
                     return
                 }
+            }*/
+            if let myProfileController = CustomTabBarController.selectProfileTab() {
+                myProfileController.isRefresh = true
+                ViewUtil.makeToast("Product Deleted Successfully.", view: myProfileController.view)
             }
         }
         
@@ -113,7 +118,8 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
             UserInfoCache.decrementNumProducts()
             
             self.navigationController?.popToRootViewControllerAnimated(false)
-            let appDel = UIApplication.sharedApplication().delegate as! AppDelegate
+            
+            /*(let appDel = UIApplication.sharedApplication().delegate as! AppDelegate
             let navcontroller = appDel.window?.rootViewController as! UINavigationController
             var controllers = navcontroller.viewControllers
             
@@ -130,6 +136,11 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
                     tabbarcontroller.selectedIndex = 3
                     return
                 }
+            } */
+            // select and refresh my profile tab
+            if let myProfileController = CustomTabBarController.selectProfileTab() {
+                myProfileController.isRefresh = true
+                ViewUtil.makeToast("Product Deleted Successfully.", view: myProfileController.view)
             }
             
         }

@@ -608,7 +608,6 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
             UIView.setAnimationBeginsFromCurrentState(true)
             UIView.setAnimationDuration(0.3)
             frame.size.height -= keyboardSize.height
-            frame.size.height -= 15
             self.detailTableView.frame = frame
             if activeText != nil {
                 let rect = self.detailTableView.convertRect(activeText.bounds, fromView: activeText)

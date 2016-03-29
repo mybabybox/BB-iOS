@@ -63,6 +63,7 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
             let item = vController?.feedItem
             feedLoader?.setItem(currentIndex!.row, item: item!)
             self.uiCollectionView.reloadItemsAtIndexPaths([currentIndex!])
+            currentIndex = nil
         }
         
         NotificationCounter.mInstance.refresh(handleNotificationSuccess, failureCallback: handleNotificationError)

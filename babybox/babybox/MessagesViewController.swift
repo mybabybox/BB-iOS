@@ -203,7 +203,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         lastChatBubbleY = CGRectGetMaxY(chatBubble.frame)
         
         self.messageCointainerScroll.contentSize = CGSizeMake(CGRectGetWidth(messageCointainerScroll.frame), lastChatBubbleY + internalPadding)
-        self.moveToLastMessage()
+        //self.moveToLastMessage()
         lastMessageType = data.type
         textField.text = ""
     }
@@ -211,7 +211,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
     func moveToLastMessage() {
         if messageCointainerScroll.contentSize.height > CGRectGetHeight(messageCointainerScroll.frame) {
             let contentOffSet = CGPointMake(0.0, messageCointainerScroll.contentSize.height - CGRectGetHeight(messageCointainerScroll.frame))
-            self.messageCointainerScroll.setContentOffset(contentOffSet, animated: true)
+            self.messageCointainerScroll.setContentOffset(contentOffSet, animated: false)
         }
     }
     
@@ -281,6 +281,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
             
         }
         loading = false
+        self.moveToLastMessage()
         //ViewUtil.hideActivityLoading(self.activityLoading)
     
     }
