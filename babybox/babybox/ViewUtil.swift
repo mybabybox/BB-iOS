@@ -15,8 +15,7 @@ class ViewUtil {
     static let SHOW_TOAST_DURATION_LONG = 1.5
     static let DEFAULT_TOAST_POSITION = HRToastPositionCenter
     static let HTML_LINE_BREAK: String = "<br>"
-    static let NEW_LINE_BREAK: String = "\n"
-    
+    static let SPACE: String = " "
     enum PostConditionType: String {
         case NEW_WITH_TAG = "New(Sealed/with tags)"
         case NEW_WITHOUT_TAG = "New(unsealed/without tags)"
