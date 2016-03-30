@@ -113,6 +113,7 @@
 		84215C951CAB086800D4CCFA /* NotificationSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84215C941CAB086800D4CCFA /* NotificationSettingsViewController.swift */; };
 		84215C971CAB088700D4CCFA /* NotificationVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84215C961CAB088700D4CCFA /* NotificationVM.swift */; };
 		84215C991CAB08CE00D4CCFA /* NotificationViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84215C981CAB08CE00D4CCFA /* NotificationViewCell.swift */; };
+		84215C9C1CAB903000D4CCFA /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84215C9B1CAB903000D4CCFA /* UIImageExtension.swift */; };
 		844845221C9C2D1D00714EBE /* ConversationsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EB21771C1F4C7C001A14DB /* ConversationsCollectionViewCell.swift */; };
 		844845271C9C422300714EBE /* ProductChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844845261C9C422300714EBE /* ProductChatViewController.swift */; };
 		844845291C9C48FF00714EBE /* ProductChatViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844845281C9C48FF00714EBE /* ProductChatViewCell.swift */; };
@@ -238,6 +239,7 @@
 		84215C941CAB086800D4CCFA /* NotificationSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationSettingsViewController.swift; sourceTree = "<group>"; };
 		84215C961CAB088700D4CCFA /* NotificationVM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationVM.swift; sourceTree = "<group>"; };
 		84215C981CAB08CE00D4CCFA /* NotificationViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationViewCell.swift; sourceTree = "<group>"; };
+		84215C9B1CAB903000D4CCFA /* UIImageExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 		844845261C9C422300714EBE /* ProductChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductChatViewController.swift; sourceTree = "<group>"; };
 		844845281C9C48FF00714EBE /* ProductChatViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductChatViewCell.swift; sourceTree = "<group>"; };
 		844902C71C9ECE4D005CAECF /* TooltipViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TooltipViewCell.swift; sourceTree = "<group>"; };
@@ -497,6 +499,7 @@
 		046BB6A31C57945A0007CCE6 /* extension */ = {
 			isa = PBXGroup;
 			children = (
+				84215C9A1CAB8FD600D4CCFA /* UIImage */,
 				04E1A9F81C4A52B00052FEED /* babybox-Bridging-Header.h */,
 				04E1AA191C4A540F0052FEED /* cropImage */,
 				04E1AA1A1C4A54B80052FEED /* dropdown */,
@@ -585,6 +588,14 @@
 				BDFD6BE300D70B4AC190D07C /* Pods.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		84215C9A1CAB8FD600D4CCFA /* UIImage */ = {
+			isa = PBXGroup;
+			children = (
+				84215C9B1CAB903000D4CCFA /* UIImageExtension.swift */,
+			);
+			name = UIImage;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -814,6 +825,7 @@
 				04A25A981C22E921008A1DB1 /* ConversationVM.swift in Sources */,
 				04E1AA0C1C4A52B00052FEED /* DPDUIView+Extension.swift in Sources */,
 				0431232D1C7F3540007EAC4D /* StringUtil.swift in Sources */,
+				84215C9C1CAB903000D4CCFA /* UIImageExtension.swift in Sources */,
 				0449B00D1C63DDD80077049C /* SignupViewController.swift in Sources */,
 				04521FC21C5C9D0A00515C40 /* UserFeedHeaderViewCell.swift in Sources */,
 				04EB21821C1FFE98001A14DB /* UserActivityViewController.swift in Sources */,

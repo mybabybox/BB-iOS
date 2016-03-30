@@ -31,7 +31,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
     var conversation: ConversationVM? = nil
     var selectedImage : UIImage?
     var lastChatBubbleY: CGFloat = 40.0
-    var internalPadding: CGFloat = 8.0
+    var internalPadding: CGFloat = 16.0
     var lastMessageType: BubbleDataType?
     let croppingEnabled: Bool = true
     let libraryEnabled: Bool = true
@@ -55,6 +55,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         super.viewDidLoad()
         MessagesViewController.instance = self
         messageCointainerScroll.delegate = self
+        
         SwiftEventBus.unregister(self)
         self.navigationItem.title = self.conversation?.userName
         let titleDict: NSDictionary = [NSForegroundColorAttributeName: Color.WHITE]
@@ -99,6 +100,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         self.navigationItem.rightBarButtonItems = [userProfileBarBtn]
         
         ViewUtil.displayRoundedCornerView(self.sendButton)
+        self.sendButton.layer.borderWidth = 0
     }
     
     override func didReceiveMemoryWarning() {

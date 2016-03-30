@@ -18,6 +18,7 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     @IBOutlet weak var categoryDropDown: UIButton!
     @IBOutlet weak var conditionDropDown: UIButton!
     
+    @IBOutlet weak var deletePostBtn: UIButton!
     var postId: Int = 0
     var postItem: PostVM? = nil
     let categoryOptions = DropDown()
@@ -48,6 +49,7 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         super.viewDidLoad()
         
         ViewUtil.showActivityLoading(self.activityLoading)
+        ViewUtil.displayRoundedCornerView(self.deletePostBtn, bgColor: Color.PINK)
         self.pricetxt.delegate = self
         self.pricetxt.keyboardType = .NumberPad
         

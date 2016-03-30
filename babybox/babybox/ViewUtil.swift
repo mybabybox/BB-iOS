@@ -239,4 +239,9 @@ class ViewUtil {
         return url + "?key=\(StringUtil.encode(AppDelegate.getInstance().sessionId!))"
     }
     
+    static func displayMessageView(view: UIView) {
+        view.layer.borderColor = Color.LIGHT_GRAY_2.CGColor
+        view.layer.borderWidth = 1.0
+    }
+    
 }

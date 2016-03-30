@@ -49,6 +49,8 @@ class ChatBubble: UIView {
         }
         
         let messageView: UIView = UIView(frame: CGRectMake(startX, 0, self.frame.width, self.frame.height))
+        ViewUtil.displayMessageView(messageView)
+        ViewUtil.displayMessageView(self)
         if (data.type == .Opponent) {
             messageView.backgroundColor = Color.WHITE
             messageView.layer.cornerRadius = 4
