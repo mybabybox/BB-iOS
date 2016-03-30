@@ -85,6 +85,8 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
             
             if let myProfileController = CustomTabBarController.selectProfileTab() {
                 myProfileController.isRefresh = true
+                myProfileController.currentIndex = nil
+                myProfileController.feedLoader?.loading = false
                 ViewUtil.makeToast("Product Updated Successfully.", view: myProfileController.view)
             }
         }
@@ -105,6 +107,8 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
             // select and refresh my profile tab
             if let myProfileController = CustomTabBarController.selectProfileTab() {
                 myProfileController.isRefresh = true
+                myProfileController.currentIndex = nil
+                myProfileController.feedLoader?.loading = false
                 ViewUtil.makeToast("Product is deleted.", view: myProfileController.view)
             }
         }

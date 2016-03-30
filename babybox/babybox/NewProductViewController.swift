@@ -77,6 +77,8 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
             // select and refresh my profile tab
             if let myProfileController = CustomTabBarController.selectProfileTab() {
                 myProfileController.isRefresh = true
+                myProfileController.currentIndex = nil
+                myProfileController.feedLoader?.loading = false
                 ViewUtil.makeToast("Congratulations! Product has been listed.", view: myProfileController.view)
             }
         }
