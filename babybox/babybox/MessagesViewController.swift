@@ -121,7 +121,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
             self.buttomLayoutConstraint.constant = keyboardFrame.size.height
             
             }) { (completed: Bool) -> Void in
-                self.moveToLastMessage()
+                self.moveToFirstMessage()
         }
     }
     
@@ -129,7 +129,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         UIView.animateWithDuration(1.0, animations: { () -> Void in
             self.buttomLayoutConstraint.constant = 0.0
             }) { (completed: Bool) -> Void in
-                self.moveToLastMessage()
+                self.moveToFirstMessage()
         }
     }
     
@@ -158,7 +158,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         } else {
             ApiController.instance.newMessage(self.conversation!.id, message: bubbleData!.text!, imagePath: self.uploadImgSrc.image!)
         }
-        self.moveToLastMessage()
+        self.moveToFirstMessage()
     }
         
     @IBAction func cameraButtonClicked(sender: AnyObject) {
@@ -201,22 +201,26 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         lastChatBubbleY = CGRectGetMaxY(chatBubble.frame)
         
         self.messageCointainerScroll.contentSize = CGSizeMake(CGRectGetWidth(messageCointainerScroll.frame), lastChatBubbleY + internalPadding)
-        //self.moveToLastMessage()
+        //self.moveToFirstMessage()
         lastMessageType = data.type
         textField.text = ""
     }
     
-    func moveToLastMessage() {
+    func moveToFirstMessage() {
         if messageCointainerScroll.contentSize.height > CGRectGetHeight(messageCointainerScroll.frame) {
             let contentOffSet = CGPointMake(0.0, messageCointainerScroll.contentSize.height - CGRectGetHeight(messageCointainerScroll.frame))
             self.messageCointainerScroll.setContentOffset(contentOffSet, animated: false)
         }
     }
     
-    func moveToSpecificMessage() {
+    func moveToLastMessage() {
         let frame = self.messageCointainerScroll.subviews[lastItemPosition - 1].frame
         //self.messageCointainerScroll.scrollRectToVisible(frame, animated: false)
-        let contentOffSet = CGPointMake(0.0, frame.origin.y)
+        var yOffset = frame.origin.y
+        if frame.origin.y > 50 {
+            yOffset = frame.origin.y - 50
+        }
+        let contentOffSet = CGPointMake(0.0, yOffset)
         self.messageCointainerScroll.setContentOffset(contentOffSet, animated: false)
     }
     
@@ -226,7 +230,6 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
     
     func textField(txtField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         var text: String
-        
         if string.characters.count > 0 {
             text = String(format:"%@%@",txtField.text!, string)
         } else {
@@ -235,7 +238,6 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         }
         return true
     }
-    
     
     @IBAction func onClickProdItem(sender: AnyObject) {
         
@@ -304,9 +306,9 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         }
         
         if (!loadMoreMessages) {
-            self.moveToLastMessage()
+            self.moveToFirstMessage()
         } else {
-            self.moveToSpecificMessage()
+            self.moveToLastMessage()
         }
         
         ViewUtil.hideActivityLoading(self.activityLoading)
