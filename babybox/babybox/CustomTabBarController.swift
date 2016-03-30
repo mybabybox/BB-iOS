@@ -11,13 +11,13 @@ import UIKit
 class CustomTabBarController: UITabBarController {
     
     enum TabItem: Int {
-        case HOME = 0
-        case SELLER
-        case ACTIVITY
-        case PROFILE
+        case Home = 0
+        case Seller
+        case Activity
+        case Profile
         
         init() {
-            self = .HOME
+            self = .Home
         }
     }
     
@@ -47,19 +47,19 @@ class CustomTabBarController: UITabBarController {
     }
     
     static func selectHomeTab() -> HomeFeedViewController? {
-        return selectTab(TabItem.HOME) as? HomeFeedViewController
+        return selectTab(TabItem.Home) as? HomeFeedViewController
     }
 
     static func selectSellerTab() -> SellerViewController? {
-        return selectTab(TabItem.SELLER) as? SellerViewController
+        return selectTab(TabItem.Seller) as? SellerViewController
     }
 
     static func selectActivityTab() -> UserActivityViewController? {
-        return selectTab(TabItem.ACTIVITY) as? UserActivityViewController
+        return selectTab(TabItem.Activity) as? UserActivityViewController
     }
 
     static func selectProfileTab() -> MyProfileFeedViewController? {
-        return selectTab(TabItem.PROFILE) as? MyProfileFeedViewController
+        return selectTab(TabItem.Profile) as? MyProfileFeedViewController
     }
 
     override func viewDidLoad() {
@@ -73,23 +73,23 @@ class CustomTabBarController: UITabBarController {
         
         let image = UIImage(named: "mn_home")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
         let selImage = UIImage(named: "mn_home_sel")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
-        self.tabBar.items![TabItem.HOME.rawValue].image = image
-        self.tabBar.items![TabItem.HOME.rawValue].selectedImage = selImage
+        self.tabBar.items![TabItem.Home.rawValue].image = image
+        self.tabBar.items![TabItem.Home.rawValue].selectedImage = selImage
         
         let sellerImg = UIImage(named: "mn_seller")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
         let selSellerImg = UIImage(named: "mn_seller_sel")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
-        self.tabBar.items![TabItem.SELLER.rawValue].image = sellerImg
-        self.tabBar.items![TabItem.SELLER.rawValue].selectedImage = selSellerImg
+        self.tabBar.items![TabItem.Seller.rawValue].image = sellerImg
+        self.tabBar.items![TabItem.Seller.rawValue].selectedImage = selSellerImg
 
         let activityImg = UIImage(named: "mn_notif")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
         let selActivityImg = UIImage(named: "mn_notif_sel")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
-        self.tabBar.items![TabItem.ACTIVITY.rawValue].image = activityImg
-        self.tabBar.items![TabItem.ACTIVITY.rawValue].selectedImage = selActivityImg
+        self.tabBar.items![TabItem.Activity.rawValue].image = activityImg
+        self.tabBar.items![TabItem.Activity.rawValue].selectedImage = selActivityImg
         
         let profileImg = UIImage(named: "mn_profile")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
         let selProfileImg = UIImage(named: "mn_profile_sel")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
-        self.tabBar.items![TabItem.PROFILE.rawValue].image = profileImg
-        self.tabBar.items![TabItem.PROFILE.rawValue].selectedImage = selProfileImg
+        self.tabBar.items![TabItem.Profile.rawValue].image = profileImg
+        self.tabBar.items![TabItem.Profile.rawValue].selectedImage = selProfileImg
     }
 
     override func didReceiveMemoryWarning() {

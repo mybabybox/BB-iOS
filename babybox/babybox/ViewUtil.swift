@@ -15,7 +15,8 @@ class ViewUtil {
     static let SHOW_TOAST_DURATION_LONG = 1.5
     static let DEFAULT_TOAST_POSITION = HRToastPositionCenter
     static let HTML_LINE_BREAK: String = "<br>"
-    static let SPACE: String = " "
+    static let LINE_BREAK: String = "\n"
+    
     enum PostConditionType: String {
         case NEW_WITH_TAG = "New(Sealed/with tags)"
         case NEW_WITHOUT_TAG = "New(unsealed/without tags)"
@@ -86,13 +87,13 @@ class ViewUtil {
     }
     
     static func displayRoundedCornerView(view: UIView) {
-        view.layer.cornerRadius = 5.0
+        view.layer.cornerRadius = 7.0
         view.layer.masksToBounds = true
         view.layer.borderWidth = 1
     }
     
     static func displayRoundedCornerView(view: UIView, bgColor: UIColor) {
-        view.layer.cornerRadius = 5.0
+        view.layer.cornerRadius = 7.0
         view.layer.masksToBounds = true
         view.layer.borderWidth = 0
         view.layer.backgroundColor = bgColor.CGColor
@@ -241,7 +242,7 @@ class ViewUtil {
     
     static func displayMessageView(view: UIView) {
         view.layer.borderColor = Color.LIGHT_GRAY_2.CGColor
-        view.layer.borderWidth = 1.0
+        view.layer.borderWidth = 0.5
     }
     
 }

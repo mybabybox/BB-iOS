@@ -31,7 +31,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
     var conversation: ConversationVM? = nil
     var selectedImage : UIImage?
     var lastChatBubbleY: CGFloat = 40.0
-    var internalPadding: CGFloat = 16.0
+    var linePadding: CGFloat = 15.0
     var lastMessageType: BubbleDataType?
     let croppingEnabled: Bool = true
     let libraryEnabled: Bool = true
@@ -82,7 +82,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         
         ApiController.instance.getMessages((self.conversation?.id)!, offset: offset)
         offset++
-        self.messageCointainerScroll.contentSize = CGSizeMake(CGRectGetWidth(messageCointainerScroll.frame), lastChatBubbleY + internalPadding)
+        self.messageCointainerScroll.contentSize = CGSizeMake(CGRectGetWidth(messageCointainerScroll.frame), lastChatBubbleY + linePadding)
         self.addKeyboardNotifications()
         
         ImageUtil.displayPostImage(self.conversation!.postImage, imageView: prodImg)
@@ -142,10 +142,10 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
             textField.text = ""
         }
         if (self.uploadImgSrc.image == nil) {
-            bubbleData = ChatBubbleData(text: textField.text, image: nil, date: msgCreatDt, type: .Mine, buyerId: -1, imageId: -1)
+            bubbleData = ChatBubbleData(text: textField.text, image: nil, date: msgCreatDt, type: .Me, buyerId: -1, imageId: -1)
             addChatBubble(bubbleData!)
         } else {
-            bubbleData = ChatBubbleData(text: textField.text, image: self.uploadImgSrc.image!, date: msgCreatDt, type: .Mine, buyerId: -1, imageId: -1)
+            bubbleData = ChatBubbleData(text: textField.text, image: self.uploadImgSrc.image!, date: msgCreatDt, type: .Me, buyerId: -1, imageId: -1)
             
             addChatBubble(bubbleData!)
         }
@@ -196,13 +196,13 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
     }
     
     func addChatBubble(data: ChatBubbleData) {
-        let padding:CGFloat = lastMessageType == data.type ? internalPadding/3.0 :  internalPadding
+        let padding:CGFloat = lastMessageType == data.type ? linePadding/3.0 : linePadding
         
         let chatBubble = ChatBubble(data: data, startY:lastChatBubbleY + padding)
         self.messageCointainerScroll.addSubview(chatBubble)
         lastChatBubbleY = CGRectGetMaxY(chatBubble.frame)
         
-        self.messageCointainerScroll.contentSize = CGSizeMake(CGRectGetWidth(messageCointainerScroll.frame), lastChatBubbleY + internalPadding)
+        self.messageCointainerScroll.contentSize = CGSizeMake(CGRectGetWidth(messageCointainerScroll.frame), lastChatBubbleY + linePadding)
         //self.moveToFirstMessage()
         lastMessageType = data.type
         textField.text = ""
@@ -252,6 +252,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         self.navigationController?.pushViewController(vController!, animated: true)
         
     }
+    
     //MARK: Delegates
     func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
         
@@ -282,19 +283,19 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
             let messageDt = NSDate(timeIntervalSince1970:Double(message.createdDate) / 1000.0)
             if UserInfoCache.getUser()!.id == message.senderId {
                 if (message.hasImage) {
-                    let chatBubbleDataMine = ChatBubbleData(text: message.body, image: nil, date: messageDt, type: .Mine, buyerId: -1, imageId: message.image)
+                    let chatBubbleDataMine = ChatBubbleData(text: message.body, image: nil, date: messageDt, type: .Me, buyerId: -1, imageId: message.image)
                     addChatBubble(chatBubbleDataMine)
                 } else {
-                    let chatBubbleDataMine = ChatBubbleData(text: message.body, image: nil, date: messageDt, type: .Mine, buyerId: -1, imageId: -1)
+                    let chatBubbleDataMine = ChatBubbleData(text: message.body, image: nil, date: messageDt, type: .Me, buyerId: -1, imageId: -1)
                     addChatBubble(chatBubbleDataMine)
                 }
                 
             } else {
                 if (message.hasImage) {
-                    let chatBubbleDataOpponent = ChatBubbleData(text: message.body, image: nil, date: messageDt, type: .Opponent, buyerId: message.senderId, imageId: message.image)
+                    let chatBubbleDataOpponent = ChatBubbleData(text: message.body, image: nil, date: messageDt, type: .You, buyerId: message.senderId, imageId: message.image)
                     addChatBubble(chatBubbleDataOpponent)
                 } else {
-                    let chatBubbleDataOpponent = ChatBubbleData(text: message.body, image: nil, date: messageDt, type: .Opponent, buyerId: message.senderId, imageId: -1)
+                    let chatBubbleDataOpponent = ChatBubbleData(text: message.body, image: nil, date: messageDt, type: .You, buyerId: message.senderId, imageId: -1)
                     addChatBubble(chatBubbleDataOpponent)
                 }
             }
@@ -314,7 +315,6 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         }
         
         ViewUtil.hideActivityLoading(self.activityLoading)
-        
     }
     
     func onClickProfileBtn(sender: AnyObject?) {
@@ -329,7 +329,6 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
     }
     
     func handleCroppedImage(notification: NSNotification) {
-        print("")
         
     }
     
@@ -345,20 +344,19 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
     }
     
     func addMoreMessageLoaderLayout() {
-        let loaderLayout: UIButton = UIButton(frame: CGRectMake(0, 0, self.view.frame.width, 40))
+        let loaderLayout: UIButton = UIButton(frame: CGRectMake(0, 0, self.view.frame.width, 50))
         loaderLayout.setTitle("LOAD EARLIER MESSAGES", forState: .Normal)
         loaderLayout.addTarget(self, action: "loadMoreMessages:", forControlEvents: UIControlEvents.TouchUpInside)
         loaderLayout.layer.backgroundColor = Color.LIGHT_GRAY.CGColor
-        let titleFont : UIFont = UIFont.systemFontOfSize(12.0)
+        let titleFont : UIFont = UIFont.systemFontOfSize(15.0)
         loaderLayout.titleLabel?.font = titleFont
         self.messageCointainerScroll.insertSubview(loaderLayout, atIndex: 0)
-        self.messageCointainerScroll.contentSize = CGSizeMake(CGRectGetWidth(messageCointainerScroll.frame), lastChatBubbleY + internalPadding)
+        self.messageCointainerScroll.contentSize = CGSizeMake(CGRectGetWidth(messageCointainerScroll.frame), lastChatBubbleY + linePadding)
     }
     
     func removeMoreMessageLoaderLayout() {
        self.messageCointainerScroll.subviews[0].removeFromSuperview()
     }
-    
     
     func loadMoreMessages(sender: AnyObject?) {
         //
@@ -367,10 +365,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         self.offset++
         loadMoreMessages = true
     }
-    var _contentSizeO: CGPoint = CGPointMake(0.0, 0.0)
-    func scrollViewDidScroll(scrollView: UIScrollView) {
-        
-         _contentSizeO = CGPointMake(scrollView.frame.origin.x, scrollView.frame.origin.y)
-    }
     
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+    }
 }

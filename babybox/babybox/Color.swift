@@ -28,8 +28,8 @@ class Color {
     static let MENU_BAR_BG: UIColor = Color.fromRGB(0xFCFAF8)
     static let IMAGE_LOAD_BG: UIColor = Color.fromRGB(0xFFF2EF)
     static let FEED_ITEM_BORDER: UIColor = LIGHT_GRAY_2
-    static let CHAT_YOU: UIColor = Color.fromRGB(0xDCF8C6)
-    static let CHAT_ME: UIColor = Color.fromRGB(0xFFFFFF)
+    static let CHAT_ME: UIColor = Color.fromRGB(0xDCF8C6)
+    static let CHAT_YOU: UIColor = Color.fromRGB(0xFFFFFF)
     
     // Utils
     static func fromRGB(rgbValue: UInt) -> UIColor {

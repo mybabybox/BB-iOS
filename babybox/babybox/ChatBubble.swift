@@ -25,23 +25,22 @@ class ChatBubble: UIView {
         super.init(frame: ChatBubble.framePrimary(data.type, startY:startY))
         
         // Making Background color as gray color
-        if (data.type == .Mine) {
-            self.backgroundColor = Color.CHAT_YOU
+        if (data.type == .Me) {
+            self.backgroundColor = Color.CHAT_ME
         } else {
-            self.backgroundColor = Color.CLEAR
+            self.backgroundColor = Color.CHAT_YOU
         }
-        //self.backgroundColor = Color.CLEAR
-        self.layer.cornerRadius = 4
+        self.layer.cornerRadius = 10
         
         let padding: CGFloat = 10.0
         
         // 1. Drawing buyer image
-        let startX = padding
-        if (data.type == .Opponent) {
+        let startX: CGFloat = 20.0
+        if (data.type == .You) {
             //if let chatImage = data.image {
             if (data.buyerId != -1) {
                 let userImgView = UIView()
-                buyerImageView = UIImageView(frame: CGRectMake(-5, 0, 30, 30))
+                buyerImageView = UIImageView(frame: CGRectMake(0, 0, 40, 40))
                 ImageUtil.displayThumbnailProfileImage(data.buyerId, imageView: buyerImageView!)
                 userImgView.addSubview(buyerImageView!)
                 self.addSubview(userImgView)
@@ -49,9 +48,9 @@ class ChatBubble: UIView {
         }
         
         let messageView: UIView = UIView(frame: CGRectMake(startX, 0, self.frame.width, self.frame.height))
-        if (data.type == .Opponent) {
+        if (data.type == .You) {
             messageView.backgroundColor = Color.WHITE
-            messageView.layer.cornerRadius = 4
+            messageView.layer.cornerRadius = 10
             ViewUtil.displayMessageView(messageView)
             self.addSubview(messageView)
         } else {
@@ -61,15 +60,15 @@ class ChatBubble: UIView {
         // 2. Going to add Text if any
         if let _ = data.text {
             // frame calculation
-            let startY:CGFloat = 5.0
+            let startY: CGFloat = 10.0
             labelChatText = UILabel(frame: CGRectMake(startX, startY, CGRectGetWidth(self.frame) - 2 * startX , 5))
-            labelChatText?.textAlignment = data.type == .Mine ? .Right : .Left
-            labelChatText?.font = UIFont.systemFontOfSize(12)
+            labelChatText?.textAlignment = data.type == .Me ? .Right : .Left
+            labelChatText?.font = UIFont.systemFontOfSize(15)
             labelChatText?.textColor = UIColor.blackColor()
             labelChatText?.numberOfLines = 0 // Making it multiline
             labelChatText?.text = data.text
             labelChatText?.sizeToFit() // Getting fullsize of it
-            if (data.type == .Opponent) {
+            if (data.type == .You) {
                 messageView.addSubview(labelChatText!)
             } else {
                 self.addSubview(labelChatText!)
@@ -83,7 +82,7 @@ class ChatBubble: UIView {
             let frameWidth = UIScreen.mainScreen().bounds.size.width  * Constants.MESSAGE_IMAGE_WIDTH
             imageViewChat = UIImageView(frame: CGRectMake(startX, CGRectGetHeight(labelChatText!.frame) + 10, frameWidth, frameWidth))
             ImageUtil.displayOriginalMessageImage(data.imageId, imageView: imageViewChat!)
-            if (data.type == .Opponent) {
+            if (data.type == .You) {
                 messageView.addSubview(imageViewChat!)
             } else {
                 self.addSubview(imageViewChat!)
@@ -100,7 +99,7 @@ class ChatBubble: UIView {
             let frameWidth = UIScreen.mainScreen().bounds.size.width  * Constants.MESSAGE_IMAGE_WIDTH
             imageViewChat = UIImageView(frame: CGRectMake(startX, CGRectGetHeight(labelChatText!.frame) + 10, frameWidth, frameWidth))
             imageViewChat?.image = chatImage
-            imageViewChat?.layer.cornerRadius = 5.0
+            imageViewChat?.layer.cornerRadius = 10.0
             imageViewChat?.layer.masksToBounds = true
             self.addSubview(imageViewChat!)
             self.image = data.image!
@@ -110,7 +109,6 @@ class ChatBubble: UIView {
             imageViewChat!.addGestureRecognizer(singleTap)
             imageViewChat!.userInteractionEnabled = true
         }
-        
         
         // 3. Going to add Text if any
         if let _ = data.text {
@@ -123,13 +121,13 @@ class ChatBubble: UIView {
                 startY += CGRectGetMaxY(labelChatText!.frame)
             }
             timeAgoText = UILabel(frame: CGRectMake(startX, startY, CGRectGetWidth(self.frame) - 2 * startX , 5))
-            timeAgoText?.textAlignment = data.type == .Mine ? .Right : .Left
-            timeAgoText?.font = UIFont.systemFontOfSize(10)
+            timeAgoText?.textAlignment = data.type == .Me ? .Right : .Left
+            timeAgoText?.font = UIFont.systemFontOfSize(11)
             timeAgoText?.numberOfLines = 0 // Making it multiline
             timeAgoText?.text = data.date?.timeAgo
             timeAgoText?.sizeToFit() // Getting fullsize of it
-            timeAgoText?.textColor = Color.LIGHT_GRAY
-            if (data.type == .Opponent) {
+            timeAgoText?.textColor = Color.GRAY
+            if (data.type == .You) {
                 messageView.addSubview(timeAgoText!)
             } else {
                 self.addSubview(timeAgoText!)
@@ -156,15 +154,15 @@ class ChatBubble: UIView {
         self.frame = CGRectMake(CGRectGetMinX(self.frame), CGRectGetMinY(self.frame), viewWidth, viewHeight)
         
         // 6. Adding the resizable image view to give it bubble like shape
-        let bubbleImageFileName = data.type == .Mine ? "" : ""
+        let bubbleImageFileName = data.type == .Me ? "" : ""
         imageViewBG = UIImageView(frame: CGRectMake(0.0, 0.0, CGRectGetWidth(self.frame), CGRectGetHeight(self.frame)))
-        if data.type == .Mine {
+        if data.type == .Me {
             imageViewBG?.image = UIImage(named: bubbleImageFileName)?.resizableImageWithCapInsets(UIEdgeInsetsMake(14, 14, 17, 28))
         } else {
             imageViewBG?.image = UIImage(named: bubbleImageFileName)?.resizableImageWithCapInsets(UIEdgeInsetsMake(14, 22, 17, 20))
         }
         
-        if (data.type == .Opponent) {
+        if (data.type == .You) {
             messageView.addSubview(imageViewBG!)
             messageView.sendSubviewToBack(imageViewBG!)
         } else {
@@ -173,14 +171,14 @@ class ChatBubble: UIView {
         }
         
         // Frame recalculation for filling up the bubble with background bubble image
-        let repsotionXFactor:CGFloat = data.type == .Mine ? 0.0 : -8.0
+        let repsotionXFactor:CGFloat = data.type == .Me ? 0.0 : -8.0
         let bgImageNewX = CGRectGetMinX(imageViewBG!.frame) + repsotionXFactor
         let bgImageNewWidth =  CGRectGetWidth(imageViewBG!.frame) + CGFloat(12.0)
         let bgImageNewHeight =  CGRectGetHeight(imageViewBG!.frame) + CGFloat(6.0)
         imageViewBG?.frame = CGRectMake(bgImageNewX, 0.0, bgImageNewWidth, bgImageNewHeight)
         
         var newStartX:CGFloat = 0.0
-        if data.type == .Mine {
+        if data.type == .Me {
             // Need to maintain the minimum right side padding from the right edge of the screen
             let extraWidthToConsider = CGRectGetWidth(imageViewBG!.frame)
             newStartX = UIScreen.mainScreen().bounds.size.width - extraWidthToConsider
@@ -203,7 +201,7 @@ class ChatBubble: UIView {
         let paddingFactor: CGFloat = 0.02
         let sidePadding = UIScreen.mainScreen().bounds.size.width * paddingFactor
         let maxWidth = UIScreen.mainScreen().bounds.size.width  * Constants.MESSAGE_IMAGE_WIDTH // We are cosidering 65% of the screen width as the Maximum with of a single bubble
-        let startX: CGFloat = type == .Mine ? UIScreen.mainScreen().bounds.size.width  * (CGFloat(1.0) - paddingFactor) - maxWidth : sidePadding
+        let startX: CGFloat = type == .Me ? UIScreen.mainScreen().bounds.size.width  * (CGFloat(1.0) - paddingFactor) - maxWidth : sidePadding
         return CGRectMake(startX, startY, maxWidth, 5) // 5 is the primary height before drawing starts
     }
 

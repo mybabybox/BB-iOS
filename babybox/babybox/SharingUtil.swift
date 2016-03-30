@@ -19,7 +19,7 @@ class SharingUtil {
     static let SHARING_MESSAGE_NOTE:String = ""
     
     static func shareToWhatsapp(user: UserVM) -> Void {
-        let title: String = Constants.SHARING_SELLER_MSG_PREFIX + ViewUtil.SPACE + user.displayName
+        let title: String = Constants.SHARING_SELLER_MSG_PREFIX + ViewUtil.LINE_BREAK + user.displayName
         shareTo(title, description: "", url: UrlUtil.createSellerUrl(user), type: SharingType.WHATSAPP, vController: nil)
     }
     
@@ -30,7 +30,7 @@ class SharingUtil {
     }
     
     static func shareToWhatsapp(post:PostVM) -> Void {
-        let title:String = post.title + " $" + String(Int(post.price)) + ViewUtil.SPACE
+        let title:String = post.title + " $" + String(Int(post.price)) + ViewUtil.LINE_BREAK
         shareTo(title, description: "", url: UrlUtil.createProductUrl(post), type: SharingType.WHATSAPP, vController: nil);
     }
     
@@ -59,10 +59,8 @@ class SharingUtil {
         switch(type) {
             case SharingType.WHATSAPP:
                 shareToWhatsapp(title, description: description, url: url);
-                break;
             case SharingType.FACEBOOK:
                 shareToFacebook(title, description: description, url: url, vController: vController!)
-                break;
         }
     }
     
