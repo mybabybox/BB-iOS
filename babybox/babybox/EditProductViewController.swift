@@ -80,7 +80,7 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         SwiftEventBus.onMainThread(self, name: "editProductSuccess") { result in
             SwiftEventBus.unregister(self)
             NSLog("Product edited Successfully")
-            
+            self.navigationController!.view.alpha = 1
             self.navigationController?.popToRootViewControllerAnimated(false)
             
             if let myProfileController = CustomTabBarController.selectProfileTab() {
@@ -102,8 +102,8 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
             
             UserInfoCache.decrementNumProducts()
             
+            self.navigationController!.view.alpha = 1
             self.navigationController?.popToRootViewControllerAnimated(false)
-            
             // select and refresh my profile tab
             if let myProfileController = CustomTabBarController.selectProfileTab() {
                 myProfileController.isRefresh = true
@@ -222,6 +222,7 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         }
         
         if (validateSaveForm()) {
+            self.navigationController!.view.alpha = 0.75
             let category = CategoryCache.getCategoryByName(categoryDropDown.titleLabel!.text!)
             let conditionType = ViewUtil.parsePostConditionTypeFromValue(conditionDropDown.titleLabel!.text!)
             ApiController.instance.editPost(self.postId, title: postTitle.text!, body: prodDescription.text!, catId: category!.id, conditionType: String(conditionType), pricetxt: pricetxt.text!)
@@ -265,7 +266,20 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     }
     
     @IBAction func deletePost(sender: AnyObject) {
-        ApiController.instance.deletePost(self.postId)
+        
+        let _confirmDialog = UIAlertController(title: "Warning Message", message: "Are you sure to delete?", preferredStyle: UIAlertControllerStyle.Alert)
+        let okAction = UIAlertAction(title: "No", style: UIAlertActionStyle.Default, handler: nil)
+        
+        let confirmAction = UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction!) in
+            self.navigationController!.view.alpha = 0.75
+            ApiController.instance.deletePost(self.postId)
+        })
+        
+        _confirmDialog.addAction(okAction)
+        _confirmDialog.addAction(confirmAction)
+        self.presentViewController(_confirmDialog, animated: true, completion: nil)
+        
+        
     }
 
 }

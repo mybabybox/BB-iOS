@@ -364,11 +364,13 @@ class ApiController {
         callEvent.successEventbusName = "profileImgUploadSuccess"
         callEvent.failedEventbusName = "profileImgUploadFailed"
         let url = callEvent.apiUrl + "?key=\(StringUtil.encode(AppDelegate.getInstance().sessionId!))"
+        
+        let nsData = profileImg.lowestQualityJPEGNSData //UIImagePNGRepresentation(profileImg)!
         Alamofire.upload(
             .POST,
             url,
             multipartFormData: { multipartFormData in
-                multipartFormData.appendBodyPart(data: UIImagePNGRepresentation(profileImg)!, name: "profile-photo", fileName: "upload.jpg", mimeType:"*")
+                multipartFormData.appendBodyPart(data: nsData, name: "profile-photo", fileName: "upload.jpg", mimeType:"*")
             },
             encodingCompletion: { encodingResult in
                 switch encodingResult {
@@ -594,7 +596,8 @@ class ApiController {
                 if let _ = imagePath as? String {
                 } else {
                     let index = 0
-                    multipartFormData.appendBodyPart(data: UIImagePNGRepresentation(imagePath as! UIImage)!, name:  "image\(index)", fileName: "upload.jpg", mimeType:"jpg")
+                    let nsData = (imagePath as! UIImage).lowestQualityJPEGNSData //UIImagePNGRepresentation(imagePath as! UIImage)!
+                    multipartFormData.appendBodyPart(data: nsData, name:  "image\(index)", fileName: "upload.jpg", mimeType:"jpg")
                 }
                 
                 //multipartFormData.appendBodyPart(data: UIImagePNGRepresentation(imageData)!, name: "image", fileName: "upload.jpg", mimeType:"jpg")
