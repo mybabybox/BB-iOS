@@ -214,7 +214,10 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
     }
     
     func moveToSpecificMessage() {
-        self.messageCointainerScroll.scrollRectToVisible(self.messageCointainerScroll.subviews[lastItemPosition].frame, animated: false)
+        let frame = self.messageCointainerScroll.subviews[lastItemPosition - 1].frame
+        //self.messageCointainerScroll.scrollRectToVisible(frame, animated: false)
+        let contentOffSet = CGPointMake(0.0, frame.origin.y)
+        self.messageCointainerScroll.setContentOffset(contentOffSet, animated: false)
     }
     
     func getRandomChatDataType() -> BubbleDataType {
@@ -256,8 +259,6 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
     }
     
     func handleChatMessageResponse(result: MessageResponseVM) {
-        //result.messages.sortInPlace({ $0.createdDate < $1.createdDate })
-        //result.messages.sortInPlace({ $0.createdDate.compare($1.createdDate) == NSComparisonResult.OrderedAscending })
         
         lastItemPosition = result.messages.count
         
