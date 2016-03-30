@@ -614,6 +614,46 @@ class ApiController {
         )
     }
     
+    //@POST("/api/user-notification-settings/edit")
+    func editUserNotificationSettings(settingsVM: SettingVM) {
+        let callEvent = ApiCallEvent()
+        callEvent.method = "/api/user-notification-settings/edit"
+        callEvent.resultClass = "UserVM"
+        callEvent.successEventbusName = "editNotificationSettingsSuccess"
+        callEvent.failedEventbusName = "editNotificationSettingsFailed"
+        callEvent.apiUrl = Constants.BASE_URL + callEvent.method
+        let url = callEvent.apiUrl + "?key=\(StringUtil.encode(AppDelegate.getInstance().sessionId!))"
+        
+        NSLog("makePostApiCall")
+        
+        var strData = [String]()
+        strData.append("emailNewPost=\(settingsVM.emailNewPost)")
+        strData.append("emailNewConversation=\(settingsVM.emailNewConversation)")
+        strData.append("emailNewComment=\(settingsVM.emailNewComment)")
+        strData.append("emailNewPromotion=\(settingsVM.emailNewPromotion)")
+        strData.append("pushNewConversion=\(settingsVM.pushNewConversion)")
+        strData.append("pushNewComment=\(settingsVM.pushNewConversion)")
+        strData.append("pushNewFollow=\(settingsVM.pushNewConversion)")
+        strData.append("pushNewFeedback=\(settingsVM.pushNewConversion)")
+        strData.append("pushNewPromotions=\(settingsVM.pushNewConversion)")
+        let parameter = self.makeBodyString(strData)
+        
+        
+        let request: NSMutableURLRequest = NSMutableURLRequest()
+        request.URL = NSURL(string: url)
+        request.HTTPMethod = "POST"
+        request.HTTPBody = parameter.dataUsingEncoding(NSUTF8StringEncoding)
+        
+        NSLog("sending string %@", url)
+        
+        let session = NSURLSession.sharedSession()
+        let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
+            self.handleApiResponse(callEvent, data: data, response: response, error: error)
+        })
+        task.resume()
+        
+    }
+    
     func makeApiCall(arg: ApiCallEvent) {
         NSLog("makeApiCall")
         

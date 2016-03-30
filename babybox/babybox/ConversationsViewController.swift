@@ -43,7 +43,7 @@ class ConversationsViewController: UIViewController, UIGestureRecognizerDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.collectionView.allowsMultipleSelection = true
         self.navigationController?.navigationBar.opaque = true
         self.navigationItem.title = "Chats"
         let titleDict: NSDictionary = [NSForegroundColorAttributeName: Color.WHITE]
@@ -82,6 +82,8 @@ class ConversationsViewController: UIViewController, UIGestureRecognizerDelegate
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(viewCellIdentifier, forIndexPath: indexPath) as! ConversationsCollectionViewCell
+        
+        
         if ConversationCache.conversations.isEmpty {
             return cell
         }
@@ -176,6 +178,9 @@ class ConversationsViewController: UIViewController, UIGestureRecognizerDelegate
         if let indexPath : NSIndexPath = (self.collectionView?.indexPathForItemAtPoint(p))!{
             //do whatever you need to do
             print("--")
+            let cell = self.collectionView?.cellForItemAtIndexPath(indexPath)
+            cell!.layer.borderWidth = 1.0
+            cell!.layer.borderColor = Color.PINK.CGColor
         }
         
     }
@@ -207,14 +212,14 @@ class ConversationsViewController: UIViewController, UIGestureRecognizerDelegate
     }
     
     func removeCell(sender: UISwipeGestureRecognizer) {
-        let cell = sender.view as! UICollectionViewCell
+        /*let cell = sender.view as! UICollectionViewCell
         let i = self.collectionView.indexPathForCell(cell)!.item
-        //
+        
         ConversationCache.delete(ConversationCache.conversations[i].id, successCallback: deleteConversationHandler, failureCallback: deleteConversationError)
         if (ConversationCache.conversations.count <= 0) {
             self.tipText.hidden = false
             self.collectionView.hidden = true
-        }
+        }*/
     }
     
     func deleteConversationHandler(responseString: String) {

@@ -25,17 +25,18 @@ class SettingVM: BaseArgVM {
     var systemIosVersion: String = ""
     
     override func mapping(map: ObjectMapper.Map) {
+        super.mapping(map)
         id<-map["id"]
-        emailNewPost<-map["aboutMe"]
-        emailNewConversation<-map["firstName"]
-        emailNewComment<-map["firstName"]
-        emailNewPromotion<-map["firstName"]
-        pushNewConversion<-map["firstName"]
-        pushNewComment<-map["firstName"]
-        pushNewFollow<-map["firstName"]
-        pushNewFeedback<-map["firstName"]
-        pushNewPromotions<-map["firstName"]
-        systemAndroidVersion<-map["firstName"]
-        systemIosVersion<-map["firstName"]
+        emailNewPost<-map["emailNewPost"]
+        emailNewConversation<-map["emailNewConversation"]
+        emailNewComment<-map["emailNewComment"]
+        emailNewPromotion<-map["emailNewPromotion"]
+        pushNewConversion<-map["pushNewConversion"]
+        pushNewComment<-map["pushNewComment"]
+        pushNewFollow<-map["pushNewFollow"]
+        pushNewFeedback<-map["pushNewFeedback"]
+        pushNewPromotions<-map["pushNewPromotions"]
+        systemAndroidVersion<-map["systemAndroidVersion"]
+        systemIosVersion<-map["systemIosVersion"]
     }
 }

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftEventBus
 
 class NotificationSettingsViewController: UIViewController {
 
@@ -18,10 +19,30 @@ class NotificationSettingsViewController: UIViewController {
         super.viewDidLoad()
         self.setNotificationDataSource()
         
-        let backbtn = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: self, action: "backButtonPressed:")
-        navigationItem.backBarButtonItem = backbtn
+        SwiftEventBus.onMainThread(self, name: "editNotificationSettingsSuccess") { result in
+            SwiftEventBus.unregister(self)
+            let resultDto: UserVM = result.object as! UserVM
+            UserInfoCache.getUser()!.settings = resultDto.settings
+        }
+        
+        SwiftEventBus.onMainThread(self, name: "editNotificationSettingsFailed") { result in
+            SwiftEventBus.unregister(self)
+            self.view.makeToast(message: "Error updating user notification settings")
+        }
+        
+        //let backbtn = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: self, action: "backButtonPressed:")
+        //navigationItem.backBarButtonItem = backbtn
         
     }
+    
+    override func viewWillDisappear(animated : Bool) {
+        super.viewWillDisappear(animated)
+        
+        if (self.isMovingFromParentViewController()){
+            self.backButtonPressed()
+        }
+    }
+    
     //MARK:  Memory Warning method
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -77,7 +98,7 @@ class NotificationSettingsViewController: UIViewController {
         cell.isEnabledSwitch.setOn(!cell.isEnabledSwitch.on, animated: true)
     }
     
-    func backButtonPressed(sender: AnyObject) {
+    func backButtonPressed() {
         //Call the api...
         NSLog("")
         
@@ -101,7 +122,7 @@ class NotificationSettingsViewController: UIViewController {
         }
         
         for i in 0...pushNotifications.count - 1 {
-            let notifItem = emailNotifications[i]
+            let notifItem = pushNotifications[i]
             switch notifItem.title {
                 case "New chat":
                     settings.pushNewConversion = notifItem.isEnabled
@@ -116,7 +137,7 @@ class NotificationSettingsViewController: UIViewController {
                 default: break
             }
         }
-        
+        ApiController.instance.editUserNotificationSettings(settings)
         NSLog("")
     }
 }

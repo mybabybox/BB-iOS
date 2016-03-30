@@ -34,7 +34,7 @@ class UserVM: UserVMLite {
         lastName<-map["lastName"]
         gender<-map["gender"]
         birthYear<-map["birthYear"]
-        //settings<-map["]SettingVM"]
+        settings<-map["settings"]
         createdDate<-map["createdDate"]
         lastLogin<-map["lastLogin"]
         totalLogin<-map["totalLogin"]
