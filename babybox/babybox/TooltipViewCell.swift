@@ -6,7 +6,7 @@
 //  Copyright © 2016 Mac. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 class TooltipViewCell: UICollectionViewCell {
     @IBOutlet weak var toolTipText: UILabel!
