@@ -65,9 +65,8 @@ class SharingUtil {
     }
     
     static func shareToWhatsapp(title: String, description: String, url: String) -> Void {
-        
         let urlString = title + url
-        let urlStringEncoded = urlString.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())
+        let urlStringEncoded = urlString.stringByAddingPercentEncodingWithAllowedCharacters(.URLPathAllowedCharacterSet())
         let url  = NSURL(string: "whatsapp://send?text=\(urlStringEncoded!)")
         
         if UIApplication.sharedApplication().canOpenURL(url!) {
