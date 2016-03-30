@@ -502,23 +502,11 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
     }
     
     @IBAction func onClickBuyNow(sender: AnyObject) {
-        let _messageDialog = UIAlertController(title: "Buy Now", message: "Make an offer to Seller", preferredStyle: UIAlertControllerStyle.Alert)
         
-        var inputTextField: UITextField?;
-        _messageDialog.addTextFieldWithConfigurationHandler({(textField: UITextField!) in
-            textField.placeholder = ""
-            inputTextField = textField
-        })
-            
-        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: nil)
-        let confirmAction = UIAlertAction(title: "Confirm", style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction!) in
-            //TODO: Logic here to make confirm action
-            self.view.makeToast(message: inputTextField!.text!)
-            self.view.makeToast(message: "Confirm Sold")
-        })
-        _messageDialog.addAction(cancelAction)
-        _messageDialog.addAction(confirmAction)
-        self.presentViewController(_messageDialog, animated: true, completion: nil)
+        let vController = self.storyboard!.instantiateViewControllerWithIdentifier("MakeOfferViewController") as? MakeOfferViewController
+        vController?.productId = (self.productInfo?.id)!
+        ViewUtil.resetBackButton(self.navigationItem)
+        self.navigationController?.pushViewController(vController!, animated: true)
         
     }
     

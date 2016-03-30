@@ -2471,6 +2471,63 @@
             </objects>
             <point key="canvasLocation" x="8300" y="3362"/>
         </scene>
+        <!--Make offer View Controller-->
+        <scene sceneID="vbc-E8-biv">
+            <objects>
+                <viewController storyboardIdentifier="MakeOfferViewController" title="Make Offer" id="EeD-Hq-HYZ" userLabel="Make offer View Controller" customClass="MakeOfferViewController" customModule="BabyBox" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="c5c-QW-cff"/>
+                        <viewControllerLayoutGuide type="bottom" id="Z8N-aL-ZNT"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="6KV-eZ-X09">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="zEN-jb-G2H">
+                                <rect key="frame" x="20" y="40" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="40" id="hql-tV-7dB"/>
+                                    <constraint firstAttribute="height" constant="40" id="z9n-ld-D3w"/>
+                                </constraints>
+                            </imageView>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qpa-6l-iRt">
+                                <rect key="frame" x="70" y="45" width="505" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b2T-3L-poR">
+                                <rect key="frame" x="25" y="110" width="550" height="45"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="45" id="owm-UW-UGu"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <state key="normal" title="Send"/>
+                                <connections>
+                                    <action selector="onClickSaveBtn:" destination="EeD-Hq-HYZ" eventType="touchUpInside" id="mKc-XG-eO8"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="0.92941176470588238" green="0.92941176470588238" blue="0.92941176470588238" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="qpa-6l-iRt" secondAttribute="trailing" constant="25" id="3hd-4s-HHi"/>
+                            <constraint firstAttribute="trailing" secondItem="b2T-3L-poR" secondAttribute="trailing" constant="25" id="5PK-WS-md7"/>
+                            <constraint firstItem="zEN-jb-G2H" firstAttribute="top" secondItem="c5c-QW-cff" secondAttribute="bottom" constant="20" id="CSc-g4-458"/>
+                            <constraint firstItem="qpa-6l-iRt" firstAttribute="leading" secondItem="zEN-jb-G2H" secondAttribute="trailing" constant="10" id="Wxn-zX-hhD"/>
+                            <constraint firstItem="b2T-3L-poR" firstAttribute="leading" secondItem="6KV-eZ-X09" secondAttribute="leading" constant="25" id="X9I-Xk-vPW"/>
+                            <constraint firstItem="b2T-3L-poR" firstAttribute="top" secondItem="zEN-jb-G2H" secondAttribute="bottom" constant="30" id="deu-Zb-LM5"/>
+                            <constraint firstItem="qpa-6l-iRt" firstAttribute="centerY" secondItem="zEN-jb-G2H" secondAttribute="centerY" id="e3R-5Y-pOP"/>
+                            <constraint firstItem="zEN-jb-G2H" firstAttribute="leading" secondItem="6KV-eZ-X09" secondAttribute="leading" constant="20" id="nO2-uc-RmU"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="offerPrice" destination="qpa-6l-iRt" id="cv7-Ec-bi7"/>
+                        <outlet property="saveOfferBtn" destination="b2T-3L-poR" id="Ed7-BW-Fv8"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7rj-J0-19S" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="9251" y="2161"/>
+        </scene>
         <!--Following Feed View Controller-->
         <scene sceneID="oa7-k7-xV0">
             <objects>
@@ -2682,7 +2739,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LDc-Vw-zYn" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="9243" y="2853"/>
+            <point key="canvasLocation" x="9387" y="2943"/>
         </scene>
         <!--Edit Profile View Controller-->
         <scene sceneID="X1l-Zn-Aru">
@@ -5977,10 +6034,10 @@
     <inferredMetricsTieBreakers>
         <segue reference="xlr-H1-EYH"/>
         <segue reference="NRf-cI-JqS"/>
-        <segue reference="ncj-ht-WX7"/>
         <segue reference="f1D-EY-plH"/>
-        <segue reference="pK4-qg-eaZ"/>
+        <segue reference="QOH-0N-qqT"/>
         <segue reference="2g9-O4-duU"/>
+        <segue reference="ijV-Zs-EsV"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>
