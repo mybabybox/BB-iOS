@@ -45,18 +45,18 @@ class UserActivityViewController: CustomNavigationController {
         setCollectionViewSizesInsetsForTopView()
         
         SwiftEventBus.onMainThread(self, name: "userActivitiesSuccess") { result in
-            SwiftEventBus.unregister(self)
+            //SwiftEventBus.unregister(self)
             let resultDto: [ActivityVM] = result.object as! [ActivityVM]
             self.handleUserActivitiesData(resultDto)
         }
         
         SwiftEventBus.onMainThread(self, name: "userActivitiesFailed") { result in
-            SwiftEventBus.unregister(self)
+           // SwiftEventBus.unregister(self)
             self.view.makeToast(message: "Error getting User activities data.")
         }
         
         SwiftEventBus.onMainThread(self, name: "postByIdLoadSuccess") { result in
-            SwiftEventBus.unregister(self)
+            //SwiftEventBus.unregister(self)
             if ViewUtil.isEmptyResult(result, message: "Product not found. It may be deleted by seller.", view: self.view) {
                 return
             }
@@ -68,9 +68,8 @@ class UserActivityViewController: CustomNavigationController {
             self.navigationController?.pushViewController(vController, animated: true)
         }
         
-        SwiftEventBus.onMainThread(self, name: "postByIdLoadFailure") { result in
-            SwiftEventBus.unregister(self)
-            self.view.makeToast(message: "Error getting Post data.")
+        SwiftEventBus.onMainThread(self, name: "postByIdLoadFailed") { result in
+            self.view.makeToast(message: "Product not found. It may be deleted by seller.", duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
         }
         
         let flowLayout = UICollectionViewFlowLayout()

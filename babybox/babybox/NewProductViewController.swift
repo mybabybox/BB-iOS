@@ -232,7 +232,7 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
             let cameraViewController = ALCameraViewController(croppingEnabled: self.croppingEnabled, allowsLibraryAccess: self.libraryEnabled) { (image) -> Void in
                 if (image != nil) {
                     self.imageCollection.removeAtIndex(self.selectedIndex!)
-                    self.imageCollection.insert(image!, atIndex: self.selectedIndex!)
+                    self.imageCollection.insert(image!.retainOrientation(), atIndex: self.selectedIndex!)
                     self.collectionView.reloadData()
                     
                 }
@@ -246,7 +246,7 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
             let libraryViewController = ALCameraViewController.imagePickerViewController(self.croppingEnabled) { (image) -> Void in
                 if (image != nil) {
                     self.imageCollection.removeAtIndex(self.selectedIndex!)
-                    self.imageCollection.insert(image!, atIndex: self.selectedIndex!)
+                    self.imageCollection.insert(image!.retainOrientation(), atIndex: self.selectedIndex!)
                     self.collectionView.reloadData()
                     
                 }

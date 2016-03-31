@@ -41,6 +41,7 @@ class NotificationSettingsViewController: UIViewController {
         if (self.isMovingFromParentViewController()){
             self.backButtonPressed()
         }
+        SwiftEventBus.unregister(self)
     }
     
     //MARK:  Memory Warning method

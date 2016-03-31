@@ -181,7 +181,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         let cameraAction = UIAlertAction(title: "Camera", style: .Default, handler: {
             (alert: UIAlertAction!) -> Void in
             let cameraViewController = ALCameraViewController(croppingEnabled: self.croppingEnabled, allowsLibraryAccess: self.libraryEnabled) { (image) -> Void in
-                self.uploadImgSrc.image = image
+                self.uploadImgSrc.image = image?.retainOrientation()
                 self.dismissViewControllerAnimated(true, completion: nil)
             }
             
@@ -191,7 +191,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         let photoGalleryAction = UIAlertAction(title: "Photo Album", style: .Default, handler: {
             (alert: UIAlertAction!) -> Void in
             let libraryViewController = ALCameraViewController.imagePickerViewController(self.croppingEnabled) { (image) -> Void in
-                self.uploadImgSrc.image = image
+                self.uploadImgSrc.image = image?.retainOrientation()
                 self.dismissViewControllerAnimated(true, completion: nil)
             }
             self.presentViewController(libraryViewController, animated: true, completion: nil)
