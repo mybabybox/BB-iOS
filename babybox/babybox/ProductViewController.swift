@@ -504,7 +504,7 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
     @IBAction func onClickBuyNow(sender: AnyObject) {
         
         let vController = self.storyboard!.instantiateViewControllerWithIdentifier("MakeOfferViewController") as? MakeOfferViewController
-        vController?.productId = (self.productInfo?.id)!
+        vController?.productInfo = self.productInfo
         ViewUtil.resetBackButton(self.navigationItem)
         self.navigationController?.pushViewController(vController!, animated: true)
         

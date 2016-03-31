@@ -63,17 +63,22 @@ class ChatBubble: UIView {
             let startY: CGFloat = 10.0
             labelChatText = UILabel(frame: CGRectMake(startX, startY, CGRectGetWidth(self.frame) - 2 * startX , 5))
             labelChatText?.textAlignment = data.type == .Me ? .Right : .Left
-            labelChatText?.font = UIFont.systemFontOfSize(15)
-            labelChatText?.textColor = UIColor.blackColor()
             labelChatText?.numberOfLines = 0 // Making it multiline
             labelChatText?.text = data.text
+            if data.system {
+                labelChatText?.textColor = Color.DARK_GRAY_2
+                labelChatText?.font = UIFont.boldSystemFontOfSize(15)
+            } else {
+                labelChatText?.textColor = Color.DARK_GRAY_2
+                labelChatText?.font = UIFont.systemFontOfSize(15)
+            }
             labelChatText?.sizeToFit() // Getting fullsize of it
+            
             if (data.type == .You) {
                 messageView.addSubview(labelChatText!)
             } else {
                 self.addSubview(labelChatText!)
             }
-            
         }
         
         // 2. Drawing image if any

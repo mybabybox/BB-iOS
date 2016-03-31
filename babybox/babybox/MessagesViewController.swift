@@ -27,8 +27,11 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var uploadImgSrc: UIImageView!
     
-    var offset: Int64 = 0
     var conversation: ConversationVM? = nil
+    var offered = false
+    var offeredPrice: Double = -1
+    
+    var offset: Int64 = 0
     var selectedImage : UIImage?
     var lastChatBubbleY: CGFloat = 40.0
     var linePadding: CGFloat = 15.0
@@ -64,9 +67,13 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         sendButton.enabled = true
         SwiftEventBus.unregister(self)
         SwiftEventBus.onMainThread(self, name: "getMessagesSuccess") { result in
-            // UI thread
             let resultDto = result.object as! MessageResponseVM
             self.handleChatMessageResponse(resultDto)
+            
+            if (self.offered) {
+                self.newMessage("New offer: \(Int(self.offeredPrice))", image: nil, system: true)
+                self.reset()
+            }
         }
         
         SwiftEventBus.onMainThread(self, name: "newMessageSuccess") { result in
@@ -85,7 +92,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         ViewUtil.showActivityLoading(self.activityLoading)
         
         ApiController.instance.getMessages((self.conversation?.id)!, offset: offset)
-        offset++
+        self.offset++
         self.messageCointainerScroll.contentSize = CGSizeMake(CGRectGetWidth(messageCointainerScroll.frame), lastChatBubbleY + linePadding)
         self.addKeyboardNotifications()
         
@@ -139,45 +146,34 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         }
     }
     
-    @IBAction func sendButtonClicked(sender: AnyObject) {
-        let msgCreatDt = NSDate(timeIntervalSinceNow: NSDate().timeIntervalSinceNow / 1000.0)
-        //let bubbleData:ChatBubbleData?
+    func newMessage(message: String, image: UIImage?, system: Bool = false) {
+        let date = NSDate(timeIntervalSinceNow: NSDate().timeIntervalSinceNow / 1000.0)
         
-        
-        
-        if (self.uploadImgSrc.image == nil && (self.textField.text == nil || self.textField.text == "") ) {
-            self.view.makeToast(message: "Please enter comment")
-            return
-        }
-        
-        if (self.textField.text == nil) {
-            self.textField.text = ""
-        }
-        
-        if (self.uploadImgSrc.image == nil) {
-            bubbleData = ChatBubbleData(text: textField.text, image: nil, date: msgCreatDt, type: .Me, buyerId: -1, imageId: -1)
-            //addChatBubble(bubbleData!)
-        } else {
-            bubbleData = ChatBubbleData(text: textField.text, image: self.uploadImgSrc.image!, date: msgCreatDt, type: .Me, buyerId: -1, imageId: -1)
-            
-            //addChatBubble(bubbleData!)
-        }
-        
-        textField.resignFirstResponder()
+        self.bubbleData = ChatBubbleData(text: message, image: image, date: date, type: .Me, buyerId: -1, imageId: -1, system: system)
         
         if self.conversationViewController != nil {
             self.conversationViewController!.updateOpenedConversation = true
         }
+        
         ViewUtil.showActivityLoading(self.activityLoading)
-        if (self.uploadImgSrc.image == nil) {
-            ApiController.instance.newMessage(self.conversation!.id, message: bubbleData!.text!, imagePath: "")
-            ConversationCache.update(self.conversation!.id, successCallback: nil, failureCallback: nil)
-        } else {
-            ApiController.instance.newMessage(self.conversation!.id, message: bubbleData!.text!, imagePath: self.uploadImgSrc.image!)
-        }
         
+        ApiController.instance.newMessage(self.conversation!.id, message: message, image: image, system: system)
+        ConversationCache.update(self.conversation!.id, successCallback: nil, failureCallback: nil)
     }
+    
+    @IBAction func sendButtonClicked(sender: AnyObject) {
+        if (self.uploadImgSrc.image == nil && (self.textField.text == nil || self.textField.text == "") ) {
+            self.view.makeToast(message: "Please enter a message")
+            return
+        }
+        if (self.textField.text == nil) {
+            self.textField.text = ""
+        }
+        textField.resignFirstResponder()
         
+        newMessage(textField.text!, image: self.uploadImgSrc.image)
+    }
+    
     @IBAction func cameraButtonClicked(sender: AnyObject) {
         
         let optionMenu = UIAlertController(title: nil, message: "Take Photo:", preferredStyle: .ActionSheet)
@@ -268,6 +264,13 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         
     }
     
+    func reset() {
+        self.textField.text = ""
+        self.uploadImgSrc.image = nil
+        self.offered = false
+        self.offeredPrice = -1
+    }
+    
     //MARK: Delegates
     func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
         
@@ -300,22 +303,22 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         
         for var i = 0; i < totalMessages.count; i++ {
             let message: MessageVM = totalMessages[i]
-            let messageDt = NSDate(timeIntervalSince1970:Double(message.createdDate) / 1000.0)
+            let date = NSDate(timeIntervalSince1970:Double(message.createdDate) / 1000.0)
             if UserInfoCache.getUser()!.id == message.senderId {
                 if (message.hasImage) {
-                    let chatBubbleDataMine = ChatBubbleData(text: message.body, image: nil, date: messageDt, type: .Me, buyerId: -1, imageId: message.image)
+                    let chatBubbleDataMine = ChatBubbleData(text: message.body, image: nil, date: date, type: .Me, buyerId: -1, imageId: message.image, system: message.system)
                     addChatBubble(chatBubbleDataMine)
                 } else {
-                    let chatBubbleDataMine = ChatBubbleData(text: message.body, image: nil, date: messageDt, type: .Me, buyerId: -1, imageId: -1)
+                    let chatBubbleDataMine = ChatBubbleData(text: message.body, image: nil, date: date, type: .Me, buyerId: -1, imageId: -1, system: message.system)
                     addChatBubble(chatBubbleDataMine)
                 }
                 
             } else {
                 if (message.hasImage) {
-                    let chatBubbleDataOpponent = ChatBubbleData(text: message.body, image: nil, date: messageDt, type: .You, buyerId: message.senderId, imageId: message.image)
+                    let chatBubbleDataOpponent = ChatBubbleData(text: message.body, image: nil, date: date, type: .You, buyerId: message.senderId, imageId: message.image, system: message.system)
                     addChatBubble(chatBubbleDataOpponent)
                 } else {
-                    let chatBubbleDataOpponent = ChatBubbleData(text: message.body, image: nil, date: messageDt, type: .You, buyerId: message.senderId, imageId: -1)
+                    let chatBubbleDataOpponent = ChatBubbleData(text: message.body, image: nil, date: date, type: .You, buyerId: message.senderId, imageId: -1, system: message.system)
                     addChatBubble(chatBubbleDataOpponent)
                 }
             }
@@ -328,7 +331,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
             removeMoreMessageLoaderLayout()
         }
         
-        if (!loadMoreMessages) {
+        if (!self.loadMoreMessages) {
             self.moveToFirstMessage()
         } else {
             self.moveToLastMessage()
@@ -346,10 +349,6 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
     
     @IBAction func onClickRemoveImage(sender: AnyObject) {
         self.uploadImgSrc.image = nil
-    }
-    
-    func handleCroppedImage(notification: NSNotification) {
-        
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
@@ -379,11 +378,10 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
     }
     
     func loadMoreMessages(sender: AnyObject?) {
-        //
         ApiController.instance.getMessages((self.conversation?.id)!, offset: self.offset)
         ViewUtil.showActivityLoading(self.activityLoading)
         self.offset++
-        loadMoreMessages = true
+        self.loadMoreMessages = true
     }
     
     func scrollViewDidScroll(scrollView: UIScrollView) {

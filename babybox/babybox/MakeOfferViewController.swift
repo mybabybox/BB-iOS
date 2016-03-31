@@ -13,13 +13,15 @@ class MakeOfferViewController: UIViewController {
     @IBOutlet weak var offerPrice: UITextField!
     @IBOutlet weak var saveOfferBtn: UIButton!
     
-    var productId: Int = -1
+    var productInfo: PostVM? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         ViewUtil.displayRoundedCornerView(self.saveOfferBtn, bgColor: Color.GRAY)
         self.offerPrice.keyboardType = .NumberPad
+        self.offerPrice.placeholder = String(Int((self.productInfo!.price)))
+        self.offerPrice.text = String(Int((self.productInfo!.price)))
         self.offerPrice.becomeFirstResponder()
     }
 
@@ -29,6 +31,23 @@ class MakeOfferViewController: UIViewController {
     }
 
     @IBAction func onClickSaveBtn(sender: AnyObject) {
-        //TODO - Logic for buy now button.
+        if self.offerPrice.text!.isEmpty {
+            ViewUtil.makeToast("Please make an offer", view: self.view)
+            return
+        }
+        ConversationCache.open(self.productInfo!.id, successCallback: handleOpenConversationSuccess, failureCallback: handleError)
+    }
+    
+    func handleOpenConversationSuccess(conversation: ConversationVM) {
+        let vController = self.storyboard!.instantiateViewControllerWithIdentifier("MessagesViewController") as? MessagesViewController
+        vController?.conversation = conversation
+        vController?.offered = true
+        vController?.offeredPrice = Double(self.offerPrice.text!)!
+        ViewUtil.resetBackButton(self.navigationItem)
+        self.navigationController?.pushViewController(vController!, animated: true)
+    }
+    
+    func handleError(message: String) {
+        ViewUtil.showDialog("Error", message: message, view: self)
     }
 }

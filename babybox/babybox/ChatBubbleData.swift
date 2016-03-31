@@ -22,9 +22,10 @@ class ChatBubbleData {
     var type: BubbleDataType
     var buyerId: Int
     var imageId: Int
+    var system: Bool
     
     // 3. Initialization
-    init(text: String?,image: UIImage?,date: NSDate? , type:BubbleDataType = .Me, buyerId: Int, imageId: Int) {
+    init(text: String?,image: UIImage?,date: NSDate? , type:BubbleDataType = .Me, buyerId: Int, imageId: Int, system: Bool) {
         // Default type is Mine
         self.text = text
         self.image = image
@@ -32,5 +33,6 @@ class ChatBubbleData {
         self.type = type
         self.buyerId = buyerId
         self.imageId = imageId
+        self.system = system
     }
 }

@@ -577,11 +577,11 @@ class ApiController {
         self.makeApiCall(callEvent)
     }
 
-    func newMessage(id: Int, message: String, imagePath: AnyObject) {
-        newMessage(id, message: message, system: false, imagePath: imagePath)
+    func newMessage(id: Int, message: String, system: Bool) {
+        newMessage(id, message: message, image: nil, system: system)
     }
     
-    func newMessage(id: Int, message: String, system: Bool, imagePath: AnyObject) {
+    func newMessage(id: Int, message: String, image: UIImage?, system: Bool) {
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/message/new"
         callEvent.resultClass = "MessageVM"
@@ -593,10 +593,9 @@ class ApiController {
             .POST,
             url,
             multipartFormData: { multipartFormData in
-                if let _ = imagePath as? String {
-                } else {
+                if image != nil {
                     let index = 0
-                    let nsData = (imagePath as! UIImage).lowestQualityJPEGNSData //UIImagePNGRepresentation(imagePath as! UIImage)!
+                    let nsData = image!.lowestQualityJPEGNSData //UIImagePNGRepresentation(imagePath as! UIImage)!
                     multipartFormData.appendBodyPart(data: nsData, name:  "image\(index)", fileName: "upload.jpg", mimeType:"jpg")
                 }
                 
