@@ -49,7 +49,9 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         super.viewDidLoad()
         
         ViewUtil.showActivityLoading(self.activityLoading)
-        ViewUtil.displayRoundedCornerView(self.deletePostBtn, bgColor: Color.PINK)
+        
+        ViewUtil.displayRoundedCornerView(self.deletePostBtn, bgColor: Color.GRAY)
+        
         self.pricetxt.delegate = self
         self.pricetxt.keyboardType = .NumberPad
         
@@ -267,7 +269,7 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     
     @IBAction func deletePost(sender: AnyObject) {
         
-        let _confirmDialog = UIAlertController(title: "Warning Message", message: "Are you sure to delete?", preferredStyle: UIAlertControllerStyle.Alert)
+        let _confirmDialog = UIAlertController(title: "Delete Product", message: "Are you sure to delete?", preferredStyle: UIAlertControllerStyle.Alert)
         let okAction = UIAlertAction(title: "No", style: UIAlertActionStyle.Default, handler: nil)
         
         let confirmAction = UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction!) in

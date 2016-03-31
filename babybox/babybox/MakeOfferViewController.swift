@@ -15,11 +15,12 @@ class MakeOfferViewController: UIViewController {
     
     var productId: Int = -1
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        ViewUtil.displayRoundedCornerView(self.saveOfferBtn, bgColor: Color.PINK)
+        
+        ViewUtil.displayRoundedCornerView(self.saveOfferBtn, bgColor: Color.GRAY)
         self.offerPrice.keyboardType = .NumberPad
+        self.offerPrice.becomeFirstResponder()
     }
 
     override func didReceiveMemoryWarning() {

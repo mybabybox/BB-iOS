@@ -43,8 +43,8 @@ class LoginViewController: BaseLoginViewController, UITextFieldDelegate {
     
     @IBAction func onEmailLogin(sender: UIButton) {
         if (userNameTxt.text!.isEmpty || passwordTxt.text!.isEmpty) {
-            let _errorDialog = UIAlertController(title: "Warning Message", message: "Please Enter UserName & Password", preferredStyle: UIAlertControllerStyle.Alert)
-            let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil)
+            let _errorDialog = UIAlertController(title: "Login", message: "Please enter email & password", preferredStyle: UIAlertControllerStyle.Alert)
+            let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil)
             _errorDialog.addAction(okAction)
             self.presentViewController(_errorDialog, animated: true, completion: nil)
         }
