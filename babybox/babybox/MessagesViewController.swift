@@ -280,6 +280,11 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
     
     func handleChatMessageResponse(result: MessageResponseVM) {
         
+        if (result.messages.isEmpty) {
+            ViewUtil.hideActivityLoading(self.activityLoading)
+            return
+        }
+        
         lastItemPosition = result.messages.count
         
         for uiView in self.messageCointainerScroll.subviews {
