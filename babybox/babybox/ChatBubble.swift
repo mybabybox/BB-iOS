@@ -28,7 +28,7 @@ class ChatBubble: UIView {
         if (data.type == .Me) {
             self.backgroundColor = Color.CHAT_ME
         } else {
-            self.backgroundColor = Color.CHAT_YOU
+            //self.backgroundColor = Color.CHAT_YOU
         }
         self.layer.cornerRadius = 10
         
@@ -49,7 +49,7 @@ class ChatBubble: UIView {
         
         let messageView: UIView = UIView(frame: CGRectMake(startX, 0, self.frame.width, self.frame.height))
         if (data.type == .You) {
-            messageView.backgroundColor = Color.WHITE
+            messageView.backgroundColor = Color.CHAT_YOU
             messageView.layer.cornerRadius = 10
             ViewUtil.displayMessageView(messageView)
             self.addSubview(messageView)
@@ -191,7 +191,7 @@ class ChatBubble: UIView {
             // Need to maintain the minimum left side padding from the left edge of the screen
             newStartX = -CGRectGetMinX(imageViewBG!.frame) + 3.0
         }
-        messageView.frame = CGRectMake(30, 0, CGRectGetWidth(frame), CGRectGetHeight(frame))
+        messageView.frame = CGRectMake(45, 0, CGRectGetWidth(frame), CGRectGetHeight(frame))
         self.frame = CGRectMake(newStartX, CGRectGetMinY(self.frame), CGRectGetWidth(frame), CGRectGetHeight(frame))
         
     }
