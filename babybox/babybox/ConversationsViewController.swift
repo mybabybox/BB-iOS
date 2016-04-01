@@ -16,7 +16,7 @@ class ConversationsViewController: UIViewController {
     @IBOutlet weak var tipText: UILabel!
     
     var userId: Int = 0
-    var currentIndex: Int = 0
+    var currentIndex: NSIndexPath?
     var viewCellIdentifier: String = "conversationsCollectionViewCell"
     var myDate: NSDate = NSDate()
     var collectionViewCellSize : CGSize?
@@ -32,6 +32,10 @@ class ConversationsViewController: UIViewController {
     override func viewDidAppear(animated: Bool) {
         if self.updateOpenedConversation && ConversationCache.openedConversation != nil {
             ConversationCache.update(ConversationCache.openedConversation!.id, successCallback: handleUpdateConversationSuccess, failureCallback: nil)
+        }
+        if (currentIndex != nil) {
+            self.conversatioTableView.reloadRowsAtIndexPaths([currentIndex!], withRowAnimation: UITableViewRowAnimation.Automatic)
+            currentIndex = nil
         }
         self.updateOpenedConversation = false
         self.myDate = NSDate()
@@ -109,15 +113,19 @@ class ConversationsViewController: UIViewController {
         cell.layer.borderColor = UIColor.clearColor().CGColor
         cell.layer.backgroundColor = UIColor.clearColor().CGColor
         
-        if(item.unread > 0) {
-            //cell.unreadComments.layer.cornerRadius = cell.unreadComments.frame.height / 2
-            //cell.unreadComments.layer.masksToBounds = true
-            ViewUtil.displayCircularView(cell.unreadComments)
-            cell.unreadComments.backgroundColor = Color.RED
-            cell.layer.borderColor = Color.PINK.CGColor
-            cell.layer.backgroundColor = Color.LIGHT_PING_3.CGColor
-            cell.unreadComments.hidden = false
+        if (currentIndex != nil) {
+        } else {
+            if(item.unread > 0) {
+                //cell.unreadComments.layer.cornerRadius = cell.unreadComments.frame.height / 2
+                //cell.unreadComments.layer.masksToBounds = true
+                ViewUtil.displayCircularView(cell.unreadComments)
+                cell.unreadComments.backgroundColor = Color.RED
+                cell.layer.borderColor = Color.PINK.CGColor
+                cell.layer.backgroundColor = Color.LIGHT_PING_3.CGColor
+                cell.unreadComments.hidden = false
+            }
         }
+        
         cell.comment.text = NSDate(timeIntervalSince1970:Double(item.lastMessageDate) / 1000.0).timeAgo
         ImageUtil.displayPostImage(ConversationCache.conversations[indexPath.row].postImage, imageView: cell.productImage)
         ImageUtil.displayThumbnailProfileImage(ConversationCache.conversations[indexPath.row].userId, imageView: cell.postImage)
@@ -138,6 +146,7 @@ class ConversationsViewController: UIViewController {
         vController?.conversationViewController = self
         ViewUtil.resetBackButton(self.navigationItem)
         ConversationCache.openedConversation = conversation
+        self.currentIndex = indexPath
         self.navigationController?.pushViewController(vController!, animated: true)
         
     }
