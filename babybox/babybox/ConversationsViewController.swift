@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import SwiftEventBus
 
-class ConversationsViewController: UIViewController, UIGestureRecognizerDelegate {
+class ConversationsViewController: UIViewController {
 
     @IBOutlet weak var conversatioTableView: UITableView!
     @IBOutlet weak var tipText: UILabel!
@@ -26,8 +26,6 @@ class ConversationsViewController: UIViewController, UIGestureRecognizerDelegate
     var updateOpenedConversation = false
     var deleteCellIndex: NSIndexPath?
     var refreshControl = UIRefreshControl()
-    
-    @IBOutlet weak var collectionView: UICollectionView!
     
     @IBOutlet weak var activityLoading: UIActivityIndicatorView!
     
@@ -51,13 +49,6 @@ class ConversationsViewController: UIViewController, UIGestureRecognizerDelegate
         self.navigationItem.title = "Chats"
         let titleDict: NSDictionary = [NSForegroundColorAttributeName: Color.WHITE]
         self.navigationController!.navigationBar.titleTextAttributes = titleDict as? [String : AnyObject]
-        self.setCollectionViewCellSize()
-        
-        let lpgr : UILongPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: "handleLongPress:")
-        lpgr.minimumPressDuration = 0.2
-        lpgr.delegate = self
-        lpgr.delaysTouchesBegan = true
-        self.collectionView?.addGestureRecognizer(lpgr)
         
         ViewUtil.showActivityLoading(self.activityLoading)
         
@@ -69,16 +60,15 @@ class ConversationsViewController: UIViewController, UIGestureRecognizerDelegate
         self.refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
         self.conversatioTableView.addSubview(refreshControl)
         
-        self.collectionView.addPullToRefresh({ [weak self] in
-            self!.reload()
-        })
         self.conversatioTableView.separatorColor = Color.LIGHT_GRAY
         self.conversatioTableView.separatorStyle = .SingleLine
     }
+    
     func refresh(sender:AnyObject) {
         offset = 0
         ConversationCache.load(offset, successCallback: handleGetConversationsSuccess, failureCallback: handleError)
     }
+    
     override func viewDidDisappear(animated: Bool) {
         NotificationCounter.mInstance.refresh(handleNotificationSuccess, failureCallback: handleNotificationError)
         SwiftEventBus.unregister(self)
@@ -168,9 +158,7 @@ class ConversationsViewController: UIViewController, UIGestureRecognizerDelegate
     
     func handleDeleteConversation(alertAction: UIAlertAction!) -> Void {
         if let indexPath = deleteCellIndex {
-            //self.conversatioTableView.beginUpdates()
             ConversationCache.delete(ConversationCache.conversations[indexPath.row].id, successCallback: deleteConversationHandler, failureCallback: deleteConversationError)
-            //self.conversatioTableView.endUpdates()
         }
     }
     
@@ -178,70 +166,8 @@ class ConversationsViewController: UIViewController, UIGestureRecognizerDelegate
         deleteCellIndex = nil
     }
     
-    
-    
-    //MARK: UICollectionViewDataSource
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        return 1
-    }
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return ConversationCache.conversations.count
-    }
-    
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(viewCellIdentifier, forIndexPath: indexPath) as! ConversationsCollectionViewCell
-        
-        
-        if ConversationCache.conversations.isEmpty {
-            return cell
-        }
-        
-        let item = ConversationCache.conversations[indexPath.row]
-        cell.productTitle.text = item.postTitle
-        cell.userDisplayName.text = item.userName
-        cell.contentMode = .Redraw
-        cell.userComment.numberOfLines = 0
-        cell.userComment.text = item.lastMessage
-        cell.userComment.sizeToFit()
-        if (item.postSold) {
-            cell.soldText.hidden = !item.postSold
-        } else {
-            cell.BuyText.hidden = item.postOwner
-            cell.SellText.hidden = !item.postOwner
-        }
-        
-        cell.comment.text = NSDate(timeIntervalSince1970:Double(item.lastMessageDate) / 1000.0).timeAgo
-        ImageUtil.displayPostImage(ConversationCache.conversations[indexPath.row].postImage, imageView: cell.productImage)
-        ImageUtil.displayThumbnailProfileImage(ConversationCache.conversations[indexPath.row].userId, imageView: cell.postImage)
-        
-        let cSelector = Selector("removeCell:")
-        let UpSwipe = UISwipeGestureRecognizer(target: self, action: cSelector)
-        UpSwipe.direction = UISwipeGestureRecognizerDirection.Left
-        cell.addGestureRecognizer(UpSwipe)
-        
-        return cell
-    }
-    
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        return collectionViewCellSize!
-    }
-    
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        //self.currentIndex = indexPath.row
-        //self.performSegueWithIdentifier("showConversationsDetails", sender: nil)
-        
-        let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("MessagesViewController") as? MessagesViewController
-        let conversation = ConversationCache.conversations[indexPath.row]
-        vController?.conversation = conversation
-        vController?.conversationViewController = self
-        ViewUtil.resetBackButton(self.navigationItem)
-        ConversationCache.openedConversation = conversation
-        self.navigationController?.pushViewController(vController!, animated: true)
-    }
-    
     func handleGetConversationsSuccess(conversations: [ConversationVM]) {
         if (!conversations.isEmpty) {
-            //self.collectionView.reloadData()
             self.conversatioTableView.reloadData()
         } else {
             loadedAll = true
@@ -251,14 +177,9 @@ class ConversationsViewController: UIViewController, UIGestureRecognizerDelegate
         
         if (ConversationCache.conversations.count <= 0) {
             self.tipText.hidden = false
-            //self.collectionView.hidden = true
             self.conversatioTableView.hidden = true
         }
         
-    }
-    
-    func setCollectionViewCellSize() {
-        collectionViewCellSize = CGSizeMake(self.view.bounds.width, 80)
     }
     
     // MARK: UIScrollview Delegate
@@ -269,30 +190,12 @@ class ConversationsViewController: UIViewController, UIGestureRecognizerDelegate
                 ViewUtil.showActivityLoading(self.activityLoading)
                 loading = true
                 if (!ConversationCache.conversations.isEmpty) {
-                    offset = offset + 1 //Int64(self.conversations[self.conversations.count-1].unread)
+                    offset = offset + 1
                 }
                 
                 ConversationCache.load(offset, successCallback: handleGetConversationsSuccess, failureCallback: handleError)
             }
         }
-    }
-    
-    func handleLongPress(gestureRecognizer : UILongPressGestureRecognizer){
-        
-        if (gestureRecognizer.state != UIGestureRecognizerState.Ended){
-            return
-        }
-        
-        let p = gestureRecognizer.locationInView(self.collectionView)
-        
-        if let indexPath : NSIndexPath = (self.collectionView?.indexPathForItemAtPoint(p))!{
-            //do whatever you need to do
-            print("--")
-            let cell = self.collectionView?.cellForItemAtIndexPath(indexPath)
-            cell!.layer.borderWidth = 1.0
-            cell!.layer.borderColor = Color.PINK.CGColor
-        }
-        
     }
     
     func clear() {
@@ -319,17 +222,6 @@ class ConversationsViewController: UIViewController, UIGestureRecognizerDelegate
     
     func handleNotificationError(message: String) {
         NSLog(message)
-    }
-    
-    func removeCell(sender: UISwipeGestureRecognizer) {
-        /*let cell = sender.view as! UICollectionViewCell
-        let i = self.collectionView.indexPathForCell(cell)!.item
-        
-        ConversationCache.delete(ConversationCache.conversations[i].id, successCallback: deleteConversationHandler, failureCallback: deleteConversationError)
-        if (ConversationCache.conversations.count <= 0) {
-            self.tipText.hidden = false
-            self.collectionView.hidden = true
-        }*/
     }
     
     func deleteConversationHandler(responseString: String) {
