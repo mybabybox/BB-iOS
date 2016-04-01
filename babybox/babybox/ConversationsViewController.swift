@@ -129,11 +129,6 @@ class ConversationsViewController: UIViewController {
         ImageUtil.displayPostImage(ConversationCache.conversations[indexPath.row].postImage, imageView: cell.productImage)
         ImageUtil.displayThumbnailProfileImage(ConversationCache.conversations[indexPath.row].userId, imageView: cell.postImage)
         
-        let cSelector = Selector("removeCell:")
-        let UpSwipe = UISwipeGestureRecognizer(target: self, action: cSelector)
-        UpSwipe.direction = UISwipeGestureRecognizerDirection.Left
-        cell.addGestureRecognizer(UpSwipe)
-        
         return cell
     }
     
