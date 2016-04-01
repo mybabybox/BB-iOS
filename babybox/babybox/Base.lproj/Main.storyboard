@@ -4511,19 +4511,8 @@
                                             <action selector="sendButtonClicked:" destination="89W-J0-Agh" eventType="touchUpInside" id="9lz-rO-Mlo"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O5P-8A-Ykc">
-                                        <rect key="frame" x="22" y="2" width="20" height="20"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="20" id="cPD-K6-oO4"/>
-                                            <constraint firstAttribute="width" constant="20" id="wU1-Xw-2bl"/>
-                                        </constraints>
-                                        <state key="normal" title="Button" image="close"/>
-                                        <connections>
-                                            <action selector="onClickRemoveImage:" destination="89W-J0-Agh" eventType="touchUpInside" id="SSc-97-Qeh"/>
-                                        </connections>
-                                    </button>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="8ws-wO-QRr">
-                                        <rect key="frame" x="90" y="0.0" width="25" height="25"/>
+                                        <rect key="frame" x="46" y="0.0" width="25" height="25"/>
                                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="25" id="7EI-si-cqp"/>
@@ -4538,13 +4527,11 @@
                                     <constraint firstAttribute="height" constant="66" id="505-5n-0TS"/>
                                     <constraint firstItem="8ws-wO-QRr" firstAttribute="leading" secondItem="4PG-YE-pS2" secondAttribute="trailing" constant="8" id="944-Tf-T0r"/>
                                     <constraint firstAttribute="trailing" secondItem="od8-i0-Cxw" secondAttribute="trailing" constant="5" id="Cln-Bv-f2y"/>
-                                    <constraint firstItem="8yU-fu-6uV" firstAttribute="top" secondItem="O5P-8A-Ykc" secondAttribute="bottom" constant="6" id="DHq-iO-mOs"/>
                                     <constraint firstItem="od8-i0-Cxw" firstAttribute="leading" secondItem="8yU-fu-6uV" secondAttribute="trailing" constant="5" id="Eyd-ob-ktE"/>
                                     <constraint firstItem="8yU-fu-6uV" firstAttribute="top" secondItem="8ws-wO-QRr" secondAttribute="bottom" constant="3" id="JMA-KP-VE4"/>
-                                    <constraint firstItem="O5P-8A-Ykc" firstAttribute="leading" secondItem="8yU-fu-6uV" secondAttribute="leading" constant="14" id="RcO-bS-ah2"/>
                                     <constraint firstItem="8yU-fu-6uV" firstAttribute="leading" secondItem="9LA-QQ-qMg" secondAttribute="leading" constant="8" id="WDb-bM-sAu"/>
                                     <constraint firstItem="4PG-YE-pS2" firstAttribute="top" secondItem="8ws-wO-QRr" secondAttribute="top" constant="-2" id="YiM-Dg-yNS"/>
-                                    <constraint firstItem="4PG-YE-pS2" firstAttribute="leading" secondItem="O5P-8A-Ykc" secondAttribute="trailing" constant="10" id="ZFx-Ae-1h9"/>
+                                    <constraint firstItem="4PG-YE-pS2" firstAttribute="leading" secondItem="8yU-fu-6uV" secondAttribute="leading" id="rdN-pI-Jtc"/>
                                     <constraint firstAttribute="centerY" secondItem="8yU-fu-6uV" secondAttribute="centerY" constant="-10" id="sox-2B-cT0"/>
                                 </constraints>
                             </view>
@@ -5962,7 +5949,6 @@
         <image name="actionbar_bg_pink" width="10" height="72"/>
         <image name="arrow_next" width="32" height="32"/>
         <image name="browse" width="70" height="64"/>
-        <image name="close" width="68" height="72"/>
         <image name="dash_line" width="432" height="12"/>
         <image name="dollar" width="64" height="64"/>
         <image name="ic_accept" width="80" height="80"/>
