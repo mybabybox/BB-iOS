@@ -20,7 +20,7 @@ class ConversationVM: BaseArgVM {
     var userName: String = ""
     var lastMessageDate: Double = 0
     var lastMessage: String = ""
-    var lastMessageHasImage: Bool?
+    var lastMessageHasImage: Bool = false
     var unread: Int = 0
     var order: ConversationOrderVM? = nil
     
