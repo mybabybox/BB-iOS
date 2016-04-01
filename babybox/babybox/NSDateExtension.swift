@@ -88,9 +88,9 @@ extension NSDate {
         
         if components.year > 0 {
             if components.year < 2 {
-                return "Last year"
+                return "Last yr"
             } else {
-                return stringFromFormat("years ago", withValue: components.year)
+                return stringFromFormat("yrs ago", withValue: components.year)
             }
         }
         
@@ -122,15 +122,15 @@ extension NSDate {
         
         if components.hour > 0 {
             if components.hour < 2 {
-                return "An hour ago"
+                return "An hr ago"
             } else  {
-                return stringFromFormat("hours ago", withValue: components.hour)
+                return stringFromFormat("hrs ago", withValue: components.hour)
             }
         }
         
         if components.minute > 0 {
             if components.minute < 2 {
-                return "1min ago"
+                return "1 min ago"
             } else {
                 return stringFromFormat("mins ago", withValue: components.minute)
             }
@@ -140,7 +140,7 @@ extension NSDate {
             if components.second < 5 {
                 return "moments ago"
             } else {
-                return stringFromFormat("seconds ago", withValue: components.second)
+                return stringFromFormat("secs ago", withValue: components.second)
                 //return String(components.second + " seconds ago"
             }
         }

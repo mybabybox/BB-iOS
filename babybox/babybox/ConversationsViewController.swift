@@ -96,12 +96,12 @@ class ConversationsViewController: UIViewController {
         cell.userComment.numberOfLines = 0
         cell.userComment.text = item.lastMessage
         cell.userComment.sizeToFit()
-        if (item.postSold) {
-            cell.soldText.hidden = !item.postSold
-        } else {
-            cell.BuyText.hidden = item.postOwner
-            cell.SellText.hidden = !item.postOwner
-        }
+        
+        // buy sell sold tag
+        cell.soldText.hidden = !item.postSold
+        cell.BuyText.hidden = !item.postSold && item.postOwner
+        cell.SellText.hidden = !item.postSold && !item.postOwner
+        
         cell.photoLayout.hidden = !item.lastMessageHasImage
         cell.unreadComments.text = String(item.unread)
         if(item.unread > 0) {

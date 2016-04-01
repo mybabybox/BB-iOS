@@ -72,20 +72,20 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
             
             if (self.offered) {
                 self.newMessage("New offer: \(Int(self.offeredPrice))", image: nil, system: true)
-                self.reset()
             }
         }
         
         SwiftEventBus.onMainThread(self, name: "newMessageSuccess") { result in
-            self.uploadImgSrc.image = nil
             ViewUtil.hideActivityLoading(self.activityLoading)
             self.addChatBubble(self.bubbleData!)
             self.moveToFirstMessage()
+            self.reset()
         }
         
         SwiftEventBus.onMainThread(self, name: "newMessageFailed") { result in
             ViewUtil.hideActivityLoading(self.activityLoading)
             self.view.makeToast(message: "Error upload message")
+            self.reset()
         }
         
         ViewUtil.showActivityLoading(self.activityLoading)

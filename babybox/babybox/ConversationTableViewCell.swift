@@ -21,6 +21,7 @@ class ConversationTableViewCell: UITableViewCell {
     @IBOutlet weak var SellText: UILabel!
     @IBOutlet weak var BuyText: UILabel!
     @IBOutlet weak var soldText: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
