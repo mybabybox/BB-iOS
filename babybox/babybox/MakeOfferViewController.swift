@@ -44,7 +44,16 @@ class MakeOfferViewController: UIViewController {
         vController?.offered = true
         vController?.offeredPrice = Double(self.offerPrice.text!)!
         ViewUtil.resetBackButton(self.navigationItem)
+        
         self.navigationController?.pushViewController(vController!, animated: true)
+        
+	//remove this VC from navigation controller heirarchy to restrict user to come back to this VC when click on 
+        //back button of next screen.
+	
+        var navControllers = self.navigationController?.viewControllers
+        navControllers?.removeAtIndex((navControllers?.count)! - 2)
+        self.navigationController?.viewControllers = navControllers!
+        
     }
     
     func handleError(message: String) {

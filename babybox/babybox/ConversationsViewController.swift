@@ -196,7 +196,8 @@ class ConversationsViewController: UIViewController {
         if (ConversationCache.conversations.count <= 0) {
             self.tipText.hidden = false
             self.conversationTableView.hidden = true
-        }   
+        }
+        self.refreshControl.endRefreshing()
     }
     
     // MARK: UIScrollview Delegate
