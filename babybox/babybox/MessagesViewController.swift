@@ -50,7 +50,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
     static var instance: MessagesViewController?
     
     override func viewDidDisappear(animated: Bool) {
-        SwiftEventBus.unregister(self)
+        //SwiftEventBus.unregister(self)
     }
     
     override func viewDidLoad() {
@@ -65,7 +65,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         self.navigationController!.navigationBar.titleTextAttributes = titleDict as? [String : AnyObject]
         
         sendButton.enabled = true
-        SwiftEventBus.unregister(self)
+        
         SwiftEventBus.onMainThread(self, name: "getMessagesSuccess") { result in
             let resultDto = result.object as! MessageResponseVM
             self.handleChatMessageResponse(resultDto)
@@ -77,9 +77,11 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         
         SwiftEventBus.onMainThread(self, name: "newMessageSuccess") { result in
             ViewUtil.hideActivityLoading(self.activityLoading)
-            self.addChatBubble(self.bubbleData!)
-            self.moveToFirstMessage()
-            self.reset()
+            if (self.bubbleData != nil) {
+                self.addChatBubble(self.bubbleData!)
+                self.moveToFirstMessage()
+                self.reset()
+            }
         }
         
         SwiftEventBus.onMainThread(self, name: "newMessageFailed") { result in

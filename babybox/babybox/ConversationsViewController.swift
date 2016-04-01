@@ -104,9 +104,19 @@ class ConversationsViewController: UIViewController {
         
         cell.photoLayout.hidden = !item.lastMessageHasImage
         cell.unreadComments.text = String(item.unread)
+        
+        cell.unreadComments.hidden = true
+        cell.layer.borderColor = UIColor.clearColor().CGColor
+        cell.layer.backgroundColor = UIColor.clearColor().CGColor
+        
         if(item.unread > 0) {
+            //cell.unreadComments.layer.cornerRadius = cell.unreadComments.frame.height / 2
+            //cell.unreadComments.layer.masksToBounds = true
+            ViewUtil.displayCircularView(cell.unreadComments)
             cell.unreadComments.backgroundColor = Color.RED
             cell.layer.borderColor = Color.PINK.CGColor
+            cell.layer.backgroundColor = Color.LIGHT_PING_3.CGColor
+            cell.unreadComments.hidden = false
         }
         cell.comment.text = NSDate(timeIntervalSince1970:Double(item.lastMessageDate) / 1000.0).timeAgo
         ImageUtil.displayPostImage(ConversationCache.conversations[indexPath.row].postImage, imageView: cell.productImage)
