@@ -373,7 +373,10 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
     }
     
     func removeMoreMessageLoaderLayout() {
-       self.messageCointainerScroll.subviews[0].removeFromSuperview()
+        let firstSubView = self.messageCointainerScroll.subviews[0]
+        if (firstSubView.isKindOfClass(UIButton)) {
+            firstSubView.removeFromSuperview()
+        }
     }
     
     func loadMoreMessages(sender: AnyObject?) {
