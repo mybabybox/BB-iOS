@@ -3297,11 +3297,11 @@
                         <viewControllerLayoutGuide type="bottom" id="awR-cA-oQ0"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="NnA-yH-70c">
-                        <rect key="frame" x="0.0" y="64" width="414" height="672"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="80Z-ha-zQ3">
-                                <rect key="frame" x="5" y="0.0" width="404" height="672"/>
+                                <rect key="frame" x="5" y="0.0" width="404" height="736"/>
                                 <color key="backgroundColor" red="0.92870107319999995" green="0.92870107319999995" blue="0.92870107319999995" alpha="1" colorSpace="calibratedRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="5" id="ZIa-wx-WkQ">
                                     <size key="itemSize" width="129" height="169"/>
@@ -3642,7 +3642,7 @@
                                 </connections>
                             </collectionView>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="gYo-Xm-QDB">
-                                <rect key="frame" x="189" y="318" width="37" height="37"/>
+                                <rect key="frame" x="189" y="350" width="37" height="37"/>
                                 <color key="color" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
                         </subviews>
@@ -4198,7 +4198,7 @@
                                 <rect key="frame" x="0.0" y="691" width="414" height="45"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MAl-Vl-UxH">
-                                        <rect key="frame" x="10" y="3" width="25" height="25"/>
+                                        <rect key="frame" x="15" y="3" width="25" height="25"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="25" id="hKZ-Pw-cXl"/>
                                             <constraint firstAttribute="width" constant="25" id="wfy-8g-qtF"/>
@@ -4213,7 +4213,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v1O-yZ-GQ6">
-                                        <rect key="frame" x="9" y="28" width="30" height="15"/>
+                                        <rect key="frame" x="12.5" y="28" width="30" height="15"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="15" id="gf3-er-7cb"/>
                                         </constraints>
@@ -4227,10 +4227,10 @@
                                         </connections>
                                     </button>
                                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Aa9-0c-Zz6" userLabel="buyerSoldButtonsLayout">
-                                        <rect key="frame" x="50" y="0.0" width="364" height="45"/>
+                                        <rect key="frame" x="55" y="0.0" width="359" height="45"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sold" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dhi-iI-zhs" userLabel="SoldText">
-                                                <rect key="frame" x="0.0" y="0.0" width="364" height="45"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="359" height="45"/>
                                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -4246,10 +4246,10 @@
                                         </constraints>
                                     </view>
                                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4fM-kR-mov" userLabel="sellerSoldButtonsLayout">
-                                        <rect key="frame" x="50" y="0.0" width="364" height="45"/>
+                                        <rect key="frame" x="55" y="0.0" width="359" height="45"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZAD-pW-leU">
-                                                <rect key="frame" x="0.0" y="0.0" width="364" height="45"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="359" height="45"/>
                                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                                 <state key="normal" title="Sold - View Chats"/>
@@ -4267,10 +4267,10 @@
                                         </constraints>
                                     </view>
                                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ADg-Zg-gNb" userLabel="sellerButtonsLayout">
-                                        <rect key="frame" x="50" y="0.0" width="364" height="45"/>
+                                        <rect key="frame" x="55" y="0.0" width="359" height="45"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="COA-Pb-bQ8">
-                                                <rect key="frame" x="0.0" y="0.0" width="182" height="45"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="179.5" height="45"/>
                                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                 <state key="normal" title="View Chats"/>
                                                 <connections>
@@ -4278,7 +4278,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N1m-Yk-Qrt">
-                                                <rect key="frame" x="182" y="0.0" width="182" height="45"/>
+                                                <rect key="frame" x="179.5" y="0.0" width="179.5" height="45"/>
                                                 <color key="backgroundColor" red="0.031372549020000001" green="0.71764705880000002" blue="0.1058823529" alpha="1" colorSpace="calibratedRGB"/>
                                                 <state key="normal" title="Mark as Sold"/>
                                                 <connections>
@@ -4299,10 +4299,10 @@
                                         </constraints>
                                     </view>
                                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1IZ-SP-2w1" userLabel="buyerButtonsLayout">
-                                        <rect key="frame" x="50" y="0.0" width="364" height="45"/>
+                                        <rect key="frame" x="55" y="0.0" width="359" height="45"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XSw-fb-wAp" userLabel="BuyNow Btn">
-                                                <rect key="frame" x="182" y="0.0" width="182" height="45"/>
+                                                <rect key="frame" x="179.5" y="0.0" width="179.5" height="45"/>
                                                 <color key="backgroundColor" red="1" green="0.46274509800000002" blue="0.64313725489999995" alpha="1" colorSpace="calibratedRGB"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <state key="normal" title="Buy Now">
@@ -4313,7 +4313,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uJg-Os-pQA" userLabel="Chat Btn">
-                                                <rect key="frame" x="0.0" y="0.0" width="182" height="45"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="179.5" height="45"/>
                                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <state key="normal" title="Chat">
@@ -4351,10 +4351,10 @@
                                     <constraint firstItem="ADg-Zg-gNb" firstAttribute="bottom" secondItem="1IZ-SP-2w1" secondAttribute="bottom" id="TS6-LH-sZE"/>
                                     <constraint firstItem="1IZ-SP-2w1" firstAttribute="leading" secondItem="MAl-Vl-UxH" secondAttribute="trailing" constant="15" id="Zcw-KE-Q3p"/>
                                     <constraint firstAttribute="bottom" secondItem="1IZ-SP-2w1" secondAttribute="bottom" id="cDk-Lu-Xfa"/>
-                                    <constraint firstItem="v1O-yZ-GQ6" firstAttribute="centerX" secondItem="MAl-Vl-UxH" secondAttribute="centerX" constant="1.5" id="ded-6L-I8T"/>
+                                    <constraint firstItem="v1O-yZ-GQ6" firstAttribute="centerX" secondItem="MAl-Vl-UxH" secondAttribute="centerX" id="ded-6L-I8T"/>
                                     <constraint firstItem="ADg-Zg-gNb" firstAttribute="top" secondItem="1IZ-SP-2w1" secondAttribute="top" id="ea9-Fu-ucX"/>
                                     <constraint firstItem="ADg-Zg-gNb" firstAttribute="leading" secondItem="1IZ-SP-2w1" secondAttribute="leading" id="fIl-32-ipZ"/>
-                                    <constraint firstItem="MAl-Vl-UxH" firstAttribute="leading" secondItem="rBo-hQ-nNA" secondAttribute="leading" constant="10" id="gBF-8C-gKH"/>
+                                    <constraint firstItem="MAl-Vl-UxH" firstAttribute="leading" secondItem="rBo-hQ-nNA" secondAttribute="leading" constant="15" id="gBF-8C-gKH"/>
                                     <constraint firstAttribute="bottom" secondItem="v1O-yZ-GQ6" secondAttribute="bottom" constant="2" id="mDH-ue-Z0i"/>
                                     <constraint firstItem="MAl-Vl-UxH" firstAttribute="top" secondItem="rBo-hQ-nNA" secondAttribute="top" constant="3" id="mdB-l8-Tyn"/>
                                     <constraint firstItem="4fM-kR-mov" firstAttribute="trailing" secondItem="1IZ-SP-2w1" secondAttribute="trailing" id="rLx-aP-bdP"/>
@@ -4471,7 +4471,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9LA-QQ-qMg">
                                 <rect key="frame" x="4" y="670" width="406" height="66"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4PG-YE-pS2">
+                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4PG-YE-pS2">
                                         <rect key="frame" x="52" y="-2" width="30" height="28"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="30" id="8Hs-ML-zys"/>
@@ -5974,9 +5974,9 @@
     <inferredMetricsTieBreakers>
         <segue reference="xlr-H1-EYH"/>
         <segue reference="NRf-cI-JqS"/>
-        <segue reference="ncj-ht-WX7"/>
         <segue reference="f1D-EY-plH"/>
         <segue reference="QOH-0N-qqT"/>
+        <segue reference="ijV-Zs-EsV"/>
         <segue reference="2g9-O4-duU"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

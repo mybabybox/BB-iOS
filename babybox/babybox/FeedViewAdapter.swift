@@ -22,6 +22,8 @@ class FeedViewAdapter {
     
     func bindViewCell(cell: FeedProductCollectionViewCell, feedItem: PostVMLite, index: Int, showOwner: Bool) -> FeedProductCollectionViewCell {
         
+        cell.title.font = UIFont.boldSystemFontOfSize(14)
+        cell.title.textColor = Color.GRAY
         cell.title.text = feedItem.title
         
         // load image
@@ -31,6 +33,9 @@ class FeedViewAdapter {
         
         // sold tag
         cell.soldImage.hidden = !feedItem.sold
+        
+        // like count
+        cell.likeCountIns.titleLabel?.font = UIFont.systemFontOfSize(13)
         cell.likeCountIns.setTitle(String(feedItem.numLikes), forState: UIControlState.Normal)
 
         // liked?
@@ -43,7 +48,8 @@ class FeedViewAdapter {
         }
 
         // price
-        cell.productPrice.text = "\(Constants.CURRENCY_SYMBOL) \(String(stringInterpolationSegment: Int(feedItem.price)))"
+        cell.productPrice.font = UIFont.systemFontOfSize(13)
+        cell.productPrice.text = "\(Constants.CURRENCY_SYMBOL)\(String(stringInterpolationSegment: Int(feedItem.price)))"
         if (feedItem.originalPrice != 0 && feedItem.originalPrice != -1 && feedItem.originalPrice != Int(feedItem.price)) {
             let attrString = NSAttributedString(string: "\(Constants.CURRENCY_SYMBOL) \(String(stringInterpolationSegment:Int(feedItem.originalPrice)))", attributes: [NSStrikethroughStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue])
             cell.originalPrice.attributedText = attrString
@@ -61,7 +67,7 @@ class FeedViewAdapter {
             ImageUtil.displayThumbnailProfileImage(feedItem.ownerId, imageView: cell.userCircleImg)
         }
         
-        cell.layer.cornerRadius = 5
+        cell.layer.cornerRadius = 7
         return cell
     }
 
