@@ -502,12 +502,10 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
     }
     
     @IBAction func onClickBuyNow(sender: AnyObject) {
-        
-        let vController = self.storyboard!.instantiateViewControllerWithIdentifier("MakeOfferViewController") as? MakeOfferViewController
-        vController?.productInfo = self.productInfo
+        let vController = self.storyboard!.instantiateViewControllerWithIdentifier("MakeOfferViewController") as! MakeOfferViewController
+        vController.productInfo = self.productInfo
         ViewUtil.resetBackButton(self.navigationItem)
-        self.navigationController?.pushViewController(vController!, animated: true)
-        
+        self.navigationController?.pushViewController(vController, animated: true)
     }
     
     @IBAction func onClickChatNow(sender: AnyObject) {
@@ -531,10 +529,10 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
     }
     
     func handleOpenConversationSuccess(conversation: ConversationVM) {
-        let vController = self.storyboard!.instantiateViewControllerWithIdentifier("MessagesViewController") as? MessagesViewController
-        vController?.conversation = conversation
+        let vController = self.storyboard!.instantiateViewControllerWithIdentifier("MessagesViewController") as! MessagesViewController
+        vController.conversation = conversation
         ViewUtil.resetBackButton(self.navigationItem)
-        self.navigationController?.pushViewController(vController!, animated: true)
+        self.navigationController?.pushViewController(vController, animated: true)
     }
     
     func handleError(message: String) {

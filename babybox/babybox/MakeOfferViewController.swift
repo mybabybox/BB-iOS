@@ -39,21 +39,12 @@ class MakeOfferViewController: UIViewController {
     }
     
     func handleOpenConversationSuccess(conversation: ConversationVM) {
-        let vController = self.storyboard!.instantiateViewControllerWithIdentifier("MessagesViewController") as? MessagesViewController
-        vController?.conversation = conversation
-        vController?.offered = true
-        vController?.offeredPrice = Double(self.offerPrice.text!)!
+        let vController = self.storyboard!.instantiateViewControllerWithIdentifier("MessagesViewController") as! MessagesViewController
+        vController.conversation = conversation
+        vController.offered = true
+        vController.offeredPrice = Double(self.offerPrice.text!)!
         ViewUtil.resetBackButton(self.navigationItem)
-        
-        self.navigationController?.pushViewController(vController!, animated: true)
-        
-	//remove this VC from navigation controller heirarchy to restrict user to come back to this VC when click on 
-        //back button of next screen.
-	
-        var navControllers = self.navigationController?.viewControllers
-        navControllers?.removeAtIndex((navControllers?.count)! - 2)
-        self.navigationController?.viewControllers = navControllers!
-        
+        ViewUtil.pushViewControllerAndPopSelf(vController, toPop: self)
     }
     
     func handleError(message: String) {

@@ -52,6 +52,15 @@ class ViewUtil {
     // UI
     //
     
+    static func pushViewControllerAndPopSelf(toPush: UIViewController, toPop: UIViewController) {
+        toPop.navigationController?.pushViewController(toPush, animated: true)
+        
+        //remove this VC from navigation controller hierarchy to restrict user to come back to this VC when click on back button of next screen.
+        var navControllers = toPop.navigationController?.viewControllers
+        navControllers?.removeAtIndex((navControllers?.count)! - 2)
+        toPop.navigationController?.viewControllers = navControllers!
+    }
+    
     static func viewFullScreenImage(image: UIImage, viewController: UIViewController) {
         let photoSlider = PhotoSlider.ViewController(images: [image])
         photoSlider.currentPage = 0
