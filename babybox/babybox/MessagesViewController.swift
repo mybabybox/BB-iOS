@@ -64,6 +64,9 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         let titleDict: NSDictionary = [NSForegroundColorAttributeName: Color.WHITE]
         self.navigationController!.navigationBar.titleTextAttributes = titleDict as? [String : AnyObject]
         
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
+        view.addGestureRecognizer(tap)
+        
         sendButton.enabled = true
         
         SwiftEventBus.onMainThread(self, name: "getMessagesSuccess") { result in
@@ -82,12 +85,14 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
                 self.moveToFirstMessage()
                 self.reset()
             }
+            ViewUtil.showNormalView(self)
         }
         
         SwiftEventBus.onMainThread(self, name: "newMessageFailed") { result in
             ViewUtil.hideActivityLoading(self.activityLoading)
             self.view.makeToast(message: "Error upload message")
             self.reset()
+            ViewUtil.showNormalView(self)
         }
         
         ViewUtil.showActivityLoading(self.activityLoading)
@@ -171,7 +176,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
             self.textField.text = ""
         }
         textField.resignFirstResponder()
-        
+        ViewUtil.showGrayOutView(self)
         newMessage(textField.text!, image: self.uploadImgSrc.image)
     }
     
@@ -352,10 +357,10 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         self.uploadImgSrc.image = nil
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    /*func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
-    }
+    }*/
     
     // MARK: - PhotoSliderDelegate
     
@@ -390,4 +395,11 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
     }
+    
+    //Calls this function when the tap is recognized.
+    func dismissKeyboard() {
+        //Causes the view (or one of its embedded text fields) to resign the first responder status.
+        view.endEditing(true)
+    }
+    
 }

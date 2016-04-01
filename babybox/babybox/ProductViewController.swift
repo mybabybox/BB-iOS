@@ -56,6 +56,9 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
             ViewUtil.makeToast("Failed to mark item as sold. Please try again later.", view: self.view)
         }
         
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
+        view.addGestureRecognizer(tap)
+        
         self.detailTableView.separatorColor = Color.WHITE
         self.detailTableView.estimatedRowHeight = 300.0
         self.detailTableView.rowHeight = UITableViewAutomaticDimension
@@ -147,6 +150,7 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
         
         if indexPath.section == 3 {
             let cell:MessageTableViewCell = tableView.dequeueReusableCellWithIdentifier(reuseidentifier, forIndexPath: indexPath) as! MessageTableViewCell
+            
             if indexPath.row == self.comments.count {
                 cell.btnPostComments.tag = indexPath.row
                 cell.btnPostComments.addTarget(self, action: "PostComments:", forControlEvents: UIControlEvents.TouchUpInside)
@@ -613,6 +617,12 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
             self.detailTableView.frame = frame
             UIView.commitAnimations()
         }
+    }
+    
+    //Calls this function when the tap is recognized.
+    func dismissKeyboard() {
+        //Causes the view (or one of its embedded text fields) to resign the first responder status.
+        view.endEditing(true)
     }
     
 }

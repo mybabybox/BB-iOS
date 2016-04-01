@@ -254,4 +254,16 @@ class ViewUtil {
         view.layer.borderWidth = 0.5
     }
     
+    static func showNormalView(viewController: UIViewController) {
+        viewController.view.alpha = 1.0
+        viewController.view.userInteractionEnabled = true
+        viewController.navigationController?.view.userInteractionEnabled = true
+    }
+    
+    static func showGrayOutView(viewController: UIViewController) {
+        viewController.view.alpha = 0.7
+        viewController.view.userInteractionEnabled = false
+        viewController.navigationController?.view.userInteractionEnabled = false
+    }
+    
 }

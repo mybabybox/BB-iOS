@@ -62,6 +62,9 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
         self.pricetxt.delegate = self
         self.pricetxt.keyboardType = .NumberPad
         
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
+        view.addGestureRecognizer(tap)
+        
         self.sellingtext.delegate = self
         //self.prodDescription.delegate = self
         
@@ -72,7 +75,7 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
             NSLog("New product created successfully")
             UserInfoCache.incrementNumProducts()
             ViewUtil.hideActivityLoading(self.activityLoading)
-            self.navigationController?.view.alpha = 1
+            ViewUtil.showNormalView(self)
             self.navigationController?.popToRootViewControllerAnimated(false)
             
             // select and refresh my profile tab
@@ -87,6 +90,7 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
         SwiftEventBus.onMainThread(self, name: "newProductFailed") { result in
             //SwiftEventBus.unregister(self)
             self.view.makeToast(message: "Error when listing product", duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
+            ViewUtil.showNormalView(self)
         }
         
         initCategoryOptions()
@@ -115,12 +119,6 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
         
         self.setCollectionViewSizesInsets()
         
-        /*NSNotificationCenter.defaultCenter().addObserverForName("CroppedImage", object: nil, queue: NSOperationQueue.mainQueue()) { (notification) -> Void in
-            self.imageCollection.removeAtIndex(self.selectedIndex!)
-            self.imageCollection.insert(notification.object!, atIndex: self.selectedIndex!)
-            self.collectionView.reloadData()
-        }*/
-
         self.collectionView.reloadData()
         
         let saveProductImg: UIButton = UIButton()
@@ -275,30 +273,10 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
         self.collectionViewHtConstraint.constant = cellWidth + 5
     }
     
-    
-    // MARK: UIImagePickerControllerDelegate Methods
-    
-    /*func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
-        if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
-            
-            let controller = ImageCropViewController.init(image: pickedImage)
-            self.navigationController?.pushViewController(controller, animated: true)
-            
-        }
-        dismissViewControllerAnimated(true, completion: nil)
-    }*/
-    
-    /*func handleCroppedImage(notification: NSNotification){
-        self.imageCollection.removeAtIndex(selectedIndex!)
-        self.imageCollection.insert(notification.object!, atIndex: selectedIndex!)
-        self.collectionView.reloadData()
-        
-    }*/
-    
     func saveProduct(sender: AnyObject) {
         if (validateSaveForm()) {
             ViewUtil.showActivityLoading(self.activityLoading)
-            self.navigationController!.view.alpha = 0.75
+            ViewUtil.showGrayOutView(self)
             let category = CategoryCache.getCategoryByName(categoryDropDown.titleLabel!.text!)
             let conditionType = ViewUtil.parsePostConditionTypeFromValue(conditionDropDown.titleLabel!.text!)
             ApiController.instance.newPost(sellingtext.text!, body: prodDescription.text!, catId: category!.id, conditionType: String(conditionType), pricetxt: pricetxt.text!, imageCollection: self.imageCollection)
@@ -343,11 +321,6 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
         return isValidated
     }
     
-    /*func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        textField.keyboardType = UIKeyboardType.NumberPad
-        return Int(string) != nil
-    }*/
-    
     func handleNotificationSuccess(notifcationCounter: NotificationCounterVM) {
         
     }
@@ -372,7 +345,6 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
         UIView.animateWithDuration(1.0, animations: { () -> Void in
             //self.buttomLayoutConstraint = keyboardFrame.size.height
             }) { (completed: Bool) -> Void in
-                
         }
     }
     
@@ -381,5 +353,11 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
             }) { (completed: Bool) -> Void in
                 
         }
+    }
+    
+    //Calls this function when the tap is recognized.
+    func dismissKeyboard() {
+        //Causes the view (or one of its embedded text fields) to resign the first responder status.
+        view.endEditing(true)
     }
 }
