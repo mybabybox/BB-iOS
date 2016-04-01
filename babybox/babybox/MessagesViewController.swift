@@ -229,8 +229,8 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         let frame = self.messageCointainerScroll.subviews[lastItemPosition - 1].frame
         //self.messageCointainerScroll.scrollRectToVisible(frame, animated: false)
         var yOffset = frame.origin.y
-        if frame.origin.y > 50 {
-            yOffset = frame.origin.y - 50
+        if frame.origin.y > Constants.MESSAGE_LOAD_MORE_BTN_HEIGHT {
+            yOffset = frame.origin.y - Constants.MESSAGE_LOAD_MORE_BTN_HEIGHT
         }
         let contentOffSet = CGPointMake(0.0, yOffset)
         self.messageCointainerScroll.setContentOffset(contentOffSet, animated: false)

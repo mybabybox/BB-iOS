@@ -30,6 +30,7 @@ struct Constants {
     static let FEED_ITEM_SIDE_SPACING = CGFloat(10)
     static let FEED_ITEM_LINE_SPACING = CGFloat(10)
     static let MESSAGE_IMAGE_WIDTH = CGFloat(0.65)
+    static let MESSAGE_LOAD_MORE_BTN_HEIGHT = CGFloat(0)
     
     static let ACTIVITY_FIRST_POST = "Congratulations! You are now a BabyBox seller! Your first product has been listed:\n"
     static let ACTIVITY_NEW_POST = "New product listed:\n"
