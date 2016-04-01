@@ -12,7 +12,7 @@ import SwiftEventBus
 
 class ConversationsViewController: UIViewController {
 
-    @IBOutlet weak var conversatioTableView: UITableView!
+    @IBOutlet weak var conversationTableView: UITableView!
     @IBOutlet weak var tipText: UILabel!
     
     var userId: Int = 0
@@ -33,8 +33,8 @@ class ConversationsViewController: UIViewController {
         if self.updateOpenedConversation && ConversationCache.openedConversation != nil {
             ConversationCache.update(ConversationCache.openedConversation!.id, successCallback: handleUpdateConversationSuccess, failureCallback: nil)
         }
-        if (currentIndex != nil) {
-            self.conversatioTableView.reloadRowsAtIndexPaths([currentIndex!], withRowAnimation: UITableViewRowAnimation.Automatic)
+        if currentIndex != nil {
+            self.conversationTableView.reloadRowsAtIndexPaths([currentIndex!], withRowAnimation: UITableViewRowAnimation.Automatic)
             currentIndex = nil
         }
         self.updateOpenedConversation = false
@@ -44,7 +44,7 @@ class ConversationsViewController: UIViewController {
     
     func handleUpdateConversationSuccess(conversation: ConversationVM) {
         //collectionView.reloadData()
-        self.conversatioTableView.reloadData()
+        self.conversationTableView.reloadData()
     }
     
     override func viewDidLoad() {
@@ -62,10 +62,10 @@ class ConversationsViewController: UIViewController {
         
         self.refreshControl.attributedTitle = NSAttributedString(string: "")
         self.refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
-        self.conversatioTableView.addSubview(refreshControl)
+        self.conversationTableView.addSubview(refreshControl)
         
-        self.conversatioTableView.separatorColor = Color.LIGHT_GRAY
-        self.conversatioTableView.separatorStyle = .SingleLine
+        self.conversationTableView.separatorColor = Color.LIGHT_GRAY
+        self.conversationTableView.separatorStyle = .SingleLine
     }
     
     func refresh(sender:AnyObject) {
@@ -113,9 +113,8 @@ class ConversationsViewController: UIViewController {
         cell.layer.borderColor = UIColor.clearColor().CGColor
         cell.layer.backgroundColor = UIColor.clearColor().CGColor
         
-        if (currentIndex != nil) {
-        } else {
-            if(item.unread > 0) {
+        if currentIndex == nil {
+            if item.unread > 0 {
                 //cell.unreadComments.layer.cornerRadius = cell.unreadComments.frame.height / 2
                 //cell.unreadComments.layer.masksToBounds = true
                 ViewUtil.displayCircularView(cell.unreadComments)
@@ -187,7 +186,7 @@ class ConversationsViewController: UIViewController {
     
     func handleGetConversationsSuccess(conversations: [ConversationVM]) {
         if (!conversations.isEmpty) {
-            self.conversatioTableView.reloadData()
+            self.conversationTableView.reloadData()
         } else {
             loadedAll = true
         }
@@ -196,9 +195,8 @@ class ConversationsViewController: UIViewController {
         
         if (ConversationCache.conversations.count <= 0) {
             self.tipText.hidden = false
-            self.conversatioTableView.hidden = true
-        }
-        
+            self.conversationTableView.hidden = true
+        }   
     }
     
     // MARK: UIScrollview Delegate
@@ -244,13 +242,13 @@ class ConversationsViewController: UIViewController {
     }
     
     func deleteConversationHandler(responseString: String) {
-        self.conversatioTableView.deleteRowsAtIndexPaths([deleteCellIndex!], withRowAnimation: .Automatic)
+        self.conversationTableView.deleteRowsAtIndexPaths([deleteCellIndex!], withRowAnimation: .Automatic)
         if (ConversationCache.conversations.count <= 0) {
             self.tipText.hidden = false
-            self.conversatioTableView.hidden = true
+            self.conversationTableView.hidden = true
         }
         deleteCellIndex = nil
-        self.conversatioTableView.reloadData()
+        self.conversationTableView.reloadData()
         //self.collectionView.reloadData()
         self.view.makeToast(message: "Conversation Deleted Successfully!")
     }
