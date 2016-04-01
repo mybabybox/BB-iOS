@@ -140,8 +140,8 @@ extension NSDate {
             if components.second < 5 {
                 return "moments ago"
             } else {
-                return stringFromFormat("secs ago", withValue: components.second)
-                //return String(components.second + " seconds ago"
+                return "moments ago"
+                //return stringFromFormat("secs ago", withValue: components.second)
             }
         }
         print(components.second)
