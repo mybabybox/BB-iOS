@@ -365,7 +365,7 @@ class ApiController {
         callEvent.failedEventbusName = "profileImgUploadFailed"
         let url = callEvent.apiUrl + "?key=\(StringUtil.encode(AppDelegate.getInstance().sessionId!))"
         
-        let nsData = profileImg.lowestQualityJPEGNSData //UIImagePNGRepresentation(profileImg)!
+        let nsData = profileImg.lowestQualityJPEGNSData
         Alamofire.upload(
             .POST,
             url,
@@ -539,16 +539,14 @@ class ApiController {
                     } else {
                         if let image: UIImage? = _image as? UIImage {
                             if (image != nil) {
-                                let nsData = image!.lowestQualityJPEGNSData //UIImageJPEGRepresentation(image!, 0.5)
+                                let nsData = image!.lowestQualityJPEGNSData
                                 multipartFormData.appendBodyPart(data: nsData, name: "image\(index)", fileName: "upload.jpg", mimeType:"jpg")
-                                //multipartFormData.appendBodyPart(data: ImageUtil.compressImage(image!), name: "image\(index)", fileName: "upload.jpg", mimeType:"jpg")
                                 index++
                             }
                         }
                     }
                 }
                 
-                //multipartFormData.appendBodyPart(data: UIImagePNGRepresentation(imageCollection[0] as! UIImage)!, name: "image", fileName: "upload.jpg", mimeType:"jpg")
                 multipartFormData.appendBodyPart(data: StringUtil.toEncodedData(String(catId)), name :"catId")
                 multipartFormData.appendBodyPart(data: StringUtil.toEncodedData(title), name :"title")
                 multipartFormData.appendBodyPart(data: StringUtil.toEncodedData(body), name :"body")
@@ -595,11 +593,10 @@ class ApiController {
             multipartFormData: { multipartFormData in
                 if image != nil {
                     let index = 0
-                    let nsData = image!.lowestQualityJPEGNSData //UIImagePNGRepresentation(imagePath as! UIImage)!
+                    let nsData = image!.lowestQualityJPEGNSData
                     multipartFormData.appendBodyPart(data: nsData, name:  "image\(index)", fileName: "upload.jpg", mimeType:"jpg")
                 }
                 
-                //multipartFormData.appendBodyPart(data: UIImagePNGRepresentation(imageData)!, name: "image", fileName: "upload.jpg", mimeType:"jpg")
                 multipartFormData.appendBodyPart(data: StringUtil.toEncodedData(String(id)), name :"conversationId")
                 multipartFormData.appendBodyPart(data: StringUtil.toEncodedData(message), name :"body")
                 multipartFormData.appendBodyPart(data: StringUtil.toEncodedData(String(system)), name :"system")
