@@ -21,6 +21,7 @@ class UserActivityViewController: CustomNavigationController {
     var collectionViewCellSize : CGSize?
     var loading: Bool = false
     var loadedAll: Bool = false
+    var currentIndex = 0
     
     override func viewWillAppear(animated: Bool) {
         ViewUtil.hideActivityLoading(self.activityLoading)
@@ -44,19 +45,18 @@ class UserActivityViewController: CustomNavigationController {
         self.loading = true
         setCollectionViewSizesInsetsForTopView()
         
+        SwiftEventBus.unregister(self)
+        
         SwiftEventBus.onMainThread(self, name: "userActivitiesSuccess") { result in
-            //SwiftEventBus.unregister(self)
             let resultDto: [ActivityVM] = result.object as! [ActivityVM]
             self.handleUserActivitiesData(resultDto)
         }
         
         SwiftEventBus.onMainThread(self, name: "userActivitiesFailed") { result in
-           // SwiftEventBus.unregister(self)
             self.view.makeToast(message: "Error getting User activities data.")
         }
         
         SwiftEventBus.onMainThread(self, name: "postByIdLoadSuccess") { result in
-            //SwiftEventBus.unregister(self)
             if ViewUtil.isEmptyResult(result, message: "Product not found. It may be deleted by seller.", view: self.view) {
                 return
             }
@@ -103,71 +103,68 @@ class UserActivityViewController: CustomNavigationController {
         let viewStatus = self.userActivitesItems[indexPath.row].viewed
         
         switch (self.userActivitesItems[indexPath.row].activityType) {
+        case "FIRST_POST", "NEW_POST", "NEW_COMMENT", "LIKED", "SOLD":
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier("UserActivity", forIndexPath: indexPath) as! UserActivityViewCell
+            cell.contentMode = UIViewContentMode.Redraw
+            cell.sizeToFit()
+            cell.activityTime.text = NSDate(timeIntervalSince1970:Double(self.userActivitesItems[indexPath.row].createdDate) / 1000.0).timeAgo
+            cell.textMessage.text = self.setMessageText(self.userActivitesItems[indexPath.row])
+            cell.textMessage.numberOfLines = 0
+            cell.textMessage.sizeToFit()
+            cell.userName.setTitle(self.userActivitesItems[indexPath.row].actorName, forState: UIControlState.Normal)
+            cell.userName.setTitleColor(Color.PINK, forState: UIControlState.Normal)
+            cell.postImage.hidden = false
+            ImageUtil.displayThumbnailProfileImage(Int(self.userActivitesItems[indexPath.row].actorImage), imageView: cell.profileImg)
+            ImageUtil.displayPostImage(Int(self.userActivitesItems[indexPath.row].targetImage), imageView: cell.postImage)
             
-            case "LIKED", "FOLLOWED":
-                
-                let cell = collectionView.dequeueReusableCellWithReuseIdentifier("UserActivity", forIndexPath: indexPath) as! UserActivityViewCell
-                
-                cell.contentMode = UIViewContentMode.Redraw
-                cell.sizeToFit()
-                cell.activityTime.text = NSDate(timeIntervalSince1970:Double(self.userActivitesItems[indexPath.row].createdDate) / 1000.0).timeAgo
-                ImageUtil.displayThumbnailProfileImage(Int(self.userActivitesItems[indexPath.row].actorImage), imageView: cell.profileImg)
-                cell.textMessage.text = self.setMessageText(self.userActivitesItems[indexPath.row])
-                cell.textMessage.numberOfLines = 0
-                cell.textMessage.sizeToFit()
-                cell.userName.setTitle(self.userActivitesItems[indexPath.row].actorName, forState: UIControlState.Normal)
-                cell.userName.setTitleColor(Color.PINK, forState: UIControlState.Normal)
-                //cell.userName.addTarget(self, action: "onClickActor:", forControlEvents: UIControlEvents.TouchUpInside)
-                ImageUtil.displayPostImage(Int(self.userActivitesItems[indexPath.row].targetImage), imageView: cell.postImage)
-                
-                if (!viewStatus) {
-                    cell.layer.backgroundColor = Color.IMAGE_LOAD_BG.CGColor
-                }
-                
-                return cell
-            case "FIRST_POST", "NEW_POST", "SOLD", "NEW_COMMENT":
-                let cell = collectionView.dequeueReusableCellWithReuseIdentifier("UserActivity2", forIndexPath: indexPath) as! UserActivityType2ViewCell
-                cell.contentMode = UIViewContentMode.Redraw
-                cell.sizeToFit()
-                cell.activityTime.text = NSDate(timeIntervalSince1970:Double(self.userActivitesItems[indexPath.row].createdDate) / 1000.0).timeAgo
-                cell.textMessage.text = self.setMessageText(self.userActivitesItems[indexPath.row])
-                cell.textMessage.numberOfLines = 0
-                cell.textMessage.sizeToFit()
-                ImageUtil.displayThumbnailProfileImage(Int(self.userActivitesItems[indexPath.row].actorImage), imageView: cell.profileImg)
-                ImageUtil.displayPostImage(Int(self.userActivitesItems[indexPath.row].targetImage), imageView: cell.postImage)
-                
-                if (!viewStatus) {
-                    cell.layer.backgroundColor = Color.IMAGE_LOAD_BG.CGColor
-                }
-                
-                return cell
-
-            default:
-                let cell = collectionView.dequeueReusableCellWithReuseIdentifier("UserActivityType", forIndexPath: indexPath) as! UserActivityTypeViewCell
-                ImageUtil.displayThumbnailProfileImage(Int(self.userActivitesItems[indexPath.row].actorImage), imageView: cell.profileImg)
-                cell.contentMode = UIViewContentMode.Redraw
-                cell.sizeToFit()
-                
-                cell.activityTime.text = NSDate(timeIntervalSince1970:Double(self.userActivitesItems[indexPath.row].createdDate) / 1000.0).timeAgo
-                cell.textMessage.text = self.setMessageText(self.userActivitesItems[indexPath.row])
-                cell.textMessage.numberOfLines = 0
-                cell.textMessage.sizeToFit()
-                
-                if (!viewStatus) {
-                    cell.layer.backgroundColor = Color.IMAGE_LOAD_BG.CGColor
-                }
-                
-                return cell
+            if (!viewStatus) {
+                cell.layer.backgroundColor = Color.IMAGE_LOAD_BG.CGColor
+            }
+            return cell
+        case "FOLLOWED":
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier("UserActivity", forIndexPath: indexPath) as! UserActivityViewCell
+            cell.contentMode = UIViewContentMode.Redraw
+            cell.sizeToFit()
+            cell.activityTime.text = NSDate(timeIntervalSince1970:Double(self.userActivitesItems[indexPath.row].createdDate) / 1000.0).timeAgo
+            cell.textMessage.text = self.setMessageText(self.userActivitesItems[indexPath.row])
+            cell.textMessage.numberOfLines = 0
+            cell.textMessage.sizeToFit()
+            cell.userName.setTitle(self.userActivitesItems[indexPath.row].actorName, forState: UIControlState.Normal)
+            cell.userName.setTitleColor(Color.PINK, forState: UIControlState.Normal)
+            cell.postImage.hidden = true
+            ImageUtil.displayThumbnailProfileImage(Int(self.userActivitesItems[indexPath.row].actorImage), imageView: cell.profileImg)
+            
+            if (!viewStatus) {
+                cell.layer.backgroundColor = Color.IMAGE_LOAD_BG.CGColor
+            }
+            return cell
+        case "NEW_GAME_BADGE": fallthrough
+        default:
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier("UserActivityDefault", forIndexPath: indexPath) as! UserActivityDefaultViewCell
+            cell.contentMode = UIViewContentMode.Redraw
+            cell.sizeToFit()
+            cell.activityTime.text = NSDate(timeIntervalSince1970:Double(self.userActivitesItems[indexPath.row].createdDate) / 1000.0).timeAgo
+            cell.textMessage.text = self.setMessageText(self.userActivitesItems[indexPath.row])
+            cell.textMessage.numberOfLines = 0
+            cell.textMessage.sizeToFit()
+            ImageUtil.displayThumbnailProfileImage(Int(self.userActivitesItems[indexPath.row].actorImage), imageView: cell.profileImg)
+            
+            if (!viewStatus) {
+                cell.layer.backgroundColor = Color.IMAGE_LOAD_BG.CGColor
+            }
+            return cell
         }
     }
-    var currentIndex = 0
+    
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         self.currentIndex = indexPath.row
         let item = self.userActivitesItems[indexPath.row]
         switch (item.activityType) {
-            case "FIRST_POST", "NEW_POST", "NEW_COMMENT", "LIKED", "SOLD":
-                ApiController.instance.getPostById(self.userActivitesItems[indexPath.row].target)
-            default: break
+        case "FIRST_POST", "NEW_POST", "NEW_COMMENT", "LIKED", "SOLD":
+            ApiController.instance.getPostById(self.userActivitesItems[indexPath.row].target)
+        case "FOLLOWED": fallthrough
+
+        default: break
         }
     }
     
@@ -230,7 +227,7 @@ class UserActivityViewController: CustomNavigationController {
             case "NEW_COMMENT":
                 message = Constants.ACTIVITY_COMMENTED + item.targetName
             case "LIKED":
-                message = " " + Constants.ACTIVITY_LIKED
+                message = Constants.ACTIVITY_LIKED
             case "FOLLOWED":
                 message = Constants.ACTIVITY_FOLLOWED
             case "SOLD":
@@ -271,18 +268,17 @@ class UserActivityViewController: CustomNavigationController {
         let vController = segue.destinationViewController as! UserProfileFeedViewController
         vController.hidesBottomBarWhenPushed = true
         if (segue.identifier == "userprofile_1"){
-            let cell = cSender.superview?.superview as! UserActivityType2ViewCell
+            let cell = cSender.superview?.superview as! UserActivityViewCell
             let indexPath = self.uiCollectionView.indexPathForCell(cell)
             vController.userId = self.userActivitesItems[(indexPath?.row)!].actor
         } else if (segue.identifier == "userprofile_2"){
-            let cell = cSender.superview?.superview as! UserActivityTypeViewCell
+            let cell = cSender.superview?.superview as! UserActivityDefaultViewCell
             let indexPath = self.uiCollectionView.indexPathForCell(cell)
             vController.userId = self.userActivitesItems[(indexPath?.row)!].actor
         } else if (segue.identifier == "userprofile_3" || segue.identifier == "userprofile_4"){
             let cell = cSender.superview?.superview as! UserActivityViewCell
             let indexPath = self.uiCollectionView.indexPathForCell(cell)
             vController.userId = self.userActivitesItems[(indexPath?.row)!].actor
-        
         }
     }
     

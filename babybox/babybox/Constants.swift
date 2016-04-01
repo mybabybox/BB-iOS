@@ -31,13 +31,13 @@ struct Constants {
     static let FEED_ITEM_LINE_SPACING = CGFloat(10)
     static let MESSAGE_IMAGE_WIDTH = CGFloat(0.65)
     
-    static let ACTIVITY_FIRST_POST = "Congratulations! You are now a BabyBox seller! Your first product has been listed:\r\n"
-    static let ACTIVITY_NEW_POST = "New product listed:\r\n"
+    static let ACTIVITY_FIRST_POST = "Congratulations! You are now a BabyBox seller! Your first product has been listed:\n"
+    static let ACTIVITY_NEW_POST = "New product listed:\n"
     static let ACTIVITY_COMMENTED = "commented on product:\n"
     static let ACTIVITY_LIKED = "liked your product."
     static let ACTIVITY_FOLLOWED = "started following you."
     static let ACTIVITY_SOLD = "already sold."
-    static let ACTIVITY_GAME_BADGE = "Congratulations! You got a new badge:\r\n"
+    static let ACTIVITY_GAME_BADGE = "Congratulations! You got a new badge:\n"
     static let SHARING_SELLER_MSG_PREFIX: String = "Check out BabyBox Seller"
     
     static let NO_FOLLOWINGS = "~ No Followings ~"

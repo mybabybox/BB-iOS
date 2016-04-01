@@ -1,5 +1,5 @@
 //
-//  UserActivityTypeViewCell.swift
+//  UserActivityDefaultViewCell.swift
 //  babybox
 //
 //  Created by Mac on 20/02/16.
@@ -7,7 +7,7 @@
 //
 
 
-class UserActivityTypeViewCell: BaseActivityViewCell {
+class UserActivityDefaultViewCell: BaseActivityViewCell {
 
     //@IBOutlet weak var textMessage: UILabel!
     //@IBOutlet weak var profileImg: UIImageView!

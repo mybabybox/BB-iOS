@@ -81,7 +81,6 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
             ViewUtil.hideActivityLoading(self.activityLoading)
             self.addChatBubble(self.bubbleData!)
             self.moveToFirstMessage()
-            self.view.makeToast(message: "Message added successfully.")
         }
         
         SwiftEventBus.onMainThread(self, name: "newMessageFailed") { result in

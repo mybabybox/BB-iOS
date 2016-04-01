@@ -51,9 +51,8 @@
 		0449B00D1C63DDD80077049C /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044928DF1C6093720016F32C /* SignupViewController.swift */; };
 		0449B00F1C64CDE60077049C /* ImageUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0449B00E1C64CDE60077049C /* ImageUtil.swift */; };
 		0449B0111C65B78D0077049C /* ViewUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0449B0101C65B78D0077049C /* ViewUtil.swift */; };
-		044CD1851C779F0000D68AA7 /* UserActivityTypeViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044CD1841C779EFF00D68AA7 /* UserActivityTypeViewCell.swift */; };
+		044CD1851C779F0000D68AA7 /* UserActivityDefaultViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044CD1841C779EFF00D68AA7 /* UserActivityDefaultViewCell.swift */; };
 		044CD1871C77A45300D68AA7 /* BaseActivityViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044CD1861C77A45300D68AA7 /* BaseActivityViewCell.swift */; };
-		044CD1891C77A81100D68AA7 /* UserActivityType2ViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044CD1881C77A81100D68AA7 /* UserActivityType2ViewCell.swift */; };
 		044DC84D1C51EBB700B9FD49 /* CustomTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044DC84C1C51EBB700B9FD49 /* CustomTabBarController.swift */; };
 		044DC84F1C54033900B9FD49 /* CommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044DC84E1C54033900B9FD49 /* CommentTableViewCell.swift */; };
 		044DC8521C54E0FF00B9FD49 /* HRToast+UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044DC8511C54E0FF00B9FD49 /* HRToast+UIView.swift */; };
@@ -176,9 +175,8 @@
 		0449B0091C63C6250077049C /* LicenseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LicenseViewController.swift; sourceTree = "<group>"; };
 		0449B00E1C64CDE60077049C /* ImageUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageUtil.swift; sourceTree = "<group>"; };
 		0449B0101C65B78D0077049C /* ViewUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewUtil.swift; sourceTree = "<group>"; };
-		044CD1841C779EFF00D68AA7 /* UserActivityTypeViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserActivityTypeViewCell.swift; sourceTree = "<group>"; };
+		044CD1841C779EFF00D68AA7 /* UserActivityDefaultViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserActivityDefaultViewCell.swift; sourceTree = "<group>"; };
 		044CD1861C77A45300D68AA7 /* BaseActivityViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseActivityViewCell.swift; sourceTree = "<group>"; };
-		044CD1881C77A81100D68AA7 /* UserActivityType2ViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserActivityType2ViewCell.swift; sourceTree = "<group>"; };
 		044DC84C1C51EBB700B9FD49 /* CustomTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTabBarController.swift; sourceTree = "<group>"; };
 		044DC84E1C54033900B9FD49 /* CommentTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentTableViewCell.swift; sourceTree = "<group>"; };
 		044DC8511C54E0FF00B9FD49 /* HRToast+UIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "HRToast+UIView.swift"; sourceTree = "<group>"; };
@@ -534,9 +532,8 @@
 				0408F9F91C13632300CC8803 /* CategoryViewCell.swift */,
 				04521FC11C5C9D0A00515C40 /* UserFeedHeaderViewCell.swift */,
 				0459BB1E1C7475970096A330 /* UserActivityViewCell.swift */,
-				044CD1841C779EFF00D68AA7 /* UserActivityTypeViewCell.swift */,
+				044CD1841C779EFF00D68AA7 /* UserActivityDefaultViewCell.swift */,
 				044CD1861C77A45300D68AA7 /* BaseActivityViewCell.swift */,
-				044CD1881C77A81100D68AA7 /* UserActivityType2ViewCell.swift */,
 				046633DA1C854D1D000F18AE /* RecommendedSellerViewCell.swift */,
 				844845281C9C48FF00714EBE /* ProductChatViewCell.swift */,
 				844902C71C9ECE4D005CAECF /* TooltipViewCell.swift */,
@@ -750,7 +747,6 @@
 				044DC84F1C54033900B9FD49 /* CommentTableViewCell.swift in Sources */,
 				0408FA281C13635000CC8803 /* LocationVM.swift in Sources */,
 				0449B00F1C64CDE60077049C /* ImageUtil.swift in Sources */,
-				044CD1891C77A81100D68AA7 /* UserActivityType2ViewCell.swift in Sources */,
 				04A2317C1C1C4D79002FB013 /* HomeReusableView.swift in Sources */,
 				04E6F6CE1C15A9FC0057C94E /* ForgotPasswordViewController.swift in Sources */,
 				0449B00B1C63C6250077049C /* LicenseViewController.swift in Sources */,
@@ -818,7 +814,7 @@
 				0408FA531C13699900CC8803 /* UserVM.swift in Sources */,
 				0408FA2D1C13635000CC8803 /* PostVM.swift in Sources */,
 				0408FA2F1C13635000CC8803 /* ProductCollectionViewCell.swift in Sources */,
-				044CD1851C779F0000D68AA7 /* UserActivityTypeViewCell.swift in Sources */,
+				044CD1851C779F0000D68AA7 /* UserActivityDefaultViewCell.swift in Sources */,
 				844845221C9C2D1D00714EBE /* ConversationsCollectionViewCell.swift in Sources */,
 				046905801C816DE000BDFFB9 /* ENMBadgedBarButtonItem.swift in Sources */,
 				0408FA1C1C13633B00CC8803 /* CategoryCollectionViewCell.swift in Sources */,
