@@ -17,8 +17,8 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     @IBOutlet weak var pricetxt: UITextField!
     @IBOutlet weak var categoryDropDown: UIButton!
     @IBOutlet weak var conditionDropDown: UIButton!
-    
     @IBOutlet weak var deletePostBtn: UIButton!
+    
     var postId: Int = 0
     var postItem: PostVM? = nil
     let categoryOptions = DropDown()
@@ -48,8 +48,6 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        ViewUtil.showActivityLoading(self.activityLoading)
-        
         ViewUtil.displayRoundedCornerView(self.deletePostBtn, bgColor: Color.GRAY)
         
         self.pricetxt.delegate = self
@@ -61,28 +59,26 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "actionbar_bg_pink"), forBarMetrics: UIBarMetrics.Default)
         
         SwiftEventBus.onMainThread(self, name: "postByIdLoadSuccess") { result in
-            // UI thread
             SwiftEventBus.unregister("postByIdLoadSuccess")
             if ViewUtil.isEmptyResult(result, message: "Product not found. It may be deleted by seller.", view: self.view) {
-                ViewUtil.hideActivityLoading(self.activityLoading)
+                ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
                 return
             }
             self.postItem = result.object as? PostVM
             self.initEditView()
-            
         }
         
         SwiftEventBus.onMainThread(self, name: "postByIdLoadFailure") { result in
-            // UI thread
-            SwiftEventBus.unregister("postByIdLoadSuccess")
+            SwiftEventBus.unregister("postByIdLoadFailure")
             self.view.makeToast(message: "Error getting Post data.")
-            ViewUtil.hideActivityLoading(self.activityLoading)
+            ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
         }
         
         SwiftEventBus.onMainThread(self, name: "editProductSuccess") { result in
             SwiftEventBus.unregister(self)
-            NSLog("Product edited Successfully")
-            self.navigationController!.view.alpha = 1
+            
+            NSLog("Product edited successfully")
+            ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
             self.navigationController?.popToRootViewControllerAnimated(false)
             
             if let myProfileController = CustomTabBarController.selectProfileTab() {
@@ -100,12 +96,12 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         
         SwiftEventBus.onMainThread(self, name: "deletePostSuccess") { result in
             SwiftEventBus.unregister(self)
+            
             NSLog("Product deleted successfully")
-            
             UserInfoCache.decrementNumProducts()
-            
-            self.navigationController!.view.alpha = 1
+            ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
             self.navigationController?.popToRootViewControllerAnimated(false)
+            
             // select and refresh my profile tab
             if let myProfileController = CustomTabBarController.selectProfileTab() {
                 myProfileController.isRefresh = true
@@ -118,6 +114,7 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         SwiftEventBus.onMainThread(self, name: "deletePostFailure") { result in
             //SwiftEventBus.unregister(self)
             self.view.makeToast(message: "Error when deleting product")
+            ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
         }
         
         self.conditionTypeDropDown.dataSource = [
@@ -149,12 +146,12 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         let saveProductBarBtn = UIBarButtonItem(customView: saveProductImg)
         self.navigationItem.rightBarButtonItems = [saveProductBarBtn]
         
+        ViewUtil.showActivityLoading(self.activityLoading)
         ApiController.instance.getPostById(self.postId)
     }
     
     func initEditView() {
-        //
-        print(self.postItem?.title)
+        NSLog("Edit \((self.postItem?.title)!)")
         
         self.postTitle.text = self.postItem?.title
         self.prodDescription.text = self.postItem?.body
@@ -224,40 +221,35 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         }
         
         if (validateSaveForm()) {
-            self.navigationController!.view.alpha = 0.75
+            ViewUtil.showGrayOutView(self, activityLoading: self.activityLoading)
             let category = CategoryCache.getCategoryByName(categoryDropDown.titleLabel!.text!)
             let conditionType = ViewUtil.parsePostConditionTypeFromValue(conditionDropDown.titleLabel!.text!)
-            ApiController.instance.editPost(self.postId, title: postTitle.text!, body: prodDescription.text!, catId: category!.id, conditionType: String(conditionType), pricetxt: pricetxt.text!)
+            ApiController.instance.editPost(self.postId, title: ViewUtil.trim(postTitle.text!), body: ViewUtil.trim(prodDescription.text!), catId: category!.id, conditionType: String(conditionType), pricetxt: ViewUtil.trim(pricetxt.text!))
         }
     }
     
     func validateSaveForm() -> Bool {
         var isValidated = true
         
-        if (self.postTitle.text == nil || self.postTitle.text == "" ) {
+        if self.postTitle.text == nil || ViewUtil.trim(self.postTitle.text!).isEmpty {
             self.view.makeToast(message: "Please fill title", duration: ViewUtil.SHOW_TOAST_DURATION_LONG, position: ViewUtil.DEFAULT_TOAST_POSITION)
             isValidated = false
-        } else if (self.prodDescription.text == nil || self.prodDescription.text == "") {
+        } else if self.prodDescription.text == nil || ViewUtil.trim(self.prodDescription.text!).isEmpty {
             self.view.makeToast(message: "Please fill description", duration: ViewUtil.SHOW_TOAST_DURATION_LONG, position: ViewUtil.DEFAULT_TOAST_POSITION)
             isValidated = false
-        } else if (self.pricetxt.text == nil || self.pricetxt.text == "") {
+        } else if self.pricetxt.text == nil || ViewUtil.trim(self.pricetxt.text!).isEmpty {
             self.view.makeToast(message: "Please enter a price", duration: ViewUtil.SHOW_TOAST_DURATION_LONG, position: ViewUtil.DEFAULT_TOAST_POSITION)
             isValidated = false
-        } else if (self.conditionDropDown.titleLabel?.text == nil || self.conditionDropDown.titleLabel?.text == "-Select-") {
+        } else if self.conditionDropDown.titleLabel?.text == nil || self.conditionDropDown.titleLabel?.text == "-Select-" {
             self.view.makeToast(message: "Please select condition type", duration: ViewUtil.SHOW_TOAST_DURATION_LONG, position: ViewUtil.DEFAULT_TOAST_POSITION)
             isValidated = false
-        } else if (self.categoryDropDown.titleLabel!.text == nil || self.categoryDropDown.titleLabel!.text == "Choose a Category:") {
+        } else if self.categoryDropDown.titleLabel!.text == nil || self.categoryDropDown.titleLabel!.text == "Choose a Category:" {
             self.view.makeToast(message: "Please select category", duration: ViewUtil.SHOW_TOAST_DURATION_LONG, position: ViewUtil.DEFAULT_TOAST_POSITION)
             isValidated = false
         }
         
         return isValidated
     }
-    
-    /*func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        textField.keyboardType = UIKeyboardType.NumberPad
-        return Int(string) != nil
-    }*/
     
     func handleNotificationSuccess(notifcationCounter: NotificationCounterVM) {
         
@@ -268,20 +260,17 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     }
     
     @IBAction func deletePost(sender: AnyObject) {
-        
         let _confirmDialog = UIAlertController(title: "Delete Product", message: "Are you sure to delete?", preferredStyle: UIAlertControllerStyle.Alert)
         let okAction = UIAlertAction(title: "No", style: UIAlertActionStyle.Default, handler: nil)
         
         let confirmAction = UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction!) in
-            self.navigationController!.view.alpha = 0.75
+            ViewUtil.showGrayOutView(self, activityLoading: self.activityLoading)
             ApiController.instance.deletePost(self.postId)
         })
         
         _confirmDialog.addAction(okAction)
         _confirmDialog.addAction(confirmAction)
         self.presentViewController(_confirmDialog, animated: true, completion: nil)
-        
-        
     }
 
 }

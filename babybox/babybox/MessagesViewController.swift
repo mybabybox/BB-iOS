@@ -76,23 +76,22 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
             if (self.offered) {
                 self.newMessage("New offer: \(Int(self.offeredPrice))", image: nil, system: true)
             }
+            ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
         }
         
         SwiftEventBus.onMainThread(self, name: "newMessageSuccess") { result in
-            ViewUtil.hideActivityLoading(self.activityLoading)
             if (self.bubbleData != nil) {
                 self.addChatBubble(self.bubbleData!)
                 self.moveToFirstMessage()
                 self.reset()
             }
-            ViewUtil.showNormalView(self)
+            ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
         }
         
         SwiftEventBus.onMainThread(self, name: "newMessageFailed") { result in
-            ViewUtil.hideActivityLoading(self.activityLoading)
             self.view.makeToast(message: "Error upload message")
             self.reset()
-            ViewUtil.showNormalView(self)
+            ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
         }
         
         ViewUtil.showActivityLoading(self.activityLoading)
@@ -167,22 +166,21 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
             self.conversationViewController!.updateOpenedConversation = true
         }
         
-        ViewUtil.showActivityLoading(self.activityLoading)
+        ViewUtil.showGrayOutView(self, activityLoading: self.activityLoading)
         
         ApiController.instance.newMessage(self.conversation!.id, message: message, image: image, system: system)
         ConversationCache.update(self.conversation!.id, successCallback: nil, failureCallback: nil)
     }
     
     @IBAction func sendButtonClicked(sender: AnyObject) {
-        if (self.uploadImgSrc.image == nil && (self.textField.text == nil || self.textField.text == "") ) {
-            self.view.makeToast(message: "Please enter a message")
+        if self.uploadImgSrc.image == nil && (self.textField.text == nil || ViewUtil.trim(self.textField.text!).isEmpty) {
+            //self.view.makeToast(message: "Please enter a message")
             return
         }
         if (self.textField.text == nil) {
             self.textField.text = ""
         }
-        ViewUtil.showGrayOutView(self)
-        newMessage(textField.text!, image: self.uploadImgSrc.image)
+        newMessage(ViewUtil.trim(textField.text!), image: self.uploadImgSrc.image)
     }
     
     @IBAction func cameraButtonClicked(sender: AnyObject) {

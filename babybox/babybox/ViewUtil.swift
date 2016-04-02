@@ -183,6 +183,14 @@ class ViewUtil {
         return false
     }
     
+    static func trim(str: String) -> String {
+        return trim(str, charSet: NSCharacterSet.whitespaceAndNewlineCharacterSet())
+    }
+    
+    static func trim(str: String, charSet: NSCharacterSet) -> String {
+        return str.stringByTrimmingCharactersInSet(charSet)
+    }
+    
     static func showActivityLoading(activityLoading: UIActivityIndicatorView?) {
         activityLoading?.hidden = false
         activityLoading?.startAnimating()
@@ -254,16 +262,21 @@ class ViewUtil {
         view.layer.borderWidth = 0.5
     }
     
-    static func showNormalView(viewController: UIViewController) {
+    static func showNormalView(viewController: UIViewController, activityLoading: UIActivityIndicatorView? = nil) {
+        if activityLoading != nil {
+            hideActivityLoading(activityLoading)
+        }
         viewController.view.alpha = 1.0
         viewController.view.userInteractionEnabled = true
         viewController.navigationController?.view.userInteractionEnabled = true
     }
     
-    static func showGrayOutView(viewController: UIViewController) {
+    static func showGrayOutView(viewController: UIViewController, activityLoading: UIActivityIndicatorView? = nil) {
+        if activityLoading != nil {
+            showActivityLoading(activityLoading)
+        }
         viewController.view.alpha = 0.7
         viewController.view.userInteractionEnabled = false
         viewController.navigationController?.view.userInteractionEnabled = false
     }
-    
 }

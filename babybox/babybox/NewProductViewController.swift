@@ -55,6 +55,7 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
     override func viewDidAppear(animated: Bool) {
         ViewUtil.hideActivityLoading(self.activityLoading)
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -72,10 +73,10 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
         
         SwiftEventBus.onMainThread(self, name: "newProductSuccess") { result in
             SwiftEventBus.unregister(self)
+            
             NSLog("New product created successfully")
             UserInfoCache.incrementNumProducts()
-            ViewUtil.hideActivityLoading(self.activityLoading)
-            ViewUtil.showNormalView(self)
+            ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
             self.navigationController?.popToRootViewControllerAnimated(false)
             
             // select and refresh my profile tab
@@ -90,7 +91,7 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
         SwiftEventBus.onMainThread(self, name: "newProductFailed") { result in
             //SwiftEventBus.unregister(self)
             self.view.makeToast(message: "Error when listing product", duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
-            ViewUtil.showNormalView(self)
+            ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
         }
         
         initCategoryOptions()
@@ -275,16 +276,16 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
     
     func saveProduct(sender: AnyObject) {
         if (validateSaveForm()) {
-            ViewUtil.showActivityLoading(self.activityLoading)
-            ViewUtil.showGrayOutView(self)
+            ViewUtil.showGrayOutView(self, activityLoading: self.activityLoading)
             let category = CategoryCache.getCategoryByName(categoryDropDown.titleLabel!.text!)
             let conditionType = ViewUtil.parsePostConditionTypeFromValue(conditionDropDown.titleLabel!.text!)
-            ApiController.instance.newPost(sellingtext.text!, body: prodDescription.text!, catId: category!.id, conditionType: String(conditionType), pricetxt: pricetxt.text!, imageCollection: self.imageCollection)
+            ApiController.instance.newPost(ViewUtil.trim(sellingtext.text!), body: ViewUtil.trim(prodDescription.text!), catId: category!.id, conditionType: String(conditionType), pricetxt: ViewUtil.trim(pricetxt.text!), imageCollection: self.imageCollection)
         }
     }
     
     func validateSaveForm() -> Bool {
         var isValidated = true
+        
         var isImageUploaded = false
         for _image in imageCollection {
             if let _ = _image as? String {
@@ -298,22 +299,22 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
             }
         }
                 
-        if (!isImageUploaded) {
+        if !isImageUploaded {
             self.view.makeToast(message: "Please Upload Photo", duration: ViewUtil.SHOW_TOAST_DURATION_LONG, position: ViewUtil.DEFAULT_TOAST_POSITION)
             isValidated = false
-        } else if (self.sellingtext.text == nil || self.sellingtext.text == "" ) {
+        } else if self.sellingtext.text == nil || ViewUtil.trim(self.sellingtext.text!).isEmpty {
             self.view.makeToast(message: "Please fill title", duration: ViewUtil.SHOW_TOAST_DURATION_LONG, position: ViewUtil.DEFAULT_TOAST_POSITION)
             isValidated = false
-        } else if (self.prodDescription.text == nil || self.prodDescription.text == "") {
+        } else if self.prodDescription.text == nil || ViewUtil.trim(self.prodDescription.text!).isEmpty {
             self.view.makeToast(message: "Please fill description", duration: ViewUtil.SHOW_TOAST_DURATION_LONG, position: ViewUtil.DEFAULT_TOAST_POSITION)
             isValidated = false
-        } else if (self.pricetxt.text == nil || self.pricetxt.text == "") {
+        } else if self.pricetxt.text == nil || ViewUtil.trim(self.pricetxt.text!).isEmpty {
             self.view.makeToast(message: "Please enter a price", duration: ViewUtil.SHOW_TOAST_DURATION_LONG, position: ViewUtil.DEFAULT_TOAST_POSITION)
             isValidated = false
-        } else if (self.conditionDropDown.titleLabel?.text == nil || self.conditionDropDown.titleLabel?.text == "-Select-") {
+        } else if self.conditionDropDown.titleLabel?.text == nil || self.conditionDropDown.titleLabel?.text == "-Select-" {
             self.view.makeToast(message: "Please select condition type", duration: ViewUtil.SHOW_TOAST_DURATION_LONG, position: ViewUtil.DEFAULT_TOAST_POSITION)
             isValidated = false
-        } else if (self.categoryDropDown.titleLabel!.text == nil || self.categoryDropDown.titleLabel!.text == "Choose a Category:") {
+        } else if self.categoryDropDown.titleLabel!.text == nil || self.categoryDropDown.titleLabel!.text == "Choose a Category:" {
             self.view.makeToast(message: "Please select category", duration: ViewUtil.SHOW_TOAST_DURATION_LONG, position: ViewUtil.DEFAULT_TOAST_POSITION)
             isValidated = false
         }
