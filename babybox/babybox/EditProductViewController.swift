@@ -75,7 +75,7 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
             ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
             UserInfoCache.decrementNumProducts()
             self.navigationController?.popToRootViewControllerAnimated(true)
-                        
+            
             // select and refresh my profile tab
             if let myProfileController = CustomTabBarController.selectProfileTab() {
                 myProfileController.isRefresh = true
