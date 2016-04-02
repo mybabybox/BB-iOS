@@ -46,7 +46,6 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
     override func viewWillAppear(animated: Bool) {
         ViewUtil.hideActivityLoading(self.activityLoading)
         registerEvents()
-        
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -110,7 +109,6 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
         uiCollectionView.collectionViewLayout = flowLayout
         
         self.uiCollectionView.addPullToRefresh({ [weak self] in
-            ViewUtil.showActivityLoading(self!.activityLoading)
             self?.reloadFeedItems()
         })
     }
@@ -246,7 +244,6 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
             vController.userId = self.userInfo!.id
             vController.hidesBottomBarWhenPushed = true
         } else if (segue.identifier == "mpProductScreen"){
-            //
             let cell = sender as! FeedProductCollectionViewCell
             let indexPath = self.uiCollectionView!.indexPathForCell(cell)
             let feedItem = feedLoader!.getItem(indexPath!.row)
@@ -254,8 +251,6 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
             vController = segue.destinationViewController as? ProductViewController
             vController!.feedItem = feedItem
             vController!.hidesBottomBarWhenPushed = true
-            self.tabBarController?.tabBar.hidden = true
-            
         } else if (segue.identifier == "settings") {
             //self.uiCollectionView.delegate = nil
             let vController = segue.destinationViewController as! SettingsViewController

@@ -20,12 +20,12 @@ class DistrictCache {
         self.refresh(nil, failureCallback: nil)
     }
     
-    static func refresh(successCallback: (([LocationVM]) -> Void)?, failureCallback: ((error: String) -> Void)?) {
+    static func refresh(successCallback: (([LocationVM]) -> Void)?, failureCallback: ((String) -> Void)?) {
         SwiftEventBus.onMainThread(self, name: "getDistrictsSuccess") { result in
             SwiftEventBus.unregister(self)
             
             if ViewUtil.isEmptyResult(result) {
-                failureCallback!(error: "Districts returned is empty")
+                failureCallback!("Districts returned is empty")
                 return
             }
             
@@ -43,7 +43,7 @@ class DistrictCache {
                 if result.object is NSString {
                     error += "\n"+(result.object as! String)
                 }
-                failureCallback!(error: error)
+                failureCallback!(error)
             }
         }
         

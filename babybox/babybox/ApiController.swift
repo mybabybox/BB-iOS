@@ -70,8 +70,8 @@ class ApiController {
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/get-user/\(id)"
         callEvent.resultClass = "UserVM"
-        callEvent.successEventbusName = "userByIdSuccess"
-        callEvent.failedEventbusName = "userByIdFailed"
+        callEvent.successEventbusName = "onSuccessGetUser"
+        callEvent.failedEventbusName = "onFailureGetUser"
         callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         self.makeApiCall(callEvent)
     }
@@ -449,12 +449,12 @@ class ApiController {
         self.makeApiCall(callEvent)
     }
     
-    func getPostById(id: Int) {
+    func getPost(id: Int) {
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/get-post/\(id)"
         callEvent.resultClass = "PostVM"
-        callEvent.successEventbusName = "postByIdLoadSuccess"
-        callEvent.failedEventbusName = "postByIdLoadFailed"
+        callEvent.successEventbusName = "onSuccessGetPost"
+        callEvent.failedEventbusName = "onFailureGetPost"
         callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         self.makeApiCall(callEvent)
     }

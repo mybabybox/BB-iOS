@@ -40,7 +40,7 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     }
     
     @IBOutlet weak var textFieldKeyboardType: UITextField!{
-        didSet{
+        didSet {
             //textFieldKeyboardType.keyboardType = UIKeyboardType.NumberPad
         }
     }
@@ -58,64 +58,36 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "actionbar_bg_pink"), forBarMetrics: UIBarMetrics.Default)
         
-        /*SwiftEventBus.onMainThread(self, name: "postByIdLoadSuccess") { result in
-            SwiftEventBus.unregister("postByIdLoadSuccess")
-            if ViewUtil.isEmptyResult(result, message: "Product not found. It may be deleted by seller.", view: self.view) {
-                ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
-                return
-            }
-            self.postItem = result.object as? PostVM
-            self.initEditView()
-        }
-        
-        SwiftEventBus.onMainThread(self, name: "postByIdLoadFailure") { result in
-            SwiftEventBus.unregister("postByIdLoadFailure")
-            self.view.makeToast(message: "Error getting Post data.")
-            ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
-        }*/
+        SwiftEventBus.unregister(self)
         
         SwiftEventBus.onMainThread(self, name: "editProductSuccess") { result in
-            SwiftEventBus.unregister(self)
-            
             NSLog("Product edited successfully")
-            self.navigationController?.popToRootViewControllerAnimated(false)
-            
-            if let myProfileController = CustomTabBarController.selectProfileTab() {
-                myProfileController.isRefresh = true
-                myProfileController.currentIndex = nil
-                myProfileController.feedLoader?.loading = false
-                ViewUtil.makeToast("Product Updated Successfully.", view: myProfileController.view)
-            }
             ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
-            
+            self.navigationController?.popViewControllerAnimated(true)
         }
         
         SwiftEventBus.onMainThread(self, name: "editProductFailed") { result in
-            //SwiftEventBus.unregister(self)
             self.view.makeToast(message: "Error when editing product", duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
         }
         
         SwiftEventBus.onMainThread(self, name: "deletePostSuccess") { result in
-            SwiftEventBus.unregister(self)
-            
             NSLog("Product deleted successfully")
-            UserInfoCache.decrementNumProducts()
             ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
-            self.navigationController?.popToRootViewControllerAnimated(false)
-            
+            UserInfoCache.decrementNumProducts()
+            self.navigationController?.popToRootViewControllerAnimated(true)
+                        
             // select and refresh my profile tab
             if let myProfileController = CustomTabBarController.selectProfileTab() {
                 myProfileController.isRefresh = true
                 myProfileController.currentIndex = nil
                 myProfileController.feedLoader?.loading = false
-                ViewUtil.makeToast("Product is deleted.", view: myProfileController.view)
+                ViewUtil.makeToast("Congratulations! Product has been listed.", view: myProfileController.view)
             }
         }
         
         SwiftEventBus.onMainThread(self, name: "deletePostFailure") { result in
-            //SwiftEventBus.unregister(self)
-            self.view.makeToast(message: "Error when deleting product")
             ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
+            self.view.makeToast(message: "Error when deleting product")
         }
         
         self.conditionTypeDropDown.dataSource = [
@@ -148,7 +120,7 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         self.navigationItem.rightBarButtonItems = [saveProductBarBtn]
         
         ViewUtil.showActivityLoading(self.activityLoading)
-        ProductInfoHelper.getPostById(self.postId, successCallback: successResponseHandler, failureCallback: failureResponseHandler)
+        ApiFacade.getPost(self.postId, successCallback: onSuccessGetPost, failureCallback: onFailureGetPost)
         
     }
     
@@ -214,7 +186,6 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     //MARK: UICollectionViewDataSource
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return 1
-        
     }
     
     func saveProduct(sender: AnyObject) {
@@ -275,15 +246,14 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         self.presentViewController(_confirmDialog, animated: true, completion: nil)
     }
     
-    func successResponseHandler(postInfo: PostVM) {
+    func onSuccessGetPost(post: PostVM) {
         ViewUtil.hideActivityLoading(self.activityLoading)
-        self.postItem = postInfo
+        self.postItem = post
         self.initEditView()
     }
     
-    func failureResponseHandler(response: String?) -> Void {
-        self.view.makeToast(message: "Error getting Post data.")
+    func onFailureGetPost(error: String) -> Void {
+        self.view.makeToast(message: "Error getting Product.")
         ViewUtil.hideActivityLoading(self.activityLoading)
     }
-
 }

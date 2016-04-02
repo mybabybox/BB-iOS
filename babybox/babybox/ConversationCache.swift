@@ -22,7 +22,7 @@ class ConversationCache {
         conversations.sortInPlace({ $0.lastMessageDate > $1.lastMessageDate })
     }
     
-    static func load(offset: Int64, successCallback: (([ConversationVM]) -> Void)?, failureCallback: ((error: String) -> Void)?) {
+    static func load(offset: Int64, successCallback: (([ConversationVM]) -> Void)?, failureCallback: ((String) -> Void)?) {
         SwiftEventBus.onMainThread(self, name: "getConversationsSuccess") { result in
             SwiftEventBus.unregister(self)
             
@@ -31,7 +31,7 @@ class ConversationCache {
             }
             
             if ViewUtil.isEmptyResult(result) {
-                failureCallback!(error: "Conversations returned is empty")
+                failureCallback!("Conversations returned is empty")
                 return
             }
             
@@ -53,7 +53,7 @@ class ConversationCache {
                 if result.object is NSString {
                     error += "\n"+(result.object as! String)
                 }
-                failureCallback!(error: error)
+                failureCallback!(error)
             }
         }
         

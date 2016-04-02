@@ -102,7 +102,6 @@ class HomeFeedViewController: CustomNavigationController {
         self.categories = CategoryCache.categories
         
         self.uiCollectionView.addPullToRefresh({ [weak self] in
-            ViewUtil.showActivityLoading(self!.activityLoading)
             CategoryCache.refresh()
             self!.feedLoader?.reloadFeedItems()
         })

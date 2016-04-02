@@ -91,7 +91,6 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
         self.navigationItem.rightBarButtonItems = [sellBarBtn]
         
         self.uiCollectionView.addPullToRefresh({ [weak self] in
-            ViewUtil.showActivityLoading(self!.activityLoading)
             self!.feedLoader?.reloadFeedItems(Int((self?.selCategory?.id)!))
         })
     }
@@ -229,8 +228,7 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
     // MARK: UIScrollview Delegate
     func scrollViewDidScroll(scrollView: UIScrollView) {
         if (scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - Constants.FEED_LOAD_SCROLL_THRESHOLD {
-            ViewUtil.showActivityLoading(self.activityLoading)
-	    feedLoader!.loadMoreFeedItems(Int(self.selCategory!.id))
+            feedLoader!.loadMoreFeedItems(Int(self.selCategory!.id))
         }
     }
     

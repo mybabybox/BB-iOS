@@ -70,28 +70,28 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         sendButton.enabled = true
         
         SwiftEventBus.onMainThread(self, name: "getMessagesSuccess") { result in
+            ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
             let resultDto = result.object as! MessageResponseVM
             self.handleChatMessageResponse(resultDto)
             
             if (self.offered) {
                 self.newMessage("New offer: \(Int(self.offeredPrice))", image: nil, system: true)
             }
-            ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
         }
         
         SwiftEventBus.onMainThread(self, name: "newMessageSuccess") { result in
+            ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
             if (self.bubbleData != nil) {
                 self.addChatBubble(self.bubbleData!)
                 self.moveToFirstMessage()
                 self.reset()
             }
-            ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
         }
         
         SwiftEventBus.onMainThread(self, name: "newMessageFailed") { result in
+            ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
             self.view.makeToast(message: "Error upload message")
             self.reset()
-            ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
         }
         
         ViewUtil.showActivityLoading(self.activityLoading)

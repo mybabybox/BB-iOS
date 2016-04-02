@@ -23,7 +23,6 @@ class SettingsViewController: UIViewController {
             self.handleLogout(resultDto)
         }
         
-        self.tabBarController?.tabBar.hidden = true
         // Do any additional setup after loading the view.
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "actionbar_bg_pink"), forBarMetrics: UIBarMetrics.Default)
         

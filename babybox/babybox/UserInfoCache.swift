@@ -20,7 +20,7 @@ class UserInfoCache {
         refresh(sessionId, successCallback: nil, failureCallback: nil)
     }
     
-    static func refresh(sessionId: String, successCallback: ((UserVM) -> Void)?, failureCallback: ((String?) -> Void)?) {
+    static func refresh(sessionId: String, successCallback: ((UserVM) -> Void)?, failureCallback: ((String) -> Void)?) {
         SwiftEventBus.onMainThread(self, name: "userInfoSuccess") { result in
             SwiftEventBus.unregister(self)
             

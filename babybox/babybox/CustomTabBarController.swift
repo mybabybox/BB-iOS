@@ -40,8 +40,7 @@ class CustomTabBarController: UITabBarController {
             tabBarController.selectedIndex = tabItem.rawValue
             
             let navController = tabBarController.viewControllers![tabItem.rawValue] as! UINavigationController
-            let firstViewController = navController.viewControllers[0]
-            return firstViewController
+            return navController.viewControllers[0]
         }
         return nil
     }

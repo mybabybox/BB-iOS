@@ -25,13 +25,13 @@ class NotificationCounter {
         ApiController.instance.getNotificationCounter()
     }*/
     
-    func refresh(successCallback: ((NotificationCounterVM) -> Void)?, failureCallback: ((error: String) -> Void)?) {
+    func refresh(successCallback: ((NotificationCounterVM) -> Void)?, failureCallback: ((String) -> Void)?) {
         
         SwiftEventBus.onMainThread(self, name: "loadNotificationSuccess") { result in
             SwiftEventBus.unregister(self)
             
             if ViewUtil.isEmptyResult(result) {
-                failureCallback!(error: "failed to get notifications!")
+                failureCallback!("failed to get notifications!")
                 return
             }
             
@@ -49,7 +49,7 @@ class NotificationCounter {
                 if result.object is NSString {
                     error += "\n"+(result.object as! String)
                 }
-                failureCallback!(error: error)
+                failureCallback!(error)
             }
         }
         

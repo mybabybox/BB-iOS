@@ -70,13 +70,14 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
         //self.prodDescription.delegate = self
         
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "actionbar_bg_pink"), forBarMetrics: UIBarMetrics.Default)
+
+        SwiftEventBus.unregister(self)
         
         SwiftEventBus.onMainThread(self, name: "newProductSuccess") { result in
-            SwiftEventBus.unregister(self)
-            
             NSLog("New product created successfully")
+            ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
             UserInfoCache.incrementNumProducts()
-            self.navigationController?.popToRootViewControllerAnimated(false)
+            self.navigationController?.popToRootViewControllerAnimated(true)
             
             // select and refresh my profile tab
             if let myProfileController = CustomTabBarController.selectProfileTab() {
@@ -85,14 +86,11 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
                 myProfileController.feedLoader?.loading = false
                 ViewUtil.makeToast("Congratulations! Product has been listed.", view: myProfileController.view)
             }
-            ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
-            
         }
         
         SwiftEventBus.onMainThread(self, name: "newProductFailed") { result in
-            //SwiftEventBus.unregister(self)
-            self.view.makeToast(message: "Error when listing product", duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
             ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
+            self.view.makeToast(message: "Error when listing product", duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
         }
         
         initCategoryOptions()

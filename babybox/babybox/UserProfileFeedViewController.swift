@@ -32,27 +32,24 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
     }
     
     override func registerMoreEvents() {
-        SwiftEventBus.onMainThread(self, name: "userByIdSuccess") { result in
-            if ViewUtil.isEmptyResult(result) {
-                ViewUtil.makeToast("Could not find user", view: self.view)
-                return
-            }
-            
-            self.setUserInfo(result.object as? UserVM)
-            self.navigationItem.title = self.userInfo?.displayName
-            
-            if (self.activeHeaderViewCell != nil) {
-                self.activeHeaderViewCell?.segmentControl.setTitle("Products " + String(self.userInfo!.numProducts), forSegmentAtIndex: 0)
-                self.activeHeaderViewCell?.segmentControl.setTitle("Likes " + String(self.userInfo!.numLikes), forSegmentAtIndex: 1)
-            }
-            self.reloadFeedItems()
-        }
-        
-        SwiftEventBus.onMainThread(self, name: "userByIdFailed") { result in
-            self.view.makeToast(message: "Error getting User Profile Information!")
-        }
+    
     }
     
+    func onSuccessGetUser(user: UserVM?) {
+        self.setUserInfo(user)
+        self.navigationItem.title = self.userInfo?.displayName
+        
+        if (self.activeHeaderViewCell != nil) {
+            self.activeHeaderViewCell?.segmentControl.setTitle("Products " + String(self.userInfo!.numProducts), forSegmentAtIndex: 0)
+            self.activeHeaderViewCell?.segmentControl.setTitle("Likes " + String(self.userInfo!.numLikes), forSegmentAtIndex: 1)
+        }
+        self.reloadFeedItems()
+    }
+    
+    func onFailureGetUser(error: String) {
+        self.view.makeToast(message: error)
+    }
+
     override func viewWillAppear(animated: Bool) {
         ViewUtil.hideActivityLoading(self.activityLoading)
         registerEvents()
@@ -84,7 +81,7 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
         
         registerEvents()
         
-        ApiController.instance.getUser(self.userId)
+        ApiFacade.getUser(self.userId, successCallback: onSuccessGetUser, failureCallback: onFailureGetUser)
         
         setCollectionViewSizesInsets()
         setCollectionViewSizesInsetsForTopView()
@@ -100,10 +97,8 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
         self.navigationItem.leftBarButtonItems = []
         
         self.uiCollectionView.addPullToRefresh({ [weak self] in
-            ViewUtil.showActivityLoading(self!.activityLoading)
             self!.feedLoader?.reloadFeedItems((self?.userInfo?.id)!)
         })
-
     }
     
     override func didReceiveMemoryWarning() {

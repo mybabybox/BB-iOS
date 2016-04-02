@@ -47,7 +47,6 @@ class RecommendedSellerViewController: UIViewController {
         self.uiCollectionView.addPullToRefresh({ [weak self] in
             self?.reloadSellers()
         })
-        
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -281,14 +280,12 @@ class RecommendedSellerViewController: UIViewController {
     }
     
     func clearSellers() {
-    
         self.loading = false
         self.loadedAll = false
         self.recommendedSellers.removeAll()
         self.recommendedSellers = []
         self.uiCollectionView.reloadData()
         self.offSet = 0
-    
     }
     
     func reloadSellers() {

@@ -455,7 +455,6 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
             let vController = segue.destinationViewController as! CategoryFeedViewController
             vController.selCategory = CategoryCache.getCategoryById(self.productInfo!.categoryId)
             vController.hidesBottomBarWhenPushed = true
-            
         } else if (segue.identifier == "userprofile") {
             let vController = segue.destinationViewController as! UserProfileFeedViewController
             vController.userId = self.productInfo!.ownerId
