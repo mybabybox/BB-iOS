@@ -280,6 +280,26 @@ class ViewUtil {
         viewController.navigationController?.view.userInteractionEnabled = false
     }
     
+    //TooltipViewCell
+    static func registerNoItemsView(colletionView: UICollectionView) {
+        let flowLayout = colletionView.collectionViewLayout as? UICollectionViewFlowLayout
+        colletionView.registerClass(TooltipViewCell.self, forCellWithReuseIdentifier: "NoItemsToolTipView")
+        colletionView.collectionViewLayout = flowLayout!
+    }
+    
+    static func prepareNoItemsView(collectionView: UICollectionView, indexPath: NSIndexPath, noItemText: String) -> TooltipViewCell {
+        let cellView =
+        collectionView.dequeueReusableCellWithReuseIdentifier("NoItemsToolTipView", forIndexPath: indexPath) as! TooltipViewCell
+        
+        let label = UILabel()
+        label.textAlignment = .Center
+        label.text = noItemText
+        label.frame = CGRectMake(0, 0, collectionView.bounds.width, 40)
+        label.textColor = Color.LIGHT_GRAY_2
+        cellView.addSubview(label)
+        return cellView
+    }
+    
     static func registerNoItemsHeaderView(colletionView: UICollectionView) {
         let flowLayout = colletionView.collectionViewLayout as? UICollectionViewFlowLayout
         flowLayout!.headerReferenceSize = CGSizeMake(colletionView.bounds.width, 40.0)
@@ -300,5 +320,12 @@ class ViewUtil {
         label.textColor = Color.LIGHT_GRAY_2
         headerView.addSubview(label)
         return headerView
+    }
+    
+    static func displayCornerTextView(view: UIView) {
+        view.layer.cornerRadius = 7.0
+        view.layer.masksToBounds = true
+        view.layer.borderWidth = 1
+        view.layer.borderColor = UIColor.redColor().CGColor
     }
 }

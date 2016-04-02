@@ -114,6 +114,9 @@
 		84215C991CAB08CE00D4CCFA /* NotificationViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84215C981CAB08CE00D4CCFA /* NotificationViewCell.swift */; };
 		84215C9C1CAB903000D4CCFA /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84215C9B1CAB903000D4CCFA /* UIImageExtension.swift */; };
 		84215C9E1CAC2A9000D4CCFA /* MakeOfferViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84215C9D1CAC2A8E00D4CCFA /* MakeOfferViewController.swift */; };
+		8438AF971CAF9C7E0082D755 /* NoItemsToolTipHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8438AF961CAF9C7E0082D755 /* NoItemsToolTipHeaderView.swift */; };
+		8438AF991CB0332F0082D755 /* ApiFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8438AF981CB0332F0082D755 /* ApiFacade.swift */; };
+		8438AF9B1CB03B610082D755 /* EditUserInfoVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8438AF9A1CB03B610082D755 /* EditUserInfoVM.swift */; };
 		844845221C9C2D1D00714EBE /* ConversationsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EB21771C1F4C7C001A14DB /* ConversationsCollectionViewCell.swift */; };
 		844845271C9C422300714EBE /* ProductChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844845261C9C422300714EBE /* ProductChatViewController.swift */; };
 		844845291C9C48FF00714EBE /* ProductChatViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844845281C9C48FF00714EBE /* ProductChatViewCell.swift */; };
@@ -241,6 +244,9 @@
 		84215C981CAB08CE00D4CCFA /* NotificationViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationViewCell.swift; sourceTree = "<group>"; };
 		84215C9B1CAB903000D4CCFA /* UIImageExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 		84215C9D1CAC2A8E00D4CCFA /* MakeOfferViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MakeOfferViewController.swift; sourceTree = "<group>"; };
+		8438AF961CAF9C7E0082D755 /* NoItemsToolTipHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoItemsToolTipHeaderView.swift; sourceTree = "<group>"; };
+		8438AF981CB0332F0082D755 /* ApiFacade.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiFacade.swift; sourceTree = "<group>"; };
+		8438AF9A1CB03B610082D755 /* EditUserInfoVM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditUserInfoVM.swift; sourceTree = "<group>"; };
 		844845261C9C422300714EBE /* ProductChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductChatViewController.swift; sourceTree = "<group>"; };
 		844845281C9C48FF00714EBE /* ProductChatViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductChatViewCell.swift; sourceTree = "<group>"; };
 		844902C71C9ECE4D005CAECF /* TooltipViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TooltipViewCell.swift; sourceTree = "<group>"; };
@@ -382,6 +388,7 @@
 		046BB69D1C5794190007CCE6 /* app */ = {
 			isa = PBXGroup;
 			children = (
+				8438AF981CB0332F0082D755 /* ApiFacade.swift */,
 				043123311C7F356C007EAC4D /* ApiController.swift */,
 				0459BB271C75BA7B0096A330 /* FeedViewAdapter.swift */,
 				0408F9FF1C13632300CC8803 /* Constants.swift */,
@@ -447,6 +454,7 @@
 		046BB6A01C57943F0007CCE6 /* viewmodel */ = {
 			isa = PBXGroup;
 			children = (
+				8438AF9A1CB03B610082D755 /* EditUserInfoVM.swift */,
 				84FB2BB21C9C12DC00323D41 /* MessageResponseVM.swift */,
 				84FB2BAB1C9C12B800323D41 /* ConversationOrderVM.swift */,
 				84FB2BAD1C9C12B800323D41 /* CountryVM.swift */,
@@ -541,6 +549,7 @@
 				844902C71C9ECE4D005CAECF /* TooltipViewCell.swift */,
 				84215C981CAB08CE00D4CCFA /* NotificationViewCell.swift */,
 				84C7F3F01CADB30D00AB95EA /* ConversationTableViewCell.swift */,
+				8438AF961CAF9C7E0082D755 /* NoItemsToolTipHeaderView.swift */,
 			);
 			name = viewcell;
 			sourceTree = "<group>";
@@ -824,6 +833,7 @@
 				0408FA1C1C13633B00CC8803 /* CategoryCollectionViewCell.swift in Sources */,
 				0408FA0F1C13632300CC8803 /* FollowingFeedViewController.swift in Sources */,
 				0459BB241C755C8C0096A330 /* NSDateExtension.swift in Sources */,
+				8438AF9B1CB03B610082D755 /* EditUserInfoVM.swift in Sources */,
 				04E1AA0E1C4A52B00052FEED /* DropDownCell.swift in Sources */,
 				0408F9D81C1362AA00CC8803 /* AppDelegate.swift in Sources */,
 				04A25A981C22E921008A1DB1 /* ConversationVM.swift in Sources */,
@@ -831,9 +841,11 @@
 				0431232D1C7F3540007EAC4D /* StringUtil.swift in Sources */,
 				84215C9C1CAB903000D4CCFA /* UIImageExtension.swift in Sources */,
 				0449B00D1C63DDD80077049C /* SignupViewController.swift in Sources */,
+				8438AF991CB0332F0082D755 /* ApiFacade.swift in Sources */,
 				04521FC21C5C9D0A00515C40 /* UserFeedHeaderViewCell.swift in Sources */,
 				04EB21821C1FFE98001A14DB /* UserActivityViewController.swift in Sources */,
 				043A53711C6A31C900C70DBC /* SignInOptionsViewController.swift in Sources */,
+				8438AF971CAF9C7E0082D755 /* NoItemsToolTipHeaderView.swift in Sources */,
 				047706F61C2485FC00E851D3 /* MessagesViewController.swift in Sources */,
 				04EB21761C1F4A11001A14DB /* ConversationsViewController.swift in Sources */,
 			);

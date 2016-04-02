@@ -24,6 +24,7 @@ class UserVM: UserVMLite {
     var newUser: Bool = false
     var isAdmin: Bool = false
     var isMobile: Bool = false
+    var location: LocationVM = LocationVM()
     
     override func mapping(map: ObjectMapper.Map) {
         super.mapping(map)
@@ -44,6 +45,7 @@ class UserVM: UserVMLite {
         newUser<-map["newUser"]
         isAdmin<-map["isAdmin"]
         isMobile<-map["isMobile"]
+        location<-map["location"]
         
     }
 }

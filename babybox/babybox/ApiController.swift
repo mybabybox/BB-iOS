@@ -613,6 +613,40 @@ class ApiController {
         )
     }
     
+    func editUserInfo(editUserInfoVM: EditUserInfoVM) {
+        let callEvent = ApiCallEvent()
+        callEvent.method = "/api/user-info/edit"
+        callEvent.resultClass = "UserVM"
+        callEvent.successEventbusName = "onEditInfoSuccess"
+        callEvent.failedEventbusName = "onEditInfoFailed"
+        callEvent.apiUrl = Constants.BASE_URL + callEvent.method
+        let url = callEvent.apiUrl + "?key=\(StringUtil.encode(AppDelegate.getInstance().sessionId!))"
+        
+        NSLog("makePostApiCall")
+        
+        var strData = [String]()
+        strData.append("email=\(editUserInfoVM.email)")
+        strData.append("aboutMe=\(editUserInfoVM.aboutMe)")
+        strData.append("displayName=\(editUserInfoVM.displayName)")
+        strData.append("firstName=\(editUserInfoVM.firstName)")
+        strData.append("lastName=\(editUserInfoVM.lastName)")
+        strData.append("location=\(editUserInfoVM.location)")
+        
+        let parameter = self.makeBodyString(strData)
+        let request: NSMutableURLRequest = NSMutableURLRequest()
+        request.URL = NSURL(string: url)
+        request.HTTPMethod = "POST"
+        request.HTTPBody = parameter.dataUsingEncoding(NSUTF8StringEncoding)
+        
+        NSLog("sending string %@", url)
+        
+        let session = NSURLSession.sharedSession()
+        let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
+            self.handleApiResponse(callEvent, data: data, response: response, error: error)
+        })
+        task.resume()
+    }
+    
     //@POST("/api/user-notification-settings/edit")
     func editUserNotificationSettings(settingsVM: SettingVM) {
         let callEvent = ApiCallEvent()

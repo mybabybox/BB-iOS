@@ -58,4 +58,13 @@ class DistrictCache {
         }
         return nil
     }
+    
+    static func getDistrictById(id: Int) -> LocationVM? {
+        for index in 0...DistrictCache.districts.count {
+            if (DistrictCache.districts[index].id == id) {
+                return DistrictCache.districts[index]
+            }
+        }
+        return nil
+    }
 }
