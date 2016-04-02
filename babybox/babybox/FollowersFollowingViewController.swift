@@ -20,6 +20,7 @@ class FollowersFollowingViewController: UICollectionViewController {
     var optionType: String = ""
     var loadedAll: Bool = false
     var loading: Bool = false
+    var headerView: NoItemsToolTipHeaderView?
     
     @IBAction func onClickFollowings(sender: AnyObject) {
         
@@ -58,20 +59,11 @@ class FollowersFollowingViewController: UICollectionViewController {
                 self.loadedAll = true
             }
             self.loading = false
-            /*var dummyAdded = false
-            if (self.followersFollowings.isEmpty) {
-                //no result hence show tooltip text... by adding dummy record in collection...
-                let dummyVM = UserVMLite()
-                dummyVM.id = -1
-                self.followersFollowings = [dummyVM]
-                dummyAdded = true
-            }*/
-            self.collectionView?.reloadData()
             
-            /*if (dummyAdded) {
-                self.followersFollowings.removeAll()
-            }*/
-
+            if (self.followersFollowings.isEmpty) {
+                ViewUtil.registerNoItemsHeaderView(self.collectionView!)
+            }
+            self.collectionView?.reloadData()
         }
         
         SwiftEventBus.onMainThread(self, name: "userFollowersFollowingsFailed") { result in
@@ -110,19 +102,6 @@ class FollowersFollowingViewController: UICollectionViewController {
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
         let userInfo = self.followersFollowings[indexPath.row]
-        /*if (userInfo.id == -1) {
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier("toolTipCell", forIndexPath: indexPath) as! TooltipViewCell
-            switch optionType {
-                case "followingCalls":
-                    cell.toolTipText.text = Constants.NO_FOLLOWINGS
-                    break
-                case "followersCall":
-                    cell.toolTipText.text = Constants.NO_FOLLOWERS
-                    break
-                default: break
-            }
-            return cell
-        }*/
         
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! FollowingCollectionViewCell
         
@@ -146,14 +125,32 @@ class FollowersFollowingViewController: UICollectionViewController {
     }
     
     override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        /*self.currentIndex = indexPath.row
-        let vController = self.storyboard?.instantiateViewControllerWithIdentifier("UserProfileFeedViewController") as! UserProfileFeedViewController
-        vController.userId = self.followersFollowings[self.currentIndex].id
-        ViewUtil.resetBackButton(self.navigationItem)
-        self.navigationController?.pushViewController(vController, animated: true)*/
         
     }
 
+    override func collectionView(collectionView: UICollectionView,
+        viewForSupplementaryElementOfKind kind: String,
+        atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+        switch kind {
+            case UICollectionElementKindSectionHeader:
+                var noItemText = ""
+                switch optionType {
+                    case "followingCalls":
+                        noItemText = Constants.NO_FOLLOWINGS
+                    case "followersCall":
+                        noItemText = Constants.NO_FOLLOWERS
+                    default: break
+                }
+                
+                return ViewUtil.prepareNoItemsHeaderView(collectionView, indexPath: indexPath, noItemText: noItemText)
+                default:
+                assert(false, "Unexpected element kind")
+        }
+    }
+    
+    /*func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSizeZero
+    }*/
     func setCollectionViewSizesInsets() {
         collectionViewCellSize = CGSizeMake(self.view.bounds.width , 60)
     }

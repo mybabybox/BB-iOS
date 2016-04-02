@@ -279,4 +279,26 @@ class ViewUtil {
         viewController.view.userInteractionEnabled = false
         viewController.navigationController?.view.userInteractionEnabled = false
     }
+    
+    static func registerNoItemsHeaderView(colletionView: UICollectionView) {
+        let flowLayout = colletionView.collectionViewLayout as? UICollectionViewFlowLayout
+        flowLayout!.headerReferenceSize = CGSizeMake(colletionView.bounds.width, 40.0)
+        colletionView.registerClass(NoItemsToolTipHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "NoItemsToolTipHeaderView")
+        colletionView.collectionViewLayout = flowLayout!
+    }
+    
+    static func prepareNoItemsHeaderView(collectionView: UICollectionView, indexPath: NSIndexPath, noItemText: String) -> NoItemsToolTipHeaderView {
+        let headerView =
+            collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader,
+                withReuseIdentifier: "NoItemsToolTipHeaderView",
+                forIndexPath: indexPath)
+            as! NoItemsToolTipHeaderView
+        let label = UILabel()
+        label.textAlignment = .Center
+        label.text = noItemText
+        label.frame = CGRectMake(0, 0, collectionView.bounds.width, 40)
+        label.textColor = Color.LIGHT_GRAY_2
+        headerView.addSubview(label)
+        return headerView
+    }
 }

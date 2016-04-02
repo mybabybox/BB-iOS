@@ -2709,10 +2709,10 @@
             </objects>
             <point key="canvasLocation" x="9387" y="2943"/>
         </scene>
-        <!--Edit Profile View Controller-->
+        <!--Edit Profile-->
         <scene sceneID="X1l-Zn-Aru">
             <objects>
-                <viewController id="px0-27-EwH" customClass="EditProfileViewController" customModule="BeautyPop" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="px0-27-EwH" title="Edit Info" customClass="EditProfileViewController" customModule="BeautyPop" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="EBR-7n-EAo"/>
                         <viewControllerLayoutGuide type="bottom" id="629-fn-FQ3"/>
@@ -2720,7 +2720,32 @@
                     <view key="view" contentMode="scaleToFill" id="XsJ-1S-4Ne">
                         <rect key="frame" x="0.0" y="64" width="414" height="672"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IBl-Lq-oVI">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="623"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7DY-hV-EEJ" userLabel="Content View">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="672"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="7DY-hV-EEJ" secondAttribute="bottom" constant="-49" id="HN0-lJ-69Z"/>
+                                    <constraint firstAttribute="trailing" secondItem="7DY-hV-EEJ" secondAttribute="trailing" id="ZEg-RY-gSU"/>
+                                    <constraint firstItem="7DY-hV-EEJ" firstAttribute="leading" secondItem="IBl-Lq-oVI" secondAttribute="leading" id="bnH-VR-bAI"/>
+                                    <constraint firstItem="7DY-hV-EEJ" firstAttribute="top" secondItem="IBl-Lq-oVI" secondAttribute="top" id="deD-mz-3L1"/>
+                                </constraints>
+                            </scrollView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="7DY-hV-EEJ" firstAttribute="width" secondItem="XsJ-1S-4Ne" secondAttribute="width" id="KId-XN-kwR"/>
+                            <constraint firstAttribute="trailing" secondItem="IBl-Lq-oVI" secondAttribute="trailing" id="V2W-k6-So7"/>
+                            <constraint firstItem="IBl-Lq-oVI" firstAttribute="leading" secondItem="XsJ-1S-4Ne" secondAttribute="leading" id="cmr-wb-htj"/>
+                            <constraint firstItem="629-fn-FQ3" firstAttribute="top" secondItem="IBl-Lq-oVI" secondAttribute="bottom" id="n9W-6y-Ztt"/>
+                            <constraint firstItem="IBl-Lq-oVI" firstAttribute="top" secondItem="EBR-7n-EAo" secondAttribute="bottom" id="psO-We-mqZ"/>
+                            <constraint firstItem="7DY-hV-EEJ" firstAttribute="height" secondItem="XsJ-1S-4Ne" secondAttribute="height" id="wJK-3Y-FVi"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="UVK-i8-NME"/>
                 </viewController>
@@ -3177,33 +3202,8 @@
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                         <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="toolTipCell" id="03N-do-Bli" customClass="TooltipViewCell" customModule="BeautyPop" customModuleProvider="target">
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="followingCollectionViewCell" id="Cz6-lU-wkd" customClass="FollowingCollectionViewCell" customModule="BabyBox" customModuleProvider="target">
                                 <rect key="frame" x="47" y="0.0" width="320" height="64"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="~ No followings ~" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="grL-B5-pTy" userLabel="toolTipText">
-                                            <rect key="frame" x="0.0" y="10" width="320" height="18"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                </view>
-                                <constraints>
-                                    <constraint firstItem="grL-B5-pTy" firstAttribute="leading" secondItem="03N-do-Bli" secondAttribute="leading" id="TtN-0T-Pkr"/>
-                                    <constraint firstAttribute="trailing" secondItem="grL-B5-pTy" secondAttribute="trailing" id="fcd-0d-Tr2"/>
-                                    <constraint firstItem="grL-B5-pTy" firstAttribute="top" secondItem="03N-do-Bli" secondAttribute="top" constant="10" id="qyt-ZS-bmC"/>
-                                </constraints>
-                                <connections>
-                                    <outlet property="toolTipText" destination="grL-B5-pTy" id="Mel-AX-757"/>
-                                </connections>
-                            </collectionViewCell>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="followingCollectionViewCell" id="Cz6-lU-wkd" customClass="FollowingCollectionViewCell" customModule="BeautyPop" customModuleProvider="target">
-                                <rect key="frame" x="47" y="65" width="320" height="64"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
@@ -6000,10 +6000,10 @@
     <inferredMetricsTieBreakers>
         <segue reference="xlr-H1-EYH"/>
         <segue reference="NRf-cI-JqS"/>
-        <segue reference="ncj-ht-WX7"/>
-        <segue reference="7VM-RZ-NKx"/>
-        <segue reference="fRU-pM-mSi"/>
+        <segue reference="pK4-qg-eaZ"/>
         <segue reference="2g9-O4-duU"/>
+        <segue reference="fRU-pM-mSi"/>
+        <segue reference="Aso-Du-fLI"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>

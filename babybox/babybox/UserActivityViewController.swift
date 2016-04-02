@@ -56,7 +56,7 @@ class UserActivityViewController: CustomNavigationController {
             self.view.makeToast(message: "Error getting User activities data.")
         }
         
-        SwiftEventBus.onMainThread(self, name: "postByIdLoadSuccess") { result in
+        /*SwiftEventBus.onMainThread(self, name: "postByIdLoadSuccess") { result in
             if ViewUtil.isEmptyResult(result, message: "Product not found. It may be deleted by seller.", view: self.view) {
                 return
             }
@@ -70,7 +70,7 @@ class UserActivityViewController: CustomNavigationController {
         
         SwiftEventBus.onMainThread(self, name: "postByIdLoadFailed") { result in
             self.view.makeToast(message: "Product not found. It may be deleted by seller.", duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
-        }
+        }*/
         
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.itemSize = CGSizeMake(self.view.bounds.width, self.view.bounds.height)
@@ -161,7 +161,8 @@ class UserActivityViewController: CustomNavigationController {
         let item = self.userActivitesItems[indexPath.row]
         switch (item.activityType) {
         case "FIRST_POST", "NEW_POST", "NEW_COMMENT", "LIKED", "SOLD":
-            ApiController.instance.getPostById(self.userActivitesItems[indexPath.row].target)
+            //ApiController.instance.getPostById(self.userActivitesItems[indexPath.row].target)
+            ProductInfoHelper.getPostById(self.userActivitesItems[indexPath.row].target, successCallback: successResponseHandler, failureCallback: failureResponseHandler)
         case "FOLLOWED": fallthrough
 
         default: break
@@ -212,8 +213,8 @@ class UserActivityViewController: CustomNavigationController {
         let view = button.superview!
         let cell = view.superview! as! BaseActivityViewCell
         let indexPath = self.uiCollectionView.indexPathForCell(cell)!
-        ApiController.instance.getPostById(self.userActivitesItems[indexPath.row].target)
-        
+        //ApiController.instance.getPostById(self.userActivitesItems[indexPath.row].target)
+        ProductInfoHelper.getPostById(self.userActivitesItems[indexPath.row].target, successCallback: successResponseHandler, failureCallback: failureResponseHandler)
     }
     
     func setMessageText(item: ActivityVM) -> String {
@@ -303,5 +304,16 @@ class UserActivityViewController: CustomNavigationController {
     
     func handleNotificationError(message: String) {
         NSLog(message)
+    }
+    
+    func successResponseHandler(postInfo: PostVMLite) {
+        let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("ProductViewController") as! ProductViewController
+        vController.feedItem = postInfo
+        vController.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(vController, animated: true)
+    }
+    
+    func failureResponseHandler(response: String?) {
+        self.view.makeToast(message: "Product not found. It may be deleted by seller.", duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
     }
 }

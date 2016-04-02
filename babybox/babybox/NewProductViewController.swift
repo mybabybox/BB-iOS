@@ -76,7 +76,6 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
             
             NSLog("New product created successfully")
             UserInfoCache.incrementNumProducts()
-            ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
             self.navigationController?.popToRootViewControllerAnimated(false)
             
             // select and refresh my profile tab
@@ -86,6 +85,8 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
                 myProfileController.feedLoader?.loading = false
                 ViewUtil.makeToast("Congratulations! Product has been listed.", view: myProfileController.view)
             }
+            ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
+            
         }
         
         SwiftEventBus.onMainThread(self, name: "newProductFailed") { result in
