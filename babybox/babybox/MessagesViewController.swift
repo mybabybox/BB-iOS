@@ -55,6 +55,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         MessagesViewController.instance = self
         messageCointainerScroll.delegate = self
         

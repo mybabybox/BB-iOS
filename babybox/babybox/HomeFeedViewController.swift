@@ -18,7 +18,6 @@ class HomeFeedViewController: CustomNavigationController {
     @IBOutlet weak var uiCollectionView: UICollectionView!
     @IBOutlet weak var activityLoading: UIActivityIndicatorView!
     
-    static var instance: HomeFeedViewController? = nil
     var feedLoader: FeedLoader? = nil
     var feedViewAdapter: FeedViewAdapter? = nil
     
@@ -35,6 +34,10 @@ class HomeFeedViewController: CustomNavigationController {
     func reloadDataToView() {
         self.uiCollectionView.reloadData()
         self.lastContentOffset = 0
+    }
+    
+    func onSuccessGetCategories(categories: [CategoryVM]) {
+        reloadDataToView()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -71,8 +74,6 @@ class HomeFeedViewController: CustomNavigationController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        HomeFeedViewController.instance = self
-        
         feedLoader = FeedLoader(feedType: FeedFilter.FeedType.HOME_EXPLORE, reloadDataToView: reloadDataToView)
         feedLoader!.setActivityIndicator(activityLoading)
         feedLoader!.reloadFeedItems()
@@ -102,7 +103,7 @@ class HomeFeedViewController: CustomNavigationController {
         self.categories = CategoryCache.categories
         
         self.uiCollectionView.addPullToRefresh({ [weak self] in
-            CategoryCache.refresh()
+            CategoryCache.refresh(self?.onSuccessGetCategories, failureCallback: nil)
             self!.feedLoader?.reloadFeedItems()
         })
     }
@@ -173,7 +174,6 @@ class HomeFeedViewController: CustomNavigationController {
     func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
         var reusableView : UICollectionReusableView? = nil
         if (kind == UICollectionElementKindSectionHeader) {
-            
             let headerView : HomeReusableView = collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "HeaderView", forIndexPath: indexPath) as! HomeReusableView
             headerView.headerViewCollection.reloadData()
             reusableView = headerView
@@ -285,7 +285,5 @@ class HomeFeedViewController: CustomNavigationController {
     func handleNotificationError(message: String) {
         NSLog(message)
     }
-    
-    
 }
 
