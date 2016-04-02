@@ -108,7 +108,7 @@ class ConversationsViewController: UIViewController {
         
         cell.photoLayout.hidden = !item.lastMessageHasImage
         cell.unreadComments.text = String(item.unread)
-        
+        cell.photoLayout.backgroundColor = UIColor.clearColor()
         cell.unreadComments.hidden = true
         cell.layer.borderColor = UIColor.clearColor().CGColor
         cell.layer.backgroundColor = UIColor.clearColor().CGColor
