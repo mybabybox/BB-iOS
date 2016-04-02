@@ -127,10 +127,16 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         
     func addKeyboardNotifications() {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name:UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardDidShow:"), name: UIKeyboardDidShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name:UIKeyboardWillHideNotification, object: nil)
     }
         
     // MARK:- Notification
+    
+    func keyboardDidShow(notification: NSNotification) {
+        self.moveToFirstMessage()
+    }
+    
     func keyboardWillShow(notification: NSNotification) {
         var info = notification.userInfo!
         let keyboardFrame: CGRect = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
@@ -175,7 +181,6 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         if (self.textField.text == nil) {
             self.textField.text = ""
         }
-        textField.resignFirstResponder()
         ViewUtil.showGrayOutView(self)
         newMessage(textField.text!, image: self.uploadImgSrc.image)
     }
