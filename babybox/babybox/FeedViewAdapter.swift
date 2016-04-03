@@ -22,8 +22,8 @@ class FeedViewAdapter {
     
     func bindViewCell(cell: FeedProductCollectionViewCell, feedItem: PostVMLite, index: Int, showOwner: Bool) -> FeedProductCollectionViewCell {
         
-        cell.title.font = UIFont.boldSystemFontOfSize(14)
-        cell.title.textColor = Color.GRAY
+        cell.title.font = UIFont.systemFontOfSize(14)
+        cell.title.textColor = Color.DARK_GRAY
         cell.title.text = feedItem.title
         
         // load image

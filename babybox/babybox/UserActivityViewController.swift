@@ -86,57 +86,55 @@ class UserActivityViewController: CustomNavigationController {
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
         let viewStatus = self.userActivitesItems[indexPath.row].viewed
-        
-        switch (self.userActivitesItems[indexPath.row].activityType) {
-        case "FIRST_POST", "NEW_POST", "NEW_COMMENT", "LIKED", "SOLD":
+        let activityType = self.userActivitesItems[indexPath.row].activityType
+        switch (activityType) {
+        case "FIRST_POST", "NEW_POST", "NEW_COMMENT", "LIKED", "SOLD", "FOLLOWED":
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier("UserActivity", forIndexPath: indexPath) as! UserActivityViewCell
             cell.contentMode = UIViewContentMode.Redraw
-            cell.sizeToFit()
             cell.activityTime.text = NSDate(timeIntervalSince1970:Double(self.userActivitesItems[indexPath.row].createdDate) / 1000.0).timeAgo
             cell.textMessage.text = self.setMessageText(self.userActivitesItems[indexPath.row])
             cell.textMessage.numberOfLines = 0
             cell.textMessage.sizeToFit()
-            cell.userName.setTitle(self.userActivitesItems[indexPath.row].actorName, forState: UIControlState.Normal)
-            cell.userName.setTitleColor(Color.PINK, forState: UIControlState.Normal)
-            cell.postImage.hidden = false
             ImageUtil.displayThumbnailProfileImage(Int(self.userActivitesItems[indexPath.row].actorImage), imageView: cell.profileImg)
-            ImageUtil.displayPostImage(Int(self.userActivitesItems[indexPath.row].targetImage), imageView: cell.postImage)
+
+            if activityType == "FIRST_POST" {
+                cell.userName.hidden = true
+                cell.userName.setTitle("", forState: UIControlState.Normal)
+            } else {
+                cell.userName.hidden = false
+                cell.userName.setTitle(self.userActivitesItems[indexPath.row].actorName, forState: UIControlState.Normal)
+                cell.userName.setTitleColor(Color.PINK, forState: UIControlState.Normal)
+            }
+            cell.userName.sizeToFit()
+            
+            if activityType == "FOLLOWED" {
+                cell.postImage.hidden = true
+            } else {
+                cell.postImage.hidden = false
+                ImageUtil.displayPostImage(Int(self.userActivitesItems[indexPath.row].targetImage), imageView: cell.postImage)
+            }
             
             if (!viewStatus) {
                 cell.layer.backgroundColor = Color.IMAGE_LOAD_BG.CGColor
             }
-            return cell
-        case "FOLLOWED":
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier("UserActivity", forIndexPath: indexPath) as! UserActivityViewCell
-            cell.contentMode = UIViewContentMode.Redraw
+            
             cell.sizeToFit()
-            cell.activityTime.text = NSDate(timeIntervalSince1970:Double(self.userActivitesItems[indexPath.row].createdDate) / 1000.0).timeAgo
-            cell.textMessage.text = self.setMessageText(self.userActivitesItems[indexPath.row])
-            cell.textMessage.numberOfLines = 0
-            cell.textMessage.sizeToFit()
-            cell.userName.setTitle(self.userActivitesItems[indexPath.row].actorName, forState: UIControlState.Normal)
-            cell.userName.setTitleColor(Color.PINK, forState: UIControlState.Normal)
-            cell.postImage.hidden = true
-            ImageUtil.displayThumbnailProfileImage(Int(self.userActivitesItems[indexPath.row].actorImage), imageView: cell.profileImg)
-            
-            if (!viewStatus) {
-                cell.layer.backgroundColor = Color.IMAGE_LOAD_BG.CGColor
-            }
             return cell
         case "NEW_GAME_BADGE": fallthrough
         default:
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier("UserActivityDefault", forIndexPath: indexPath) as! UserActivityDefaultViewCell
             cell.contentMode = UIViewContentMode.Redraw
-            cell.sizeToFit()
             cell.activityTime.text = NSDate(timeIntervalSince1970:Double(self.userActivitesItems[indexPath.row].createdDate) / 1000.0).timeAgo
             cell.textMessage.text = self.setMessageText(self.userActivitesItems[indexPath.row])
             cell.textMessage.numberOfLines = 0
             cell.textMessage.sizeToFit()
             ImageUtil.displayThumbnailProfileImage(Int(self.userActivitesItems[indexPath.row].actorImage), imageView: cell.profileImg)
-            
+
             if (!viewStatus) {
                 cell.layer.backgroundColor = Color.IMAGE_LOAD_BG.CGColor
             }
+            
+            cell.sizeToFit()
             return cell
         }
     }
