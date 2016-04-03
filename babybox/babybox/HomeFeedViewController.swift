@@ -42,6 +42,7 @@ class HomeFeedViewController: CustomNavigationController {
     
     override func viewWillAppear(animated: Bool) {
         ViewUtil.hideActivityLoading(self.activityLoading)
+        NotificationCounter.refresh(onSuccessRefreshNotifications, failureCallback: onFailureRefreshNotifications)
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -57,7 +58,6 @@ class HomeFeedViewController: CustomNavigationController {
             feedLoader?.setItem(currentIndex!.row, item: item!)
             self.uiCollectionView.reloadItemsAtIndexPaths([currentIndex!])
         }
-        NotificationCounter.mInstance.refresh(handleNotificationSuccess, failureCallback: handleNotificationError)
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -278,11 +278,11 @@ class HomeFeedViewController: CustomNavigationController {
         feedViewAdapter!.onLikeBtnClick(cell, feedItem: feedItem)
     }
     
-    func handleNotificationSuccess(notifcationCounter: NotificationCounterVM) {
+    func onSuccessRefreshNotifications(notifcationCounter: NotificationCounterVM) {
         ViewUtil.refreshNotifications((self.tabBarController?.tabBar)!, navigationItem: self.navigationItem)
     }
     
-    func handleNotificationError(message: String) {
+    func onFailureRefreshNotifications(message: String) {
         NSLog(message)
     }
 }

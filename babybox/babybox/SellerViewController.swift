@@ -45,6 +45,10 @@ class SellerViewController: CustomNavigationController {
         self.navigationItem.hidesBackButton = true
     }
     
+    override func viewWillAppear(animated: Bool) {
+        NotificationCounter.refresh(onSuccessRefreshNotifications, failureCallback: onFailureRefreshNotifications)
+    }
+
     override func viewDidAppear(animated: Bool) {
         let y = CGFloat(self.segController.frame.height)
         let start: CGPoint = CGPoint(x: 0, y: y)
@@ -52,7 +56,6 @@ class SellerViewController: CustomNavigationController {
         if self.segController.selectedSegmentIndex == 0 {
             self.drawLineFromPoint(start, toPoint: end, ofColor: Color.PINK, inView: self.segController)
         }
-        NotificationCounter.mInstance.refresh(handleNotificationSuccess, failureCallback: handleNotificationError)
     }
     
     @IBAction func segAction(sender: AnyObject) {
@@ -123,11 +126,11 @@ class SellerViewController: CustomNavigationController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
     }
     
-    func handleNotificationSuccess(notifcationCounter: NotificationCounterVM) {
+    func onSuccessRefreshNotifications(notifcationCounter: NotificationCounterVM) {
         ViewUtil.refreshNotifications((self.tabBarController?.tabBar)!, navigationItem: self.navigationItem)
     }
     
-    func handleNotificationError(message: String) {
+    func onFailureRefreshNotifications(message: String) {
         NSLog(message)
     }
     

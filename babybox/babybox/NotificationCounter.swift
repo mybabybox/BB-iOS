@@ -15,17 +15,15 @@ class NotificationCounter {
     
     static var counter: NotificationCounterVM? = nil
     
-    static var mInstance: NotificationCounter = NotificationCounter()
-    
     init() {
     }
     
-    /*func refresh() {
+    /*static func refresh() {
         NSLog("NotificationCounter", "refresh")
         ApiController.instance.getNotificationCounter()
     }*/
     
-    func refresh(successCallback: ((NotificationCounterVM) -> Void)?, failureCallback: ((String) -> Void)?) {
+    static func refresh(successCallback: ((NotificationCounterVM) -> Void)?, failureCallback: ((String) -> Void)?) {
         
         SwiftEventBus.onMainThread(self, name: "loadNotificationSuccess") { result in
             SwiftEventBus.unregister(self)
@@ -56,7 +54,7 @@ class NotificationCounter {
         ApiController.instance.getNotificationCounter()
     }
     
-    func clear() {
+    static func clear() {
         
     }
     
@@ -79,6 +77,4 @@ class NotificationCounter {
         //    HomeFeedViewController.instance!.refreshNotifications()
         //}
     }
-    
-
 }

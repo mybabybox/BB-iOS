@@ -105,7 +105,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func clearUserCaches() {
-        NotificationCounter.mInstance.clear()
+        NotificationCounter.clear()
         UserInfoCache.clear()
     }
     

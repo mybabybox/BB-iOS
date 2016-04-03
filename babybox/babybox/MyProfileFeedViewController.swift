@@ -45,6 +45,7 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
     
     override func viewWillAppear(animated: Bool) {
         ViewUtil.hideActivityLoading(self.activityLoading)
+        NotificationCounter.refresh(onSuccessRefreshNotifications, failureCallback: onFailureRefreshNotifications)
         registerEvents()
     }
     
@@ -65,7 +66,6 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
             currentIndex = nil
         }
         
-        NotificationCounter.mInstance.refresh(handleNotificationSuccess, failureCallback: handleNotificationError)
         setUserInfo(UserInfoCache.getUser())
         
         //check for flag and if found refresh the data..
@@ -400,11 +400,11 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
         self.uiCollectionView.layer.addSublayer(shapeLayer)
     }
     
-    func handleNotificationSuccess(notifcationCounter: NotificationCounterVM) {
+    func onSuccessRefreshNotifications(notifcationCounter: NotificationCounterVM) {
         ViewUtil.refreshNotifications((self.tabBarController?.tabBar)!, navigationItem: self.navigationItem)
     }
     
-    func handleNotificationError(message: String) {
+    func onFailureRefreshNotifications(message: String) {
         NSLog(message)
     }
 }

@@ -25,10 +25,11 @@ class UserActivityViewController: CustomNavigationController {
     
     override func viewWillAppear(animated: Bool) {
         ViewUtil.hideActivityLoading(self.activityLoading)
+        NotificationCounter.refresh(onSuccessRefreshNotifications, failureCallback: onFailureRefreshNotifications)
     }
 
     override func viewDidAppear(animated: Bool) {
-        NotificationCounter.mInstance.refresh(handleNotificationSuccess, failureCallback: handleNotificationError)
+
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -278,11 +279,11 @@ class UserActivityViewController: CustomNavigationController {
         self.loading = true
     }
     
-    func handleNotificationSuccess(notifcationCounter: NotificationCounterVM) {
+    func onSuccessRefreshNotifications(notifcationCounter: NotificationCounterVM) {
         ViewUtil.refreshNotifications((self.tabBarController?.tabBar)!, navigationItem: self.navigationItem)
     }
     
-    func handleNotificationError(message: String) {
+    func onFailureRefreshNotifications(message: String) {
         NSLog(message)
     }
     

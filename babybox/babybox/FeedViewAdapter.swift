@@ -48,7 +48,7 @@ class FeedViewAdapter {
         }
 
         // price
-        cell.productPrice.font = UIFont.systemFontOfSize(13)
+        cell.productPrice.font = UIFont.systemFontOfSize(14)
         cell.productPrice.text = "\(Constants.CURRENCY_SYMBOL)\(String(stringInterpolationSegment: Int(feedItem.price)))"
         if (feedItem.originalPrice != 0 && feedItem.originalPrice != -1 && feedItem.originalPrice != Int(feedItem.price)) {
             let attrString = NSAttributedString(string: "\(Constants.CURRENCY_SYMBOL) \(String(stringInterpolationSegment:Int(feedItem.originalPrice)))", attributes: [NSStrikethroughStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue])

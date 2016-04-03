@@ -74,7 +74,6 @@ class ConversationsViewController: UIViewController {
     }
     
     override func viewDidDisappear(animated: Bool) {
-        NotificationCounter.mInstance.refresh(handleNotificationSuccess, failureCallback: handleNotificationError)
         SwiftEventBus.unregister(self)
     }
     
@@ -227,14 +226,6 @@ class ConversationsViewController: UIViewController {
     func handleError(message: String) {
         ViewUtil.showDialog("Error", message: message, view: self)
         ViewUtil.hideActivityLoading(self.activityLoading)
-    }
-    
-    func handleNotificationSuccess(notifcationCounter: NotificationCounterVM) {
-      //  ViewUtil.refreshNotifications((self.tabBarController?.tabBar)!, navigationItem: self.navigationItem)
-    }
-    
-    func handleNotificationError(message: String) {
-        NSLog(message)
     }
     
     func deleteConversationHandler(responseString: String) {
