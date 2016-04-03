@@ -44,6 +44,9 @@ struct Constants {
     static let NO_FOLLOWINGS = "~ No Followings ~"
     static let NO_FOLLOWERS = "~ No Followers ~"
     
+    static let NO_POSTS = "~~ No posts ~~"
+    static let NO_LIKES = "~~ No Likes ~~"
+    
     static let CONVERSATION_MESSAGE_COUNT = 20;
     
 }

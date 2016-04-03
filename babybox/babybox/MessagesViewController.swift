@@ -66,7 +66,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         self.navigationController!.navigationBar.titleTextAttributes = titleDict as? [String : AnyObject]
         
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
-        view.addGestureRecognizer(tap)
+        messageCointainerScroll.addGestureRecognizer(tap)
         
         sendButton.enabled = true
         

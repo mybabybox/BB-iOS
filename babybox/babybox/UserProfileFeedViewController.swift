@@ -180,10 +180,20 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
     func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
         var reusableView : UICollectionReusableView? = nil
         
-        if (kind == UICollectionElementKindSectionHeader) {
+        if kind == UICollectionElementKindSectionHeader {
+            
             let headerView : ProfileFeedReusableView = collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "HeaderView", forIndexPath: indexPath) as! ProfileFeedReusableView
             headerView.headerViewCollection.reloadData()
             reusableView = headerView
+            
+        } else if kind == UICollectionElementKindSectionFooter {
+            switch self.feedLoader!.feedType {
+            case FeedFilter.FeedType.USER_POSTED:
+                reusableView = ViewUtil.prepareNoItemsFooterView(self.uiCollectionView, indexPath: indexPath, noItemText: Constants.NO_POSTS)
+            case FeedFilter.FeedType.USER_LIKED:
+                reusableView = ViewUtil.prepareNoItemsFooterView(self.uiCollectionView, indexPath: indexPath, noItemText: Constants.NO_LIKES)
+            default: break
+            }
         }
         
         return reusableView!
