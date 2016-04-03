@@ -99,7 +99,7 @@ class UserActivityViewController: CustomNavigationController {
 
             if activityType == "FIRST_POST" {
                 cell.userName.hidden = true
-                cell.userName.setTitle("", forState: UIControlState.Normal)
+                cell.userName.setTitle(nil, forState: UIControlState.Normal)
             } else {
                 cell.userName.hidden = false
                 cell.userName.setTitle(self.userActivitesItems[indexPath.row].actorName, forState: UIControlState.Normal)
