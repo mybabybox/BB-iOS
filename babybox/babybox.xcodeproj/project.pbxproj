@@ -332,16 +332,16 @@
 		0408F9D41C1362AA00CC8803 /* babybox */ = {
 			isa = PBXGroup;
 			children = (
-				046BB6A51C579C3F0007CCE6 /* res */,
-				046BB6A41C5795220007CCE6 /* viewcell */,
-				046BB6A31C57945A0007CCE6 /* extension */,
-				046BB6A21C5794530007CCE6 /* cache */,
-				046BB6A11C57944A0007CCE6 /* util */,
-				046BB6A01C57943F0007CCE6 /* viewmodel */,
-				046BB69F1C5794320007CCE6 /* viewcontroller */,
-				046BB69E1C5794250007CCE6 /* view */,
 				046BB69D1C5794190007CCE6 /* app */,
+				046BB6A21C5794530007CCE6 /* cache */,
+				046BB6A31C57945A0007CCE6 /* extension */,
+				046BB6A51C579C3F0007CCE6 /* res */,
 				0408F9D51C1362AA00CC8803 /* Supporting Files */,
+				046BB6A11C57944A0007CCE6 /* util */,
+				046BB69E1C5794250007CCE6 /* view */,
+				046BB6A41C5795220007CCE6 /* viewcell */,
+				046BB69F1C5794320007CCE6 /* viewcontroller */,
+				046BB6A01C57943F0007CCE6 /* viewmodel */,
 			);
 			path = babybox;
 			sourceTree = "<group>";
@@ -544,9 +544,8 @@
 		046BB6A31C57945A0007CCE6 /* extension */ = {
 			isa = PBXGroup;
 			children = (
-				849E236C1CB1B367001FB985 /* ALCameraViewController */,
-				84215C9A1CAB8FD600D4CCFA /* UIImage */,
 				04E1A9F81C4A52B00052FEED /* babybox-Bridging-Header.h */,
+				849E236C1CB1B367001FB985 /* ALCameraViewController */,
 				04E1AA191C4A540F0052FEED /* cropImage */,
 				04E1AA1A1C4A54B80052FEED /* dropdown */,
 				0469057E1C816D5000BDFFB9 /* ENMBadgedBarButton */,
@@ -555,6 +554,7 @@
 				043A53671C68EDA900C70DBC /* SSRadioButtonController */,
 				043A536C1C68EDBD00C70DBC /* SSValidationTextField */,
 				044DC8501C54E0DF00B9FD49 /* toast */,
+				84215C9A1CAB8FD600D4CCFA /* UIImage */,
 			);
 			name = extension;
 			sourceTree = "<group>";
@@ -1064,7 +1064,7 @@
 					"$(PROJECT_DIR)/build/Debug-iphoneos",
 				);
 				INFOPLIST_FILE = babybox/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.beautypop.app;
 				PRODUCT_NAME = BabyBox;
@@ -1089,7 +1089,7 @@
 					"$(PROJECT_DIR)/build/Debug-iphoneos",
 				);
 				INFOPLIST_FILE = babybox/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.beautypop.app;
 				PRODUCT_NAME = BabyBox;
