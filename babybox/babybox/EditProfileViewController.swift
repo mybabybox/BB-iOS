@@ -38,7 +38,15 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, UITextVi
             NSLog("User info updated successfully")
             UserInfoCache.refresh(AppDelegate.getInstance().sessionId!)
             ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
+            
             self.navigationController?.popViewControllerAnimated(true)
+            
+            if let myProfileController = CustomTabBarController.getProfileTab() {
+                myProfileController.isRefresh = true
+                myProfileController.currentIndex = nil
+                myProfileController.feedLoader?.loading = false
+            }
+            
         }
         
         SwiftEventBus.onMainThread(self, name: "onEditInfoFailed") { result in

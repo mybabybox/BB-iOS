@@ -3889,12 +3889,6 @@
                                                                     <action selector="segAction:" destination="aa6-dY-vf5" eventType="valueChanged" id="bEU-b7-gKB"/>
                                                                 </connections>
                                                             </segmentedControl>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="~ No Products ~" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Hn-pj-rmU">
-                                                                <rect key="frame" x="0.0" y="185" width="406" height="18"/>
-                                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                                                <nil key="highlightedColor"/>
-                                                            </label>
                                                         </subviews>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     </view>
@@ -3917,10 +3911,7 @@
                                                         <constraint firstItem="G5t-gE-xJf" firstAttribute="bottom" secondItem="vEM-p9-flu" secondAttribute="bottom" constant="-3" id="kwW-b1-yBR"/>
                                                         <constraint firstItem="Fqt-7h-XLz" firstAttribute="top" secondItem="vEM-p9-flu" secondAttribute="bottom" constant="10" id="pFW-qx-p2N"/>
                                                         <constraint firstAttribute="trailing" secondItem="uaX-CG-pne" secondAttribute="trailing" id="qgf-by-HMd"/>
-                                                        <constraint firstItem="8Hn-pj-rmU" firstAttribute="top" secondItem="uaX-CG-pne" secondAttribute="bottom" constant="10" id="vMg-xU-NwH"/>
-                                                        <constraint firstItem="8Hn-pj-rmU" firstAttribute="leading" secondItem="1zp-3t-bGH" secondAttribute="leading" id="vmg-Mh-mu3"/>
                                                         <constraint firstItem="vEM-p9-flu" firstAttribute="top" secondItem="1zp-3t-bGH" secondAttribute="top" constant="10" id="y3u-5a-SLr"/>
-                                                        <constraint firstAttribute="trailing" secondItem="8Hn-pj-rmU" secondAttribute="trailing" id="ylR-Mq-oRq"/>
                                                         <constraint firstItem="kPJ-Rz-FVf" firstAttribute="top" secondItem="vEM-p9-flu" secondAttribute="top" id="zEg-tz-eJQ"/>
                                                     </constraints>
                                                     <size key="customSize" width="406" height="195"/>
@@ -6324,12 +6315,12 @@
         <image name="user_thumbnail" width="48" height="48"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="jhO-y7-EXF"/>
+        <segue reference="BGy-Vf-KdP"/>
+        <segue reference="ncj-ht-WX7"/>
+        <segue reference="7VM-RZ-NKx"/>
+        <segue reference="fRU-pM-mSi"/>
         <segue reference="UfZ-y4-j3J"/>
         <segue reference="xlr-H1-EYH"/>
-        <segue reference="f1D-EY-plH"/>
-        <segue reference="ncj-ht-WX7"/>
-        <segue reference="BGy-Vf-KdP"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>

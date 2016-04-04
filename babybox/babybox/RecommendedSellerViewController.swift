@@ -75,9 +75,6 @@ class RecommendedSellerViewController: UIViewController {
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("recommendedSellerViewCell", forIndexPath: indexPath) as! RecommendedSellerViewCell
         
-        cell.layer.cornerRadius = 10
-        cell.layer.masksToBounds = false
-    
         let item = self.recommendedSellers[indexPath.row]
         cell.contentMode = UIViewContentMode.Redraw
         cell.sizeToFit()
@@ -124,6 +121,8 @@ class RecommendedSellerViewController: UIViewController {
         } else {
             cell.followBtn.hidden = false
         }
+        cell.layer.cornerRadius = 7
+        cell.layer.masksToBounds = true
         
         return cell
     }

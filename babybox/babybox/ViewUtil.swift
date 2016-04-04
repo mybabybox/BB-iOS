@@ -328,4 +328,27 @@ class ViewUtil {
         view.layer.borderWidth = 1
         view.layer.borderColor = UIColor.redColor().CGColor
     }
+    
+    static func registerNoItemsFooterView(colletionView: UICollectionView) {
+        let flowLayout = colletionView.collectionViewLayout as? UICollectionViewFlowLayout
+        flowLayout!.footerReferenceSize = CGSizeMake(colletionView.bounds.width, 40.0)
+        colletionView.registerClass(NoItemsToolTipHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: "NoItemsToolTipHeaderView")
+        colletionView.collectionViewLayout = flowLayout!
+    }
+    
+    static func prepareNoItemsFooterView(collectionView: UICollectionView, indexPath: NSIndexPath, noItemText: String) -> NoItemsToolTipHeaderView {
+        let footerView =
+        collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionFooter,
+            withReuseIdentifier: "NoItemsToolTipHeaderView",
+            forIndexPath: indexPath)
+            as! NoItemsToolTipHeaderView
+        let label = UILabel()
+        label.textAlignment = .Center
+        label.text = noItemText
+        label.frame = CGRectMake(0, 0, collectionView.bounds.width, 40)
+        label.textColor = Color.DARK_GRAY_2
+        footerView.addSubview(label)
+        return footerView
+    }
+    
 }

@@ -28,6 +28,11 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
     var currentIndex: NSIndexPath?
     
     func reloadDataToView() {
+        if ((feedLoader?.feedItems.isEmpty) != nil) {
+            ViewUtil.registerNoItemsFooterView(self.uiCollectionView)
+        } else {
+            self.uiCollectionView.reloadData()
+        }
         self.uiCollectionView.reloadData()
     }
     
@@ -74,6 +79,7 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
         flowLayout.scrollDirection = UICollectionViewScrollDirection.Vertical
         flowLayout.minimumInteritemSpacing = Constants.FEED_ITEM_SIDE_SPACING
         flowLayout.minimumLineSpacing = Constants.FEED_ITEM_LINE_SPACING
+        flowLayout.footerReferenceSize = CGSizeMake(uiCollectionView.bounds.width, 40.0)
         uiCollectionView.collectionViewLayout = flowLayout
         
         self.uiCollectionView.addPullToRefresh({ [weak self] in
@@ -119,6 +125,16 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
         return 1.0
+    }
+    
+    func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+        var reusableView : UICollectionReusableView? = nil
+        
+        if kind == UICollectionElementKindSectionFooter {
+            return ViewUtil.prepareNoItemsFooterView(self.uiCollectionView, indexPath: indexPath, noItemText: Constants.NO_FOLLOWINGS)
+        }
+        
+        return reusableView!
     }
     
     //MARK Segue handling methods.

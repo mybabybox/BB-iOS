@@ -45,6 +45,14 @@ class CustomTabBarController: UITabBarController {
         return nil
     }
     
+    static func getTab(tabItem: TabItem) -> UIViewController? {
+        if let tabBarController = getCustomTabBarController() {
+            let navController = tabBarController.viewControllers![tabItem.rawValue] as! UINavigationController
+            return navController.viewControllers[0]
+        }
+        return nil
+    }
+    
     static func selectHomeTab() -> HomeFeedViewController? {
         return selectTab(TabItem.Home) as? HomeFeedViewController
     }
@@ -61,6 +69,10 @@ class CustomTabBarController: UITabBarController {
         return selectTab(TabItem.Profile) as? MyProfileFeedViewController
     }
 
+    static func getProfileTab() -> MyProfileFeedViewController? {
+        return getTab(TabItem.Profile) as? MyProfileFeedViewController
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

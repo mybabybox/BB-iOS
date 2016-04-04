@@ -50,26 +50,14 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
     static var instance: MessagesViewController?
     
     override func viewDidDisappear(animated: Bool) {
-        //SwiftEventBus.unregister(self)
+        SwiftEventBus.unregister(self)
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        MessagesViewController.instance = self
-        messageCointainerScroll.delegate = self
-        
-        SwiftEventBus.unregister(self)
-        
-        self.navigationItem.title = self.conversation?.userName
-        let titleDict: NSDictionary = [NSForegroundColorAttributeName: Color.WHITE]
-        self.navigationController!.navigationBar.titleTextAttributes = titleDict as? [String : AnyObject]
-        
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
-        view.addGestureRecognizer(tap)
-        
-        sendButton.enabled = true
-        
+    override func viewDidAppear(animated: Bool) {
+        registerEvents()
+    }
+    
+    func registerEvents() {
         SwiftEventBus.onMainThread(self, name: "getMessagesSuccess") { result in
             ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
             let resultDto = result.object as! MessageResponseVM
@@ -94,6 +82,26 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
             self.view.makeToast(message: "Error upload message")
             self.reset()
         }
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        MessagesViewController.instance = self
+        messageCointainerScroll.delegate = self
+        
+        SwiftEventBus.unregister(self)
+        
+        self.navigationItem.title = self.conversation?.userName
+        let titleDict: NSDictionary = [NSForegroundColorAttributeName: Color.WHITE]
+        self.navigationController!.navigationBar.titleTextAttributes = titleDict as? [String : AnyObject]
+        
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
+        messageCointainerScroll.addGestureRecognizer(tap)
+        
+        sendButton.enabled = true
+        
+        registerEvents()
         
         ViewUtil.showActivityLoading(self.activityLoading)
         
