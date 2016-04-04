@@ -3815,23 +3815,36 @@
                                                                     <constraint firstAttribute="height" constant="90" id="w3P-Jj-lAs"/>
                                                                 </constraints>
                                                             </view>
-                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fqt-7h-XLz" userLabel="buttonsView">
-                                                                <rect key="frame" x="0.0" y="90" width="406" height="40"/>
+                                                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Fqt-7h-XLz" userLabel="buttonsView">
+                                                                <rect key="frame" x="0.0" y="91" width="406" height="40"/>
                                                                 <subviews>
-                                                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s4b-Lm-Kpb" userLabel="Followers">
-                                                                        <rect key="frame" x="59" y="0.0" width="58" height="35"/>
+                                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PlE-t5-tHu" userLabel="Following">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="100" height="35"/>
                                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="width" constant="100" id="Kgb-hO-GT8"/>
+                                                                        </constraints>
+                                                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                                        <state key="normal" title="Followers">
+                                                                            <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                                        </state>
+                                                                        <connections>
+                                                                            <segue destination="71D-99-izD" kind="show" identifier="followersCall" id="QmE-57-6W9"/>
+                                                                        </connections>
+                                                                    </button>
+                                                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s4b-Lm-Kpb" userLabel="Followers">
+                                                                        <rect key="frame" x="101" y="0.0" width="100" height="35"/>
+                                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                                         <state key="normal" title="Following">
-                                                                            <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                                                            <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                                                            <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                                                         </state>
                                                                         <connections>
                                                                             <segue destination="71D-99-izD" kind="show" identifier="followingCalls" id="fRU-pM-mSi"/>
                                                                         </connections>
                                                                     </button>
                                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Hu-P6-Ol2" userLabel="PEdit Profile">
-                                                                        <rect key="frame" x="118" y="0.0" width="58" height="35"/>
+                                                                        <rect key="frame" x="202" y="0.0" width="100" height="35"/>
                                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                                         <state key="normal">
@@ -3839,27 +3852,11 @@
                                                                             <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                                         </state>
                                                                     </button>
-                                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PlE-t5-tHu" userLabel="Following">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="58" height="35"/>
-                                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                                        <constraints>
-                                                                            <constraint firstAttribute="width" constant="58" id="Kgb-hO-GT8"/>
-                                                                        </constraints>
-                                                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                                                        <state key="normal" title="Followers">
-                                                                            <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                                                            <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                                                        </state>
-                                                                        <connections>
-                                                                            <segue destination="71D-99-izD" kind="show" identifier="followersCall" id="QmE-57-6W9"/>
-                                                                        </connections>
-                                                                    </button>
                                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Ts-yd-gLI" userLabel="Follow">
-                                                                        <rect key="frame" x="124" y="2" width="42" height="30"/>
-                                                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                                        <rect key="frame" x="208" y="2" width="84" height="30"/>
+                                                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                                         <state key="normal" title="Following">
                                                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                                            <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                                         </state>
                                                                         <connections>
                                                                             <action selector="onClickFollowUnfollow:" destination="aa6-dY-vf5" eventType="touchUpInside" id="thA-L8-IO4"/>
@@ -3901,28 +3898,16 @@
                                                                     <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                                 </state>
                                                             </button>
-                                                            <label clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ULa-kB-l9a" userLabel="displayName">
-                                                                <rect key="frame" x="100" y="15" width="36" height="16"/>
+                                                            <label clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ULa-kB-l9a" userLabel="displayName">
+                                                                <rect key="frame" x="100" y="15" width="250" height="20"/>
                                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                 <accessibility key="accessibilityConfiguration">
                                                                     <accessibilityTraits key="traits" staticText="YES" notEnabled="YES"/>
                                                                 </accessibility>
-                                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
-                                                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
+                                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                                 <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             </label>
-                                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="G5t-gE-xJf" userLabel="browse">
-                                                                <rect key="frame" x="100" y="52" width="25" height="25"/>
-                                                                <constraints>
-                                                                    <constraint firstAttribute="height" constant="25" id="SSG-eH-cEd"/>
-                                                                    <constraint firstAttribute="width" constant="25" id="mbB-2r-BIc"/>
-                                                                </constraints>
-                                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                                <state key="normal" title="Button" image="910BB490-B1FF-46EE-89F5-C3A59D0F7AFA">
-                                                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                                                    <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                                                </state>
-                                                            </button>
                                                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="uaX-CG-pne">
                                                                 <rect key="frame" x="0.0" y="135" width="406" height="41"/>
                                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -3944,7 +3929,6 @@
                                                     <color key="backgroundColor" red="0.92549019610000005" green="0.92549019610000005" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
                                                         <constraint firstItem="Q7Y-Ew-yhd" firstAttribute="leading" secondItem="1zp-3t-bGH" secondAttribute="leading" id="8YO-pY-inn"/>
-                                                        <constraint firstItem="G5t-gE-xJf" firstAttribute="leading" secondItem="vEM-p9-flu" secondAttribute="trailing" constant="20" id="FCG-MU-FXe"/>
                                                         <constraint firstItem="uaX-CG-pne" firstAttribute="top" secondItem="Fqt-7h-XLz" secondAttribute="bottom" constant="5" id="LhZ-r2-UxE"/>
                                                         <constraint firstItem="kPJ-Rz-FVf" firstAttribute="trailing" secondItem="vEM-p9-flu" secondAttribute="trailing" id="MKb-Ap-W9K"/>
                                                         <constraint firstItem="Fqt-7h-XLz" firstAttribute="leading" secondItem="1zp-3t-bGH" secondAttribute="leading" id="NSX-eN-cpU"/>
@@ -3957,7 +3941,6 @@
                                                         <constraint firstItem="vEM-p9-flu" firstAttribute="leading" secondItem="1zp-3t-bGH" secondAttribute="leading" constant="10" id="ZXd-CJ-eyh"/>
                                                         <constraint firstItem="kPJ-Rz-FVf" firstAttribute="bottom" secondItem="vEM-p9-flu" secondAttribute="bottom" id="ZbC-od-NJn"/>
                                                         <constraint firstItem="uaX-CG-pne" firstAttribute="leading" secondItem="1zp-3t-bGH" secondAttribute="leading" id="aZI-jX-o4K"/>
-                                                        <constraint firstItem="G5t-gE-xJf" firstAttribute="bottom" secondItem="vEM-p9-flu" secondAttribute="bottom" constant="-3" id="kwW-b1-yBR"/>
                                                         <constraint firstItem="Fqt-7h-XLz" firstAttribute="top" secondItem="vEM-p9-flu" secondAttribute="bottom" constant="10" id="pFW-qx-p2N"/>
                                                         <constraint firstAttribute="trailing" secondItem="uaX-CG-pne" secondAttribute="trailing" id="qgf-by-HMd"/>
                                                         <constraint firstItem="vEM-p9-flu" firstAttribute="top" secondItem="1zp-3t-bGH" secondAttribute="top" constant="10" id="y3u-5a-SLr"/>
@@ -3965,7 +3948,6 @@
                                                     </constraints>
                                                     <size key="customSize" width="406" height="195"/>
                                                     <connections>
-                                                        <outlet property="browseBtn" destination="G5t-gE-xJf" id="nrh-OB-2bF"/>
                                                         <outlet property="btnWidthConsttraint" destination="Kgb-hO-GT8" id="xYe-gr-iSz"/>
                                                         <outlet property="buttonsView" destination="Fqt-7h-XLz" id="x0J-CG-wUu"/>
                                                         <outlet property="displayName" destination="ULa-kB-l9a" id="mZp-VH-dUv"/>
@@ -5675,8 +5657,8 @@
                                                                     <constraint firstAttribute="height" constant="90" id="0yz-fu-LZg"/>
                                                                 </constraints>
                                                             </view>
-                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xgR-gJ-ab2" userLabel="buttonsView">
-                                                                <rect key="frame" x="0.0" y="90" width="396" height="40"/>
+                                                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xgR-gJ-ab2" userLabel="buttonsView">
+                                                                <rect key="frame" x="0.0" y="91" width="396" height="40"/>
                                                                 <subviews>
                                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Z9-MB-j6j" userLabel="Following">
                                                                         <rect key="frame" x="-0.5" y="0.0" width="100" height="35"/>
@@ -5684,10 +5666,9 @@
                                                                         <constraints>
                                                                             <constraint firstAttribute="width" constant="100" id="jkJ-Me-4Lk"/>
                                                                         </constraints>
-                                                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                                         <state key="normal" title="Following">
-                                                                            <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                                                            <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                                                            <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                                                         </state>
                                                                         <connections>
                                                                             <segue destination="71D-99-izD" kind="show" identifier="followingCalls" id="f1D-EY-plH"/>
@@ -5696,10 +5677,9 @@
                                                                     <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ARi-hD-FkE" userLabel="Followers">
                                                                         <rect key="frame" x="101" y="0.0" width="100" height="35"/>
                                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                                         <state key="normal" title="Followers">
-                                                                            <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                                                            <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                                                            <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                                                         </state>
                                                                         <connections>
                                                                             <segue destination="71D-99-izD" kind="show" identifier="followersCall" id="SUR-X2-GSB"/>
@@ -5716,10 +5696,9 @@
                                                                     </button>
                                                                     <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uzx-Dp-fRW">
                                                                         <rect key="frame" x="210" y="2" width="85" height="30"/>
-                                                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                                         <state key="normal" title="Edit Profile">
-                                                                            <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                                                            <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                                                            <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                                                         </state>
                                                                         <connections>
                                                                             <segue destination="px0-27-EwH" kind="show" identifier="editProfile" id="6Ar-6H-UVT"/>
@@ -5764,18 +5743,18 @@
                                                                     <action selector="onClickBrowse:" destination="VTn-13-657" eventType="touchUpInside" id="Cfy-lL-3Qf"/>
                                                                 </connections>
                                                             </button>
-                                                            <label clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YPu-YZ-wzK" userLabel="displayName">
-                                                                <rect key="frame" x="100" y="15" width="35.5" height="16"/>
+                                                            <label clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YPu-YZ-wzK" userLabel="displayName">
+                                                                <rect key="frame" x="100" y="15" width="250" height="20"/>
                                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                 <accessibility key="accessibilityConfiguration">
                                                                     <accessibilityTraits key="traits" staticText="YES" notEnabled="YES"/>
                                                                 </accessibility>
-                                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
-                                                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
+                                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                                 <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             </label>
-                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M7q-ld-1Av" userLabel="browse">
-                                                                <rect key="frame" x="80" y="52" width="25" height="25"/>
+                                                            <button opaque="NO" alpha="0.69999999999999996" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M7q-ld-1Av" userLabel="browse">
+                                                                <rect key="frame" x="65" y="55" width="25" height="25"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" constant="25" id="1Af-7z-b8f"/>
                                                                     <constraint firstAttribute="height" constant="25" id="JHY-Cy-ZQ9"/>
@@ -5789,8 +5768,8 @@
                                                                     <action selector="onClickBrowse:" destination="VTn-13-657" eventType="touchUpInside" id="Lpu-7E-Aa9"/>
                                                                 </connections>
                                                             </button>
-                                                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fzY-G6-3iN" userLabel="settings">
-                                                                <rect key="frame" x="351" y="15" width="25" height="25"/>
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fzY-G6-3iN" userLabel="settings">
+                                                                <rect key="frame" x="353" y="15" width="25" height="25"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="25" id="A7i-Cv-3vr"/>
                                                                     <constraint firstAttribute="width" constant="25" id="OJg-R1-JWX"/>
@@ -5850,7 +5829,7 @@
                                                     <color key="backgroundColor" red="0.92549019610000005" green="0.92549019610000005" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
                                                         <constraint firstItem="xgR-gJ-ab2" firstAttribute="top" secondItem="e51-2b-F99" secondAttribute="bottom" constant="10" id="4FI-If-Ph8"/>
-                                                        <constraint firstItem="M7q-ld-1Av" firstAttribute="bottom" secondItem="e51-2b-F99" secondAttribute="bottom" constant="-3" id="4W7-26-MGR"/>
+                                                        <constraint firstItem="M7q-ld-1Av" firstAttribute="bottom" secondItem="e51-2b-F99" secondAttribute="bottom" id="4W7-26-MGR"/>
                                                         <constraint firstItem="y1e-HW-5IX" firstAttribute="leading" secondItem="e51-2b-F99" secondAttribute="leading" id="4uS-Dd-xOY"/>
                                                         <constraint firstAttribute="trailing" secondItem="YM6-cl-31m" secondAttribute="trailing" constant="15" id="7Wc-ok-AfG"/>
                                                         <constraint firstAttribute="trailing" secondItem="xgR-gJ-ab2" secondAttribute="trailing" id="88j-g7-eK6"/>
@@ -5858,8 +5837,8 @@
                                                         <constraint firstItem="y1e-HW-5IX" firstAttribute="trailing" secondItem="e51-2b-F99" secondAttribute="trailing" id="EQC-gT-l5F"/>
                                                         <constraint firstItem="y1e-HW-5IX" firstAttribute="bottom" secondItem="e51-2b-F99" secondAttribute="bottom" id="GGE-Rh-lYV"/>
                                                         <constraint firstAttribute="trailing" secondItem="AKR-5s-USy" secondAttribute="trailing" id="JTW-qI-2Uv"/>
-                                                        <constraint firstAttribute="trailingMargin" secondItem="fzY-G6-3iN" secondAttribute="trailing" constant="20" id="JkP-dD-uAb"/>
-                                                        <constraint firstItem="M7q-ld-1Av" firstAttribute="leading" secondItem="e51-2b-F99" secondAttribute="trailing" id="K6u-oB-7LA"/>
+                                                        <constraint firstAttribute="trailingMargin" secondItem="fzY-G6-3iN" secondAttribute="trailing" constant="10" id="JkP-dD-uAb"/>
+                                                        <constraint firstItem="M7q-ld-1Av" firstAttribute="leading" secondItem="e51-2b-F99" secondAttribute="trailing" constant="-15" id="K6u-oB-7LA"/>
                                                         <constraint firstItem="xgR-gJ-ab2" firstAttribute="leading" secondItem="EWH-be-qu4" secondAttribute="leading" id="M7n-EK-Ox1"/>
                                                         <constraint firstItem="e51-2b-F99" firstAttribute="top" secondItem="EWH-be-qu4" secondAttribute="top" constant="10" id="MKt-L8-Gjf"/>
                                                         <constraint firstAttribute="trailing" secondItem="nBs-14-n79" secondAttribute="trailing" id="MN2-hU-LEE"/>
@@ -6352,7 +6331,6 @@
     </scenes>
     <resources>
         <image name="2B78BA5D-E783-47C4-86C7-777DD579BFD8" width="375" height="638"/>
-        <image name="910BB490-B1FF-46EE-89F5-C3A59D0F7AFA" width="375" height="638"/>
         <image name="actionbar_bg_pink" width="10" height="72"/>
         <image name="arrow_next" width="32" height="32"/>
         <image name="browse" width="70" height="64"/>
@@ -6383,12 +6361,12 @@
         <image name="user_thumbnail" width="48" height="48"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="xlr-H1-EYH"/>
         <segue reference="UfZ-y4-j3J"/>
         <segue reference="ncj-ht-WX7"/>
-        <segue reference="f1D-EY-plH"/>
+        <segue reference="7VM-RZ-NKx"/>
+        <segue reference="fRU-pM-mSi"/>
         <segue reference="BGy-Vf-KdP"/>
-        <segue reference="jhO-y7-EXF"/>
+        <segue reference="xlr-H1-EYH"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>

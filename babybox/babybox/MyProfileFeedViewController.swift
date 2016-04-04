@@ -349,20 +349,23 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
             self.isHtCalculated = true
         }
         
-        if(segControl.selectedSegmentIndex == 0){
+        if segControl.selectedSegmentIndex == 0 {
             let y = CGFloat(segControl.frame.size.height)
             let start: CGPoint = CGPoint(x: 0, y: (segControl.frame.origin.y) + y - extraHt)
             let end: CGPoint = CGPoint(x: self.view.frame.size.width / 2, y: (segControl.frame.origin.y) + y - extraHt)
             self.drawLineFromPoint(start, toPoint: end, ofColor: Color.PINK, inView: segControl)
-        } else if(segControl.selectedSegmentIndex == 1){
+        } else if segControl.selectedSegmentIndex == 1 {
             let y = CGFloat(segControl.frame.size.height)
             let start: CGPoint = CGPoint(x: segControl.frame.size.width / 2 , y: (segControl.frame.origin.y) + y - extraHt)
             let end: CGPoint = CGPoint(x: segControl.frame.size.width, y: (segControl.frame.origin.y) + y - extraHt)
             self.drawLineFromPoint(start, toPoint: end, ofColor: Color.PINK, inView: segControl)
         }
-        segControl.setTitleTextAttributes([NSForegroundColorAttributeName: Color.PINK],
+        
+        segControl.setTitleTextAttributes(
+            [NSFontAttributeName: UIFont.systemFontOfSize(15), NSForegroundColorAttributeName: Color.PINK],
             forState: UIControlState.Selected)
-        segControl.setTitleTextAttributes([NSForegroundColorAttributeName: Color.LIGHT_GRAY],
+        segControl.setTitleTextAttributes(
+            [NSFontAttributeName: UIFont.systemFontOfSize(15), NSForegroundColorAttributeName: Color.GRAY],
             forState: UIControlState.Normal)
     }
     

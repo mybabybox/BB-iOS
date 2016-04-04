@@ -57,16 +57,6 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
     }
     
     func registerEvents() {
-        /*SwiftEventBus.onMainThread(self, name: "getMessagesSuccess") { result in
-            ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
-            let resultDto = result.object as! MessageResponseVM
-            self.handleChatMessageResponse(resultDto)
-            
-            if (self.offered) {
-                self.newMessage("New offer: \(Int(self.offeredPrice))", image: nil, system: true)
-            }
-        }*/
-        
         SwiftEventBus.onMainThread(self, name: "newMessageSuccess") { result in
             ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
             if (self.bubbleData != nil) {
@@ -100,11 +90,9 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         
         sendButton.enabled = true
         
-        //registerEvents()
-        
         ViewUtil.showActivityLoading(self.activityLoading)
         ApiFacade.getMessages((self.conversation?.id)!, offset: offset, successCallback: onSuccessGetMessages, failureCallback: onFailureGetMessages)
-        //ApiController.instance.getMessages((self.conversation?.id)!, offset: offset)
+
         self.offset++
         self.messageCointainerScroll.contentSize = CGSizeMake(CGRectGetWidth(messageCointainerScroll.frame), lastChatBubbleY + linePadding)
         self.addKeyboardNotifications()
