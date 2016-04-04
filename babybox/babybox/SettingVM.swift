@@ -15,8 +15,8 @@ class SettingVM: BaseArgVM {
     var emailNewPost: Bool = false
     var emailNewConversation: Bool = false
     var emailNewComment: Bool = false
-    var emailNewPromotion: Bool = false
-    var pushNewConversion: Bool = false
+    var emailNewPromotions: Bool = false
+    var pushNewConversation: Bool = false
     var pushNewComment: Bool = false
     var pushNewFollow: Bool = false
     var pushNewFeedback: Bool = false
@@ -30,8 +30,8 @@ class SettingVM: BaseArgVM {
         emailNewPost<-map["emailNewPost"]
         emailNewConversation<-map["emailNewConversation"]
         emailNewComment<-map["emailNewComment"]
-        emailNewPromotion<-map["emailNewPromotion"]
-        pushNewConversion<-map["pushNewConversion"]
+        emailNewPromotions<-map["emailNewPromotions"]
+        pushNewConversation<-map["pushNewConversation"]
         pushNewComment<-map["pushNewComment"]
         pushNewFollow<-map["pushNewFollow"]
         pushNewFeedback<-map["pushNewFeedback"]

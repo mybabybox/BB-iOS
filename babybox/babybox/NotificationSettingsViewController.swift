@@ -48,36 +48,39 @@ class NotificationSettingsViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
+    
     //MARK: Set Notification Data Source
     func setNotificationDataSource(){
         
         let settings: SettingVM = (UserInfoCache.getUser()?.settings)!
         
-        
         let emailNotiifcationList = [
-            NotificationVM(title:"New product listed",isEnabled:settings.emailNewPost),
-            NotificationVM(title:"New chat",isEnabled:settings.emailNewConversation),
-            NotificationVM(title:"New comment on your product listings",isEnabled:settings.emailNewComment),
-            NotificationVM(title:"New promotions",isEnabled:settings.emailNewPromotion)
+            NotificationVM(title: Constants.SETTING_EMAIL_NOTIF_NEW_PRODUCT, isEnabled: settings.emailNewPost),
+            NotificationVM(title: Constants.SETTING_EMAIL_NOTIF_NEW_CHAT, isEnabled: settings.emailNewConversation),
+            NotificationVM(title: Constants.SETTING_EMAIL_NOTIF_NEW_COMMENT, isEnabled: settings.emailNewComment),
+            //NotificationVM(title: Constants.SETTING_EMAIL_NOTIF_NEW_PROMOTIONS, isEnabled: settings.emailNewPromotions)
         ]
         
         let pushNotiifcationList = [
-            NotificationVM(title:"New chat",isEnabled:settings.pushNewConversion),
-            NotificationVM(title:"New comment on your product listings",isEnabled:settings.pushNewComment),
-            NotificationVM(title:"New follower",isEnabled:settings.pushNewFollow),
-            NotificationVM(title:"New feedback",isEnabled:settings.pushNewFeedback),
-            NotificationVM(title:"New promotions",isEnabled:settings.pushNewPromotions)
+            NotificationVM(title: Constants.SETTING_PUSH_NOTIF_NEW_CHAT, isEnabled: settings.pushNewConversation),
+            NotificationVM(title: Constants.SETTING_PUSH_NOTIF_NEW_COMMENT, isEnabled: settings.pushNewComment),
+            NotificationVM(title: Constants.SETTING_PUSH_NOTIF_NEW_FOLLOW, isEnabled: settings.pushNewFollow),
+            //NotificationVM(title: Constants.SETTING_PUSH_NOTIF_NEW_FEEDBACK, isEnabled: settings.pushNewFeedback),
+            //NotificationVM(title: Constants.SETTING_PUSH_NOTIF_NEW_PROMOTIONS, isEnabled: settings.pushNewPromotions)
         ]
         
         self.notificationDataSource = [emailNotiifcationList,pushNotiifcationList]
     }
+    
     // MARK: UITableViewDataSource and Delegates
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return self.notificationDataSource.count;
     }
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.notificationDataSource[section].count;
     }
+    
     func tableView( tableView : UITableView,  titleForHeaderInSection section: Int)->String{
         if section == 0 {
             return "Email Notifications"
@@ -86,6 +89,7 @@ class NotificationSettingsViewController: UIViewController {
         }
         return ""
     }
+    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("NotificationCell")! as! NotificationViewCell
         let sectionsArray = self.notificationDataSource[indexPath.section]
@@ -100,9 +104,6 @@ class NotificationSettingsViewController: UIViewController {
     }
     
     func backButtonPressed() {
-        //Call the api...
-        NSLog("")
-        
         let settings:SettingVM  = UserInfoCache.getUser()!.settings
         let emailNotifications = self.notificationDataSource[0] as! [NotificationVM]
         let pushNotifications = self.notificationDataSource[1] as! [NotificationVM]
@@ -110,14 +111,14 @@ class NotificationSettingsViewController: UIViewController {
         for i in 0...emailNotifications.count - 1 {
             let notifItem = emailNotifications[i]
             switch notifItem.title {
-                case "New product listed":
+                case Constants.SETTING_EMAIL_NOTIF_NEW_PRODUCT:
                     settings.emailNewPost = notifItem.isEnabled
-                case "New chat":
+                case Constants.SETTING_EMAIL_NOTIF_NEW_CHAT:
                     settings.emailNewConversation = notifItem.isEnabled
-                case "New comment on your product listings":
+                case Constants.SETTING_EMAIL_NOTIF_NEW_COMMENT:
                     settings.emailNewComment = notifItem.isEnabled
-                case "New promotions":
-                    settings.emailNewPromotion = notifItem.isEnabled
+                case Constants.SETTING_EMAIL_NOTIF_NEW_PROMOTIONS:
+                    settings.emailNewPromotions = notifItem.isEnabled
                 default: break
             }
         }
@@ -125,20 +126,20 @@ class NotificationSettingsViewController: UIViewController {
         for i in 0...pushNotifications.count - 1 {
             let notifItem = pushNotifications[i]
             switch notifItem.title {
-                case "New chat":
-                    settings.pushNewConversion = notifItem.isEnabled
-                case "New comment on your product listings":
+                case Constants.SETTING_PUSH_NOTIF_NEW_CHAT:
+                    settings.pushNewConversation = notifItem.isEnabled
+                case Constants.SETTING_PUSH_NOTIF_NEW_COMMENT:
                     settings.pushNewComment = notifItem.isEnabled
-                case "New follower":
+                case Constants.SETTING_PUSH_NOTIF_NEW_FOLLOW:
                     settings.pushNewFollow = notifItem.isEnabled
-                case "New feedback":
+                case Constants.SETTING_PUSH_NOTIF_NEW_FEEDBACK:
                     settings.pushNewFeedback = notifItem.isEnabled
-                case "New promotions":
+                case Constants.SETTING_PUSH_NOTIF_NEW_PROMOTIONS:
                     settings.pushNewPromotions = notifItem.isEnabled
                 default: break
             }
         }
+        
         ApiController.instance.editUserNotificationSettings(settings)
-        NSLog("")
     }
 }
