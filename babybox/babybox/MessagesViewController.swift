@@ -57,7 +57,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
     }
     
     func registerEvents() {
-        SwiftEventBus.onMainThread(self, name: "getMessagesSuccess") { result in
+        /*SwiftEventBus.onMainThread(self, name: "getMessagesSuccess") { result in
             ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
             let resultDto = result.object as! MessageResponseVM
             self.handleChatMessageResponse(resultDto)
@@ -65,7 +65,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
             if (self.offered) {
                 self.newMessage("New offer: \(Int(self.offeredPrice))", image: nil, system: true)
             }
-        }
+        }*/
         
         SwiftEventBus.onMainThread(self, name: "newMessageSuccess") { result in
             ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
@@ -103,8 +103,8 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         registerEvents()
         
         ViewUtil.showActivityLoading(self.activityLoading)
-        
-        ApiController.instance.getMessages((self.conversation?.id)!, offset: offset)
+        ApiFacade.getMessages((self.conversation?.id)!, offset: offset, successCallback: onSuccessGetMessages, failureCallback: onFailureGetMessages)
+        //ApiController.instance.getMessages((self.conversation?.id)!, offset: offset)
         self.offset++
         self.messageCointainerScroll.contentSize = CGSizeMake(CGRectGetWidth(messageCointainerScroll.frame), lastChatBubbleY + linePadding)
         self.addKeyboardNotifications()
@@ -413,4 +413,15 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         view.endEditing(true)
     }
     
+    func onSuccessGetMessages(resultDto: MessageResponseVM) {
+        ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
+        self.handleChatMessageResponse(resultDto)
+        if (self.offered) {
+            self.newMessage("New offer: \(Int(self.offeredPrice))", image: nil, system: true)
+        }
+    }
+    
+    func onFailureGetMessages(error: String) {
+        NSLog("error getting messages")
+    }
 }

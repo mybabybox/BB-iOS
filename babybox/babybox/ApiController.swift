@@ -431,8 +431,8 @@ class ApiController {
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/get-messages/\(id)/\(offset)"
         callEvent.resultClass = "MessageResponseVM"
-        callEvent.successEventbusName = "getMessagesSuccess"
-        callEvent.failedEventbusName = "getMessagesFailed"
+        callEvent.successEventbusName = "onSuccessGetMessages"
+        callEvent.failedEventbusName = "onFailureGetMessages"
         callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         
         self.makeApiCall(callEvent)

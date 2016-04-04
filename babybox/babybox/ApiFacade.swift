@@ -64,5 +64,32 @@ class ApiFacade {
         
         ApiController.instance.getUser(id)
     }
+    
+    static func getMessages(id: Int, offset: Int64, successCallback: ((MessageResponseVM) -> Void)?, failureCallback: ((String) -> Void)?) {
+        SwiftEventBus.unregister(self)
+        
+        SwiftEventBus.onMainThread(self, name: "onSuccessGetMessages") { result in
+            if ViewUtil.isEmptyResult(result) {
+                failureCallback!("User returned is empty")
+                return
+            }
+            
+            if successCallback != nil {
+                successCallback!((result.object as? MessageResponseVM)!)
+            }
+        }
+        
+        SwiftEventBus.onMainThread(self, name: "onFailureGetMessages") { result in
+            if failureCallback != nil {
+                var error = "Failed to get messages..."
+                if result.object is NSString {
+                    error += "\n"+(result.object as! String)
+                }
+                failureCallback!(error)
+            }
+        }
+        
+        ApiController.instance.getMessages(id, offset: offset)
+    }
 
 }
