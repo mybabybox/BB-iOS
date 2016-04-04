@@ -28,6 +28,7 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
     var currentIndex: NSIndexPath?
     
     var isRefresh: Bool = false
+    var uploadedImage: UIImage?
     
     override func reloadDataToView() {
         self.uiCollectionView.reloadData()
@@ -36,10 +37,12 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
     override func registerMoreEvents() {
         SwiftEventBus.onMainThread(self, name: "profileImgUploadSuccess") { result in
             self.view.makeToast(message: "Profile image uploaded successfully!")
+            self.activeHeaderViewCell?.userImg.image = self.uploadedImage
         }
         
         SwiftEventBus.onMainThread(self, name: "profileImgUploadFailed") { result in
             self.view.makeToast(message: "Error uploading profile image!")
+            self.uploadedImage = nil
         }
     }
     
@@ -335,7 +338,7 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         
         if let pickedImage = info[UIImagePickerControllerEditedImage] as? UIImage {
-            self.activeHeaderViewCell?.userImg.image = pickedImage
+            self.uploadedImage = pickedImage
             ApiController.instance.uploadUserProfileImage(pickedImage)
         }
         dismissViewControllerAnimated(true, completion: nil)

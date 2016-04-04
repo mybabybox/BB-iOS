@@ -761,12 +761,17 @@ class ApiController {
     
     func handleUploadResponse(upload: Request, callEvent: ApiCallEvent) {
         upload.responseJSON { response in
-            switch response.result {
-            case .Success:
+            if response.data?.length <= 0 {
                 SwiftEventBus.post(callEvent.successEventbusName, sender: "")
-            case .Failure(let error):
-                SwiftEventBus.post(callEvent.failedEventbusName, sender: error)
+            } else {
+                switch response.result {
+                case .Success:
+                    SwiftEventBus.post(callEvent.successEventbusName, sender: "")
+                case .Failure(let error):
+                    SwiftEventBus.post(callEvent.failedEventbusName, sender: error)
+                }
             }
+            
         }
     }
     
