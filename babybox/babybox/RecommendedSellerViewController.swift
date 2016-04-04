@@ -141,10 +141,10 @@ class RecommendedSellerViewController: UIViewController {
         dummyLbl.text = self.recommendedSellers[indexPath.row].aboutMe
         dummyLbl.sizeToFit()
         
-        let availableWidthForButtons:CGFloat = self.view.bounds.width - 60
-        let buttonWidth :CGFloat = availableWidthForButtons / 4
+        let availableWidthForButtons: CGFloat = self.view.bounds.width - 60
+        let buttonWidth: CGFloat = availableWidthForButtons / 4
         
-        return CGSizeMake(self.view.bounds.width, CGFloat(60) + dummyLbl.bounds.height + buttonWidth)
+        return CGSizeMake(self.view.bounds.width, CGFloat(70) + dummyLbl.bounds.height + buttonWidth)
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
