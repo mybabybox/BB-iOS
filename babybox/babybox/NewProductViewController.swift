@@ -8,7 +8,7 @@
 
 import UIKit
 import SwiftEventBus
-
+import QQPlaceholderTextView
 
 class NewProductViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate {
     
@@ -62,6 +62,10 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
         self.loadDataSource()
         self.pricetxt.delegate = self
         self.pricetxt.keyboardType = .NumberPad
+        
+        self.prodDescription.placeholder = "Product Description"
+        self.prodDescription.isApplyTextFieldStyle = true
+        self.prodDescription.layer.borderWidth = 0
         
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
         view.addGestureRecognizer(tap)
