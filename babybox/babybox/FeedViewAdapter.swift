@@ -36,7 +36,7 @@ class FeedViewAdapter {
         
         // like count
         cell.likeCountIns.titleLabel?.font = UIFont.systemFontOfSize(14, weight: UIFontWeightLight)
-        cell.likeCountIns.setTitle(String(feedItem.numLikes+42542324525432), forState: UIControlState.Normal)
+        cell.likeCountIns.setTitle(String(feedItem.numLikes), forState: UIControlState.Normal)
 
         // liked?
         cell.likeImageIns.tag = index
