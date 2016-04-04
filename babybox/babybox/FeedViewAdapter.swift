@@ -35,8 +35,8 @@ class FeedViewAdapter {
         cell.soldImage.hidden = !feedItem.sold
         
         // like count
-        cell.likeCountIns.titleLabel?.font = UIFont.systemFontOfSize(13)
-        cell.likeCountIns.setTitle(String(feedItem.numLikes), forState: UIControlState.Normal)
+        cell.likeCountIns.titleLabel?.font = UIFont.systemFontOfSize(14, weight: UIFontWeightLight)
+        cell.likeCountIns.setTitle(String(feedItem.numLikes+42542324525432), forState: UIControlState.Normal)
 
         // liked?
         cell.likeImageIns.tag = index
