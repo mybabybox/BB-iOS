@@ -100,7 +100,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         
         sendButton.enabled = true
         
-        registerEvents()
+        //registerEvents()
         
         ViewUtil.showActivityLoading(self.activityLoading)
         ApiFacade.getMessages((self.conversation?.id)!, offset: offset, successCallback: onSuccessGetMessages, failureCallback: onFailureGetMessages)
