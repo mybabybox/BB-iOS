@@ -35,8 +35,12 @@ class FeedViewAdapter {
         cell.soldImage.hidden = !feedItem.sold
         
         // like count
+        cell.likeCountIns.titleLabel?.minimumScaleFactor = 0.01
+        cell.likeCountIns.titleLabel?.adjustsFontSizeToFitWidth = true
+        cell.likeCountIns.titleLabel?.lineBreakMode = NSLineBreakMode.ByClipping
         cell.likeCountIns.titleLabel?.font = UIFont.systemFontOfSize(14, weight: UIFontWeightLight)
         cell.likeCountIns.setTitle(String(feedItem.numLikes), forState: UIControlState.Normal)
+        cell.likeCountIns.sizeToFit()
 
         // liked?
         cell.likeImageIns.tag = index
@@ -51,7 +55,7 @@ class FeedViewAdapter {
         cell.productPrice.font = UIFont.systemFontOfSize(14)
         cell.productPrice.text = "\(Constants.CURRENCY_SYMBOL)\(String(stringInterpolationSegment: Int(feedItem.price)))"
         if (feedItem.originalPrice != 0 && feedItem.originalPrice != -1 && feedItem.originalPrice != Int(feedItem.price)) {
-            let attrString = NSAttributedString(string: "\(Constants.CURRENCY_SYMBOL) \(String(stringInterpolationSegment:Int(feedItem.originalPrice)))", attributes: [NSStrikethroughStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue])
+            let attrString = NSAttributedString(string: "\(Constants.CURRENCY_SYMBOL)\(String(stringInterpolationSegment:Int(feedItem.originalPrice)))", attributes: [NSStrikethroughStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue])
             cell.originalPrice.attributedText = attrString
         } else {
             cell.originalPrice.attributedText = NSAttributedString(string: "")
