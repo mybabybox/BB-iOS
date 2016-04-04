@@ -8,7 +8,7 @@
 
 import UIKit
 import SwiftEventBus
-import ALCameraViewController
+
 
 class NewProductViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate {
     

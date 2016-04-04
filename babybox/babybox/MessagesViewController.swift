@@ -9,7 +9,6 @@
 import UIKit
 import PhotoSlider
 import SwiftEventBus
-import ALCameraViewController
 
 class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSliderDelegate, UIScrollViewDelegate {
         
