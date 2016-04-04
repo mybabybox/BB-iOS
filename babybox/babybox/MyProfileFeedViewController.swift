@@ -145,7 +145,7 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
             
             cell.displayName.text = self.userInfo?.displayName
                 
-            ImageUtil.displayThumbnailProfileImage(self.userInfo!.id, imageView: cell.userImg)
+            ImageUtil.displayProfileImage(self.userInfo!.id, imageView: cell.userImg)
             if (self.userInfo!.numFollowers > 0) {
                 cell.followersBtn.setTitle("Followers " + String(self.userInfo!.numFollowers), forState:UIControlState.Normal)
             } else {
