@@ -663,14 +663,13 @@ class ApiController {
         strData.append("emailNewPost=\(settingsVM.emailNewPost)")
         strData.append("emailNewConversation=\(settingsVM.emailNewConversation)")
         strData.append("emailNewComment=\(settingsVM.emailNewComment)")
-        strData.append("emailNewPromotion=\(settingsVM.emailNewPromotion)")
-        strData.append("pushNewConversion=\(settingsVM.pushNewConversion)")
-        strData.append("pushNewComment=\(settingsVM.pushNewConversion)")
-        strData.append("pushNewFollow=\(settingsVM.pushNewConversion)")
-        strData.append("pushNewFeedback=\(settingsVM.pushNewConversion)")
-        strData.append("pushNewPromotions=\(settingsVM.pushNewConversion)")
+        strData.append("emailNewPromotions=\(settingsVM.emailNewPromotions)")
+        strData.append("pushNewConversation=\(settingsVM.pushNewConversation)")
+        strData.append("pushNewComment=\(settingsVM.pushNewComment)")
+        strData.append("pushNewFollow=\(settingsVM.pushNewFollow)")
+        strData.append("pushNewFeedback=\(settingsVM.pushNewFeedback)")
+        strData.append("pushNewPromotions=\(settingsVM.pushNewPromotions)")
         let parameter = self.makeBodyString(strData)
-        
         
         let request: NSMutableURLRequest = NSMutableURLRequest()
         request.URL = NSURL(string: url)
@@ -684,7 +683,6 @@ class ApiController {
             self.handleApiResponse(callEvent, data: data, response: response, error: error)
         })
         task.resume()
-        
     }
     
     func makeApiCall(arg: ApiCallEvent) {

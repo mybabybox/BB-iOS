@@ -41,6 +41,16 @@ struct Constants {
     static let ACTIVITY_GAME_BADGE = "Congratulations! You got a new badge:\n"
     static let SHARING_SELLER_MSG_PREFIX: String = "Check out BabyBox Seller"
     
+    static let SETTING_EMAIL_NOTIF_NEW_PRODUCT = "Product listed"
+    static let SETTING_EMAIL_NOTIF_NEW_CHAT = "New chat"
+    static let SETTING_EMAIL_NOTIF_NEW_COMMENT = "New comment on your products"
+    static let SETTING_EMAIL_NOTIF_NEW_PROMOTIONS = "New promotions"
+    static let SETTING_PUSH_NOTIF_NEW_CHAT = "New chat"
+    static let SETTING_PUSH_NOTIF_NEW_COMMENT = "New comment on your products"
+    static let SETTING_PUSH_NOTIF_NEW_FOLLOW = "New follower"
+    static let SETTING_PUSH_NOTIF_NEW_FEEDBACK = "New review"
+    static let SETTING_PUSH_NOTIF_NEW_PROMOTIONS = "New promotions"
+    
     static let NO_FOLLOWINGS = "~ No Followings ~"
     static let NO_FOLLOWERS = "~ No Followers ~"
     
