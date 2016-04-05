@@ -168,9 +168,9 @@ class ViewUtil {
         actInd.startAnimating()
     }
 
-    static func showDialog(title: String, message: String, view: UIViewController) {
+    static func showDialog(title: String, message: String, view: UIViewController, handler: ((UIAlertAction) -> Void)? = nil) {
         let dialog = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
-        let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil)
+        let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: handler)
         dialog.addAction(okAction)
         view.presentViewController(dialog, animated: true, completion: nil)
     }

@@ -82,18 +82,16 @@ class SplashViewController: UIViewController {
     }
     
     func onFailure(message: String?) {
-        AppDelegate.getInstance().logOut()
-        SwiftEventBus.unregister(self)
         if message != nil {
-            ViewUtil.showDialog("Login Error", message: message!, view: self)
+            ViewUtil.showDialog("Login Error", message: message!, view: self,
+                handler: { UIAlertAction in
+                    self.showLoginPage()
+            })
         }
-        self.showLoginPage()
     }
     
     func showLoginPage() {
-        /*let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("WelcomeViewController") as! WelcomeViewController
-        self.navigationController?.pushViewController(vController, animated: true)
-        */
+        AppDelegate.getInstance().logOut()
         SwiftEventBus.unregister(self)
         self.navigationController?.navigationBar.hidden = true
         self.performSegueWithIdentifier("loginpage", sender: nil)
