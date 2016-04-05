@@ -31,7 +31,7 @@ class ConversationsViewController: UIViewController {
     
     override func viewDidAppear(animated: Bool) {
         if self.updateOpenedConversation && ConversationCache.openedConversation != nil {
-            ConversationCache.update(ConversationCache.openedConversation!.id, successCallback: handleUpdateConversationSuccess, failureCallback: nil)
+            ConversationCache.update(ConversationCache.openedConversation!.id, successCallback: onSuccessUpdateConversation, failureCallback: onFailure)
         }
         if currentIndex != nil {
             self.conversationTableView.reloadRowsAtIndexPaths([currentIndex!], withRowAnimation: UITableViewRowAnimation.Automatic)
@@ -40,11 +40,6 @@ class ConversationsViewController: UIViewController {
         self.updateOpenedConversation = false
         self.myDate = NSDate()
         ViewUtil.hideActivityLoading(self.activityLoading)
-    }
-    
-    func handleUpdateConversationSuccess(conversation: ConversationVM) {
-        //collectionView.reloadData()
-        self.conversationTableView.reloadData()
     }
     
     override func viewDidLoad() {
@@ -56,7 +51,7 @@ class ConversationsViewController: UIViewController {
         
         ViewUtil.showActivityLoading(self.activityLoading)
         
-        ConversationCache.load(offset, successCallback: handleGetConversationsSuccess, failureCallback: handleError)
+        ConversationCache.load(offset, successCallback: onSuccessGetConversations, failureCallback: onFailure)
         
         loading = true
         
@@ -70,7 +65,7 @@ class ConversationsViewController: UIViewController {
     
     func refresh(sender:AnyObject) {
         offset = 0
-        ConversationCache.load(offset, successCallback: handleGetConversationsSuccess, failureCallback: handleError)
+        ConversationCache.load(offset, successCallback: onSuccessGetConversations, failureCallback: onFailure)
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -170,7 +165,7 @@ class ConversationsViewController: UIViewController {
     
     func handleDeleteConversation(alertAction: UIAlertAction!) -> Void {
         if let indexPath = deleteCellIndex {
-            ConversationCache.delete(ConversationCache.conversations[indexPath.row].id, successCallback: deleteConversationHandler, failureCallback: deleteConversationError)
+            ConversationCache.delete(ConversationCache.conversations[indexPath.row].id, successCallback: onSuccessDeleteConversation, failureCallback: onFailure)
         }
     }
     
@@ -178,7 +173,41 @@ class ConversationsViewController: UIViewController {
         deleteCellIndex = nil
     }
     
-    func handleGetConversationsSuccess(conversations: [ConversationVM]) {
+    // MARK: UIScrollview Delegate
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        
+        if (scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - Constants.FEED_LOAD_SCROLL_THRESHOLD {
+            if (!loadedAll && !loading) {
+                ViewUtil.showActivityLoading(self.activityLoading)
+                loading = true
+                if (!ConversationCache.conversations.isEmpty) {
+                    offset = offset + 1
+                }
+                
+                ConversationCache.load(offset, successCallback: onSuccessGetConversations, failureCallback: onFailure)
+            }
+        }
+    }
+    
+    func clear() {
+        self.loading = false
+        self.loadedAll = false
+        self.offset = 0
+        ConversationCache.clear()
+    }
+    
+    func reload() {
+        clear()
+        ConversationCache.load(offset, successCallback: onSuccessGetConversations, failureCallback: onFailure)
+        self.loading = true
+    }
+    
+    func onFailure(message: String) {
+        ViewUtil.showDialog("Error", message: message, view: self)
+        ViewUtil.hideActivityLoading(self.activityLoading)
+    }
+    
+    func onSuccessGetConversations(conversations: [ConversationVM]) {
         if (!conversations.isEmpty) {
             self.conversationTableView.reloadData()
         } else {
@@ -194,41 +223,12 @@ class ConversationsViewController: UIViewController {
         self.refreshControl.endRefreshing()
     }
     
-    // MARK: UIScrollview Delegate
-    func scrollViewDidScroll(scrollView: UIScrollView) {
-        
-        if (scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - Constants.FEED_LOAD_SCROLL_THRESHOLD {
-            if (!loadedAll && !loading) {
-                ViewUtil.showActivityLoading(self.activityLoading)
-                loading = true
-                if (!ConversationCache.conversations.isEmpty) {
-                    offset = offset + 1
-                }
-                
-                ConversationCache.load(offset, successCallback: handleGetConversationsSuccess, failureCallback: handleError)
-            }
-        }
+    func onSuccessUpdateConversation(conversation: ConversationVM) {
+        //collectionView.reloadData()
+        self.conversationTableView.reloadData()
     }
     
-    func clear() {
-        self.loading = false
-        self.loadedAll = false
-        self.offset = 0
-        ConversationCache.clear()
-    }
-    
-    func reload() {
-        clear()
-        ConversationCache.load(offset, successCallback: handleGetConversationsSuccess, failureCallback: handleError)
-        self.loading = true
-    }
-    
-    func handleError(message: String) {
-        ViewUtil.showDialog("Error", message: message, view: self)
-        ViewUtil.hideActivityLoading(self.activityLoading)
-    }
-    
-    func deleteConversationHandler(responseString: String) {
+    func onSuccessDeleteConversation(responseString: String) {
         self.conversationTableView.deleteRowsAtIndexPaths([deleteCellIndex!], withRowAnimation: .Automatic)
         if (ConversationCache.conversations.count <= 0) {
             self.tipText.hidden = false
@@ -239,10 +239,4 @@ class ConversationsViewController: UIViewController {
         //self.collectionView.reloadData()
         self.view.makeToast(message: "Conversation Deleted Successfully!")
     }
-    
-    func deleteConversationError(responseString: String) {
-        NSLog("Error deleting Conversion", responseString)
-        self.view.makeToast(message: "Error Deleting Conversation")
-    }
-    
 }

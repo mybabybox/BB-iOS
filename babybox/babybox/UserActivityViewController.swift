@@ -145,7 +145,7 @@ class UserActivityViewController: CustomNavigationController {
         let item = self.userActivitesItems[indexPath.row]
         switch (item.activityType) {
         case "FIRST_POST", "NEW_POST", "NEW_COMMENT", "LIKED", "SOLD":
-            ApiFacade.getPost(self.userActivitesItems[indexPath.row].target, successCallback: onSuccessGetPost, failureCallback: onFailureGetPost)
+            ApiFacade.getPost(self.userActivitesItems[indexPath.row].target, successCallback: onSuccessGetPost, failureCallback: onFailure)
         case "FOLLOWED": fallthrough
 
         default: break
@@ -195,7 +195,7 @@ class UserActivityViewController: CustomNavigationController {
         let view = button.superview!
         let cell = view.superview! as! BaseActivityViewCell
         let indexPath = self.uiCollectionView.indexPathForCell(cell)!
-        ApiFacade.getPost(self.userActivitesItems[indexPath.row].target, successCallback: onSuccessGetPost, failureCallback: onFailureGetPost)
+        ApiFacade.getPost(self.userActivitesItems[indexPath.row].target, successCallback: onSuccessGetPost, failureCallback: onFailure)
     }
     
     func setMessageText(item: ActivityVM) -> String {
@@ -294,7 +294,7 @@ class UserActivityViewController: CustomNavigationController {
         self.navigationController?.pushViewController(vController, animated: true)
     }
     
-    func onFailureGetPost(error: String) {
-        self.view.makeToast(message: "Product not found. It may be deleted by seller.", duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
+    func onFailure(message: String) {
+        ViewUtil.showDialog("Error", message: message, view: self)
     }
 }

@@ -16,7 +16,7 @@ class ApiFacade {
         
         SwiftEventBus.onMainThread(self, name: "onSuccessGetPost") { result in
             if ViewUtil.isEmptyResult(result) {
-                failureCallback!("Product info returned is empty")
+                failureCallback!("Product may be deleted (ID:\(id))")
                 return
             }
             

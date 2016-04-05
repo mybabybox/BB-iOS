@@ -26,7 +26,6 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
     
     @IBOutlet weak var activityLoading: UIActivityIndicatorView!
     @IBOutlet weak var likeImgBtn: UIButton!
-    //@IBOutlet weak var btnWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var likeCountTxt: UIButton!
     @IBOutlet weak var detailTableView: UITableView!
     @IBOutlet weak var activeText: UITextField!
@@ -70,18 +69,7 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
         
         ViewUtil.showActivityLoading(self.activityLoading)
         
-        SwiftEventBus.onMainThread(self, name: "productDetailsReceivedSuccess") { result in
-            if let _ = result.object as? String {
-                self.view.makeToast(message: "The product may be deleted by Seller")
-                self.detailTableView.hidden = true
-                return
-            }
-            let productInfo: PostVM = result.object as! PostVM
-            self.handleGetProductDetailsSuccess(productInfo)
-            self.enableEditPost()
-        }
-        
-        ApiController.instance.getProductDetails(feedItem.id)
+        ApiFacade.getPost(feedItem.id, successCallback: onSuccessGetPost, failureCallback: onFailure)
         
         NSNotificationCenter.defaultCenter().addObserver(self,
             selector: Selector("keyboardWillShow:"),
@@ -92,8 +80,6 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
             selector: Selector("keyboardWillHide:"),
             name: UIKeyboardWillHideNotification,
             object: nil)
-
-        
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -366,7 +352,7 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
         }
     }
     
-    func handleGetProductDetailsSuccess(productInfo: PostVM) {
+    func onSuccessGetPost(productInfo: PostVM) {
         self.productInfo = productInfo
         self.comments.removeAll()
         for comment in self.productInfo!.latestComments {
@@ -375,6 +361,7 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
         self.initLikeUnlike()
         self.detailTableView.reloadData()
         self.processButtonsVisibility()
+        self.enableEditPost()
         ViewUtil.hideActivityLoading(self.activityLoading)
     }
     
@@ -512,7 +499,7 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
     }
     
     @IBAction func onClickChatNow(sender: AnyObject) {
-        ConversationCache.open(self.productInfo!.id, successCallback: handleOpenConversationSuccess, failureCallback: handleError)
+        ConversationCache.open(self.productInfo!.id, successCallback: onSuccessOpenConversation, failureCallback: onFailure)
     }
     
     @IBAction func onClickViewChat(sender: AnyObject) {
@@ -531,14 +518,14 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
         return true
     }
     
-    func handleOpenConversationSuccess(conversation: ConversationVM) {
+    func onSuccessOpenConversation(conversation: ConversationVM) {
         let vController = self.storyboard!.instantiateViewControllerWithIdentifier("MessagesViewController") as! MessagesViewController
         vController.conversation = conversation
         ViewUtil.resetBackButton(self.navigationItem)
         self.navigationController?.pushViewController(vController, animated: true)
     }
     
-    func handleError(message: String) {
+    func onFailure(message: String) {
         ViewUtil.showDialog("Error", message: message, view: self)
     }
     

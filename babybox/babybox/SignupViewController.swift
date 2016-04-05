@@ -35,14 +35,14 @@ class SignupViewController: BaseLoginViewController {
 
         SwiftEventBus.onMainThread(self, name: "signUpSuccess") { result in
             if ViewUtil.isEmptyResult(result) {
-                self.handleError("No response for sign up. Please try again later.")
+                self.onFailure("No response for sign up. Please try again later.")
             } else {
                 self.emailLogin(self.emailText.text!, password: self.passwordText.text!)
             }
         }
         
         SwiftEventBus.onMainThread(self, name: "signUpFailed") { result in
-            self.handleError("Email is already registered")
+            self.onFailure("Email is already registered")
         }
         
         ViewUtil.displayRoundedCornerView(self.signUpBtn, bgColor: Color.PINK)

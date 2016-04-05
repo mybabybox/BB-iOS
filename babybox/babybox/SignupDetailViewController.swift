@@ -25,14 +25,14 @@ class SignupDetailViewController: BaseLoginViewController, UITextFieldDelegate, 
                 
         SwiftEventBus.onMainThread(self, name: "saveSignUpInfoSuccess") { result in
             if ViewUtil.isEmptyResult(result) {
-                self.handleError("No response for saving user details")
+                self.onFailure("No response for saving user details")
             } else {
-                self.onLoginSuccess()
+                self.postLogin()
             }
         }
         
         SwiftEventBus.onMainThread(self, name: "saveSignUpInfoFailed") { result in
-            self.handleError("Failed to register user details")
+            self.onFailure("Failed to register user details")
         }
         
         ViewUtil.displayRoundedCornerView(self.submitBtn, bgColor: Color.PINK)

@@ -35,10 +35,10 @@ class MakeOfferViewController: UIViewController {
             ViewUtil.makeToast("Please make an offer", view: self.view)
             return
         }
-        ConversationCache.open(self.productInfo!.id, successCallback: handleOpenConversationSuccess, failureCallback: handleError)
+        ConversationCache.open(self.productInfo!.id, successCallback: onSuccessOpenConversation, failureCallback: onFailure)
     }
     
-    func handleOpenConversationSuccess(conversation: ConversationVM) {
+    func onSuccessOpenConversation(conversation: ConversationVM) {
         let vController = self.storyboard!.instantiateViewControllerWithIdentifier("MessagesViewController") as! MessagesViewController
         vController.conversation = conversation
         vController.offered = true
@@ -47,7 +47,7 @@ class MakeOfferViewController: UIViewController {
         ViewUtil.pushViewControllerAndPopSelf(vController, toPop: self)
     }
     
-    func handleError(message: String) {
+    func onFailure(message: String) {
         ViewUtil.showDialog("Error", message: message, view: self)
     }
 }

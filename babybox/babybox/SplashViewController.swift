@@ -28,7 +28,7 @@ class SplashViewController: UIViewController {
         NSThread.sleepForTimeInterval(Constants.SPLASH_SHOW_DURATION)
         
         if sessionId != nil && sessionId != "nil" && !sessionId!.isEmpty {
-            UserInfoCache.refresh(sessionId!, successCallback: handleUserInfoSuccess, failureCallback: handleError)
+            UserInfoCache.refresh(sessionId!, successCallback: onSuccessGetUserInfo, failureCallback: onFailure)
         } else {
             showLoginPage()
         }
@@ -37,7 +37,7 @@ class SplashViewController: UIViewController {
     func initNewUser() {
         SwiftEventBus.onMainThread(self, name: "initNewUserSuccess") { result in
             if ViewUtil.isEmptyResult(result) {
-                self.handleError("No response for init new user")
+                self.onFailure("No response for init new user")
             } else {
                 //let userInfo: UserVM = result.object as! UserVM
                 self.showMainPage()
@@ -45,16 +45,16 @@ class SplashViewController: UIViewController {
         }
         
         SwiftEventBus.onMainThread(self, name: "initNewUserFailed") { result in
-            self.handleError("Failed to init new user")
+            self.onFailure("Failed to init new user")
         }
         
         ApiController.instance.initNewUser()
     }
     
-    func handleUserInfoSuccess(userInfo: UserVM) {
+    func onSuccessGetUserInfo(userInfo: UserVM) {
         // user not logged in, redirect to login page
         if userInfo.id == -1 {
-            handleError("Cannot find user. Please login again.")
+            onFailure("Cannot find user. Please login again.")
         }
 
         // new user flow
@@ -81,7 +81,7 @@ class SplashViewController: UIViewController {
         self.performSegueWithIdentifier("homefeed", sender: nil)
     }
     
-    func handleError(message: String?) {
+    func onFailure(message: String?) {
         AppDelegate.getInstance().logOut()
         SwiftEventBus.unregister(self)
         if message != nil {

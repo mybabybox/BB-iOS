@@ -85,7 +85,7 @@ class ConversationCache {
             SwiftEventBus.unregister(self)
             
             if failureCallback != nil {
-                var error = "Failed to open conversation with postId=" + String(postId)
+                var error = "Failed to open conversation (ProductID:\(String(postId)))"
                 if result.object is NSString {
                     error += "\n"+(result.object as! String)
                 }
@@ -121,7 +121,7 @@ class ConversationCache {
             SwiftEventBus.unregister(self)
             
             if failureCallback != nil {
-                var error = "Failed to delete conversation with id=" + String(id)
+                var error = "Failed to delete conversation (ID:\(String(id)))"
                 if result.object is NSString {
                     error += "\n"+(result.object as! String)
                 }
@@ -155,7 +155,7 @@ class ConversationCache {
             SwiftEventBus.unregister(self)
             
             if failureCallback != nil {
-                var error = "Failed to get conversation with id=" + String(id)
+                var error = "Failed to get conversation with (ID:\(String(id)))"
                 if result.object is NSString {
                     error += "\n"+(result.object as! String)
                 }

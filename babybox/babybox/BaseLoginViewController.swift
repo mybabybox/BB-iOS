@@ -18,7 +18,7 @@ class BaseLoginViewController: UIViewController {
     let facebookReadPermissions = ["public_profile", "email", "user_friends"]
     // Other options: "user_about_me", "user_birthday", "user_hometown", "user_likes", "user_interests", "user_photos", "friends_photos", "friends_hometown", "friends_location", "friends_education_history"
     
-    func handleUserLoginSuccess(sessionId: String) {
+    func onSuccessLogin(sessionId: String) {
         startLoading()
         
         if !sessionId.isEmpty {
@@ -26,10 +26,9 @@ class BaseLoginViewController: UIViewController {
             AppDelegate.getInstance().sessionId = sessionId
             
             // call subclass
-            onLoginSuccess()
+            postLogin()
             
             SwiftEventBus.unregister(self)
-            //UserInfoCache.refresh(sessionId, successCallback: handleUserInfoSuccess, failureCallback: handleError)
         } else {
             //authentication failed.. show error message...
             let _errorDialog = UIAlertController(title: "Error Message", message: "Invalid UserName or Password", preferredStyle: UIAlertControllerStyle.Alert)
@@ -41,25 +40,7 @@ class BaseLoginViewController: UIViewController {
         stopLoading()
     }
     
-    func handleUserInfoSuccess(userInfo: UserVM) {
-        // user not logged in, redirect to login page
-        if (userInfo.id == -1) {
-            self.handleError("User is not logged in")
-        }
-        
-        startLoading()
-        
-        self.isUserLoggedIn = true
-        UserInfoCache.setUser(userInfo)
-        SwiftEventBus.unregister(self)
-        
-        // call subclass 
-        onLoginSuccess()
-        
-        stopLoading()
-    }
-    
-    func handleError(message: String?) {
+    func onFailure(message: String?) {
         startLoading()
         
         self.isUserLoggedIn = false
@@ -71,7 +52,7 @@ class BaseLoginViewController: UIViewController {
         stopLoading()
     }
     
-    func onLoginSuccess() {
+    func postLogin() {
         self.isUserLoggedIn = true
         
         // register notif
@@ -94,10 +75,10 @@ class BaseLoginViewController: UIViewController {
         
         SwiftEventBus.onMainThread(self, name: "loginReceivedSuccess") { result in
             if ViewUtil.isEmptyResult(result) {
-                self.handleError("User is not logged in")
+                self.onFailure("User is not logged in")
             } else {
                 let response: String = result.object as! String
-                self.handleUserLoginSuccess(response)
+                self.onSuccessLogin(response)
             }
         }
         
@@ -110,7 +91,7 @@ class BaseLoginViewController: UIViewController {
             if message.isEmpty {
                 message = "Failed to authenticate user"
             }
-            self.handleError(message)
+            self.onFailure(message)
         }
         
         // prepare fb login button
@@ -150,7 +131,7 @@ class BaseLoginViewController: UIViewController {
     }
     
     @IBAction func fbLoginClick(sender: AnyObject) {
-        self.fbNativeLogin(self.fbLogin, failureBlock: self.handleError)
+        self.fbNativeLogin(self.fbLogin, failureBlock: self.onFailure)
     }
     
     func fbNativeLogin(successBlock: (token: String, userId: String) -> (), failureBlock: (String?) -> ()) {
