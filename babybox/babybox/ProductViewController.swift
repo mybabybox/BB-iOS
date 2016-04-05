@@ -22,7 +22,7 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
     @IBOutlet weak var soldButton: UIButton!
     @IBOutlet weak var buyButton: UIButton!
     @IBOutlet weak var chatButton: UIButton!
-    @IBOutlet weak var soldText: UILabel!
+    @IBOutlet weak var soldText: UIButton!
     
     @IBOutlet weak var activityLoading: UIActivityIndicatorView!
     @IBOutlet weak var likeImgBtn: UIButton!
@@ -432,7 +432,7 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
             return true
         } else if (identifier == "userprofile") {
             return true
-        } else if (identifier == "viewChats") {
+        } else if (identifier == "viewChats" || identifier == "soldViewChat") {
             return true
         }
         return false
@@ -448,7 +448,7 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
             let vController = segue.destinationViewController as! UserProfileFeedViewController
             vController.userId = self.productInfo!.ownerId
             vController.hidesBottomBarWhenPushed = true
-        } else if (segue.identifier == "viewChats") {
+        } else if (segue.identifier == "viewChats" || segue.identifier == "soldViewChat") {
             //postId
             let vController = segue.destinationViewController as! ProductChatViewController
             vController.postId = self.productInfo!.id
@@ -481,7 +481,7 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
     }
     
     @IBAction func onClickMarkAsSold(sender: AnyObject) {
-        let _messageDialog = UIAlertController(title: "", message: "Confirm product has been sold?\nYou will no longer receive chats and orders for this product", preferredStyle: UIAlertControllerStyle.Alert)
+        let _messageDialog = UIAlertController(title: "", message: Constants.PRODUCT_SOLD_CONFIRM_TEXT, preferredStyle: UIAlertControllerStyle.Alert)
         let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: nil)
         let confirmAction = UIAlertAction(title: "Confirm", style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction!) in
             ApiController.instance.soldPost(self.feedItem.id)
@@ -508,7 +508,7 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
     }
     
     @IBAction func onClickSold(sender: AnyObject) {
-        let _messageDialog = UIAlertController(title: "", message: "This item has been sold", preferredStyle: UIAlertControllerStyle.Alert)
+        let _messageDialog = UIAlertController(title: "", message: Constants.PRODUCT_SOLD_TEXT, preferredStyle: UIAlertControllerStyle.Alert)
         let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil)
         _messageDialog.addAction(okAction)
         

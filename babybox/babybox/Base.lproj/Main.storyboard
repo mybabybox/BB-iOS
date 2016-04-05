@@ -4574,25 +4574,6 @@
                                             <action selector="onClickLikeOrUnlikeButton:" destination="a39-f0-7jx" eventType="touchUpInside" id="4pW-BU-icE"/>
                                         </connections>
                                     </button>
-                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Aa9-0c-Zz6" userLabel="buyerSoldButtonsLayout">
-                                        <rect key="frame" x="55" y="0.0" width="359" height="45"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sold" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dhi-iI-zhs" userLabel="SoldText">
-                                                <rect key="frame" x="0.0" y="0.0" width="359" height="45"/>
-                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
-                                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                        </subviews>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <constraints>
-                                            <constraint firstAttribute="bottom" secondItem="Dhi-iI-zhs" secondAttribute="bottom" id="BFq-ne-t0b"/>
-                                            <constraint firstAttribute="trailing" secondItem="Dhi-iI-zhs" secondAttribute="trailing" id="M3P-0A-h6U"/>
-                                            <constraint firstItem="Dhi-iI-zhs" firstAttribute="leading" secondItem="Aa9-0c-Zz6" secondAttribute="leading" id="Mqw-sa-HWg"/>
-                                            <constraint firstItem="Dhi-iI-zhs" firstAttribute="top" secondItem="Aa9-0c-Zz6" secondAttribute="top" id="hCb-2E-JSG"/>
-                                        </constraints>
-                                    </view>
                                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4fM-kR-mov" userLabel="sellerSoldButtonsLayout">
                                         <rect key="frame" x="55" y="0.0" width="359" height="45"/>
                                         <subviews>
@@ -4602,7 +4583,7 @@
                                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                                 <state key="normal" title="Sold - View Chats"/>
                                                 <connections>
-                                                    <action selector="onClickSold:" destination="a39-f0-7jx" eventType="touchUpInside" id="J5z-Nh-aG7"/>
+                                                    <segue destination="K3t-LR-EuE" kind="show" identifier="soldViewChat" id="SC0-fE-foi"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -4686,6 +4667,26 @@
                                             <constraint firstItem="uJg-Os-pQA" firstAttribute="leading" secondItem="1IZ-SP-2w1" secondAttribute="leading" id="p2S-sU-1UL"/>
                                         </constraints>
                                     </view>
+                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Aa9-0c-Zz6" userLabel="buyerSoldButtonsLayout">
+                                        <rect key="frame" x="55" y="0.0" width="359" height="45"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2he-7h-t9I" userLabel="SoldText">
+                                                <rect key="frame" x="0.0" y="0.0" width="359" height="45"/>
+                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <state key="normal" title="Sold"/>
+                                                <connections>
+                                                    <action selector="onClickSold:" destination="a39-f0-7jx" eventType="touchUpInside" id="J6t-CF-9OQ"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstItem="2he-7h-t9I" firstAttribute="top" secondItem="Aa9-0c-Zz6" secondAttribute="top" id="V7L-FY-rTJ"/>
+                                            <constraint firstItem="2he-7h-t9I" firstAttribute="leading" secondItem="Aa9-0c-Zz6" secondAttribute="leading" id="X5f-fd-k1I"/>
+                                            <constraint firstAttribute="trailing" secondItem="2he-7h-t9I" secondAttribute="trailing" id="cgf-UY-hmy"/>
+                                            <constraint firstAttribute="bottom" secondItem="2he-7h-t9I" secondAttribute="bottom" id="lyr-hl-K2x"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -4739,7 +4740,7 @@
                         <outlet property="sellerButtonsLayout" destination="ADg-Zg-gNb" id="SJ2-Bk-0H3"/>
                         <outlet property="sellerSoldButtonsLayout" destination="4fM-kR-mov" id="eEU-Ow-XWf"/>
                         <outlet property="soldButton" destination="N1m-Yk-Qrt" id="gTv-5v-axz"/>
-                        <outlet property="soldText" destination="Dhi-iI-zhs" id="dEL-us-oob"/>
+                        <outlet property="soldText" destination="2he-7h-t9I" id="O5m-VC-Hsf"/>
                         <outlet property="soldViewChatsButton" destination="ZAD-pW-leU" id="zim-Cv-Kka"/>
                         <outlet property="viewChatsButton" destination="COA-Pb-bQ8" id="NHt-Ug-0qg"/>
                     </connections>
@@ -6378,10 +6379,11 @@
     <inferredMetricsTieBreakers>
         <segue reference="UfZ-y4-j3J"/>
         <segue reference="xlr-H1-EYH"/>
-        <segue reference="2g9-O4-duU"/>
         <segue reference="7VM-RZ-NKx"/>
-        <segue reference="sXv-hb-UE8"/>
+        <segue reference="ijV-Zs-EsV"/>
         <segue reference="fRU-pM-mSi"/>
+        <segue reference="SC0-fE-foi"/>
+        <segue reference="2g9-O4-duU"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>

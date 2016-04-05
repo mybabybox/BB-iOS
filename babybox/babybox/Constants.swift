@@ -59,4 +59,7 @@ struct Constants {
     
     static let CONVERSATION_MESSAGE_COUNT = 20;
     
+    static let PRODUCT_SOLD_TEXT = "This item has been sold"
+    static let PRODUCT_SOLD_CONFIRM_TEXT = "Confirm product has been sold?\nYou will no longer receive chats and orders for this product"
+    
 }
