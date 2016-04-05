@@ -29,6 +29,7 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
     @IBOutlet weak var likeCountTxt: UIButton!
     @IBOutlet weak var detailTableView: UITableView!
     @IBOutlet weak var activeText: UITextField!
+    
     var lcontentSize = CGFloat(0.0)
     var feedItem: PostVMLite = PostVMLite()
     var myDate: NSDate = NSDate()
@@ -580,6 +581,21 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
     //http://stackoverflow.com/questions/594181/making-a-uitableview-scroll-when-text-field-is-selected
     func keyboardWillShow(notification: NSNotification) {
         
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
+            var frame = self.detailTableView.frame
+            UIView.beginAnimations(nil, context: nil)
+            UIView.setAnimationBeginsFromCurrentState(true)
+            UIView.setAnimationDuration(0.3)
+            frame.size.height -= keyboardSize.height
+            self.detailTableView.frame = frame
+            if activeText != nil {
+                let rect = self.detailTableView.convertRect(activeText.bounds, fromView: activeText)
+                self.detailTableView.scrollRectToVisible(rect, animated: false)
+            }
+            UIView.commitAnimations()
+        }
+        
+        /*
         if !isShownKeyboard {
             
             var info = notification.userInfo!
@@ -604,10 +620,11 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
             }
             isShownKeyboard = true
         }
+        */
     }
     
-    func keyboardWillHide(note: NSNotification) {
-        if let keyboardSize = (note.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
+    func keyboardWillHide(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
             var frame = self.detailTableView.frame
             UIView.beginAnimations(nil, context: nil)
             UIView.setAnimationBeginsFromCurrentState(true)
