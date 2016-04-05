@@ -2554,20 +2554,21 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="dollar" translatesAutoresizingMaskIntoConstraints="NO" id="zEN-jb-G2H">
-                                <rect key="frame" x="20" y="50" width="40" height="40"/>
+                                <rect key="frame" x="35" y="50" width="40" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="40" id="hql-tV-7dB"/>
                                     <constraint firstAttribute="height" constant="40" id="z9n-ld-D3w"/>
                                 </constraints>
                             </imageView>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="18" translatesAutoresizingMaskIntoConstraints="NO" id="qpa-6l-iRt">
-                                <rect key="frame" x="70" y="47" width="319" height="45"/>
+                                <rect key="frame" x="85" y="47" width="294" height="45"/>
+                                <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="45" id="zUy-Dg-vjq"/>
                                 </constraints>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b2T-3L-poR">
                                 <rect key="frame" x="50" y="120" width="314" height="45"/>
@@ -2583,14 +2584,14 @@
                         </subviews>
                         <color key="backgroundColor" red="0.92941176470588238" green="0.92941176470588238" blue="0.92941176470588238" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="qpa-6l-iRt" secondAttribute="trailing" constant="25" id="3hd-4s-HHi"/>
+                            <constraint firstAttribute="trailing" secondItem="qpa-6l-iRt" secondAttribute="trailing" constant="35" id="3hd-4s-HHi"/>
                             <constraint firstAttribute="trailing" secondItem="b2T-3L-poR" secondAttribute="trailing" constant="50" id="5PK-WS-md7"/>
                             <constraint firstItem="zEN-jb-G2H" firstAttribute="top" secondItem="c5c-QW-cff" secondAttribute="bottom" constant="30" id="CSc-g4-458"/>
                             <constraint firstItem="qpa-6l-iRt" firstAttribute="leading" secondItem="zEN-jb-G2H" secondAttribute="trailing" constant="10" id="Wxn-zX-hhD"/>
                             <constraint firstItem="b2T-3L-poR" firstAttribute="leading" secondItem="6KV-eZ-X09" secondAttribute="leading" constant="50" id="X9I-Xk-vPW"/>
                             <constraint firstItem="b2T-3L-poR" firstAttribute="top" secondItem="zEN-jb-G2H" secondAttribute="bottom" constant="30" id="deu-Zb-LM5"/>
                             <constraint firstItem="qpa-6l-iRt" firstAttribute="centerY" secondItem="zEN-jb-G2H" secondAttribute="centerY" id="e3R-5Y-pOP"/>
-                            <constraint firstItem="zEN-jb-G2H" firstAttribute="leading" secondItem="6KV-eZ-X09" secondAttribute="leading" constant="20" id="nO2-uc-RmU"/>
+                            <constraint firstItem="zEN-jb-G2H" firstAttribute="leading" secondItem="6KV-eZ-X09" secondAttribute="leading" constant="35" id="nO2-uc-RmU"/>
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
