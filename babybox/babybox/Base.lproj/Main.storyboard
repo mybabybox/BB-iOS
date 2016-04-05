@@ -4423,18 +4423,7 @@
                                                 <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vqf-so-nFj" userLabel="whitebkgound">
                                                     <rect key="frame" x="10" y="0.0" width="394" height="52"/>
                                                     <subviews>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2jB-q2-fHo">
-                                                            <rect key="frame" x="252" y="7" width="40" height="15"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="height" constant="15" id="S5L-Bz-MoY"/>
-                                                                <constraint firstAttribute="width" constant="40" id="o7q-eB-lMz"/>
-                                                            </constraints>
-                                                            <fontDescription key="fontDescription" type="system" weight="light" pointSize="12"/>
-                                                            <state key="normal" title="Delete">
-                                                                <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                            </state>
-                                                        </button>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="5 mins ago" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vBF-iU-0UV">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" misplaced="YES" text="5 mins ago" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vBF-iU-0UV">
                                                             <rect key="frame" x="299" y="7" width="85" height="15"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" relation="lessThanOrEqual" constant="85" id="KW6-Ao-mSh"/>
@@ -4447,14 +4436,11 @@
                                                     </subviews>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
-                                                        <constraint firstItem="vBF-iU-0UV" firstAttribute="leading" secondItem="2jB-q2-fHo" secondAttribute="trailing" constant="7" id="4Ev-QL-gv4"/>
                                                         <constraint firstItem="vBF-iU-0UV" firstAttribute="top" secondItem="vqf-so-nFj" secondAttribute="top" constant="10" id="6su-kF-nVI"/>
-                                                        <constraint firstItem="2jB-q2-fHo" firstAttribute="centerY" secondItem="vBF-iU-0UV" secondAttribute="centerY" id="Fck-RM-36P"/>
                                                         <constraint firstAttribute="trailing" secondItem="vBF-iU-0UV" secondAttribute="trailing" constant="10" id="uaN-pT-IEQ"/>
                                                     </constraints>
                                                     <variation key="default">
                                                         <mask key="constraints">
-                                                            <exclude reference="Fck-RM-36P"/>
                                                             <exclude reference="6su-kF-nVI"/>
                                                         </mask>
                                                     </variation>
@@ -4466,7 +4452,7 @@
                                                         <constraint firstAttribute="width" constant="35" id="upA-PI-pj7"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bababia" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zre-f1-uI0">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Bababia" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zre-f1-uI0">
                                                     <rect key="frame" x="63" y="7" width="189" height="15"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="15" id="ESv-IY-DBw"/>
@@ -4476,15 +4462,25 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="still available?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gEN-Wi-GGd" userLabel="Title">
-                                                    <rect key="frame" x="63" y="26" width="328" height="15"/>
+                                                    <rect key="frame" x="63" y="26" width="278" height="15"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2jB-q2-fHo">
+                                                    <rect key="frame" x="341" y="26" width="50" height="15"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="15" id="S5L-Bz-MoY"/>
+                                                        <constraint firstAttribute="width" constant="50" id="o7q-eB-lMz"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="12"/>
+                                                    <state key="normal" title="Delete">
+                                                        <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    </state>
+                                                </button>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="zre-f1-uI0" firstAttribute="leading" secondItem="Jba-qT-DRg" secondAttribute="trailing" constant="10" id="0Kk-Qu-pTy"/>
-                                                <constraint firstItem="2jB-q2-fHo" firstAttribute="centerY" secondItem="zre-f1-uI0" secondAttribute="centerY" id="0bd-xn-faw"/>
                                                 <constraint firstItem="zre-f1-uI0" firstAttribute="top" secondItem="gEN-Wi-GGd" secondAttribute="bottom" constant="-3" id="24F-H8-mx1"/>
                                                 <constraint firstItem="gEN-Wi-GGd" firstAttribute="centerY" secondItem="Jba-qT-DRg" secondAttribute="centerY" constant="-4.5" id="7p3-z0-fsv"/>
                                                 <constraint firstAttribute="bottom" secondItem="yR8-Dw-JWD" secondAttribute="bottom" id="8Mq-8q-CNS"/>
@@ -4494,16 +4490,19 @@
                                                 <constraint firstItem="yR8-Dw-JWD" firstAttribute="top" secondItem="Ns5-Hc-NAW" secondAttribute="top" id="OMb-RM-AU1"/>
                                                 <constraint firstItem="vBF-iU-0UV" firstAttribute="centerY" secondItem="zre-f1-uI0" secondAttribute="centerY" id="RjL-9R-msJ"/>
                                                 <constraint firstAttribute="bottom" secondItem="vqf-so-nFj" secondAttribute="bottom" id="Ufm-aV-weT"/>
+                                                <constraint firstItem="2jB-q2-fHo" firstAttribute="top" secondItem="gEN-Wi-GGd" secondAttribute="top" id="WEU-Kb-Jot"/>
                                                 <constraint firstItem="zre-f1-uI0" firstAttribute="top" secondItem="Jba-qT-DRg" secondAttribute="top" id="aE9-BF-Dcf"/>
+                                                <constraint firstItem="2jB-q2-fHo" firstAttribute="leading" secondItem="gEN-Wi-GGd" secondAttribute="trailing" id="aMO-px-Jla"/>
                                                 <constraint firstItem="gEN-Wi-GGd" firstAttribute="leading" secondItem="vqf-so-nFj" secondAttribute="trailing" constant="-346" id="aa1-tE-ubd"/>
                                                 <constraint firstItem="gEN-Wi-GGd" firstAttribute="trailing" secondItem="vqf-so-nFj" secondAttribute="trailing" constant="10" id="c5I-f9-ziA"/>
-                                                <constraint firstItem="2jB-q2-fHo" firstAttribute="leading" secondItem="zre-f1-uI0" secondAttribute="trailing" constant="10" id="dLk-ZW-buV"/>
                                                 <constraint firstItem="gEN-Wi-GGd" firstAttribute="top" secondItem="zre-f1-uI0" secondAttribute="bottom" constant="3" id="dQP-AQ-nc1"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="gEN-Wi-GGd" secondAttribute="trailing" constant="15" id="dX2-RX-eE7"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="2jB-q2-fHo" secondAttribute="trailing" constant="15" id="eCN-gm-Gzj"/>
                                                 <constraint firstItem="gEN-Wi-GGd" firstAttribute="leading" secondItem="Jba-qT-DRg" secondAttribute="trailing" constant="10" id="fAV-Z6-es0"/>
                                                 <constraint firstAttribute="trailing" secondItem="vqf-so-nFj" secondAttribute="trailing" constant="10" id="idc-fE-Bsy"/>
                                                 <constraint firstItem="vqf-so-nFj" firstAttribute="top" secondItem="Ns5-Hc-NAW" secondAttribute="top" id="kjU-eC-CXp"/>
                                                 <constraint firstItem="zre-f1-uI0" firstAttribute="leading" secondItem="gEN-Wi-GGd" secondAttribute="leading" id="oKF-iv-exM"/>
+                                                <constraint firstItem="2jB-q2-fHo" firstAttribute="centerY" secondItem="gEN-Wi-GGd" secondAttribute="centerY" id="u1m-gV-Stc"/>
                                                 <constraint firstAttribute="trailing" secondItem="yR8-Dw-JWD" secondAttribute="trailing" id="u7T-3f-bY9"/>
                                             </constraints>
                                             <variation key="default">
@@ -4513,6 +4512,8 @@
                                                     <exclude reference="7p3-z0-fsv"/>
                                                     <exclude reference="aa1-tE-ubd"/>
                                                     <exclude reference="c5I-f9-ziA"/>
+                                                    <exclude reference="dX2-RX-eE7"/>
+                                                    <exclude reference="u1m-gV-Stc"/>
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
@@ -6444,9 +6445,9 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="xlr-H1-EYH"/>
-        <segue reference="BGy-Vf-KdP"/>
         <segue reference="pK4-qg-eaZ"/>
         <segue reference="f1D-EY-plH"/>
+        <segue reference="2g9-O4-duU"/>
         <segue reference="SC0-fE-foi"/>
         <segue reference="ijV-Zs-EsV"/>
         <segue reference="UfZ-y4-j3J"/>
