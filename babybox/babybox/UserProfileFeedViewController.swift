@@ -134,7 +134,10 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
             if (self.userInfo != nil) {
                 cell.displayName.text = self.userInfo?.displayName
                 
-                ImageUtil.displayThumbnailProfileImage(self.userInfo!.id, imageView: cell.userImg)
+                if cell.userImg.image == nil {
+                    ImageUtil.displayThumbnailProfileImage(self.userInfo!.id, imageView: cell.userImg)
+                }
+                
                 if (self.userInfo!.numFollowers > 0) {
                     cell.followersBtn.setTitle("Followers " + String(self.userInfo!.numFollowers), forState: UIControlState.Normal)
                 } else {

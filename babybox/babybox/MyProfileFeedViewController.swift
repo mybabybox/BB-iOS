@@ -20,7 +20,7 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
     var isWidthSet = false
     var isHtCalculated = false
     
-    var activeHeaderViewCell: UserFeedHeaderViewCell?  = nil
+    var activeHeaderViewCell: UserFeedHeaderViewCell? = nil
     let shapeLayer = CAShapeLayer()
     let imagePicker = UIImagePickerController()
     
@@ -138,7 +138,7 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
-        if (collectionView.tag == 2){
+        if collectionView.tag == 2 {
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier("headerCell", forIndexPath: indexPath) as! UserFeedHeaderViewCell
             self.activeHeaderViewCell = cell
             
@@ -148,8 +148,11 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
             }
             
             cell.displayName.text = self.userInfo?.displayName
-                
-            ImageUtil.displayMyThumbnailProfileImage(self.userInfo!.id, imageView: cell.userImg)
+
+            if cell.userImg.image == nil {
+                ImageUtil.displayMyThumbnailProfileImage(self.userInfo!.id, imageView: cell.userImg)
+            }
+            
             if (self.userInfo!.numFollowers > 0) {
                 cell.followersBtn.setTitle("Followers " + String(self.userInfo!.numFollowers), forState:UIControlState.Normal)
             } else {

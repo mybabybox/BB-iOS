@@ -39,7 +39,6 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
     let libraryEnabled: Bool = true
     var conversationViewController: ConversationsViewController?
     var messages: [MessageVM] = []
-    var loadMoreMessages: Bool = false
     var lastItemPosition = 0
     var bubbleData: ChatBubbleData?
     
@@ -58,6 +57,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
     
     func registerEvents() {
         SwiftEventBus.onMainThread(self, name: "newMessageSuccess") { result in
+            NSLog("newMessageSuccess");
             ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
             if (self.bubbleData != nil) {
                 self.addChatBubble(self.bubbleData!)
@@ -93,7 +93,6 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         ViewUtil.showActivityLoading(self.activityLoading)
         ApiFacade.getMessages((self.conversation?.id)!, offset: offset, successCallback: onSuccessGetMessages, failureCallback: onFailureGetMessages)
 
-        self.offset++
         self.messageCointainerScroll.contentSize = CGSizeMake(CGRectGetWidth(messageCointainerScroll.frame), lastChatBubbleY + linePadding)
         self.addKeyboardNotifications()
         
@@ -164,6 +163,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         
         ViewUtil.showGrayOutView(self, activityLoading: self.activityLoading)
         
+        NSLog("newMessage=\(message)");
         ApiController.instance.newMessage(self.conversation!.id, message: message, image: image, system: system)
         ConversationCache.update(self.conversation!.id, successCallback: nil, failureCallback: nil)
     }
@@ -231,9 +231,8 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         }
     }
     
-    func moveToLastMessage() {
+    func moveToLastLoadPosition() {
         let frame = self.messageCointainerScroll.subviews[lastItemPosition - 1].frame
-        //self.messageCointainerScroll.scrollRectToVisible(frame, animated: false)
         var yOffset = frame.origin.y
         if frame.origin.y > Constants.MESSAGE_LOAD_MORE_BTN_HEIGHT {
             yOffset = frame.origin.y - Constants.MESSAGE_LOAD_MORE_BTN_HEIGHT
@@ -287,11 +286,15 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
     }
     
     func handleChatMessageResponse(result: MessageResponseVM) {
-        
         if (result.messages.isEmpty) {
             ViewUtil.hideActivityLoading(self.activityLoading)
+            removeMoreMessageLoaderLayout()
             return
         }
+        
+        self.offset++
+        
+        let firstLoad = lastItemPosition == 0
         
         lastItemPosition = result.messages.count
         
@@ -317,7 +320,6 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
                     let chatBubbleDataMine = ChatBubbleData(text: message.body, image: nil, date: date, type: .Me, buyerId: -1, imageId: -1, system: message.system)
                     addChatBubble(chatBubbleDataMine)
                 }
-                
             } else {
                 if (message.hasImage) {
                     let chatBubbleDataOpponent = ChatBubbleData(text: message.body, image: nil, date: date, type: .You, buyerId: message.senderId, imageId: message.image, system: message.system)
@@ -327,19 +329,18 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
                     addChatBubble(chatBubbleDataOpponent)
                 }
             }
-            
         }
         
-        if (result.messages.count >= Constants.CONVERSATION_MESSAGE_COUNT) {
+        if result.messages.count >= Constants.CONVERSATION_MESSAGE_COUNT {
             addMoreMessageLoaderLayout()
         } else {
             removeMoreMessageLoaderLayout()
         }
         
-        if (!self.loadMoreMessages) {
+        if firstLoad {
             self.moveToFirstMessage()
         } else {
-            self.moveToLastMessage()
+            self.moveToLastLoadPosition()
         }
         
         ViewUtil.hideActivityLoading(self.activityLoading)
@@ -386,10 +387,8 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
     }
     
     func loadMoreMessages(sender: AnyObject?) {
-        ApiController.instance.getMessages((self.conversation?.id)!, offset: self.offset)
+        ApiFacade.getMessages((self.conversation?.id)!, offset:offset, successCallback: onSuccessGetMessages, failureCallback: onFailureGetMessages)
         ViewUtil.showActivityLoading(self.activityLoading)
-        self.offset++
-        self.loadMoreMessages = true
     }
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
@@ -402,9 +401,9 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
     }
     
     func onSuccessGetMessages(resultDto: MessageResponseVM) {
-        ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
         self.handleChatMessageResponse(resultDto)
-        if (self.offered) {
+
+        if self.offered {
             self.newMessage("New offer: \(Int(self.offeredPrice))", image: nil, system: true)
         }
     }
