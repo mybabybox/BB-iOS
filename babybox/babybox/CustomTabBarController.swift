@@ -76,11 +76,7 @@ class CustomTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let titleFont : UIFont = UIFont.systemFontOfSize(12.0)
-        
         self.tabBar.layer.backgroundColor = Color.MENU_BAR_BG.CGColor
-        UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: Color.BLACK, NSFontAttributeName: titleFont], forState:.Normal)
-        UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: Color.PINK, NSFontAttributeName: titleFont], forState:.Selected)
         
         let image = UIImage(named: "mn_home")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
         let selImage = UIImage(named: "mn_home_sel")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)

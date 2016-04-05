@@ -22,24 +22,9 @@ class SellerViewController: CustomNavigationController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        let normalTextAttributes: [NSObject : AnyObject] = [
-            NSForegroundColorAttributeName: Color.GRAY,
-            NSFontAttributeName: UIFont.systemFontOfSize(12.0)
-        ]
-        
-        let activeTextAttributes: [NSObject : AnyObject] = [
-            NSForegroundColorAttributeName: Color.BLACK,
-            NSFontAttributeName: UIFont.boldSystemFontOfSize(12.0)
-        ]
-        
-        UISegmentedControl.appearance().setTitleTextAttributes(normalTextAttributes, forState: .Normal)
-        UISegmentedControl.appearance().setTitleTextAttributes(activeTextAttributes, forState: .Selected)
         
         // select home segment
-        segController.selectedSegmentIndex = 0
-        
-        self.segController.backgroundColor = Color.WHITE
+        self.segController.selectedSegmentIndex = 0
         self.segController.selectedSegmentIndex = self.activeSegment
         self.segAction(self.segController)
         self.navigationItem.hidesBackButton = true

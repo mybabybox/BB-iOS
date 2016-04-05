@@ -364,13 +364,6 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
             let end: CGPoint = CGPoint(x: segControl.frame.size.width, y: (segControl.frame.origin.y) + y - extraHt)
             self.drawLineFromPoint(start, toPoint: end, ofColor: Color.PINK, inView: segControl)
         }
-        
-        segControl.setTitleTextAttributes(
-            [NSFontAttributeName: UIFont.systemFontOfSize(15), NSForegroundColorAttributeName: Color.PINK],
-            forState: UIControlState.Selected)
-        segControl.setTitleTextAttributes(
-            [NSFontAttributeName: UIFont.systemFontOfSize(15), NSForegroundColorAttributeName: Color.GRAY],
-            forState: UIControlState.Normal)
     }
     
     func setSizesForFilterButtons(cell: UserFeedHeaderViewCell) {

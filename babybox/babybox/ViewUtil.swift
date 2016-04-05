@@ -52,6 +52,25 @@ class ViewUtil {
     // UI
     //
     
+    static func initDefaultAppearance() {
+        // tab bar
+        UITabBarItem.appearance().setTitleTextAttributes(
+            [NSFontAttributeName: UIFont.systemFontOfSize(12), NSForegroundColorAttributeName: Color.BLACK],
+            forState:.Normal)
+        UITabBarItem.appearance().setTitleTextAttributes(
+            [NSFontAttributeName: UIFont.systemFontOfSize(12), NSForegroundColorAttributeName: Color.PINK],
+            forState:.Selected)
+
+        // segmented control
+        UISegmentedControl.appearance().backgroundColor = Color.WHITE
+        UISegmentedControl.appearance().setTitleTextAttributes(
+            [NSFontAttributeName: UIFont.systemFontOfSize(14), NSForegroundColorAttributeName: Color.GRAY],
+            forState: .Normal)
+        UISegmentedControl.appearance().setTitleTextAttributes(
+            [NSFontAttributeName: UIFont.systemFontOfSize(14), NSForegroundColorAttributeName: Color.BLACK],
+            forState: .Selected)
+    }
+    
     static func pushViewControllerAndPopSelf(toPush: UIViewController, toPop: UIViewController) {
         toPop.navigationController?.pushViewController(toPush, animated: true)
         

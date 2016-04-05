@@ -89,6 +89,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         CountryCache.refresh()
         CategoryCache.refresh()
         ImageUtil.setMaxCachePeriod(3)
+        ViewUtil.initDefaultAppearance()
     }
     
     func initUserCaches() {
