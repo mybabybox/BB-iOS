@@ -11,8 +11,6 @@ import UIKit
 
 struct Constants {
     
-    static let APP_NAME = "BabyBox"
-    
     static let BASE_URL = "http://119.81.228.91"
     static let BASE_IMAGE_URL = "http://119.81.228.91"
     
@@ -32,7 +30,7 @@ struct Constants {
     static let MESSAGE_IMAGE_WIDTH = CGFloat(0.65)
     static let MESSAGE_LOAD_MORE_BTN_HEIGHT = CGFloat(0)
     
-    static let ACTIVITY_FIRST_POST = "Congratulations! You are now a BabyBox seller! Your first product has been listed:\n"
+    static let ACTIVITY_FIRST_POST = "You are now a BabyBox seller! Your first product has been listed:\n"
     static let ACTIVITY_NEW_POST = "New product listed:\n"
     static let ACTIVITY_COMMENTED = "commented on product:\n"
     static let ACTIVITY_LIKED = "liked your product."
