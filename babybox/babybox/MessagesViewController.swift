@@ -8,7 +8,6 @@
 
 import UIKit
 import PhotoSlider
-import SwiftEventBus
 
 class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSliderDelegate, UIScrollViewDelegate {
         
