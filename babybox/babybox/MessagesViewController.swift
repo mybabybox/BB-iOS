@@ -56,8 +56,6 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         MessagesViewController.instance = self
         messageCointainerScroll.delegate = self
         
-        SwiftEventBus.unregister(self)
-        
         self.navigationItem.title = self.conversation?.userName
         let titleDict: NSDictionary = [NSForegroundColorAttributeName: Color.WHITE]
         self.navigationController!.navigationBar.titleTextAttributes = titleDict as? [String : AnyObject]
@@ -139,7 +137,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         }
         
         ViewUtil.showGrayOutView(self, activityLoading: self.activityLoading)
-        ApiFacade.addMessage(self.conversation!.id, message: message, image: image, system: system, successCallback: onSuccessPostMessages, failureCallback: onFailurePostMessages)
+        ApiFacade.newMessage(self.conversation!.id, message: message, image: image, system: system, successCallback: onSuccessNewMessage, failureCallback: onFailureNewMessage)
         NSLog("newMessage=\(message)");
         ConversationCache.update(self.conversation!.id, successCallback: nil, failureCallback: nil)
     }
@@ -385,10 +383,11 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
     }
     
     func onFailureGetMessages(error: String) {
-        NSLog("error getting messages")
+        ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
+        ViewUtil.showDialog("Error", message: error, view: self)
     }
     
-    func onSuccessPostMessages(resultDto: String) {
+    func onSuccessNewMessage(resultDto: String) {
         ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
         if (self.bubbleData != nil) {
             self.addChatBubble(self.bubbleData!)
@@ -397,10 +396,9 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         }
     }
     
-    func onFailurePostMessages(error: String) {
-        NSLog("error adding messages")
+    func onFailureNewMessage(error: String) {
         ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
-        self.view.makeToast(message: "Error upload message")
+        ViewUtil.showDialog("Error", message: error, view: self)
         self.reset()
     }
     

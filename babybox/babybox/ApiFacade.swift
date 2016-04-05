@@ -92,7 +92,7 @@ class ApiFacade {
         ApiController.instance.getMessages(id, offset: offset)
     }
     
-    static func addMessage(conversationId: Int, message: String, image: UIImage?, system: Bool, successCallback: ((String) -> Void)?, failureCallback: ((String) -> Void)?) {
+    static func newMessage(conversationId: Int, message: String, image: UIImage?, system: Bool, successCallback: ((String) -> Void)?, failureCallback: ((String) -> Void)?) {
     
         SwiftEventBus.unregister(self)
         
@@ -122,8 +122,6 @@ class ApiFacade {
         }
         
         ApiController.instance.newMessage(conversationId, message: message, image: image, system: system)
-
-        
     }
 
 }
