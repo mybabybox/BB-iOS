@@ -37,7 +37,8 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
     override func registerMoreEvents() {
         SwiftEventBus.onMainThread(self, name: "profileImgUploadSuccess") { result in
             self.view.makeToast(message: "Profile image uploaded successfully!")
-            self.activeHeaderViewCell?.userImg.image = self.uploadedImage
+            self.activeHeaderViewCell!.userImg.image = self.uploadedImage
+            //ImageUtil.displayThumbnailProfileImage(self.userInfo!.id, imageView: self.activeHeaderViewCell!.userImg)
         }
         
         SwiftEventBus.onMainThread(self, name: "profileImgUploadFailed") { result in
@@ -148,7 +149,7 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
             
             cell.displayName.text = self.userInfo?.displayName
                 
-            ImageUtil.displayProfileImage(self.userInfo!.id, imageView: cell.userImg)
+            ImageUtil.displayMyThumbnailProfileImage(self.userInfo!.id, imageView: cell.userImg)
             if (self.userInfo!.numFollowers > 0) {
                 cell.followersBtn.setTitle("Followers " + String(self.userInfo!.numFollowers), forState:UIControlState.Normal)
             } else {

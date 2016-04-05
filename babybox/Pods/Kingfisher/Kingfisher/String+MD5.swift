@@ -31,11 +31,7 @@ extension String {
             let MD5Data = MD5Calculator.calculate()
             let resultBytes = UnsafeMutablePointer<CUnsignedChar>(MD5Data.bytes)
             let resultEnumerator = UnsafeBufferPointer<CUnsignedChar>(start: resultBytes, count: MD5Data.length)
-            var MD5String = ""
-            for c in resultEnumerator {
-                MD5String += String(format: "%02x", c)
-            }
-            return MD5String
+            return resultEnumerator.reduce(""){ $0 + String(format: "%02x", $1) }
         } else {
             return self
         }
@@ -114,7 +110,7 @@ func rotateLeft(value: UInt32, bits: UInt32) -> UInt32 {
     return ((value << bits) & 0xFFFFFFFF) | (value >> (32 - bits))
 }
 
-class MD5 : HashBase {
+class MD5: HashBase {
     
     /** specifies the per-round shift amounts */
     private let shifts: [UInt32] = [7, 12, 17, 22,  7, 12, 17, 22,  7, 12, 17, 22,  7, 12, 17, 22,
@@ -212,10 +208,10 @@ class MD5 : HashBase {
         
         let buf: NSMutableData = NSMutableData()
         hh.forEach({ (item) -> () in
-            var i:UInt32 = item.littleEndian
+            var i: UInt32 = item.littleEndian
             buf.appendBytes(&i, length: sizeofValue(i))
         })
         
-        return buf.copy() as! NSData
+        return NSData(data: buf)
     }
 }

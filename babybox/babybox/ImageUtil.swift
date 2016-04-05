@@ -35,20 +35,19 @@ class ImageUtil {
     static let MESSAGE_IMAGE_BY_ID_URL = Constants.BASE_IMAGE_URL + "/image/get-message-image-by-id/"
     static let ORIGINAL_MESSAGE_IMAGE_BY_ID_URL = Constants.BASE_IMAGE_URL + "/image/get-original-message-image-by-id/"
     static let MINI_MESSAGE_IMAGE_BY_ID_URL = Constants.BASE_IMAGE_URL + "/image/get-mini-message-image-by-id/"
+   
+    // Config
     
-    static func displayImage(url: String, view: UIImageView, centerCrop: Bool, noCahe: Bool) {
-        let imageUrl  = NSURL(string: url)
-        view.kf_setImageWithURL(imageUrl!,
-            placeholderImage: nil,
-            optionsInfo: [.Transition(ImageTransition.Fade(IMAGE_DISPLAY_CROSS_FADE_DURATION))])
+    // Default is no limit.
+    static func setMaxDiskCacheSize(mb: UInt) {
+        let cache = KingfisherManager.sharedManager.cache
+        cache.maxDiskCacheSize = mb * 1024 * 1024
     }
     
-    static func displayCoverImage(id: Int, imageView: UIImageView) {
-        displayImage(COVER_IMAGE_BY_ID_URL + String(id), view: imageView, centerCrop: true, noCahe: true)
-    }
-    
-    static func displayThumbnailCoverImage(id: Int, imageView: UIImageView) {
-        displayImage(THUMBNAIL_COVER_IMAGE_BY_ID_URL + String(id), view: imageView, centerCrop: true, noCahe: true)
+    // Default is 1 week.
+    static func setMaxCachePeriod(days: UInt) {
+        let cache = KingfisherManager.sharedManager.cache
+        cache.maxCachePeriodInSecond = NSTimeInterval(days * 24 * 60 * 60)
     }
     
     // URL helper
@@ -60,11 +59,21 @@ class ImageUtil {
     static func getOriginalMessageImageUrl(id: Int) -> NSURL {
         return NSURL(string: ViewUtil.urlAppendSessionId(ORIGINAL_MESSAGE_IMAGE_BY_ID_URL + String(id)))!
     }
+    
+    // Cover image
+    
+    static func displayMyThumbnailCoverImage(id: Int, imageView: UIImageView) {
+        displayImage(THUMBNAIL_COVER_IMAGE_BY_ID_URL + String(id), view: imageView, optionsInfo: [KingfisherOptionsInfoItem.Options(.ForceRefresh)])
+    }
+    
+    static func displayThumbnailCoverImage(id: Int, imageView: UIImageView) {
+        displayImage(THUMBNAIL_COVER_IMAGE_BY_ID_URL + String(id), view: imageView)
+    }
 
     // Profile image
     
-    static func displayProfileImage(id: Int, imageView: UIImageView) {
-        displayCircleImage(PROFILE_IMAGE_BY_ID_URL + String(id), view: imageView)
+    static func displayMyThumbnailProfileImage(id: Int, imageView: UIImageView) {
+        displayCircleImage(THUMBNAIL_PROFILE_IMAGE_BY_ID_URL + String(id), view: imageView, optionsInfo: [KingfisherOptionsInfoItem.Options(.ForceRefresh)])
     }
     
     static func displayThumbnailProfileImage(id: Int, imageView: UIImageView) {
@@ -78,41 +87,67 @@ class ImageUtil {
     // Post image
     
     static func displayPostImage(id: Int, imageView: UIImageView) {
-        displayImage(POST_IMAGE_BY_ID_URL + String(id), view: imageView, centerCrop: false, noCahe: false)
+        displayImage(POST_IMAGE_BY_ID_URL + String(id), view: imageView)
     }
     
     static func displayOriginalPostImage(id: Int, imageView: UIImageView) {
-        displayImage(ORIGINAL_POST_IMAGE_BY_ID_URL + String(id), view: imageView, centerCrop: false, noCahe: false)
+        displayImage(ORIGINAL_POST_IMAGE_BY_ID_URL + String(id), view: imageView)
     }
     
     static func displayMiniPostImage(id: Int, imageView: UIImageView) {
-        displayImage(MINI_POST_IMAGE_BY_ID_URL + String(id), view: imageView, centerCrop: false, noCahe: false)
+        displayImage(MINI_POST_IMAGE_BY_ID_URL + String(id), view: imageView)
     }
     
     static func displayMessageImage(id: Int, imageView: UIImageView) {
-        displayImage(ViewUtil.urlAppendSessionId(MESSAGE_IMAGE_BY_ID_URL + String(id)), view: imageView, centerCrop: false, noCahe: false)
+        displayImage(ViewUtil.urlAppendSessionId(MESSAGE_IMAGE_BY_ID_URL + String(id)), view: imageView)
     }
     
     static func displayOriginalMessageImage(id: Int, imageView: UIImageView) {
-        displayImage(ViewUtil.urlAppendSessionId(ORIGINAL_MESSAGE_IMAGE_BY_ID_URL + String(id)), view: imageView, centerCrop: false, noCahe: false)
+        displayImage(ViewUtil.urlAppendSessionId(ORIGINAL_MESSAGE_IMAGE_BY_ID_URL + String(id)), view: imageView)
     }
     
     static func displayMiniMessageImage(id: Int, imageView: UIImageView) {
-        displayImage(ViewUtil.urlAppendSessionId(MINI_MESSAGE_IMAGE_BY_ID_URL + String(id)), view: imageView, centerCrop: false, noCahe: false)
+        displayImage(ViewUtil.urlAppendSessionId(MINI_MESSAGE_IMAGE_BY_ID_URL + String(id)), view: imageView)
     }
     
-    // Circle image
-    static func displayCircleImage(url: String, view: UIImageView) {
+    // Regular image
+    static func displayImage(url: String, view: UIImageView, optionsInfo: [KingfisherOptionsInfoItem]? = nil) {
         let imageUrl  = NSURL(string: url)
+        
+        var allOptionsInfo: [KingfisherOptionsInfoItem] = [
+            .Transition(ImageTransition.Fade(IMAGE_DISPLAY_CROSS_FADE_DURATION))
+        ]
+        
+        if optionsInfo != nil {
+            allOptionsInfo.appendContentsOf(optionsInfo!)
+        }
+        
         view.kf_setImageWithURL(imageUrl!,
             placeholderImage: nil,
-            optionsInfo: [.Transition(ImageTransition.Fade(IMAGE_DISPLAY_CROSS_FADE_DURATION))])
+            optionsInfo: allOptionsInfo)
+    }
+
+    // Circle image
+    static func displayCircleImage(url: String, view: UIImageView, optionsInfo: [KingfisherOptionsInfoItem]? = nil) {
+        let imageUrl = NSURL(string: url)
+        
+        var allOptionsInfo: [KingfisherOptionsInfoItem] = [
+            .Transition(ImageTransition.Fade(IMAGE_DISPLAY_CROSS_FADE_DURATION))
+        ]
+        
+        if optionsInfo != nil {
+            allOptionsInfo.appendContentsOf(optionsInfo!)
+        }
+        
+        view.kf_setImageWithURL(imageUrl!,
+            placeholderImage: nil,
+            optionsInfo: allOptionsInfo)
         view.layer.cornerRadius = view.frame.height/2
         view.layer.masksToBounds = true
     }
     
     static func displayCircleImage(url: String, view: UIButton) {
-        let imageUrl  = NSURL(string: url)
+        let imageUrl = NSURL(string: url)
         let imageData = NSData(contentsOfURL: imageUrl!)
         if (imageData != nil) {
             view.setImage(UIImage(data: imageData!), forState: UIControlState.Normal)
@@ -131,11 +166,20 @@ class ImageUtil {
         displayRoundedImage(url, imageView: imageView)
     }
     
-    static func displayRoundedImage(url: String, view: UIImageView) {
-        let imageUrl  = NSURL(string: url)
+    static func displayRoundedImage(url: String, view: UIImageView, optionsInfo: [KingfisherOptionsInfoItem]? = nil) {
+        let imageUrl = NSURL(string: url)
+        
+        var allOptionsInfo: [KingfisherOptionsInfoItem] = [
+            .Transition(ImageTransition.Fade(IMAGE_DISPLAY_CROSS_FADE_DURATION))
+        ]
+        
+        if optionsInfo != nil {
+            allOptionsInfo.appendContentsOf(optionsInfo!)
+        }
+        
         view.kf_setImageWithURL(imageUrl!,
             placeholderImage: nil,
-            optionsInfo: [.Transition(ImageTransition.Fade(IMAGE_DISPLAY_CROSS_FADE_DURATION))])
+            optionsInfo: allOptionsInfo)
         view.layer.cornerRadius = 15
         view.layer.masksToBounds = true
     }
@@ -144,6 +188,9 @@ class ImageUtil {
         return NSURL(string: ORIGINAL_POST_IMAGE_BY_ID_URL + imageId)!
     }
     
+    //
+    // Obsolete: see UIImageExtension.swift
+    //
     static func compressImage(image:UIImage) -> NSData {
         // Reducing file size to a 10th
         
