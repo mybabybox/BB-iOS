@@ -29,7 +29,7 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
     @IBOutlet weak var likeCountTxt: UIButton!
     @IBOutlet weak var detailTableView: UITableView!
     @IBOutlet weak var activeText: UITextField!
-    
+    var commentSelectedForDelete: Int = -1
     var lcontentSize = CGFloat(0.0)
     var feedItem: PostVMLite = PostVMLite()
     var myDate: NSDate = NSDate()
@@ -55,6 +55,27 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
         
         SwiftEventBus.onMainThread(self, name: "soldPostFailed") { result in
             ViewUtil.makeToast("Failed to mark item as sold. Please try again later.", view: self.view)
+        }
+        
+        SwiftEventBus.onMainThread(self, name: "onSuccessDeleteComment") { result in
+            
+            if self.commentSelectedForDelete != -1 {
+                self.comments.removeAtIndex(self.commentSelectedForDelete)
+                self.detailTableView.contentInset =  UIEdgeInsetsZero
+                ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
+                self.detailTableView.reloadData()
+                self.view.makeToast(message: "Comment delete successfully", duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
+            } else {
+                ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
+            }
+            
+            self.commentSelectedForDelete = -1
+        }
+        
+        SwiftEventBus.onMainThread(self, name: "onFailureDeleteComment") { result in
+            NSLog("Error deleting comment")
+            ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
+            self.view.makeToast(message: "Error deleting comment", duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
         }
         
         //let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
@@ -297,17 +318,27 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
     
     //MARK: Button Press Events
     func DeleteComments(button: UIButton){
-        ApiController.instance.deleteComment(self.comments[button.tag].id)
-        self.comments.removeAtIndex(button.tag)
-        //self.detailTableView.reloadData()
-        detailTableView.contentInset =  UIEdgeInsetsZero
         
-        self.detailTableView.reloadData()
-        ViewUtil.makeToast("Comment Deleted Successfully", view: self.view)
+        let _messageDialog = UIAlertController(title: "", message: Constants.DELETE_COMMENT_TEXT, preferredStyle: UIAlertControllerStyle.Alert)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction!) in
+        })
+        
+        let confirmAction = UIAlertAction(title: "Confirm", style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction!) in
+            ViewUtil.showGrayOutView(self, activityLoading: self.activityLoading)
+            ApiController.instance.deleteComment(self.comments[button.tag].id)
+            self.commentSelectedForDelete = button.tag
+        })
+        
+        _messageDialog.addAction(cancelAction)
+        _messageDialog.addAction(confirmAction)
+        self.presentViewController(_messageDialog, animated: true, completion: nil)
+        
+        
     }
     
     func PostComments(button: UIButton){
-        let cell: MessageTableViewCell = button.superview!.superview as! MessageTableViewCell
+        let cell: MessageTableViewCell = button.superview!.superview!.superview as! MessageTableViewCell
         let _nComment = CommentVM()
         _nComment.ownerId = UserInfoCache.getUser()!.id
         _nComment.body = cell.commentTxt.text!
@@ -324,12 +355,6 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
         cell.commentTxt.text = ""
     }
     
-    //MARK: UITextfield Delegate
-    /*func textFieldDidBeginEditing(textField: UITextField){
-        detailTableView.contentInset =  UIEdgeInsetsMake(0, 0, 250, 0)
-        detailTableView.scrollToRowAtIndexPath(NSIndexPath(forRow: self.comments.count, inSection:2), atScrollPosition: UITableViewScrollPosition.Middle, animated: false)
-    }*/
-        
     @IBAction func onClickLikeOrUnlikeButton(sender: AnyObject) {
         if (self.productInfo!.isLiked) {
             self.productInfo!.numLikes--
