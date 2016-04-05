@@ -4423,10 +4423,10 @@
                                                 <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vqf-so-nFj" userLabel="whitebkgound">
                                                     <rect key="frame" x="10" y="0.0" width="394" height="52"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" misplaced="YES" text="5 mins ago" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vBF-iU-0UV">
-                                                            <rect key="frame" x="299" y="7" width="85" height="15"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="5 mins ago" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vBF-iU-0UV">
+                                                            <rect key="frame" x="284" y="7" width="100" height="15"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="width" relation="lessThanOrEqual" constant="85" id="KW6-Ao-mSh"/>
+                                                                <constraint firstAttribute="width" relation="lessThanOrEqual" constant="100" id="KW6-Ao-mSh"/>
                                                                 <constraint firstAttribute="height" constant="15" id="gay-qm-luT"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" type="system" weight="light" pointSize="12"/>
@@ -4452,8 +4452,8 @@
                                                         <constraint firstAttribute="width" constant="35" id="upA-PI-pj7"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Bababia" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zre-f1-uI0">
-                                                    <rect key="frame" x="63" y="7" width="189" height="15"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bababia" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zre-f1-uI0">
+                                                    <rect key="frame" x="63" y="7" width="221" height="15"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="15" id="ESv-IY-DBw"/>
                                                     </constraints>
@@ -4486,6 +4486,7 @@
                                                 <constraint firstAttribute="bottom" secondItem="yR8-Dw-JWD" secondAttribute="bottom" id="8Mq-8q-CNS"/>
                                                 <constraint firstItem="yR8-Dw-JWD" firstAttribute="leading" secondItem="Ns5-Hc-NAW" secondAttribute="leading" id="9kA-Zv-o2s"/>
                                                 <constraint firstItem="vqf-so-nFj" firstAttribute="leading" secondItem="Ns5-Hc-NAW" secondAttribute="leading" constant="10" id="BmH-br-Pia"/>
+                                                <constraint firstItem="vBF-iU-0UV" firstAttribute="leading" secondItem="zre-f1-uI0" secondAttribute="trailing" constant="10" id="FwA-Rd-JBw"/>
                                                 <constraint firstItem="Jba-qT-DRg" firstAttribute="leading" secondItem="Ns5-Hc-NAW" secondAttribute="leadingMargin" constant="10" id="Lud-QM-rtw"/>
                                                 <constraint firstItem="yR8-Dw-JWD" firstAttribute="top" secondItem="Ns5-Hc-NAW" secondAttribute="top" id="OMb-RM-AU1"/>
                                                 <constraint firstItem="vBF-iU-0UV" firstAttribute="centerY" secondItem="zre-f1-uI0" secondAttribute="centerY" id="RjL-9R-msJ"/>
