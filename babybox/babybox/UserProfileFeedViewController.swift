@@ -157,6 +157,10 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
                     cell.editProfile.setTitle("Follow", forState: UIControlState.Normal)
                     ViewUtil.displayRoundedCornerView(cell.editProfile, bgColor: Color.PINK)
                 }
+                
+                cell.profileDescription.numberOfLines = 3
+                cell.profileDescription.text = self.userInfo?.aboutMe
+                cell.profileDescription.sizeToFit()
             }
             
             return cell

@@ -148,7 +148,9 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
             }
             
             cell.displayName.text = self.userInfo?.displayName
-
+            cell.profileDescription.numberOfLines = 3
+            cell.profileDescription.text = self.userInfo?.aboutMe
+            cell.profileDescription.sizeToFit()
             if cell.userImg.image == nil {
                 ImageUtil.displayMyThumbnailProfileImage(self.userInfo!.id, imageView: cell.userImg)
             }

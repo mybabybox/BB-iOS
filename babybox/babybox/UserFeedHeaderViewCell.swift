@@ -11,6 +11,7 @@ import UIKit
 class UserFeedHeaderViewCell: UICollectionViewCell {
     
     @IBOutlet weak var btnWidthConsttraint: NSLayoutConstraint!
+    @IBOutlet weak var profileDescription: UILabel!
     @IBOutlet weak var buttonsView: UIView!
     @IBOutlet weak var tipsConstraint: NSLayoutConstraint!
     @IBOutlet weak var segmentControl: UISegmentedControl!

@@ -60,4 +60,5 @@ struct Constants {
     static let PRODUCT_SOLD_TEXT = "This item has been sold"
     static let PRODUCT_SOLD_CONFIRM_TEXT = "Confirm product has been sold?\nYou will no longer receive chats and orders for this product"
     
+    static let DELETE_COMMENT_TEXT = "Are you sure to delete?"
 }
