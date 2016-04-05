@@ -32,6 +32,7 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
     var lcontentSize = CGFloat(0.0)
     var feedItem: PostVMLite = PostVMLite()
     var myDate: NSDate = NSDate()
+    var isShownKeyboard = false
     
     var productInfo: PostVM?
     var comments: [CommentVM] = []
@@ -577,7 +578,6 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
     
     //Keyboard Overlapping UITextField solution approach
     //http://stackoverflow.com/questions/594181/making-a-uitableview-scroll-when-text-field-is-selected
-    var isShownKeyboard = false
     func keyboardWillShow(notification: NSNotification) {
         
         if !isShownKeyboard {

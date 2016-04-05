@@ -42,36 +42,13 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
     var lastItemPosition = 0
     var bubbleData: ChatBubbleData?
     
-    //var loading: Bool = false
-    //var loadingAll: Bool = false
-    
     static var instance: MessagesViewController?
     
     override func viewDidDisappear(animated: Bool) {
-        //SwiftEventBus.unregister(self)
     }
     
     override func viewDidAppear(animated: Bool) {
-        //registerEvents()
     }
-    
-    /*func registerEvents() {
-        SwiftEventBus.onMainThread(self, name: "newMessageSuccess") { result in
-            NSLog("newMessageSuccess");
-            ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
-            if (self.bubbleData != nil) {
-                self.addChatBubble(self.bubbleData!)
-                self.moveToFirstMessage()
-                self.reset()
-            }
-        }
-        
-        SwiftEventBus.onMainThread(self, name: "newMessageFailed") { result in
-            ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
-            self.view.makeToast(message: "Error upload message")
-            self.reset()
-        }
-    }*/
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -89,8 +66,6 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         messageCointainerScroll.addGestureRecognizer(tap)
         
         sendButton.enabled = true
-        
-        //registerEvents()
         
         ViewUtil.showActivityLoading(self.activityLoading)
         ApiFacade.getMessages((self.conversation?.id)!, offset: offset, successCallback: onSuccessGetMessages, failureCallback: onFailureGetMessages)
@@ -166,7 +141,6 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         ViewUtil.showGrayOutView(self, activityLoading: self.activityLoading)
         ApiFacade.addMessage(self.conversation!.id, message: message, image: image, system: system, successCallback: onSuccessPostMessages, failureCallback: onFailurePostMessages)
         NSLog("newMessage=\(message)");
-        //ApiController.instance.newMessage(self.conversation!.id, message: message, image: image, system: system)
         ConversationCache.update(self.conversation!.id, successCallback: nil, failureCallback: nil)
     }
     
