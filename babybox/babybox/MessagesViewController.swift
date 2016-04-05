@@ -48,14 +48,14 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
     static var instance: MessagesViewController?
     
     override func viewDidDisappear(animated: Bool) {
-        SwiftEventBus.unregister(self)
+        //SwiftEventBus.unregister(self)
     }
     
     override func viewDidAppear(animated: Bool) {
-        registerEvents()
+        //registerEvents()
     }
     
-    func registerEvents() {
+    /*func registerEvents() {
         SwiftEventBus.onMainThread(self, name: "newMessageSuccess") { result in
             NSLog("newMessageSuccess");
             ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
@@ -71,7 +71,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
             self.view.makeToast(message: "Error upload message")
             self.reset()
         }
-    }
+    }*/
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -89,6 +89,8 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         messageCointainerScroll.addGestureRecognizer(tap)
         
         sendButton.enabled = true
+        
+        //registerEvents()
         
         ViewUtil.showActivityLoading(self.activityLoading)
         ApiFacade.getMessages((self.conversation?.id)!, offset: offset, successCallback: onSuccessGetMessages, failureCallback: onFailureGetMessages)
@@ -162,9 +164,9 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         }
         
         ViewUtil.showGrayOutView(self, activityLoading: self.activityLoading)
-        
+        ApiFacade.addMessage(self.conversation!.id, message: message, image: image, system: system, successCallback: onSuccessPostMessages, failureCallback: onFailurePostMessages)
         NSLog("newMessage=\(message)");
-        ApiController.instance.newMessage(self.conversation!.id, message: message, image: image, system: system)
+        //ApiController.instance.newMessage(self.conversation!.id, message: message, image: image, system: system)
         ConversationCache.update(self.conversation!.id, successCallback: nil, failureCallback: nil)
     }
     
@@ -411,4 +413,21 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
     func onFailureGetMessages(error: String) {
         NSLog("error getting messages")
     }
+    
+    func onSuccessPostMessages(resultDto: String) {
+        ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
+        if (self.bubbleData != nil) {
+            self.addChatBubble(self.bubbleData!)
+            self.moveToFirstMessage()
+            self.reset()
+        }
+    }
+    
+    func onFailurePostMessages(error: String) {
+        NSLog("error adding messages")
+        ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
+        self.view.makeToast(message: "Error upload message")
+        self.reset()
+    }
+    
 }

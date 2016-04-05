@@ -91,5 +91,39 @@ class ApiFacade {
         
         ApiController.instance.getMessages(id, offset: offset)
     }
+    
+    static func addMessage(conversationId: Int, message: String, image: UIImage?, system: Bool, successCallback: ((String) -> Void)?, failureCallback: ((String) -> Void)?) {
+    
+        SwiftEventBus.unregister(self)
+        
+        SwiftEventBus.onMainThread(self, name: "onSuccessNewMessage") { result in
+            //if ViewUtil.isEmptyResult(result) {
+            //    failureCallback!("User returned is empty")
+            //    return
+            //}
+            
+            if successCallback != nil {
+                if result.object is NSString {
+                    successCallback!((result.object as? String)!)
+                } else {
+                    successCallback!("")
+                }
+            }
+        }
+        
+        SwiftEventBus.onMainThread(self, name: "onFailureNewMessage") { result in
+            if failureCallback != nil {
+                var error = "Failed to get messages..."
+                if result.object is NSString {
+                    error += "\n"+(result.object as! String)
+                }
+                failureCallback!(error)
+            }
+        }
+        
+        ApiController.instance.newMessage(conversationId, message: message, image: image, system: system)
+
+        
+    }
 
 }

@@ -577,19 +577,32 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
     
     //Keyboard Overlapping UITextField solution approach
     //http://stackoverflow.com/questions/594181/making-a-uitableview-scroll-when-text-field-is-selected
-    func keyboardWillShow(note: NSNotification) {
-        if let keyboardSize = (note.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
-            var frame = self.detailTableView.frame
-            UIView.beginAnimations(nil, context: nil)
-            UIView.setAnimationBeginsFromCurrentState(true)
-            UIView.setAnimationDuration(0.3)
-            frame.size.height -= keyboardSize.height
-            self.detailTableView.frame = frame
-            if activeText != nil {
-                let rect = self.detailTableView.convertRect(activeText.bounds, fromView: activeText)
-                self.detailTableView.scrollRectToVisible(rect, animated: false)
+    var isShownKeyboard = false
+    func keyboardWillShow(notification: NSNotification) {
+        
+        if !isShownKeyboard {
+            
+            var info = notification.userInfo!
+            let keyboardFrame: CGRect = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
+            
+            UIView.animateWithDuration(1.0, animations: { () -> Void in
+                //self.buttomLayoutConstraint = keyboardFrame.size.height
+                
+                var frame = self.detailTableView.frame
+                UIView.beginAnimations(nil, context: nil)
+                UIView.setAnimationBeginsFromCurrentState(true)
+                UIView.setAnimationDuration(0.3)
+                frame.size.height -= keyboardFrame.size.height
+                self.detailTableView.frame = frame
+                if self.activeText != nil {
+                    let rect = self.detailTableView.convertRect(self.activeText.bounds, fromView: self.activeText)
+                    self.detailTableView.scrollRectToVisible(rect, animated: false)
+                }
+                
+                }) { (completed: Bool) -> Void in
+                    
             }
-            UIView.commitAnimations()
+            isShownKeyboard = true
         }
     }
     
@@ -601,14 +614,9 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
             UIView.setAnimationDuration(0.3)
             frame.size.height += keyboardSize.height
             self.detailTableView.frame = frame
+            isShownKeyboard = false
             UIView.commitAnimations()
         }
     }
-    
-    //Calls this function when the tap is recognized.
-    //func dismissKeyboard() {
-        //Causes the view (or one of its embedded text fields) to resign the first responder status.
-    //    view.endEditing(true)
-    //}
     
 }

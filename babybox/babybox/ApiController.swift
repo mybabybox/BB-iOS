@@ -572,8 +572,8 @@ class ApiController {
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/message/new"
         callEvent.resultClass = "MessageVM"
-        callEvent.successEventbusName = "newMessageSuccess"
-        callEvent.failedEventbusName = "newMessageFailed"
+        callEvent.successEventbusName = "onSuccessNewMessage"
+        callEvent.failedEventbusName = "onFailureNewMessage"
         callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         let url = callEvent.apiUrl + "?key=\(StringUtil.encode(AppDelegate.getInstance().sessionId!))"
         Alamofire.upload(
