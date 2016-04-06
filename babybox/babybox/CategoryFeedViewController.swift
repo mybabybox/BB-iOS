@@ -13,6 +13,8 @@ import Kingfisher
 
 class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
     
+    let HEADER_HEIGHT = CGFloat(160)
+    
     @IBOutlet weak var categoryTips: UIView!
     @IBOutlet weak var tipSection: NSLayoutConstraint!
     @IBOutlet weak var activityLoading: UIActivityIndicatorView!
@@ -209,7 +211,7 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
         if (collectionView.tag == 2){
             return CGSizeZero
         } else {
-            return CGSizeMake(self.view.frame.width, 150)
+            return CGSizeMake(self.view.frame.width, HEADER_HEIGHT)
         }
     }
     
@@ -236,7 +238,7 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func setCollectionViewSizesInsetsForTopView() {
-        collectionViewTopCellSize = CGSizeMake(self.view.bounds.width, 150)
+        collectionViewTopCellSize = CGSizeMake(self.view.bounds.width, HEADER_HEIGHT)
     }
     
     func setCollectionViewSizesInsets() {
