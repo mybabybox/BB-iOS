@@ -80,21 +80,21 @@ class CustomNavigationController: ScrollingNavigationViewController, ScrollingNa
         chatBtn.addTarget(self, action: "onClickChatBtn:", forControlEvents: UIControlEvents.TouchUpInside)
         chatBtn.frame = CGRectMake(0, 0, 35, 35)
         
-        let gameBadgeBtn: UIButton = UIButton()
-        gameBadgeBtn.setImage(UIImage(named: "game_badge"), forState: UIControlState.Normal)
-        gameBadgeBtn.addTarget(self, action: "onClickBadgebtn:", forControlEvents: UIControlEvents.TouchUpInside)
-        gameBadgeBtn.frame = CGRectMake(0, 0, 35, 35)
+        //let gameBadgeBtn: UIButton = UIButton()
+        //gameBadgeBtn.setImage(UIImage(named: "ic_bb_logo"), forState: UIControlState.Normal)
+        //gameBadgeBtn.addTarget(self, action: "onClickBadgebtn:", forControlEvents: UIControlEvents.TouchUpInside)
+        //gameBadgeBtn.frame = CGRectMake(0, 0, 35, 35)
         
+        let logo: UIImageView = UIImageView(image: UIImage(named: "ic_bb_logo"))
+        logo.frame = CGRectMake(0, 0, 35, 35)
+
         let sellBarBtn = UIBarButtonItem(customView: sellBtn)
         let chatBarBtn = ENMBadgedBarButtonItem(customView: chatBtn, value: "")
-        let badgeBarBtn = UIBarButtonItem(customView: gameBadgeBtn)
+        //let badgeBarBtn = UIBarButtonItem(customView: gameBadgeBtn)
+        let logoBarBtn = UIBarButtonItem(customView: logo)
         
         self.navigationItem.rightBarButtonItems = [sellBarBtn, chatBarBtn ]
         self.navigationItem.leftItemsSupplementBackButton = true
-        self.navigationItem.leftBarButtonItems = [badgeBarBtn]
-        
-        let backbtn = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
-        backbtn.setBackgroundImage(UIImage(named: "game_badge_mascot"), forState: UIControlState.Normal, barMetrics: UIBarMetrics.Default)
-        self.navigationItem.backBarButtonItem = backbtn
+        self.navigationItem.leftBarButtonItems = [logoBarBtn]
     }
 }
