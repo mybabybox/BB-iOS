@@ -69,6 +69,10 @@ class ViewUtil {
         UISegmentedControl.appearance().setTitleTextAttributes(
             [NSFontAttributeName: UIFont.systemFontOfSize(14), NSForegroundColorAttributeName: Color.BLACK],
             forState: .Selected)
+        
+        UIBarButtonItem.appearance().setBackButtonTitlePositionAdjustment(UIOffsetMake(0, -60), 
+		forBarMetrics:UIBarMetrics.Default)
+        
     }
     
     static func pushViewControllerAndPopSelf(toPush: UIViewController, toPop: UIViewController) {
