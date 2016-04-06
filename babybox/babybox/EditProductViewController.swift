@@ -64,6 +64,14 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "actionbar_bg_pink"), forBarMetrics: UIBarMetrics.Default)
         
+        self.navigationItem.hidesBackButton = true
+        let backButton: UIButton = UIButton()
+        backButton.setImage(UIImage(named: "back"), forState: UIControlState.Normal)
+        backButton.addTarget(self, action: "onBackPressed:", forControlEvents: UIControlEvents.TouchUpInside)
+        backButton.frame = CGRectMake(0, 0, 30, 30)
+        let backBarBtn = UIBarButtonItem(customView: backButton)
+        self.navigationItem.leftBarButtonItem = backBarBtn
+        
         SwiftEventBus.unregister(self)
         
         SwiftEventBus.onMainThread(self, name: "editProductSuccess") { result in
@@ -261,5 +269,22 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     func onFailureGetPost(error: String) -> Void {
         self.view.makeToast(message: "Error getting Product.")
         ViewUtil.hideActivityLoading(self.activityLoading)
+    }
+    
+    func onBackPressed(sender: UIBarButtonItem) {
+        NSLog("on back pressed.")
+        
+        let _confirmDialog = UIAlertController(title: "", message: "Discard changes?", preferredStyle: UIAlertControllerStyle.Alert)
+        let okAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: nil)
+        
+        let confirmAction = UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction!) in
+            self.navigationController?.popViewControllerAnimated(true)
+        })
+        
+        _confirmDialog.addAction(okAction)
+        _confirmDialog.addAction(confirmAction)
+        self.presentViewController(_confirmDialog, animated: true, completion: nil)
+        
+        
     }
 }

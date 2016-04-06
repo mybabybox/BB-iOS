@@ -29,10 +29,6 @@ class NotificationSettingsViewController: UIViewController {
             SwiftEventBus.unregister(self)
             self.view.makeToast(message: "Error updating user notification settings")
         }
-        
-        //let backbtn = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: self, action: "backButtonPressed:")
-        //navigationItem.backBarButtonItem = backbtn
-        
     }
     
     override func viewWillDisappear(animated : Bool) {
