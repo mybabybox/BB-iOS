@@ -25,6 +25,7 @@ class PostVM: PostVMLite {
     var isOwner: Bool = false
     var isFollowingOwner: Bool = false
     var deviceType: String = ""
+    var ownerLastLogin: Double = 0
     
     override func mapping(map: ObjectMapper.Map) {
         super.mapping(map)
@@ -42,6 +43,6 @@ class PostVM: PostVMLite {
         isOwner<-map["isOwner"]
         isFollowingOwner<-map["isFollowingOwner"]
         deviceType<-map["deviceType"]
-        
+        ownerLastLogin<-map["ownerLastLogin"]
     }
 }

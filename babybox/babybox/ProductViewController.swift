@@ -249,9 +249,9 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
                     cell.followersCount.text = String(self.productInfo!.ownerNumFollowers)
                     cell.noOfProducts.text = String(self.productInfo!.ownerNumProducts)
                     
-                    cell.postTime.text = ""
                     cell.postTitle.text = self.productInfo!.ownerName
                     cell.postedUserImg.image = UIImage(named: "")
+                    cell.ownerLastLogin.text = NSDate(timeIntervalSince1970: self.productInfo!.ownerLastLogin / 1000.0).timeAgo
                     
                     if self.productInfo!.ownerId != -1 {
                         ImageUtil.displayThumbnailProfileImage(self.productInfo!.ownerId, imageView: cell.postedUserImg)

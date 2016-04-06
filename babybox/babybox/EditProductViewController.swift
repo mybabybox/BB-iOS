@@ -8,6 +8,7 @@
 
 import UIKit
 import SwiftEventBus
+import QQPlaceholderTextView
 
 class EditProductViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate {
 
@@ -54,6 +55,11 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         self.pricetxt.keyboardType = .NumberPad
         
         self.postTitle.delegate = self
+        
+        self.prodDescription.placeholder = "Product Description"
+        self.prodDescription.isApplyTextFieldStyle = true
+        self.prodDescription.layer.borderWidth = 0
+        
         //self.prodDescription.delegate = self
         
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "actionbar_bg_pink"), forBarMetrics: UIBarMetrics.Default)

@@ -4433,8 +4433,8 @@
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Active: 5 mins ago" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UBR-2w-4YS" userLabel="time">
-                                                    <rect key="frame" x="82" y="38" width="210" height="15"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Active:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UBR-2w-4YS" userLabel="activeText">
+                                                    <rect key="frame" x="82" y="38" width="39" height="15"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
@@ -4443,6 +4443,12 @@
                                                     <rect key="frame" x="82" y="18" width="210" height="20"/>
                                                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
                                                     <color key="textColor" red="0.98823529409999999" green="0.36078431370000003" blue="0.57647058819999997" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="5days ago" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XTz-40-p6i" userLabel="time">
+                                                    <rect key="frame" x="123" y="38" width="171" height="15"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="user_thumbnail" translatesAutoresizingMaskIntoConstraints="NO" id="EbG-EV-CZ7">
@@ -4462,12 +4468,13 @@
                                                 <constraint firstItem="nhS-BN-p7T" firstAttribute="leading" secondItem="B5X-RE-FQ5" secondAttribute="trailing" constant="10" id="EUs-zu-xx2"/>
                                                 <constraint firstItem="UBR-2w-4YS" firstAttribute="top" secondItem="B5X-RE-FQ5" secondAttribute="bottom" constant="2" id="G5b-eN-nHu"/>
                                                 <constraint firstItem="Au4-Qz-H8J" firstAttribute="centerY" secondItem="tkj-Sc-VAf" secondAttribute="centerY" id="GPE-rz-hC6"/>
+                                                <constraint firstItem="XTz-40-p6i" firstAttribute="top" secondItem="UBR-2w-4YS" secondAttribute="top" id="Iug-NW-qwg"/>
                                                 <constraint firstItem="tkj-Sc-VAf" firstAttribute="leading" secondItem="UBR-2w-4YS" secondAttribute="leading" id="KK0-as-BMw"/>
                                                 <constraint firstAttribute="top" secondItem="Rfc-r9-Udk" secondAttribute="top" id="KsG-ZK-XD3"/>
                                                 <constraint firstItem="Rfc-r9-Udk" firstAttribute="leading" secondItem="pqS-ck-vSH" secondAttribute="leading" id="LDo-58-xM0"/>
                                                 <constraint firstItem="tkj-Sc-VAf" firstAttribute="top" secondItem="UBR-2w-4YS" secondAttribute="bottom" constant="2" id="LHj-cr-4I1"/>
-                                                <constraint firstItem="UBR-2w-4YS" firstAttribute="trailing" secondItem="B5X-RE-FQ5" secondAttribute="trailing" id="N5x-Pj-WjI"/>
                                                 <constraint firstItem="Au4-Qz-H8J" firstAttribute="top" secondItem="3LE-ZQ-VYs" secondAttribute="top" constant="-1" id="Qf0-b8-wFj"/>
+                                                <constraint firstItem="XTz-40-p6i" firstAttribute="trailing" secondItem="B5X-RE-FQ5" secondAttribute="trailing" id="U3p-qb-qFq"/>
                                                 <constraint firstItem="0fS-Bw-RLK" firstAttribute="leading" secondItem="Au4-Qz-H8J" secondAttribute="trailing" constant="3" id="W7G-mq-TVx"/>
                                                 <constraint firstItem="EbG-EV-CZ7" firstAttribute="top" secondItem="pqS-ck-vSH" secondAttribute="topMargin" constant="15" id="XaO-Ia-cvg"/>
                                                 <constraint firstItem="3LE-ZQ-VYs" firstAttribute="leading" secondItem="tkj-Sc-VAf" secondAttribute="trailing" constant="3" id="Xuu-7T-Cv7"/>
@@ -4477,6 +4484,7 @@
                                                 <constraint firstItem="B5X-RE-FQ5" firstAttribute="leading" secondItem="EbG-EV-CZ7" secondAttribute="trailing" constant="10" id="fTE-0o-KUq"/>
                                                 <constraint firstItem="tkj-Sc-VAf" firstAttribute="top" secondItem="UBR-2w-4YS" secondAttribute="bottom" constant="10" id="hfd-kg-6Va"/>
                                                 <constraint firstAttribute="trailing" secondItem="Rfc-r9-Udk" secondAttribute="trailing" id="hyU-4J-mKK"/>
+                                                <constraint firstItem="XTz-40-p6i" firstAttribute="leading" secondItem="UBR-2w-4YS" secondAttribute="trailing" constant="2" id="iTp-eM-B5F"/>
                                                 <constraint firstAttribute="trailing" secondItem="XrM-Qe-e8G" secondAttribute="trailing" constant="10" id="nwJ-Ui-5AI"/>
                                                 <constraint firstItem="Au4-Qz-H8J" firstAttribute="leading" secondItem="3LE-ZQ-VYs" secondAttribute="trailing" constant="15" id="ov8-K2-hpb"/>
                                                 <constraint firstItem="XrM-Qe-e8G" firstAttribute="top" secondItem="pqS-ck-vSH" secondAttribute="top" constant="10" id="pyM-fS-U4d"/>
@@ -4495,7 +4503,7 @@
                                         <connections>
                                             <outlet property="followersCount" destination="0fS-Bw-RLK" id="UPg-q1-ShQ"/>
                                             <outlet property="noOfProducts" destination="3LE-ZQ-VYs" id="rFL-7r-jbr"/>
-                                            <outlet property="postTime" destination="UBR-2w-4YS" id="1Vm-sD-nrK"/>
+                                            <outlet property="ownerLastLogin" destination="XTz-40-p6i" id="sxm-fn-9VJ"/>
                                             <outlet property="postTitle" destination="B5X-RE-FQ5" id="Dgj-2M-xdM"/>
                                             <outlet property="postedUserImg" destination="EbG-EV-CZ7" id="7HX-Ik-RIT"/>
                                             <outlet property="viewBtnIns" destination="nhS-BN-p7T" id="xv6-IY-1eQ"/>
@@ -6574,11 +6582,11 @@
     <inferredMetricsTieBreakers>
         <segue reference="UfZ-y4-j3J"/>
         <segue reference="xlr-H1-EYH"/>
-        <segue reference="f1D-EY-plH"/>
         <segue reference="jhO-y7-EXF"/>
-        <segue reference="BGy-Vf-KdP"/>
         <segue reference="SC0-fE-foi"/>
-        <segue reference="sXv-hb-UE8"/>
+        <segue reference="ijV-Zs-EsV"/>
+        <segue reference="2g9-O4-duU"/>
+        <segue reference="f1D-EY-plH"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>
