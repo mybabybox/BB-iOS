@@ -27,7 +27,6 @@ class SellerViewController: CustomNavigationController {
         self.segController.selectedSegmentIndex = 0
         self.segController.selectedSegmentIndex = self.activeSegment
         self.segAction(self.segController)
-        self.navigationItem.hidesBackButton = true
     }
     
     override func viewWillAppear(animated: Bool) {

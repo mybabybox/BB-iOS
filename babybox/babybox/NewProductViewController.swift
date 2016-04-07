@@ -73,8 +73,8 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
         self.sellingtext.delegate = self
         //self.prodDescription.delegate = self
         
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "actionbar_bg_pink"), forBarMetrics: UIBarMetrics.Default)
-
+        ViewUtil.setCustomBackButton(self, action: "onBackPressed:")
+        
         SwiftEventBus.unregister(self)
         
         SwiftEventBus.onMainThread(self, name: "newProductSuccess") { result in
@@ -331,6 +331,21 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
     
     func handleNotificationError(message: String) {
         NSLog(message)
+    }
+    
+    func onBackPressed(sender: UIBarButtonItem) {
+        NSLog("on back pressed.")
+        
+        let _confirmDialog = UIAlertController(title: "", message: "Discard changes?", preferredStyle: UIAlertControllerStyle.Alert)
+        let okAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: nil)
+        
+        let confirmAction = UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction!) in
+            self.navigationController?.popViewControllerAnimated(true)
+        })
+        
+        _confirmDialog.addAction(okAction)
+        _confirmDialog.addAction(confirmAction)
+        self.presentViewController(_confirmDialog, animated: true, completion: nil)
     }
     
     func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {

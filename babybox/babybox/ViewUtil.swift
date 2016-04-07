@@ -137,6 +137,23 @@ class ViewUtil {
         return screenWidth
     }
     
+    static func setCustomBackButton(viewController: UIViewController, action: Selector) {
+        viewController.navigationItem.setHidesBackButton(true, animated: false)
+        viewController.navigationController?.interactivePopGestureRecognizer!.enabled = false
+        
+        let backImage = UIImage(named: "back")
+        let backButton: UIButton = UIButton()
+        backButton.setImage(backImage, forState: UIControlState.Normal)
+        backButton.addTarget(viewController, action: action, forControlEvents: UIControlEvents.TouchUpInside)
+        backButton.frame = CGRectMake(0, 0, 22, 22)
+        let backBarBtn = UIBarButtonItem(customView: backButton)
+        
+        let negativeSeparator: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FixedSpace, target: nil, action: nil);
+        negativeSeparator.width = -12;
+        
+        viewController.navigationItem.setLeftBarButtonItems([negativeSeparator, backBarBtn], animated: false)
+    }
+    
     static func resetBackButton(navigationItem: UINavigationItem) {
         let backbtn = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
         navigationItem.backBarButtonItem = backbtn

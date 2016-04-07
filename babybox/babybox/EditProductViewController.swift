@@ -62,15 +62,7 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         
         //self.prodDescription.delegate = self
         
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "actionbar_bg_pink"), forBarMetrics: UIBarMetrics.Default)
-        
-        self.navigationItem.hidesBackButton = true
-        let backButton: UIButton = UIButton()
-        backButton.setImage(UIImage(named: "back"), forState: UIControlState.Normal)
-        backButton.addTarget(self, action: "onBackPressed:", forControlEvents: UIControlEvents.TouchUpInside)
-        backButton.frame = CGRectMake(0, 0, 30, 30)
-        let backBarBtn = UIBarButtonItem(customView: backButton)
-        self.navigationItem.leftBarButtonItem = backBarBtn
+        ViewUtil.setCustomBackButton(self, action: "onBackPressed:")
         
         SwiftEventBus.unregister(self)
         
@@ -284,7 +276,5 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         _confirmDialog.addAction(okAction)
         _confirmDialog.addAction(confirmAction)
         self.presentViewController(_confirmDialog, animated: true, completion: nil)
-        
-        
     }
 }

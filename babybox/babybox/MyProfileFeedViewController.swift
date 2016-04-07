@@ -55,8 +55,6 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
     
     override func viewDidAppear(animated: Bool) {
         self.tabBarController?.tabBar.alpha = CGFloat(Constants.MAIN_BOTTOM_BAR_ALPHA)
-        //self.navigationItem.hidesBackButton = true
-        //self.tabBarController?.tabBar.hidden = false
         
         if (self.activeHeaderViewCell != nil) {
             self.activeHeaderViewCell?.segmentControl.setTitle("Products " + String(self.userInfo!.numProducts), forSegmentAtIndex: 0)
