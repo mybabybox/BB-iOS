@@ -16,7 +16,6 @@ class RecommendedSellerViewController: UIViewController {
     @IBOutlet weak var activityLoading: UIActivityIndicatorView!
 
     var parentNavigationController : UINavigationController?
-    var collectionViewCellSize : CGSize?
     var recommendedSellers: [SellerVM] = []
     var offSet: Int64 = 0
     var lastContentOffset: CGFloat = 0
@@ -25,12 +24,7 @@ class RecommendedSellerViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.uiCollectionView.setNeedsLayout()
-        self.uiCollectionView.layoutIfNeeded()
-        
-        self.setCollectionViewSizesInsets()
-        
+                
         SwiftEventBus.onMainThread(self, name: "recommendedSellerSuccess") { result in
             let sellers = result.object as! [SellerVM]
             self.handleRecommendedSeller(sellers)
@@ -174,10 +168,6 @@ class RecommendedSellerViewController: UIViewController {
         
         let indexPath = self.uiCollectionView.indexPathForCell(cell)!
         moveToUserProfile(indexPath.row)
-    }
-    
-    func setCollectionViewSizesInsets() {
-        collectionViewCellSize = CGSizeMake(self.view.bounds.width, 125)
     }
     
     func handleRecommendedSeller(sellers: [SellerVM]) {

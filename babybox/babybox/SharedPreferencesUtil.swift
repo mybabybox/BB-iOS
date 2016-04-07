@@ -24,6 +24,8 @@ class SharedPreferencesUtil {
     enum User: String {
         case SESSION_ID = "sessionId"
         case USER_INFO = "userInfo"
+        case DEVICE_TOKEN = "deviceToken"
+        case VERSION_CODE = "versionCode"
     }
     
     private static let sharedPreferencesUtil = SharedPreferencesUtil()
@@ -49,6 +51,15 @@ class SharedPreferencesUtil {
     func saveUserInfo(userInfo: UserVM) {
         //self.prefs.setObject(userInfo, forKey: User.USER_INFO.rawValue)
     }
+    
+    func setDeviceToken(deviceToken: String) {
+        self.prefs.setValue(deviceToken, forKey: User.DEVICE_TOKEN.rawValue)
+    }
+    
+    func setSystemVersionCode(deviceToken: String) {
+        self.prefs.setValue(deviceToken, forKey: User.VERSION_CODE.rawValue)
+    }
+    
     
     //
     // Get
@@ -77,6 +88,20 @@ class SharedPreferencesUtil {
             userInfo = _userInfo as? UserVM
         }
         return userInfo
+    }
+    
+    func getSystemVersionCode() -> String {
+        if self.prefs.valueForKey(User.DEVICE_TOKEN.rawValue) != nil {
+            return self.prefs.valueForKey(User.DEVICE_TOKEN.rawValue) as! String
+        }
+        return ""
+    }
+    
+    func getDeviceToken() -> String {
+        if self.prefs.valueForKey(User.VERSION_CODE.rawValue) != nil {
+            return self.prefs.valueForKey(User.VERSION_CODE.rawValue) as! String
+        }
+        return ""
     }
     
     // util

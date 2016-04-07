@@ -123,5 +123,25 @@ class ApiFacade {
         
         ApiController.instance.newMessage(conversationId, message: message, image: image, system: system)
     }
+    
+    //static func registerAppForNotification(successCallback: ((String) -> Void)?, failureCallback: ((String) -> Void)?) {
+    static func registerAppForNotification() {
+        SwiftEventBus.unregister(self)
+        
+        SwiftEventBus.onMainThread(self, name: "onSuccessRegisterAppNotification") { result in
+            //AppDelegate.getInstance().apnsDeviceToken = result.object as? String
+            ApiController.instance.saveApnsNotifToken()
+        }
+        
+        SwiftEventBus.onMainThread(self, name: "onFailureRegisterAppNotification") { result in
+            var error = "Failed to register for notification..."
+            if result.object is NSString {
+                error += "\n"+(result.object as! String)
+            }
+        }
+        
+        AppDelegate.getInstance().registerForPushNotifications()
+        
+    }
 
 }

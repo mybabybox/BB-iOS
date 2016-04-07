@@ -391,4 +391,7 @@ class ViewUtil {
         return footerView
     }
     
+    static func handlePushNotification(notif: AnyObject) {
+        NSLog("")
+    }
 }

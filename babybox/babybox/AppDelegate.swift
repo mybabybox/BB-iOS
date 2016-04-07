@@ -9,12 +9,16 @@
 import UIKit
 import FBSDKCoreKit
 import FBSDKLoginKit
+import SwiftEventBus
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
 
+    private var _apnsDeviceToken: String? = nil
+    private var _appVersionCode: String? = nil
+    
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         //App launch code
         UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: true)
@@ -24,6 +28,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FBSDKLoginManager.renewSystemCredentials { (result:ACAccountCredentialRenewResult, error:NSError!) -> Void in
 
         }
+        if let notification = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? [String: AnyObject] {
+            let notif = notification["aps"] as! [String: AnyObject]
+            ViewUtil.handlePushNotification(notif)
+        }
+        
         return didFinish
     }
     
@@ -62,8 +71,65 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
+    
+    func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
+        if notificationSettings.types != .None {
+            application.registerForRemoteNotifications()
+        }
+    }
+    
+    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
+        let tokenChars = UnsafePointer<CChar>(deviceToken.bytes)
+        var tokenString = ""
+        
+        for i in 0..<deviceToken.length {
+            tokenString += String(format: "%02.2hhx", arguments: [tokenChars[i]])
+        }
+        
+        print("Device Token:", tokenString)
+        apnsDeviceToken = tokenString
+        //http://stackoverflow.com/questions/24501288/getting-version-and-build-info-with-swift
+        appVersionCode = NSBundle.mainBundle().infoDictionary?["CFBundleVersion"] as? String
+        
+        SwiftEventBus.post("onSuccessRegisterAppNotification")
+    }
+    
+    func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
+        print("Failed to register:", error)
+    }
+    
+    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
+        //let notif = userInfo["aps"] as! [String: AnyObject]
+        ViewUtil.handlePushNotification(userInfo)
+    }
+    
     // custom
+    
+    var apnsDeviceToken: String? {
+        set {
+            _apnsDeviceToken = newValue
+            SharedPreferencesUtil.getInstance().setDeviceToken(_apnsDeviceToken!)
+        }
+        get {
+            if _apnsDeviceToken == nil {
+                _apnsDeviceToken = SharedPreferencesUtil.getInstance().getDeviceToken()
+            }
+            return _apnsDeviceToken
+        }
+    }
+    
+    var appVersionCode: String? {
+        set {
+            _appVersionCode = newValue
+            SharedPreferencesUtil.getInstance().setSystemVersionCode(_appVersionCode!)
+        }
+        get {
+            if _appVersionCode == nil {
+                _appVersionCode = SharedPreferencesUtil.getInstance().getSystemVersionCode()
+            }
+            return _appVersionCode
+        }
+    }
     
     private var _sessionId: String? = nil
         
@@ -121,6 +187,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             FBSDKLoginManager().logOut()
         }
         clearAll()
+    }
+    
+    func registerForPushNotifications() {
+        let notificationSettings = UIUserNotificationSettings(
+            forTypes: [.Badge, .Sound, .Alert], categories: nil)
+        UIApplication.sharedApplication().registerUserNotificationSettings(notificationSettings)
+        print("here..")
     }
 }
 

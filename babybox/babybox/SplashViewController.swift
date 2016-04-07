@@ -79,6 +79,8 @@ class SplashViewController: UIViewController {
         AppDelegate.getInstance().initUserCaches()
         SwiftEventBus.unregister(self)
         self.performSegueWithIdentifier("homefeed", sender: nil)
+        //Check Notif registrations.
+        ApiFacade.registerAppForNotification()
     }
     
     func onFailure(message: String?) {

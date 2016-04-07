@@ -674,6 +674,17 @@ class ApiController {
         task.resume()
     }
     
+    func saveApnsNotifToken() {
+        let callEvent = ApiCallEvent()
+        callEvent.method = "/api/save-apn-token/\(StringUtil.encode(AppDelegate.getInstance().apnsDeviceToken!))/\(StringUtil.encode(AppDelegate.getInstance().appVersionCode!))"
+        callEvent.resultClass = "String"
+        callEvent.body = ""
+        callEvent.successEventbusName = "onApnsNotifTokenSuccess"
+        callEvent.failedEventbusName = "onApnsNotifTokenFailed"
+        callEvent.apiUrl = Constants.BASE_URL + callEvent.method
+        self.makePostApiCall(callEvent)
+    }
+    
     func makeApiCall(arg: ApiCallEvent) {
         NSLog("makeApiCall")
         

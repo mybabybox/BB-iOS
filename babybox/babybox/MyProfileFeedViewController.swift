@@ -108,6 +108,7 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
         flowLayout.scrollDirection = UICollectionViewScrollDirection.Vertical
         flowLayout.minimumInteritemSpacing = Constants.FEED_ITEM_SIDE_SPACING
         flowLayout.minimumLineSpacing = Constants.FEED_ITEM_LINE_SPACING
+        flowLayout.sectionInset = UIEdgeInsetsMake(0.0, 5.0,0.0,5.0)
         uiCollectionView.collectionViewLayout = flowLayout
         
         self.uiCollectionView.addPullToRefresh({ [weak self] in
