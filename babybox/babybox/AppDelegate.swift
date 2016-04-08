@@ -99,8 +99,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
-        //let notif = userInfo["aps"] as! [String: AnyObject]
-        ViewUtil.handlePushNotification(userInfo)
+        let notif = userInfo["aps"] as! [String: AnyObject]
+        ViewUtil.handlePushNotification(notif)
     }
     
     // custom

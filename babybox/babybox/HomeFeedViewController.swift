@@ -74,6 +74,10 @@ class HomeFeedViewController: CustomNavigationController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if ViewUtil.appOpenByNotification {
+            ViewUtil.handleAppRedirection(self)
+        }
+        
         feedLoader = FeedLoader(feedType: FeedFilter.FeedType.HOME_EXPLORE, reloadDataToView: reloadDataToView)
         feedLoader!.setActivityIndicator(activityLoading)
         feedLoader!.reloadFeedItems()
@@ -242,17 +246,6 @@ class HomeFeedViewController: CustomNavigationController {
     
     // MARK: UIScrollview Delegate
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        /*
-        if scrollView.contentOffset.y < 0 {
-            self.lastContentOffset = 0
-        } else if self.lastContentOffset > scrollView.contentOffset.y + Constants.SHOW_HIDE_BAR_SCROLL_DISTANCE {
-            self.navigationController?.setNavigationBarHidden(false, animated: true)
-        } else if self.lastContentOffset < scrollView.contentOffset.y - Constants.SHOW_HIDE_BAR_SCROLL_DISTANCE {
-            self.navigationController?.setNavigationBarHidden(true, animated: true)
-        }
-        self.lastContentOffset = scrollView.contentOffset.y
-        */
-        
         if (scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - Constants.FEED_LOAD_SCROLL_THRESHOLD {
             feedLoader!.loadMoreFeedItems()
         }

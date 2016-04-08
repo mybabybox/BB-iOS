@@ -17,12 +17,21 @@ class ViewUtil {
     static let HTML_LINE_BREAK: String = "<br>"
     static let LINE_BREAK: String = "\n"
     
+    static var notifMessageType: NotificationType = NotificationType.COMMENT
+    static var appOpenByNotification: Bool = false
+    
     enum PostConditionType: String {
         case NEW_WITH_TAG = "New(Sealed/with tags)"
         case NEW_WITHOUT_TAG = "New(unsealed/without tags)"
         case USED = "Used"
     }
  
+    enum NotificationType: String {
+        case COMMENT = "COMMENT"
+        case CONVERSATION = "CONVERSATION"
+        case FOLLOW = "FOLLOW"
+    }
+    
     static func parsePostConditionTypeFromValue(value: String) -> PostConditionType {
         //iterate enum and return the respected value.
         switch (value) {
@@ -393,5 +402,32 @@ class ViewUtil {
     
     static func handlePushNotification(notif: AnyObject) {
         NSLog("")
+        let messageType = notif["messageType"] as! String
+        switch messageType {
+        case NotificationType.COMMENT.rawValue:
+            ViewUtil.appOpenByNotification = true
+            ViewUtil.notifMessageType = NotificationType.COMMENT
+        case NotificationType.CONVERSATION.rawValue:
+            ViewUtil.appOpenByNotification = true
+            ViewUtil.notifMessageType = NotificationType.CONVERSATION
+        case NotificationType.FOLLOW.rawValue:
+            ViewUtil.appOpenByNotification = true
+            ViewUtil.notifMessageType = NotificationType.FOLLOW
+        default: break
+        }
+    }
+    
+    static func handleAppRedirection(viewController: UIViewController) {
+        ViewUtil.appOpenByNotification = false
+        //Check whether the app is opened using notification message
+        switch ViewUtil.notifMessageType {
+        case NotificationType.COMMENT, NotificationType.FOLLOW:
+            CustomTabBarController.selectActivityTab()
+        case NotificationType.CONVERSATION:
+            let vController = viewController.storyboard?.instantiateViewControllerWithIdentifier("ConversationsController")
+            vController?.hidesBottomBarWhenPushed = true
+            viewController.navigationController?.pushViewController(vController!, animated: true)
+        }
+        
     }
 }

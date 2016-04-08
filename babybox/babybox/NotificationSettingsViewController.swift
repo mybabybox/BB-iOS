@@ -88,8 +88,8 @@ class NotificationSettingsViewController: UIViewController {
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("NotificationCell")! as! NotificationViewCell
-        let sectionsArray = self.notificationDataSource[indexPath.section] as! [AnyObject]
-        let notification = sectionsArray[indexPath.row] as! NotificationVM
+        let sectionsArray = self.notificationDataSource[indexPath.section] as? [NotificationVM]
+        let notification = sectionsArray![indexPath.row]
         cell.setUIWithDataSource(notification)
         return cell;
     }
