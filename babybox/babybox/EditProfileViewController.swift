@@ -13,6 +13,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, UITextVi
     var userId = -1
     
     
+    @IBOutlet weak var helpText: UILabel!
     @IBOutlet weak var activityLoading: UIActivityIndicatorView!
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var editScrollView: UIScrollView!
@@ -95,6 +96,9 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, UITextVi
         ViewUtil.displayCornerTextView(self.location)
         initializeLocationDropDown((userInfo?.location.id)!)
         ViewUtil.hideActivityLoading(self.activityLoading)
+        
+        self.helpText.numberOfLines = 0
+        self.helpText.sizeToFit()
     }
     
     func keyboardWillShow(notification: NSNotification) {

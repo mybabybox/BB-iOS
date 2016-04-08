@@ -2979,10 +2979,10 @@
                                                     <action selector="onClickSubmitBtn:" destination="px0-27-EwH" eventType="touchUpInside" id="eTt-oz-ZPA"/>
                                                 </connections>
                                             </button>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XCx-fZ-UbV">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="BeautyPop will push relevant products to you based on your location." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XCx-fZ-UbV">
                                                 <rect key="frame" x="109" y="360" width="285" height="16"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_bb_logo" translatesAutoresizingMaskIntoConstraints="NO" id="Va2-Vh-yoG" userLabel="mbLoginIcon">
@@ -3072,6 +3072,7 @@
                         <outlet property="email" destination="xH7-rH-m8l" id="aBG-fo-FFi"/>
                         <outlet property="fbLoginIcon" destination="Hy6-8m-a6q" id="vEv-zf-oPM"/>
                         <outlet property="firstName" destination="8CD-VL-IhD" id="bwl-78-RU1"/>
+                        <outlet property="helpText" destination="XCx-fZ-UbV" id="hrG-bk-hpY"/>
                         <outlet property="lastName" destination="oRM-Vh-Qta" id="R1F-cs-nO8"/>
                         <outlet property="location" destination="ZLq-Vn-51M" id="Dr1-gj-JfV"/>
                         <outlet property="mbLoginIcon" destination="Va2-Vh-yoG" id="Pfe-Ky-quU"/>
