@@ -293,9 +293,9 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
         case 0: return ViewUtil.getScreenWidth(self.view)
         case 1:
             if self.productInfo != nil {
-                return CGFloat(220.0) + self.lcontentSize
+                return CGFloat(200.0) + self.lcontentSize
             }
-            return CGFloat(220.0)
+            return CGFloat(200.0)
         case 2:
             return CGFloat(95.0)
         case 3:
