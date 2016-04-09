@@ -11,67 +11,36 @@ import SwiftEventBus
 
 class ForgotPasswordViewController: UIViewController, UITextFieldDelegate {
 
-    @IBOutlet weak var forgotPassWebView: UIWebView!
-    @IBOutlet weak var emailAddress: UITextField!
-    var forwardToNextPage = false
+    static var FORGET_PASSWORD_URL: String = Constants.BASE_URL + "/login/password/forgot";
+    
+    @IBOutlet weak var forgotPasswordWebView: UIWebView!
     
     override func viewDidAppear(animated: Bool) {
-        self.forwardToNextPage = false
+        
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.navigationController?.toolbar.hidden = true
-        self.navigationController?.navigationBar.hidden = true
-
-        self.emailAddress.delegate = self
-        
-        SwiftEventBus.onMainThread(self, name: "forgotPasswordSuccess") { result in
-            // UI thread
-            let resultDto: String = result.object as! String
-            self.handleForgotPassword(resultDto)
-        }
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "actionbar_bg_pink"), forBarMetrics: UIBarMetrics.Default)
+        ViewUtil.setCustomBackButton(self, action:"onBackPressed:")
+        forgotPasswordWebView.loadRequest(NSURLRequest(URL: NSURL(string: ForgotPasswordViewController.FORGET_PASSWORD_URL)!))
     }
 
-    func handleForgotPassword(resultDto: String) {
-        //self.forwardToNextPage = true
-        //self.forgotPassWebView.loadHTMLString(resultDto, baseURL: nil)
-        //self.performSegueWithIdentifier("showloginpage", sender: nil)
-        
-        let webViewController = self.storyboard?.instantiateViewControllerWithIdentifier("webViewController") as? WebViewController
-        webViewController?.resultString = resultDto
-        self.presentViewController(webViewController!, animated: true, completion: nil)
-    }
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
-        //call forgot password API call...
-        
-        if (self.emailAddress.text != "") {
-            //make API call...
-            ApiController.instance.forgotPasswordRequest(self.emailAddress.text!)
-        } else {
-        }
-        return forwardToNextPage
+    override func viewDidDisappear(animated: Bool) {
+        self.navigationController?.navigationBar.hidden = true
     }
 
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
+    func onBackPressed(sender: UIBarButtonItem) {
+        /*let app = UIApplication.sharedApplication().delegate as! AppDelegate
+        let navController = app.window?.rootViewController as! UINavigationController
+        //navController.popViewControllerAnimated(true)
+        navController.popToRootViewControllerAnimated(true)*/
+        let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("LoginViewController") as! LoginViewController
+        self.navigationController?.pushViewController(vController, animated: true)
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

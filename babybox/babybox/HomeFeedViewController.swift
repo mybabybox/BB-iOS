@@ -28,6 +28,8 @@ class HomeFeedViewController: CustomNavigationController {
     var currentIndex: NSIndexPath?
     var categories : [CategoryVM] = []
     
+    let FEED_ITEM_SIDE_SPACING = CGFloat(5)
+    let HEADER_ITEM_MARGIN = CGFloat(20)
     var vController: ProductViewController?
     //var notificationCounterVM: NotificationCounterVM? = nil
     
@@ -100,7 +102,7 @@ class HomeFeedViewController: CustomNavigationController {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.itemSize = CGSizeMake(self.view.bounds.width, self.view.bounds.height)
         flowLayout.scrollDirection = UICollectionViewScrollDirection.Vertical
-        flowLayout.minimumInteritemSpacing = Constants.FEED_ITEM_SIDE_SPACING
+        flowLayout.minimumInteritemSpacing = FEED_ITEM_SIDE_SPACING
         flowLayout.minimumLineSpacing = Constants.FEED_ITEM_LINE_SPACING
         flowLayout.sectionInset = UIEdgeInsetsMake(0.0, 5.0,0.0,5.0)
         uiCollectionView.collectionViewLayout = flowLayout
@@ -207,7 +209,7 @@ class HomeFeedViewController: CustomNavigationController {
         if (collectionView.tag == 2){
             return CGSizeZero
         } else {
-            let availableWidthForCells:CGFloat = self.view.bounds.width - 35
+            let availableWidthForCells:CGFloat = self.view.bounds.width - HEADER_ITEM_MARGIN
             let cellWidth :CGFloat = availableWidthForCells / 3
             let ht = cellWidth * CGFloat(Int(self.categories.count / 3))
             return CGSizeMake(self.view.frame.width, ht + 70)
@@ -252,7 +254,7 @@ class HomeFeedViewController: CustomNavigationController {
     }
         
     func setCollectionViewSizesInsetsForTopView() {
-        let availableWidthForCells:CGFloat = self.view.bounds.width - 35
+        let availableWidthForCells:CGFloat = self.view.bounds.width - HEADER_ITEM_MARGIN
         let cellWidth :CGFloat = availableWidthForCells / 3
         collectionViewTopCellSize = CGSizeMake(cellWidth, cellWidth)
     }

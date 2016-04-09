@@ -31,14 +31,6 @@ class LoginViewController: BaseLoginViewController, UITextFieldDelegate {
         
         ViewUtil.displayRoundedCornerView(self.loginButton, bgColor: Color.PINK)
         
-        // Do any additional setup after loading the view, typically from a nib.
-        
-        /*
-        let uImageView = UIImageView()
-        uImageView.image = UIImage(named: "login_user")
-        uImageView.frame = CGRect(x: 0, y: 0, width: 25, height: 25)
-        self.userNameTxt.addSubview(uImageView)
-        */
     }
     
     @IBAction func onEmailLogin(sender: UIButton) {
