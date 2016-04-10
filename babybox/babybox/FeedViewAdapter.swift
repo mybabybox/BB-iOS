@@ -90,6 +90,23 @@ class FeedViewAdapter {
             ApiController.instance.likePost(feedItem.id)
         }
     }
+    
+    func getFeedItemCellSize(width: CGFloat) -> CGSize {
+        let availableWidthForCells: CGFloat = width - (Constants.FEED_ITEM_SIDE_SPACING * 3)  // left middle right spacing
+        let cellWidth: CGFloat = availableWidthForCells / 2
+        let cellHeight = cellWidth + Constants.FEED_ITEM_DETAILS_HEIGHT
+        return CGSizeMake(cellWidth, cellHeight)
+    }
+    
+    func getFeedViewFlowLayout(viewController: UIViewController) -> UICollectionViewFlowLayout {
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.itemSize = CGSizeMake(viewController.view.bounds.width, viewController.view.bounds.height)
+        flowLayout.scrollDirection = UICollectionViewScrollDirection.Vertical
+        flowLayout.minimumInteritemSpacing = Constants.FEED_ITEM_SIDE_SPACING
+        flowLayout.minimumLineSpacing = Constants.FEED_ITEM_LINE_SPACING
+        flowLayout.sectionInset = UIEdgeInsetsMake(0, Constants.FEED_ITEM_SIDE_SPACING, 0, Constants.FEED_ITEM_SIDE_SPACING)
+        return flowLayout
+    }
 }
 
 

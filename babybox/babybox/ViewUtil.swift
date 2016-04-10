@@ -114,13 +114,6 @@ class ViewUtil {
             UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.None)
         }
     }
-
-    static func getProductItemCellSize(width: CGFloat) -> CGSize {
-        let availableWidthForCells:CGFloat = width - 15
-        let cellWidth :CGFloat = availableWidthForCells / 2
-        let cellHeight = cellWidth + 35
-        return CGSizeMake(cellWidth, cellHeight)
-    }
     
     static func displayCircularView(view: UIView) {
         view.layer.cornerRadius = view.frame.height/2

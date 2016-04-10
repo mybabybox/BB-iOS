@@ -97,13 +97,7 @@ class HomeFeedViewController: CustomNavigationController {
         
         self.uiCollectionView.registerClass(HomeReusableView.self, forSupplementaryViewOfKind: "CategoryHeaderView", withReuseIdentifier: "HeaderView")
         
-        let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.itemSize = CGSizeMake(self.view.bounds.width, self.view.bounds.height)
-        flowLayout.scrollDirection = UICollectionViewScrollDirection.Vertical
-        flowLayout.minimumInteritemSpacing = Constants.FEED_ITEM_SIDE_SPACING
-        flowLayout.minimumLineSpacing = Constants.FEED_ITEM_LINE_SPACING
-        flowLayout.sectionInset = UIEdgeInsetsMake(0, Constants.FEED_ITEM_SIDE_SPACING, 0, Constants.FEED_ITEM_SIDE_SPACING)
-        uiCollectionView.collectionViewLayout = flowLayout
+        uiCollectionView.collectionViewLayout = feedViewAdapter!.getFeedViewFlowLayout(self)
         
         self.categories = CategoryCache.categories
         
@@ -257,7 +251,7 @@ class HomeFeedViewController: CustomNavigationController {
     }
     
     func setCollectionViewSizesInsets() {
-        collectionViewCellSize = ViewUtil.getProductItemCellSize(self.view.bounds.width)
+        collectionViewCellSize = feedViewAdapter!.getFeedItemCellSize(self.view.bounds.width)
     }
     
     @IBAction func onLikeBtnClick(sender: AnyObject) {

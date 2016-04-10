@@ -28,8 +28,9 @@ struct Constants {
     // sizes
     static let HOME_HEADER_ITEM_MARGIN = CGFloat(12)
     static let CATEGORY_HEADER_HEIGHT = CGFloat(155)
-    static let FEED_ITEM_SIDE_SPACING = CGFloat(5)
-    static let FEED_ITEM_LINE_SPACING = CGFloat(10)
+    static let FEED_ITEM_SIDE_SPACING = CGFloat(7)
+    static let FEED_ITEM_LINE_SPACING = CGFloat(7)
+    static let FEED_ITEM_DETAILS_HEIGHT = CGFloat(35)
     static let MESSAGE_IMAGE_WIDTH = CGFloat(0.65)
     static let MESSAGE_LOAD_MORE_BTN_HEIGHT = CGFloat(0)
     

@@ -74,13 +74,7 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
         
         setCollectionViewSizesInsets()
         
-        let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.itemSize = CGSizeMake(self.view.bounds.width, self.view.bounds.height)
-        flowLayout.scrollDirection = UICollectionViewScrollDirection.Vertical
-        flowLayout.minimumInteritemSpacing = Constants.FEED_ITEM_SIDE_SPACING
-        flowLayout.minimumLineSpacing = Constants.FEED_ITEM_LINE_SPACING
-        flowLayout.footerReferenceSize = CGSizeMake(uiCollectionView.bounds.width, 40.0)
-        uiCollectionView.collectionViewLayout = flowLayout
+        uiCollectionView.collectionViewLayout = feedViewAdapter!.getFeedViewFlowLayout(self)
         
         self.uiCollectionView.addPullToRefresh({ [weak self] in
             self!.feedLoader?.reloadFeedItems()
@@ -169,7 +163,7 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
     }*/
     
     func setCollectionViewSizesInsets() {
-        collectionViewCellSize = ViewUtil.getProductItemCellSize(self.view.bounds.width)
+        collectionViewCellSize = feedViewAdapter!.getFeedItemCellSize(self.view.bounds.width)
     }
     
     @IBAction func onLikeBtnClick(sender: AnyObject) {
