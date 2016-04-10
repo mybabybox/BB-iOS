@@ -68,7 +68,10 @@ class CustomNavigationController: ScrollingNavigationViewController, ScrollingNa
     */
     func initNavigationComponent() {
         
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "actionbar_bg_pink"), forBarMetrics: UIBarMetrics.Default)
+        //self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "actionbar_bg_pink"), forBarMetrics: UIBarMetrics.Default)
+        //self.navigationController?.navigationBar.backgroundColor = Color.PINK
+        self.navigationController?.navigationBar.barTintColor = Color.PINK
+        self.navigationController?.navigationBar.translucent = false
         
         let sellBtn: UIButton = UIButton()
         sellBtn.setImage(UIImage(named: "btn_sell"), forState: UIControlState.Normal)

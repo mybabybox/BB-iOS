@@ -24,10 +24,10 @@ class Color {
     static let DARK_GRAY_3: UIColor = Color.fromRGB(0x111111)
     static let PINK: UIColor = Color.fromRGB(0xFF76A4)
     
-    static let LIGHT_PING: UIColor = Color.fromRGB(0xFF99B8)
-    static let LIGHT_PING_2: UIColor = Color.fromRGB(0xFFC7D2)
-    static let LIGHT_PING_3: UIColor = Color.fromRGB(0xFFEAED)
-    static let LIGHT_PING_4: UIColor = Color.fromRGB(0xFFF2EF)
+    static let LIGHT_PINK: UIColor = Color.fromRGB(0xFF99B8)
+    static let LIGHT_PINK_2: UIColor = Color.fromRGB(0xFFC7D2)
+    static let LIGHT_PINK_3: UIColor = Color.fromRGB(0xFFEAED)
+    static let LIGHT_PINK_4: UIColor = Color.fromRGB(0xFFF2EF)
     
     // Theme colors
     static let MENU_BAR_BG: UIColor = Color.fromRGB(0xFCFAF8)
