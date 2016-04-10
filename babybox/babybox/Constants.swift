@@ -25,11 +25,15 @@ struct Constants {
     static let SHOW_HIDE_BAR_SCROLL_DISTANCE = CGFloat(5.0)
     static let MAIN_BOTTOM_BAR_ALPHA = 0.9
     
-    static let FEED_ITEM_SIDE_SPACING = CGFloat(10)
+    // sizes
+    static let HOME_HEADER_ITEM_MARGIN = CGFloat(12)
+    static let CATEGORY_HEADER_HEIGHT = CGFloat(155)
+    static let FEED_ITEM_SIDE_SPACING = CGFloat(5)
     static let FEED_ITEM_LINE_SPACING = CGFloat(10)
     static let MESSAGE_IMAGE_WIDTH = CGFloat(0.65)
     static let MESSAGE_LOAD_MORE_BTN_HEIGHT = CGFloat(0)
     
+    // strings
     static let ACTIVITY_FIRST_POST = "You are now a BabyBox seller! Your first product has been listed:\n"
     static let ACTIVITY_NEW_POST = "New product listed:\n"
     static let ACTIVITY_COMMENTED = "commented on product:\n"
@@ -60,5 +64,5 @@ struct Constants {
     static let PRODUCT_SOLD_TEXT = "This item has been sold"
     static let PRODUCT_SOLD_CONFIRM_TEXT = "Confirm product has been sold?\nYou will no longer receive chats and orders for this product"
     
-    static let DELETE_COMMENT_TEXT = "Are you sure to delete?"
+    static let DELETE_COMMENT_TEXT = "Delete comment?"
 }

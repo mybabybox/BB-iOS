@@ -13,8 +13,6 @@ import Kingfisher
 
 class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
     
-    let HEADER_HEIGHT = CGFloat(160)
-    
     @IBOutlet weak var categoryTips: UIView!
     @IBOutlet weak var tipSection: NSLayoutConstraint!
     @IBOutlet weak var activityLoading: UIActivityIndicatorView!
@@ -177,11 +175,9 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+        
         var reusableView : UICollectionReusableView? = nil
-        
-        
         if (kind == UICollectionElementKindSectionHeader) {
-            
             let headerView : HomeReusableView = collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "HeaderView", forIndexPath: indexPath) as! HomeReusableView
             headerView.headerViewCollection.reloadData()
             reusableView = headerView
@@ -211,7 +207,7 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
         if (collectionView.tag == 2){
             return CGSizeZero
         } else {
-            return CGSizeMake(self.view.frame.width, HEADER_HEIGHT)
+            return CGSizeMake(self.view.frame.width, Constants.CATEGORY_HEADER_HEIGHT)
         }
     }
     
@@ -238,7 +234,7 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func setCollectionViewSizesInsetsForTopView() {
-        collectionViewTopCellSize = CGSizeMake(self.view.bounds.width, HEADER_HEIGHT)
+        collectionViewTopCellSize = CGSizeMake(self.view.bounds.width, Constants.CATEGORY_HEADER_HEIGHT)
     }
     
     func setCollectionViewSizesInsets() {
