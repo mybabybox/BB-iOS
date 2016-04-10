@@ -46,6 +46,15 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         }
     }
     
+    override func viewWillAppear(animated: Bool) {
+        ViewUtil.hideActivityLoading(self.activityLoading)
+        self.navigationController?.interactivePopGestureRecognizer!.enabled = false
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        self.navigationController?.interactivePopGestureRecognizer!.enabled = true
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

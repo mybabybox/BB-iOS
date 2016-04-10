@@ -21,6 +21,7 @@ class ForgotPasswordViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "actionbar_bg_pink"), forBarMetrics: UIBarMetrics.Default)
         ViewUtil.setCustomBackButton(self, action:"onBackPressed:")
         forgotPasswordWebView.loadRequest(NSURLRequest(URL: NSURL(string: ForgotPasswordViewController.FORGET_PASSWORD_URL)!))

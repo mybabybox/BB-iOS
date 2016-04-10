@@ -52,8 +52,13 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
         }
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewWillAppear(animated: Bool) {
         ViewUtil.hideActivityLoading(self.activityLoading)
+        self.navigationController?.interactivePopGestureRecognizer!.enabled = false
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        self.navigationController?.interactivePopGestureRecognizer!.enabled = true
     }
     
     override func viewDidLoad() {
