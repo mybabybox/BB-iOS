@@ -76,6 +76,8 @@ class HomeFeedViewController: CustomNavigationController {
         
         if ViewUtil.appOpenByNotification {
             ViewUtil.handleAppRedirection(self)
+        } else if ViewUtil.deepLinkProductId != -1 {
+            ViewUtil.handleDeepLinkRedirection(self)
         }
         
         feedLoader = FeedLoader(feedType: FeedFilter.FeedType.HOME_EXPLORE, reloadDataToView: reloadDataToView)

@@ -103,6 +103,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         ViewUtil.handlePushNotification(notif)
     }
     
+    func application(app: UIApplication, openURL url: NSURL, options: [String : AnyObject]) -> Bool {
+        let pathVariables = url.pathComponents
+        if pathVariables?.count >= 3 {
+            if pathVariables![(pathVariables?.count)! - 2] == "product" {
+                ViewUtil.deepLinkProductId = Int(pathVariables![(pathVariables?.count)! - 1])!
+                let viewController = (self.window?.rootViewController?.storyboard?.instantiateViewControllerWithIdentifier("SplashViewController"))! as! SplashViewController
+                let vc = self.window!.rootViewController as! UINavigationController
+                vc.pushViewController(viewController, animated: true)
+            }
+        }
+        return true
+    }
     // custom
     
     var apnsDeviceToken: String? {
