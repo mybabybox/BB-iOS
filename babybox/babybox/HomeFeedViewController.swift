@@ -76,8 +76,8 @@ class HomeFeedViewController: CustomNavigationController {
         
         if ViewUtil.appOpenByNotification {
             ViewUtil.handleAppRedirection(self)
-        } else if ViewUtil.deepLinkProductId != -1 {
-            ViewUtil.handleDeepLinkRedirection(self)
+        } else if UrlUtil.isSellerDeepLink || UrlUtil.isProductDeepLink {
+            UrlUtil.handleDeepLinkRedirection(self, successCallback: onSuccessGetUserByDisplayName, failureCallback: onFailedGetUserByDisplayName)
         }
         
         feedLoader = FeedLoader(feedType: FeedFilter.FeedType.HOME_EXPLORE, reloadDataToView: reloadDataToView)
@@ -274,5 +274,17 @@ class HomeFeedViewController: CustomNavigationController {
     func onFailureRefreshNotifications(message: String) {
         NSLog(message)
     }
+    
+    func onSuccessGetUserByDisplayName(userVM: UserVM) -> Void {
+        //get the userid and redirect to profile page....
+        let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("UserProfileFeedViewController") as! UserProfileFeedViewController
+        vController.userId = userVM.id
+        self.navigationController?.pushViewController(vController, animated: true)
+    }
+    
+    func onFailedGetUserByDisplayName(error: String) {
+        //do nothing.
+    }
+    
 }
 

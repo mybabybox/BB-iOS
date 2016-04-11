@@ -66,4 +66,6 @@ struct Constants {
     static let PRODUCT_SOLD_CONFIRM_TEXT = "Confirm product has been sold?\nYou will no longer receive chats and orders for this product"
     
     static let DELETE_COMMENT_TEXT = "Delete comment?"
+    
+    static let DEEP_LINK_URL_SCHEME = "beautypop://"
 }

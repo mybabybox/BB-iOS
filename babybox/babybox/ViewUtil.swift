@@ -19,7 +19,7 @@ class ViewUtil {
     
     static var notifMessageType: NotificationType = NotificationType.COMMENT
     static var appOpenByNotification: Bool = false
-    static var deepLinkProductId: Int = -1
+    
     
     enum PostConditionType: String {
         case NEW_WITH_TAG = "New(Sealed/with tags)"
@@ -423,16 +423,5 @@ class ViewUtil {
         }
     }
     
-    static func handleDeepLinkRedirection(viewController: UIViewController) {
-        //Check whether the app is opened using notification message
-        let vController =  viewController.storyboard!.instantiateViewControllerWithIdentifier("ProductViewController") as! ProductViewController
-        let feedItem: PostVMLite = PostVMLite()
-        feedItem.id = ViewUtil.deepLinkProductId
-        vController.feedItem = feedItem
-        vController.hidesBottomBarWhenPushed = true
-        viewController.navigationController?.pushViewController(vController, animated: true)
-        
-        ViewUtil.deepLinkProductId = -1
-    }
     
 }

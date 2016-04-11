@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 class UrlUtil {
     static let ENCODE_CHARSET_UTF8 = "UTF-8"
@@ -22,6 +23,11 @@ class UrlUtil {
     static let SELLER_URL_REGEX = ".*/seller/(\\d+)"
     static let PRODUCT_URL_REGEX = ".*/product/(\\d+)"
     static let CATEGORY_URL_REGEX = ".*/category/(\\d+)"
+    
+    static var sellerName: String = ""
+    static var isSellerDeepLink: Bool = false
+    static var isProductDeepLink: Bool = false
+    static var deepLinkProductId: Int = -1
     
     static let HTTP_PREFIXES = [
         "http://www.",
@@ -39,11 +45,11 @@ class UrlUtil {
     }
     
     static func createSellerUrl(user: UserVMLite) -> String {
-        return String(format: SELLER_URL, user.id)
+        return String(format: Constants.DEEP_LINK_URL_SCHEME, SELLER_URL, user.id)
     }
     
     static func createProductUrl(post: PostVMLite) -> String {
-        return String(format: PRODUCT_URL, post.id)
+        return String(format: Constants.DEEP_LINK_URL_SCHEME, PRODUCT_URL, post.id)
     }
     
     static func createCategoryUrl(category: CategoryVM) -> String {
@@ -66,6 +72,24 @@ class UrlUtil {
             }
         }
         return url
+    }
+    
+    static func handleDeepLinkRedirection(viewController: UIViewController, successCallback: ((UserVM) -> Void)?, failureCallback: ((String) -> Void)?) {
+        //Check whether the app is opened using notification message
+        
+        if UrlUtil.isProductDeepLink {
+            let vController =  viewController.storyboard!.instantiateViewControllerWithIdentifier("ProductViewController") as! ProductViewController
+            let feedItem: PostVMLite = PostVMLite()
+            feedItem.id = UrlUtil.deepLinkProductId
+            vController.feedItem = feedItem
+            vController.hidesBottomBarWhenPushed = true
+            viewController.navigationController?.pushViewController(vController, animated: true)
+            UrlUtil.isProductDeepLink = false
+            UrlUtil.deepLinkProductId = -1
+        } else if UrlUtil.isSellerDeepLink {
+            UrlUtil.isSellerDeepLink = false
+            ApiFacade.getUserByDisplayName(UrlUtil.sellerName, successCallback: successCallback, failureCallback: failureCallback)
+        }
     }
     
 }
