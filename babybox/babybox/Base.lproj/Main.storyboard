@@ -4059,178 +4059,6 @@
                                 <rect key="frame" x="190" y="347" width="37" height="37"/>
                                 <color key="color" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rBo-hQ-nNA" userLabel="FooterBar">
-                                <rect key="frame" x="0.0" y="691" width="414" height="45"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MAl-Vl-UxH">
-                                        <rect key="frame" x="15" y="3" width="25" height="25"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="25" id="hKZ-Pw-cXl"/>
-                                            <constraint firstAttribute="width" constant="25" id="wfy-8g-qtF"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <state key="normal" title="Button" image="ic_like">
-                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                            <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="onClickLikeOrUnlikeButton:" destination="a39-f0-7jx" eventType="touchUpInside" id="6jB-1a-mBk"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v1O-yZ-GQ6">
-                                        <rect key="frame" x="12" y="28" width="30" height="15"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="15" id="gf3-er-7cb"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <state key="normal" title="Like">
-                                            <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                            <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="onClickLikeOrUnlikeButton:" destination="a39-f0-7jx" eventType="touchUpInside" id="4pW-BU-icE"/>
-                                        </connections>
-                                    </button>
-                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4fM-kR-mov" userLabel="sellerSoldButtonsLayout">
-                                        <rect key="frame" x="55" y="0.0" width="359" height="45"/>
-                                        <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZAD-pW-leU">
-                                                <rect key="frame" x="0.0" y="0.0" width="359" height="45"/>
-                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
-                                                <state key="normal" title="Sold - View Chats"/>
-                                                <connections>
-                                                    <segue destination="K3t-LR-EuE" kind="show" identifier="soldViewChat" id="SC0-fE-foi"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <constraints>
-                                            <constraint firstItem="ZAD-pW-leU" firstAttribute="leading" secondItem="4fM-kR-mov" secondAttribute="leading" id="5co-Uv-9Wq"/>
-                                            <constraint firstAttribute="bottom" secondItem="ZAD-pW-leU" secondAttribute="bottom" id="BVF-le-EZ1"/>
-                                            <constraint firstAttribute="trailing" secondItem="ZAD-pW-leU" secondAttribute="trailing" id="HF4-l6-qhA"/>
-                                            <constraint firstItem="ZAD-pW-leU" firstAttribute="top" secondItem="4fM-kR-mov" secondAttribute="top" id="m1i-Of-r4j"/>
-                                        </constraints>
-                                    </view>
-                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ADg-Zg-gNb" userLabel="sellerButtonsLayout">
-                                        <rect key="frame" x="55" y="0.0" width="359" height="45"/>
-                                        <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="COA-Pb-bQ8">
-                                                <rect key="frame" x="0.0" y="0.0" width="179.5" height="45"/>
-                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
-                                                <state key="normal" title="View Chats"/>
-                                                <connections>
-                                                    <segue destination="K3t-LR-EuE" kind="show" identifier="viewChats" id="Ds4-XX-fSh"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N1m-Yk-Qrt">
-                                                <rect key="frame" x="179" y="0.0" width="179.5" height="45"/>
-                                                <color key="backgroundColor" red="0.031372549020000001" green="0.71764705880000002" blue="0.1058823529" alpha="1" colorSpace="calibratedRGB"/>
-                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
-                                                <state key="normal" title="Mark as Sold"/>
-                                                <connections>
-                                                    <action selector="onClickMarkAsSold:" destination="a39-f0-7jx" eventType="touchUpInside" id="1K6-AJ-R1u"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <constraints>
-                                            <constraint firstItem="COA-Pb-bQ8" firstAttribute="leading" secondItem="ADg-Zg-gNb" secondAttribute="leading" id="8sI-p4-xcW"/>
-                                            <constraint firstItem="N1m-Yk-Qrt" firstAttribute="leading" secondItem="COA-Pb-bQ8" secondAttribute="trailing" id="AZG-JR-Cxb"/>
-                                            <constraint firstAttribute="bottom" secondItem="N1m-Yk-Qrt" secondAttribute="bottom" id="JrY-lJ-058"/>
-                                            <constraint firstItem="N1m-Yk-Qrt" firstAttribute="top" secondItem="ADg-Zg-gNb" secondAttribute="top" id="QMh-wm-R4X"/>
-                                            <constraint firstAttribute="bottom" secondItem="COA-Pb-bQ8" secondAttribute="bottom" id="XOf-Zm-0B5"/>
-                                            <constraint firstItem="COA-Pb-bQ8" firstAttribute="top" secondItem="ADg-Zg-gNb" secondAttribute="top" id="ad2-gs-WdF"/>
-                                            <constraint firstItem="COA-Pb-bQ8" firstAttribute="width" secondItem="N1m-Yk-Qrt" secondAttribute="width" id="ctt-eu-gZh"/>
-                                            <constraint firstAttribute="trailing" secondItem="N1m-Yk-Qrt" secondAttribute="trailing" id="f8N-1n-L5n"/>
-                                        </constraints>
-                                    </view>
-                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1IZ-SP-2w1" userLabel="buyerButtonsLayout">
-                                        <rect key="frame" x="55" y="0.0" width="359" height="45"/>
-                                        <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XSw-fb-wAp" userLabel="BuyNow Btn">
-                                                <rect key="frame" x="179" y="0.0" width="179.5" height="45"/>
-                                                <color key="backgroundColor" red="1" green="0.46274509800000002" blue="0.64313725489999995" alpha="1" colorSpace="calibratedRGB"/>
-                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
-                                                <state key="normal" title="Buy Now">
-                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="onClickBuyNow:" destination="a39-f0-7jx" eventType="touchUpInside" id="bkJ-vd-TQ5"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uJg-Os-pQA" userLabel="Chat Btn">
-                                                <rect key="frame" x="0.0" y="0.0" width="179.5" height="45"/>
-                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
-                                                <state key="normal" title="Chat">
-                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="onClickChatNow:" destination="a39-f0-7jx" eventType="touchUpInside" id="Y19-QT-NRo"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <constraints>
-                                            <constraint firstAttribute="trailing" secondItem="XSw-fb-wAp" secondAttribute="trailing" id="0Qu-GD-n0M"/>
-                                            <constraint firstItem="uJg-Os-pQA" firstAttribute="top" secondItem="1IZ-SP-2w1" secondAttribute="top" id="2Yb-Z4-8UV"/>
-                                            <constraint firstAttribute="bottom" secondItem="XSw-fb-wAp" secondAttribute="bottom" id="6dp-GT-DLx"/>
-                                            <constraint firstItem="XSw-fb-wAp" firstAttribute="top" secondItem="1IZ-SP-2w1" secondAttribute="top" id="TKe-LO-Uqr"/>
-                                            <constraint firstItem="XSw-fb-wAp" firstAttribute="leading" secondItem="uJg-Os-pQA" secondAttribute="trailing" id="aeZ-9y-Kqt"/>
-                                            <constraint firstAttribute="bottom" secondItem="uJg-Os-pQA" secondAttribute="bottom" id="bBl-5A-FNe"/>
-                                            <constraint firstItem="uJg-Os-pQA" firstAttribute="width" secondItem="XSw-fb-wAp" secondAttribute="width" id="hKR-dk-pmY"/>
-                                            <constraint firstItem="uJg-Os-pQA" firstAttribute="leading" secondItem="1IZ-SP-2w1" secondAttribute="leading" id="p2S-sU-1UL"/>
-                                        </constraints>
-                                    </view>
-                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Aa9-0c-Zz6" userLabel="buyerSoldButtonsLayout">
-                                        <rect key="frame" x="55" y="0.0" width="359" height="45"/>
-                                        <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2he-7h-t9I" userLabel="SoldText">
-                                                <rect key="frame" x="0.0" y="0.0" width="359" height="45"/>
-                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
-                                                <state key="normal" title="Sold"/>
-                                                <connections>
-                                                    <action selector="onClickSold:" destination="a39-f0-7jx" eventType="touchUpInside" id="J6t-CF-9OQ"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <constraints>
-                                            <constraint firstItem="2he-7h-t9I" firstAttribute="top" secondItem="Aa9-0c-Zz6" secondAttribute="top" id="V7L-FY-rTJ"/>
-                                            <constraint firstItem="2he-7h-t9I" firstAttribute="leading" secondItem="Aa9-0c-Zz6" secondAttribute="leading" id="X5f-fd-k1I"/>
-                                            <constraint firstAttribute="trailing" secondItem="2he-7h-t9I" secondAttribute="trailing" id="cgf-UY-hmy"/>
-                                            <constraint firstAttribute="bottom" secondItem="2he-7h-t9I" secondAttribute="bottom" id="lyr-hl-K2x"/>
-                                        </constraints>
-                                    </view>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="1IZ-SP-2w1" secondAttribute="trailing" id="3mO-53-3ub"/>
-                                    <constraint firstItem="Aa9-0c-Zz6" firstAttribute="bottom" secondItem="1IZ-SP-2w1" secondAttribute="bottom" id="8EC-Kv-qk1"/>
-                                    <constraint firstItem="Aa9-0c-Zz6" firstAttribute="leading" secondItem="1IZ-SP-2w1" secondAttribute="leading" id="9cM-Sv-uDe"/>
-                                    <constraint firstAttribute="height" constant="45" id="DWg-oa-avl"/>
-                                    <constraint firstItem="4fM-kR-mov" firstAttribute="leading" secondItem="1IZ-SP-2w1" secondAttribute="leading" id="IWR-zp-g8U"/>
-                                    <constraint firstItem="4fM-kR-mov" firstAttribute="bottom" secondItem="1IZ-SP-2w1" secondAttribute="bottom" id="KmH-7J-xi7"/>
-                                    <constraint firstItem="4fM-kR-mov" firstAttribute="top" secondItem="1IZ-SP-2w1" secondAttribute="top" id="Mfi-pk-n5X"/>
-                                    <constraint firstItem="ADg-Zg-gNb" firstAttribute="trailing" secondItem="1IZ-SP-2w1" secondAttribute="trailing" id="NJ6-VP-XGq"/>
-                                    <constraint firstItem="1IZ-SP-2w1" firstAttribute="top" secondItem="rBo-hQ-nNA" secondAttribute="top" id="PXe-kv-faI"/>
-                                    <constraint firstItem="ADg-Zg-gNb" firstAttribute="bottom" secondItem="1IZ-SP-2w1" secondAttribute="bottom" id="TS6-LH-sZE"/>
-                                    <constraint firstItem="1IZ-SP-2w1" firstAttribute="leading" secondItem="MAl-Vl-UxH" secondAttribute="trailing" constant="15" id="Zcw-KE-Q3p"/>
-                                    <constraint firstAttribute="bottom" secondItem="1IZ-SP-2w1" secondAttribute="bottom" id="cDk-Lu-Xfa"/>
-                                    <constraint firstItem="v1O-yZ-GQ6" firstAttribute="centerX" secondItem="MAl-Vl-UxH" secondAttribute="centerX" id="ded-6L-I8T"/>
-                                    <constraint firstItem="ADg-Zg-gNb" firstAttribute="top" secondItem="1IZ-SP-2w1" secondAttribute="top" id="ea9-Fu-ucX"/>
-                                    <constraint firstItem="ADg-Zg-gNb" firstAttribute="leading" secondItem="1IZ-SP-2w1" secondAttribute="leading" id="fIl-32-ipZ"/>
-                                    <constraint firstItem="MAl-Vl-UxH" firstAttribute="leading" secondItem="rBo-hQ-nNA" secondAttribute="leading" constant="15" id="gBF-8C-gKH"/>
-                                    <constraint firstAttribute="bottom" secondItem="v1O-yZ-GQ6" secondAttribute="bottom" constant="2" id="mDH-ue-Z0i"/>
-                                    <constraint firstItem="MAl-Vl-UxH" firstAttribute="top" secondItem="rBo-hQ-nNA" secondAttribute="top" constant="3" id="mdB-l8-Tyn"/>
-                                    <constraint firstItem="4fM-kR-mov" firstAttribute="trailing" secondItem="1IZ-SP-2w1" secondAttribute="trailing" id="rLx-aP-bdP"/>
-                                    <constraint firstItem="Aa9-0c-Zz6" firstAttribute="trailing" secondItem="1IZ-SP-2w1" secondAttribute="trailing" id="ugP-gu-NwO"/>
-                                    <constraint firstItem="Aa9-0c-Zz6" firstAttribute="top" secondItem="1IZ-SP-2w1" secondAttribute="top" id="xPe-fi-Oph"/>
-                                </constraints>
-                            </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="eIF-np-185">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="636"/>
                                 <color key="backgroundColor" red="0.92549019610000005" green="0.92549019610000005" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
@@ -4831,6 +4659,178 @@
                                     <outlet property="delegate" destination="a39-f0-7jx" id="7TY-Nb-Rgh"/>
                                 </connections>
                             </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rBo-hQ-nNA" userLabel="FooterBar">
+                                <rect key="frame" x="0.0" y="691" width="414" height="45"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MAl-Vl-UxH">
+                                        <rect key="frame" x="15" y="3" width="25" height="25"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="25" id="hKZ-Pw-cXl"/>
+                                            <constraint firstAttribute="width" constant="25" id="wfy-8g-qtF"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <state key="normal" title="Button" image="ic_like">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="onClickLikeOrUnlikeButton:" destination="a39-f0-7jx" eventType="touchUpInside" id="6jB-1a-mBk"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v1O-yZ-GQ6">
+                                        <rect key="frame" x="12" y="28" width="30" height="15"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="15" id="gf3-er-7cb"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <state key="normal" title="Like">
+                                            <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="onClickLikeOrUnlikeButton:" destination="a39-f0-7jx" eventType="touchUpInside" id="4pW-BU-icE"/>
+                                        </connections>
+                                    </button>
+                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4fM-kR-mov" userLabel="sellerSoldButtonsLayout">
+                                        <rect key="frame" x="55" y="0.0" width="359" height="45"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZAD-pW-leU">
+                                                <rect key="frame" x="0.0" y="0.0" width="359" height="45"/>
+                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
+                                                <state key="normal" title="Sold - View Chats"/>
+                                                <connections>
+                                                    <segue destination="K3t-LR-EuE" kind="show" identifier="soldViewChat" id="SC0-fE-foi"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstItem="ZAD-pW-leU" firstAttribute="leading" secondItem="4fM-kR-mov" secondAttribute="leading" id="5co-Uv-9Wq"/>
+                                            <constraint firstAttribute="bottom" secondItem="ZAD-pW-leU" secondAttribute="bottom" id="BVF-le-EZ1"/>
+                                            <constraint firstAttribute="trailing" secondItem="ZAD-pW-leU" secondAttribute="trailing" id="HF4-l6-qhA"/>
+                                            <constraint firstItem="ZAD-pW-leU" firstAttribute="top" secondItem="4fM-kR-mov" secondAttribute="top" id="m1i-Of-r4j"/>
+                                        </constraints>
+                                    </view>
+                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ADg-Zg-gNb" userLabel="sellerButtonsLayout">
+                                        <rect key="frame" x="55" y="0.0" width="359" height="45"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="COA-Pb-bQ8">
+                                                <rect key="frame" x="0.0" y="0.0" width="180" height="45"/>
+                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
+                                                <state key="normal" title="View Chats"/>
+                                                <connections>
+                                                    <segue destination="K3t-LR-EuE" kind="show" identifier="viewChats" id="Ds4-XX-fSh"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N1m-Yk-Qrt">
+                                                <rect key="frame" x="179" y="0.0" width="180" height="45"/>
+                                                <color key="backgroundColor" red="0.031372549020000001" green="0.71764705880000002" blue="0.1058823529" alpha="1" colorSpace="calibratedRGB"/>
+                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
+                                                <state key="normal" title="Mark as Sold"/>
+                                                <connections>
+                                                    <action selector="onClickMarkAsSold:" destination="a39-f0-7jx" eventType="touchUpInside" id="1K6-AJ-R1u"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstItem="COA-Pb-bQ8" firstAttribute="leading" secondItem="ADg-Zg-gNb" secondAttribute="leading" id="8sI-p4-xcW"/>
+                                            <constraint firstItem="N1m-Yk-Qrt" firstAttribute="leading" secondItem="COA-Pb-bQ8" secondAttribute="trailing" id="AZG-JR-Cxb"/>
+                                            <constraint firstAttribute="bottom" secondItem="N1m-Yk-Qrt" secondAttribute="bottom" id="JrY-lJ-058"/>
+                                            <constraint firstItem="N1m-Yk-Qrt" firstAttribute="top" secondItem="ADg-Zg-gNb" secondAttribute="top" id="QMh-wm-R4X"/>
+                                            <constraint firstAttribute="bottom" secondItem="COA-Pb-bQ8" secondAttribute="bottom" id="XOf-Zm-0B5"/>
+                                            <constraint firstItem="COA-Pb-bQ8" firstAttribute="top" secondItem="ADg-Zg-gNb" secondAttribute="top" id="ad2-gs-WdF"/>
+                                            <constraint firstItem="COA-Pb-bQ8" firstAttribute="width" secondItem="N1m-Yk-Qrt" secondAttribute="width" id="ctt-eu-gZh"/>
+                                            <constraint firstAttribute="trailing" secondItem="N1m-Yk-Qrt" secondAttribute="trailing" id="f8N-1n-L5n"/>
+                                        </constraints>
+                                    </view>
+                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1IZ-SP-2w1" userLabel="buyerButtonsLayout">
+                                        <rect key="frame" x="55" y="0.0" width="359" height="45"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XSw-fb-wAp" userLabel="BuyNow Btn">
+                                                <rect key="frame" x="179" y="0.0" width="180" height="45"/>
+                                                <color key="backgroundColor" red="1" green="0.46274509800000002" blue="0.64313725489999995" alpha="1" colorSpace="calibratedRGB"/>
+                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
+                                                <state key="normal" title="Buy Now">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="onClickBuyNow:" destination="a39-f0-7jx" eventType="touchUpInside" id="bkJ-vd-TQ5"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uJg-Os-pQA" userLabel="Chat Btn">
+                                                <rect key="frame" x="0.0" y="0.0" width="180" height="45"/>
+                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
+                                                <state key="normal" title="Chat">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="onClickChatNow:" destination="a39-f0-7jx" eventType="touchUpInside" id="Y19-QT-NRo"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="XSw-fb-wAp" secondAttribute="trailing" id="0Qu-GD-n0M"/>
+                                            <constraint firstItem="uJg-Os-pQA" firstAttribute="top" secondItem="1IZ-SP-2w1" secondAttribute="top" id="2Yb-Z4-8UV"/>
+                                            <constraint firstAttribute="bottom" secondItem="XSw-fb-wAp" secondAttribute="bottom" id="6dp-GT-DLx"/>
+                                            <constraint firstItem="XSw-fb-wAp" firstAttribute="top" secondItem="1IZ-SP-2w1" secondAttribute="top" id="TKe-LO-Uqr"/>
+                                            <constraint firstItem="XSw-fb-wAp" firstAttribute="leading" secondItem="uJg-Os-pQA" secondAttribute="trailing" id="aeZ-9y-Kqt"/>
+                                            <constraint firstAttribute="bottom" secondItem="uJg-Os-pQA" secondAttribute="bottom" id="bBl-5A-FNe"/>
+                                            <constraint firstItem="uJg-Os-pQA" firstAttribute="width" secondItem="XSw-fb-wAp" secondAttribute="width" id="hKR-dk-pmY"/>
+                                            <constraint firstItem="uJg-Os-pQA" firstAttribute="leading" secondItem="1IZ-SP-2w1" secondAttribute="leading" id="p2S-sU-1UL"/>
+                                        </constraints>
+                                    </view>
+                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Aa9-0c-Zz6" userLabel="buyerSoldButtonsLayout">
+                                        <rect key="frame" x="55" y="0.0" width="359" height="45"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2he-7h-t9I" userLabel="SoldText">
+                                                <rect key="frame" x="0.0" y="0.0" width="359" height="45"/>
+                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
+                                                <state key="normal" title="Sold"/>
+                                                <connections>
+                                                    <action selector="onClickSold:" destination="a39-f0-7jx" eventType="touchUpInside" id="J6t-CF-9OQ"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstItem="2he-7h-t9I" firstAttribute="top" secondItem="Aa9-0c-Zz6" secondAttribute="top" id="V7L-FY-rTJ"/>
+                                            <constraint firstItem="2he-7h-t9I" firstAttribute="leading" secondItem="Aa9-0c-Zz6" secondAttribute="leading" id="X5f-fd-k1I"/>
+                                            <constraint firstAttribute="trailing" secondItem="2he-7h-t9I" secondAttribute="trailing" id="cgf-UY-hmy"/>
+                                            <constraint firstAttribute="bottom" secondItem="2he-7h-t9I" secondAttribute="bottom" id="lyr-hl-K2x"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="1IZ-SP-2w1" secondAttribute="trailing" id="3mO-53-3ub"/>
+                                    <constraint firstItem="Aa9-0c-Zz6" firstAttribute="bottom" secondItem="1IZ-SP-2w1" secondAttribute="bottom" id="8EC-Kv-qk1"/>
+                                    <constraint firstItem="Aa9-0c-Zz6" firstAttribute="leading" secondItem="1IZ-SP-2w1" secondAttribute="leading" id="9cM-Sv-uDe"/>
+                                    <constraint firstAttribute="height" constant="45" id="DWg-oa-avl"/>
+                                    <constraint firstItem="4fM-kR-mov" firstAttribute="leading" secondItem="1IZ-SP-2w1" secondAttribute="leading" id="IWR-zp-g8U"/>
+                                    <constraint firstItem="4fM-kR-mov" firstAttribute="bottom" secondItem="1IZ-SP-2w1" secondAttribute="bottom" id="KmH-7J-xi7"/>
+                                    <constraint firstItem="4fM-kR-mov" firstAttribute="top" secondItem="1IZ-SP-2w1" secondAttribute="top" id="Mfi-pk-n5X"/>
+                                    <constraint firstItem="ADg-Zg-gNb" firstAttribute="trailing" secondItem="1IZ-SP-2w1" secondAttribute="trailing" id="NJ6-VP-XGq"/>
+                                    <constraint firstItem="1IZ-SP-2w1" firstAttribute="top" secondItem="rBo-hQ-nNA" secondAttribute="top" id="PXe-kv-faI"/>
+                                    <constraint firstItem="ADg-Zg-gNb" firstAttribute="bottom" secondItem="1IZ-SP-2w1" secondAttribute="bottom" id="TS6-LH-sZE"/>
+                                    <constraint firstItem="1IZ-SP-2w1" firstAttribute="leading" secondItem="MAl-Vl-UxH" secondAttribute="trailing" constant="15" id="Zcw-KE-Q3p"/>
+                                    <constraint firstAttribute="bottom" secondItem="1IZ-SP-2w1" secondAttribute="bottom" id="cDk-Lu-Xfa"/>
+                                    <constraint firstItem="v1O-yZ-GQ6" firstAttribute="centerX" secondItem="MAl-Vl-UxH" secondAttribute="centerX" id="ded-6L-I8T"/>
+                                    <constraint firstItem="ADg-Zg-gNb" firstAttribute="top" secondItem="1IZ-SP-2w1" secondAttribute="top" id="ea9-Fu-ucX"/>
+                                    <constraint firstItem="ADg-Zg-gNb" firstAttribute="leading" secondItem="1IZ-SP-2w1" secondAttribute="leading" id="fIl-32-ipZ"/>
+                                    <constraint firstItem="MAl-Vl-UxH" firstAttribute="leading" secondItem="rBo-hQ-nNA" secondAttribute="leading" constant="15" id="gBF-8C-gKH"/>
+                                    <constraint firstAttribute="bottom" secondItem="v1O-yZ-GQ6" secondAttribute="bottom" constant="2" id="mDH-ue-Z0i"/>
+                                    <constraint firstItem="MAl-Vl-UxH" firstAttribute="top" secondItem="rBo-hQ-nNA" secondAttribute="top" constant="3" id="mdB-l8-Tyn"/>
+                                    <constraint firstItem="4fM-kR-mov" firstAttribute="trailing" secondItem="1IZ-SP-2w1" secondAttribute="trailing" id="rLx-aP-bdP"/>
+                                    <constraint firstItem="Aa9-0c-Zz6" firstAttribute="trailing" secondItem="1IZ-SP-2w1" secondAttribute="trailing" id="ugP-gu-NwO"/>
+                                    <constraint firstItem="Aa9-0c-Zz6" firstAttribute="top" secondItem="1IZ-SP-2w1" secondAttribute="top" id="xPe-fi-Oph"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.92549019610000005" green="0.92549019610000005" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
