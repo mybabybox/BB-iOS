@@ -76,6 +76,17 @@ class ApiController {
         self.makeApiCall(callEvent)
     }
     
+    func getUserByDisplayName(displayName: String) {
+        let callEvent = ApiCallEvent()
+        //callEvent.method = "/api/get-user-by-displayname/\(displayName)"
+        callEvent.method = "/api/get-user/9"
+        callEvent.resultClass = "UserVM"
+        callEvent.successEventbusName = "onSuccessGetUser"
+        callEvent.failedEventbusName = "onFailureGetUser"
+        callEvent.apiUrl = Constants.BASE_URL + callEvent.method
+        self.makeApiCall(callEvent)
+    }
+    
     func getUserActivities(offset: Int64) {
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/get-activities/\(offset)"
