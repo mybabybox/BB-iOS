@@ -81,8 +81,8 @@ class ApiController {
         //callEvent.method = "/api/get-user-by-displayname/\(displayName)"
         callEvent.method = "/api/get-user/9"
         callEvent.resultClass = "UserVM"
-        callEvent.successEventbusName = "onSuccessGetUser"
-        callEvent.failedEventbusName = "onFailureGetUser"
+        callEvent.successEventbusName = "onSuccessGetUserByDisplayName"
+        callEvent.failedEventbusName = "onFailureGetUserByDisplayName"
         callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         self.makeApiCall(callEvent)
     }
