@@ -17,7 +17,9 @@ class SignupDetailViewController: BaseLoginViewController, UITextFieldDelegate, 
     
     let locationDropDown = DropDown()
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewWillAppear(animated: Bool) {
+        self.navigationController?.navigationBarHidden = true
+        self.navigationController?.interactivePopGestureRecognizer?.enabled = false
     }
         
     override func viewDidLoad() {

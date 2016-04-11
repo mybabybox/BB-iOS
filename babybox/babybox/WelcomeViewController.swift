@@ -29,8 +29,8 @@ class WelcomeViewController: UIViewController, UITableViewDelegate, UITableViewD
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.navigationController?.toolbar.hidden = true
-        self.navigationController?.navigationBar.hidden = true
+        self.navigationController?.toolbarHidden = true
+        self.navigationController?.navigationBarHidden = true
 
         self.navigationController?.interactivePopGestureRecognizer?.enabled = false
         

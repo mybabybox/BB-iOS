@@ -28,7 +28,9 @@ class SignupViewController: BaseLoginViewController {
     @IBOutlet weak var confirmPasswordText: UITextField!
     @IBOutlet weak var signUpBtn: UIButton!
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewWillAppear(animated: Bool) {
+        self.navigationController?.navigationBarHidden = true
+        self.navigationController?.interactivePopGestureRecognizer?.enabled = false
     }
    
     override func viewDidLoad() {

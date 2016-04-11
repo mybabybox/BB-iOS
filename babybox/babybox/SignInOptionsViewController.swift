@@ -13,6 +13,11 @@ import FBSDKLoginKit
 
 class SignInOptionsViewController: BaseLoginViewController {
 
+    override func viewWillAppear(animated: Bool) {
+        self.navigationController?.navigationBarHidden = true
+        self.navigationController?.interactivePopGestureRecognizer?.enabled = false
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

@@ -17,20 +17,18 @@ class LoginViewController: BaseLoginViewController, UITextFieldDelegate {
     @IBOutlet weak var userNameTxt: UITextField!
     @IBOutlet weak var passwordTxt: UITextField!
         
-    override func viewDidAppear(animated: Bool) {
+    override func viewWillAppear(animated: Bool) {
+        self.navigationController?.navigationBarHidden = true
+        self.navigationController?.interactivePopGestureRecognizer?.enabled = false
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationController?.toolbar.hidden = true
-        self.navigationController?.interactivePopGestureRecognizer?.enabled = false
-
         self.userNameTxt.delegate = self
         self.passwordTxt.delegate = self
         
         ViewUtil.displayRoundedCornerView(self.loginButton, bgColor: Color.PINK)
-        
     }
     
     @IBAction func onEmailLogin(sender: UIButton) {
@@ -53,7 +51,6 @@ class LoginViewController: BaseLoginViewController, UITextFieldDelegate {
         if (identifier == "gotoforgotpassword") {
             return true
         } else if (identifier == "showSignupView") {
-            self.navigationController?.navigationBar.hidden = false
             return true
         }
         

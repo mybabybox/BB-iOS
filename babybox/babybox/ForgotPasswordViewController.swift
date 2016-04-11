@@ -15,15 +15,13 @@ class ForgotPasswordViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var forgotPasswordWebView: UIWebView!
     
-    override func viewDidAppear(animated: Bool) {
-        
+    override func viewWillAppear(animated: Bool) {
+        self.navigationController?.navigationBarHidden = false
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "actionbar_bg_pink"), forBarMetrics: UIBarMetrics.Default)
-        ViewUtil.setCustomBackButton(self, action:"onBackPressed:")
         forgotPasswordWebView.loadRequest(NSURLRequest(URL: NSURL(string: ForgotPasswordViewController.FORGET_PASSWORD_URL)!))
     }
 
@@ -34,14 +32,5 @@ class ForgotPasswordViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidDisappear(animated: Bool) {
         self.navigationController?.navigationBar.hidden = true
-    }
-
-    func onBackPressed(sender: UIBarButtonItem) {
-        /*let app = UIApplication.sharedApplication().delegate as! AppDelegate
-        let navController = app.window?.rootViewController as! UINavigationController
-        //navController.popViewControllerAnimated(true)
-        navController.popToRootViewControllerAnimated(true)*/
-        let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("LoginViewController") as! LoginViewController
-        self.navigationController?.pushViewController(vController, animated: true)
     }
 }
