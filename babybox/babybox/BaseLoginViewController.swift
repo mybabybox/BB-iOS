@@ -53,8 +53,6 @@ class BaseLoginViewController: UIViewController {
     }
     
     func postLogin() {
-        self.isUserLoggedIn = true
-        
         // register notif
         
         //self.performSegueWithIdentifier("clickToLogin", sender: nil)
@@ -72,6 +70,8 @@ class BaseLoginViewController: UIViewController {
         
         self.navigationController?.toolbarHidden = true
         self.navigationController?.navigationBarHidden = true
+        
+        SwiftEventBus.unregister(self)
         
         SwiftEventBus.onMainThread(self, name: "loginReceivedSuccess") { result in
             if ViewUtil.isEmptyResult(result) {
