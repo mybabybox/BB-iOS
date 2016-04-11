@@ -34,7 +34,20 @@ class SignupDetailViewController: BaseLoginViewController, UITextFieldDelegate, 
         }
         
         SwiftEventBus.onMainThread(self, name: "saveSignUpInfoFailed") { result in
-            self.onFailure("Failed to register user details")
+            /*
+            var message = ""
+            if result.object is NSString {
+                message = result.object as! String
+            }
+            
+            if message.isEmpty {
+                message = "Failed to register user details"
+            }
+            self.onFailure(message)
+            */
+            
+            ViewUtil.showDialog("Login Error", message: "Username already exists. Please try another one.", view: self)
+            self.stopLoading()
         }
         
         ViewUtil.displayRoundedCornerView(self.submitBtn, bgColor: Color.PINK)
