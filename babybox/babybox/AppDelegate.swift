@@ -105,14 +105,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(app: UIApplication, openURL url: NSURL, options: [String : AnyObject]) -> Bool {
         let pathVariables = url.pathComponents
-        if pathVariables?.count >= 3 {
+        if pathVariables?.count == 2 { //assuming the url is of Seller
+            UrlUtil.sellerName = pathVariables![0]
+            UrlUtil.isSellerDeepLink = true
+        } else if pathVariables?.count >= 3 { //assuming the url is of product
             if pathVariables![(pathVariables?.count)! - 2] == "product" {
-                ViewUtil.deepLinkProductId = Int(pathVariables![(pathVariables?.count)! - 1])!
-                let viewController = (self.window?.rootViewController?.storyboard?.instantiateViewControllerWithIdentifier("SplashViewController"))! as! SplashViewController
-                let vc = self.window!.rootViewController as! UINavigationController
-                vc.pushViewController(viewController, animated: true)
+                UrlUtil.deepLinkProductId = Int(pathVariables![(pathVariables?.count)! - 1])!
+                UrlUtil.isProductDeepLink = true
             }
         }
+        
+        let viewController = (self.window?.rootViewController?.storyboard?.instantiateViewControllerWithIdentifier("SplashViewController"))! as! SplashViewController
+        let vc = self.window!.rootViewController as! UINavigationController
+        vc.pushViewController(viewController, animated: true)
         return true
     }
     // custom

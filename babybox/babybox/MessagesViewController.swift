@@ -41,6 +41,15 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
     var lastItemPosition = 0
     var bubbleData: ChatBubbleData?
     
+    @IBOutlet weak var buyerButtonsLayout: UIView! //Parent Layout
+    @IBOutlet weak var buyerOrderLayout: UIView!
+    @IBOutlet weak var buyerCancelLayout: UIView!
+    @IBOutlet weak var buyerMessageLayout: UIView!
+    
+    @IBOutlet weak var sellerButtonsLayout: UIView! //Parent Layout
+    @IBOutlet weak var sellerAcceptDeclineLayout: UIView!
+    @IBOutlet weak var sellerMessageLayout: UIView!
+    
     static var instance: MessagesViewController?
     
     override func viewDidDisappear(animated: Bool) {
