@@ -141,7 +141,9 @@ class BaseLoginViewController: UIViewController {
             FBSDKLoginManager().logOut()
         }
         
-        FBSDKLoginManager().logInWithReadPermissions(self.facebookReadPermissions, handler: { (result:FBSDKLoginManagerLoginResult!, error:NSError!) -> Void in
+        let fbLoginManager = FBSDKLoginManager()
+        fbLoginManager.loginBehavior = FBSDKLoginBehavior.SystemAccount
+        fbLoginManager.logInWithReadPermissions(self.facebookReadPermissions, handler: { (result:FBSDKLoginManagerLoginResult!, error:NSError!) -> Void in
             if error != nil {
                 //According to Facebook:
                 //Errors will rarely occur in the typical login flow because the login dialog
