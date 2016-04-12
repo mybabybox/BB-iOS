@@ -30,7 +30,7 @@ class ApiFacade {
             if failureCallback != nil {
                 var error = "Failed to login by facebook..."
                 if result.object is NSString {
-                    error += "\n"+(result.object as! String)
+                    error = result.object as! String
                 }
                 failureCallback!(error)
             }
@@ -57,7 +57,7 @@ class ApiFacade {
             if failureCallback != nil {
                 var error = "Failed to login by email..."
                 if result.object is NSString {
-                    error += "\n"+(result.object as! String)
+                    error = result.object as! String
                 }
                 failureCallback!(error)
             }
