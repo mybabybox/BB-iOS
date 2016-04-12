@@ -420,5 +420,10 @@ class ViewUtil {
         }
     }
     
+    static func displayRoundedCornerBtnView(view: UIButton) {
+        view.layer.cornerRadius = 7.0
+        view.layer.masksToBounds = true
+        view.layer.borderWidth = 0
+    }
     
 }
