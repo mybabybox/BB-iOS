@@ -141,7 +141,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
     
     func keyboardWillHide(notification: NSNotification) {
         UIView.animateWithDuration(1.0, animations: { () -> Void in
-            self.buttomLayoutConstraint.constant = 0.0
+            //self.buttomLayoutConstraint.constant = 0.0
             }) { (completed: Bool) -> Void in
                 self.moveToFirstMessage()
         }
@@ -432,49 +432,22 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         ViewUtil.displayRoundedCornerBtnView(self.sellerAcceptButton)
         ViewUtil.displayRoundedCornerBtnView(self.sellerDeclineButton)
         
-        let buyerMessageLayoutConstraint = NSLayoutConstraint(item: self.buyerMessageButton,
-            attribute: .Right,
-            relatedBy: .Equal,
-            toItem: self.view,
-            attribute: .Right,
-            multiplier: 0.70,
-            constant: 0.0)
-        self.view.addConstraint(buyerMessageLayoutConstraint)
+        let buyerMessageLayoutConstraint = ViewUtil.applyWidthConstraints(self.buyerMessageButton, toView: self.view, multiplierValue: 0.70)
         
-        let buyerCancelLayoutConstraint = NSLayoutConstraint(item: self.ordered,
-            attribute: .Right,
-            relatedBy: .Equal,
-            toItem: self.view,
-            attribute: .Right,
-            multiplier: 0.30,
-            constant: 0.0)
+        self.view.addConstraint(buyerMessageLayoutConstraint)
+        let buyerCancelLayoutConstraint = ViewUtil.applyWidthConstraints(self.ordered, toView: self.view, multiplierValue: 0.30)
         self.view.addConstraint(buyerCancelLayoutConstraint)
         
-        let buyerOrderLayoutConstraint = NSLayoutConstraint(item: self.interested,
-            attribute: .Right,
-            relatedBy: .Equal,
-            toItem: self.view,
-            attribute: .Right,
-            multiplier: 0.30,
-            constant: 0.0)
+        let buyerOrderLayoutConstraint = ViewUtil.applyWidthConstraints(self.interested, toView: self.view, multiplierValue: 0.30)
+        
         self.view.addConstraint(buyerOrderLayoutConstraint)
         
-        let sellerAcceptDeclineLayoutConstraint = NSLayoutConstraint(item: self.orderText,
-            attribute: .Right,
-            relatedBy: .Equal,
-            toItem: self.view,
-            attribute: .Right,
-            multiplier: 0.50,
-            constant: 0.0)
+        let sellerAcceptDeclineLayoutConstraint = ViewUtil.applyWidthConstraints(self.orderText, toView: self.view, multiplierValue: 0.50)
+        
         self.view.addConstraint(sellerAcceptDeclineLayoutConstraint)
         
-       let sellerAcceptDeclineBtnConstraint = NSLayoutConstraint(item: self.sellerDeclineButton,
-            attribute: .Right,
-            relatedBy: .Equal,
-            toItem: self.view,
-            attribute: .Right,
-            multiplier: 0.80,
-            constant: 0.0)
+        let sellerAcceptDeclineBtnConstraint = ViewUtil.applyWidthConstraints(self.sellerDeclineButton, toView: self.view, multiplierValue: 0.50)
+        
         self.view.addConstraint(sellerAcceptDeclineBtnConstraint)
         
         /*let sellerMessageLayoutConstraint = NSLayoutConstraint(item: self.interested,

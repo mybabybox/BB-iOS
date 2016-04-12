@@ -426,4 +426,15 @@ class ViewUtil {
         view.layer.borderWidth = 0
     }
     
+    static func applyWidthConstraints(fromView: UIView, toView: UIView, multiplierValue: CGFloat) -> NSLayoutConstraint {
+        let uiConstraint = NSLayoutConstraint(item: fromView,
+            attribute: .Right,
+            relatedBy: .Equal,
+            toItem: toView,
+            attribute: .Right,
+            multiplier: multiplierValue,
+            constant: 0.0)
+        return uiConstraint
+    }
+    
 }
