@@ -134,6 +134,8 @@ class ViewUtil {
         
         if borderColor != nil {
             view.layer.borderColor = borderColor!.CGColor
+        } else if bgColor != nil {
+            view.layer.borderColor = bgColor!.CGColor
         } else {
             view.layer.borderColor = Color.LIGHT_GRAY_2.CGColor
         }
