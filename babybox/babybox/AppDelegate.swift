@@ -43,6 +43,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let isFacebookURL = url.scheme.hasPrefix("fb\(FBSDKSettings.appID())") && url.host == "authorize"
         if isFacebookURL {
             return FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
+        } else {
+            let isDeepLinkUrl = url.scheme.hasPrefix("beautypop")
+            if isDeepLinkUrl {
+                let pathVariables = url.pathComponents
+                if pathVariables?.count == 2 { //assuming the url is of Seller
+                    UrlUtil.sellerName = pathVariables![0]
+                    UrlUtil.isSellerDeepLink = true
+                } else if pathVariables?.count >= 3 { //assuming the url is of product
+                    if pathVariables![(pathVariables?.count)! - 2] == "product" {
+                        UrlUtil.deepLinkProductId = Int(pathVariables![(pathVariables?.count)! - 1])!
+                        UrlUtil.isProductDeepLink = true
+                    }
+                }
+                
+                let viewController = (self.window?.rootViewController?.storyboard?.instantiateViewControllerWithIdentifier("SplashViewController"))! as! SplashViewController
+                let vc = self.window!.rootViewController as! UINavigationController
+                vc.pushViewController(viewController, animated: true)
+                return true
+            }
         }
         return false
     }
@@ -103,7 +122,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         ViewUtil.handlePushNotification(notif)
     }
     
-    func application(app: UIApplication, openURL url: NSURL, options: [String : AnyObject]) -> Bool {
+    /*func application(app: UIApplication, openURL url: NSURL, options: [String : AnyObject]) -> Bool {
         let pathVariables = url.pathComponents
         if pathVariables?.count == 2 { //assuming the url is of Seller
             UrlUtil.sellerName = pathVariables![0]
@@ -119,7 +138,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let vc = self.window!.rootViewController as! UINavigationController
         vc.pushViewController(viewController, animated: true)
         return true
-    }
+    }*/
     // custom
     
     var apnsDeviceToken: String? {

@@ -50,6 +50,16 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
     @IBOutlet weak var sellerAcceptDeclineLayout: UIView!
     @IBOutlet weak var sellerMessageLayout: UIView!
     
+    @IBOutlet weak var sellerMessageButton: UIButton!
+    @IBOutlet weak var orderText: UILabel!
+    @IBOutlet weak var sellerDeclineButton: UIButton!
+    @IBOutlet weak var sellerAcceptButton: UIButton!
+    @IBOutlet weak var interested: UILabel!
+    @IBOutlet weak var ordered: UILabel!
+    @IBOutlet weak var buyerOrderButton: UIButton!
+    @IBOutlet weak var buyerCancelButton: UIButton!
+    @IBOutlet weak var buyerMessageButton: UIButton!
+    @IBOutlet weak var buyerOrderAgainButton: UIButton!
     static var instance: MessagesViewController?
     
     override func viewDidDisappear(animated: Bool) {
@@ -95,6 +105,8 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         
         ViewUtil.displayRoundedCornerView(self.sendButton)
         self.sendButton.layer.borderWidth = 0
+        
+        self.initializeConversationButtons()
     }
     
     override func didReceiveMemoryWarning() {
@@ -129,7 +141,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
     
     func keyboardWillHide(notification: NSNotification) {
         UIView.animateWithDuration(1.0, animations: { () -> Void in
-            self.buttomLayoutConstraint.constant = 0.0
+            //self.buttomLayoutConstraint.constant = 0.0
             }) { (completed: Bool) -> Void in
                 self.moveToFirstMessage()
         }
@@ -408,6 +420,73 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
         ViewUtil.showDialog("Error", message: error, view: self)
         self.reset()
+    }
+    
+    func initializeConversationButtons() {
+        
+        //ViewUtil.displayRoundedCornerView(self.buyerMessageButton)
+        ViewUtil.displayRoundedCornerBtnView(self.buyerCancelButton)
+        ViewUtil.displayRoundedCornerBtnView(self.buyerOrderAgainButton)
+        ViewUtil.displayRoundedCornerBtnView(self.buyerOrderButton)
+        
+        ViewUtil.displayRoundedCornerBtnView(self.sellerAcceptButton)
+        ViewUtil.displayRoundedCornerBtnView(self.sellerDeclineButton)
+        
+        let buyerMessageLayoutConstraint = ViewUtil.applyWidthConstraints(self.buyerMessageButton, toView: self.view, multiplierValue: 0.70)
+        
+        self.view.addConstraint(buyerMessageLayoutConstraint)
+        let buyerCancelLayoutConstraint = ViewUtil.applyWidthConstraints(self.ordered, toView: self.view, multiplierValue: 0.30)
+        self.view.addConstraint(buyerCancelLayoutConstraint)
+        
+        let buyerOrderLayoutConstraint = ViewUtil.applyWidthConstraints(self.interested, toView: self.view, multiplierValue: 0.30)
+        
+        self.view.addConstraint(buyerOrderLayoutConstraint)
+        
+        let sellerAcceptDeclineLayoutConstraint = ViewUtil.applyWidthConstraints(self.orderText, toView: self.view, multiplierValue: 0.50)
+        
+        self.view.addConstraint(sellerAcceptDeclineLayoutConstraint)
+        
+        let sellerAcceptDeclineBtnConstraint = ViewUtil.applyWidthConstraints(self.sellerDeclineButton, toView: self.view, multiplierValue: 0.50)
+        
+        self.view.addConstraint(sellerAcceptDeclineBtnConstraint)
+        
+        /*let sellerMessageLayoutConstraint = NSLayoutConstraint(item: self.interested,
+            attribute: .Right,
+            relatedBy: .Equal,
+            toItem: self.view,
+            attribute: .Right,
+            multiplier: 0.30,
+            constant: 0.0)*/
+        
+        //self.view.addConstraint(sellerMessageLayoutConstraint)
+    }
+    
+    @IBAction func onClickBuyerMessageButton(sender: AnyObject) {
+        NSLog("onClickBuyerMessageButton")
+    }
+    
+    @IBAction func onClickBuyerOrderAgainButton(sender: AnyObject) {
+        NSLog("onClickBuyerOrderAgainButton")
+    }
+    
+    @IBAction func onClickBuyerCancelButton(sender: AnyObject) {
+        NSLog("onClickBuyerCancelButton")
+    }
+    
+    @IBAction func onClickBuyerOrderButton(sender: AnyObject) {
+        NSLog("onClickBuyerOrderButton")
+    }
+    
+    @IBAction func onClickSellerAcceptButton(sender: AnyObject) {
+        NSLog("onClickSellerAcceptButton")
+    }
+    
+    @IBAction func onClickSellerDeclineButton(sender: AnyObject) {
+        NSLog("onClickSellerDeclineButton")
+    }
+    
+    @IBAction func onClickSellerMessageButton(sender: AnyObject) {
+        NSLog("onClickSellerMessageButton")
     }
     
 }
