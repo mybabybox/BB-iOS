@@ -11,23 +11,24 @@ import SwiftEventBus
 
 class ApiFacade {
 
-    static func getPost(id: Int, successCallback: ((PostVM) -> Void)?, failureCallback: ((String) -> Void)?) {
+    
+    static func loginByFacebook(authToken: String, successCallback: ((String) -> Void)?, failureCallback: ((String) -> Void)?) {
         SwiftEventBus.unregister(self)
         
-        SwiftEventBus.onMainThread(self, name: "onSuccessGetPost") { result in
+        SwiftEventBus.onMainThread(self, name: "onSuccessLoginByFacebook") { result in
             if ViewUtil.isEmptyResult(result) {
-                failureCallback!("Product may be deleted (ID:\(id))")
+                failureCallback!("User is not logged in")
                 return
             }
             
             if successCallback != nil {
-                successCallback!((result.object as? PostVM)!)
+                successCallback!(result.object as! String)
             }
         }
         
-        SwiftEventBus.onMainThread(self, name: "onFailureGetPost") { result in
+        SwiftEventBus.onMainThread(self, name: "onFailureLoginByFacebook") { result in
             if failureCallback != nil {
-                var error = "Failed to get product info..."
+                var error = "Failed to login by facebook..."
                 if result.object is NSString {
                     error += "\n"+(result.object as! String)
                 }
@@ -35,9 +36,127 @@ class ApiFacade {
             }
         }
         
-        ApiController.instance.getPost(id)
+        ApiController.instance.loginByFacebook(authToken)
     }
     
+    static func loginByEmail(userName: String, password: String, successCallback: ((String) -> Void)?, failureCallback: ((String) -> Void)?) {
+        SwiftEventBus.unregister(self)
+        
+        SwiftEventBus.onMainThread(self, name: "onSuccessLoginByEmail") { result in
+            if ViewUtil.isEmptyResult(result) {
+                failureCallback!("User is not logged in")
+                return
+            }
+            
+            if successCallback != nil {
+                successCallback!(result.object as! String)
+            }
+        }
+        
+        SwiftEventBus.onMainThread(self, name: "onFailureLoginByEmail") { result in
+            if failureCallback != nil {
+                var error = "Failed to login by email..."
+                if result.object is NSString {
+                    error += "\n"+(result.object as! String)
+                }
+                failureCallback!(error)
+            }
+        }
+        
+        ApiController.instance.loginByEmail(userName, password: password)
+    }
+    
+    static func signUp(email: String, fname: String, lname: String, password: String, repeatPassword: String,
+                       successCallback: ((String) -> Void)?, failureCallback: ((String) -> Void)?) {
+        
+        SwiftEventBus.unregister(self)
+        
+        SwiftEventBus.onMainThread(self, name: "onSuccessSignUp") { result in
+             if ViewUtil.isEmptyResult(result) {
+                failureCallback!("No response for sign up. Please try again later.")
+                return
+             }
+            
+            if successCallback != nil {
+                successCallback!(result.object as! String)
+            }
+        }
+        
+        SwiftEventBus.onMainThread(self, name: "onFailureSignUp") { result in
+            if failureCallback != nil {
+                let error = "Email is already registered. Please try another email or sign up with Facebook."
+                /*
+                if result.object is NSString {
+                    error += "\n"+(result.object as! String)
+                }
+                */
+                failureCallback!(error)
+            }
+        }
+        
+        ApiController.instance.signUp(email, fname: fname, lname: lname, password: password, repeatPassword: repeatPassword)
+    }
+    
+    static func saveSignUpInfo(displayName: String, locationId: Int,
+                               successCallback: ((String) -> Void)?, failureCallback: ((String) -> Void)?) {
+        
+        SwiftEventBus.unregister(self)
+        
+        SwiftEventBus.onMainThread(self, name: "onSuccessSaveSignUpInfo") { result in
+            if ViewUtil.isEmptyResult(result) {
+                failureCallback!("No response for sign up. Please try again later.")
+                return
+            }
+            
+            if successCallback != nil {
+                successCallback!(result.object as! String)
+            }
+        }
+        
+        SwiftEventBus.onMainThread(self, name: "onFailureSaveSignUpInfo") { result in
+            if failureCallback != nil {
+                let error = "Username already exists. Please try another one."
+                /*
+                 if result.object is NSString {
+                 error += "\n"+(result.object as! String)
+                 }
+                 */
+                failureCallback!(error)
+            }
+        }
+        
+        ApiController.instance.saveSignUpInfo(displayName, locationId: locationId)
+    }
+    
+    static func initNewUser(successCallback: ((UserVM) -> Void)?, failureCallback: ((String) -> Void)?) {
+        SwiftEventBus.unregister(self)
+        
+        SwiftEventBus.onMainThread(self, name: "onSuccessGetUser") { result in
+            /*
+            if ViewUtil.isEmptyResult(result) {
+                failureCallback!("User returned is empty")
+                return
+            }
+            */
+            
+            if successCallback != nil {
+                successCallback!(result.object as! UserVM)
+            }
+        }
+        
+        SwiftEventBus.onMainThread(self, name: "onFailureGetUser") { result in
+            if failureCallback != nil {
+                var error = "Failed to initialize new user..."
+                if result.object is NSString {
+                    error += "\n"+(result.object as! String)
+                }
+                failureCallback!(error)
+            }
+        }
+        
+        ApiController.instance.initNewUser()
+    }
+
     static func getUser(id: Int, successCallback: ((UserVM) -> Void)?, failureCallback: ((String) -> Void)?) {
         SwiftEventBus.unregister(self)
         
@@ -48,7 +167,7 @@ class ApiFacade {
             }
             
             if successCallback != nil {
-                successCallback!((result.object as? UserVM)!)
+                successCallback!(result.object as! UserVM)
             }
         }
         
@@ -75,7 +194,7 @@ class ApiFacade {
             }
             
             if successCallback != nil {
-                successCallback!((result.object as? UserVM)!)
+                successCallback!(result.object as! UserVM)
             }
         }
         
@@ -92,6 +211,33 @@ class ApiFacade {
         ApiController.instance.getUserByDisplayName(displayName)
     }
 
+    static func getPost(id: Int, successCallback: ((PostVM) -> Void)?, failureCallback: ((String) -> Void)?) {
+        SwiftEventBus.unregister(self)
+        
+        SwiftEventBus.onMainThread(self, name: "onSuccessGetPost") { result in
+            if ViewUtil.isEmptyResult(result) {
+                failureCallback!("Product may be deleted (ID:\(id))")
+                return
+            }
+            
+            if successCallback != nil {
+                successCallback!(result.object as! PostVM)
+            }
+        }
+        
+        SwiftEventBus.onMainThread(self, name: "onFailureGetPost") { result in
+            if failureCallback != nil {
+                var error = "Failed to get product info..."
+                if result.object is NSString {
+                    error += "\n"+(result.object as! String)
+                }
+                failureCallback!(error)
+            }
+        }
+        
+        ApiController.instance.getPost(id)
+    }
+    
     static func getMessages(id: Int, offset: Int64, successCallback: ((MessageResponseVM) -> Void)?, failureCallback: ((String) -> Void)?) {
         SwiftEventBus.unregister(self)
         
@@ -102,7 +248,7 @@ class ApiFacade {
             }
             
             if successCallback != nil {
-                successCallback!((result.object as? MessageResponseVM)!)
+                successCallback!(result.object as! MessageResponseVM)
             }
         }
         
@@ -124,14 +270,9 @@ class ApiFacade {
         SwiftEventBus.unregister(self)
         
         SwiftEventBus.onMainThread(self, name: "onSuccessNewMessage") { result in
-            //if ViewUtil.isEmptyResult(result) {
-            //    failureCallback!("User returned is empty")
-            //    return
-            //}
-            
             if successCallback != nil {
                 if result.object is NSString {
-                    successCallback!((result.object as? String)!)
+                    successCallback!(result.object as! String)
                 } else {
                     successCallback!("")
                 }
@@ -140,7 +281,7 @@ class ApiFacade {
         
         SwiftEventBus.onMainThread(self, name: "onFailureNewMessage") { result in
             if failureCallback != nil {
-                var error = "Failed to get messages..."
+                var error = "Failed to send message..."
                 if result.object is NSString {
                     error += "\n"+(result.object as! String)
                 }

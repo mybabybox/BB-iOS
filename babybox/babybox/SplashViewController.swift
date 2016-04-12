@@ -35,23 +35,11 @@ class SplashViewController: UIViewController {
     }
     
     func initNewUser() {
-        SwiftEventBus.onMainThread(self, name: "initNewUserSuccess") { result in
-            /*
-            if ViewUtil.isEmptyResult(result) {
-                self.onFailure("No response for init new user")
-            } else {
-                //let userInfo: UserVM = result.object as! UserVM
-                self.showMainPage()
-            }
-            */
-            self.showMainPage()
-        }
-        
-        SwiftEventBus.onMainThread(self, name: "initNewUserFailed") { result in
-            self.onFailure("Failed to init new user")
-        }
-        
-        ApiController.instance.initNewUser()
+        ApiFacade.initNewUser(onSuccessInitNewUser, failureCallback: onFailure)
+    }
+    
+    func onSuccessInitNewUser(user: UserVM) {
+        self.showMainPage()
     }
     
     func onSuccessGetUserInfo(userInfo: UserVM) {

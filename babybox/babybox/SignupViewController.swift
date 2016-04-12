@@ -35,18 +35,6 @@ class SignupViewController: BaseLoginViewController {
    
     override func viewDidLoad() {
 
-        SwiftEventBus.onMainThread(self, name: "signUpSuccess") { result in
-            if ViewUtil.isEmptyResult(result) {
-                self.onFailure("No response for sign up. Please try again later.")
-            } else {
-                self.emailLogin(self.emailText.text!, password: self.passwordText.text!)
-            }
-        }
-        
-        SwiftEventBus.onMainThread(self, name: "signUpFailed") { result in
-            self.onFailure("Email is already registered")
-        }
-        
         ViewUtil.displayRoundedCornerView(self.signUpBtn, bgColor: Color.PINK)
         
         self.licenseBtn.layer.borderWidth = 1.0
@@ -58,10 +46,15 @@ class SignupViewController: BaseLoginViewController {
     
     @IBAction func onSignUp(sender: UIButton) {
         if isValid() {
-            ApiController.instance.signUp(emailText.text!, fname: firstNameText.text!, lname: lastNameText.text!,
-                password: passwordText.text!, repeatPassword: confirmPasswordText.text!)
             self.isValidForm = true
+            ApiFacade.signUp(emailText.text!, fname: firstNameText.text!, lname: lastNameText.text!,
+                password: passwordText.text!, repeatPassword: confirmPasswordText.text!,
+                successCallback: onSuccessSignUp, failureCallback: onFailure)
         }
+    }
+    
+    func onSuccessSignUp(response: String) {
+        self.emailLogin(self.emailText.text!, password: self.passwordText.text!)
     }
     
     func isValid() -> Bool {
@@ -122,26 +115,8 @@ class SignupViewController: BaseLoginViewController {
     }
     
     //MARK Segue handling methods.
-    /*
-    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
-        if (identifier == "signUpDetails") {
-            if(self.validateSignup()){
-                ApiController.instance.signIn(firstNameText.text!, lastNameText: lastNameText.text!,
-                    emailText: emailText.text!, passwordText: passwordText.text!, confirmPasswordText: confirmPasswordText.text!)
-                self.isValidForm = true
-            }
-        }
-        return self.isValidForm
-    }
-    */
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        /*if (segue.identifier == "signUpDetails") {
-            if(self.validateSignup()){
-                ApiController.instance.signIn(firstNameText.text!, lastNameText: lastNameText.text!,
-                    emailText: emailText.text!, passwordText: passwordText.text!, confirmPasswordText: confirmPasswordText.text!)
-                self.isValidForm = true
-            }
-        }*/
+      
     }
 }

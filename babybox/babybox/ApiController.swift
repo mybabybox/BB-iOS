@@ -182,8 +182,8 @@ class ApiController {
         let callEvent = ApiCallEvent()
         callEvent.method = "/authenticate/mobile/facebook"
         callEvent.resultClass = "String"
-        callEvent.successEventbusName = "loginReceivedSuccess"
-        callEvent.failedEventbusName = "loginReceivedFailed"
+        callEvent.successEventbusName = "onSuccessLoginByFacebook"
+        callEvent.failedEventbusName = "onFailureLoginByFacebook"
         callEvent.apiUrl = url
         makePostApiCall(callEvent, appendSessionId: false)
     }
@@ -193,8 +193,8 @@ class ApiController {
         let callEvent = ApiCallEvent()
         callEvent.method = "/login/mobile"
         callEvent.resultClass = "String"
-        callEvent.successEventbusName = "loginReceivedSuccess"
-        callEvent.failedEventbusName = "loginReceivedFailed"
+        callEvent.successEventbusName = "onSuccessLoginByEmail"
+        callEvent.failedEventbusName = "onFailureLoginByEmail"
         callEvent.apiUrl = url
         makePostApiCall(callEvent, appendSessionId: false)
     }
@@ -212,8 +212,8 @@ class ApiController {
         callEvent.method = "/signup"
         callEvent.resultClass = "String"
         callEvent.body = parameter
-        callEvent.successEventbusName = "signUpSuccess"
-        callEvent.failedEventbusName = "signUpFailed"
+        callEvent.successEventbusName = "onSuccessSignUp"
+        callEvent.failedEventbusName = "onFailureSignUp"
         
         callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         self.makePostApiCall(callEvent)
@@ -229,8 +229,8 @@ class ApiController {
         callEvent.method = "/saveSignupInfo"
         callEvent.resultClass = "String"
         callEvent.body = parameter
-        callEvent.successEventbusName = "saveSignUpInfoSuccess"
-        callEvent.failedEventbusName = "saveSignUpInfoFailed"
+        callEvent.successEventbusName = "onSuccessSaveSignUpInfo"
+        callEvent.failedEventbusName = "onFailureSaveSignUpInfo"
         callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         self.makePostApiCall(callEvent)
     }
@@ -260,8 +260,8 @@ class ApiController {
         let callEvent = ApiCallEvent()
         callEvent.method = "/init-new-user"
         callEvent.resultClass = "UserVM"
-        callEvent.successEventbusName = "initNewUserSuccess"
-        callEvent.failedEventbusName = "initNewUserFailed"
+        callEvent.successEventbusName = "onSuccessInitNewUser"
+        callEvent.failedEventbusName = "onFailureInitNewUser"
         callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         self.makeApiCall(callEvent)
     }

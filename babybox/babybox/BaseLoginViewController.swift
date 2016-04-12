@@ -53,6 +53,8 @@ class BaseLoginViewController: UIViewController {
     }
     
     func postLogin() {
+        NSLog("postLogin")
+        
         // register notif
         
         //self.performSegueWithIdentifier("clickToLogin", sender: nil)
@@ -70,29 +72,6 @@ class BaseLoginViewController: UIViewController {
         
         self.navigationController?.toolbarHidden = true
         self.navigationController?.navigationBarHidden = true
-        
-        SwiftEventBus.unregister(self)
-        
-        SwiftEventBus.onMainThread(self, name: "loginReceivedSuccess") { result in
-            if ViewUtil.isEmptyResult(result) {
-                self.onFailure("User is not logged in")
-            } else {
-                let response: String = result.object as! String
-                self.onSuccessLogin(response)
-            }
-        }
-        
-        SwiftEventBus.onMainThread(self, name: "loginReceivedFailed") { result in
-            var message = ""
-            if result.object is NSString {
-                message = result.object as! String
-            }
-            
-            if message.isEmpty {
-                message = "Failed to authenticate user"
-            }
-            self.onFailure(message)
-        }
         
         // prepare fb login button
         //let fbLoginButton = FBSDKLoginButton()
@@ -121,13 +100,13 @@ class BaseLoginViewController: UIViewController {
     func emailLogin(email: String, password: String) {
         self.view.alpha = 0.75
         AppDelegate.getInstance().logOut()
-        ApiController.instance.loginByEmail(email, password: password)
+        ApiFacade.loginByEmail(email, password: password, successCallback: onSuccessLogin, failureCallback: onFailure)
     }
     
     func fbLogin(access_token: String, userId: String) {
         self.view.alpha = 0.75
         AppDelegate.getInstance().logOut()
-        ApiController.instance.loginByFacebook(access_token)
+        ApiFacade.loginByFacebook(access_token, successCallback: onSuccessLogin, failureCallback: onFailure)
     }
     
     @IBAction func fbLoginClick(sender: AnyObject) {

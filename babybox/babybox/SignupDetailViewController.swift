@@ -21,35 +21,10 @@ class SignupDetailViewController: BaseLoginViewController, UITextFieldDelegate, 
         self.navigationController?.navigationBarHidden = true
         self.navigationController?.interactivePopGestureRecognizer?.enabled = false
     }
-        
+
     override func viewDidLoad() {
         super.viewDidLoad()
                 
-        SwiftEventBus.onMainThread(self, name: "saveSignUpInfoSuccess") { result in
-            if ViewUtil.isEmptyResult(result) {
-                self.onFailure("No response for saving user details")
-            } else {
-                self.postLogin()
-            }
-        }
-        
-        SwiftEventBus.onMainThread(self, name: "saveSignUpInfoFailed") { result in
-            /*
-            var message = ""
-            if result.object is NSString {
-                message = result.object as! String
-            }
-            
-            if message.isEmpty {
-                message = "Failed to register user details"
-            }
-            self.onFailure(message)
-            */
-            
-            ViewUtil.showDialog("Login Error", message: "Username already exists. Please try another one.", view: self)
-            self.stopLoading()
-        }
-        
         ViewUtil.displayRoundedCornerView(self.submitBtn, bgColor: Color.PINK)
         
         var locs: [String] = []
@@ -67,6 +42,15 @@ class SignupDetailViewController: BaseLoginViewController, UITextFieldDelegate, 
         self.locationDropDown.direction = .Top
     }
 
+    func onSuccessSaveSignUpInfo(response: String) {
+        self.postLogin()
+    }
+    
+    override func onFailure(message: String?) {
+        ViewUtil.showDialog("Login Error", message: message!, view: self)
+        self.stopLoading()
+    }
+    
     override func viewDidLayoutSubviews() {
         //let contentSize = self.headingTxt.sizeThatFits(self.headingTxt.bounds.size)
         // var frame = self.headingTxt.frame
@@ -82,7 +66,8 @@ class SignupDetailViewController: BaseLoginViewController, UITextFieldDelegate, 
     @IBAction func onClickSubmitBtn(sender: UIButton) {
         if isValid() {
             let location = DistrictCache.getDistrictByName(self.location.titleLabel!.text!)
-            ApiController.instance.saveSignUpInfo(self.displayName.text!, locationId: location!.id)
+            ApiFacade.saveSignUpInfo(self.displayName.text!, locationId: location!.id,
+                                     successCallback: onSuccessSaveSignUpInfo, failureCallback: onFailure)
         }
     }
     
