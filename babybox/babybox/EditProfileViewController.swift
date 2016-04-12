@@ -12,7 +12,6 @@ import SwiftEventBus
 class EditProfileViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate {
     var userId = -1
     
-    
     @IBOutlet weak var helpText: UILabel!
     @IBOutlet weak var activityLoading: UIActivityIndicatorView!
     @IBOutlet weak var contentView: UIView!
@@ -28,13 +27,16 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, UITextVi
     
     @IBOutlet weak var mbLoginIcon: UIImageView!
     @IBOutlet weak var submitBtn: UIButton!
+    
     let locationDropDown = DropDown()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         ViewUtil.showActivityLoading(self.activityLoading)
+        
         SwiftEventBus.unregister(self)
+        
         SwiftEventBus.onMainThread(self, name: "onEditInfoSuccess") { result in
             NSLog("User info updated successfully")
             UserInfoCache.refresh(AppDelegate.getInstance().sessionId!)
@@ -47,7 +49,6 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, UITextVi
                 myProfileController.currentIndex = nil
                 myProfileController.feedLoader?.loading = false
             }
-            
         }
         
         SwiftEventBus.onMainThread(self, name: "onEditInfoFailed") { result in
@@ -62,7 +63,6 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, UITextVi
         editScrollView.addGestureRecognizer(uiGesture)
         
         self.initializeEditComponents()
-        
     }
 
     override func didReceiveMemoryWarning() {
@@ -80,20 +80,20 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, UITextVi
             self.mbLoginIcon.hidden = false
         }
         self.email.text = userInfo?.email
-        ViewUtil.displayCornerTextView(self.email)
+        ViewUtil.displayRoundedCornerView(self.email)
         self.displayName.delegate = self
         self.displayName.text = userInfo?.displayName
-        ViewUtil.displayCornerTextView(self.displayName)
+        ViewUtil.displayRoundedCornerView(self.displayName)
         self.firstName.delegate = self
         self.firstName.text = userInfo?.firstName
-        ViewUtil.displayCornerTextView(self.firstName)
+        ViewUtil.displayRoundedCornerView(self.firstName)
         self.lastName.delegate = self
         self.lastName.text = userInfo?.lastName
-        ViewUtil.displayCornerTextView(self.lastName)
+        ViewUtil.displayRoundedCornerView(self.lastName)
         self.aboutMe.delegate = self
         self.aboutMe.text = userInfo?.aboutMe
-        ViewUtil.displayCornerTextView(self.aboutMe)
-        ViewUtil.displayCornerTextView(self.location)
+        ViewUtil.displayRoundedCornerView(self.aboutMe)
+        ViewUtil.displayRoundedCornerView(self.location)
         initializeLocationDropDown((userInfo?.location.id)!)
         ViewUtil.hideActivityLoading(self.activityLoading)
         

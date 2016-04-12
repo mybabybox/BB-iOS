@@ -121,18 +121,22 @@ class ViewUtil {
         view.layer.masksToBounds = true
     }
     
-    static func displayRoundedCornerView(view: UIView) {
+    static func displayRoundedCornerView(view: UIView, bgColor: UIColor? = nil, borderColor: UIColor? = nil) {
         view.layer.cornerRadius = 7.0
         view.layer.masksToBounds = true
         view.layer.borderWidth = 1
-    }
-    
-    static func displayRoundedCornerView(view: UIView, bgColor: UIColor) {
-        view.layer.cornerRadius = 7.0
-        view.layer.masksToBounds = true
-        view.layer.borderWidth = 0
-        view.layer.backgroundColor = bgColor.CGColor
-        view.layer.borderColor = bgColor.CGColor
+        
+        if bgColor != nil {
+            view.layer.backgroundColor = bgColor!.CGColor
+        } else {
+            view.layer.backgroundColor = Color.WHITE.CGColor
+        }
+        
+        if borderColor != nil {
+            view.layer.borderColor = borderColor!.CGColor
+        } else {
+            view.layer.borderColor = Color.LIGHT_GRAY_2.CGColor
+        }
     }
     
     static func getScreenWidth(view: UIView) -> CGFloat {
@@ -259,8 +263,8 @@ class ViewUtil {
         button.layer.cornerRadius = 5.0
         button.layer.masksToBounds = true
         button.layer.borderWidth = 1
-        button.setTitleColor(UIColor.grayColor(), forState: UIControlState.Normal)
-        button.layer.borderColor = UIColor.grayColor().CGColor
+        button.setTitleColor(Color.GRAY, forState: UIControlState.Normal)
+        button.layer.borderColor = Color.GRAY.CGColor
         button.setTitle("Following", forState: UIControlState.Normal)
     }
     
@@ -362,13 +366,6 @@ class ViewUtil {
         label.textColor = Color.LIGHT_GRAY_2
         headerView.addSubview(label)
         return headerView
-    }
-    
-    static func displayCornerTextView(view: UIView) {
-        view.layer.cornerRadius = 7.0
-        view.layer.masksToBounds = true
-        view.layer.borderWidth = 1
-        view.layer.borderColor = UIColor.redColor().CGColor
     }
     
     static func registerNoItemsFooterView(colletionView: UICollectionView) {
