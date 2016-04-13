@@ -36,8 +36,17 @@ class RecommendedSellerViewController: UIViewController {
         
         ViewUtil.showActivityLoading(self.activityLoading)
         
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.itemSize = CGSizeMake(self.view.bounds.width, self.view.bounds.height)
+        flowLayout.scrollDirection = UICollectionViewScrollDirection.Vertical
+        flowLayout.minimumInteritemSpacing = Constants.FEED_ITEM_SIDE_SPACING
+        flowLayout.minimumLineSpacing = Constants.FEED_ITEM_LINE_SPACING
+        flowLayout.sectionInset = UIEdgeInsetsMake(0, Constants.FEED_ITEM_SIDE_SPACING, 0, Constants.FEED_ITEM_SIDE_SPACING)
+        uiCollectionView.collectionViewLayout = flowLayout
+        
         ApiController.instance.getRecommendedSellersFeed(offSet)
         self.uiCollectionView!.alwaysBounceVertical = true
+        
         self.uiCollectionView.addPullToRefresh({ [weak self] in
             self?.reloadSellers()
         })
@@ -115,6 +124,7 @@ class RecommendedSellerViewController: UIViewController {
         } else {
             cell.followBtn.hidden = false
         }
+        
         cell.layer.cornerRadius = 7
         cell.layer.masksToBounds = true
         

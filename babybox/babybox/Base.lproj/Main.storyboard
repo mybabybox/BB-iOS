@@ -605,10 +605,10 @@
                         <rect key="frame" x="0.0" y="64" width="414" height="672"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="s3p-yV-JwM">
-                                <rect key="frame" x="10" y="10" width="394" height="662"/>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="s3p-yV-JwM">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="662"/>
                                 <color key="backgroundColor" red="0.92941176470588238" green="0.92941176470588238" blue="0.92941176470588238" alpha="1" colorSpace="calibratedRGB"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="AUS-TA-pcc">
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="AUS-TA-pcc">
                                     <size key="itemSize" width="314" height="126"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -616,7 +616,7 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="recommendedSellerViewCell" id="zGl-Ie-hkI" customClass="RecommendedSellerViewCell" customModule="BeautyPop" customModuleProvider="target">
-                                        <rect key="frame" x="40" y="0.0" width="314" height="126"/>
+                                        <rect key="frame" x="50" y="0.0" width="314" height="126"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="314" height="126"/>
@@ -839,10 +839,10 @@
                         <color key="backgroundColor" red="0.92549019607843142" green="0.92549019607843142" blue="0.92549019607843142" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="ebf-8h-PPR" firstAttribute="centerX" secondItem="OOG-iO-Seq" secondAttribute="centerX" id="Ocn-sz-Y03"/>
-                            <constraint firstItem="s3p-yV-JwM" firstAttribute="leading" secondItem="OOG-iO-Seq" secondAttribute="leading" constant="10" id="Sn7-IH-Pei"/>
-                            <constraint firstItem="s3p-yV-JwM" firstAttribute="top" secondItem="OOG-iO-Seq" secondAttribute="top" constant="10" id="bCR-Cv-CUo"/>
+                            <constraint firstItem="s3p-yV-JwM" firstAttribute="leading" secondItem="OOG-iO-Seq" secondAttribute="leading" id="Sn7-IH-Pei"/>
+                            <constraint firstItem="s3p-yV-JwM" firstAttribute="top" secondItem="OOG-iO-Seq" secondAttribute="top" id="bCR-Cv-CUo"/>
                             <constraint firstItem="ebf-8h-PPR" firstAttribute="centerY" secondItem="OOG-iO-Seq" secondAttribute="centerY" id="e99-gY-UOu"/>
-                            <constraint firstAttribute="trailing" secondItem="s3p-yV-JwM" secondAttribute="trailing" constant="10" id="i7O-sM-DLR"/>
+                            <constraint firstAttribute="trailing" secondItem="s3p-yV-JwM" secondAttribute="trailing" id="i7O-sM-DLR"/>
                             <constraint firstItem="VvV-UB-afa" firstAttribute="top" secondItem="s3p-yV-JwM" secondAttribute="bottom" id="rKm-kz-tXS"/>
                         </constraints>
                     </view>
@@ -868,7 +868,7 @@
                         <rect key="frame" x="0.0" y="64" width="414" height="672"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Q7L-8l-fhM" userLabel="Category Tips">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Q7L-8l-fhM" userLabel="Category Tips">
                                 <rect key="frame" x="10" y="10" width="394" height="80"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Inj-yu-jAa">
@@ -896,7 +896,7 @@
                                     <constraint firstAttribute="trailing" secondItem="Inj-yu-jAa" secondAttribute="trailing" constant="15" id="7gY-Ft-qUX"/>
                                 </constraints>
                             </view>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="uzd-Xo-M2d">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="uzd-Xo-M2d">
                                 <rect key="frame" x="0.0" y="100" width="414" height="572"/>
                                 <color key="backgroundColor" red="0.92941176470588238" green="0.92941176470588238" blue="0.92941176470588238" alpha="1" colorSpace="calibratedRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="mnE-Kz-wiW">
@@ -2338,7 +2338,7 @@
                         <rect key="frame" x="0.0" y="64" width="414" height="672"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VBu-fx-o8h" userLabel="PostLayoutView">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VBu-fx-o8h" userLabel="PostLayoutView">
                                 <rect key="frame" x="0.0" y="20" width="414" height="60"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="OX8-a0-XDk" userLabel="PostImage">
@@ -2483,7 +2483,7 @@
                                 <rect key="frame" x="189" y="317" width="37" height="37"/>
                                 <color key="color" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
-                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="~ No Chats ~" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jkb-J8-90L" userLabel="TipText">
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="~ No Chats ~" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jkb-J8-90L" userLabel="TipText">
                                 <rect key="frame" x="10" y="40" width="394" height="20"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -3639,7 +3639,7 @@
             <objects>
                 <collectionViewController title="Followers View Controller" id="71D-99-izD" userLabel="Following View Controller" customClass="FollowersFollowingViewController" customModule="BeautyPop" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="hiX-6h-gs8">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="64" width="414" height="672"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.92549019607843142" green="0.92549019607843142" blue="0.90196078431372551" alpha="1" colorSpace="calibratedRGB"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="1" minimumInteritemSpacing="1" id="1hj-4H-bI1">
@@ -3650,7 +3650,7 @@
                         </collectionViewFlowLayout>
                         <cells>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="followingCollectionViewCell" id="Cz6-lU-wkd" customClass="FollowingCollectionViewCell" customModule="BeautyPop" customModuleProvider="target">
-                                <rect key="frame" x="140" y="0.0" width="320" height="64"/>
+                                <rect key="frame" x="47" y="0.0" width="320" height="64"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
@@ -4155,7 +4155,7 @@
                         <viewControllerLayoutGuide type="bottom" id="Fsn-8h-2Hq"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="vrW-h3-tGO">
-                        <rect key="frame" x="0.0" y="64" width="414" height="623"/>
+                        <rect key="frame" x="0.0" y="64" width="414" height="672"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="aUT-qn-yHg">
@@ -4163,7 +4163,7 @@
                                 <color key="color" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="eIF-np-185">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="523"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="572"/>
                                 <color key="backgroundColor" red="0.92549019610000005" green="0.92549019610000005" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="separatorColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -4567,7 +4567,7 @@
                                             <outlet property="viewBtnIns" destination="nhS-BN-p7T" id="xv6-IY-1eQ"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell4" id="ykO-7V-s7d" userLabel="CommentCount" customClass="DetailsTableViewCell" customModule="BabyBox" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell4" id="ykO-7V-s7d" userLabel="CommentCount" customClass="DetailsTableViewCell" customModule="BeautyPop" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="353" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ykO-7V-s7d" id="McI-B2-Rhl">
@@ -4636,7 +4636,7 @@
                                             <outlet property="moreCommentsBtn" destination="893-T2-3eY" id="goC-lQ-N43"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="mCell1" rowHeight="51" id="n7F-he-14d" customClass="MessageTableViewCell" customModule="BabyBox" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="mCell1" rowHeight="51" id="n7F-he-14d" customClass="MessageTableViewCell" customModule="BeautyPop" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="397" width="414" height="51"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="n7F-he-14d" id="Ns5-Hc-NAW">
@@ -4838,7 +4838,7 @@
                                 </connections>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rBo-hQ-nNA" userLabel="FooterBar">
-                                <rect key="frame" x="0.0" y="578" width="414" height="45"/>
+                                <rect key="frame" x="0.0" y="627" width="414" height="45"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MAl-Vl-UxH">
                                         <rect key="frame" x="15" y="3" width="25" height="25"/>
@@ -4894,7 +4894,7 @@
                                         <rect key="frame" x="55" y="0.0" width="359" height="45"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="COA-Pb-bQ8">
-                                                <rect key="frame" x="0.0" y="0.0" width="180" height="45"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="179.5" height="45"/>
                                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                                 <state key="normal" title="View Chats"/>
@@ -4902,8 +4902,8 @@
                                                     <segue destination="K3t-LR-EuE" kind="show" identifier="viewChats" id="Ds4-XX-fSh"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N1m-Yk-Qrt">
-                                                <rect key="frame" x="179" y="0.0" width="180" height="45"/>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N1m-Yk-Qrt">
+                                                <rect key="frame" x="179" y="0.0" width="179.5" height="45"/>
                                                 <color key="backgroundColor" red="0.031372549020000001" green="0.71764705880000002" blue="0.1058823529" alpha="1" colorSpace="calibratedRGB"/>
                                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                                 <state key="normal" title="Mark as Sold"/>
@@ -4927,8 +4927,8 @@
                                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1IZ-SP-2w1" userLabel="buyerButtonsLayout">
                                         <rect key="frame" x="55" y="0.0" width="359" height="45"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XSw-fb-wAp" userLabel="BuyNow Btn">
-                                                <rect key="frame" x="179" y="0.0" width="180" height="45"/>
+                                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XSw-fb-wAp" userLabel="BuyNow Btn">
+                                                <rect key="frame" x="179" y="0.0" width="179.5" height="45"/>
                                                 <color key="backgroundColor" red="1" green="0.46274509800000002" blue="0.64313725489999995" alpha="1" colorSpace="calibratedRGB"/>
                                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                                 <state key="normal" title="Buy Now">
@@ -4939,7 +4939,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uJg-Os-pQA" userLabel="Chat Btn">
-                                                <rect key="frame" x="0.0" y="0.0" width="180" height="45"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="179.5" height="45"/>
                                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                                 <state key="normal" title="Chat">
@@ -5205,7 +5205,7 @@
                                 <rect key="frame" x="191" y="315" width="37" height="37"/>
                                 <color key="color" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
-                            <view hidden="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SRR-fR-QBA" userLabel="buyerButtonsLayout">
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SRR-fR-QBA" userLabel="buyerButtonsLayout">
                                 <rect key="frame" x="0.0" y="627" width="414" height="45"/>
                                 <subviews>
                                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ehp-Li-qKQ" userLabel="buyerMessageLayout">
@@ -5317,7 +5317,7 @@
                                     <constraint firstItem="Vun-dL-9xa" firstAttribute="top" secondItem="SRR-fR-QBA" secondAttribute="top" id="vk5-F5-yzq"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kCC-OU-TfJ" userLabel="sellerButtonsLayout">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kCC-OU-TfJ" userLabel="sellerButtonsLayout">
                                 <rect key="frame" x="0.0" y="627" width="414" height="45"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jKJ-ej-dAD" userLabel="sellerAcceptDeclineLayout">
@@ -6919,7 +6919,7 @@
         <!--Add  Comment View Controller-->
         <scene sceneID="DWc-mc-IDH">
             <objects>
-                <viewController storyboardIdentifier="AddCommentViewController" title="Make Offer" id="hG2-uC-bJw" userLabel="Add  Comment View Controller" customClass="AddCommentViewController" customModule="BabyBox" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AddCommentViewController" title="Make Offer" id="hG2-uC-bJw" userLabel="Add  Comment View Controller" customClass="AddCommentViewController" customModule="BeautyPop" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="mYk-aH-h3p"/>
                         <viewControllerLayoutGuide type="bottom" id="nU0-e4-fOb"/>
@@ -6975,7 +6975,7 @@
         <!--More Comments View Controller-->
         <scene sceneID="j8e-Wf-ZnI">
             <objects>
-                <viewController storyboardIdentifier="MoreCommentsViewController" title="Comments" id="nyH-mo-yEW" userLabel="More Comments View Controller" customClass="MoreCommentsViewController" customModule="BabyBox" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MoreCommentsViewController" title="Comments" id="nyH-mo-yEW" userLabel="More Comments View Controller" customClass="MoreCommentsViewController" customModule="BeautyPop" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="a9e-rs-jcs"/>
                         <viewControllerLayoutGuide type="bottom" id="ta3-eZ-OtG"/>
@@ -6994,8 +6994,8 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="commentViewCell" id="oBf-E5-UqC" userLabel="commentViewCell" customClass="CommentCollectionViewCell" customModule="BabyBox" customModuleProvider="target">
-                                        <rect key="frame" x="79" y="0.0" width="257" height="66"/>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="commentViewCell" id="oBf-E5-UqC" userLabel="commentViewCell" customClass="CommentCollectionViewCell" customModule="BeautyPop" customModuleProvider="target">
+                                        <rect key="frame" x="78.5" y="0.0" width="257" height="66"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="257" height="66"/>
@@ -7116,10 +7116,10 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="NRf-cI-JqS"/>
-        <segue reference="SC0-fE-foi"/>
+        <segue reference="sXv-hb-UE8"/>
         <segue reference="7VM-RZ-NKx"/>
-        <segue reference="ijV-Zs-EsV"/>
         <segue reference="fRU-pM-mSi"/>
+        <segue reference="SC0-fE-foi"/>
         <segue reference="2g9-O4-duU"/>
         <segue reference="fOZ-aP-dpy"/>
     </inferredMetricsTieBreakers>
