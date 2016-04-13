@@ -202,7 +202,7 @@ class HomeFeedViewController: CustomNavigationController {
         if collectionView.tag == 2 {
             return CGSizeZero
         } else {
-            let availableWidthForCells: CGFloat = self.view.bounds.width - Constants.HOME_HEADER_ITEM_MARGIN
+            let availableWidthForCells: CGFloat = self.view.bounds.width - Constants.HOME_HEADER_ITEMS_MARGIN_TOTAL
             let cellWidth: CGFloat = availableWidthForCells / 3
             let ht = cellWidth * CGFloat(Int(self.categories.count / 3))
             return CGSizeMake(self.view.frame.width, ht + 60)
@@ -247,7 +247,7 @@ class HomeFeedViewController: CustomNavigationController {
     }
         
     func setCollectionViewSizesInsetsForTopView() {
-        let availableWidthForCells: CGFloat = self.view.bounds.width - Constants.HOME_HEADER_ITEM_MARGIN
+        let availableWidthForCells: CGFloat = self.view.bounds.width - Constants.HOME_HEADER_ITEMS_MARGIN_TOTAL
         let cellWidth: CGFloat = availableWidthForCells / 3
         collectionViewTopCellSize = CGSizeMake(cellWidth, cellWidth)
     }

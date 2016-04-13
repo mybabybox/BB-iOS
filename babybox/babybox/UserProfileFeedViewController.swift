@@ -221,15 +221,7 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
         if (collectionView.tag == 2){
             return CGSizeZero
         } else {
-            /*var ht: CGFloat = 0.0
-            for view in collectionView.subviews as [UIView] {
-            ht += view.frame.height
-            }*/
-            if (self.isTipVisible()) {
-                return CGSizeMake(self.view.frame.width, 295)
-            } else {
-                return CGSizeMake(self.view.frame.width, 190)
-            }
+            return CGSizeMake(self.view.frame.width, Constants.PROFILE_HEADER_HEIGHT)
         }
     }
     
@@ -282,7 +274,7 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
     }
     
     func setCollectionViewSizesInsetsForTopView() {
-        collectionViewTopCellSize = CGSizeMake(self.view.bounds.width, 350)
+        collectionViewTopCellSize = CGSizeMake(self.view.bounds.width, Constants.PROFILE_HEADER_HEIGHT)
     }
     
     func setCollectionViewSizesInsets() {
@@ -315,17 +307,15 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
     
     func redrawSegControlBorder(segControl: UISegmentedControl) {
         
-        let extraHt = CGFloat(0.0)
         if segControl.selectedSegmentIndex == 0 {
             let y = CGFloat(segControl.frame.size.height)
-            let start: CGPoint = CGPoint(x: 0, y: (segControl.frame.origin.y) + y - extraHt)
-            let end: CGPoint = CGPoint(x: self.view.frame.size.width / 2, y: (segControl.frame.origin.y) + y - extraHt)
+            let start: CGPoint = CGPoint(x: 0, y: (segControl.frame.origin.y) + y)
+            let end: CGPoint = CGPoint(x: self.view.frame.size.width / 2, y: (segControl.frame.origin.y) + y)
             self.drawLineFromPoint(start, toPoint: end, ofColor: Color.PINK, inView: segControl)
-            
         } else if segControl.selectedSegmentIndex == 1 {
             let y = CGFloat(segControl.frame.size.height)
-            let start: CGPoint = CGPoint(x: segControl.frame.size.width / 2 , y: (segControl.frame.origin.y) + y - extraHt)
-            let end: CGPoint = CGPoint(x: segControl.frame.size.width, y: (segControl.frame.origin.y) + y - extraHt)
+            let start: CGPoint = CGPoint(x: segControl.frame.size.width / 2 , y: (segControl.frame.origin.y) + y)
+            let end: CGPoint = CGPoint(x: segControl.frame.size.width, y: (segControl.frame.origin.y) + y)
             self.drawLineFromPoint(start, toPoint: end, ofColor: Color.PINK, inView: segControl)
         }
     }

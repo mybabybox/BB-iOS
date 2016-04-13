@@ -26,8 +26,9 @@ struct Constants {
     static let MAIN_BOTTOM_BAR_ALPHA = 0.9
     
     // sizes
-    static let HOME_HEADER_ITEM_MARGIN = CGFloat(12)
+    static let HOME_HEADER_ITEMS_MARGIN_TOTAL = CGFloat(12)     // 3 each
     static let CATEGORY_HEADER_HEIGHT = CGFloat(155)
+    static let PROFILE_HEADER_HEIGHT = CGFloat(200)
     static let FEED_ITEM_SIDE_SPACING = CGFloat(7)
     static let FEED_ITEM_LINE_SPACING = CGFloat(7)
     static let FEED_ITEM_DETAILS_HEIGHT = CGFloat(35)
@@ -67,5 +68,5 @@ struct Constants {
     
     static let DELETE_COMMENT_TEXT = "Delete comment?"
     
-    static let DEEP_LINK_URL_SCHEME = "beautypop://"
+    static let DEEP_LINK_URL_SCHEME = "babybox://"
 }

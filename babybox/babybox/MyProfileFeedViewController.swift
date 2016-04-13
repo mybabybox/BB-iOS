@@ -212,15 +212,7 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
         if (collectionView.tag == 2){
             return CGSizeZero
         } else {
-            /*var ht: CGFloat = 0.0
-            for view in collectionView.subviews as [UIView] {
-                ht += view.frame.height
-            }*/
-            if (self.isTipVisible()) {
-                return CGSizeMake(self.view.frame.width, 295)
-            } else {
-                return CGSizeMake(self.view.frame.width, 190)
-            }
+            return CGSizeMake(self.view.frame.width, Constants.PROFILE_HEADER_HEIGHT)
         }
     }
     
@@ -280,7 +272,7 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
     }
     
     func setCollectionViewSizesInsetsForTopView() {
-        collectionViewTopCellSize = CGSizeMake(self.view.bounds.width, 350)
+        collectionViewTopCellSize = CGSizeMake(self.view.bounds.width, Constants.PROFILE_HEADER_HEIGHT)
     }
     
     func setCollectionViewSizesInsets() {
@@ -298,16 +290,6 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
         feedViewAdapter!.onLikeBtnClick(cell, feedItem: feedItem)
     }
     
-    @IBAction func onClickCloseTip(sender: AnyObject) {
-        let button = sender as! UIButton
-        let view = button.superview!
-        let cell = view.superview!.superview as! UserFeedHeaderViewCell
-        cell.tipsView.hidden = true
-        cell.tipsConstraint.constant = 6
-        redrawSegControlBorder(cell.segmentControl)
-        self.uiCollectionView.reloadData()
-    }
-
     @IBAction func onClickBrowse(sender: AnyObject) {
         //upload image.
         self.imagePicker.allowsEditing = true
@@ -345,21 +327,15 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
     
     func redrawSegControlBorder(segControl: UISegmentedControl) {
         
-        var extraHt = CGFloat(0.0)
-        if (!isTipVisible() && !isHtCalculated) {
-            extraHt = CGFloat(114.0)
-            self.isHtCalculated = true
-        }
-        
         if segControl.selectedSegmentIndex == 0 {
             let y = CGFloat(segControl.frame.size.height)
-            let start: CGPoint = CGPoint(x: 0, y: (segControl.frame.origin.y) + y - extraHt)
-            let end: CGPoint = CGPoint(x: self.view.frame.size.width / 2, y: (segControl.frame.origin.y) + y - extraHt)
+            let start: CGPoint = CGPoint(x: 0, y: (segControl.frame.origin.y) + y)
+            let end: CGPoint = CGPoint(x: self.view.frame.size.width / 2, y: (segControl.frame.origin.y) + y)
             self.drawLineFromPoint(start, toPoint: end, ofColor: Color.PINK, inView: segControl)
         } else if segControl.selectedSegmentIndex == 1 {
             let y = CGFloat(segControl.frame.size.height)
-            let start: CGPoint = CGPoint(x: segControl.frame.size.width / 2 , y: (segControl.frame.origin.y) + y - extraHt)
-            let end: CGPoint = CGPoint(x: segControl.frame.size.width, y: (segControl.frame.origin.y) + y - extraHt)
+            let start: CGPoint = CGPoint(x: segControl.frame.size.width / 2 , y: (segControl.frame.origin.y) + y)
+            let end: CGPoint = CGPoint(x: segControl.frame.size.width, y: (segControl.frame.origin.y) + y)
             self.drawLineFromPoint(start, toPoint: end, ofColor: Color.PINK, inView: segControl)
         }
     }
@@ -376,13 +352,6 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
         cell.btnWidthConsttraint.constant = buttonWidth
         cell.editProfile.layer.borderColor = Color.LIGHT_GRAY.CGColor
         cell.editProfile.layer.borderWidth = 1.0
-        
-        if (!SharedPreferencesUtil.getInstance().isScreenViewed(SharedPreferencesUtil.Screen.MY_PROFILE_TIPS)) {
-            cell.tipsView.hidden = false
-        } else {
-            cell.tipsView.hidden = true
-            cell.tipsConstraint.constant = 6
-        }
         
         ViewUtil.displayRoundedCornerView(cell.editProfile)
     }
