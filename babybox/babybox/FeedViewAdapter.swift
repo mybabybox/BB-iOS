@@ -78,13 +78,13 @@ class FeedViewAdapter {
     func onLikeBtnClick(cell: FeedProductCollectionViewCell, feedItem: PostVMLite) {
         if (feedItem.isLiked) {
             feedItem.isLiked = false
-            feedItem.numLikes--
+            feedItem.numLikes -= 1
             cell.likeCountIns.setTitle(String(feedItem.numLikes), forState: UIControlState.Normal)
             cell.likeImageIns.setImage(UIImage(named: "ic_like_tips.png"), forState: UIControlState.Normal)
             ApiController.instance.unlikePost(feedItem.id)
         } else {
             feedItem.isLiked = true
-            feedItem.numLikes++
+            feedItem.numLikes += 1
             cell.likeCountIns.setTitle(String(feedItem.numLikes), forState: UIControlState.Normal)
             cell.likeImageIns.setImage(UIImage(named: "ic_liked_tips.png"), forState: UIControlState.Normal)
             ApiController.instance.likePost(feedItem.id)

@@ -54,7 +54,7 @@ class FollowersFollowingViewController: UICollectionViewController {
             if (!ViewUtil.isEmptyResult(result)) {
                 let resultDto: [UserVMLite] = result.object as! [UserVMLite]
                 self.followersFollowings.appendContentsOf(resultDto)
-                self.offset++
+                self.offset += 1
             } else {
                 self.loadedAll = true
             }

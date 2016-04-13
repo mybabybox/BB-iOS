@@ -125,7 +125,7 @@ class RecommendedSellerViewController: UIViewController {
             cell.followBtn.hidden = false
         }
         
-        cell.layer.cornerRadius = 0
+        cell.layer.cornerRadius = 7
         cell.layer.masksToBounds = true
         
         return cell

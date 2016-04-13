@@ -72,13 +72,13 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
         self.prodDescription.isApplyTextFieldStyle = true
         self.prodDescription.layer.borderWidth = 0
         
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(NewProductViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
         
         self.sellingtext.delegate = self
         //self.prodDescription.delegate = self
         
-        ViewUtil.setCustomBackButton(self, action: "onBackPressed:")
+        ViewUtil.setCustomBackButton(self, action: #selector(NewProductViewController.onBackPressed(_:)))
         
         SwiftEventBus.unregister(self)
         
@@ -132,7 +132,7 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
         
         let saveProductImg: UIButton = UIButton()
         saveProductImg.setTitle("Save", forState: UIControlState.Normal)
-        saveProductImg.addTarget(self, action: "saveProduct:", forControlEvents: UIControlEvents.TouchUpInside)
+        saveProductImg.addTarget(self, action: #selector(NewProductViewController.saveProduct(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         saveProductImg.frame = CGRectMake(0, 0, 60, 35)
         let saveProductBarBtn = UIBarButtonItem(customView: saveProductImg)
         self.navigationItem.rightBarButtonItems = [saveProductBarBtn]
@@ -142,7 +142,7 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
         let categories = CategoryCache.categories
         var selCategoryValue = "Choose a Category:"
         var catDataSource : [String] = []
-        for (var i = 0; i < categories.count; i++) {
+        for i in 0 ..< categories.count {
             catDataSource.append(categories[i].description)
             if (Int(categories[i].id) == self.selCategory) {
                 selCategoryValue = categories[i].description
@@ -206,7 +206,7 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
         }
         
         cell.imageHolder.tag = indexPath.row
-        cell.imageHolder.addTarget(self, action:"choosePhotoOption:" , forControlEvents: UIControlEvents.TouchUpInside)
+        cell.imageHolder.addTarget(self, action:#selector(NewProductViewController.choosePhotoOption(_:)) , forControlEvents: UIControlEvents.TouchUpInside)
         return cell
     }
     
@@ -364,7 +364,7 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
     // MARK:- Notification
     func keyboardWillShow(notification: NSNotification) {
         var info = notification.userInfo!
-        let keyboardFrame: CGRect = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
+        let _: CGRect = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
         
         UIView.animateWithDuration(1.0, animations: { () -> Void in
             //self.buttomLayoutConstraint = keyboardFrame.size.height

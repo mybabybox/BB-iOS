@@ -71,7 +71,7 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         
         //self.prodDescription.delegate = self
         
-        ViewUtil.setCustomBackButton(self, action: "onBackPressed:")
+        ViewUtil.setCustomBackButton(self, action: #selector(EditProductViewController.onBackPressed(_:)))
         
         SwiftEventBus.unregister(self)
         
@@ -129,7 +129,7 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         
         let saveProductImg: UIButton = UIButton()
         saveProductImg.setTitle("Save", forState: UIControlState.Normal)
-        saveProductImg.addTarget(self, action: "saveProduct:", forControlEvents: UIControlEvents.TouchUpInside)
+        saveProductImg.addTarget(self, action: #selector(EditProductViewController.saveProduct(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         saveProductImg.frame = CGRectMake(0, 0, 60, 35)
         let saveProductBarBtn = UIBarButtonItem(customView: saveProductImg)
         self.navigationItem.rightBarButtonItems = [saveProductBarBtn]
@@ -158,7 +158,7 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         let categories = CategoryCache.categories
         var selCategoryValue = "Choose a Category:"
         var catDataSource : [String] = []
-        for (var i = 0; i < categories.count; i++) {
+        for i in 0 ..< categories.count {
             catDataSource.append(categories[i].description)
             if (Int(categories[i].id) == self.selCategory) {
                 selCategoryValue = categories[i].description

@@ -56,7 +56,7 @@ class ConversationsViewController: UIViewController {
         loading = true
         
         self.refreshControl.attributedTitle = NSAttributedString(string: "")
-        self.refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
+        self.refreshControl.addTarget(self, action: #selector(ConversationsViewController.refresh(_:)), forControlEvents: UIControlEvents.ValueChanged)
         self.conversationTableView.addSubview(refreshControl)
         
         self.conversationTableView.separatorColor = Color.LIGHT_GRAY

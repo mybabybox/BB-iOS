@@ -78,7 +78,9 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         let titleDict: NSDictionary = [NSForegroundColorAttributeName: Color.WHITE]
         self.navigationController!.navigationBar.titleTextAttributes = titleDict as? [String : AnyObject]
         
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(
+            target: self,
+            action: #selector(MessagesViewController.dismissKeyboard))
         messageCointainerScroll.addGestureRecognizer(tap)
         
         sendButton.enabled = true
@@ -98,7 +100,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         
         let userProfileBtn: UIButton = UIButton()
         userProfileBtn.setImage(UIImage(named: "w_profile"), forState: UIControlState.Normal)
-        userProfileBtn.addTarget(self, action: "onClickProfileBtn:", forControlEvents: UIControlEvents.TouchUpInside)
+        userProfileBtn.addTarget(self, action: #selector(MessagesViewController.onClickProfileBtn(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         userProfileBtn.frame = CGRectMake(0, 0, 35, 35)
         let userProfileBarBtn = UIBarButtonItem(customView: userProfileBtn)
         self.navigationItem.rightBarButtonItems = [userProfileBarBtn]
@@ -115,9 +117,9 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
     }
         
     func addKeyboardNotifications() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name:UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardDidShow:"), name: UIKeyboardDidShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name:UIKeyboardWillHideNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MessagesViewController.keyboardWillShow(_:)), name:UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MessagesViewController.keyboardDidShow(_:)), name: UIKeyboardDidShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MessagesViewController.keyboardWillHide(_:)), name:UIKeyboardWillHideNotification, object: nil)
     }
         
     // MARK:- Notification
@@ -286,7 +288,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
             return
         }
         
-        self.offset++
+        self.offset += 1
         
         let firstLoad = lastItemPosition == 0
         
@@ -303,7 +305,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         
         totalMessages.sortInPlace({ $0.createdDate < $1.createdDate })
         
-        for var i = 0; i < totalMessages.count; i++ {
+        for i in 0 ..< totalMessages.count {
             let message: MessageVM = totalMessages[i]
             let date = NSDate(timeIntervalSince1970:Double(message.createdDate) / 1000.0)
             if UserInfoCache.getUser()!.id == message.senderId {
@@ -365,7 +367,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
     func addMoreMessageLoaderLayout() {
         let loaderLayout: UIButton = UIButton(frame: CGRectMake(0, 0, self.view.frame.width, 50))
         loaderLayout.setTitle("LOAD EARLIER MESSAGES", forState: .Normal)
-        loaderLayout.addTarget(self, action: "loadMoreMessages:", forControlEvents: UIControlEvents.TouchUpInside)
+        loaderLayout.addTarget(self, action: #selector(MessagesViewController.loadMoreMessages(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         loaderLayout.layer.backgroundColor = Color.LIGHT_GRAY.CGColor
         let titleFont : UIFont = UIFont.systemFontOfSize(15.0)
         loaderLayout.titleLabel?.font = titleFont

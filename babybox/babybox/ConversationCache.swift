@@ -18,8 +18,10 @@ class ConversationCache {
     init() {
     }
     
-    static func sort(var conversations: [ConversationVM]) {
-        conversations.sortInPlace({ $0.lastMessageDate > $1.lastMessageDate })
+    static func sort(conversations: [ConversationVM]) -> [ConversationVM] {
+        var items = conversations
+        items.sortInPlace({ $0.lastMessageDate > $1.lastMessageDate })
+        return items
     }
     
     static func load(offset: Int64, successCallback: (([ConversationVM]) -> Void)?, failureCallback: ((String) -> Void)?) {
@@ -38,7 +40,7 @@ class ConversationCache {
             // add all and sort
             let conversations = result.object as! [ConversationVM]
             self.conversations.appendContentsOf(conversations)
-            sort(self.conversations)
+            self.conversations = sort(self.conversations)
             
             if successCallback != nil {
                 successCallback!(conversations)

@@ -230,7 +230,8 @@ class UserActivityViewController: CustomNavigationController {
                 loading = true
                 var feedOffset: Int64 = 0
                 if (!self.userActivitesItems.isEmpty) {
-                    feedOffset = ++activityOffSet
+                    activityOffSet += 1
+                    feedOffset = activityOffSet
                 }
                 ApiController.instance.getUserActivities(feedOffset)
             }

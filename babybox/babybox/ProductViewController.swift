@@ -94,13 +94,15 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
         
         ApiFacade.getPost(feedItem.id, successCallback: onSuccessGetPost, failureCallback: onFailure)
         
-        NSNotificationCenter.defaultCenter().addObserver(self,
-            selector: Selector("keyboardWillShow:"),
+        NSNotificationCenter.defaultCenter().addObserver(
+            self,
+            selector: #selector(ProductViewController.keyboardWillShow(_:)),
             name: UIKeyboardWillShowNotification,
             object: nil)
         
-        NSNotificationCenter.defaultCenter().addObserver(self,
-            selector: Selector("keyboardWillHide:"),
+        NSNotificationCenter.defaultCenter().addObserver(
+            self,
+            selector: #selector(ProductViewController.keyboardWillHide(_:)),
             name: UIKeyboardWillHideNotification,
             object: nil)
     
@@ -167,7 +169,7 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
             
             if indexPath.row == self.comments.count {
                 cell.btnPostComments.tag = indexPath.row
-                cell.btnPostComments.addTarget(self, action: "PostComments:", forControlEvents: UIControlEvents.TouchUpInside)
+                cell.btnPostComments.addTarget(self, action: #selector(ProductViewController.PostComments(_:)), forControlEvents: UIControlEvents.TouchUpInside)
                 ViewUtil.displayRoundedCornerView(cell.btnPostComments)
                 cell.btnPostComments.layer.borderColor = Color.LIGHT_GRAY.CGColor
                 cell.commentTxt.delegate = self
@@ -190,7 +192,7 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
                     cell.btnDeleteComments.hidden = true
                 }
                 ImageUtil.displayThumbnailProfileImage(self.comments[indexPath.row].ownerId, imageView: cell.postedUserImg)
-                cell.btnDeleteComments.addTarget(self, action: "DeleteComments:", forControlEvents: UIControlEvents.TouchUpInside)
+                cell.btnDeleteComments.addTarget(self, action: #selector(ProductViewController.DeleteComments(_:)), forControlEvents: UIControlEvents.TouchUpInside)
                 
                 //let time = comment.createdDate
                 //cell.postedTime.text = NSDate(timeIntervalSince1970:Double(time) / 1000.0).timeAgo
@@ -375,20 +377,20 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
     
     @IBAction func onClickLikeOrUnlikeButton(sender: AnyObject) {
         if (self.productInfo!.isLiked) {
-            self.productInfo!.numLikes--
+            self.productInfo!.numLikes -= 1
             self.productInfo!.isLiked = false
             
-            self.feedItem.numLikes--
+            self.feedItem.numLikes -= 1
             self.feedItem.isLiked = false
             
             self.likeImgBtn.setImage(UIImage(named: "ic_like.png"), forState: UIControlState.Normal)
             ApiController.instance.unlikePost(self.productInfo!.id)
             self.likeCountTxt.setTitle(String(self.productInfo!.numLikes), forState: UIControlState.Normal)
         } else {
-            self.productInfo!.numLikes++
+            self.productInfo!.numLikes += 1
             self.productInfo!.isLiked = true
             
-            self.feedItem.numLikes++
+            self.feedItem.numLikes += 1
             self.feedItem.isLiked = true
             
             self.likeImgBtn.setImage(UIImage(named: "ic_liked.png"), forState: UIControlState.Normal)
@@ -588,7 +590,7 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
             editProductImg.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
             editProductImg.titleLabel!.lineBreakMode = NSLineBreakMode.ByWordWrapping
             editProductImg.frame = CGRectMake(0, 0, 35, 35)
-            editProductImg.addTarget(self, action: "onClickEditBtn:", forControlEvents: UIControlEvents.TouchUpInside)
+            editProductImg.addTarget(self, action: #selector(ProductViewController.onClickEditBtn(_:)), forControlEvents: UIControlEvents.TouchUpInside)
             let editProductBarBtn = UIBarButtonItem(customView: editProductImg)
             self.navigationItem.rightBarButtonItems?.insert(editProductBarBtn, atIndex: 0)
         }

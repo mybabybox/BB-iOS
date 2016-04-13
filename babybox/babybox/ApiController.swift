@@ -551,7 +551,7 @@ class ApiController {
                             if (image != nil) {
                                 let nsData = image!.lowestQualityJPEGNSData
                                 multipartFormData.appendBodyPart(data: nsData, name: "image\(index)", fileName: "upload.jpg", mimeType:"jpg")
-                                index++
+                                index += 1
                             }
                         }
                     }
