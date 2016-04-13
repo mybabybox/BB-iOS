@@ -32,6 +32,7 @@ class HomeFeedViewController: CustomNavigationController {
     //var notificationCounterVM: NotificationCounterVM? = nil
     
     func reloadDataToView() {
+        self.categories = CategoryCache.categories
         self.uiCollectionView.reloadData()
         self.lastContentOffset = 0
     }
@@ -101,8 +102,8 @@ class HomeFeedViewController: CustomNavigationController {
         
         uiCollectionView.collectionViewLayout = feedViewAdapter!.getFeedViewFlowLayout(self)
         
-        self.categories = CategoryCache.categories
         self.uiCollectionView!.alwaysBounceVertical = true
+        
         self.uiCollectionView.addPullToRefresh({ [weak self] in
             CategoryCache.refresh(self?.onSuccessGetCategories, failureCallback: nil)
             self!.feedLoader?.reloadFeedItems()
