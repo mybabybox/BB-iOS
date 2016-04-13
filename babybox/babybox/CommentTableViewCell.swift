@@ -1,8 +1,8 @@
 //
 //  CommentTableViewCell.swift
-//  babybox
+//  BabyBox
 //
-//  Created by Mac on 24/01/16.
+//  Created by admin on 13/04/16.
 //  Copyright © 2016 Mac. All rights reserved.
 //
 
@@ -10,12 +10,10 @@ import UIKit
 
 class CommentTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var userLbl: UILabel!
-    @IBOutlet weak var delCommentBtn: UIButton!
-    @IBOutlet weak var createTime: UILabel!
-    @IBOutlet weak var userImage: UIImageView!
-    @IBOutlet weak var comment: UILabel!
-    
+    @IBOutlet weak var commentTime: UILabel!
+    @IBOutlet weak var commentText: UILabel!
+    @IBOutlet weak var userImg: UIImageView!
+    @IBOutlet weak var userName: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

@@ -71,7 +71,7 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         
         //self.prodDescription.delegate = self
         
-        ViewUtil.setCustomBackButton(self, action: #selector(EditProductViewController.onBackPressed(_:)))
+        ViewUtil.setCustomBackButton(self, action: "onBackPressed:")
         
         SwiftEventBus.unregister(self)
         
@@ -129,7 +129,7 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         
         let saveProductImg: UIButton = UIButton()
         saveProductImg.setTitle("Save", forState: UIControlState.Normal)
-        saveProductImg.addTarget(self, action: #selector(EditProductViewController.saveProduct(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+        saveProductImg.addTarget(self, action: "saveProduct:", forControlEvents: UIControlEvents.TouchUpInside)
         saveProductImg.frame = CGRectMake(0, 0, 60, 35)
         let saveProductBarBtn = UIBarButtonItem(customView: saveProductImg)
         self.navigationItem.rightBarButtonItems = [saveProductBarBtn]

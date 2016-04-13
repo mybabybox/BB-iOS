@@ -96,13 +96,13 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
         
         NSNotificationCenter.defaultCenter().addObserver(
             self,
-            selector: #selector(ProductViewController.keyboardWillShow(_:)),
+            selector: "keyboardWillShow:",
             name: UIKeyboardWillShowNotification,
             object: nil)
         
         NSNotificationCenter.defaultCenter().addObserver(
             self,
-            selector: #selector(ProductViewController.keyboardWillHide(_:)),
+            selector: "keyboardWillHide:",
             name: UIKeyboardWillHideNotification,
             object: nil)
     
@@ -169,7 +169,7 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
             
             if indexPath.row == self.comments.count {
                 cell.btnPostComments.tag = indexPath.row
-                cell.btnPostComments.addTarget(self, action: #selector(ProductViewController.PostComments(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+                cell.btnPostComments.addTarget(self, action: "PostComments:", forControlEvents: UIControlEvents.TouchUpInside)
                 ViewUtil.displayRoundedCornerView(cell.btnPostComments)
                 cell.btnPostComments.layer.borderColor = Color.LIGHT_GRAY.CGColor
                 cell.commentTxt.delegate = self
@@ -192,7 +192,7 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
                     cell.btnDeleteComments.hidden = true
                 }
                 ImageUtil.displayThumbnailProfileImage(self.comments[indexPath.row].ownerId, imageView: cell.postedUserImg)
-                cell.btnDeleteComments.addTarget(self, action: #selector(ProductViewController.DeleteComments(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+                cell.btnDeleteComments.addTarget(self, action: "DeleteComments:", forControlEvents: UIControlEvents.TouchUpInside)
                 
                 //let time = comment.createdDate
                 //cell.postedTime.text = NSDate(timeIntervalSince1970:Double(time) / 1000.0).timeAgo
@@ -331,8 +331,9 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
         //on click of User section show the User profile screen.
         if indexPath.section == 2  {
             self.performSegueWithIdentifier("userprofile", sender: nil)
-        } else if indexPath.section == 4 && indexPath.row == self.comments.count {
-            self.performSegueWithIdentifier("addComment", sender: nil)
+        //} else if indexPath.section == 4 && indexPath.row == self.comments.count {
+        } else if (indexPath.section == 4 && indexPath.row == self.comments.count) || indexPath.section == 3 {
+            pushMoreCommentsController()
         }
     }
     
@@ -590,7 +591,7 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
             editProductImg.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
             editProductImg.titleLabel!.lineBreakMode = NSLineBreakMode.ByWordWrapping
             editProductImg.frame = CGRectMake(0, 0, 35, 35)
-            editProductImg.addTarget(self, action: #selector(ProductViewController.onClickEditBtn(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+            editProductImg.addTarget(self, action: "onClickEditBtn:", forControlEvents: UIControlEvents.TouchUpInside)
             let editProductBarBtn = UIBarButtonItem(customView: editProductImg)
             self.navigationItem.rightBarButtonItems?.insert(editProductBarBtn, atIndex: 0)
         }
@@ -689,11 +690,7 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
     
     
     @IBAction func onClickMoreComments(sender: AnyObject) {
-        let vController = self.storyboard!.instantiateViewControllerWithIdentifier("MoreCommentsViewController") as! MoreCommentsViewController
-        vController.postId = (self.productInfo?.id)!
-        ViewUtil.resetBackButton(self.navigationItem)
-        self.navigationController?.pushViewController(vController, animated: true)
-        
+        pushMoreCommentsController()
     }
     
     @IBAction func unwindToProductScreen(segue: UIStoryboardSegue) {
@@ -705,6 +702,14 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
         }
     }
     
+    func pushMoreCommentsController() {
+        let vController = self.storyboard!.instantiateViewControllerWithIdentifier("MoreCommentsViewController") as! MoreCommentsViewController
+        if let postId = self.productInfo?.id {
+            vController.postId = postId
+            ViewUtil.resetBackButton(self.navigationItem)
+            self.navigationController?.pushViewController(vController, animated: true)
+        }
+    }
     
     
 }

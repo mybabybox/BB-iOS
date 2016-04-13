@@ -79,7 +79,7 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
         
         let sellBtn: UIButton = UIButton()
         sellBtn.setImage(UIImage(named: "btn_sell"), forState: UIControlState.Normal)
-        sellBtn.addTarget(self, action: #selector(CategoryFeedViewController.onClickSellBtn(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+        sellBtn.addTarget(self, action: "onClickSellBtn:", forControlEvents: UIControlEvents.TouchUpInside)
         sellBtn.frame = CGRectMake(0, 0, 35, 35)
         let sellBarBtn = UIBarButtonItem(customView: sellBtn)
         

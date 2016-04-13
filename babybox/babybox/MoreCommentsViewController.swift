@@ -8,10 +8,18 @@
 
 import UIKit
 
-class MoreCommentsViewController: UIViewController {
+class MoreCommentsViewController: UIViewController, UITextFieldDelegate, UIScrollViewDelegate {
 
     @IBOutlet weak var activityLoading: UIActivityIndicatorView!
-    @IBOutlet weak var uiCollectionView: UICollectionView!
+    @IBOutlet weak var commentsTableView: UITableView!
+    
+    @IBOutlet weak var tipText: UILabel!
+    @IBOutlet weak var commentText: UITextField!
+    @IBOutlet weak var postCommentBtn: UIButton!
+    var viewCellIdentifier: String = "commentTableCell"
+    var refreshControl = UIRefreshControl()
+    var deleteCellIndex: NSIndexPath?
+    
     var comments: [CommentVM]? = []
     var collectionViewCellSize : CGSize?
     var loading: Bool = false
@@ -26,61 +34,104 @@ class MoreCommentsViewController: UIViewController {
         super.viewDidLoad()
         
         ViewUtil.showActivityLoading(self.activityLoading)
+        ViewUtil.displayRoundedCornerView(self.postCommentBtn, bgColor: Color.GRAY)
+        self.commentText.placeholder = "Enter Comment"
+        self.commentText.delegate = self
         
-        setCollectionViewSizesInsetsForTopView()
-        
-        ApiFacade.getComments(self.postId, offset: offset, successCallback: onSuccessAddComment, failureCallback: onFailure)
+        ApiFacade.getComments(self.postId, offset: offset, successCallback: onSuccessGetComment, failureCallback: onFailureGetComments)
         
         self.loading = true
         
-        let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.itemSize = CGSizeMake(self.view.bounds.width, self.view.bounds.height)
-        flowLayout.scrollDirection = UICollectionViewScrollDirection.Vertical
-        flowLayout.minimumInteritemSpacing = 1
-        flowLayout.minimumLineSpacing = 1
-        self.uiCollectionView.collectionViewLayout = flowLayout
+        self.refreshControl.attributedTitle = NSAttributedString(string: "")
+        self.refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
+        self.commentsTableView.addSubview(refreshControl)
+        
+        self.commentsTableView.separatorColor = Color.LIGHT_GRAY
+        self.commentsTableView.separatorStyle = .SingleLine
+        self.commentsTableView.tableFooterView = UIView(frame: CGRectZero)
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    // MARK: UITableViewDataSource and Delegates
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
-    
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.comments!.count
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("commentViewCell", forIndexPath: indexPath) as! CommentCollectionViewCell
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier(viewCellIdentifier)! as! CommentTableViewCell
+        
         let comment = self.comments![indexPath.row]
         ImageUtil.displayThumbnailProfileImage(comment.ownerId, imageView: cell.userImg)
         cell.userName.text = comment.ownerName
         cell.commentText.text = comment.body
-        cell.commentTime.text = NSDate(timeIntervalSince1970:Double(comment.createdDate) / 1000.0).timeAgo
+        if (comment.id != -1) {
+            cell.commentTime.text = NSDate(timeIntervalSince1970:Double(comment.createdDate) / 1000.0).timeAgo
+        } else {
+            cell.commentTime.text = NSDate(timeIntervalSinceNow: comment.createdDate / 1000.0).timeAgo
+        }
         return cell
     }
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let vController = self.storyboard!.instantiateViewControllerWithIdentifier("UserProfileFeedViewController") as! UserProfileFeedViewController
         vController.userId = self.comments![indexPath.row].ownerId
         self.navigationController?.pushViewController(vController, animated: true)
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
-        return 1.0
+    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        if self.comments![indexPath.row].ownerId == UserInfoCache.getUser()!.id {
+            return true
+        }
+        return false
     }
     
-    func setCollectionViewSizesInsetsForTopView() {
-        collectionViewCellSize = CGSizeMake(self.view.bounds.width, 65)
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if editingStyle == .Delete {
+            deleteCellIndex = indexPath
+            let commentToDelete = self.comments![indexPath.row]
+            confirmDelete(commentToDelete)
+        }
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        return collectionViewCellSize!
+    func confirmDelete(comment: CommentVM) {
+        let alert = UIAlertController(title: "Delete Comment", message: "Are you sure you want to delete comment?", preferredStyle: .ActionSheet)
+        
+        let deleteAction = UIAlertAction(title: "Delete", style: .Destructive, handler: handleDeleteComment)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: cancelDeleteComment)
+        
+        alert.addAction(deleteAction)
+        alert.addAction(cancelAction)
+        
+        // Support display in iPad
+        alert.popoverPresentationController?.sourceView = self.view
+        alert.popoverPresentationController?.sourceRect = CGRectMake(self.view.bounds.size.width / 2.0, self.view.bounds.size.height / 2.0, 1.0, 1.0)
+        
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    func handleDeleteComment(alertAction: UIAlertAction!) -> Void {
+        if let indexPath = deleteCellIndex {
+            ViewUtil.showGrayOutView(self, activityLoading: self.activityLoading)
+            //ApiController.instance.deleteComment(self.comments![(indexPath.row)].id)
+            ApiFacade.deleteComment(self.comments![(indexPath.row)].id, successCallback: onSuccessDeleteComment, failureCallback: onFailureDeleteComment)
+        }
+    }
+    
+    func cancelDeleteComment(alertAction: UIAlertAction!) {
+        deleteCellIndex = nil
+    }
+    
+    func refresh(sender:AnyObject) {
+        offset = 0
+        self.comments?.removeAll()
+        ApiFacade.getComments(self.postId, offset: offset, successCallback: onSuccessGetComment, failureCallback: onFailureGetComments)
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
     }
     
     // MARK: UIScrollview Delegate
@@ -92,13 +143,22 @@ class MoreCommentsViewController: UIViewController {
                 if (!self.comments!.isEmpty) {
                     self.offset += 1
                 }
-                ApiFacade.getComments(self.postId, offset: offset, successCallback: onSuccessAddComment, failureCallback: onFailure)
+                ApiFacade.getComments(self.postId, offset: offset, successCallback: onSuccessGetComment, failureCallback: onFailureGetComments)
                 
             }
         }
     }
     
-    func onSuccessAddComment(_comments: [CommentVM]) {
+    @IBAction func onClickSaveBtn(sender: AnyObject) {
+        
+        if self.commentText.text!.isEmpty {
+            ViewUtil.makeToast("Please enter a comment", view: self.view)
+            return
+        }
+        ApiFacade.postComment(self.postId, commentText: self.commentText.text!, successCallback: onSuccessAddComment, failureCallback: onFailureAddComment)
+    }
+    
+    func onSuccessGetComment(_comments: [CommentVM]) {
         
         if (!_comments.isEmpty) {
             if (self.comments!.count == 0) {
@@ -106,18 +166,63 @@ class MoreCommentsViewController: UIViewController {
             } else {
                 self.comments!.appendContentsOf(_comments)
             }
-            self.uiCollectionView.reloadData()
+            self.commentsTableView.reloadData()
         } else {
             loadedAll = true
         }
         loading = false
         ViewUtil.hideActivityLoading(self.activityLoading)
+        self.refreshControl.endRefreshing()
+    }
+    
+    func onSuccessAddComment(response: String) {
+        let _nComment = CommentVM()
+        _nComment.ownerId = UserInfoCache.getUser()!.id
+        _nComment.body = self.commentText.text!
+        _nComment.ownerName = UserInfoCache.getUser()!.displayName
+        _nComment.deviceType = "iOS"
+        _nComment.createdDate = NSDate().timeIntervalSinceNow
+        _nComment.id = -1
+        self.comments!.append(_nComment)
+        //self.comments!.sortInPlace({ $0.createdDate < $1.createdDate })
+        self.commentText.text = ""
+        self.commentsTableView.reloadData()
+        //self.performSegueWithIdentifier("unwindToProductScreen", sender: self)
         
     }
     
-    func onFailure(message: String) {
+    func onSuccessDeleteComment(response: String) {
+        if self.deleteCellIndex != nil {
+            self.comments?.removeAtIndex((self.deleteCellIndex?.row)!)
+            self.commentsTableView.contentInset =  UIEdgeInsetsZero
+            ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
+            self.commentsTableView.reloadData()
+            self.view.makeToast(message: "Comment delete successfully", duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
+        } else {
+            ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
+        }
+        
+        self.deleteCellIndex = nil
+    }
+    
+    func onFailureGetComments(message: String) {
+        ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
         ViewUtil.showDialog("Error", message: message, view: self)
     }
     
-
+    func onFailureDeleteComment(message: String) {
+        ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
+        ViewUtil.showDialog("Error", message: message, view: self)
+    }
+    
+    func onFailureAddComment(message: String) {
+        ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
+        ViewUtil.showDialog("Error", message: message, view: self)
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool { // called when 'return' key pressed. return NO to ignore.
+        textField.resignFirstResponder()
+        return true
+    }
+    
 }

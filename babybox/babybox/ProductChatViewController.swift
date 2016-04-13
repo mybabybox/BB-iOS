@@ -168,15 +168,4 @@ class ProductChatViewController: UIViewController {
         }
     }
     
-    // MARK: UIScrollview Delegate
-    /*func scrollViewDidScroll(scrollView: UIScrollView) {
-        if (scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - Constants.FEED_LOAD_SCROLL_THRESHOLD {
-            if (!loadedAll && !loading) {
-                ViewUtil.showActivityLoading(self.activityLoading)
-                loading = true
-                var offset: Int64 = 0
-                ApiController.instance.getPostConversations(postId)
-            }
-        }
-    }*/
 }

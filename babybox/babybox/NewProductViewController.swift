@@ -72,13 +72,13 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
         self.prodDescription.isApplyTextFieldStyle = true
         self.prodDescription.layer.borderWidth = 0
         
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(NewProductViewController.dismissKeyboard))
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
         view.addGestureRecognizer(tap)
         
         self.sellingtext.delegate = self
         //self.prodDescription.delegate = self
         
-        ViewUtil.setCustomBackButton(self, action: #selector(NewProductViewController.onBackPressed(_:)))
+        ViewUtil.setCustomBackButton(self, action: "onBackPressed:")
         
         SwiftEventBus.unregister(self)
         
@@ -132,7 +132,7 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
         
         let saveProductImg: UIButton = UIButton()
         saveProductImg.setTitle("Save", forState: UIControlState.Normal)
-        saveProductImg.addTarget(self, action: #selector(NewProductViewController.saveProduct(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+        saveProductImg.addTarget(self, action: "saveProduct:", forControlEvents: UIControlEvents.TouchUpInside)
         saveProductImg.frame = CGRectMake(0, 0, 60, 35)
         let saveProductBarBtn = UIBarButtonItem(customView: saveProductImg)
         self.navigationItem.rightBarButtonItems = [saveProductBarBtn]
@@ -206,7 +206,7 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
         }
         
         cell.imageHolder.tag = indexPath.row
-        cell.imageHolder.addTarget(self, action:#selector(NewProductViewController.choosePhotoOption(_:)) , forControlEvents: UIControlEvents.TouchUpInside)
+        cell.imageHolder.addTarget(self, action:"choosePhotoOption:" , forControlEvents: UIControlEvents.TouchUpInside)
         return cell
     }
     
