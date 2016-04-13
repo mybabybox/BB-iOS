@@ -85,6 +85,27 @@ class ViewUtil {
         
     }
     
+    static func drawLineFromPoint(start: CGPoint, toPoint end: CGPoint, ofColor lineColor: UIColor, inView view: UIView) {
+        //design the path
+        let path = UIBezierPath()
+        path.moveToPoint(start)
+        path.addLineToPoint(end)
+        path.lineJoinStyle = CGLineJoin.Round
+        path.lineCapStyle = CGLineCap.Square
+        path.miterLimit = CGFloat(0.0)
+        
+        //design path in layer
+        var shapeLayer = CAShapeLayer()
+        shapeLayer.fillColor = Color.WHITE.CGColor
+        shapeLayer.path = path.CGPath
+        shapeLayer.strokeColor = lineColor.CGColor
+        shapeLayer.lineWidth = 2.0
+        shapeLayer.allowsEdgeAntialiasing = false
+        shapeLayer.allowsGroupOpacity = false
+        shapeLayer.autoreverses = false
+        view.layer.addSublayer(shapeLayer)
+    }
+    
     static func pushViewControllerAndPopSelf(toPush: UIViewController, toPop: UIViewController) {
         toPop.navigationController?.pushViewController(toPush, animated: true)
         
