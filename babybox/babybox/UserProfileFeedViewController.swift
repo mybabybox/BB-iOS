@@ -90,7 +90,7 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
         
         self.navigationItem.rightBarButtonItems = []
         self.navigationItem.leftBarButtonItems = []
-        
+        self.uiCollectionView!.alwaysBounceVertical = true
         self.uiCollectionView.addPullToRefresh({ [weak self] in
             self!.feedLoader?.reloadFeedItems((self?.userInfo?.id)!)
         })

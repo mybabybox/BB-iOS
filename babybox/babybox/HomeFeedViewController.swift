@@ -102,7 +102,7 @@ class HomeFeedViewController: CustomNavigationController {
         uiCollectionView.collectionViewLayout = feedViewAdapter!.getFeedViewFlowLayout(self)
         
         self.categories = CategoryCache.categories
-        
+        self.uiCollectionView!.alwaysBounceVertical = true
         self.uiCollectionView.addPullToRefresh({ [weak self] in
             CategoryCache.refresh(self?.onSuccessGetCategories, failureCallback: nil)
             self!.feedLoader?.reloadFeedItems()

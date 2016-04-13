@@ -62,7 +62,7 @@ class UserActivityViewController: CustomNavigationController {
         flowLayout.minimumInteritemSpacing = 1
         flowLayout.minimumLineSpacing = 1
         uiCollectionView.collectionViewLayout = flowLayout
-        
+        self.uiCollectionView!.alwaysBounceVertical = true
         self.uiCollectionView.addPullToRefresh({ [weak self] in
             self?.reload()
         })

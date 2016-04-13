@@ -75,7 +75,7 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
         setCollectionViewSizesInsets()
         
         uiCollectionView.collectionViewLayout = feedViewAdapter!.getFeedViewFlowLayout(self)
-        
+        self.uiCollectionView!.alwaysBounceVertical = true
         self.uiCollectionView.addPullToRefresh({ [weak self] in
             self!.feedLoader?.reloadFeedItems()
         })

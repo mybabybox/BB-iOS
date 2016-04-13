@@ -104,7 +104,7 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
         setCollectionViewSizesInsetsForTopView()
         
         uiCollectionView.collectionViewLayout = feedViewAdapter!.getFeedViewFlowLayout(self)
-        
+        self.uiCollectionView!.alwaysBounceVertical = true
         self.uiCollectionView.addPullToRefresh({ [weak self] in
             self?.reloadFeedItems()
         })

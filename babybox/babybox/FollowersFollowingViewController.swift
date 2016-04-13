@@ -71,6 +71,7 @@ class FollowersFollowingViewController: UICollectionViewController {
         
         self.loadFollowingFollowers()
         self.loading = true
+        self.collectionView!.alwaysBounceVertical = true
         self.collectionView!.addPullToRefresh({ [weak self] in
             self?.reloadActivities()
         })
@@ -148,22 +149,10 @@ class FollowersFollowingViewController: UICollectionViewController {
         }
     }
     
-    /*func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSizeZero
-    }*/
     func setCollectionViewSizesInsets() {
         collectionViewCellSize = CGSizeMake(self.view.bounds.width , 60)
     }
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
     // MARK: UIScrollview Delegate
     override func scrollViewDidScroll(scrollView: UIScrollView) {
         if (scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - Constants.FEED_LOAD_SCROLL_THRESHOLD {

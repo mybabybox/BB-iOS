@@ -37,7 +37,7 @@ class RecommendedSellerViewController: UIViewController {
         ViewUtil.showActivityLoading(self.activityLoading)
         
         ApiController.instance.getRecommendedSellersFeed(offSet)
-        
+        self.uiCollectionView!.alwaysBounceVertical = true
         self.uiCollectionView.addPullToRefresh({ [weak self] in
             self?.reloadSellers()
         })
