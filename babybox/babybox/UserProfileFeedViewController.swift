@@ -22,7 +22,6 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
     var isHtCalculated = false
     
     var activeHeaderViewCell: UserFeedHeaderViewCell? = nil
-    let shapeLayer = CAShapeLayer()
     
     var vController: ProductViewController?
     var currentIndex: NSIndexPath?
@@ -302,22 +301,7 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
         
         reloadFeedItems()
         
-        redrawSegControlBorder(segControl!)
-    }
-    
-    func redrawSegControlBorder(segControl: UISegmentedControl) {
-        
-        if segControl.selectedSegmentIndex == 0 {
-            let y = CGFloat(segControl.frame.size.height)
-            let start: CGPoint = CGPoint(x: 0, y: (segControl.frame.origin.y) + y)
-            let end: CGPoint = CGPoint(x: self.view.frame.size.width / 2, y: (segControl.frame.origin.y) + y)
-            self.drawLineFromPoint(start, toPoint: end, ofColor: Color.PINK, inView: segControl)
-        } else if segControl.selectedSegmentIndex == 1 {
-            let y = CGFloat(segControl.frame.size.height)
-            let start: CGPoint = CGPoint(x: segControl.frame.size.width / 2 , y: (segControl.frame.origin.y) + y)
-            let end: CGPoint = CGPoint(x: segControl.frame.size.width, y: (segControl.frame.origin.y) + y)
-            self.drawLineFromPoint(start, toPoint: end, ofColor: Color.PINK, inView: segControl)
-        }
+        ViewUtil.selectSegmentControl(segControl!, view: self.uiCollectionView)
     }
     
     func setSizesForFilterButtons(cell: UserFeedHeaderViewCell) {
@@ -327,7 +311,7 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
         
         cell.segmentControl.backgroundColor = Color.WHITE
         
-        redrawSegControlBorder(cell.segmentControl)
+        ViewUtil.selectSegmentControl(cell.segmentControl, view: self.uiCollectionView)
         
         cell.btnWidthConsttraint.constant = buttonWidth
         /*cell.followersBtn.layer.borderColor = Color.LIGHT_GRAY.CGColor
@@ -344,27 +328,7 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
             cell.editProfile.hidden = true
         }
     }
-    
-    func drawLineFromPoint(start : CGPoint, toPoint end:CGPoint, ofColor lineColor: UIColor, inView view: UIView) {
-        //design the path
-        let path = UIBezierPath()
-        path.moveToPoint(start)
-        path.addLineToPoint(end)
-        path.lineJoinStyle = CGLineJoin.Round
-        path.lineCapStyle = CGLineCap.Square
-        path.miterLimit = CGFloat(0.0)
-        //design path in layer
-        
-        shapeLayer.fillColor = Color.WHITE.CGColor
-        shapeLayer.path = path.CGPath
-        shapeLayer.strokeColor = lineColor.CGColor
-        shapeLayer.lineWidth = 2.0
-        shapeLayer.allowsEdgeAntialiasing = false
-        shapeLayer.allowsGroupOpacity = false
-        shapeLayer.autoreverses = false
-        self.uiCollectionView.layer.addSublayer(shapeLayer)
-    }
-    
+   
     @IBAction func onClickFollowUnfollow(sender: AnyObject) {
         let button = sender as! UIButton
         let view = button.superview!

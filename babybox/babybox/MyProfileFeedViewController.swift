@@ -21,7 +21,6 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
     var isHtCalculated = false
     
     var activeHeaderViewCell: UserFeedHeaderViewCell? = nil
-    let shapeLayer = CAShapeLayer()
     let imagePicker = UIImagePickerController()
     
     var vController: ProductViewController?
@@ -307,7 +306,7 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
 
         reloadFeedItems()
 
-        redrawSegControlBorder(segControl!)
+        ViewUtil.selectSegmentControl(segControl!, view: self.uiCollectionView)
         
         if (self.activeHeaderViewCell != nil) {
             self.activeHeaderViewCell?.segmentControl.setTitle("Products " + String(self.userInfo!.numProducts), forSegmentAtIndex: 0)
@@ -325,21 +324,6 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
         dismissViewControllerAnimated(true, completion: nil)
     }
     
-    func redrawSegControlBorder(segControl: UISegmentedControl) {
-        
-        if segControl.selectedSegmentIndex == 0 {
-            let y = CGFloat(segControl.frame.size.height)
-            let start: CGPoint = CGPoint(x: 0, y: (segControl.frame.origin.y) + y)
-            let end: CGPoint = CGPoint(x: self.view.frame.size.width / 2, y: (segControl.frame.origin.y) + y)
-            self.drawLineFromPoint(start, toPoint: end, ofColor: Color.PINK, inView: segControl)
-        } else if segControl.selectedSegmentIndex == 1 {
-            let y = CGFloat(segControl.frame.size.height)
-            let start: CGPoint = CGPoint(x: segControl.frame.size.width / 2 , y: (segControl.frame.origin.y) + y)
-            let end: CGPoint = CGPoint(x: segControl.frame.size.width, y: (segControl.frame.origin.y) + y)
-            self.drawLineFromPoint(start, toPoint: end, ofColor: Color.PINK, inView: segControl)
-        }
-    }
-    
     func setSizesForFilterButtons(cell: UserFeedHeaderViewCell) {
         isWidthSet = true
         let availableWidthForButtons:CGFloat = self.view.bounds.width
@@ -347,33 +331,13 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
         
         cell.segmentControl.backgroundColor = Color.WHITE
         
-        redrawSegControlBorder(cell.segmentControl)
+        ViewUtil.selectSegmentControl(cell.segmentControl, view: self.uiCollectionView)
         
         cell.btnWidthConsttraint.constant = buttonWidth
         cell.editProfile.layer.borderColor = Color.LIGHT_GRAY.CGColor
         cell.editProfile.layer.borderWidth = 1.0
         
         ViewUtil.displayRoundedCornerView(cell.editProfile)
-    }
-   
-    func drawLineFromPoint(start : CGPoint, toPoint end:CGPoint, ofColor lineColor: UIColor, inView view: UIView) {
-        //design the path
-        let path = UIBezierPath()
-        path.moveToPoint(start)
-        path.addLineToPoint(end)
-        path.lineJoinStyle = CGLineJoin.Round
-        path.lineCapStyle = CGLineCap.Square
-        path.miterLimit = CGFloat(0.0)
-        //design path in layer
-        
-        shapeLayer.fillColor = Color.WHITE.CGColor
-        shapeLayer.path = path.CGPath
-        shapeLayer.strokeColor = lineColor.CGColor
-        shapeLayer.lineWidth = 2.0
-        shapeLayer.allowsEdgeAntialiasing = false
-        shapeLayer.allowsGroupOpacity = false
-        shapeLayer.autoreverses = false
-        self.uiCollectionView.layer.addSublayer(shapeLayer)
     }
     
     func onSuccessRefreshNotifications(notifcationCounter: NotificationCounterVM) {

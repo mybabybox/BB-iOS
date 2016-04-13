@@ -22,10 +22,6 @@ class SellerViewController: CustomNavigationController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // select home segment
-        self.segController.selectedSegmentIndex = 0
-        self.segController.selectedSegmentIndex = self.activeSegment
-        self.segAction(self.segController)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -33,7 +29,9 @@ class SellerViewController: CustomNavigationController {
     }
 
     override func viewDidAppear(animated: Bool) {
-        selectSegmentControl(self.segController, view: self.view)
+        self.segController.selectedSegmentIndex = 0
+        self.segController.selectedSegmentIndex = self.activeSegment
+        self.segAction(self.segController)
     }
     
     @IBAction func segAction(sender: AnyObject) {
@@ -65,27 +63,7 @@ class SellerViewController: CustomNavigationController {
             self.followingController?.didMoveToParentViewController(self)
         }
         
-        selectSegmentControl(self.segController, view: self.view)
-    }
-    
-    func selectSegmentControl(segmentController: UISegmentedControl, view: UIView) {
-        var tab1Color = Color.WHITE
-        var tab2Color = Color.WHITE
-        if segmentController.selectedSegmentIndex == 0 {
-            tab1Color = Color.PINK
-        } else if segmentController.selectedSegmentIndex == 1 {
-            tab2Color = Color.PINK
-        }
-        
-        let y1 = CGFloat(segmentController.frame.size.height)
-        let start1: CGPoint = CGPoint(x: 0, y: y1)
-        let end1: CGPoint = CGPoint(x: segmentController.frame.size.width / 2, y: y1)
-        ViewUtil.drawLineFromPoint(start1, toPoint: end1, ofColor: tab1Color, inView: view)
-        
-        let y2 = CGFloat(segmentController.frame.size.height)
-        let start2: CGPoint = CGPoint(x: segmentController.frame.size.width / 2 , y: y2)
-        let end2: CGPoint = CGPoint(x: segmentController.frame.size.width, y: y2)
-        ViewUtil.drawLineFromPoint(start2, toPoint: end2, ofColor: tab2Color, inView: view)
+        ViewUtil.selectSegmentControl(self.segController, view: self.view)
     }
     
     override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {

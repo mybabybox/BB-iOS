@@ -85,6 +85,30 @@ class ViewUtil {
         
     }
     
+    static func selectSegmentControl(segmentController: UISegmentedControl, view: UIView) {
+        if segmentController.selectedSegmentIndex != 0 && segmentController.selectedSegmentIndex != 1 {
+            return
+        }
+        
+        var tab1Color = Color.WHITE
+        var tab2Color = Color.WHITE
+        if segmentController.selectedSegmentIndex == 0 {
+            tab1Color = Color.PINK
+        } else if segmentController.selectedSegmentIndex == 1 {
+            tab2Color = Color.PINK
+        }
+        
+        let y = segmentController.frame.origin.y + CGFloat(segmentController.frame.size.height)
+        
+        let start1: CGPoint = CGPoint(x: 0, y: y)
+        let end1: CGPoint = CGPoint(x: segmentController.frame.size.width / 2, y: y)
+        ViewUtil.drawLineFromPoint(start1, toPoint: end1, ofColor: tab1Color, inView: view)
+        
+        let start2: CGPoint = CGPoint(x: segmentController.frame.size.width / 2 , y: y)
+        let end2: CGPoint = CGPoint(x: segmentController.frame.size.width, y: y)
+        ViewUtil.drawLineFromPoint(start2, toPoint: end2, ofColor: tab2Color, inView: view)
+    }
+    
     static func drawLineFromPoint(start: CGPoint, toPoint end: CGPoint, ofColor lineColor: UIColor, inView view: UIView) {
         //design the path
         let path = UIBezierPath()
@@ -95,7 +119,7 @@ class ViewUtil {
         path.miterLimit = CGFloat(0.0)
         
         //design path in layer
-        var shapeLayer = CAShapeLayer()
+        let shapeLayer = CAShapeLayer()
         shapeLayer.fillColor = Color.WHITE.CGColor
         shapeLayer.path = path.CGPath
         shapeLayer.strokeColor = lineColor.CGColor
