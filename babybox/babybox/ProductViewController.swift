@@ -311,8 +311,10 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         //on click of User section show the User profile screen.
-        if (indexPath.section == 2) {
+        if indexPath.section == 2  {
             self.performSegueWithIdentifier("userprofile", sender: nil)
+        } else if indexPath.section == 3 && indexPath.row == self.comments.count {
+            self.performSegueWithIdentifier("addComment", sender: nil)
         }
     }
     
@@ -453,11 +455,13 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
     //categoryScreen
     //MARK Segue handling methods.
     override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
-        if (identifier == "categoryScreen") {
+        if identifier == "categoryScreen" {
             return true
-        } else if (identifier == "userprofile") {
+        } else if identifier == "userprofile" {
             return true
-        } else if (identifier == "viewChats" || identifier == "soldViewChat") {
+        } else if identifier == "viewChats" || identifier == "soldViewChat" {
+            return true
+        } else if identifier == "postComment" || identifier == "addComment" {
             return true
         }
         return false
@@ -465,17 +469,21 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
-        if (segue.identifier == "categoryScreen") {
+        if segue.identifier == "categoryScreen" {
             let vController = segue.destinationViewController as! CategoryFeedViewController
             vController.selCategory = CategoryCache.getCategoryById(self.productInfo!.categoryId)
             vController.hidesBottomBarWhenPushed = true
-        } else if (segue.identifier == "userprofile") {
+        } else if segue.identifier == "userprofile" {
             let vController = segue.destinationViewController as! UserProfileFeedViewController
             vController.userId = self.productInfo!.ownerId
             vController.hidesBottomBarWhenPushed = true
-        } else if (segue.identifier == "viewChats" || segue.identifier == "soldViewChat") {
+        } else if segue.identifier == "viewChats" || segue.identifier == "soldViewChat" {
             //postId
             let vController = segue.destinationViewController as! ProductChatViewController
+            vController.postId = self.productInfo!.id
+            vController.hidesBottomBarWhenPushed = true
+        } else if segue.identifier == "postComment" || segue.identifier == "addComment" {
+            let vController = segue.destinationViewController as! AddCommentViewController
             vController.postId = self.productInfo!.id
             vController.hidesBottomBarWhenPushed = true
         }
@@ -660,5 +668,20 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
             UIView.commitAnimations()
         }
     }
+    
+    
+    @IBAction func onClickMoreComments(sender: AnyObject) {
+    }
+    
+    @IBAction func unwindToProductScreen(segue: UIStoryboardSegue) {
+        NSLog("Coming after adding comment")
+        if(segue.sourceViewController .isKindOfClass(AddCommentViewController)) {
+            let vController = segue.sourceViewController as? AddCommentViewController
+            self.comments.append(vController!.postedComment!)
+            self.detailTableView.reloadData()
+        }
+    }
+    
+    
     
 }
