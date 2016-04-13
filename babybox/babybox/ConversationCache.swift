@@ -19,9 +19,7 @@ class ConversationCache {
     }
     
     static func sort(conversations: [ConversationVM]) -> [ConversationVM] {
-        var items = conversations
-        items.sortInPlace({ $0.lastMessageDate > $1.lastMessageDate })
-        return items
+        return conversations.sort({ $0.lastMessageDate > $1.lastMessageDate })
     }
     
     static func load(offset: Int64, successCallback: (([ConversationVM]) -> Void)?, failureCallback: ((String) -> Void)?) {

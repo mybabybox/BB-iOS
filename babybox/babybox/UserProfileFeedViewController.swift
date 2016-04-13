@@ -85,7 +85,7 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
         setCollectionViewSizesInsets()
         setCollectionViewSizesInsetsForTopView()
         
-        uiCollectionView.collectionViewLayout = feedViewAdapter!.getFeedViewFlowLayout(self)
+        uiCollectionView.collectionViewLayout = FeedViewAdapter.getFeedViewFlowLayout(self)
         
         self.navigationItem.rightBarButtonItems = []
         self.navigationItem.leftBarButtonItems = []
@@ -277,7 +277,7 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
     }
     
     func setCollectionViewSizesInsets() {
-        collectionViewCellSize = feedViewAdapter!.getFeedItemCellSize(self.view.bounds.width)
+        collectionViewCellSize = FeedViewAdapter.getFeedItemCellSize(self.view.bounds.width)
     }
     
     @IBAction func onLikeBtnClick(sender: AnyObject) {

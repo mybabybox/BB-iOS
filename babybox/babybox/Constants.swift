@@ -13,7 +13,7 @@ struct Constants {
     
     static let BASE_URL = "http://119.81.228.91"
     static let BASE_IMAGE_URL = "http://119.81.228.91"
-    
+        
     static let DEVICE_TYPE = "IOS";
     static let CURRENCY_SYMBOL = "$"
     
@@ -26,12 +26,14 @@ struct Constants {
     static let MAIN_BOTTOM_BAR_ALPHA = 0.9
     
     // sizes
+    static let GENERAL_SPACING = CGFloat(10)
     static let HOME_HEADER_ITEMS_MARGIN_TOTAL = CGFloat(12)     // 3 each
-    static let CATEGORY_HEADER_HEIGHT = CGFloat(155)
-    static let PROFILE_HEADER_HEIGHT = CGFloat(200)
+    static let CATEGORY_HEADER_HEIGHT = CGFloat(150)
+    static let PROFILE_HEADER_HEIGHT = CGFloat(190)
     static let FEED_ITEM_SIDE_SPACING = CGFloat(7)
     static let FEED_ITEM_LINE_SPACING = CGFloat(7)
     static let FEED_ITEM_DETAILS_HEIGHT = CGFloat(35)
+    static let SELLER_FEED_ITEM_DETAILS_HEIGHT = CGFloat(70)
     static let MESSAGE_IMAGE_WIDTH = CGFloat(0.65)
     static let MESSAGE_LOAD_MORE_BTN_HEIGHT = CGFloat(0)
     

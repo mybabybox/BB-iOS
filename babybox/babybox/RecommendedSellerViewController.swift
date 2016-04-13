@@ -36,14 +36,8 @@ class RecommendedSellerViewController: UIViewController {
         
         ViewUtil.showActivityLoading(self.activityLoading)
         
-        let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.itemSize = CGSizeMake(self.view.bounds.width, self.view.bounds.height)
-        flowLayout.scrollDirection = UICollectionViewScrollDirection.Vertical
-        flowLayout.minimumInteritemSpacing = Constants.FEED_ITEM_SIDE_SPACING
-        flowLayout.minimumLineSpacing = Constants.FEED_ITEM_LINE_SPACING
-        flowLayout.sectionInset = UIEdgeInsetsMake(0, Constants.FEED_ITEM_SIDE_SPACING, 0, Constants.FEED_ITEM_SIDE_SPACING)
-        uiCollectionView.collectionViewLayout = flowLayout
-        
+        uiCollectionView.collectionViewLayout = FeedViewAdapter.getFeedViewFlowLayout(self, spacing: Constants.GENERAL_SPACING)
+
         ApiController.instance.getRecommendedSellersFeed(offSet)
         self.uiCollectionView!.alwaysBounceVertical = true
         
@@ -71,7 +65,6 @@ class RecommendedSellerViewController: UIViewController {
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
         return recommendedSellers.count
     }
 
@@ -89,7 +82,7 @@ class RecommendedSellerViewController: UIViewController {
         ImageUtil.displayThumbnailProfileImage(self.recommendedSellers[indexPath.row].id, imageView: cell.sellerImg)
         
         // follow
-        if (item.isFollowing) {
+        if item.isFollowing {
             ViewUtil.selectFollowButtonStyleLite(cell.followBtn)
         } else {
             ViewUtil.unselectFollowButtonStyleLite(cell.followBtn)
@@ -119,7 +112,7 @@ class RecommendedSellerViewController: UIViewController {
             }
         }
         
-        if (UserInfoCache.getUser()!.id == item.id) {
+        if UserInfoCache.getUser()!.id == item.id {
             cell.followBtn.hidden = true
         } else {
             cell.followBtn.hidden = false
@@ -138,17 +131,19 @@ class RecommendedSellerViewController: UIViewController {
     // MARK: UICollectionViewDelegateFlowLayout
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        /**this code is used to dynamically specify the height to CellView without this code
-        contents get overlapped*/
-        let dummyLbl = UILabel(frame: CGRect(x: 0,y: 0, width: self.view.bounds.width, height: 0))
+        
+        // this code is used to dynamically specify the height to CellView without this code contents get overlapped
+        let dummyLbl = UILabel(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 0))
         dummyLbl.numberOfLines = 2
         dummyLbl.text = self.recommendedSellers[indexPath.row].aboutMe
         dummyLbl.sizeToFit()
         
-        let availableWidthForButtons: CGFloat = self.view.bounds.width - 60
-        let buttonWidth: CGFloat = availableWidthForButtons / 4
+        let availableWidthForButtons: CGFloat = self.view.bounds.width - (Constants.GENERAL_SPACING * 4)
+        let imageWidth: CGFloat = availableWidthForButtons / 4
         
-        return CGSizeMake(self.view.bounds.width, CGFloat(70) + dummyLbl.bounds.height + buttonWidth)
+        return CGSizeMake(
+            self.view.bounds.width - (Constants.GENERAL_SPACING * 2),
+            Constants.SELLER_FEED_ITEM_DETAILS_HEIGHT + dummyLbl.bounds.height + imageWidth)
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {

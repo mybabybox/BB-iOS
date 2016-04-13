@@ -100,7 +100,7 @@ class HomeFeedViewController: CustomNavigationController {
         
         self.uiCollectionView.registerClass(HomeReusableView.self, forSupplementaryViewOfKind: "CategoryHeaderView", withReuseIdentifier: "HeaderView")
         
-        uiCollectionView.collectionViewLayout = feedViewAdapter!.getFeedViewFlowLayout(self)
+        uiCollectionView.collectionViewLayout = FeedViewAdapter.getFeedViewFlowLayout(self)
         
         self.uiCollectionView!.alwaysBounceVertical = true
         
@@ -254,7 +254,7 @@ class HomeFeedViewController: CustomNavigationController {
     }
     
     func setCollectionViewSizesInsets() {
-        collectionViewCellSize = feedViewAdapter!.getFeedItemCellSize(self.view.bounds.width)
+        collectionViewCellSize = FeedViewAdapter.getFeedItemCellSize(self.view.bounds.width)
     }
     
     @IBAction func onLikeBtnClick(sender: AnyObject) {

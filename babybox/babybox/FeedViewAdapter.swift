@@ -91,23 +91,29 @@ class FeedViewAdapter {
         }
     }
     
-    func getFeedItemCellSize(width: CGFloat) -> CGSize {
+    static func getFeedItemCellSize(width: CGFloat) -> CGSize {
         let availableWidthForCells: CGFloat = width - (Constants.FEED_ITEM_SIDE_SPACING * 3)  // left middle right spacing
         let cellWidth: CGFloat = availableWidthForCells / 2
         let cellHeight = cellWidth + Constants.FEED_ITEM_DETAILS_HEIGHT
         return CGSizeMake(cellWidth, cellHeight)
     }
     
-    func getFeedViewFlowLayout(viewController: UIViewController) -> UICollectionViewFlowLayout {
+    static func getFeedViewFlowLayout(viewController: UIViewController) -> UICollectionViewFlowLayout {
+        return getFeedViewFlowLayout(viewController, spacing: nil)
+    }
+    
+    static func getFeedViewFlowLayout(viewController: UIViewController, spacing: CGFloat?) -> UICollectionViewFlowLayout {
+        var _spacing = Constants.FEED_ITEM_SIDE_SPACING
+        if spacing != nil {
+            _spacing = spacing!
+        }
+        
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.itemSize = CGSizeMake(viewController.view.bounds.width, viewController.view.bounds.height)
         flowLayout.scrollDirection = UICollectionViewScrollDirection.Vertical
-        flowLayout.minimumInteritemSpacing = Constants.FEED_ITEM_SIDE_SPACING
-        flowLayout.minimumLineSpacing = Constants.FEED_ITEM_LINE_SPACING
-        flowLayout.sectionInset = UIEdgeInsetsMake(0, Constants.FEED_ITEM_SIDE_SPACING, 0, Constants.FEED_ITEM_SIDE_SPACING)
+        flowLayout.minimumInteritemSpacing = _spacing
+        flowLayout.minimumLineSpacing = _spacing
+        flowLayout.sectionInset = UIEdgeInsetsMake(_spacing, _spacing, _spacing, _spacing)
         return flowLayout
     }
 }
-
-
-
