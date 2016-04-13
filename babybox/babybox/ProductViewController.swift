@@ -116,7 +116,7 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
     //MARK: UITableViewDelegate
 
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 4
+        return 5
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -129,6 +129,8 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
         case 2:
             rows = 1
         case 3:
+            rows = 1
+        case 4:
             rows = self.comments.count + 1
         default:
             rows = 1
@@ -147,6 +149,8 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
         case 2:
             reuseidentifier = "cell3"
         case 3:
+            reuseidentifier = "cell4"
+        case 4:
             reuseidentifier = ""
             if indexPath.row != self.comments.count{
                 reuseidentifier = "mCell1"
@@ -157,7 +161,7 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
             reuseidentifier = ""
         }
         
-        if indexPath.section == 3 {
+        if indexPath.section == 4 {
             let cell:MessageTableViewCell = tableView.dequeueReusableCellWithIdentifier(reuseidentifier, forIndexPath: indexPath) as! MessageTableViewCell
             
             if indexPath.row == self.comments.count {
@@ -261,6 +265,14 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
                 }
                 
                 ViewUtil.displayRoundedCornerView(cell.viewBtnIns, bgColor: Color.PINK)
+            case 3:
+                let count = productInfo?.numComments
+                cell.commentsCount.text = String(count)
+                if productInfo?.numComments > 3 {
+                    cell.moreCommentsBtn.hidden = false
+                } else {
+                    cell.moreCommentsBtn.hidden = true
+                }
             default:
                 reuseidentifier = ""
             }
@@ -298,7 +310,7 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
             return CGFloat(200.0)
         case 2:
             return CGFloat(95.0)
-        case 3:
+        case 4:
             return CGFloat(50.0)
         default:    
             return UITableViewAutomaticDimension
@@ -313,7 +325,7 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
         //on click of User section show the User profile screen.
         if indexPath.section == 2  {
             self.performSegueWithIdentifier("userprofile", sender: nil)
-        } else if indexPath.section == 3 && indexPath.row == self.comments.count {
+        } else if indexPath.section == 4 && indexPath.row == self.comments.count {
             self.performSegueWithIdentifier("addComment", sender: nil)
         }
     }
@@ -671,6 +683,11 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
     
     
     @IBAction func onClickMoreComments(sender: AnyObject) {
+        let vController = self.storyboard!.instantiateViewControllerWithIdentifier("MoreCommentsViewController") as! MoreCommentsViewController
+        vController.postId = (self.productInfo?.id)!
+        ViewUtil.resetBackButton(self.navigationItem)
+        self.navigationController?.pushViewController(vController, animated: true)
+        
     }
     
     @IBAction func unwindToProductScreen(segue: UIStoryboardSegue) {

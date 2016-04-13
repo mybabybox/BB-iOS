@@ -3,6 +3,8 @@ import UIKit
 
 class DetailsTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var moreCommentsBtn: UIButton!
+    @IBOutlet weak var commentsCount: UILabel!
     @IBOutlet weak var soldImage: UIImageView!
     @IBOutlet weak var imageHt: NSLayoutConstraint!
     @IBOutlet weak var productDesc: UILabel!

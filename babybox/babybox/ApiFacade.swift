@@ -319,6 +319,29 @@ class ApiFacade {
         ApiController.instance.postComment(postId, comment: commentText)
     }
     
+    static func getComments(postId: Int, offset: Int64, successCallback: (([CommentVM]) -> Void)?, failureCallback: ((String) -> Void)?) {
+        
+        SwiftEventBus.unregister(self)
+        
+        SwiftEventBus.onMainThread(self, name: "onSuccessGetComment") { result in
+            if successCallback != nil {
+                successCallback!(result.object as! [CommentVM])
+            }
+        }
+        
+        SwiftEventBus.onMainThread(self, name: "onFailureGetComment") { result in
+            if failureCallback != nil {
+                var error = "Failed to get comments..."
+                if result.object is NSString {
+                    error += "\n"+(result.object as! String)
+                }
+                failureCallback!(error)
+            }
+        }
+        
+        ApiController.instance.getComments(postId, offset: offset)
+    }
+    
     //static func registerAppForNotification(successCallback: ((String) -> Void)?, failureCallback: ((String) -> Void)?) {
     static func registerAppForNotification() {
         SwiftEventBus.unregister(self)

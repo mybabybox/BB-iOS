@@ -478,13 +478,23 @@ class ApiController {
         callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         self.makeApiCall(callEvent)
     }
-    ///api/get-post-conversations/
+    
     func getPostConversations(postId: Int) {
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/get-post-conversations/\(postId)"
         callEvent.resultClass = "[ConversationVM]"
         callEvent.successEventbusName = "productConversationsSuccess"
         callEvent.failedEventbusName = "productConversationsFailed"
+        callEvent.apiUrl = Constants.BASE_URL + callEvent.method
+        self.makeApiCall(callEvent)
+    }
+    
+    func getComments(id: Int, offset: Int64) {
+        let callEvent = ApiCallEvent()
+        callEvent.method = "/api/get-comments/\(id)/\(offset)"
+        callEvent.resultClass = "[CommentVM]"
+        callEvent.successEventbusName = "onSuccessGetComment"
+        callEvent.failedEventbusName = "onFailureGetComment"
         callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         self.makeApiCall(callEvent)
     }
@@ -798,6 +808,7 @@ class ApiController {
         switch cName {
         case "[CategoryVM]": result = Mapper<CategoryVM>().mapArray(inputStr)!
         case "[CountryVM]": result = Mapper<CountryVM>().mapArray(inputStr)!
+        case "[CommentVM]": result = Mapper<CommentVM>().mapArray(inputStr)!
         case "[LocationVM]": result = Mapper<LocationVM>().mapArray(inputStr)!
         case "[UserVMLite]": result = Mapper<UserVMLite>().mapArray(inputStr)!
         case "UserVM": result = Mapper<UserVM>().map(inputStr)!
