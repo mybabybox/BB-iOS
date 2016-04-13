@@ -3,6 +3,7 @@ import UIKit
 
 class MessageTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var moreCommentsBtn: UIButton!
     @IBOutlet weak var postedTime: UILabel!
     @IBOutlet weak var postedUserName: UILabel!
     @IBOutlet weak var postedUserImg: UIImageView!

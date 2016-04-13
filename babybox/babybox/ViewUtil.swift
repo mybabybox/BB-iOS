@@ -407,6 +407,13 @@ class ViewUtil {
             ViewUtil.notifMessageType = NotificationType.FOLLOW
         default: break
         }
+        
+        if ViewUtil.appOpenByNotification {
+            let app = UIApplication.sharedApplication().delegate as! AppDelegate
+            let viewController = (app.window?.rootViewController?.storyboard?.instantiateViewControllerWithIdentifier("SplashViewController"))! as! SplashViewController
+            let vc = app.window!.rootViewController as! UINavigationController
+            vc.pushViewController(viewController, animated: true)
+        }
     }
     
     static func handleAppRedirection(viewController: UIViewController) {

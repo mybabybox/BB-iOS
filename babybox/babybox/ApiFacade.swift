@@ -292,6 +292,33 @@ class ApiFacade {
         ApiController.instance.newMessage(conversationId, message: message, image: image, system: system)
     }
     
+    static func postComment(postId: Int, commentText: String, successCallback: ((String) -> Void)?, failureCallback: ((String) -> Void)?) {
+        
+        SwiftEventBus.unregister(self)
+        
+        SwiftEventBus.onMainThread(self, name: "onSuccessAddComment") { result in
+            if successCallback != nil {
+                if result.object is NSString {
+                    successCallback!(result.object as! String)
+                } else {
+                    successCallback!("")
+                }
+            }
+        }
+        
+        SwiftEventBus.onMainThread(self, name: "onFailureAddComment") { result in
+            if failureCallback != nil {
+                var error = "Failed to post comment..."
+                if result.object is NSString {
+                    error += "\n"+(result.object as! String)
+                }
+                failureCallback!(error)
+            }
+        }
+        
+        ApiController.instance.postComment(postId, comment: commentText)
+    }
+    
     //static func registerAppForNotification(successCallback: ((String) -> Void)?, failureCallback: ((String) -> Void)?) {
     static func registerAppForNotification() {
         SwiftEventBus.unregister(self)

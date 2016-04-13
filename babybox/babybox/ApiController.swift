@@ -171,8 +171,8 @@ class ApiController {
         callEvent.method = "/api/comment/new"
         callEvent.resultClass = "String"
         callEvent.body = parameter
-        //callEvent.successEventbusName = ""
-        //callEvent.failedEventbusName = ""
+        callEvent.successEventbusName = "onSuccessAddComment"
+        callEvent.failedEventbusName = "onFailureAddComment"
         callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         self.makePostApiCall(callEvent)
     }
