@@ -103,6 +103,7 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
             selector: Selector("keyboardWillHide:"),
             name: UIKeyboardWillHideNotification,
             object: nil)
+    
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -266,13 +267,16 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
                 
                 ViewUtil.displayRoundedCornerView(cell.viewBtnIns, bgColor: Color.PINK)
             case 3:
-                let count = productInfo?.numComments
-                cell.commentsCount.text = String(count)
-                if productInfo?.numComments > 3 {
-                    cell.moreCommentsBtn.hidden = false
-                } else {
-                    cell.moreCommentsBtn.hidden = true
+                
+                if let commentCount = productInfo?.numComments {
+                    cell.commentsCount.text = String(commentCount)
+                    if productInfo?.numComments > 3 {
+                        cell.moreCommentsBtn.hidden = false
+                    } else {
+                        cell.moreCommentsBtn.hidden = true
+                    }
                 }
+                
             default:
                 reuseidentifier = ""
             }
