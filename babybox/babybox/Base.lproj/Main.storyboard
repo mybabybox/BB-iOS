@@ -2448,7 +2448,7 @@
                                         <rect key="frame" x="0.0" y="28" width="414" height="88"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="uvH-lC-gSY" id="Qad-3T-tBU">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="88"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="87.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ziq-Ew-eFt" userLabel="PostImage">
@@ -3093,13 +3093,14 @@
                                             </imageView>
                                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZLq-Vn-51M" userLabel="Area">
                                                 <rect key="frame" x="110" y="343" width="285" height="30"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="30" id="ijN-ff-T17"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                <inset key="contentEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
+                                                <inset key="contentEdgeInsets" minX="10" minY="10" maxX="5" maxY="5"/>
                                                 <state key="normal">
-                                                    <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 </state>
                                                 <connections>
                                                     <action selector="ShoworDismiss:" destination="px0-27-EwH" eventType="touchUpInside" id="VT9-1C-h2U"/>
@@ -6948,11 +6949,12 @@
                                 <color key="color" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bYL-7t-vXg">
-                                <rect key="frame" x="45" y="301" width="324" height="45"/>
-                                <color key="backgroundColor" red="1" green="0.46274509800000002" blue="0.64313725489999995" alpha="1" colorSpace="calibratedRGB"/>
+                                <rect key="frame" x="70" y="301" width="274" height="40"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="45" id="E5t-Ao-i8r"/>
+                                    <constraint firstAttribute="height" constant="40" id="E5t-Ao-i8r"/>
                                 </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                                 <state key="normal" title="Delete"/>
                                 <connections>
                                     <action selector="deletePost:" destination="mKv-sf-rch" eventType="touchUpInside" id="SlT-ej-3FX"/>
@@ -6965,12 +6967,12 @@
                             <constraint firstItem="jxT-Br-3ed" firstAttribute="centerY" secondItem="C8k-Rg-mFB" secondAttribute="centerY" id="6V4-lX-x7v"/>
                             <constraint firstItem="a4H-DN-sKB" firstAttribute="leading" secondItem="C8k-Rg-mFB" secondAttribute="leading" id="Zd9-8g-7PS"/>
                             <constraint firstItem="jxT-Br-3ed" firstAttribute="centerX" secondItem="C8k-Rg-mFB" secondAttribute="centerX" id="dpL-wM-fCb"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="bYL-7t-vXg" secondAttribute="trailing" constant="25" id="ios-OZ-o3w"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="bYL-7t-vXg" secondAttribute="trailing" constant="50" id="ios-OZ-o3w"/>
                             <constraint firstAttribute="trailing" secondItem="a4H-DN-sKB" secondAttribute="trailing" id="kaq-d7-8EH"/>
                             <constraint firstItem="ML7-bM-I4y" firstAttribute="top" secondItem="a4H-DN-sKB" secondAttribute="bottom" constant="10" id="mbg-NV-r9x"/>
                             <constraint firstItem="bYL-7t-vXg" firstAttribute="top" secondItem="ML7-bM-I4y" secondAttribute="bottom" constant="30" id="qJ2-5B-cNC"/>
                             <constraint firstItem="ML7-bM-I4y" firstAttribute="trailing" secondItem="a4H-DN-sKB" secondAttribute="trailing" id="tFO-UK-DI3"/>
-                            <constraint firstItem="bYL-7t-vXg" firstAttribute="leading" secondItem="C8k-Rg-mFB" secondAttribute="leadingMargin" constant="25" id="yCJ-kV-4Wv"/>
+                            <constraint firstItem="bYL-7t-vXg" firstAttribute="leading" secondItem="C8k-Rg-mFB" secondAttribute="leadingMargin" constant="50" id="yCJ-kV-4Wv"/>
                             <constraint firstItem="ML7-bM-I4y" firstAttribute="leading" secondItem="a4H-DN-sKB" secondAttribute="leading" id="zMD-5p-HUT"/>
                         </constraints>
                     </view>

@@ -146,7 +146,7 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
                 
                 if (self.userInfo!.isFollowing) {
                     cell.editProfile.setTitle("Following", forState: UIControlState.Normal)
-                    ViewUtil.displayRoundedCornerView(cell.editProfile, bgColor: Color.GRAY)
+                    ViewUtil.displayRoundedCornerView(cell.editProfile, bgColor: Color.LIGHT_GRAY)
                 } else {
                     cell.editProfile.setTitle("Follow", forState: UIControlState.Normal)
                     ViewUtil.displayRoundedCornerView(cell.editProfile, bgColor: Color.PINK)
@@ -343,7 +343,7 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
             ApiController.instance.followUser(self.userInfo!.id)
             self.userInfo!.isFollowing = true
             cell.editProfile.setTitle("Following", forState: UIControlState.Normal)
-            ViewUtil.displayRoundedCornerView(cell.editProfile, bgColor: Color.GRAY)
+            ViewUtil.displayRoundedCornerView(cell.editProfile, bgColor: Color.LIGHT_GRAY)
         }
     }
 }

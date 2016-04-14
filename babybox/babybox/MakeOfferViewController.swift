@@ -18,7 +18,7 @@ class MakeOfferViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        ViewUtil.displayRoundedCornerView(self.saveOfferBtn, bgColor: Color.GRAY)
+        ViewUtil.displayRoundedCornerView(self.saveOfferBtn, bgColor: Color.LIGHT_GRAY)
         self.offerPrice.keyboardType = .NumberPad
         self.offerPrice.placeholder = String(Int((self.productInfo!.price)))
         self.offerPrice.text = String(Int((self.productInfo!.price)))

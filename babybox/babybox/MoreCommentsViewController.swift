@@ -35,7 +35,7 @@ class MoreCommentsViewController: UIViewController, UITextFieldDelegate, UIScrol
         super.viewDidLoad()
         
         ViewUtil.showActivityLoading(self.activityLoading)
-        ViewUtil.displayRoundedCornerView(self.postCommentBtn, bgColor: Color.GRAY)
+        ViewUtil.displayRoundedCornerView(self.postCommentBtn, bgColor: Color.LIGHT_GRAY)
         self.commentText.placeholder = "Enter Comment"
         self.commentText.delegate = self
         

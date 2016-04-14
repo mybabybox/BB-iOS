@@ -58,7 +58,7 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        ViewUtil.displayRoundedCornerView(self.deletePostBtn, bgColor: Color.GRAY)
+        ViewUtil.displayRoundedCornerView(self.deletePostBtn, bgColor: Color.LIGHT_GRAY)
         
         self.pricetxt.delegate = self
         self.pricetxt.keyboardType = .NumberPad
