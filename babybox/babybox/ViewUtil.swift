@@ -173,8 +173,6 @@ class ViewUtil {
         
         if bgColor != nil {
             view.layer.backgroundColor = bgColor!.CGColor
-        } else {
-            view.layer.backgroundColor = Color.WHITE.CGColor
         }
         
         if borderColor != nil {
