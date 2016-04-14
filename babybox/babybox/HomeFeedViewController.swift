@@ -100,9 +100,10 @@ class HomeFeedViewController: CustomNavigationController {
         
         self.uiCollectionView.registerClass(HomeReusableView.self, forSupplementaryViewOfKind: "CategoryHeaderView", withReuseIdentifier: "HeaderView")
         
-        uiCollectionView.collectionViewLayout = FeedViewAdapter.getFeedViewFlowLayout(self)
+        self.uiCollectionView.collectionViewLayout = FeedViewAdapter.getFeedViewFlowLayout(self)
         
         self.uiCollectionView!.alwaysBounceVertical = true
+        self.uiCollectionView!.backgroundColor = Color.FEED_BG
         
         self.uiCollectionView.addPullToRefresh({ [weak self] in
             CategoryCache.refresh(self?.onSuccessGetCategories, failureCallback: nil)

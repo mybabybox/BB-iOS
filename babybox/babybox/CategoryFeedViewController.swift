@@ -84,7 +84,10 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
         let sellBarBtn = UIBarButtonItem(customView: sellBtn)
         
         self.navigationItem.rightBarButtonItems = [sellBarBtn]
+        
         self.uiCollectionView!.alwaysBounceVertical = true
+        self.uiCollectionView!.backgroundColor = Color.FEED_BG
+        
         self.uiCollectionView.addPullToRefresh({ [weak self] in
             self!.feedLoader?.reloadFeedItems(Int((self?.selCategory?.id)!))
         })

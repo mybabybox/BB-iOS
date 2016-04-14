@@ -110,8 +110,6 @@ class ConversationsViewController: UIViewController {
         
         if currentIndex == nil {
             if item.unread > 0 {
-                //cell.unreadComments.layer.cornerRadius = cell.unreadComments.frame.height / 2
-                //cell.unreadComments.layer.masksToBounds = true
                 ViewUtil.displayCircularView(cell.unreadComments)
                 cell.unreadComments.backgroundColor = Color.RED
                 cell.layer.borderColor = Color.PINK.CGColor

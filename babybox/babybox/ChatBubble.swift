@@ -30,7 +30,8 @@ class ChatBubble: UIView {
         } else {
             //self.backgroundColor = Color.CHAT_YOU
         }
-        self.layer.cornerRadius = 10
+        
+        self.layer.cornerRadius = Constants.MESSAGE_BUBBLE_CORNER_RADIUS
         
         let padding: CGFloat = 10.0
         
@@ -50,7 +51,7 @@ class ChatBubble: UIView {
         let messageView: UIView = UIView(frame: CGRectMake(startX, 0, self.frame.width, self.frame.height))
         if (data.type == .You) {
             messageView.backgroundColor = Color.CHAT_YOU
-            messageView.layer.cornerRadius = 10
+            messageView.layer.cornerRadius = Constants.MESSAGE_BUBBLE_CORNER_RADIUS
             ViewUtil.displayMessageView(messageView)
             self.addSubview(messageView)
         } else {
@@ -104,7 +105,7 @@ class ChatBubble: UIView {
             let frameWidth = UIScreen.mainScreen().bounds.size.width  * Constants.MESSAGE_IMAGE_WIDTH
             imageViewChat = UIImageView(frame: CGRectMake(startX, CGRectGetHeight(labelChatText!.frame) + 10, frameWidth, frameWidth))
             imageViewChat?.image = chatImage
-            imageViewChat?.layer.cornerRadius = 10.0
+            imageViewChat?.layer.cornerRadius = Constants.MESSAGE_BUBBLE_CORNER_RADIUS
             imageViewChat?.layer.masksToBounds = true
             self.addSubview(imageViewChat!)
             self.image = data.image!

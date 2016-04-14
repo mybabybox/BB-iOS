@@ -167,7 +167,7 @@ class ViewUtil {
     }
     
     static func displayRoundedCornerView(view: UIView, bgColor: UIColor? = nil, borderColor: UIColor? = nil) {
-        view.layer.cornerRadius = 7.0
+        view.layer.cornerRadius = Constants.DEFAULT_CORNER_RADIUS
         view.layer.masksToBounds = true
         view.layer.borderWidth = 1
         
@@ -180,7 +180,7 @@ class ViewUtil {
         } else if bgColor != nil {
             view.layer.borderColor = bgColor!.CGColor
         } else {
-            view.layer.borderColor = Color.LIGHT_GRAY_2.CGColor
+            view.layer.borderColor = Color.LIGHT_GRAY.CGColor
         }
     }
     
@@ -225,7 +225,7 @@ class ViewUtil {
         loadingView.center = uiView.center
         loadingView.backgroundColor = v1
         loadingView.clipsToBounds = true
-        loadingView.layer.cornerRadius = 10
+        loadingView.layer.cornerRadius = Constants.DEFAULT_CORNER_RADIUS
         
         //let actInd: UIActivityIndicatorView = UIActivityIndicatorView()
         actInd.frame = CGRectMake(0.0, 0.0, 40.0, 40.0)
@@ -291,13 +291,13 @@ class ViewUtil {
         /*
         activityIndicator.clipsToBounds = false
         activityIndicator.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
-        activityIndicator.layer.cornerRadius = 10
+        activityIndicator.layer.cornerRadius = Constants.DEFAULT_CORNER_RADIUS
         */
         return activityIndicator
     }
     
     static func selectFollowButtonStyleLite(button: UIButton) {
-        button.layer.cornerRadius = 5.0
+        button.layer.cornerRadius = Constants.DEFAULT_BUTTON_CORNER_RADIUS
         button.layer.masksToBounds = true
         button.layer.borderWidth = 1
         button.setTitleColor(Color.GRAY, forState: UIControlState.Normal)
@@ -306,7 +306,7 @@ class ViewUtil {
     }
     
     static func unselectFollowButtonStyleLite(button: UIButton) {
-        button.layer.cornerRadius = 5.0
+        button.layer.cornerRadius = Constants.DEFAULT_BUTTON_CORNER_RADIUS
         button.layer.masksToBounds = true
         button.layer.borderWidth = 1
         button.setTitleColor(Color.PINK, forState: UIControlState.Normal)
@@ -465,7 +465,7 @@ class ViewUtil {
     }
     
     static func displayRoundedCornerBtnView(view: UIButton) {
-        view.layer.cornerRadius = 7.0
+        view.layer.cornerRadius = Constants.DEFAULT_BUTTON_CORNER_RADIUS
         view.layer.masksToBounds = true
         view.layer.borderWidth = 0
     }

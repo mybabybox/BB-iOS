@@ -41,7 +41,7 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
     var category: CategoryVM?
     var customDate: NSDate = NSDate()
     
-    var collectionView:UICollectionView!
+    var collectionView: UICollectionView!
     
     var images: [String] = []
     
@@ -69,6 +69,7 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
         self.detailTableView.layoutIfNeeded()
         self.detailTableView.reloadData()
         self.detailTableView.translatesAutoresizingMaskIntoConstraints = true
+        self.detailTableView.backgroundColor = Color.FEED_BG
         
         ViewUtil.showActivityLoading(self.activityLoading)
         
@@ -153,7 +154,7 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
                 ViewUtil.displayRoundedCornerView(cell.btnPostComments)
                 cell.btnPostComments.layer.borderColor = Color.LIGHT_GRAY.CGColor
                 cell.commentTxt.delegate = self
-                cell.commentTxt.layer.cornerRadius = 5.0
+                cell.commentTxt.layer.cornerRadius = Constants.DEFAULT_CORNER_RADIUS
                 cell.commentTxt.layer.masksToBounds = true
                 
             } else {
@@ -181,7 +182,6 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
             
             switch indexPath.section {
             case 0:
-                
                 if self.productInfo != nil && self.productInfo!.images.count > 0 {
                     for i in 0...self.productInfo!.images.count - 1 {
                         self.images.append(String(self.productInfo!.images[i]))
@@ -190,7 +190,6 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
                     self.collectionView.delegate = self
                     self.collectionView.dataSource = self
                     cell.soldImage.hidden = !self.productInfo!.sold
-                    
                 }
                 
             case 1:

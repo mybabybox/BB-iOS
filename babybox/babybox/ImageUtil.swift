@@ -180,7 +180,7 @@ class ImageUtil {
         view.kf_setImageWithURL(imageUrl!,
             placeholderImage: nil,
             optionsInfo: allOptionsInfo)
-        view.layer.cornerRadius = 15
+        view.layer.cornerRadius = Constants.DEFAULT_CORNER_RADIUS
         view.layer.masksToBounds = true
     }
     

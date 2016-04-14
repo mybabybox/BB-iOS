@@ -36,10 +36,12 @@ class RecommendedSellerViewController: UIViewController {
         
         ViewUtil.showActivityLoading(self.activityLoading)
         
-        uiCollectionView.collectionViewLayout = FeedViewAdapter.getFeedViewFlowLayout(self, spacing: Constants.GENERAL_SPACING)
-
         ApiController.instance.getRecommendedSellersFeed(offSet)
+        
+        self.uiCollectionView.collectionViewLayout = FeedViewAdapter.getFeedViewFlowLayout(self, spacing: Constants.DEFAULT_SPACING)
+        
         self.uiCollectionView!.alwaysBounceVertical = true
+        self.uiCollectionView!.backgroundColor = Color.FEED_BG
         
         self.uiCollectionView.addPullToRefresh({ [weak self] in
             self?.reloadSellers()
@@ -79,6 +81,7 @@ class RecommendedSellerViewController: UIViewController {
         cell.aboutMe.numberOfLines = 3
         cell.aboutMe.text = item.aboutMe
         cell.aboutMe.sizeToFit()
+        
         ImageUtil.displayThumbnailProfileImage(self.recommendedSellers[indexPath.row].id, imageView: cell.sellerImg)
         
         // follow
@@ -118,8 +121,10 @@ class RecommendedSellerViewController: UIViewController {
             cell.followBtn.hidden = false
         }
         
-        cell.layer.cornerRadius = 7
+        cell.layer.cornerRadius = Constants.DEFAULT_CORNER_RADIUS
         cell.layer.masksToBounds = true
+        cell.layer.borderColor = Color.LIGHT_GRAY.CGColor
+        cell.layer.borderWidth = 0.5
         
         return cell
     }
@@ -138,11 +143,11 @@ class RecommendedSellerViewController: UIViewController {
         dummyLbl.text = self.recommendedSellers[indexPath.row].aboutMe
         dummyLbl.sizeToFit()
         
-        let availableWidthForButtons: CGFloat = self.view.bounds.width - (Constants.GENERAL_SPACING * 4)
+        let availableWidthForButtons: CGFloat = self.view.bounds.width - (Constants.DEFAULT_SPACING * 4)
         let imageWidth: CGFloat = availableWidthForButtons / 4
         
         return CGSizeMake(
-            self.view.bounds.width - (Constants.GENERAL_SPACING * 2),
+            self.view.bounds.width - (Constants.DEFAULT_SPACING * 2),
             Constants.SELLER_FEED_ITEM_DETAILS_HEIGHT + dummyLbl.bounds.height + imageWidth)
     }
     
