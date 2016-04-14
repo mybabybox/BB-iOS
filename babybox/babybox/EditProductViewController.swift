@@ -105,21 +105,6 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
             self.view.makeToast(message: "Error when deleting product")
         }
         
-        self.conditionTypeDropDown.dataSource = [
-            "-Select-",
-            ViewUtil.PostConditionType.NEW_WITH_TAG.rawValue,
-            ViewUtil.PostConditionType.NEW_WITHOUT_TAG.rawValue,
-            ViewUtil.PostConditionType.USED.rawValue
-        ]
-        
-        self.conditionTypeDropDown.selectionAction = { [unowned self] (index, item) in
-            self.conditionDropDown.setTitle(item, forState: .Normal)
-        }
-        
-        self.categoryOptions.selectionAction = { [unowned self] (index, item) in
-            self.categoryDropDown.setTitle(item, forState: .Normal)
-        }
-        
         self.conditionTypeDropDown.anchorView = conditionDropDown
         self.conditionTypeDropDown.bottomOffset = CGPoint(x: 0, y:conditionDropDown.bounds.height)
         self.conditionTypeDropDown.direction = .Top
@@ -136,7 +121,6 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         
         ViewUtil.showActivityLoading(self.activityLoading)
         ApiFacade.getPost(self.postId, successCallback: onSuccessGetPost, failureCallback: onFailureGetPost)
-        
     }
     
     func initEditView() {
@@ -146,31 +130,56 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         self.prodDescription.text = self.postItem?.body
         self.pricetxt.text = String(Int((self.postItem?.price)!))
         self.selCategory = (self.postItem?.categoryId)!
+        
         initCategoryOptions()
         
-        let conditionLbl = ViewUtil.parsePostConditionTypeFromType((self.postItem?.conditionType)!)
-        self.conditionDropDown.setTitle(conditionLbl, forState: UIControlState.Normal)
+        initConditionTypes()
         
         ViewUtil.hideActivityLoading(self.activityLoading)
     }
     
     func initCategoryOptions() {
         let categories = CategoryCache.categories
-        var selCategoryValue = "Choose a Category:"
-        var catDataSource : [String] = []
+        
+        var selectedValue = "Choose a Category:"
+        var dataSource: [String] = []
         for i in 0 ..< categories.count {
-            catDataSource.append(categories[i].description)
+            dataSource.append(categories[i].description)
             if (Int(categories[i].id) == self.selCategory) {
-                selCategoryValue = categories[i].description
+                selectedValue = categories[i].description
             }
         }
         
-        self.categoryOptions.dataSource = catDataSource
+        self.categoryOptions.dataSource = dataSource
         dispatch_async(dispatch_get_main_queue(), {
             self.categoryOptions.reloadAllComponents()
         })
         
-        self.categoryDropDown.setTitle(selCategoryValue, forState: UIControlState.Normal)
+        self.categoryDropDown.setTitle(selectedValue, forState: UIControlState.Normal)
+        
+        self.categoryOptions.selectionAction = { [unowned self] (index, item) in
+            self.categoryDropDown.setTitle(item, forState: .Normal)
+        }
+    }
+    
+    func initConditionTypes() {
+        let dataSource: [String] = [
+            ViewUtil.PostConditionType.NEW_WITH_TAG.rawValue,
+            ViewUtil.PostConditionType.NEW_WITHOUT_TAG.rawValue,
+            ViewUtil.PostConditionType.USED.rawValue
+        ]
+        
+        self.conditionTypeDropDown.dataSource = dataSource
+        dispatch_async(dispatch_get_main_queue(), {
+            self.conditionTypeDropDown.reloadAllComponents()
+        })
+        
+        let conditionLbl = ViewUtil.parsePostConditionTypeFromType((self.postItem?.conditionType)!)
+        self.conditionDropDown.setTitle(conditionLbl, forState: UIControlState.Normal)
+        
+        self.conditionTypeDropDown.selectionAction = { [unowned self] (index, item) in
+            self.conditionDropDown.setTitle(item, forState: .Normal)
+        }
     }
     
     @IBAction func ShoworDismiss(sender: AnyObject) {
@@ -227,10 +236,10 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         } else if StringUtil.trim(self.pricetxt.text).isEmpty {
             self.view.makeToast(message: "Please enter a price", duration: ViewUtil.SHOW_TOAST_DURATION_LONG, position: ViewUtil.DEFAULT_TOAST_POSITION)
             valid = false
-        } else if self.conditionTypeDropDown.indexForSelectedRow == 0 {
+        } else if StringUtil.trim(self.conditionDropDown.titleLabel?.text).isEmpty {
             self.view.makeToast(message: "Please select condition type", duration: ViewUtil.SHOW_TOAST_DURATION_LONG, position: ViewUtil.DEFAULT_TOAST_POSITION)
             valid = false
-        } else if self.categoryOptions.indexForSelectedRow == 0 {
+        } else if StringUtil.trim(self.categoryDropDown.titleLabel?.text).isEmpty {
             self.view.makeToast(message: "Please select category", duration: ViewUtil.SHOW_TOAST_DURATION_LONG, position: ViewUtil.DEFAULT_TOAST_POSITION)
             valid = false
         }

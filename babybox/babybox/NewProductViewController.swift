@@ -104,20 +104,7 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
         
         initCategoryOptions()
         
-        self.conditionTypeDropDown.dataSource = [
-            "-Select-",
-            ViewUtil.PostConditionType.NEW_WITH_TAG.rawValue,
-            ViewUtil.PostConditionType.NEW_WITHOUT_TAG.rawValue,
-            ViewUtil.PostConditionType.USED.rawValue
-        ]
-        
-        self.conditionTypeDropDown.selectionAction = { [unowned self] (index, item) in
-            self.conditionDropDown.setTitle(item, forState: .Normal)
-        }
-        
-        self.categoryOptions.selectionAction = { [unowned self] (index, item) in
-            self.categoryDropDown.setTitle(item, forState: .Normal)
-        }
+        initConditionTypes()
         
         self.conditionTypeDropDown.anchorView = conditionDropDown
         self.conditionTypeDropDown.bottomOffset = CGPoint(x: 0, y: conditionDropDown.bounds.height)
@@ -155,6 +142,28 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
         })
         
         self.categoryDropDown.setTitle(selCategoryValue, forState: UIControlState.Normal)
+
+        self.categoryOptions.selectionAction = { [unowned self] (index, item) in
+            self.categoryDropDown.setTitle(item, forState: .Normal)
+        }
+    }
+    
+    func initConditionTypes() {
+        self.conditionTypeDropDown.dataSource = [
+            ViewUtil.PostConditionType.NEW_WITH_TAG.rawValue,
+            ViewUtil.PostConditionType.NEW_WITHOUT_TAG.rawValue,
+            ViewUtil.PostConditionType.USED.rawValue
+        ]
+        
+        dispatch_async(dispatch_get_main_queue(), {
+            self.conditionTypeDropDown.reloadAllComponents()
+        })
+        
+        self.conditionDropDown.setTitle("-Select-", forState: UIControlState.Normal)
+        
+        self.conditionTypeDropDown.selectionAction = { [unowned self] (index, item) in
+            self.conditionDropDown.setTitle(item, forState: .Normal)
+        }
     }
 
     @IBAction func ShoworDismiss(sender: AnyObject) {
@@ -319,10 +328,10 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
         } else if StringUtil.trim(self.pricetxt.text).isEmpty {
             self.view.makeToast(message: "Please enter a price", duration: ViewUtil.SHOW_TOAST_DURATION_LONG, position: ViewUtil.DEFAULT_TOAST_POSITION)
             valid = false
-        } else if self.conditionTypeDropDown.indexForSelectedRow == 0 {
+        } else if !ViewUtil.isDropDownSelected(self.conditionTypeDropDown) {
             self.view.makeToast(message: "Please select condition type", duration: ViewUtil.SHOW_TOAST_DURATION_LONG, position: ViewUtil.DEFAULT_TOAST_POSITION)
             valid = false
-        } else if self.categoryOptions.indexForSelectedRow == 0 {
+        } else if !ViewUtil.isDropDownSelected(self.categoryOptions) {
             self.view.makeToast(message: "Please select category", duration: ViewUtil.SHOW_TOAST_DURATION_LONG, position: ViewUtil.DEFAULT_TOAST_POSITION)
             valid = false
         }

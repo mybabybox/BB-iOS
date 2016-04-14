@@ -151,13 +151,12 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, UITextVi
     }
     
     func isValid() -> Bool {
-        var isValidated = true
-        
-        if (self.location.titleLabel?.text == nil || self.location.titleLabel?.text == "- Select -") {
+        var valid = true
+        if StringUtil.trim(self.location.titleLabel?.text).isEmpty {
             self.view.makeToast(message: "Please select location", duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
-            isValidated = false
+            valid = false
         }
-        return isValidated
+        return valid
     }
     
     func keyboardWillHide(notification: NSNotification) {

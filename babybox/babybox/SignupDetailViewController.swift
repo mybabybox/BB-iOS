@@ -80,14 +80,14 @@ class SignupDetailViewController: BaseLoginViewController, UITextFieldDelegate, 
     }
     
     func isValid() -> Bool {
-        var isValidated = true
-        if (self.displayName.text == nil || self.displayName.text == "") {
+        var valid = true
+        if StringUtil.trim(self.displayName.text).isEmpty {
             self.view.makeToast(message: "Please enter displayname", duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
-            isValidated = false
-        } else if (self.location.titleLabel?.text == nil || self.location.titleLabel?.text == "- Select -") {
+            valid = false
+        } else if !ViewUtil.isDropDownSelected(self.locationDropDown) {
             self.view.makeToast(message: "Please select location", duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
-            isValidated = false
+            valid = false
         }
-        return isValidated
+        return valid
     }
 }

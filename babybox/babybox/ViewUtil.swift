@@ -481,4 +481,13 @@ class ViewUtil {
         return uiConstraint
     }
     
+    static func isDropDownSelected(dropDown: DropDown?, firstItemDescriptor: Bool = false) -> Bool {
+        if dropDown == nil || dropDown!.indexForSelectedRow == nil || dropDown!.indexForSelectedRow == -1 {
+            return false
+        }
+        if !firstItemDescriptor {
+            return true
+        }
+        return dropDown!.indexForSelectedRow > 0
+    }
 }
