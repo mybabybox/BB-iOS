@@ -36,7 +36,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
     var lastMessageType: BubbleDataType?
     let croppingEnabled: Bool = true
     let libraryEnabled: Bool = true
-    var conversationViewController: ConversationsViewController?
+    var conversationViewController: UIViewController = UIViewController()
     var messages: [MessageVM] = []
     var lastItemPosition = 0
     var bubbleData: ChatBubbleData?
@@ -154,9 +154,15 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         
         self.bubbleData = ChatBubbleData(text: message, image: image, date: date, type: .Me, buyerId: -1, imageId: -1, system: system)
         
-        if self.conversationViewController != nil {
-            self.conversationViewController!.updateOpenedConversation = true
-        }
+        //if self.conversationViewController != nil {
+            if conversationViewController.isKindOfClass(ConversationsViewController) {
+                let cView = conversationViewController as? ConversationsViewController
+                cView!.updateOpenedConversation = true
+            } else if conversationViewController.isKindOfClass(ProductChatViewController) {
+                let cView = conversationViewController as? ProductChatViewController
+                cView!.updateOpenedConversation = true
+            }
+        //}
         
         ViewUtil.showGrayOutView(self, activityLoading: self.activityLoading)
         ApiFacade.newMessage(self.conversation!.id, message: message, image: image, system: system, successCallback: onSuccessNewMessage, failureCallback: onFailureNewMessage)
