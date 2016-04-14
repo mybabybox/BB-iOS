@@ -29,7 +29,7 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
     @IBOutlet weak var likeCountTxt: UIButton!
     @IBOutlet weak var detailTableView: UITableView!
     @IBOutlet weak var activeText: UITextField!
-    var commentSelectedForDelete: Int = -1
+    
     var lcontentSize = CGFloat(0.0)
     var feedItem: PostVMLite = PostVMLite()
     var myDate: NSDate = NSDate()
@@ -55,27 +55,6 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
         
         SwiftEventBus.onMainThread(self, name: "soldPostFailed") { result in
             ViewUtil.makeToast("Failed to mark item as sold. Please try again later.", view: self.view)
-        }
-        
-        SwiftEventBus.onMainThread(self, name: "onSuccessDeleteComment") { result in
-            
-            if self.commentSelectedForDelete != -1 {
-                self.comments.removeAtIndex(self.commentSelectedForDelete)
-                self.detailTableView.contentInset =  UIEdgeInsetsZero
-                ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
-                self.detailTableView.reloadData()
-                self.view.makeToast(message: "Comment delete successfully", duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
-            } else {
-                ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
-            }
-            
-            self.commentSelectedForDelete = -1
-        }
-        
-        SwiftEventBus.onMainThread(self, name: "onFailureDeleteComment") { result in
-            NSLog("Error deleting comment")
-            ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
-            self.view.makeToast(message: "Error deleting comment", duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
         }
         
         //let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
@@ -180,19 +159,13 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
                 let comment:CommentVM = self.comments[indexPath.row]
                 cell.lblComments.text = comment.body
                 cell.postedUserName.text = comment.ownerName
-                cell.btnDeleteComments.tag = indexPath.row
                 if (comment.id != -1) {
                     cell.postedTime.text = NSDate(timeIntervalSince1970:Double(comment.createdDate) / 1000.0).timeAgo
                 } else {
                     cell.postedTime.text = NSDate(timeIntervalSinceNow: comment.createdDate / 1000.0).timeAgo
                 }
-                if (comment.ownerId == UserInfoCache.getUser()!.id) {
-                    cell.btnDeleteComments.hidden = false
-                } else {
-                    cell.btnDeleteComments.hidden = true
-                }
+                
                 ImageUtil.displayThumbnailProfileImage(self.comments[indexPath.row].ownerId, imageView: cell.postedUserImg)
-                cell.btnDeleteComments.addTarget(self, action: "DeleteComments:", forControlEvents: UIControlEvents.TouchUpInside)
                 
                 //let time = comment.createdDate
                 //cell.postedTime.text = NSDate(timeIntervalSince1970:Double(time) / 1000.0).timeAgo
@@ -335,27 +308,6 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
         } else if (indexPath.section == 4 && indexPath.row == self.comments.count) || indexPath.section == 3 {
             pushMoreCommentsController()
         }
-    }
-    
-    //MARK: Button Press Events
-    func DeleteComments(button: UIButton){
-        
-        let _messageDialog = UIAlertController(title: "", message: Constants.DELETE_COMMENT_TEXT, preferredStyle: UIAlertControllerStyle.Alert)
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction!) in
-        })
-        
-        let confirmAction = UIAlertAction(title: "Confirm", style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction!) in
-            ViewUtil.showGrayOutView(self, activityLoading: self.activityLoading)
-            ApiController.instance.deleteComment(self.comments[button.tag].id)
-            self.commentSelectedForDelete = button.tag
-        })
-        
-        _messageDialog.addAction(cancelAction)
-        _messageDialog.addAction(confirmAction)
-        self.presentViewController(_messageDialog, animated: true, completion: nil)
-        
-        
     }
     
     func PostComments(button: UIButton){
