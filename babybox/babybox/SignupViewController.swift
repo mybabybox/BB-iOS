@@ -58,29 +58,27 @@ class SignupViewController: BaseLoginViewController {
     }
     
     func isValid() -> Bool {
-        var isValidated = true
-        
-        if (self.firstNameText.text == nil || self.firstNameText.text == "" ) {
+        var valid = true
+        if StringUtil.trim(self.firstNameText.text).isEmpty {
             self.view.makeToast(message: "Please fill first name", duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
-            isValidated = false
-        }else if (self.lastNameText.text == nil || self.lastNameText.text == "" ) {
+            valid = false
+        } else if StringUtil.trim(self.lastNameText.text).isEmpty {
             self.view.makeToast(message: "Please fill last name", duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
-            isValidated = false
-        }else if (self.emailText.text == nil || self.emailText.text == "" ) {
+            valid = false
+        } else if StringUtil.trim(self.emailText.text).isEmpty {
             self.view.makeToast(message: "Please fill email", duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
-            isValidated = false
-        }else if (self.passwordText.text == nil || self.passwordText.text == "" ) {
+            valid = false
+        }else if StringUtil.trim(self.passwordText.text).isEmpty {
             self.view.makeToast(message: "Please fill password", duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
-            isValidated = false
-        }else if (self.confirmPasswordText.text == nil || self.confirmPasswordText.text == "" ) {
+            valid = false
+        } else if StringUtil.trim(self.confirmPasswordText.text).isEmpty {
             self.view.makeToast(message: "Please fill confirm password", duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
-            isValidated = false
-        }else if (self.confirmPasswordText.text != self.passwordText.text ) {
+            valid = false
+        } else if self.confirmPasswordText.text != self.passwordText.text {
             self.view.makeToast(message: "Please fill password and confirm password same", duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
-            isValidated = false
+            valid = false
         }
-        
-        return isValidated
+        return valid
     }
     
     @IBAction func onClickBackButton(sender: UIButton) {

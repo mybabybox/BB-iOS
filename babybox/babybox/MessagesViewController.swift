@@ -171,14 +171,11 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
     }
     
     @IBAction func sendButtonClicked(sender: AnyObject) {
-        if self.uploadImgSrc.image == nil && (self.textField.text == nil || ViewUtil.trim(self.textField.text!).isEmpty) {
+        if self.uploadImgSrc.image == nil && StringUtil.trim(self.textField.text).isEmpty {
             //self.view.makeToast(message: "Please enter a message")
             return
         }
-        if (self.textField.text == nil) {
-            self.textField.text = ""
-        }
-        newMessage(ViewUtil.trim(textField.text!), image: self.uploadImgSrc.image)
+        newMessage(StringUtil.trim(textField.text), image: self.uploadImgSrc.image)
     }
     
     @IBAction func cameraButtonClicked(sender: AnyObject) {

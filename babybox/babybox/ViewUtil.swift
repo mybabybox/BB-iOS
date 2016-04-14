@@ -274,14 +274,6 @@ class ViewUtil {
         return false
     }
     
-    static func trim(str: String) -> String {
-        return trim(str, charSet: NSCharacterSet.whitespaceAndNewlineCharacterSet())
-    }
-    
-    static func trim(str: String, charSet: NSCharacterSet) -> String {
-        return str.stringByTrimmingCharactersInSet(charSet)
-    }
-    
     static func showActivityLoading(activityLoading: UIActivityIndicatorView?) {
         activityLoading?.hidden = false
         activityLoading?.startAnimating()

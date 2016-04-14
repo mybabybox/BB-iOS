@@ -208,35 +208,33 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
             return
         }
         
-        if (validateSaveForm()) {
+        if (isValid()) {
             ViewUtil.showGrayOutView(self, activityLoading: self.activityLoading)
             let category = CategoryCache.getCategoryByName(categoryDropDown.titleLabel!.text!)
             let conditionType = ViewUtil.parsePostConditionTypeFromValue(conditionDropDown.titleLabel!.text!)
-            ApiController.instance.editPost(self.postId, title: ViewUtil.trim(postTitle.text!), body: ViewUtil.trim(prodDescription.text!), catId: category!.id, conditionType: String(conditionType), pricetxt: ViewUtil.trim(pricetxt.text!))
+            ApiController.instance.editPost(self.postId, title: StringUtil.trim(postTitle.text), body: StringUtil.trim(prodDescription.text), catId: category!.id, conditionType: String(conditionType), pricetxt: StringUtil.trim(pricetxt.text))
         }
     }
     
-    func validateSaveForm() -> Bool {
-        var isValidated = true
-        
-        if self.postTitle.text == nil || ViewUtil.trim(self.postTitle.text!).isEmpty {
+    func isValid() -> Bool {
+        var valid = true
+        if StringUtil.trim(self.postTitle.text).isEmpty {
             self.view.makeToast(message: "Please fill title", duration: ViewUtil.SHOW_TOAST_DURATION_LONG, position: ViewUtil.DEFAULT_TOAST_POSITION)
-            isValidated = false
-        } else if self.prodDescription.text == nil || ViewUtil.trim(self.prodDescription.text!).isEmpty {
+            valid = false
+        } else if StringUtil.trim(self.prodDescription.text).isEmpty {
             self.view.makeToast(message: "Please fill description", duration: ViewUtil.SHOW_TOAST_DURATION_LONG, position: ViewUtil.DEFAULT_TOAST_POSITION)
-            isValidated = false
-        } else if self.pricetxt.text == nil || ViewUtil.trim(self.pricetxt.text!).isEmpty {
+            valid = false
+        } else if StringUtil.trim(self.pricetxt.text).isEmpty {
             self.view.makeToast(message: "Please enter a price", duration: ViewUtil.SHOW_TOAST_DURATION_LONG, position: ViewUtil.DEFAULT_TOAST_POSITION)
-            isValidated = false
-        } else if self.conditionDropDown.titleLabel?.text == nil || self.conditionDropDown.titleLabel?.text == "-Select-" {
+            valid = false
+        } else if self.conditionTypeDropDown.indexForSelectedRow == 0 {
             self.view.makeToast(message: "Please select condition type", duration: ViewUtil.SHOW_TOAST_DURATION_LONG, position: ViewUtil.DEFAULT_TOAST_POSITION)
-            isValidated = false
-        } else if self.categoryDropDown.titleLabel!.text == nil || self.categoryDropDown.titleLabel!.text == "Choose a Category:" {
+            valid = false
+        } else if self.categoryOptions.indexForSelectedRow == 0 {
             self.view.makeToast(message: "Please select category", duration: ViewUtil.SHOW_TOAST_DURATION_LONG, position: ViewUtil.DEFAULT_TOAST_POSITION)
-            isValidated = false
+            valid = false
         }
-        
-        return isValidated
+        return valid
     }
     
     func handleNotificationSuccess(notifcationCounter: NotificationCounterVM) {

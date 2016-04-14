@@ -20,8 +20,8 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var categoryDropDown: UIButton!
     @IBOutlet weak var conditionDropDown: UIButton!
-    
     @IBOutlet weak var activityLoading: UIActivityIndicatorView!
+    
     let categoryOptions = DropDown()
     let conditionTypeDropDown = DropDown()
     
@@ -283,16 +283,16 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
     }
     
     func saveProduct(sender: AnyObject) {
-        if (validateSaveForm()) {
+        if (isValid()) {
             ViewUtil.showGrayOutView(self, activityLoading: self.activityLoading)
             let category = CategoryCache.getCategoryByName(categoryDropDown.titleLabel!.text!)
             let conditionType = ViewUtil.parsePostConditionTypeFromValue(conditionDropDown.titleLabel!.text!)
-            ApiController.instance.newPost(ViewUtil.trim(sellingtext.text!), body: ViewUtil.trim(prodDescription.text!), catId: category!.id, conditionType: String(conditionType), pricetxt: ViewUtil.trim(pricetxt.text!), imageCollection: self.imageCollection)
+            ApiController.instance.newPost(StringUtil.trim(sellingtext.text), body: StringUtil.trim(prodDescription.text), catId: category!.id, conditionType: String(conditionType), pricetxt: StringUtil.trim(pricetxt.text), imageCollection: self.imageCollection)
         }
     }
     
-    func validateSaveForm() -> Bool {
-        var isValidated = true
+    func isValid() -> Bool {
+        var valid = true
         
         var isImageUploaded = false
         for _image in imageCollection {
@@ -309,25 +309,24 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
                 
         if !isImageUploaded {
             self.view.makeToast(message: "Please Upload Photo", duration: ViewUtil.SHOW_TOAST_DURATION_LONG, position: ViewUtil.DEFAULT_TOAST_POSITION)
-            isValidated = false
-        } else if self.sellingtext.text == nil || ViewUtil.trim(self.sellingtext.text!).isEmpty {
+            valid = false
+        } else if StringUtil.trim(self.sellingtext.text).isEmpty {
             self.view.makeToast(message: "Please fill title", duration: ViewUtil.SHOW_TOAST_DURATION_LONG, position: ViewUtil.DEFAULT_TOAST_POSITION)
-            isValidated = false
-        } else if self.prodDescription.text == nil || ViewUtil.trim(self.prodDescription.text!).isEmpty {
+            valid = false
+        } else if StringUtil.trim(self.prodDescription.text).isEmpty {
             self.view.makeToast(message: "Please fill description", duration: ViewUtil.SHOW_TOAST_DURATION_LONG, position: ViewUtil.DEFAULT_TOAST_POSITION)
-            isValidated = false
-        } else if self.pricetxt.text == nil || ViewUtil.trim(self.pricetxt.text!).isEmpty {
+            valid = false
+        } else if StringUtil.trim(self.pricetxt.text).isEmpty {
             self.view.makeToast(message: "Please enter a price", duration: ViewUtil.SHOW_TOAST_DURATION_LONG, position: ViewUtil.DEFAULT_TOAST_POSITION)
-            isValidated = false
-        } else if self.conditionDropDown.titleLabel?.text == nil || self.conditionDropDown.titleLabel?.text == "-Select-" {
+            valid = false
+        } else if self.conditionTypeDropDown.indexForSelectedRow == 0 {
             self.view.makeToast(message: "Please select condition type", duration: ViewUtil.SHOW_TOAST_DURATION_LONG, position: ViewUtil.DEFAULT_TOAST_POSITION)
-            isValidated = false
-        } else if self.categoryDropDown.titleLabel!.text == nil || self.categoryDropDown.titleLabel!.text == "Choose a Category:" {
+            valid = false
+        } else if self.categoryOptions.indexForSelectedRow == 0 {
             self.view.makeToast(message: "Please select category", duration: ViewUtil.SHOW_TOAST_DURATION_LONG, position: ViewUtil.DEFAULT_TOAST_POSITION)
-            isValidated = false
+            valid = false
         }
-        
-        return isValidated
+        return valid
     }
     
     func handleNotificationSuccess(notifcationCounter: NotificationCounterVM) {

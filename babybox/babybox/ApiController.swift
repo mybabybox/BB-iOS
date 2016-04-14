@@ -161,22 +161,6 @@ class ApiController {
         self.makeApiCall(callEvent)
     }
     
-    func postComment(id: Int, comment: String){
-        var strData = [String]()
-        strData.append("postId=\(id)")
-        strData.append("body=\(comment)")
-        let parameter = self.makeBodyString(strData)
-        
-        let callEvent = ApiCallEvent()
-        callEvent.method = "/api/comment/new"
-        callEvent.resultClass = "String"
-        callEvent.body = parameter
-        callEvent.successEventbusName = "onSuccessAddComment"
-        callEvent.failedEventbusName = "onFailureAddComment"
-        callEvent.apiUrl = Constants.BASE_URL + callEvent.method
-        self.makePostApiCall(callEvent)
-    }
-
     func loginByFacebook(authToken: String) {
         let url = Constants.BASE_URL + "/authenticate/mobile/facebook?access_token=\(authToken)"
         let callEvent = ApiCallEvent()
@@ -448,17 +432,6 @@ class ApiController {
         self.makeApiCall(callEvent)
     }
     
-    func deleteComment(id: Int) {
-        let callEvent = ApiCallEvent()
-        callEvent.method = "/api/comment/delete/\(id)"
-        callEvent.resultClass = "String"
-        callEvent.successEventbusName = "onSuccessDeleteComment"
-        callEvent.failedEventbusName = "onFailureDeleteComment"
-        callEvent.apiUrl = Constants.BASE_URL + callEvent.method
-        
-        self.makeApiCall(callEvent)
-    }
-    
     func getNotificationCounter() {
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/notification-counter"
@@ -493,8 +466,8 @@ class ApiController {
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/get-comments/\(id)/\(offset)"
         callEvent.resultClass = "[CommentVM]"
-        callEvent.successEventbusName = "onSuccessGetComment"
-        callEvent.failedEventbusName = "onFailureGetComment"
+        callEvent.successEventbusName = "onSuccessGetComments"
+        callEvent.failedEventbusName = "onFailureGetComments"
         callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         self.makeApiCall(callEvent)
     }
@@ -581,6 +554,32 @@ class ApiController {
         callEvent.resultClass = "String"
         callEvent.successEventbusName = "deletePostSuccess"
         callEvent.failedEventbusName = "deletePostFailed"
+        callEvent.apiUrl = Constants.BASE_URL + callEvent.method
+        self.makeApiCall(callEvent)
+    }
+
+    func newComment(id: Int, comment: String){
+        var strData = [String]()
+        strData.append("postId=\(id)")
+        strData.append("body=\(comment)")
+        let parameter = self.makeBodyString(strData)
+        
+        let callEvent = ApiCallEvent()
+        callEvent.method = "/api/comment/new"
+        callEvent.resultClass = "String"
+        callEvent.body = parameter
+        callEvent.successEventbusName = "onSuccessNewComment"
+        callEvent.failedEventbusName = "onFailureNewComment"
+        callEvent.apiUrl = Constants.BASE_URL + callEvent.method
+        self.makePostApiCall(callEvent)
+    }
+
+    func deleteComment(id: Int) {
+        let callEvent = ApiCallEvent()
+        callEvent.method = "/api/comment/delete/\(id)"
+        callEvent.resultClass = "String"
+        callEvent.successEventbusName = "onSuccessDeleteComment"
+        callEvent.failedEventbusName = "onFailureDeleteComment"
         callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         self.makeApiCall(callEvent)
     }

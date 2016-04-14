@@ -292,11 +292,11 @@ class ApiFacade {
         ApiController.instance.newMessage(conversationId, message: message, image: image, system: system)
     }
     
-    static func postComment(postId: Int, commentText: String, successCallback: ((String) -> Void)?, failureCallback: ((String) -> Void)?) {
+    static func newComment(postId: Int, commentText: String, successCallback: ((String) -> Void)?, failureCallback: ((String) -> Void)?) {
         
         SwiftEventBus.unregister(self)
         
-        SwiftEventBus.onMainThread(self, name: "onSuccessAddComment") { result in
+        SwiftEventBus.onMainThread(self, name: "onSuccessNewComment") { result in
             if successCallback != nil {
                 if result.object is NSString {
                     successCallback!(result.object as! String)
@@ -306,7 +306,7 @@ class ApiFacade {
             }
         }
         
-        SwiftEventBus.onMainThread(self, name: "onFailureAddComment") { result in
+        SwiftEventBus.onMainThread(self, name: "onFailureNewComment") { result in
             if failureCallback != nil {
                 var error = "Failed to post comment..."
                 if result.object is NSString {
@@ -316,20 +316,20 @@ class ApiFacade {
             }
         }
         
-        ApiController.instance.postComment(postId, comment: commentText)
+        ApiController.instance.newComment(postId, comment: commentText)
     }
     
     static func getComments(postId: Int, offset: Int64, successCallback: (([CommentVM]) -> Void)?, failureCallback: ((String) -> Void)?) {
         
         SwiftEventBus.unregister(self)
         
-        SwiftEventBus.onMainThread(self, name: "onSuccessGetComment") { result in
+        SwiftEventBus.onMainThread(self, name: "onSuccessGetComments") { result in
             if successCallback != nil {
                 successCallback!(result.object as! [CommentVM])
             }
         }
         
-        SwiftEventBus.onMainThread(self, name: "onFailureGetComment") { result in
+        SwiftEventBus.onMainThread(self, name: "onFailureGetComments") { result in
             if failureCallback != nil {
                 var error = "Failed to get comments..."
                 if result.object is NSString {

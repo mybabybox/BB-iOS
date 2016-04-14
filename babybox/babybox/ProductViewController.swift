@@ -137,7 +137,7 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
             reuseidentifier = ""
             if indexPath.row != self.comments.count{
                 reuseidentifier = "mCell1"
-            }else{
+            } else {
                 reuseidentifier = "mCell2"
             }
         default:
@@ -307,24 +307,6 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
         }
     }
     
-    func PostComments(button: UIButton) {
-        let cell: MessageTableViewCell = button.superview!.superview!.superview as! MessageTableViewCell
-        let _nComment = CommentVM()
-        _nComment.ownerId = UserInfoCache.getUser()!.id
-        _nComment.body = cell.commentTxt.text!
-        _nComment.ownerName = UserInfoCache.getUser()!.displayName
-        _nComment.deviceType = "iOS"
-        _nComment.createdDate = NSDate().timeIntervalSinceNow
-        _nComment.id = -1
-        ApiController.instance.postComment(self.productInfo!.id, comment: cell.commentTxt.text!)
-        
-        self.comments.append(_nComment)
-        self.detailTableView.reloadData()
-        cell.txtEnterComments.text = ""
-        detailTableView.contentInset =  UIEdgeInsetsZero
-        cell.commentTxt.text = ""
-    }
-    
     @IBAction func onClickLikeOrUnlikeButton(sender: AnyObject) {
         if (self.productInfo!.isLiked) {
             self.productInfo!.numLikes -= 1
@@ -429,8 +411,6 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
             return true
         } else if identifier == "viewChats" || identifier == "soldViewChat" {
             return true
-        } else if identifier == "postComment" || identifier == "addComment" {
-            return true
         }
         return false
     }
@@ -448,10 +428,6 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
         } else if segue.identifier == "viewChats" || segue.identifier == "soldViewChat" {
             //postId
             let vController = segue.destinationViewController as! ProductChatViewController
-            vController.postId = self.productInfo!.id
-            vController.hidesBottomBarWhenPushed = true
-        } else if segue.identifier == "postComment" || segue.identifier == "addComment" {
-            let vController = segue.destinationViewController as! AddCommentViewController
             vController.postId = self.productInfo!.id
             vController.hidesBottomBarWhenPushed = true
         }
@@ -640,15 +616,6 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
     
     @IBAction func onClickMoreComments(sender: AnyObject) {
         pushMoreCommentsController()
-    }
-    
-    @IBAction func unwindToProductScreen(segue: UIStoryboardSegue) {
-        NSLog("Coming after adding comment")
-        if(segue.sourceViewController .isKindOfClass(AddCommentViewController)) {
-            let vController = segue.sourceViewController as? AddCommentViewController
-            self.comments.append(vController!.postedComment!)
-            self.detailTableView.reloadData()
-        }
     }
     
     func pushMoreCommentsController() {

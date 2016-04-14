@@ -10,7 +10,18 @@ import Foundation
 
 class StringUtil {
     
-    static func replace(str: String, from: String, to: String) ->String {
+    static func trim(str: String?) -> String {
+        return trim(str, charSet: NSCharacterSet.whitespaceAndNewlineCharacterSet())
+    }
+    
+    static func trim(str: String?, charSet: NSCharacterSet) -> String {
+        if let _ = str {
+            return str!.stringByTrimmingCharactersInSet(charSet)
+        }
+        return ""
+    }
+    
+    static func replace(str: String, from: String, to: String) -> String {
         return str.stringByReplacingOccurrencesOfString(from, withString: to, options: NSStringCompareOptions.LiteralSearch, range: nil)
     }
     

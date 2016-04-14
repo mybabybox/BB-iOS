@@ -39,7 +39,7 @@ class MoreCommentsViewController: UIViewController, UITextFieldDelegate, UIScrol
         self.commentText.placeholder = "Enter Comment"
         self.commentText.delegate = self
         
-        ApiFacade.getComments(self.postId, offset: offset, successCallback: onSuccessGetComment, failureCallback: onFailureGetComments)
+        ApiFacade.getComments(self.postId, offset: offset, successCallback: onSuccessGetComments, failureCallback: onFailureGetComments)
         
         self.loading = true
         
@@ -140,7 +140,7 @@ class MoreCommentsViewController: UIViewController, UITextFieldDelegate, UIScrol
     func refresh(sender:AnyObject) {
         offset = 0
         self.comments?.removeAll()
-        ApiFacade.getComments(self.postId, offset: offset, successCallback: onSuccessGetComment, failureCallback: onFailureGetComments)
+        ApiFacade.getComments(self.postId, offset: offset, successCallback: onSuccessGetComments, failureCallback: onFailureGetComments)
     }
     
     override func didReceiveMemoryWarning() {
@@ -157,7 +157,7 @@ class MoreCommentsViewController: UIViewController, UITextFieldDelegate, UIScrol
                 if (!self.comments!.isEmpty) {
                     self.offset += 1
                 }
-                ApiFacade.getComments(self.postId, offset: offset, successCallback: onSuccessGetComment, failureCallback: onFailureGetComments)
+                ApiFacade.getComments(self.postId, offset: offset, successCallback: onSuccessGetComments, failureCallback: onFailureGetComments)
                 
             }
         }
@@ -169,10 +169,10 @@ class MoreCommentsViewController: UIViewController, UITextFieldDelegate, UIScrol
             ViewUtil.makeToast("Please enter a comment", view: self.view)
             return
         }
-        ApiFacade.postComment(self.postId, commentText: self.commentText.text!, successCallback: onSuccessAddComment, failureCallback: onFailureAddComment)
+        ApiFacade.newComment(self.postId, commentText: StringUtil.trim(self.commentText.text), successCallback: onSuccessNewComment, failureCallback: onFailureNewComment)
     }
     
-    func onSuccessGetComment(_comments: [CommentVM]) {
+    func onSuccessGetComments(_comments: [CommentVM]) {
         
         if (!_comments.isEmpty) {
             if (self.comments!.count == 0) {
@@ -189,7 +189,7 @@ class MoreCommentsViewController: UIViewController, UITextFieldDelegate, UIScrol
         self.refreshControl.endRefreshing()
     }
     
-    func onSuccessAddComment(response: String) {
+    func onSuccessNewComment(response: String) {
         let _nComment = CommentVM()
         _nComment.ownerId = UserInfoCache.getUser()!.id
         _nComment.body = self.commentText.text!
@@ -229,7 +229,7 @@ class MoreCommentsViewController: UIViewController, UITextFieldDelegate, UIScrol
         ViewUtil.showDialog("Error", message: message, view: self)
     }
     
-    func onFailureAddComment(message: String) {
+    func onFailureNewComment(message: String) {
         ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
         ViewUtil.showDialog("Error", message: message, view: self)
     }
