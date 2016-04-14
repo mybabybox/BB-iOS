@@ -63,8 +63,11 @@ class MoreCommentsViewController: UIViewController, UITextFieldDelegate, UIScrol
         let cell = tableView.dequeueReusableCellWithIdentifier(viewCellIdentifier)! as! CommentTableViewCell
         
         let comment = self.comments![indexPath.row]
-        ImageUtil.displayThumbnailProfileImage(comment.ownerId, imageView: cell.userImg)
-        cell.userName.text = comment.ownerName
+        //ImageUtil.displayThumbnailProfileImage(comment.ownerId, imageView: cell.userImg)
+        //cell.userName.text = comment.ownerName
+        ImageUtil.displayThumbnailProfileImage(comment.ownerId, buttonView: cell.userImgBtn)
+        
+        cell.titleBtn.setTitle(comment.ownerName, forState: .Normal)
         cell.commentText.text = comment.body
         if (comment.id != -1) {
             cell.commentTime.text = NSDate(timeIntervalSince1970:Double(comment.createdDate) / 1000.0).timeAgo
@@ -75,9 +78,9 @@ class MoreCommentsViewController: UIViewController, UITextFieldDelegate, UIScrol
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let vController = self.storyboard!.instantiateViewControllerWithIdentifier("UserProfileFeedViewController") as! UserProfileFeedViewController
+        /*let vController = self.storyboard!.instantiateViewControllerWithIdentifier("UserProfileFeedViewController") as! UserProfileFeedViewController
         vController.userId = self.comments![indexPath.row].ownerId
-        self.navigationController?.pushViewController(vController, animated: true)
+        self.navigationController?.pushViewController(vController, animated: true)*/
     }
     
     func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
@@ -224,5 +227,19 @@ class MoreCommentsViewController: UIViewController, UITextFieldDelegate, UIScrol
         textField.resignFirstResponder()
         return true
     }
+    
+    @IBAction func onClickUser(sender: AnyObject) {
+        
+        let button = sender as! UIButton
+        let view = button.superview!
+        let cell = view.superview! as! CommentTableViewCell
+        
+        let indexPath = self.commentsTableView.indexPathForCell(cell)!
+        
+        let vController = self.storyboard!.instantiateViewControllerWithIdentifier("UserProfileFeedViewController") as! UserProfileFeedViewController
+        vController.userId = self.comments![indexPath.row].ownerId
+        self.navigationController?.pushViewController(vController, animated: true)
+    }
+    
     
 }
