@@ -75,12 +75,12 @@ extension UIImage
         return UIImage(CGImage: CGBitmapContextCreateImage(ctx)!)
     }
     
-    func resizeImage(image: UIImage, newWidth: CGFloat, newHeight: CGFloat) -> UIImage {
+    func resizeImage(width: CGFloat, height: CGFloat) -> UIImage {
         
         //let scale = newWidth / image.size.width
-        let newHeight = newHeight
-        UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight))
-        image.drawInRect(CGRectMake(0, 0, newWidth, newHeight))
+        let height = width
+        UIGraphicsBeginImageContext(CGSizeMake(width, height))
+        self.drawInRect(CGRectMake(0, 0, width, height))
         let newImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         

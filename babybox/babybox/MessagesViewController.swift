@@ -108,7 +108,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         ViewUtil.displayRoundedCornerView(self.sendButton)
         self.sendButton.layer.borderWidth = 0
         
-        self.initializeConversationButtons()
+        self.initButtonsLayout()
     }
     
     override func didReceiveMemoryWarning() {
@@ -427,7 +427,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         self.reset()
     }
     
-    func initializeConversationButtons() {
+    func initButtonsLayout() {
         
         //ViewUtil.displayRoundedCornerView(self.buyerMessageButton)
         ViewUtil.displayRoundedCornerBtnView(self.buyerCancelButton)
@@ -438,32 +438,16 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         ViewUtil.displayRoundedCornerBtnView(self.sellerDeclineButton)
         
         let buyerMessageLayoutConstraint = ViewUtil.applyWidthConstraints(self.buyerMessageButton, toView: self.view, multiplierValue: 0.70)
-        
         self.view.addConstraint(buyerMessageLayoutConstraint)
         let buyerCancelLayoutConstraint = ViewUtil.applyWidthConstraints(self.ordered, toView: self.view, multiplierValue: 0.30)
         self.view.addConstraint(buyerCancelLayoutConstraint)
-        
         let buyerOrderLayoutConstraint = ViewUtil.applyWidthConstraints(self.interested, toView: self.view, multiplierValue: 0.30)
-        
         self.view.addConstraint(buyerOrderLayoutConstraint)
-        
         let sellerAcceptDeclineLayoutConstraint = ViewUtil.applyWidthConstraints(self.orderText, toView: self.view, multiplierValue: 0.50)
-        
         self.view.addConstraint(sellerAcceptDeclineLayoutConstraint)
-        
         let sellerAcceptDeclineBtnConstraint = ViewUtil.applyWidthConstraints(self.sellerDeclineButton, toView: self.view, multiplierValue: 0.50)
-        
         self.view.addConstraint(sellerAcceptDeclineBtnConstraint)
         
-        /*let sellerMessageLayoutConstraint = NSLayoutConstraint(item: self.interested,
-            attribute: .Right,
-            relatedBy: .Equal,
-            toItem: self.view,
-            attribute: .Right,
-            multiplier: 0.30,
-            constant: 0.0)*/
-        
-        //self.view.addConstraint(sellerMessageLayoutConstraint)
     }
     
     @IBAction func onClickBuyerMessageButton(sender: AnyObject) {

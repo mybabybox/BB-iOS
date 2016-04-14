@@ -359,7 +359,8 @@ class ApiController {
         callEvent.failedEventbusName = "profileImgUploadFailed"
         let url = callEvent.apiUrl + "?key=\(StringUtil.encode(AppDelegate.getInstance().sessionId!))"
         
-        let nsData = profileImg.lowestQualityJPEGNSData
+        let resizeImage = profileImg.resizeImage(Constants.IMAGE_RESIZE_VALUE, height: Constants.IMAGE_RESIZE_VALUE)
+        let nsData = resizeImage.lowestQualityJPEGNSData
         Alamofire.upload(
             .POST,
             url,
@@ -522,7 +523,8 @@ class ApiController {
                     } else {
                         if let image: UIImage? = _image as? UIImage {
                             if (image != nil) {
-                                let nsData = image!.lowestQualityJPEGNSData
+                                let resizeImage = image!.resizeImage(Constants.IMAGE_RESIZE_VALUE, height: Constants.IMAGE_RESIZE_VALUE)
+                                let nsData = resizeImage.lowestQualityJPEGNSData
                                 multipartFormData.appendBodyPart(data: nsData, name: "image\(index)", fileName: "upload.jpg", mimeType:"jpg")
                                 index += 1
                             }
@@ -602,7 +604,10 @@ class ApiController {
             multipartFormData: { multipartFormData in
                 if image != nil {
                     let index = 0
-                    let nsData = image!.lowestQualityJPEGNSData
+                    let resizeImage = image!.resizeImage(Constants.IMAGE_RESIZE_VALUE, height: Constants.IMAGE_RESIZE_VALUE)
+                    let nsData = resizeImage.lowestQualityJPEGNSData
+                    
+                    //let nsData = image!.lowestQualityJPEGNSData
                     multipartFormData.appendBodyPart(data: nsData, name:  "image\(index)", fileName: "upload.jpg", mimeType:"jpg")
                 }
                 

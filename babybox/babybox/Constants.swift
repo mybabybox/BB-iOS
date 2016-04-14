@@ -36,6 +36,7 @@ struct Constants {
     static let SELLER_FEED_ITEM_DETAILS_HEIGHT = CGFloat(70)
     static let MESSAGE_IMAGE_WIDTH = CGFloat(0.65)
     static let MESSAGE_LOAD_MORE_BTN_HEIGHT = CGFloat(0)
+    static let IMAGE_RESIZE_VALUE = CGFloat(640)
     
     // strings
     static let ACTIVITY_FIRST_POST = "You are now a BabyBox seller! Your first product has been listed:\n"
