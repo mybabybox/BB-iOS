@@ -10,6 +10,7 @@ import UIKit
 
 class CommentTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var userImg: UIImageView!
     @IBOutlet weak var userImgBtn: UIButton!
     @IBOutlet weak var titleBtn: UIButton!
     @IBOutlet weak var commentTime: UILabel!

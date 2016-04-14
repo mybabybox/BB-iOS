@@ -28,7 +28,7 @@ class MoreCommentsViewController: UIViewController, UITextFieldDelegate, UIScrol
     var offset: Int64 = 0
     var lcontentSize = CGFloat(0.0)
     override func viewWillAppear(animated: Bool) {
-        ViewUtil.hideActivityLoading(self.activityLoading)
+        //ViewUtil.hideActivityLoading(self.activityLoading)
     }
     
     override func viewDidLoad() {
@@ -68,9 +68,8 @@ class MoreCommentsViewController: UIViewController, UITextFieldDelegate, UIScrol
         let cell = tableView.dequeueReusableCellWithIdentifier(viewCellIdentifier)! as! CommentTableViewCell
         
         let comment = self.comments![indexPath.row]
-        //ImageUtil.displayThumbnailProfileImage(comment.ownerId, imageView: cell.userImg)
-        //cell.userName.text = comment.ownerName
-        ImageUtil.displayThumbnailProfileImage(comment.ownerId, buttonView: cell.userImgBtn)
+        //ImageUtil.displayThumbnailProfileImage(comment.ownerId, buttonView: cell.userImgBtn)
+        ImageUtil.displayThumbnailProfileImage(comment.ownerId, imageView: cell.userImg)
         cell.sizeToFit()
         cell.titleBtn.setTitle(comment.ownerName, forState: .Normal)
         cell.commentText.text = comment.body
@@ -128,7 +127,6 @@ class MoreCommentsViewController: UIViewController, UITextFieldDelegate, UIScrol
     func handleDeleteComment(alertAction: UIAlertAction!) -> Void {
         if let indexPath = deleteCellIndex {
             ViewUtil.showGrayOutView(self, activityLoading: self.activityLoading)
-            //ApiController.instance.deleteComment(self.comments![(indexPath.row)].id)
             ApiFacade.deleteComment(self.comments![(indexPath.row)].id, successCallback: onSuccessDeleteComment, failureCallback: onFailureDeleteComment)
         }
     }
@@ -169,6 +167,7 @@ class MoreCommentsViewController: UIViewController, UITextFieldDelegate, UIScrol
             ViewUtil.makeToast("Please enter a comment", view: self.view)
             return
         }
+        ViewUtil.showGrayOutView(self)
         ApiFacade.newComment(self.postId, commentText: StringUtil.trim(self.commentText.text), successCallback: onSuccessNewComment, failureCallback: onFailureNewComment)
     }
     
@@ -201,6 +200,7 @@ class MoreCommentsViewController: UIViewController, UITextFieldDelegate, UIScrol
         //self.comments!.sortInPlace({ $0.createdDate < $1.createdDate })
         self.commentText.text = ""
         self.commentsTableView.reloadData()
+        ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
         //self.performSegueWithIdentifier("unwindToProductScreen", sender: self)
         
     }

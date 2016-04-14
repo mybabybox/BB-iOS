@@ -74,4 +74,16 @@ extension UIImage
         // And now we just create a new UIImage from the drawing context and return it
         return UIImage(CGImage: CGBitmapContextCreateImage(ctx)!)
     }
+    
+    func resizeImage(image: UIImage, newWidth: CGFloat, newHeight: CGFloat) -> UIImage {
+        
+        //let scale = newWidth / image.size.width
+        let newHeight = newHeight
+        UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight))
+        image.drawInRect(CGRectMake(0, 0, newWidth, newHeight))
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage
+    }
 }

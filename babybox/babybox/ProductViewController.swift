@@ -169,8 +169,8 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
                 } else {
                     cell.postedTime.text = NSDate(timeIntervalSinceNow: comment.createdDate / 1000.0).timeAgo
                 }
-                
-                ImageUtil.displayThumbnailProfileImage(self.comments[indexPath.row].ownerId, buttonView: cell.postUserImg)
+                ImageUtil.displayThumbnailProfileImage(self.comments[indexPath.row].ownerId, imageView: cell.userImg)
+                //ImageUtil.displayThumbnailProfileImage(self.comments[indexPath.row].ownerId, buttonView: cell.postUserImg)
                 
             }
             cell.separatorInset = UIEdgeInsetsMake(0, 0, 0, cell.bounds.size.width)
