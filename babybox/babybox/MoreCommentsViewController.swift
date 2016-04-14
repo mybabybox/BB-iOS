@@ -26,6 +26,7 @@ class MoreCommentsViewController: UIViewController, UITextFieldDelegate, UIScrol
     var loadedAll: Bool = false
     var postId: Int = 0
     var offset: Int64 = 0
+    var lcontentSize = CGFloat(0.0)
     override func viewWillAppear(animated: Bool) {
         ViewUtil.hideActivityLoading(self.activityLoading)
     }
@@ -49,6 +50,10 @@ class MoreCommentsViewController: UIViewController, UITextFieldDelegate, UIScrol
         self.commentsTableView.separatorColor = Color.LIGHT_GRAY
         self.commentsTableView.separatorStyle = .SingleLine
         self.commentsTableView.tableFooterView = UIView(frame: CGRectZero)
+        
+        self.commentsTableView.setNeedsLayout()
+        self.commentsTableView.layoutIfNeeded()
+        
     }
     
     // MARK: UITableViewDataSource and Delegates
@@ -66,9 +71,13 @@ class MoreCommentsViewController: UIViewController, UITextFieldDelegate, UIScrol
         //ImageUtil.displayThumbnailProfileImage(comment.ownerId, imageView: cell.userImg)
         //cell.userName.text = comment.ownerName
         ImageUtil.displayThumbnailProfileImage(comment.ownerId, buttonView: cell.userImgBtn)
-        
+        cell.sizeToFit()
         cell.titleBtn.setTitle(comment.ownerName, forState: .Normal)
         cell.commentText.text = comment.body
+        cell.commentText.numberOfLines = 0
+        self.lcontentSize = cell.commentText.frame.size.height
+        cell.commentText.sizeToFit()
+        
         if (comment.id != -1) {
             cell.commentTime.text = NSDate(timeIntervalSince1970:Double(comment.createdDate) / 1000.0).timeAgo
         } else {
@@ -78,9 +87,11 @@ class MoreCommentsViewController: UIViewController, UITextFieldDelegate, UIScrol
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        /*let vController = self.storyboard!.instantiateViewControllerWithIdentifier("UserProfileFeedViewController") as! UserProfileFeedViewController
-        vController.userId = self.comments![indexPath.row].ownerId
-        self.navigationController?.pushViewController(vController, animated: true)*/
+        
+    }
+    
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return CGFloat(65.0) + self.lcontentSize
     }
     
     func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {

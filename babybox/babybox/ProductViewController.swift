@@ -245,11 +245,6 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
                 
                 if let commentCount = productInfo?.numComments {
                     cell.commentsCount.text = String(commentCount)
-                    if productInfo?.numComments > 3 {
-                        cell.moreCommentsBtn.hidden = false
-                    } else {
-                        cell.moreCommentsBtn.hidden = true
-                    }
                 }
                 
             default:
