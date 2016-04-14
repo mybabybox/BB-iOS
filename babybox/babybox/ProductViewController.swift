@@ -31,6 +31,7 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
     @IBOutlet weak var activeText: UITextField!
     
     var lcontentSize = CGFloat(0.0)
+    var lblCommentsSize = CGFloat(0.0)
     var feedItem: PostVMLite = PostVMLite()
     var myDate: NSDate = NSDate()
     var isShownKeyboard = false
@@ -158,17 +159,18 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
             } else {
                 let comment:CommentVM = self.comments[indexPath.row]
                 cell.lblComments.text = comment.body
-                cell.postedUserName.text = comment.ownerName
+                //cell.lblComments.numberOfLines = 0
+                //self.lblCommentsSize = cell.lblComments.frame.size.height
+                
+                //cell.lblComments.sizeToFit()
+                cell.postUserName.setTitle(comment.ownerName, forState: .Normal)
                 if (comment.id != -1) {
                     cell.postedTime.text = NSDate(timeIntervalSince1970:Double(comment.createdDate) / 1000.0).timeAgo
                 } else {
                     cell.postedTime.text = NSDate(timeIntervalSinceNow: comment.createdDate / 1000.0).timeAgo
                 }
                 
-                ImageUtil.displayThumbnailProfileImage(self.comments[indexPath.row].ownerId, imageView: cell.postedUserImg)
-                
-                //let time = comment.createdDate
-                //cell.postedTime.text = NSDate(timeIntervalSince1970:Double(time) / 1000.0).timeAgo
+                ImageUtil.displayThumbnailProfileImage(self.comments[indexPath.row].ownerId, buttonView: cell.postUserImg)
                 
             }
             cell.separatorInset = UIEdgeInsetsMake(0, 0, 0, cell.bounds.size.width)
@@ -285,7 +287,7 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
         case 2:
             return CGFloat(95.0)
         case 4:
-            return CGFloat(50.0)
+            return CGFloat(50.0) //+ self.lblCommentsSize
         default:    
             return UITableViewAutomaticDimension
         }
@@ -305,7 +307,7 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
         }
     }
     
-    func PostComments(button: UIButton){
+    func PostComments(button: UIButton) {
         let cell: MessageTableViewCell = button.superview!.superview!.superview as! MessageTableViewCell
         let _nComment = CommentVM()
         _nComment.ownerId = UserInfoCache.getUser()!.id
@@ -658,5 +660,16 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
         }
     }
     
+    @IBAction func onClickPostUser(sender: AnyObject) {
+        let button = sender as! UIButton
+        let view = button.superview!
+        let cell = view.superview! as! MessageTableViewCell
+        
+        let indexPath = self.detailTableView.indexPathForCell(cell)!
+        
+        let vController = self.storyboard!.instantiateViewControllerWithIdentifier("UserProfileFeedViewController") as! UserProfileFeedViewController
+        vController.userId = self.comments[indexPath.row].ownerId
+        self.navigationController?.pushViewController(vController, animated: true)
+    }
     
 }
