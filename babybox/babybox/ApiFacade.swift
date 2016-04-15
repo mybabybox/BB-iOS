@@ -11,6 +11,7 @@ import SwiftEventBus
 
 class ApiFacade {
 
+    static let HOME_SLIDER_ITEM_TYPE = "HOME_SLIDER"
     
     static func loginByFacebook(authToken: String, successCallback: ((String) -> Void)?, failureCallback: ((String) -> Void)?) {
         SwiftEventBus.unregister(self)
@@ -365,7 +366,7 @@ class ApiFacade {
         ApiController.instance.deleteComment(commentId)
     }
 
-    static func getHomeSliderFeaturedItems(itemType: String, successCallback: (([FeaturedItemVM]) -> Void)?, failureCallback: ((String) -> Void)?) {
+    static func getHomeSliderFeaturedItems(successCallback: (([FeaturedItemVM]) -> Void)?, failureCallback: ((String) -> Void)?) {
         SwiftEventBus.unregister(self)
         
         SwiftEventBus.onMainThread(self, name: "onSuccessGetFeaturedItems") { result in
@@ -389,7 +390,7 @@ class ApiFacade {
             }
         }
         
-        ApiController.instance.getFeaturedItems(itemType)
+        ApiController.instance.getFeaturedItems(HOME_SLIDER_ITEM_TYPE)
     }
     
     //static func registerAppForNotification(successCallback: ((String) -> Void)?, failureCallback: ((String) -> Void)?) {

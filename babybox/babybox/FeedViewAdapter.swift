@@ -71,7 +71,7 @@ class FeedViewAdapter {
             ImageUtil.displayThumbnailProfileImage(feedItem.ownerId, imageView: cell.userCircleImg)
         }
         
-        cell.layer.cornerRadius = Constants.DEFAULT_CORNER_RADIUS
+        cell.layer.cornerRadius = Constants.FEED_ITEM_CORNER_RADIUS
         return cell
     }
 

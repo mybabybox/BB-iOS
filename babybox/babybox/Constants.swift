@@ -39,8 +39,9 @@ struct Constants {
     static let HOME_HEADER_ITEMS_MARGIN_TOTAL = CGFloat(12)     // 3 each
     static let CATEGORY_HEADER_HEIGHT = CGFloat(150)
     static let PROFILE_HEADER_HEIGHT = CGFloat(190)
-    static let FEED_ITEM_SIDE_SPACING = CGFloat(10)
-    static let FEED_ITEM_LINE_SPACING = CGFloat(10)
+    static let FEED_ITEM_CORNER_RADIUS = CGFloat(0)
+    static let FEED_ITEM_SIDE_SPACING = CGFloat(12)
+    static let FEED_ITEM_LINE_SPACING = CGFloat(12)
     static let FEED_ITEM_DETAILS_HEIGHT = CGFloat(35)
     static let SELLER_FEED_ITEM_DETAILS_HEIGHT = CGFloat(70)
     static let MESSAGE_BUBBLE_CORNER_RADIUS = CGFloat(5)
@@ -90,7 +91,4 @@ struct Constants {
     
     static let PM_ORDER_ACCEPTED_FOR_SELLER = "Order has been accepted"
     static let PM_ORDER_DECLINED_FOR_SELLER = "Order has been declined"
-    
-    static let HOME_SLIDER_ITEM_TYPE = "HOME_SLIDER"
-    
 }

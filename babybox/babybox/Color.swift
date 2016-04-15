@@ -34,7 +34,7 @@ class Color {
     static let IMAGE_LOAD_BG: UIColor = Color.fromRGB(0xFFF2EF)
     static let VIEW_BG: UIColor = Color.fromRGB(0xF6F6F6)
     static let FEED_BG: UIColor = Color.fromRGB(0xF5F8FA)
-    static let FEED_ITEM_BORDER: UIColor = LIGHT_GRAY
+    static let FEED_ITEM_BORDER: UIColor = LIGHT_GRAY_2
     static let CHAT_ME: UIColor = Color.fromRGB(0xDCF8C6)
     static let CHAT_YOU: UIColor = Color.fromRGB(0xFFFFFF)
     

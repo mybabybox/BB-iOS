@@ -110,7 +110,7 @@ class HomeFeedViewController: CustomNavigationController {
             self!.feedLoader?.reloadFeedItems()
         })
         
-        ApiFacade.getHomeSliderFeaturedItems(Constants.HOME_SLIDER_ITEM_TYPE, successCallback: onSuccessGetHomeFeaturedItems, failureCallback: onFailureGetHomeFeaturedItems)
+        ApiFacade.getHomeSliderFeaturedItems(onSuccessGetHomeFeaturedItems, failureCallback: onFailureGetHomeFeaturedItems)
     }
     
     @IBAction func onClicTipClose(sender: AnyObject) {
