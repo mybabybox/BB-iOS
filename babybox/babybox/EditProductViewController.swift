@@ -58,8 +58,6 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        ViewUtil.displayRoundedCornerView(self.deletePostBtn, bgColor: Color.LIGHT_GRAY)
-        
         self.pricetxt.delegate = self
         self.pricetxt.keyboardType = .NumberPad
         
@@ -72,6 +70,10 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         //self.prodDescription.delegate = self
         
         ViewUtil.setCustomBackButton(self, action: "onBackPressed:")
+        
+        ViewUtil.displayRoundedCornerView(self.deletePostBtn, bgColor: Color.LIGHT_GRAY)
+        
+        self.view.backgroundColor = Color.FEED_BG
         
         SwiftEventBus.unregister(self)
         

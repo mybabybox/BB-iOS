@@ -78,6 +78,8 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
         self.sellingtext.delegate = self
         //self.prodDescription.delegate = self
         
+        self.view.backgroundColor = Color.FEED_BG
+        
         ViewUtil.setCustomBackButton(self, action: "onBackPressed:")
         
         SwiftEventBus.unregister(self)

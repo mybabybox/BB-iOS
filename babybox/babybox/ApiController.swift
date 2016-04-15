@@ -606,8 +606,6 @@ class ApiController {
                     let index = 0
                     let resizeImage = image!.resizeImage(Constants.IMAGE_RESIZE_DIMENSION, height: Constants.IMAGE_RESIZE_DIMENSION)
                     let nsData = resizeImage.lowestQualityJPEGNSData
-                    
-                    //let nsData = image!.lowestQualityJPEGNSData
                     multipartFormData.appendBodyPart(data: nsData, name:  "image\(index)", fileName: "upload.jpg", mimeType:"jpg")
                 }
                 
