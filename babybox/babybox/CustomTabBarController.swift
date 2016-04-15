@@ -38,9 +38,13 @@ class CustomTabBarController: UITabBarController {
     static func selectTab(tabItem: TabItem) -> UIViewController? {
         if let tabBarController = getCustomTabBarController() {
             tabBarController.selectedIndex = tabItem.rawValue
+            tabBarController.hidesBottomBarWhenPushed = false
             
-            let navController = tabBarController.viewControllers![tabItem.rawValue] as! UINavigationController
-            return navController.viewControllers[0]
+            if let navController = tabBarController.viewControllers![tabItem.rawValue] as? UINavigationController {
+                //navController.navigationBarHidden = false
+                //navController.toolbarHidden = false
+                return navController.viewControllers[0]
+            }
         }
         return nil
     }

@@ -360,7 +360,7 @@ class ApiController {
         let url = callEvent.apiUrl + "?key=\(StringUtil.encode(AppDelegate.getInstance().sessionId!))"
         
         let resizeImage = profileImg.resizeImage(Constants.IMAGE_RESIZE_DIMENSION, height: Constants.IMAGE_RESIZE_DIMENSION)
-        let nsData = resizeImage.lowestQualityJPEGNSData
+        let nsData = resizeImage.mediumQualityJPEGNSData
         Alamofire.upload(
             .POST,
             url,
@@ -524,7 +524,7 @@ class ApiController {
                         if let image: UIImage? = _image as? UIImage {
                             if (image != nil) {
                                 let resizeImage = image!.resizeImage(Constants.IMAGE_RESIZE_DIMENSION, height: Constants.IMAGE_RESIZE_DIMENSION)
-                                let nsData = resizeImage.lowestQualityJPEGNSData
+                                let nsData = resizeImage.mediumQualityJPEGNSData
                                 multipartFormData.appendBodyPart(data: nsData, name: "image\(index)", fileName: "upload.jpg", mimeType:"jpg")
                                 index += 1
                             }
@@ -605,7 +605,7 @@ class ApiController {
                 if image != nil {
                     let index = 0
                     let resizeImage = image!.resizeImage(Constants.IMAGE_RESIZE_DIMENSION, height: Constants.IMAGE_RESIZE_DIMENSION)
-                    let nsData = resizeImage.lowestQualityJPEGNSData
+                    let nsData = resizeImage.mediumQualityJPEGNSData
                     multipartFormData.appendBodyPart(data: nsData, name:  "image\(index)", fileName: "upload.jpg", mimeType:"jpg")
                 }
                 
