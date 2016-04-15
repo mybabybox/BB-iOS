@@ -30,6 +30,8 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
     @IBOutlet weak var detailTableView: UITableView!
     @IBOutlet weak var activeText: UITextField!
     
+    var moreCommentUpdated: Bool = false
+    
     var lcontentSize = CGFloat(0.0)
     var lblCommentsSize = CGFloat(0.0)
     var feedItem: PostVMLite = PostVMLite()
@@ -91,6 +93,12 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
     
     override func viewDidAppear(animated: Bool) {
         self.myDate = NSDate()
+        if moreCommentUpdated {
+            //let indexPaths = [NSIndexPath(forRow: 1, inSection: 3)]
+            //self.detailTableView.reloadRowsAtIndexPaths(indexPaths, withRowAnimation: UITableViewRowAnimation.None)
+            moreCommentUpdated = false
+            self.detailTableView.reloadData()
+        }
     }
 
     override func didReceiveMemoryWarning() {

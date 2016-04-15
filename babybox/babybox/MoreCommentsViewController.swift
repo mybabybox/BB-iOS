@@ -56,6 +56,38 @@ class MoreCommentsViewController: UIViewController, UITextFieldDelegate, UIScrol
         
     }
     
+    override func viewWillDisappear(animated : Bool) {
+        super.viewWillDisappear(animated)
+        
+        if self.isMovingFromParentViewController() {
+            let stack = (self.navigationController?.viewControllers.count)! - 1
+            let viewController = self.navigationController?.viewControllers[stack]
+            print(self.navigationController?.viewControllers[stack])
+            if viewController!.isKindOfClass(ProductViewController) {
+                let productController = viewController as? ProductViewController
+                productController?.moreCommentUpdated = true
+                productController?.productInfo?.numComments = (self.comments?.count)!
+                //put the last 3 comments in comments variable of productcontroller
+                
+                productController?.comments = []
+                if self.comments?.count > 0 {
+                    if self.comments!.count <= 3 {
+                        for i in 0...self.comments!.count - 1 {
+                            productController?.comments.append(self.comments![i])
+                        }
+                        
+                    } else {
+                        let counter = (self.comments?.count)! - 3
+                        for i in counter...self.comments!.count - 1 {
+                            productController?.comments.append(self.comments![i])
+                        }
+                    }
+                }
+               
+            }
+        }
+    }
+    
     // MARK: UITableViewDataSource and Delegates
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
