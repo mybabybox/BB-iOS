@@ -27,6 +27,8 @@ class MoreCommentsViewController: UIViewController, UITextFieldDelegate, UIScrol
     var postId: Int = 0
     var offset: Int64 = 0
     var lcontentSize = CGFloat(0.0)
+    let DEFAULT_SEPERATOR_SPACING = CGFloat(10.0)
+    let DEFAULT_TABLEVIEW_CELL_HEIGHT = CGFloat(60.0)
     override func viewWillAppear(animated: Bool) {
         //ViewUtil.hideActivityLoading(self.activityLoading)
     }
@@ -50,7 +52,6 @@ class MoreCommentsViewController: UIViewController, UITextFieldDelegate, UIScrol
         self.commentsTableView.separatorColor = Color.LIGHT_GRAY
         self.commentsTableView.separatorStyle = .SingleLine
         self.commentsTableView.tableFooterView = UIView(frame: CGRectZero)
-        
         self.commentsTableView.setNeedsLayout()
         self.commentsTableView.layoutIfNeeded()
         
@@ -122,7 +123,10 @@ class MoreCommentsViewController: UIViewController, UITextFieldDelegate, UIScrol
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return CGFloat(65.0) + self.lcontentSize
+        //putting this condition with assumption that default height for displaying desc will be 40 hence if only that much
+        //content is getting rendered then there is no need to increase the ht of the cell.
+            return DEFAULT_TABLEVIEW_CELL_HEIGHT + self.lcontentSize + DEFAULT_SEPERATOR_SPACING
+        
     }
     
     func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
