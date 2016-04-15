@@ -82,4 +82,13 @@ struct Constants {
     static let DELETE_COMMENT_TEXT = "Delete comment?"
     
     static let DEEP_LINK_URL_SCHEME = "babybox://"
+    
+    //Messages Strings
+    static let PM_ORDER_CANCELLED = "Order cancelled"
+    static let PM_ORDER_ACCEPTED_FOR_BUYER = "Seller has accepted your order"
+    static let PM_ORDER_DECLINED_FOR_BUYER = "Seller declined your order"
+    
+    static let PM_ORDER_ACCEPTED_FOR_SELLER = "Order has been accepted"
+    static let PM_ORDER_DECLINED_FOR_SELLER = "Order has been declined"
+    
 }

@@ -25,6 +25,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var uploadImgSrc: UIImageView!
     
+    @IBOutlet weak var footerbtnsHeight: NSLayoutConstraint!
     var conversation: ConversationVM? = nil
     var offered = false
     var offeredPrice: Double = -1
@@ -109,6 +110,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         self.sendButton.layer.borderWidth = 0
         
         self.initButtonsLayout()
+        self.initLayout(self.conversation!)
     }
     
     override func didReceiveMemoryWarning() {
@@ -448,6 +450,79 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         let sellerAcceptDeclineBtnConstraint = ViewUtil.applyWidthConstraints(self.sellerDeclineButton, toView: self.view, multiplierValue: 0.50)
         self.view.addConstraint(sellerAcceptDeclineBtnConstraint)
         
+    }
+    
+    func initLayout(_conversation: ConversationVM) {
+        
+        //let order:ConversationOrderVM = conversation.order
+        // action buttons
+        let isBuyer = !_conversation.postOwner
+        self.buyerButtonsLayout.hidden = !isBuyer
+        self.sellerButtonsLayout.hidden = isBuyer
+    
+        // show actions based on order state
+        if isBuyer {
+            initBuyerLayout(_conversation);
+        } else {
+            initSellerLayout(_conversation);
+        }
+    }
+    
+    func initBuyerLayout(_conversation: ConversationVM) {
+        
+        self.buyerOrderLayout.hidden = true
+        self.buyerCancelLayout.hidden = true
+        self.buyerMessageLayout.hidden = true
+        
+        let order = _conversation.order
+        if order == nil {
+            if (_conversation.postSold) {
+                buyerButtonsLayout.hidden = true
+                sellerButtonsLayout.hidden = true //set the size of block 0
+                footerbtnsHeight.constant = 0
+            } else {
+                buyerOrderLayout.hidden = false
+            }
+        } else if _conversation.order!.closed {
+            buyerCancelLayout.hidden = false
+        } else {
+            buyerMessageLayout.hidden = false
+            if (_conversation.postSold) {
+                buyerOrderAgainButton.hidden = true
+            }
+            
+            if (order!.cancelled) {
+                buyerMessageButton.setTitle(Constants.PM_ORDER_CANCELLED, forState: .Normal)
+            } else if (order!.accepted) {
+                buyerMessageButton.setTitle(Constants.PM_ORDER_ACCEPTED_FOR_BUYER, forState: .Normal)
+            } else if (order!.declined) {
+                buyerMessageButton.setTitle(Constants.PM_ORDER_DECLINED_FOR_BUYER, forState: .Normal)
+            }
+
+        }
+    }
+    
+    func initSellerLayout(_conversation: ConversationVM) {
+        sellerAcceptDeclineLayout.hidden = true
+        sellerMessageLayout.hidden = true
+        let order = _conversation.order
+        
+        if (order == nil) {
+            // no actions... hide seller actions //Set the height of the block to 0
+            sellerButtonsLayout.hidden = true
+            footerbtnsHeight.constant = 0
+        } else if (!order!.closed) {
+            sellerAcceptDeclineLayout.hidden = false
+        } else {    // closed orders
+            sellerMessageLayout.hidden = false
+            if (order!.accepted) {
+                sellerMessageButton.setTitle(Constants.PM_ORDER_ACCEPTED_FOR_SELLER, forState: .Normal)
+            } else if (order!.declined) {
+                sellerMessageButton.setTitle(Constants.PM_ORDER_DECLINED_FOR_SELLER, forState: .Normal)
+            } else if (order!.cancelled) {
+                sellerButtonsLayout.hidden = true
+            }
+        }
     }
     
     @IBAction func onClickBuyerMessageButton(sender: AnyObject) {
