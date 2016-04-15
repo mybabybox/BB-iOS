@@ -708,6 +708,18 @@ class ApiController {
         self.makePostApiCall(callEvent)
     }
     
+    ///api/get-featured-items/{itemType}
+    func getFeaturedItems(itemType: String) {
+        let callEvent = ApiCallEvent()
+        callEvent.method = "/api/get-featured-items/\(itemType)"
+        callEvent.resultClass = "[FeaturedItemVM]"
+        callEvent.successEventbusName = "onSuccessGetFeaturedItems"
+        callEvent.failedEventbusName = "onFailureGetFeaturedItems"
+        callEvent.apiUrl = Constants.BASE_URL + callEvent.method
+        
+        self.makeApiCall(callEvent)
+    }
+    
     func makeApiCall(arg: ApiCallEvent) {
         NSLog("makeApiCall")
         
@@ -824,6 +836,7 @@ class ApiController {
         case "[ActivityVM]": result = Mapper<ActivityVM>().mapArray(inputStr)!
         case "NotificationCounterVM": result = Mapper<NotificationCounterVM>().map(inputStr)!
         case "[SellerVM]": result = Mapper<SellerVM>().mapArray(inputStr)!
+        case "[FeaturedItemVM]": result = Mapper<FeaturedItemVM>().mapArray(inputStr)!
         case "String": result = inputStr
         default: NSLog("calling default object resolver")
         }

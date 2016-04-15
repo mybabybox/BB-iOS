@@ -91,4 +91,6 @@ struct Constants {
     static let PM_ORDER_ACCEPTED_FOR_SELLER = "Order has been accepted"
     static let PM_ORDER_DECLINED_FOR_SELLER = "Order has been declined"
     
+    static let HOME_SLIDER_ITEM_TYPE = "HOME_SLIDER"
+    
 }

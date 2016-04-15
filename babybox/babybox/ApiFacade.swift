@@ -365,6 +365,32 @@ class ApiFacade {
         ApiController.instance.deleteComment(commentId)
     }
 
+    static func getHomeSliderFeaturedItems(itemType: String, successCallback: (([FeaturedItemVM]) -> Void)?, failureCallback: ((String) -> Void)?) {
+        SwiftEventBus.unregister(self)
+        
+        SwiftEventBus.onMainThread(self, name: "onSuccessGetFeaturedItems") { result in
+            if ViewUtil.isEmptyResult(result) {
+                failureCallback!("No Featured items")
+                return
+            }
+            
+            if successCallback != nil {
+                successCallback!(result.object as! [FeaturedItemVM])
+            }
+        }
+        
+        SwiftEventBus.onMainThread(self, name: "onFailureGetFeaturedItems") { result in
+            if failureCallback != nil {
+                var error = "Failed to get featured items..."
+                if result.object is NSString {
+                    error += "\n"+(result.object as! String)
+                }
+                failureCallback!(error)
+            }
+        }
+        
+        ApiController.instance.getFeaturedItems(itemType)
+    }
     
     //static func registerAppForNotification(successCallback: ((String) -> Void)?, failureCallback: ((String) -> Void)?) {
     static func registerAppForNotification() {

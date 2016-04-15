@@ -29,7 +29,7 @@ class HomeFeedViewController: CustomNavigationController {
     var categories : [CategoryVM] = []
     
     var vController: ProductViewController?
-    //var notificationCounterVM: NotificationCounterVM? = nil
+    var featuredItems: [FeaturedItemVM]?
     
     func reloadDataToView() {
         self.categories = CategoryCache.categories
@@ -109,6 +109,8 @@ class HomeFeedViewController: CustomNavigationController {
             CategoryCache.refresh(self?.onSuccessGetCategories, failureCallback: nil)
             self!.feedLoader?.reloadFeedItems()
         })
+        
+        ApiFacade.getHomeSliderFeaturedItems(Constants.HOME_SLIDER_ITEM_TYPE, successCallback: onSuccessGetHomeFeaturedItems, failureCallback: onFailureGetHomeFeaturedItems)
     }
     
     @IBAction func onClicTipClose(sender: AnyObject) {
@@ -286,6 +288,15 @@ class HomeFeedViewController: CustomNavigationController {
     
     func onFailedGetUserByDisplayName(error: String) {
         //do nothing.
+    }
+    
+    func onSuccessGetHomeFeaturedItems(_featuredItems: [FeaturedItemVM]) {
+        self.featuredItems?.removeAll()
+        self.featuredItems = _featuredItems
+    }
+    
+    func onFailureGetHomeFeaturedItems(message: String) {
+        NSLog("Error getting home slider featured items")
     }
     
 }
