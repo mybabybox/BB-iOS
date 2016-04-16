@@ -14,7 +14,8 @@ class SignupDetailViewController: BaseLoginViewController, UITextFieldDelegate, 
     @IBOutlet weak var submitBtn: UIButton!
     @IBOutlet weak var displayName: UITextField!
     @IBOutlet weak var location: UIButton!
-    
+    @IBOutlet weak var languageDropDown: UIButton!
+    let languageTypeDropDown = DropDown()
     let locationDropDown = DropDown()
     
     override func viewWillAppear(animated: Bool) {
@@ -40,6 +41,13 @@ class SignupDetailViewController: BaseLoginViewController, UITextFieldDelegate, 
         self.locationDropDown.anchorView = self.location
         self.locationDropDown.bottomOffset = CGPoint(x: 0, y: self.location.bounds.height)
         self.locationDropDown.direction = .Top
+        
+        initLanguages()
+        self.languageTypeDropDown.anchorView = languageDropDown
+        self.languageTypeDropDown.bottomOffset = CGPoint(x: 0, y: languageDropDown.bounds.height)
+        self.languageTypeDropDown.direction = .Top
+        
+        
     }
 
     func onSuccessSaveSignUpInfo(response: String) {
@@ -90,4 +98,30 @@ class SignupDetailViewController: BaseLoginViewController, UITextFieldDelegate, 
         }
         return valid
     }
+    
+    func initLanguages() {
+        self.languageTypeDropDown.dataSource = [
+            ViewUtil.Languages.EN.rawValue,
+            ViewUtil.Languages.ZH.rawValue
+        ]
+        
+        dispatch_async(dispatch_get_main_queue(), {
+            self.languageTypeDropDown.reloadAllComponents()
+        })
+        
+        self.languageDropDown.setTitle(NSLocalizedString("select", comment: ""), forState: UIControlState.Normal)
+        
+        self.languageTypeDropDown.selectionAction = { [unowned self] (index, item) in
+            self.languageDropDown.setTitle(item, forState: .Normal)
+        }
+    }
+    
+    @IBAction func ShoworDismissLanguage(sender: AnyObject) {
+        if self.languageTypeDropDown.hidden {
+            self.languageTypeDropDown.show()
+        } else {
+            self.languageTypeDropDown.hide()
+        }
+    }
+    
 }
