@@ -33,6 +33,11 @@ class ViewUtil {
         case FOLLOW = "FOLLOW"
     }
     
+    enum Languages: String {
+        case EN = "English"
+        case ZH = "中文"
+    }
+    
     static func parsePostConditionTypeFromValue(value: String) -> PostConditionType {
         //iterate enum and return the respected value.
         switch (value) {
@@ -489,5 +494,26 @@ class ViewUtil {
             return true
         }
         return dropDown!.indexForSelectedRow > 0
+    }
+    
+    static func parseLanguageFromValue(value: String) -> Languages {
+        //iterate enum and return the respected value.
+        switch (value) {
+        case Languages.EN.rawValue:
+            return Languages.EN
+        default:
+            return Languages.ZH
+        }
+    }
+    
+    static func parseLanguageFromType(type: String) -> String {
+        
+        if (type == String(Languages.EN)) {
+            return Languages.EN.rawValue
+        } else if (type == String(Languages.ZH)) {
+            return Languages.ZH.rawValue
+        } else {
+            return ""
+        }
     }
 }

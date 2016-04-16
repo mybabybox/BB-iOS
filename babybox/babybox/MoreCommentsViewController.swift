@@ -38,7 +38,7 @@ class MoreCommentsViewController: UIViewController, UITextFieldDelegate, UIScrol
         
         ViewUtil.showActivityLoading(self.activityLoading)
         ViewUtil.displayRoundedCornerView(self.postCommentBtn, bgColor: Color.LIGHT_GRAY)
-        self.commentText.placeholder = "Enter Comment"
+        self.commentText.placeholder = NSLocalizedString("enter_comment", comment: "")
         self.commentText.delegate = self
         
         ApiFacade.getComments(self.postId, offset: offset, successCallback: onSuccessGetComments, failureCallback: onFailureGetComments)
@@ -145,10 +145,10 @@ class MoreCommentsViewController: UIViewController, UITextFieldDelegate, UIScrol
     }
     
     func confirmDelete(comment: CommentVM) {
-        let alert = UIAlertController(title: "Delete Comment", message: "Are you sure you want to delete comment?", preferredStyle: .ActionSheet)
+        let alert = UIAlertController(title: NSLocalizedString("delete_comment", comment: ""), message: NSLocalizedString("confirm_delete", comment: ""), preferredStyle: .ActionSheet)
         
-        let deleteAction = UIAlertAction(title: "Delete", style: .Destructive, handler: handleDeleteComment)
-        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: cancelDeleteComment)
+        let deleteAction = UIAlertAction(title: NSLocalizedString("delete", comment: ""), style: .Destructive, handler: handleDeleteComment)
+        let cancelAction = UIAlertAction(title: NSLocalizedString("cancel", comment: ""), style: .Cancel, handler: cancelDeleteComment)
         
         alert.addAction(deleteAction)
         alert.addAction(cancelAction)
@@ -200,7 +200,7 @@ class MoreCommentsViewController: UIViewController, UITextFieldDelegate, UIScrol
     @IBAction func onClickSaveBtn(sender: AnyObject) {
         
         if self.commentText.text!.isEmpty {
-            ViewUtil.makeToast("Please enter a comment", view: self.view)
+            ViewUtil.makeToast(NSLocalizedString("enter_comment_msg", comment: ""), view: self.view)
             return
         }
         ViewUtil.showGrayOutView(self)
@@ -247,7 +247,7 @@ class MoreCommentsViewController: UIViewController, UITextFieldDelegate, UIScrol
             self.commentsTableView.contentInset =  UIEdgeInsetsZero
             ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
             self.commentsTableView.reloadData()
-            self.view.makeToast(message: "Comment delete successfully", duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
+            self.view.makeToast(message: NSLocalizedString("delete_confirm_msg", comment: ""), duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
         } else {
             ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
         }
@@ -257,17 +257,17 @@ class MoreCommentsViewController: UIViewController, UITextFieldDelegate, UIScrol
     
     func onFailureGetComments(message: String) {
         ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
-        ViewUtil.showDialog("Error", message: message, view: self)
+        ViewUtil.showDialog(NSLocalizedString("error", comment: ""), message: message, view: self)
     }
     
     func onFailureDeleteComment(message: String) {
         ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
-        ViewUtil.showDialog("Error", message: message, view: self)
+        ViewUtil.showDialog(NSLocalizedString("error", comment: ""), message: message, view: self)
     }
     
     func onFailureNewComment(message: String) {
         ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
-        ViewUtil.showDialog("Error", message: message, view: self)
+        ViewUtil.showDialog(NSLocalizedString("error", comment: ""), message: message, view: self)
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool { // called when 'return' key pressed. return NO to ignore.

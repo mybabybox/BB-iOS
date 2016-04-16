@@ -53,7 +53,7 @@ class SplashViewController: UIViewController {
             if userInfo.displayName.isEmpty {
                 self.showSignupDetailPage()
             } else if !userInfo.emailValidated {
-                ViewUtil.makeToast("Email is not verified. Please check your email from BabyBox and click verify link.", view: self.view)
+                ViewUtil.makeToast(NSLocalizedString("verified_email_msg", comment: ""), view: self.view)
                 AppDelegate.getInstance().clearUserSession()
                 self.showLoginPage()
             } else {
@@ -76,7 +76,7 @@ class SplashViewController: UIViewController {
     
     func onFailure(message: String?) {
         if message != nil {
-            ViewUtil.showDialog("Login Error", message: message!, view: self,
+            ViewUtil.showDialog(NSLocalizedString("login_error", comment: ""), message: message!, view: self,
                 handler: { UIAlertAction in
                     self.showLoginPage()
             })

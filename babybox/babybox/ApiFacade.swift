@@ -18,7 +18,7 @@ class ApiFacade {
         
         SwiftEventBus.onMainThread(self, name: "onSuccessLoginByFacebook") { result in
             if ViewUtil.isEmptyResult(result) {
-                failureCallback!("User is not logged in")
+                failureCallback!(NSLocalizedString("not_logged_in", comment: ""))
                 return
             }
             
@@ -45,7 +45,7 @@ class ApiFacade {
         
         SwiftEventBus.onMainThread(self, name: "onSuccessLoginByEmail") { result in
             if ViewUtil.isEmptyResult(result) {
-                failureCallback!("User is not logged in")
+                failureCallback!(NSLocalizedString("not_logged_in", comment: ""))
                 return
             }
             
@@ -74,7 +74,7 @@ class ApiFacade {
         
         SwiftEventBus.onMainThread(self, name: "onSuccessSignUp") { result in
              if ViewUtil.isEmptyResult(result) {
-                failureCallback!("No response for sign up. Please try again later.")
+                failureCallback!(NSLocalizedString("signup_no_response", comment: ""))
                 return
              }
             
@@ -85,7 +85,7 @@ class ApiFacade {
         
         SwiftEventBus.onMainThread(self, name: "onFailureSignUp") { result in
             if failureCallback != nil {
-                let error = "Email is already registered. Please try another email or sign up with Facebook."
+                let error = NSLocalizedString("signup_email_exists", comment: "")
                 /*
                 if result.object is NSString {
                     error += "\n"+(result.object as! String)
@@ -105,7 +105,7 @@ class ApiFacade {
         
         SwiftEventBus.onMainThread(self, name: "onSuccessSaveSignUpInfo") { result in
             if ViewUtil.isEmptyResult(result) {
-                failureCallback!("No response for sign up. Please try again later.")
+                failureCallback!(NSLocalizedString("signup_no_response", comment: ""))
                 return
             }
             
@@ -116,7 +116,7 @@ class ApiFacade {
         
         SwiftEventBus.onMainThread(self, name: "onFailureSaveSignUpInfo") { result in
             if failureCallback != nil {
-                let error = "Username already exists. Please try another one."
+                let error = NSLocalizedString("signup_user_exists", comment: "")
                 /*
                  if result.object is NSString {
                  error += "\n"+(result.object as! String)

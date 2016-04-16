@@ -27,7 +27,7 @@ class NotificationSettingsViewController: UIViewController {
         
         SwiftEventBus.onMainThread(self, name: "editNotificationSettingsFailed") { result in
             SwiftEventBus.unregister(self)
-            self.view.makeToast(message: "Error updating user notification settings")
+            self.view.makeToast(message: NSLocalizedString("notification_failed_msg", comment: ""))
         }
     }
     
@@ -79,9 +79,9 @@ class NotificationSettingsViewController: UIViewController {
     
     func tableView( tableView : UITableView,  titleForHeaderInSection section: Int)->String{
         if section == 0 {
-            return "Email Notifications"
+            return NSLocalizedString("email_notif_txt", comment: "")
         }else if section == 1 {
-            return "Push Notifications"
+            return NSLocalizedString("push_notif_txt", comment: "")
         }
         return ""
     }

@@ -103,7 +103,7 @@ class RecommendedSellerViewController: UIViewController {
         for i in 0...posts.count - 1 {
             ImageUtil.displayOriginalPostImage(posts[i].images[0], imageView: imageHolders[i])
             if (item.numMoreProducts > 0 && i == posts.count - 1) {
-                cell.moreText.setTitle("+" + String(item.numMoreProducts) + " Products", forState: UIControlState.Normal)
+                cell.moreText.setTitle("+" + String(item.numMoreProducts) + NSLocalizedString("product_txt", comment: ""), forState: UIControlState.Normal)
                 cell.moreText.titleLabel?.lineBreakMode = NSLineBreakMode.ByWordWrapping
                 cell.moreText.titleLabel?.numberOfLines = 2 //if you want unlimited number of lines put 0
                 cell.moreText.titleLabel?.textAlignment = NSTextAlignment.Center

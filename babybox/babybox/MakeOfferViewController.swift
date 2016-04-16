@@ -32,7 +32,7 @@ class MakeOfferViewController: UIViewController {
 
     @IBAction func onClickSaveBtn(sender: AnyObject) {
         if self.offerPrice.text!.isEmpty {
-            ViewUtil.makeToast("Please make an offer", view: self.view)
+            ViewUtil.makeToast(NSLocalizedString("make_offer", comment: ""), view: self.view)
             return
         }
         ConversationCache.open(self.productInfo!.id, successCallback: onSuccessOpenConversation, failureCallback: onFailure)

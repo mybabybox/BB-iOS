@@ -39,8 +39,8 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
         self.navigationItem.title = self.userInfo?.displayName
         
         if (self.activeHeaderViewCell != nil) {
-            self.activeHeaderViewCell?.segmentControl.setTitle("Products " + String(self.userInfo!.numProducts), forSegmentAtIndex: 0)
-            self.activeHeaderViewCell?.segmentControl.setTitle("Likes " + String(self.userInfo!.numLikes), forSegmentAtIndex: 1)
+            self.activeHeaderViewCell?.segmentControl.setTitle(NSLocalizedString("products_txt", comment: "") + String(self.userInfo!.numProducts), forSegmentAtIndex: 0)
+            self.activeHeaderViewCell?.segmentControl.setTitle(NSLocalizedString("likes", comment: "") + String(self.userInfo!.numLikes), forSegmentAtIndex: 1)
         }
         self.reloadFeedItems()
     }
@@ -136,22 +136,22 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
                 }
                 
                 if (self.userInfo!.numFollowers > 0) {
-                    cell.followersBtn.setTitle("Followers " + String(self.userInfo!.numFollowers), forState: UIControlState.Normal)
+                    cell.followersBtn.setTitle(NSLocalizedString("followers_txt", comment: "") + String(self.userInfo!.numFollowers), forState: UIControlState.Normal)
                 } else {
-                    cell.followersBtn.setTitle("Followers", forState: UIControlState.Normal)
+                    cell.followersBtn.setTitle(NSLocalizedString("followers_txt", comment: ""), forState: UIControlState.Normal)
                 }
                 
                 if (self.userInfo!.numFollowings > 0) {
-                    cell.followingBtn.setTitle("Following " + String(self.userInfo!.numFollowings), forState: UIControlState.Normal)
+                    cell.followingBtn.setTitle(NSLocalizedString("following_txt", comment: "") + String(self.userInfo!.numFollowings), forState: UIControlState.Normal)
                 } else {
-                    cell.followingBtn.setTitle("Following", forState: UIControlState.Normal)
+                    cell.followingBtn.setTitle(NSLocalizedString("following_txt", comment: ""), forState: UIControlState.Normal)
                 }
                 
                 if (self.userInfo!.isFollowing) {
-                    cell.editProfile.setTitle("Following", forState: UIControlState.Normal)
+                    cell.editProfile.setTitle(NSLocalizedString("following_txt", comment: ""), forState: UIControlState.Normal)
                     ViewUtil.displayRoundedCornerView(cell.editProfile, bgColor: Color.LIGHT_GRAY)
                 } else {
-                    cell.editProfile.setTitle("Follow", forState: UIControlState.Normal)
+                    cell.editProfile.setTitle(NSLocalizedString("follow_txt", comment: ""), forState: UIControlState.Normal)
                     ViewUtil.displayRoundedCornerView(cell.editProfile, bgColor: Color.PINK)
                 }
                 
@@ -354,12 +354,12 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
         if (self.userInfo!.isFollowing) {
             ApiController.instance.unfollowUser((self.userInfo!.id))
             self.userInfo!.isFollowing = false
-            cell.editProfile.setTitle("Follow", forState: UIControlState.Normal)
+            cell.editProfile.setTitle(NSLocalizedString("follow_txt", comment: ""), forState: UIControlState.Normal)
             ViewUtil.displayRoundedCornerView(cell.editProfile, bgColor: Color.PINK)
         } else {
             ApiController.instance.followUser(self.userInfo!.id)
             self.userInfo!.isFollowing = true
-            cell.editProfile.setTitle("Following", forState: UIControlState.Normal)
+            cell.editProfile.setTitle(NSLocalizedString("following_txt", comment: ""), forState: UIControlState.Normal)
             ViewUtil.displayRoundedCornerView(cell.editProfile, bgColor: Color.LIGHT_GRAY)
         }
     }

@@ -68,7 +68,7 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
         self.pricetxt.delegate = self
         self.pricetxt.keyboardType = .NumberPad
         
-        self.prodDescription.placeholder = "Product Description"
+        self.prodDescription.placeholder = NSLocalizedString("product_desc", comment: "")
         self.prodDescription.isApplyTextFieldStyle = true
         self.prodDescription.layer.borderWidth = 0
         
@@ -95,13 +95,13 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
                 myProfileController.isRefresh = true
                 myProfileController.currentIndex = nil
                 myProfileController.feedLoader?.loading = false
-                ViewUtil.makeToast("Congratulations! Product has been listed.", view: myProfileController.view)
+                ViewUtil.makeToast(NSLocalizedString("product_listed_msg", comment: ""), view: myProfileController.view)
             }
         }
         
         SwiftEventBus.onMainThread(self, name: "newProductFailed") { result in
             ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
-            self.view.makeToast(message: "Error when listing product", duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
+            self.view.makeToast(message: NSLocalizedString("error_listing_prod", comment: ""), duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
         }
         
         initCategoryOptions()
@@ -120,7 +120,7 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
         self.collectionView.reloadData()
         
         let saveProductImg: UIButton = UIButton()
-        saveProductImg.setTitle("Save", forState: UIControlState.Normal)
+        saveProductImg.setTitle(NSLocalizedString("save", comment: ""), forState: UIControlState.Normal)
         saveProductImg.addTarget(self, action: "saveProduct:", forControlEvents: UIControlEvents.TouchUpInside)
         saveProductImg.frame = CGRectMake(0, 0, 60, 35)
         let saveProductBarBtn = UIBarButtonItem(customView: saveProductImg)
@@ -129,7 +129,7 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
         
     func initCategoryOptions() {
         let categories = CategoryCache.categories
-        var selCategoryValue = "Choose a Category:"
+        var selCategoryValue = NSLocalizedString("choose_category", comment: "")
         var catDataSource : [String] = []
         for i in 0 ..< categories.count {
             catDataSource.append(categories[i].description)
@@ -161,7 +161,7 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
             self.conditionTypeDropDown.reloadAllComponents()
         })
         
-        self.conditionDropDown.setTitle("-Select-", forState: UIControlState.Normal)
+        self.conditionDropDown.setTitle(NSLocalizedString("select", comment: ""), forState: UIControlState.Normal)
         
         self.conditionTypeDropDown.selectionAction = { [unowned self] (index, item) in
             self.conditionDropDown.setTitle(item, forState: .Normal)
@@ -244,8 +244,8 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
         
         self.selectedIndex = selectedButton.tag
         
-        let optionMenu = UIAlertController(title: "Select Photo:", message: "", preferredStyle: .ActionSheet)
-        let cameraAction = UIAlertAction(title: "Camera", style: .Default, handler: {
+        let optionMenu = UIAlertController(title: NSLocalizedString("select_photo", comment: ""), message: "", preferredStyle: .ActionSheet)
+        let cameraAction = UIAlertAction(title: NSLocalizedString("camera", comment: ""), style: .Default, handler: {
             (alert: UIAlertAction!) -> Void in
             let cameraViewController = ALCameraViewController(croppingEnabled: self.croppingEnabled, allowsLibraryAccess: self.libraryEnabled) { (image) -> Void in
                 if (image != nil) {
@@ -274,7 +274,7 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
             
             //self.presentViewController(self.imagePicker, animated: true, completion: nil)
         })
-        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: {
+        let cancelAction = UIAlertAction(title: NSLocalizedString("cancel", comment: ""), style: .Cancel, handler: {
             (alert: UIAlertAction!) -> Void in
         })
         if(UIImagePickerController .isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera)) {
@@ -319,22 +319,22 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
         }
                 
         if !isImageUploaded {
-            self.view.makeToast(message: "Please Upload Photo", duration: ViewUtil.SHOW_TOAST_DURATION_LONG, position: ViewUtil.DEFAULT_TOAST_POSITION)
+            self.view.makeToast(message: NSLocalizedString("upload_photo", comment: ""), duration: ViewUtil.SHOW_TOAST_DURATION_LONG, position: ViewUtil.DEFAULT_TOAST_POSITION)
             valid = false
         } else if StringUtil.trim(self.sellingtext.text).isEmpty {
-            self.view.makeToast(message: "Please fill title", duration: ViewUtil.SHOW_TOAST_DURATION_LONG, position: ViewUtil.DEFAULT_TOAST_POSITION)
+            self.view.makeToast(message: NSLocalizedString("fill_title", comment: ""), duration: ViewUtil.SHOW_TOAST_DURATION_LONG, position: ViewUtil.DEFAULT_TOAST_POSITION)
             valid = false
         } else if StringUtil.trim(self.prodDescription.text).isEmpty {
-            self.view.makeToast(message: "Please fill description", duration: ViewUtil.SHOW_TOAST_DURATION_LONG, position: ViewUtil.DEFAULT_TOAST_POSITION)
+            self.view.makeToast(message: NSLocalizedString("fill_desc", comment: ""), duration: ViewUtil.SHOW_TOAST_DURATION_LONG, position: ViewUtil.DEFAULT_TOAST_POSITION)
             valid = false
         } else if StringUtil.trim(self.pricetxt.text).isEmpty {
-            self.view.makeToast(message: "Please enter a price", duration: ViewUtil.SHOW_TOAST_DURATION_LONG, position: ViewUtil.DEFAULT_TOAST_POSITION)
+            self.view.makeToast(message: NSLocalizedString("fill_price", comment: ""), duration: ViewUtil.SHOW_TOAST_DURATION_LONG, position: ViewUtil.DEFAULT_TOAST_POSITION)
             valid = false
         } else if !ViewUtil.isDropDownSelected(self.conditionTypeDropDown) {
-            self.view.makeToast(message: "Please select condition type", duration: ViewUtil.SHOW_TOAST_DURATION_LONG, position: ViewUtil.DEFAULT_TOAST_POSITION)
+            self.view.makeToast(message: NSLocalizedString("fill_condition", comment: ""), duration: ViewUtil.SHOW_TOAST_DURATION_LONG, position: ViewUtil.DEFAULT_TOAST_POSITION)
             valid = false
         } else if !ViewUtil.isDropDownSelected(self.categoryOptions) {
-            self.view.makeToast(message: "Please select category", duration: ViewUtil.SHOW_TOAST_DURATION_LONG, position: ViewUtil.DEFAULT_TOAST_POSITION)
+            self.view.makeToast(message: NSLocalizedString("fill_category", comment: ""), duration: ViewUtil.SHOW_TOAST_DURATION_LONG, position: ViewUtil.DEFAULT_TOAST_POSITION)
             valid = false
         }
         return valid
@@ -351,10 +351,10 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
     func onBackPressed(sender: UIBarButtonItem) {
         NSLog("on back pressed.")
         
-        let _confirmDialog = UIAlertController(title: "", message: "Discard changes?", preferredStyle: UIAlertControllerStyle.Alert)
-        let okAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: nil)
+        let _confirmDialog = UIAlertController(title: NSLocalizedString("discard_changes", comment: ""), message: NSLocalizedString("", comment: ""), preferredStyle: UIAlertControllerStyle.Alert)
+        let okAction = UIAlertAction(title: NSLocalizedString("cancel", comment: ""), style: UIAlertActionStyle.Default, handler: nil)
         
-        let confirmAction = UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction!) in
+        let confirmAction = UIAlertAction(title: NSLocalizedString("yes", comment: ""), style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction!) in
             self.navigationController?.popViewControllerAnimated(true)
         })
         

@@ -60,22 +60,22 @@ class SignupViewController: BaseLoginViewController {
     func isValid() -> Bool {
         var valid = true
         if StringUtil.trim(self.firstNameText.text).isEmpty {
-            self.view.makeToast(message: "Please fill first name", duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
+            self.view.makeToast(message: NSLocalizedString("fill_first_name", comment: ""), duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
             valid = false
         } else if StringUtil.trim(self.lastNameText.text).isEmpty {
-            self.view.makeToast(message: "Please fill last name", duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
+            self.view.makeToast(message: NSLocalizedString("fill_last_name", comment: ""), duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
             valid = false
         } else if StringUtil.trim(self.emailText.text).isEmpty {
-            self.view.makeToast(message: "Please fill email", duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
+            self.view.makeToast(message: NSLocalizedString("fill_email", comment: ""), duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
             valid = false
         }else if StringUtil.trim(self.passwordText.text).isEmpty {
-            self.view.makeToast(message: "Please fill password", duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
+            self.view.makeToast(message: NSLocalizedString("fill_password", comment: ""), duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
             valid = false
         } else if StringUtil.trim(self.confirmPasswordText.text).isEmpty {
-            self.view.makeToast(message: "Please fill confirm password", duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
+            self.view.makeToast(message: NSLocalizedString("fill_confirm_password", comment: ""), duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
             valid = false
         } else if self.confirmPasswordText.text != self.passwordText.text {
-            self.view.makeToast(message: "Please fill password and confirm password same", duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
+            self.view.makeToast(message: NSLocalizedString("fill_confirm_password", comment: ""), duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
             valid = false
         }
         return valid

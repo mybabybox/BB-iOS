@@ -55,7 +55,7 @@ class ProductChatViewController: UIViewController {
     
     override func viewDidLoad() {
         self.navigationController?.navigationBar.opaque = true
-        self.navigationItem.title = "View Chats"
+        self.navigationItem.title = NSLocalizedString("view_chat", comment: "")
         let titleDict: NSDictionary = [NSForegroundColorAttributeName: Color.WHITE]
         self.navigationController!.navigationBar.titleTextAttributes = titleDict as? [String : AnyObject]
         
@@ -157,10 +157,10 @@ class ProductChatViewController: UIViewController {
     }
     
     func confirmDelete(conversation: ConversationVM) {
-        let alert = UIAlertController(title: "Delete Conversation", message: "Are you sure you want to delete \(conversation.userName):\(conversation.postTitle)?", preferredStyle: .ActionSheet)
+        let alert = UIAlertController(title: NSLocalizedString("", comment: "delete_conversation_msg"), message: "Are you sure you want to delete \(conversation.userName):\(conversation.postTitle)?", preferredStyle: .ActionSheet)
         
-        let deleteAction = UIAlertAction(title: "Delete", style: .Destructive, handler: handleDeleteConversation)
-        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: cancelDeleteConversation)
+        let deleteAction = UIAlertAction(title: NSLocalizedString("delete", comment: ""), style: .Destructive, handler: handleDeleteConversation)
+        let cancelAction = UIAlertAction(title: NSLocalizedString("cancel", comment: ""), style: .Cancel, handler: cancelDeleteConversation)
         
         alert.addAction(deleteAction)
         alert.addAction(cancelAction)
@@ -251,7 +251,7 @@ class ProductChatViewController: UIViewController {
         deleteCellIndex = nil
         self.conversationTableView.reloadData()
         //self.collectionView.reloadData()
-        self.view.makeToast(message: "Conversation Deleted Successfully!")
+        self.view.makeToast(message: NSLocalizedString("confirm_delete_conversation", comment: ""))
     }
     
     func noResultHandler() {

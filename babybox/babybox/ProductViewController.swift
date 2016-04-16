@@ -466,8 +466,8 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
     
     @IBAction func onClickMarkAsSold(sender: AnyObject) {
         let _messageDialog = UIAlertController(title: "", message: Constants.PRODUCT_SOLD_CONFIRM_TEXT, preferredStyle: UIAlertControllerStyle.Alert)
-        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: nil)
-        let confirmAction = UIAlertAction(title: "Confirm", style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction!) in
+        let cancelAction = UIAlertAction(title: NSLocalizedString("cancel", comment: ""), style: UIAlertActionStyle.Default, handler: nil)
+        let confirmAction = UIAlertAction(title: NSLocalizedString("confirm", comment: ""), style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction!) in
             ApiController.instance.soldPost(self.feedItem.id)
             //self.view.makeToast(message: "Confirm Sold")
         })
@@ -493,7 +493,7 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
     
     @IBAction func onClickSold(sender: AnyObject) {
         let _messageDialog = UIAlertController(title: "", message: Constants.PRODUCT_SOLD_TEXT, preferredStyle: UIAlertControllerStyle.Alert)
-        let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil)
+        let okAction = UIAlertAction(title: NSLocalizedString("ok", comment: ""), style: UIAlertActionStyle.Default, handler: nil)
         _messageDialog.addAction(okAction)
         
         self.presentViewController(_messageDialog, animated: true, completion: nil)
@@ -518,7 +518,7 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
     func enableEditPost() {
         if (self.productInfo!.isOwner) {
             let editProductImg: UIButton = UIButton()
-            editProductImg.setTitle("Edit", forState: UIControlState.Normal)
+            editProductImg.setTitle(NSLocalizedString("edit", comment: ""), forState: UIControlState.Normal)
             
             editProductImg.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
             editProductImg.titleLabel!.lineBreakMode = NSLineBreakMode.ByWordWrapping
@@ -546,7 +546,7 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
     func onClickCopyLinkBtn(sender: AnyObject?) {
         //copy url to cliboard
         ViewUtil.copyToClipboard(UrlUtil.createProductUrl(self.productInfo!))
-        self.view.makeToast(message: "Link Copied", duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
+        self.view.makeToast(message: NSLocalizedString("link_copy", comment: ""), duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
     }
     
     func onClickFacebookLinkBtn(sender: AnyObject?) {

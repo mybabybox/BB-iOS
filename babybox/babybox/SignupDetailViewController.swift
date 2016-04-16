@@ -47,7 +47,7 @@ class SignupDetailViewController: BaseLoginViewController, UITextFieldDelegate, 
     }
     
     override func onFailure(message: String?) {
-        ViewUtil.showDialog("Login Error", message: message!, view: self)
+        ViewUtil.showDialog(NSLocalizedString("login_error", comment: ""), message: message!, view: self)
         self.stopLoading()
     }
     
@@ -82,10 +82,10 @@ class SignupDetailViewController: BaseLoginViewController, UITextFieldDelegate, 
     func isValid() -> Bool {
         var valid = true
         if StringUtil.trim(self.displayName.text).isEmpty {
-            self.view.makeToast(message: "Please enter displayname", duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
+            self.view.makeToast(message: NSLocalizedString("enter_displayname", comment: ""), duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
             valid = false
         } else if !ViewUtil.isDropDownSelected(self.locationDropDown) {
-            self.view.makeToast(message: "Please select location", duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
+            self.view.makeToast(message: NSLocalizedString("enter_location", comment: ""), duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
             valid = false
         }
         return valid
