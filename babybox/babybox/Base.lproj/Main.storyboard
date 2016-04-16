@@ -1320,7 +1320,7 @@
                                         <rect key="frame" x="0.0" y="28" width="414" height="88"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="wLY-pV-Qq9" id="hvt-8Y-TlD">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="87.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="87"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="n8E-zY-KWt" userLabel="PostImage">
@@ -1578,8 +1578,8 @@
                                 <color key="color" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="~ No Chats ~" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G78-M5-9Xq" userLabel="tipText">
-                                <rect key="frame" x="0.0" y="30" width="414" height="18"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <rect key="frame" x="0.0" y="50" width="414" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -1595,7 +1595,7 @@
                             <constraint firstItem="hhT-uD-ZBo" firstAttribute="top" secondItem="n7v-TK-5xc" secondAttribute="top" id="cIR-m2-B7d"/>
                             <constraint firstItem="Syk-uZ-Iz5" firstAttribute="centerY" secondItem="n7v-TK-5xc" secondAttribute="centerY" id="xEk-fe-k9g"/>
                             <constraint firstItem="G78-M5-9Xq" firstAttribute="leading" secondItem="n7v-TK-5xc" secondAttribute="leading" id="xzq-rT-nw5"/>
-                            <constraint firstItem="G78-M5-9Xq" firstAttribute="top" secondItem="DU2-zJ-oGH" secondAttribute="bottom" constant="10" id="zYf-sM-HuW"/>
+                            <constraint firstItem="G78-M5-9Xq" firstAttribute="top" secondItem="DU2-zJ-oGH" secondAttribute="bottom" constant="30" id="zYf-sM-HuW"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
@@ -3956,6 +3956,34 @@
                                     <outlet property="followingsBtn" destination="zy2-sX-8q7" id="6zf-Kq-vd9"/>
                                     <outlet property="userImage" destination="lOl-Wu-wD6" id="Bko-Gh-FEO"/>
                                     <outlet property="userName" destination="KMh-bQ-lph" id="RfH-3p-Gdl"/>
+                                </connections>
+                            </collectionViewCell>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="NoItemsToolTip" id="VzE-sZ-OCq" customClass="TooltipViewCell" customModule="BabyBox" customModuleProvider="target">
+                                <rect key="frame" x="47" y="65" width="320" height="64"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bWo-pq-FUf">
+                                            <rect key="frame" x="0.0" y="30" width="320" height="30"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="30" id="UpP-6z-TZa"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                                <constraints>
+                                    <constraint firstItem="bWo-pq-FUf" firstAttribute="leading" secondItem="VzE-sZ-OCq" secondAttribute="leading" id="4oI-AJ-PQL"/>
+                                    <constraint firstAttribute="trailing" secondItem="bWo-pq-FUf" secondAttribute="trailing" id="ljF-Cq-EWc"/>
+                                    <constraint firstItem="bWo-pq-FUf" firstAttribute="top" secondItem="VzE-sZ-OCq" secondAttribute="top" constant="30" id="orr-cr-sya"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="toolTipText" destination="bWo-pq-FUf" id="utb-vT-uSB"/>
                                 </connections>
                             </collectionViewCell>
                         </cells>

@@ -55,15 +55,19 @@ class FollowersFollowingViewController: UICollectionViewController {
                 let resultDto: [UserVMLite] = result.object as! [UserVMLite]
                 self.followersFollowings.appendContentsOf(resultDto)
                 self.offset += 1
+                self.collectionView?.reloadData()
             } else {
                 self.loadedAll = true
             }
             self.loading = false
             
             if (self.followersFollowings.isEmpty) {
-                ViewUtil.registerNoItemsHeaderView(self.collectionView!)
+                //
+                let userVM = UserVM()
+                userVM.id = -1
+                self.followersFollowings.append(userVM)
+                self.collectionView?.reloadData()
             }
-            self.collectionView?.reloadData()
         }
         
         SwiftEventBus.onMainThread(self, name: "userFollowersFollowingsFailed") { result in
@@ -79,7 +83,6 @@ class FollowersFollowingViewController: UICollectionViewController {
             self?.reloadActivities()
         })
         
-        // Do any additional setup after loading the view.
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -107,6 +110,18 @@ class FollowersFollowingViewController: UICollectionViewController {
         
         let userInfo = self.followersFollowings[indexPath.row]
         
+        if userInfo.id == -1 {
+            //this mean there are no results.... hence show no result text
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier("NoItemsToolTip", forIndexPath: indexPath) as! TooltipViewCell
+            
+            if (userInfo.isFollowing) {
+                cell.toolTipText.text = Constants.NO_FOLLOWINGS
+            } else {
+                cell.toolTipText.text = Constants.NO_FOLLOWERS
+            }
+            return cell
+        }
+        
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! FollowingCollectionViewCell
         
         cell.userName.text = userInfo.displayName
@@ -132,7 +147,7 @@ class FollowersFollowingViewController: UICollectionViewController {
         
     }
 
-    override func collectionView(collectionView: UICollectionView,
+    /*override func collectionView(collectionView: UICollectionView,
         viewForSupplementaryElementOfKind kind: String,
         atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
         switch kind {
@@ -150,7 +165,7 @@ class FollowersFollowingViewController: UICollectionViewController {
                 default:
                 assert(false, "Unexpected element kind")
         }
-    }
+    }*/
     
     func setCollectionViewSizesInsets() {
         collectionViewCellSize = CGSizeMake(self.view.bounds.width , 60)
