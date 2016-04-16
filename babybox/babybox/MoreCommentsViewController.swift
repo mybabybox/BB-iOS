@@ -27,8 +27,8 @@ class MoreCommentsViewController: UIViewController, UITextFieldDelegate, UIScrol
     var postId: Int = 0
     var offset: Int64 = 0
     var lcontentSize = CGFloat(0.0)
-    let DEFAULT_SEPERATOR_SPACING = CGFloat(10.0)
-    let DEFAULT_TABLEVIEW_CELL_HEIGHT = CGFloat(60.0)
+    let DEFAULT_SEPERATOR_SPACING = CGFloat(5.0)
+    let DEFAULT_TABLEVIEW_CELL_HEIGHT = CGFloat(42.0)
     override func viewWillAppear(animated: Bool) {
         //ViewUtil.hideActivityLoading(self.activityLoading)
     }

@@ -412,5 +412,53 @@ class ApiFacade {
         AppDelegate.getInstance().registerForPushNotifications()
         
     }
+    
+    static func getProductConversations(postId: Int, successCallback: (([ConversationVM]) -> Void)?, failureCallback: ((String) -> Void)?) {
+        
+        SwiftEventBus.unregister(self)
+        
+        SwiftEventBus.onMainThread(self, name: "onSuccessGetProductConversations") { result in
+            if successCallback != nil {
+                successCallback!(result.object as! [ConversationVM])
+            }
+        }
+        
+        SwiftEventBus.onMainThread(self, name: "onFailureGetProductConversations") { result in
+            if failureCallback != nil {
+                var error = "Failed to get conversations..."
+                if result.object is NSString {
+                    error += "\n"+(result.object as! String)
+                }
+                failureCallback!(error)
+            }
+        }
+        
+        ApiController.instance.getPostConversations(postId)
+    }
+    
+    static func deleteConversation(id: Int, successCallback: ((String) -> Void)?, failureCallback: ((error: String) -> Void)?) {
+        SwiftEventBus.onMainThread(self, name: "deleteConversationSuccess") { result in
+            SwiftEventBus.unregister(self)
+            
+            let response = result.object as! String
+            if successCallback != nil {
+                successCallback!(response)
+            }
+        }
+        
+        SwiftEventBus.onMainThread(self, name: "deleteConversationFailed") { result in
+            SwiftEventBus.unregister(self)
+            
+            if failureCallback != nil {
+                var error = "Failed to delete conversation (ID:\(String(id)))"
+                if result.object is NSString {
+                    error += "\n"+(result.object as! String)
+                }
+                failureCallback!(error: error)
+            }
+        }
+        
+        ApiController.instance.deleteConversation(id)
+    }
 
 }

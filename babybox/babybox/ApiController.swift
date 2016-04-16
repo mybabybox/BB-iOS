@@ -457,8 +457,8 @@ class ApiController {
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/get-post-conversations/\(postId)"
         callEvent.resultClass = "[ConversationVM]"
-        callEvent.successEventbusName = "productConversationsSuccess"
-        callEvent.failedEventbusName = "productConversationsFailed"
+        callEvent.successEventbusName = "onSuccessGetProductConversations"
+        callEvent.failedEventbusName = "onFailureGetProductConversations"
         callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         self.makeApiCall(callEvent)
     }

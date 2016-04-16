@@ -25,7 +25,6 @@ class ProductChatViewController: UIViewController {
     
     var conversations: [ConversationVM] = []
     
-    var collectionViewCellSize : CGSize?
     var postItem: ConversationVM? = nil
     var loading: Bool = false
     var loadedAll: Bool = false
@@ -34,18 +33,21 @@ class ProductChatViewController: UIViewController {
     var deleteCellIndex: NSIndexPath?
     var refreshControl = UIRefreshControl()
     var updateOpenedConversation = false
-    var offset: Int64 = 0
     var currentIndex: NSIndexPath?
+    var lcontentSize = CGFloat(0.0)
+    let DEFAULT_SEPERATOR_SPACING = CGFloat(5.0)
+    let DEFAULT_TABLEVIEW_CELL_HEIGHT = CGFloat(70.0)
     
     override func viewWillAppear(animated: Bool) {
         ViewUtil.hideActivityLoading(self.activityLoading)
     }
     
     override func viewDidAppear(animated: Bool) {
-        if self.updateOpenedConversation && ConversationCache.openedConversation != nil {
-            ConversationCache.update(ConversationCache.openedConversation!.id, successCallback: onSuccessUpdateConversation, failureCallback: onFailure)
-        }
+        
         if currentIndex != nil {
+            let item = self.conversations[(currentIndex?.row)!]
+            item.unread = 0
+            self.conversations[(currentIndex?.row)!] = item
             self.conversationTableView.reloadRowsAtIndexPaths([currentIndex!], withRowAnimation: UITableViewRowAnimation.Automatic)
             currentIndex = nil
         }
@@ -61,10 +63,9 @@ class ProductChatViewController: UIViewController {
         
         ViewUtil.showActivityLoading(self.activityLoading)
         
-        ConversationCache.load(offset, successCallback: onSuccessGetConversations, failureCallback: onFailure)
-        
+        ApiFacade.getProductConversations(postId, successCallback: onSuccessGetProductConversation, failureCallback: onFailure)
         loading = true
-        
+        self.tipText.hidden = true
         self.refreshControl.attributedTitle = NSAttributedString(string: "")
         self.refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
         self.conversationTableView.addSubview(refreshControl)
@@ -81,12 +82,9 @@ class ProductChatViewController: UIViewController {
     }
     
     func refresh(sender:AnyObject) {
-        offset = 0
-        ConversationCache.load(offset, successCallback: onSuccessGetConversations, failureCallback: onFailure)
-    }
-    
-    override func viewDidDisappear(animated: Bool) {
-        SwiftEventBus.unregister(self)
+        self.tipText.hidden = true
+        self.conversations.removeAll()
+        ApiFacade.getProductConversations(postId, successCallback: onSuccessGetProductConversation, failureCallback: onFailure)
     }
     
     // MARK: UITableViewDataSource and Delegates
@@ -94,22 +92,19 @@ class ProductChatViewController: UIViewController {
         return 1
     }
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return ConversationCache.conversations.count
+        return conversations.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("conversationTableCell")! as! ConversationTableViewCell
         
-        if ConversationCache.conversations.isEmpty {
-            return cell
-        }
-        
-        let item = ConversationCache.conversations[indexPath.row]
+        let item = self.conversations[indexPath.row]
         cell.productTitle.text = item.postTitle
         cell.userDisplayName.text = item.userName
         cell.contentMode = .Redraw
         cell.userComment.numberOfLines = 0
         cell.userComment.text = item.lastMessage
+        self.lcontentSize = cell.userComment.frame.size.height
         cell.userComment.sizeToFit()
         
         cell.photoLayout.hidden = !item.lastMessageHasImage
@@ -130,19 +125,22 @@ class ProductChatViewController: UIViewController {
         }
         
         cell.comment.text = NSDate(timeIntervalSince1970:Double(item.lastMessageDate) / 1000.0).timeAgo
-        ImageUtil.displayThumbnailProfileImage(ConversationCache.conversations[indexPath.row].userId, imageView: cell.postImage)
+        ImageUtil.displayThumbnailProfileImage(self.conversations[indexPath.row].userId, imageView: cell.postImage)
         
         return cell
+    }
+    
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return DEFAULT_TABLEVIEW_CELL_HEIGHT + self.lcontentSize + DEFAULT_SEPERATOR_SPACING
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         let vController =  self.storyboard!.instantiateViewControllerWithIdentifier("MessagesViewController") as? MessagesViewController
-        let conversation = ConversationCache.conversations[indexPath.row]
+        let conversation = self.conversations[indexPath.row]
         vController?.conversation = conversation
         vController?.conversationViewController = self
         ViewUtil.resetBackButton(self.navigationItem)
-        ConversationCache.openedConversation = conversation
         self.currentIndex = indexPath
         self.navigationController?.pushViewController(vController!, animated: true)
         
@@ -151,13 +149,13 @@ class ProductChatViewController: UIViewController {
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
             deleteCellIndex = indexPath
-            let conversationToDelete = ConversationCache.conversations[indexPath.row]
+            let conversationToDelete = self.conversations[indexPath.row]
             confirmDelete(conversationToDelete)
         }
     }
     
     func confirmDelete(conversation: ConversationVM) {
-        let alert = UIAlertController(title: NSLocalizedString("", comment: "delete_conversation_msg"), message: "Are you sure you want to delete \(conversation.userName):\(conversation.postTitle)?", preferredStyle: .ActionSheet)
+        let alert = UIAlertController(title: NSLocalizedString("delete_conversation_msg", comment: ""), message: "Are you sure you want to delete \(conversation.userName):\(conversation.postTitle)?", preferredStyle: .ActionSheet)
         
         let deleteAction = UIAlertAction(title: NSLocalizedString("delete", comment: ""), style: .Destructive, handler: handleDeleteConversation)
         let cancelAction = UIAlertAction(title: NSLocalizedString("cancel", comment: ""), style: .Cancel, handler: cancelDeleteConversation)
@@ -174,7 +172,7 @@ class ProductChatViewController: UIViewController {
     
     func handleDeleteConversation(alertAction: UIAlertAction!) -> Void {
         if let indexPath = deleteCellIndex {
-            ConversationCache.delete(ConversationCache.conversations[indexPath.row].id, successCallback: onSuccessDeleteConversation, failureCallback: onFailure)
+            ApiFacade.deleteConversation(self.conversations[indexPath.row].id, successCallback: onSuccessDeleteConversation, failureCallback: onFailure)
         }
     }
     
@@ -184,81 +182,43 @@ class ProductChatViewController: UIViewController {
     
     // MARK: UIScrollview Delegate
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        
-        if (scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height - Constants.FEED_LOAD_SCROLL_THRESHOLD {
-            if (!loadedAll && !loading) {
-                ViewUtil.showActivityLoading(self.activityLoading)
-                loading = true
-                if (!ConversationCache.conversations.isEmpty) {
-                    offset = offset + 1
-                }
-                
-                ConversationCache.load(offset, successCallback: onSuccessGetConversations, failureCallback: onFailure)
-            }
-        }
-    }
-    
-    func clear() {
-        self.loading = false
-        self.loadedAll = false
-        self.offset = 0
-        ConversationCache.clear()
-    }
-    
-    func reload() {
-        clear()
-        ConversationCache.load(offset, successCallback: onSuccessGetConversations, failureCallback: onFailure)
-        self.loading = true
     }
     
     func onFailure(message: String) {
-        ViewUtil.showDialog("Error", message: message, view: self)
+        ViewUtil.showDialog(NSLocalizedString("error", comment: ""), message: message, view: self)
         ViewUtil.hideActivityLoading(self.activityLoading)
     }
     
-    func onSuccessGetConversations(conversations: [ConversationVM]) {
-        if (!conversations.isEmpty) {
+    func onSuccessGetProductConversation(_conversations: [ConversationVM]) {
+        if (!_conversations.isEmpty) {
             if (postItem == nil) {
-                postItem = conversations[0]
+                postItem = _conversations[0]
                 self.renderPostView()
             }
+            self.conversations.appendContentsOf(_conversations)
             self.conversationTableView.reloadData()
         } else {
             loadedAll = true
+            if (conversations.count <= 0) {
+                self.tipText.hidden = false
+                self.conversationTableView.hidden = true
+            }
         }
         loading = false
         ViewUtil.hideActivityLoading(self.activityLoading)
-        
-        if (ConversationCache.conversations.count <= 0) {
-            self.tipText.hidden = false
-            self.conversationTableView.hidden = true
-        }
-        //self.noResultHandler()
         self.refreshControl.endRefreshing()
     }
     
-    func onSuccessUpdateConversation(conversation: ConversationVM) {
-        //collectionView.reloadData()
-        self.conversationTableView.reloadData()
-    }
-    
     func onSuccessDeleteConversation(responseString: String) {
-        self.conversationTableView.deleteRowsAtIndexPaths([deleteCellIndex!], withRowAnimation: .Automatic)
-        if (ConversationCache.conversations.count <= 0) {
+        self.conversations.removeAtIndex((deleteCellIndex?.row)!)
+        //self.conversationTableView.deleteRowsAtIndexPaths([deleteCellIndex!], withRowAnimation: .Automatic)
+        if (conversations.count <= 0) {
             self.tipText.hidden = false
             self.conversationTableView.hidden = true
         }
         deleteCellIndex = nil
         self.conversationTableView.reloadData()
-        //self.collectionView.reloadData()
         self.view.makeToast(message: NSLocalizedString("confirm_delete_conversation", comment: ""))
-    }
-    
-    func noResultHandler() {
-        if (self.conversations.isEmpty) {
-            self.tipText.hidden = false
-            self.postLayoutView.hidden = true
-        }
     }
     
     func renderPostView() {
