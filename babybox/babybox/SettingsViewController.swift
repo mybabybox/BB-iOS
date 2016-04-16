@@ -119,14 +119,12 @@ class SettingsViewController: UIViewController {
     }
     
     func setCurrentUserLanguage() {
-        let lang = NSUserDefaults.standardUserDefaults().objectForKey("AppleLanguages")![0] as? String
+        let langs: NSArray = NSUserDefaults.standardUserDefaults().objectForKey("AppleLanguages")! as! NSArray
+        let lang = langs.objectAtIndex(0) as? NSString
         if lang == "zh-Hans" {
             self.currentLangValue = ViewUtil.Languages.ZH.rawValue
         } else {
             self.currentLangValue = ViewUtil.Languages.EN.rawValue
         }
-        
     }
-    
-    
 }
