@@ -66,7 +66,6 @@ class SettingsViewController: UIViewController {
                     if selLanguage == ViewUtil.Languages.ZH {
                         lang = "zh-Hans"
                     }
-                    NSUserDefaults.standardUserDefaults().objectForKey("AppleLanguages")![0]
                     
                     NSUserDefaults.standardUserDefaults().setObject([lang], forKey: "AppleLanguages")
                     NSUserDefaults.standardUserDefaults().synchronize()
