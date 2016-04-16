@@ -67,7 +67,7 @@ class ImageUtil {
     }
     
     static func displayThumbnailCoverImage(id: Int, imageView: UIImageView) {
-        displayImage(THUMBNAIL_COVER_IMAGE_BY_ID_URL + String(id), view: imageView)
+        displayImage(THUMBNAIL_COVER_IMAGE_BY_ID_URL + String(id), view: imageView, optionsInfo: [KingfisherOptionsInfoItem.Options(.ForceRefresh)])
     }
 
     // Profile image
@@ -77,11 +77,7 @@ class ImageUtil {
     }
     
     static func displayThumbnailProfileImage(id: Int, imageView: UIImageView) {
-        displayCircleImage(THUMBNAIL_PROFILE_IMAGE_BY_ID_URL + String(id), view: imageView)
-    }
-    
-    static func displayThumbnailProfileImage(id: Int, buttonView: UIButton) {
-        displayCircleImage(THUMBNAIL_PROFILE_IMAGE_BY_ID_URL + String(id), view: buttonView)
+        displayCircleImage(THUMBNAIL_PROFILE_IMAGE_BY_ID_URL + String(id), view: imageView, optionsInfo: [KingfisherOptionsInfoItem.Options(.ForceRefresh)])
     }
     
     // Post image
@@ -142,16 +138,6 @@ class ImageUtil {
         view.kf_setImageWithURL(imageUrl!,
             placeholderImage: nil,
             optionsInfo: allOptionsInfo)
-        view.layer.cornerRadius = view.frame.height/2
-        view.layer.masksToBounds = true
-    }
-    
-    static func displayCircleImage(url: String, view: UIButton) {
-        let imageUrl = NSURL(string: url)
-        let imageData = NSData(contentsOfURL: imageUrl!)
-        if (imageData != nil) {
-            view.setImage(UIImage(data: imageData!), forState: UIControlState.Normal)
-        }
         view.layer.cornerRadius = view.frame.height/2
         view.layer.masksToBounds = true
     }
