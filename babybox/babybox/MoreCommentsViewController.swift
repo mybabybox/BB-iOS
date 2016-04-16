@@ -101,7 +101,6 @@ class MoreCommentsViewController: UIViewController, UITextFieldDelegate, UIScrol
         let cell = tableView.dequeueReusableCellWithIdentifier(viewCellIdentifier)! as! CommentTableViewCell
         
         let comment = self.comments![indexPath.row]
-        //ImageUtil.displayThumbnailProfileImage(comment.ownerId, buttonView: cell.userImgBtn)
         ImageUtil.displayThumbnailProfileImage(comment.ownerId, imageView: cell.userImg)
         cell.sizeToFit()
         cell.titleBtn.setTitle(comment.ownerName, forState: .Normal)

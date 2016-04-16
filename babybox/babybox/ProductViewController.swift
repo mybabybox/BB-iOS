@@ -164,7 +164,6 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
                 cell.commentTxt.delegate = self
                 cell.commentTxt.layer.cornerRadius = Constants.DEFAULT_CORNER_RADIUS
                 cell.commentTxt.layer.masksToBounds = true
-                
             } else {
                 let comment:CommentVM = self.comments[indexPath.row]
                 cell.lblComments.text = comment.body
@@ -179,8 +178,6 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
                     cell.postedTime.text = NSDate(timeIntervalSinceNow: comment.createdDate / 1000.0).timeAgo
                 }
                 ImageUtil.displayThumbnailProfileImage(self.comments[indexPath.row].ownerId, imageView: cell.userImg)
-                //ImageUtil.displayThumbnailProfileImage(self.comments[indexPath.row].ownerId, buttonView: cell.postUserImg)
-                
             }
             cell.separatorInset = UIEdgeInsetsMake(0, 0, 0, cell.bounds.size.width)
             cell.selectionStyle = UITableViewCellSelectionStyle.None
