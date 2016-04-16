@@ -162,8 +162,16 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
             
             return cell
         } else {
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! FeedProductCollectionViewCell
+            
             let feedItem = self.getFeedItems()[indexPath.row]
+            if feedItem.id == -1 {
+                //this mean there are no results.... hence show no result text
+                let cell = collectionView.dequeueReusableCellWithReuseIdentifier("NoItemsToolTip", forIndexPath: indexPath) as! TooltipViewCell
+                return feedViewAdapter!.bindNoItemToolTip(cell, feedType: (self.feedLoader?.feedType)!)
+            }
+            
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! FeedProductCollectionViewCell
+            //let feedItem = self.getFeedItems()[indexPath.row]
             return feedViewAdapter!.bindViewCell(cell, feedItem: feedItem, index: indexPath.item, showOwner: true)
         }
     }
@@ -212,6 +220,12 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
                 return collectionViewTopCellSize!
             }
         } else {
+            if self.feedLoader?.feedItems.count == 1 {
+                if self.feedLoader?.feedItems[0].id == -1 {
+                    return FeedViewAdapter.getNoFeedItemCellSize(self.view.bounds.width)
+                }
+            }
+            
             if let _ = collectionViewCellSize {
                 return collectionViewCellSize!
             }

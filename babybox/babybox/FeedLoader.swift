@@ -128,6 +128,15 @@ class FeedLoader {
             reloadDataToView()
         } else {
             loadedAll = true
+            
+            //Check for no items ....
+            if (self.feedItems.isEmpty) {
+                //there are no result hence ... set the default record with -1 as id
+                let postVM = PostVMLite()
+                postVM.id = -1
+                self.feedItems.append(postVM)
+                reloadDataToView()
+            }
         }
         loading = false
         ViewUtil.hideActivityLoading(activityIndicator)

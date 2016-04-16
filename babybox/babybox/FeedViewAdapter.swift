@@ -116,4 +116,33 @@ class FeedViewAdapter {
         flowLayout.sectionInset = UIEdgeInsetsMake(_spacing, _spacing, _spacing, _spacing)
         return flowLayout
     }
+    
+    static func getNoFeedItemCellSize(width: CGFloat) -> CGSize {
+        return CGSizeMake(width, Constants.NO_ITEM_TIP_TEXT_CELL_HEIGHT)
+    }
+    
+    func bindNoItemToolTip(cell: TooltipViewCell, feedType: FeedFilter.FeedType) -> TooltipViewCell {
+        
+        switch feedType {
+        case FeedFilter.FeedType.HOME_EXPLORE:
+            cell.toolTipText.text = ""
+        case FeedFilter.FeedType.HOME_FOLLOWING:
+            cell.toolTipText.text = Constants.NO_FOLLOWING_TEXT
+        case FeedFilter.FeedType.CATEGORY_POPULAR:
+            cell.toolTipText.text = Constants.NO_PRODUCT_TEXT
+        case FeedFilter.FeedType.CATEGORY_NEWEST:
+            cell.toolTipText.text = Constants.NO_PRODUCT_TEXT
+        case FeedFilter.FeedType.CATEGORY_PRICE_LOW_HIGH:
+            cell.toolTipText.text = Constants.NO_PRODUCT_TEXT
+        case FeedFilter.FeedType.CATEGORY_PRICE_HIGH_LOW:
+            cell.toolTipText.text = Constants.NO_PRODUCT_TEXT
+        case FeedFilter.FeedType.USER_POSTED:
+            cell.toolTipText.text = Constants.NO_PRODUCT_TEXT
+        case FeedFilter.FeedType.USER_LIKED:
+            cell.toolTipText.text = Constants.NO_PRODUCT_TEXT
+        default: break
+        }
+        return cell
+    }
+    
 }

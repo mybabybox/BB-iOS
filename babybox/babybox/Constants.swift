@@ -48,6 +48,7 @@ struct Constants {
     static let MESSAGE_IMAGE_WIDTH = CGFloat(0.65)
     static let MESSAGE_LOAD_MORE_BTN_HEIGHT = CGFloat(0)
     static let IMAGE_RESIZE_DIMENSION = CGFloat(640)
+    static let NO_ITEM_TIP_TEXT_CELL_HEIGHT = CGFloat(70)
     
     // strings
     static let ACTIVITY_FIRST_POST = "You are now a BabyBox seller! Your first product has been listed:\n"
@@ -91,4 +92,7 @@ struct Constants {
     
     static let PM_ORDER_ACCEPTED_FOR_SELLER = "Order has been accepted"
     static let PM_ORDER_DECLINED_FOR_SELLER = "Order has been declined"
+    
+    static let NO_PRODUCT_TEXT = "~ No Products ~"
+    static let NO_FOLLOWING_TEXT = "~ No Followings ~"
 }

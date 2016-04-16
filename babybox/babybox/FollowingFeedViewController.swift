@@ -28,11 +28,6 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
     var currentIndex: NSIndexPath?
     
     func reloadDataToView() {
-        if ((feedLoader?.feedItems.isEmpty) != nil) {
-            ViewUtil.registerNoItemsFooterView(self.uiCollectionView)
-        } else {
-            self.uiCollectionView.reloadData()
-        }
         self.uiCollectionView.reloadData()
     }
     
@@ -82,6 +77,7 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
         self.uiCollectionView.addPullToRefresh({ [weak self] in
             self!.feedLoader?.reloadFeedItems()
         })
+        
     }
     
     @IBAction func onCloseTips(sender: AnyObject) {
@@ -103,8 +99,16 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! FeedProductCollectionViewCell
+        
         let feedItem = feedLoader!.getItem(indexPath.row)
+        if feedItem.id == -1 {
+            //this mean there are no results.... hence show no result text
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier("NoItemsToolTip", forIndexPath: indexPath) as! TooltipViewCell
+            return feedViewAdapter!.bindNoItemToolTip(cell, feedType: (self.feedLoader?.feedType)!)
+        }
+        
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! FeedProductCollectionViewCell
+        //let feedItem = feedLoader!.getItem(indexPath.row)
         return feedViewAdapter!.bindViewCell(cell, feedItem: feedItem, index: indexPath.item, showOwner: true)
     }
     
@@ -114,6 +118,13 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
     // MARK: UICollectionViewDelegateFlowLayout
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+        
+        if self.feedLoader?.feedItems.count == 1 {
+            if self.feedLoader?.feedItems[0].id == -1 {
+                return FeedViewAdapter.getNoFeedItemCellSize(self.view.bounds.width)
+            }
+        }
+        
         if let _ = collectionViewCellSize {
             return collectionViewCellSize!
         }
@@ -124,7 +135,7 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
         return 1.0
     }
     
-    func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+    /*func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
         var reusableView : UICollectionReusableView? = nil
         
         if kind == UICollectionElementKindSectionFooter {
@@ -132,7 +143,7 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
         }
         
         return reusableView!
-    }
+    }*/
     
     //MARK Segue handling methods.
     override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
