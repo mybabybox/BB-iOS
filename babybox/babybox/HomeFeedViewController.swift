@@ -181,10 +181,8 @@ class HomeFeedViewController: CustomNavigationController, UICollectionViewDataSo
             cell.categoryIcon.layer.sublayers = nil
             cell.categoryIcon.layer.insertSublayer(gradientLayer, atIndex: 0)
             
-            
             return cell
         } else {
-            
             let feedItem = feedLoader!.getItem(indexPath.row)
             if feedItem.id == -1 {
                 //this mean there are no results.... hence show no result text
@@ -200,7 +198,6 @@ class HomeFeedViewController: CustomNavigationController, UICollectionViewDataSo
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         if collectionView == self.collectionView {
-            //
             ViewUtil.handleFeaturedItemAction(self, featuredItem: self.featuredItems![indexPath.row])
         } else {
             if (collectionView.tag == 2){
@@ -232,7 +229,7 @@ class HomeFeedViewController: CustomNavigationController, UICollectionViewDataSo
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         
         if collectionView == self.collectionView {
-            return CGSizeMake(self.view.bounds.width, 100)
+            return CGSizeMake(self.view.bounds.width, self.view.bounds.width / Constants.HOME_BANNER_WIDTH_HEIGHT_RATIO)
         }
         
         if (collectionView.tag == 2) {

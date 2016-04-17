@@ -3756,11 +3756,11 @@
                                                 <outlet property="delegate" destination="Yee-Hw-mHP" id="kmN-Vm-z97"/>
                                             </connections>
                                         </collectionView>
-                                        <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bVK-NF-8th" userLabel="HomeBannerView">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="150"/>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bVK-NF-8th" userLabel="HomeBannerView">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="138"/>
                                             <subviews>
                                                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" delaysContentTouches="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="oLK-YI-kCv">
-                                                    <rect key="frame" x="0.0" y="0.0" width="414" height="100"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="414" height="138"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="gRW-fs-l6y">
                                                         <size key="itemSize" width="300" height="100"/>
@@ -3770,7 +3770,7 @@
                                                     </collectionViewFlowLayout>
                                                     <cells>
                                                         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="homeBannerCell" id="ayQ-LA-6ig" customClass="ImageCollectionViewCell" customModule="BabyBox" customModuleProvider="target">
-                                                            <rect key="frame" x="0.0" y="0.0" width="300" height="100"/>
+                                                            <rect key="frame" x="0.0" y="19" width="300" height="100"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                                                 <rect key="frame" x="0.0" y="0.0" width="300" height="100"/>
@@ -3801,7 +3801,7 @@
                                                     </cells>
                                                 </collectionView>
                                                 <pageControl opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="QSI-Ae-yDE">
-                                                    <rect key="frame" x="187" y="61" width="39" height="37"/>
+                                                    <rect key="frame" x="187" y="61" width="39" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="20" id="m3Z-ik-Jx5"/>
                                                     </constraints>
@@ -3811,6 +3811,7 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="bottom" secondItem="QSI-Ae-yDE" secondAttribute="bottom" id="0o5-ez-Nfs"/>
+                                                <constraint firstAttribute="width" secondItem="bVK-NF-8th" secondAttribute="height" multiplier="3:1" id="3qC-9l-wi2"/>
                                                 <constraint firstAttribute="height" constant="100" id="Itk-sg-vRL"/>
                                                 <constraint firstItem="QSI-Ae-yDE" firstAttribute="centerX" secondItem="bVK-NF-8th" secondAttribute="centerX" id="P9v-MH-EQ0"/>
                                                 <constraint firstAttribute="trailing" secondItem="oLK-YI-kCv" secondAttribute="trailing" id="Tnc-mf-TR5"/>
@@ -3821,12 +3822,13 @@
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
+                                                    <exclude reference="Itk-sg-vRL"/>
                                                     <exclude reference="0o5-ez-Nfs"/>
                                                 </mask>
                                             </variation>
                                         </view>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Category" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MNH-iq-POK" userLabel="Cateogry">
-                                            <rect key="frame" x="8" y="105" width="398" height="15"/>
+                                            <rect key="frame" x="8" y="143" width="398" height="15"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="15" id="3Jw-i2-fta"/>
                                             </constraints>
