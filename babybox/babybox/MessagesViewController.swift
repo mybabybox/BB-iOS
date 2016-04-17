@@ -166,10 +166,10 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
             }
         //}
         
+        NSLog("newMessage=\(message)");
+        
         ViewUtil.showGrayOutView(self, activityLoading: self.activityLoading)
         ApiFacade.newMessage(self.conversation!.id, message: message, image: image, system: system, successCallback: onSuccessNewMessage, failureCallback: onFailureNewMessage)
-        NSLog("newMessage=\(message)");
-        ConversationCache.update(self.conversation!.id, successCallback: nil, failureCallback: nil)
     }
     
     @IBAction func sendButtonClicked(sender: AnyObject) {
@@ -421,6 +421,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
             self.moveToFirstMessage()
             self.reset()
         }
+        ConversationCache.update(self.conversation!.id, successCallback: nil, failureCallback: nil)
     }
     
     func onFailureNewMessage(error: String) {
