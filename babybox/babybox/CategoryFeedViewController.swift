@@ -13,8 +13,6 @@ import Kingfisher
 
 class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
     
-    @IBOutlet weak var categoryTips: UIView!
-    @IBOutlet weak var tipSection: NSLayoutConstraint!
     @IBOutlet weak var activityLoading: UIActivityIndicatorView!
     @IBOutlet weak var uiCollectionView: UICollectionView!
     
@@ -61,14 +59,6 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
         feedLoader!.reloadFeedItems(Int(self.selCategory!.id))
         
         feedViewAdapter = FeedViewAdapter(collectionView: uiCollectionView)
-        
-        if (!SharedPreferencesUtil.getInstance().isScreenViewed(SharedPreferencesUtil.Screen.CATEGORY_TIPS)) {
-            self.categoryTips.hidden = false
-            SharedPreferencesUtil.getInstance().setScreenViewed(SharedPreferencesUtil.Screen.CATEGORY_TIPS)
-        } else {
-            self.categoryTips.hidden = true
-            self.tipSection.constant = -5
-        }
         
         self.navigationController?.setNavigationBarHidden(false, animated: false)
         
@@ -284,11 +274,6 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
         ViewUtil.showActivityLoading(self.activityLoading)
         feedLoader!.setFeedType(FeedFilter.FeedType.CATEGORY_PRICE_LOW_HIGH)
         feedLoader!.reloadFeedItems(Int(self.selCategory!.id))
-    }
-    
-    @IBAction func onClickCloseTip(sender: AnyObject) {
-        self.categoryTips.hidden = true
-        self.tipSection.constant = -5
     }
     
     func setClickedBtnBackgroundAndText(sender: UIButton) {
