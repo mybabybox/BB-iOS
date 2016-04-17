@@ -414,7 +414,6 @@ class ApiFacade {
     }
     
     static func getProductConversations(postId: Int, successCallback: (([ConversationVM]) -> Void)?, failureCallback: ((String) -> Void)?) {
-        
         SwiftEventBus.unregister(self)
         
         SwiftEventBus.onMainThread(self, name: "onSuccessGetProductConversations") { result in
@@ -436,19 +435,98 @@ class ApiFacade {
         ApiController.instance.getPostConversations(postId)
     }
     
-    static func deleteConversation(id: Int, successCallback: ((String) -> Void)?, failureCallback: ((error: String) -> Void)?) {
-        SwiftEventBus.onMainThread(self, name: "deleteConversationSuccess") { result in
-            SwiftEventBus.unregister(self)
+    static func getConversations(offset: Int64, successCallback: (([ConversationVM]) -> Void)?, failureCallback: ((String) -> Void)?) {
+        SwiftEventBus.unregister(self)
+        
+        SwiftEventBus.onMainThread(self, name: "onSuccessGetConversations") { result in
+            if ViewUtil.isEmptyResult(result) {
+                failureCallback!("Conversations returned is empty")
+                return
+            }
             
+            if successCallback != nil {
+                successCallback!(result.object as! [ConversationVM])
+            }
+        }
+        
+        SwiftEventBus.onMainThread(self, name: "onFailureGetConversations") { result in
+            if failureCallback != nil {
+                var error = "Failed to get conversations (Offset:\(String(offset)))"
+                if result.object is NSString {
+                    error += "\n"+(result.object as! String)
+                }
+                failureCallback!(error)
+            }
+        }
+        
+        ApiController.instance.getConversations(offset)
+    }
+
+    static func getConversation(id: Int, successCallback: ((ConversationVM) -> Void)?, failureCallback: ((String) -> Void)?) {
+        SwiftEventBus.unregister(self)
+        
+        SwiftEventBus.onMainThread(self, name: "onSuccessGetConversation") { result in
+            if ViewUtil.isEmptyResult(result) {
+                failureCallback!("Conversation returned is empty")
+                return
+            }
+            
+            if successCallback != nil {
+                successCallback!(result.object as! ConversationVM)
+            }
+        }
+        
+        SwiftEventBus.onMainThread(self, name: "onFailureGetConversation") { result in
+            if failureCallback != nil {
+                var error = "Failed to get conversation (ID:\(String(id)))"
+                if result.object is NSString {
+                    error += "\n"+(result.object as! String)
+                }
+                failureCallback!(error)
+            }
+        }
+        
+        ApiController.instance.getConversation(id)
+    }
+
+    static func openConversation(postId: Int, successCallback: ((ConversationVM) -> Void)?, failureCallback: ((String) -> Void)?) {
+        SwiftEventBus.unregister(self)
+        
+        SwiftEventBus.onMainThread(self, name: "onSuccessOpenConversation") { result in
+            if ViewUtil.isEmptyResult(result) {
+                failureCallback!("Conversation returned is empty")
+                return
+            }
+            
+            if successCallback != nil {
+                successCallback!(result.object as! ConversationVM)
+            }
+        }
+        
+        SwiftEventBus.onMainThread(self, name: "onFailureOpenConversation") { result in
+            if failureCallback != nil {
+                var error = "Failed to open conversation (Post:\(String(postId)))"
+                if result.object is NSString {
+                    error += "\n"+(result.object as! String)
+                }
+                failureCallback!(error)
+            }
+        }
+        
+        ApiController.instance.openConversation(postId)
+    }
+
+    static func deleteConversation(id: Int, successCallback: ((String) -> Void)?, failureCallback: ((error: String) -> Void)?) {
+        SwiftEventBus.unregister(self)
+        
+        SwiftEventBus.onMainThread(self, name: "onSuccessDeleteConversation") { result in
             let response = result.object as! String
             if successCallback != nil {
                 successCallback!(response)
             }
         }
         
-        SwiftEventBus.onMainThread(self, name: "deleteConversationFailed") { result in
-            SwiftEventBus.unregister(self)
-            
+        SwiftEventBus.onMainThread(self, name: "onFailureDeleteConversation") { result in
             if failureCallback != nil {
                 var error = "Failed to delete conversation (ID:\(String(id)))"
                 if result.object is NSString {
@@ -460,5 +538,4 @@ class ApiFacade {
         
         ApiController.instance.deleteConversation(id)
     }
-
 }

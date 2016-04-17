@@ -206,13 +206,13 @@ class MoreCommentsViewController: UIViewController, UITextFieldDelegate, UIScrol
         ApiFacade.newComment(self.postId, commentText: StringUtil.trim(self.commentText.text), successCallback: onSuccessNewComment, failureCallback: onFailureNewComment)
     }
     
-    func onSuccessGetComments(_comments: [CommentVM]) {
+    func onSuccessGetComments(comments: [CommentVM]) {
         
-        if (!_comments.isEmpty) {
+        if (!comments.isEmpty) {
             if (self.comments!.count == 0) {
-                self.comments = _comments
+                self.comments = comments
             } else {
-                self.comments!.appendContentsOf(_comments)
+                self.comments!.appendContentsOf(comments)
             }
             self.commentsTableView.reloadData()
         } else {
@@ -224,20 +224,18 @@ class MoreCommentsViewController: UIViewController, UITextFieldDelegate, UIScrol
     }
     
     func onSuccessNewComment(response: String) {
-        let _nComment = CommentVM()
-        _nComment.ownerId = UserInfoCache.getUser()!.id
-        _nComment.body = self.commentText.text!
-        _nComment.ownerName = UserInfoCache.getUser()!.displayName
-        _nComment.deviceType = "iOS"
-        _nComment.createdDate = NSDate().timeIntervalSinceNow
-        _nComment.id = -1
-        self.comments!.append(_nComment)
-        //self.comments!.sortInPlace({ $0.createdDate < $1.createdDate })
+        let comment = CommentVM()
+        comment.ownerId = UserInfoCache.getUser()!.id
+        comment.body = self.commentText.text!
+        comment.ownerName = UserInfoCache.getUser()!.displayName
+        comment.deviceType = "iOS"
+        comment.createdDate = NSDate().timeIntervalSinceNow
+        comment.id = -1
+        self.comments!.append(comment)
         self.commentText.text = ""
         self.commentsTableView.reloadData()
         ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
         //self.performSegueWithIdentifier("unwindToProductScreen", sender: self)
-        
     }
     
     func onSuccessDeleteComment(response: String) {

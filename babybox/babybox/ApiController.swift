@@ -378,12 +378,22 @@ class ApiController {
         )
     }
     
+    func getPostConversations(postId: Int) {
+        let callEvent = ApiCallEvent()
+        callEvent.method = "/api/get-post-conversations/\(postId)"
+        callEvent.resultClass = "[ConversationVM]"
+        callEvent.successEventbusName = "onSuccessGetProductConversations"
+        callEvent.failedEventbusName = "onFailureGetProductConversations"
+        callEvent.apiUrl = Constants.BASE_URL + callEvent.method
+        self.makeApiCall(callEvent)
+    }
+    
     func getConversations(offSet: Int64) {
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/get-user-conversations/\(offSet)"
         callEvent.resultClass = "[ConversationVM]"
-        callEvent.successEventbusName = "getConversationsSuccess"
-        callEvent.failedEventbusName = "getConversationsFailed"
+        callEvent.successEventbusName = "onSuccessGetConversations"
+        callEvent.failedEventbusName = "onFailureGetConversations"
         callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         
         self.makeApiCall(callEvent)
@@ -393,8 +403,8 @@ class ApiController {
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/get-conversation/\(id)"
         callEvent.resultClass = "ConversationVM"
-        callEvent.successEventbusName = "getConversationSuccess"
-        callEvent.failedEventbusName = "getConversationFailed"
+        callEvent.successEventbusName = "onSuccessGetConversation"
+        callEvent.failedEventbusName = "onFailureGetConversation"
         callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         
         self.makeApiCall(callEvent)
@@ -404,8 +414,8 @@ class ApiController {
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/open-conversation/\(postId)"
         callEvent.resultClass = "ConversationVM"
-        callEvent.successEventbusName = "openConversationSuccess"
-        callEvent.failedEventbusName = "openConversationFailed"
+        callEvent.successEventbusName = "onSuccessOpenConversation"
+        callEvent.failedEventbusName = "onFailureOpenConversation"
         callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         
         self.makeApiCall(callEvent)
@@ -415,8 +425,8 @@ class ApiController {
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/delete-conversation/\(id)"
         callEvent.resultClass = "String"
-        callEvent.successEventbusName = "deleteConversationSuccess"
-        callEvent.failedEventbusName = "deleteConversationFailed"
+        callEvent.successEventbusName = "onSuccessDeleteConversation"
+        callEvent.failedEventbusName = "onFailureDeleteConversation"
         callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         
         self.makeApiCall(callEvent)
@@ -449,16 +459,6 @@ class ApiController {
         callEvent.resultClass = "[SellerVM]"
         callEvent.successEventbusName = "recommendedSellerSuccess"
         callEvent.failedEventbusName = "recommendedSellerFailed"
-        callEvent.apiUrl = Constants.BASE_URL + callEvent.method
-        self.makeApiCall(callEvent)
-    }
-    
-    func getPostConversations(postId: Int) {
-        let callEvent = ApiCallEvent()
-        callEvent.method = "/api/get-post-conversations/\(postId)"
-        callEvent.resultClass = "[ConversationVM]"
-        callEvent.successEventbusName = "onSuccessGetProductConversations"
-        callEvent.failedEventbusName = "onFailureGetProductConversations"
         callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         self.makeApiCall(callEvent)
     }

@@ -401,8 +401,8 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         view.endEditing(true)
     }
     
-    func onSuccessGetMessages(resultDto: MessageResponseVM) {
-        self.handleChatMessageResponse(resultDto)
+    func onSuccessGetMessages(response: MessageResponseVM) {
+        self.handleChatMessageResponse(response)
 
         if self.offered {
             self.newMessage("New offer: \(Int(self.offeredPrice))", image: nil, system: true)
@@ -414,7 +414,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         ViewUtil.showDialog("Error", message: error, view: self)
     }
     
-    func onSuccessNewMessage(resultDto: String) {
+    func onSuccessNewMessage(response: String) {
         ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
         if (self.bubbleData != nil) {
             self.addChatBubble(self.bubbleData!)

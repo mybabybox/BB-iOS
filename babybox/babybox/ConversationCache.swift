@@ -23,147 +23,68 @@ class ConversationCache {
     }
     
     static func load(offset: Int64, successCallback: (([ConversationVM]) -> Void)?, failureCallback: ((String) -> Void)?) {
-        SwiftEventBus.onMainThread(self, name: "getConversationsSuccess") { result in
-            SwiftEventBus.unregister(self)
-            
-            if offset == 0 {
-                self.conversations = []
-            }
-            
-            if ViewUtil.isEmptyResult(result) {
-                failureCallback!("Conversations returned is empty")
-                return
-            }
-            
-            // add all and sort
-            let conversations = result.object as! [ConversationVM]
-            self.conversations.appendContentsOf(conversations)
-            self.conversations = sort(self.conversations)
-            
-            if successCallback != nil {
-                successCallback!(conversations)
-            }
-        }
-        
-        SwiftEventBus.onMainThread(self, name: "getConversationsFailed") { result in
-            SwiftEventBus.unregister(self)
-            
-            if failureCallback != nil {
-                var error = "Failed to get conversations..."
-                if result.object is NSString {
-                    error += "\n"+(result.object as! String)
+        ApiFacade.getConversations(
+            offset,
+            successCallback: { conversations in
+                if offset == 0 {
+                    self.conversations = []
                 }
-                failureCallback!(error)
-            }
-        }
-        
-        ApiController.instance.getConversations(offset)
+
+                // add all and sort
+                self.conversations.appendContentsOf(conversations)
+                self.conversations = sort(self.conversations)
+
+                if successCallback != nil {
+                    successCallback!(conversations)
+                }
+            },
+            failureCallback: failureCallback)
     }
     
     static func open(postId: Int, successCallback: ((ConversationVM) -> Void)?, failureCallback: ((error: String) -> Void)?) {
-        SwiftEventBus.onMainThread(self, name: "openConversationSuccess") { result in
-            SwiftEventBus.unregister(self)
-            
-            if ViewUtil.isEmptyResult(result) {
-                failureCallback!(error: "Conversation returned is empty")
-                return
-            }
-            
-            // add to first if not exists
-            let conversation = result.object as! ConversationVM
-            self.openedConversation = conversation
-            if !self.conversations.contains({ $0.id == conversation.id }) {
-                self.conversations.insert(conversation, atIndex: 0)
-            }
-            
-            if successCallback != nil {
-                successCallback!(conversation)
-            }
-        }
-        
-        SwiftEventBus.onMainThread(self, name: "openConversationFailed") { result in
-            SwiftEventBus.unregister(self)
-            
-            if failureCallback != nil {
-                var error = "Failed to open conversation (ProductID:\(String(postId)))"
-                if result.object is NSString {
-                    error += "\n"+(result.object as! String)
+        ApiFacade.openConversation(
+            postId,
+            successCallback: { conversation in
+                // add to first if not exists
+                self.openedConversation = conversation
+                if !self.conversations.contains({ $0.id == conversation.id }) {
+                    self.conversations.insert(conversation, atIndex: 0)
                 }
-                failureCallback!(error: error)
-            }
-        }
-        
-        ApiController.instance.openConversation(postId)
+                
+                if successCallback != nil {
+                    successCallback!(conversation)
+                }
+            },
+            failureCallback: failureCallback)
     }
     
     static func delete(id: Int, successCallback: ((String) -> Void)?, failureCallback: ((error: String) -> Void)?) {
-        SwiftEventBus.onMainThread(self, name: "deleteConversationSuccess") { result in
-            SwiftEventBus.unregister(self)
-            
-            //Apis does not return any api hence this condition is getting success and calling failure method 
-            //in target instead of calling success. 
-            //Need to discuss with Keith...
-            /*if ViewUtil.isEmptyResult(result) {
-                failureCallback!(error: "Response returned is empty")
-                return
-            }*/
-            
-            // remove from conversations
-            self.conversations = self.conversations.filter({ $0.id != id })
-
-            let response = result.object as! String
-            if successCallback != nil {
-                successCallback!(response)
-            }
-        }
-        
-        SwiftEventBus.onMainThread(self, name: "deleteConversationFailed") { result in
-            SwiftEventBus.unregister(self)
-            
-            if failureCallback != nil {
-                var error = "Failed to delete conversation (ID:\(String(id)))"
-                if result.object is NSString {
-                    error += "\n"+(result.object as! String)
+        ApiFacade.deleteConversation(
+            id,
+            successCallback: { response in
+                // remove from conversations
+                self.conversations = self.conversations.filter({ $0.id != id })
+                
+                if successCallback != nil {
+                    successCallback!(response)
                 }
-                failureCallback!(error: error)
-            }
-        }
-        
-        ApiController.instance.deleteConversation(id)
+            },
+            failureCallback: failureCallback)
     }
     
     static func update(id: Int, successCallback: ((ConversationVM) -> Void)?, failureCallback: ((error: String) -> Void)?) {
-        SwiftEventBus.onMainThread(self, name: "getConversationSuccess") { result in
-            SwiftEventBus.unregister(self)
-            
-            if ViewUtil.isEmptyResult(result) {
-                failureCallback!(error: "Conversation returned is empty")
-                return
-            }
-            
-            // remove and add to first
-            let conversation = result.object as! ConversationVM
-            self.conversations = self.conversations.filter({ $0.id != conversation.id })
-            self.conversations.insert(conversation, atIndex: 0)
-            
-            if successCallback != nil {
-                successCallback!(conversation)
-            }
-        }
-        
-        SwiftEventBus.onMainThread(self, name: "getConversationFailed") { result in
-            SwiftEventBus.unregister(self)
-            
-            if failureCallback != nil {
-                var error = "Failed to get conversation with (ID:\(String(id)))"
-                if result.object is NSString {
-                    error += "\n"+(result.object as! String)
+        ApiFacade.getConversation(
+            id,
+            successCallback: { conversation in
+                // remove and add to first
+                self.conversations = self.conversations.filter({ $0.id != conversation.id })
+                self.conversations.insert(conversation, atIndex: 0)
+                
+                if successCallback != nil {
+                    successCallback!(conversation)
                 }
-                failureCallback!(error: error)
-            }
-        }
-        
-        ApiController.instance.getConversation(id)
+            },
+            failureCallback: failureCallback)
     }
 
     static func clear() {
