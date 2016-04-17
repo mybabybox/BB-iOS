@@ -516,4 +516,41 @@ class ViewUtil {
             return ""
         }
     }
+    
+    static func handleFeaturedItemAction(viewController: UIViewController, featuredItem: FeaturedItemVM) {
+        let destinationObjId = featuredItem.destinationObjId;
+        _ = featuredItem.destinationObjName;
+        switch featuredItem.destinationType {
+            case "CATEGORY":
+                let vController = viewController.storyboard?.instantiateViewControllerWithIdentifier("CategoryFeedViewController") as! CategoryFeedViewController
+                let category = CategoryVM()
+                category.id = Int(destinationObjId)
+                category.name = ""
+                category.icon = ""
+                vController.selCategory = category
+                vController.hidesBottomBarWhenPushed = true
+                viewController.navigationController?.pushViewController(vController, animated: true)
+            case "POST":
+                let vController =  viewController.storyboard!.instantiateViewControllerWithIdentifier("ProductViewController") as! ProductViewController
+                let feedItem = PostVMLite()
+                feedItem.id = Int(destinationObjId)
+                vController.feedItem = feedItem
+                vController.hidesBottomBarWhenPushed = true
+                viewController.navigationController?.pushViewController(vController, animated: true)
+            case "USER":
+                let vController = viewController.storyboard?.instantiateViewControllerWithIdentifier("UserProfileFeedViewController") as! UserProfileFeedViewController
+                vController.userId = Int(destinationObjId)
+                vController.hidesBottomBarWhenPushed = true
+                viewController.navigationController?.pushViewController(vController, animated: true)
+            case "HASHTAG":
+                // TODO start hashtag page
+                break;
+            case "URL":
+                    // TODO start url page
+                break;
+        default:
+            // TODO start url page
+            break;
+        }
+    }
 }

@@ -216,4 +216,10 @@ class ImageUtil {
         UIGraphicsEndImageContext();
         return imageData!;
     }
+    
+    static func displayFeaturedItemImage(url: String, imageView: UIImageView) {
+        imageView.kf_setImageWithURL(NSURL(string: url)!,
+            placeholderImage: nil, optionsInfo: nil)
+    }
+    
 }
