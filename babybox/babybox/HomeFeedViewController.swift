@@ -1,6 +1,6 @@
 //
 //  ViewController.swift
-//  
+//
 //
 //  Created by Apple on 11/12/15.
 //  Copyright © 2015 Apple. All rights reserved.
@@ -11,7 +11,7 @@ import AMScrollingNavbar
 import SwiftEventBus
 import Kingfisher
 
-class HomeFeedViewController: CustomNavigationController {
+class HomeFeedViewController: CustomNavigationController, UICollectionViewDataSource, UICollectionViewDelegate {
     
     @IBOutlet weak var topSpaceConstraint: NSLayoutConstraint!
     @IBOutlet weak var exploreTip: UIView!
@@ -30,6 +30,9 @@ class HomeFeedViewController: CustomNavigationController {
     
     var vController: ProductViewController?
     var featuredItems: [FeaturedItemVM]?
+    
+    var bannerImages: [String] = []
+    var collectionView: UICollectionView?
     
     func reloadDataToView() {
         self.categories = CategoryCache.categories
@@ -71,7 +74,7 @@ class HomeFeedViewController: CustomNavigationController {
     
     override func viewDidDisappear(animated: Bool) {
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -108,7 +111,7 @@ class HomeFeedViewController: CustomNavigationController {
         self.uiCollectionView.addPullToRefresh({ [weak self] in
             CategoryCache.refresh(self?.onSuccessGetCategories, failureCallback: nil)
             self!.feedLoader?.reloadFeedItems()
-        })
+            })
         
         ApiFacade.getHomeSliderFeaturedItems(onSuccessGetHomeFeaturedItems, failureCallback: onFailureGetHomeFeaturedItems)
     }
@@ -128,6 +131,10 @@ class HomeFeedViewController: CustomNavigationController {
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
+        if collectionView == self.collectionView {
+            return self.bannerImages.count
+        }
         var count = 0
         if (collectionView.tag == 2) {
             count = self.categories.count
@@ -138,6 +145,19 @@ class HomeFeedViewController: CustomNavigationController {
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        
+        if collectionView == self.collectionView {
+            let cell = self.collectionView?.dequeueReusableCellWithReuseIdentifier("homeBannerCell", forIndexPath: indexPath) as! ImageCollectionViewCell
+            let imageView = cell.imageView
+            
+            ImageUtil.displayFeaturedItemImage(self.bannerImages[indexPath.row], imageView: imageView)
+            
+            cell.pageControl.numberOfPages = self.bannerImages.count
+            cell.pageControl.currentPage = indexPath.row
+            
+            return cell
+        }
+        
         if (collectionView.tag == 2){
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier("staticCell", forIndexPath: indexPath) as! CategoryCollectionViewCell
             let categoryVM = self.categories[indexPath.row]
@@ -148,7 +168,7 @@ class HomeFeedViewController: CustomNavigationController {
             
             cell.layer.borderColor = Color.FEED_ITEM_BORDER.CGColor
             cell.layer.borderWidth = 0.5
-                
+            
             let gradientLayer = CAGradientLayer()
             gradientLayer.frame = cell.bounds
             gradientLayer.locations = [0.0, 1.0]
@@ -160,6 +180,8 @@ class HomeFeedViewController: CustomNavigationController {
             ]
             cell.categoryIcon.layer.sublayers = nil
             cell.categoryIcon.layer.insertSublayer(gradientLayer, atIndex: 0)
+            
+            
             return cell
         } else {
             
@@ -175,19 +197,30 @@ class HomeFeedViewController: CustomNavigationController {
             return feedViewAdapter!.bindViewCell(cell, feedItem: feedItem, index: indexPath.item)
         }
     }
-
+    
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        if (collectionView.tag == 2){
-            self.currentIndex = indexPath
-            self.performSegueWithIdentifier("categoryscreen", sender: nil)
+        if collectionView == self.collectionView {
+            //
+            ViewUtil.handleFeaturedItemAction(self, featuredItem: self.featuredItems![indexPath.row])
+        } else {
+            if (collectionView.tag == 2){
+                self.currentIndex = indexPath
+                self.performSegueWithIdentifier("categoryscreen", sender: nil)
+            }
         }
+        
     }
     
     func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
         var reusableView : UICollectionReusableView? = nil
-        if (kind == UICollectionElementKindSectionHeader) {
+        if (kind == UICollectionElementKindSectionHeader && self.uiCollectionView == collectionView) {
             let headerView : HomeReusableView = collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "HeaderView", forIndexPath: indexPath) as! HomeReusableView
             headerView.headerViewCollection.reloadData()
+            
+            self.collectionView = headerView.homeBannerView.subviews[0] as? UICollectionView
+            self.collectionView?.dataSource = self
+            self.collectionView?.delegate = self
+
             reusableView = headerView
         }
         
@@ -197,6 +230,11 @@ class HomeFeedViewController: CustomNavigationController {
     // MARK: UICollectionViewDelegateFlowLayout
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+        
+        if collectionView == self.collectionView {
+            return CGSizeMake(self.view.bounds.width, 100)
+        }
+        
         if (collectionView.tag == 2) {
             if let _ = collectionViewTopCellSize {
                 return collectionViewTopCellSize!
@@ -217,6 +255,9 @@ class HomeFeedViewController: CustomNavigationController {
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        if collectionView == self.collectionView {
+            return CGSizeZero
+        }
         
         if collectionView.tag == 2 {
             return CGSizeZero
@@ -224,7 +265,7 @@ class HomeFeedViewController: CustomNavigationController {
             let availableWidthForCells: CGFloat = self.view.bounds.width - Constants.HOME_HEADER_ITEMS_MARGIN_TOTAL
             let cellWidth: CGFloat = availableWidthForCells / 3
             let ht = cellWidth * CGFloat(Int(self.categories.count / 3))
-            return CGSizeMake(self.view.frame.width, ht + 60)
+            return CGSizeMake(self.view.frame.width, ht + 60 + 100)
         }
     }
     
@@ -264,7 +305,7 @@ class HomeFeedViewController: CustomNavigationController {
             feedLoader!.loadMoreFeedItems()
         }
     }
-        
+    
     func setCollectionViewSizesInsetsForTopView() {
         let availableWidthForCells: CGFloat = self.view.bounds.width - Constants.HOME_HEADER_ITEMS_MARGIN_TOTAL
         let cellWidth: CGFloat = availableWidthForCells / 3
@@ -305,9 +346,20 @@ class HomeFeedViewController: CustomNavigationController {
         //do nothing.
     }
     
-    func onSuccessGetHomeFeaturedItems(_featuredItems: [FeaturedItemVM]) {
+    func onSuccessGetHomeFeaturedItems(featuredItems: [FeaturedItemVM]) {
         self.featuredItems?.removeAll()
-        self.featuredItems = _featuredItems
+        self.featuredItems = featuredItems
+        if featuredItems.count > 0 {
+            //self.uiCollectionView.reloadData()
+            
+                for i in 0...(self.featuredItems?.count)! - 1 {
+                    self.bannerImages.append(String(self.featuredItems![i].image))
+                }
+                self.collectionView?.reloadData()
+                //self.bannerTableView?.reloadData()
+           
+            
+        }
     }
     
     func onFailureGetHomeFeaturedItems(message: String) {
