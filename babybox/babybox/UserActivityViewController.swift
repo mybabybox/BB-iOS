@@ -45,17 +45,6 @@ class UserActivityViewController: CustomNavigationController {
         self.loading = true
         setCollectionViewSizesInsetsForTopView()
         
-        /*SwiftEventBus.unregister(self)
-        
-        SwiftEventBus.onMainThread(self, name: "userActivitiesSuccess") { result in
-            let resultDto: [ActivityVM] = result.object as! [ActivityVM]
-            self.handleUserActivitiesData(resultDto)
-        }
-        
-        SwiftEventBus.onMainThread(self, name: "userActivitiesFailed") { result in
-            self.view.makeToast(message: "Error getting User activities data.")
-        }*/
-        
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.itemSize = CGSizeMake(self.view.bounds.width, self.view.bounds.height)
         flowLayout.scrollDirection = UICollectionViewScrollDirection.Vertical
@@ -71,7 +60,6 @@ class UserActivityViewController: CustomNavigationController {
             self?.reload()
         })
         ApiFacade.getUserActivities(activityOffSet, successCallback: onSuccessGetActivities, failureCallback: onFailureGetActivities)
-        //ApiController.instance.getUserActivities(activityOffSet)
     }
 
     override func didReceiveMemoryWarning() {
@@ -222,7 +210,6 @@ class UserActivityViewController: CustomNavigationController {
                     feedOffset = activityOffSet
                 }
                 ApiFacade.getUserActivities(feedOffset, successCallback: onSuccessGetActivities, failureCallback: onFailureGetActivities)
-                //ApiController.instance.getUserActivities(feedOffset)
             }
         }
     }
@@ -266,7 +253,6 @@ class UserActivityViewController: CustomNavigationController {
         ViewUtil.showActivityLoading(self.activityLoading)
         clearActivities()
         ApiFacade.getUserActivities(self.activityOffSet, successCallback: onSuccessGetActivities, failureCallback: onFailureGetActivities)
-        //ApiController.instance.getUserActivities(self.activityOffSet)
         self.loading = true
     }
     
@@ -307,8 +293,6 @@ class UserActivityViewController: CustomNavigationController {
         }
         loading = false
         ViewUtil.hideActivityLoading(self.activityLoading)
-        
-        
     }
     
     func onFailureGetActivities(response: String) {
