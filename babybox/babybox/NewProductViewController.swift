@@ -73,7 +73,7 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
         self.prodDescription.layer.borderWidth = 0
         
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
-        view.addGestureRecognizer(tap)
+        self.view.addGestureRecognizer(tap)
         
         self.sellingtext.delegate = self
         //self.prodDescription.delegate = self

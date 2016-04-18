@@ -60,7 +60,9 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, UITextVi
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name:UIKeyboardWillHideNotification, object: nil)
         
         var uiGesture = UITapGestureRecognizer(target: self, action: "scrollViewTouched")
-        editScrollView.addGestureRecognizer(uiGesture)
+        self.editScrollView.addGestureRecognizer(uiGesture)
+        
+        self.view.backgroundColor = Color.FEED_BG
         
         self.initializeEditComponents()
     }
