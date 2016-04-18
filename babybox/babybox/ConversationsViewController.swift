@@ -44,8 +44,10 @@ class ConversationsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         self.navigationController?.navigationBar.opaque = true
         self.navigationItem.title = "Chats"
+        
         let titleDict: NSDictionary = [NSForegroundColorAttributeName: Color.WHITE]
         self.navigationController!.navigationBar.titleTextAttributes = titleDict as? [String : AnyObject]
         
@@ -62,6 +64,7 @@ class ConversationsViewController: UIViewController {
         self.conversationTableView.separatorColor = Color.LIGHT_GRAY
         self.conversationTableView.separatorStyle = .SingleLine
         self.conversationTableView.tableFooterView = UIView(frame: CGRectZero)
+        self.conversationTableView.backgroundColor = Color.FEED_BG
     }
     
     func refresh(sender:AnyObject) {
@@ -106,7 +109,7 @@ class ConversationsViewController: UIViewController {
         cell.photoLayout.backgroundColor = UIColor.clearColor()
         cell.unreadComments.hidden = true
         cell.layer.borderColor = UIColor.clearColor().CGColor
-        cell.layer.backgroundColor = UIColor.clearColor().CGColor
+        cell.layer.backgroundColor = Color.WHITE.CGColor
         
         if currentIndex == nil {
             if item.unread > 0 {

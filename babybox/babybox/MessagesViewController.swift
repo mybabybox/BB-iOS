@@ -24,8 +24,8 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var uploadImgSrc: UIImageView!
-    
     @IBOutlet weak var footerbtnsHeight: NSLayoutConstraint!
+    
     var conversation: ConversationVM? = nil
     var offered = false
     var offeredPrice: Double = -1
@@ -61,6 +61,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
     @IBOutlet weak var buyerCancelButton: UIButton!
     @IBOutlet weak var buyerMessageButton: UIButton!
     @IBOutlet weak var buyerOrderAgainButton: UIButton!
+    
     static var instance: MessagesViewController?
     
     override func viewDidDisappear(animated: Bool) {
@@ -82,7 +83,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(
             target: self,
             action: "dismissKeyboard")
-        messageCointainerScroll.addGestureRecognizer(tap)
+        self.messageCointainerScroll.addGestureRecognizer(tap)
         
         sendButton.enabled = true
         
@@ -90,6 +91,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         ApiFacade.getMessages((self.conversation?.id)!, offset: offset, successCallback: onSuccessGetMessages, failureCallback: onFailureGetMessages)
 
         self.messageCointainerScroll.contentSize = CGSizeMake(CGRectGetWidth(messageCointainerScroll.frame), lastChatBubbleY + linePadding)
+        self.messageCointainerScroll.backgroundColor = Color.FEED_BG
         self.addKeyboardNotifications()
         
         ImageUtil.displayPostImage(self.conversation!.postImage, imageView: prodImg)

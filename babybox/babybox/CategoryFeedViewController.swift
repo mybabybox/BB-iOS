@@ -109,6 +109,8 @@ class CategoryFeedViewController: UIViewController, UIScrollViewDelegate {
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier("categoryCell", forIndexPath: indexPath) as! CategoryCollectionViewCell
             
             cell.categoryName.text = self.selCategory?.name
+            cell.layer.backgroundColor = Color.FEED_BG.CGColor
+            
             let imagePath = (self.selCategory?.icon)!
             let imageUrl  = NSURL(string: imagePath)
             

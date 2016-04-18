@@ -71,7 +71,7 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
         self.detailTableView.layoutIfNeeded()
         self.detailTableView.reloadData()
         self.detailTableView.translatesAutoresizingMaskIntoConstraints = true
-        self.detailTableView.backgroundColor = Color.FEED_BG
+        //self.detailTableView.backgroundColor = Color.FEED_BG
         
         ViewUtil.showActivityLoading(self.activityLoading)
         
@@ -88,7 +88,6 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
             selector: "keyboardWillHide:",
             name: UIKeyboardWillHideNotification,
             object: nil)
-    
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -291,7 +290,7 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
         case 2:
             return CGFloat(95.0)
         case 4:
-            return CGFloat(50.0) //+ self.lblCommentsSize
+            return CGFloat(70.0)
         default:    
             return UITableViewAutomaticDimension
         }
