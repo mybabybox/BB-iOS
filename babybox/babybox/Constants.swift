@@ -14,6 +14,8 @@ struct Constants {
     static let BASE_URL = "http://119.81.228.91"
     static let BASE_IMAGE_URL = "http://119.81.228.91"
     
+    static let DEEP_LINK_URL_SCHEME = "babybox://"
+    
     static let DEVICE_TYPE = "IOS";
     static let CURRENCY_SYMBOL = "$"
     
@@ -24,6 +26,7 @@ struct Constants {
     static let FEED_LOAD_SCROLL_THRESHOLD = CGFloat(50.0)
     static let SHOW_HIDE_BAR_SCROLL_DISTANCE = CGFloat(5.0)
     static let MAIN_BOTTOM_BAR_ALPHA = 0.9
+    static let BANNER_REFRESH_TIME_INTERVAL = 5.0
     
     // sizes
     static let DEFAULT_BUTTON_CORNER_RADIUS = CGFloat(7)
@@ -80,9 +83,6 @@ struct Constants {
     
     static let DELETE_COMMENT_TEXT = NSLocalizedString("delete_comment", comment: "") //"Delete comment?"
     
-    static let DEEP_LINK_URL_SCHEME = "babybox://"
-    
-    //Messages Strings
     static let PM_ORDER_CANCELLED = NSLocalizedString("pm_order_cancelled", comment: "") //"Order cancelled"
     static let PM_ORDER_ACCEPTED_FOR_BUYER = NSLocalizedString("pm_order_accepted_for_buyer", comment: "") //"Seller has accepted your order"
     static let PM_ORDER_DECLINED_FOR_BUYER = NSLocalizedString("pm_order_declined_for_buyer", comment: "") //"Seller declined your order"
@@ -92,5 +92,4 @@ struct Constants {
     
     static let NO_PRODUCT_TEXT = NSLocalizedString("no_product_text", comment: "") //"~ No Products ~"
     static let NO_FOLLOWING_TEXT = NSLocalizedString("no_following_text", comment: "") //"~ No Followings ~"
-    static let BANNER_REFRESH_TIME_INTERVAL = 5.0
 }
