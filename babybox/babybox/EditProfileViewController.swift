@@ -62,7 +62,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, UITextVi
         var uiGesture = UITapGestureRecognizer(target: self, action: "scrollViewTouched")
         self.editScrollView.addGestureRecognizer(uiGesture)
         
-        self.view.backgroundColor = Color.FEED_BG
+        self.editScrollView.backgroundColor = Color.FEED_BG
         
         self.initializeEditComponents()
     }
