@@ -41,7 +41,7 @@ class ChatBubble: UIView {
             //if let chatImage = data.image {
             if (data.buyerId != -1) {
                 let userImgView = UIView()
-                buyerImageView = UIImageView(frame: CGRectMake(0, 0, 40, 40))
+                buyerImageView = UIImageView(frame: CGRectMake(0, 0, 45, 45))
                 ImageUtil.displayThumbnailProfileImage(data.buyerId, imageView: buyerImageView!)
                 userImgView.addSubview(buyerImageView!)
                 self.addSubview(userImgView)

@@ -572,4 +572,32 @@ class ApiFacade {
         }
         
     }
+    
+    static func getUserActivities(offset: Int64, successCallback: (([ActivityVM]) -> Void)?, failureCallback: ((String) -> Void)?) {
+        SwiftEventBus.unregister(self)
+        
+        SwiftEventBus.onMainThread(self, name: "onSuccessGetActivities") { result in
+            if ViewUtil.isEmptyResult(result) {
+                failureCallback!("No activities items")
+                return
+            }
+            
+            if successCallback != nil {
+                successCallback!(result.object as! [ActivityVM])
+            }
+        }
+        
+        SwiftEventBus.onMainThread(self, name: "onFailureGetActivities") { result in
+            if failureCallback != nil {
+                var error = "Failed to get  items..."
+                if result.object is NSString {
+                    error += "\n"+(result.object as! String)
+                }
+                failureCallback!(error)
+            }
+        }
+        ApiController.instance.getUserActivities(offset)
+    }
+    
+    
 }

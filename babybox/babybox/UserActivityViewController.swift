@@ -45,7 +45,7 @@ class UserActivityViewController: CustomNavigationController {
         self.loading = true
         setCollectionViewSizesInsetsForTopView()
         
-        SwiftEventBus.unregister(self)
+        /*SwiftEventBus.unregister(self)
         
         SwiftEventBus.onMainThread(self, name: "userActivitiesSuccess") { result in
             let resultDto: [ActivityVM] = result.object as! [ActivityVM]
@@ -54,7 +54,7 @@ class UserActivityViewController: CustomNavigationController {
         
         SwiftEventBus.onMainThread(self, name: "userActivitiesFailed") { result in
             self.view.makeToast(message: "Error getting User activities data.")
-        }
+        }*/
         
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.itemSize = CGSizeMake(self.view.bounds.width, self.view.bounds.height)
@@ -70,8 +70,8 @@ class UserActivityViewController: CustomNavigationController {
         self.uiCollectionView.addPullToRefresh({ [weak self] in
             self?.reload()
         })
-        
-        ApiController.instance.getUserActivities(activityOffSet)
+        ApiFacade.getUserActivities(activityOffSet, successCallback: onSuccessGetActivities, failureCallback: onFailureGetActivities)
+        //ApiController.instance.getUserActivities(activityOffSet)
     }
 
     override func didReceiveMemoryWarning() {
@@ -175,23 +175,7 @@ class UserActivityViewController: CustomNavigationController {
     }
     
     func handleUserActivitiesData(resultDto: [ActivityVM]) {
-        if (!resultDto.isEmpty) {
-            if (self.userActivitesItems.count == 0) {
-                self.userActivitesItems = resultDto
-            } else {
-                self.userActivitesItems.appendContentsOf(resultDto)
-            }
-            uiCollectionView.reloadData()
-        } else {
-            loadedAll = true
-        }
-        loading = false
-        ViewUtil.hideActivityLoading(self.activityLoading)
         
-        if (self.userActivitesItems.isEmpty) {
-            self.tipText.hidden = false
-            self.uiCollectionView.hidden = true
-        }
     }
 
     @IBAction func onClickPostImg(sender: AnyObject) {
@@ -237,7 +221,8 @@ class UserActivityViewController: CustomNavigationController {
                     activityOffSet += 1
                     feedOffset = activityOffSet
                 }
-                ApiController.instance.getUserActivities(feedOffset)
+                ApiFacade.getUserActivities(feedOffset, successCallback: onSuccessGetActivities, failureCallback: onFailureGetActivities)
+                //ApiController.instance.getUserActivities(feedOffset)
             }
         }
     }
@@ -280,7 +265,8 @@ class UserActivityViewController: CustomNavigationController {
     func reload() {
         ViewUtil.showActivityLoading(self.activityLoading)
         clearActivities()
-        ApiController.instance.getUserActivities(self.activityOffSet)
+        ApiFacade.getUserActivities(self.activityOffSet, successCallback: onSuccessGetActivities, failureCallback: onFailureGetActivities)
+        //ApiController.instance.getUserActivities(self.activityOffSet)
         self.loading = true
     }
     
@@ -302,4 +288,31 @@ class UserActivityViewController: CustomNavigationController {
     func onFailure(message: String) {
         ViewUtil.showDialog("Error", message: message, view: self)
     }
+    
+    func onSuccessGetActivities(resultDto: [ActivityVM]) {
+        self.tipText.hidden = true
+        if (!resultDto.isEmpty) {
+            if (self.userActivitesItems.count == 0) {
+                self.userActivitesItems = resultDto
+            } else {
+                self.userActivitesItems.appendContentsOf(resultDto)
+            }
+            uiCollectionView.reloadData()
+        } else {
+            loadedAll = true
+            if (self.userActivitesItems.isEmpty) {
+                self.tipText.hidden = false
+                self.uiCollectionView.hidden = true
+            }
+        }
+        loading = false
+        ViewUtil.hideActivityLoading(self.activityLoading)
+        
+        
+    }
+    
+    func onFailureGetActivities(response: String) {
+        self.view.makeToast(message: "Error getting User activities data.")
+    }
+    
 }

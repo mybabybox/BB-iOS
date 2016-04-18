@@ -91,8 +91,8 @@ class ApiController {
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/get-activities/\(offset)"
         callEvent.resultClass = "[ActivityVM]"
-        callEvent.successEventbusName = "userActivitiesSuccess"
-        callEvent.failedEventbusName = "userActivitiesFailed"
+        callEvent.successEventbusName = "onSuccessGetActivities"
+        callEvent.failedEventbusName = "onFailureGetActivities"
         callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         self.makeApiCall(callEvent)
     }
