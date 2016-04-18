@@ -3814,10 +3814,10 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="bottom" secondItem="QSI-Ae-yDE" secondAttribute="bottom" id="0o5-ez-Nfs"/>
-                                                <constraint firstAttribute="width" secondItem="bVK-NF-8th" secondAttribute="height" multiplier="3:1" id="3qC-9l-wi2"/>
                                                 <constraint firstAttribute="height" constant="100" id="Itk-sg-vRL"/>
                                                 <constraint firstItem="QSI-Ae-yDE" firstAttribute="centerX" secondItem="bVK-NF-8th" secondAttribute="centerX" id="P9v-MH-EQ0"/>
                                                 <constraint firstAttribute="trailing" secondItem="oLK-YI-kCv" secondAttribute="trailing" id="Tnc-mf-TR5"/>
+                                                <constraint firstAttribute="height" constant="100" id="ZRo-at-KKJ"/>
                                                 <constraint firstAttribute="bottom" secondItem="oLK-YI-kCv" secondAttribute="bottom" id="Zzs-ff-iga"/>
                                                 <constraint firstAttribute="bottom" secondItem="QSI-Ae-yDE" secondAttribute="bottom" id="dSY-Ys-rJE"/>
                                                 <constraint firstItem="oLK-YI-kCv" firstAttribute="top" secondItem="bVK-NF-8th" secondAttribute="top" id="hGQ-cW-iY1"/>
@@ -3873,6 +3873,7 @@
                                         </mask>
                                     </variation>
                                     <connections>
+                                        <outlet property="bannerHeight" destination="ZRo-at-KKJ" id="kIF-3V-a0F"/>
                                         <outlet property="categoryLbl" destination="MNH-iq-POK" id="RRs-Dm-GZl"/>
                                         <outlet property="headerViewCollection" destination="Rjq-aV-yEu" id="X68-aM-xU2"/>
                                         <outlet property="homeBannerView" destination="bVK-NF-8th" id="ycP-6P-ZrF"/>

@@ -44,6 +44,7 @@ struct Constants {
     static let MESSAGE_LOAD_MORE_BTN_HEIGHT = CGFloat(0)
     static let IMAGE_RESIZE_DIMENSION = CGFloat(640)
     static let NO_ITEM_TIP_TEXT_CELL_HEIGHT = CGFloat(70)
+    static let HOME_BANNER_VIEW_HEIGHT = CGFloat(100)
     
     // strings
     static let ACTIVITY_FIRST_POST = NSLocalizedString("now_seller", comment: "") //"You are now a BabyBox seller! Your first product has been listed:\n"
@@ -91,4 +92,5 @@ struct Constants {
     
     static let NO_PRODUCT_TEXT = NSLocalizedString("no_product_text", comment: "") //"~ No Products ~"
     static let NO_FOLLOWING_TEXT = NSLocalizedString("no_following_text", comment: "") //"~ No Followings ~"
+    static let BANNER_REFRESH_TIME_INTERVAL = 5.0
 }

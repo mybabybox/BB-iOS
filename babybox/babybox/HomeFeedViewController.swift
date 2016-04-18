@@ -33,6 +33,9 @@ class HomeFeedViewController: CustomNavigationController, UICollectionViewDataSo
     
     var bannerImages: [String] = []
     var collectionView: UICollectionView?
+    var pageControl: UIPageControl?
+    var currentBannerPage: Int?
+    var homeBannerHeight: NSLayoutConstraint?
     
     func reloadDataToView() {
         self.categories = CategoryCache.categories
@@ -154,7 +157,12 @@ class HomeFeedViewController: CustomNavigationController, UICollectionViewDataSo
             
             cell.pageControl.numberOfPages = self.bannerImages.count
             cell.pageControl.currentPage = indexPath.row
+            cell.pageControl.hidesForSinglePage = true
             
+            if self.pageControl == nil {
+                self.pageControl = cell.pageControl
+                self.currentBannerPage = indexPath.row
+            }
             return cell
         }
         
@@ -217,7 +225,8 @@ class HomeFeedViewController: CustomNavigationController, UICollectionViewDataSo
             self.collectionView = headerView.homeBannerView.subviews[0] as? UICollectionView
             self.collectionView?.dataSource = self
             self.collectionView?.delegate = self
-
+            self.homeBannerHeight = headerView.bannerHeight
+            //self.homeBannerHeight?.constant = 0
             reusableView = headerView
         }
         
@@ -262,7 +271,11 @@ class HomeFeedViewController: CustomNavigationController, UICollectionViewDataSo
             let availableWidthForCells: CGFloat = self.view.bounds.width - Constants.HOME_HEADER_ITEMS_MARGIN_TOTAL
             let cellWidth: CGFloat = availableWidthForCells / 3
             let ht = cellWidth * CGFloat(Int(self.categories.count / 3))
-            return CGSizeMake(self.view.frame.width, ht + 60 + 100)
+            if self.bannerImages.isEmpty {
+                return CGSizeMake(self.view.frame.width, ht + 60)
+            } else {
+                return CGSizeMake(self.view.frame.width, ht + 60 + Constants.HOME_BANNER_VIEW_HEIGHT)
+            }
         }
     }
     
@@ -347,20 +360,32 @@ class HomeFeedViewController: CustomNavigationController, UICollectionViewDataSo
         self.featuredItems?.removeAll()
         self.featuredItems = featuredItems
         if featuredItems.count > 0 {
+            for i in 0...(self.featuredItems?.count)! - 1 {
+                self.bannerImages.append(String(self.featuredItems![i].image))
+            }
+            _ = NSTimer.scheduledTimerWithTimeInterval(Constants.BANNER_REFRESH_TIME_INTERVAL, target: self, selector: "scrollHomeBanner", userInfo: nil, repeats: true)
+            //self.homeBannerHeight?.constant = Constants.HOME_BANNER_VIEW_HEIGHT
+            self.collectionView?.reloadData()
             //self.uiCollectionView.reloadData()
-            
-                for i in 0...(self.featuredItems?.count)! - 1 {
-                    self.bannerImages.append(String(self.featuredItems![i].image))
-                }
-                self.collectionView?.reloadData()
-                //self.bannerTableView?.reloadData()
-           
             
         }
     }
     
     func onFailureGetHomeFeaturedItems(message: String) {
         NSLog("Error getting home slider featured items")
+    }
+    
+    func scrollHomeBanner() {
+        NSLog("Changing the page")
+        if self.pageControl != nil {
+            let indexPath = NSIndexPath(forRow: self.currentBannerPage!, inSection: 0)
+            self.pageControl?.currentPage = self.currentBannerPage!
+            self.collectionView?.scrollToItemAtIndexPath(indexPath, atScrollPosition: .None, animated: true)
+            self.currentBannerPage! = self.currentBannerPage! + 1
+            if self.currentBannerPage == self.bannerImages.count {
+                self.currentBannerPage = 0
+            }
+        }
     }
     
 }

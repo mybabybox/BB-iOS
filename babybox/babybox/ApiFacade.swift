@@ -538,4 +538,38 @@ class ApiFacade {
         
         ApiController.instance.deleteConversation(id)
     }
+    
+    static func getUserFollowingFollowers(userId: Int, offset: Int64, optionType: String, successCallback: (([UserVMLite]) -> Void)?, failureCallback: ((String) -> Void)?) {
+        SwiftEventBus.unregister(self)
+        
+        SwiftEventBus.onMainThread(self, name: "onSuccessGetFollowingFollowers") { result in
+            if ViewUtil.isEmptyResult(result) {
+                failureCallback!("No following / followers items")
+                return
+            }
+            
+            if successCallback != nil {
+                successCallback!(result.object as! [UserVMLite])
+            }
+        }
+        
+        SwiftEventBus.onMainThread(self, name: "onFailureGetFollowingFollowers") { result in
+            if failureCallback != nil {
+                var error = "Failed to get following / followers items..."
+                if result.object is NSString {
+                    error += "\n"+(result.object as! String)
+                }
+                failureCallback!(error)
+            }
+        }
+        
+        switch optionType {
+            case "followingCalls":
+                ApiController.instance.getUserFollowings(userId, offset: offset)
+            case "followersCall":
+                ApiController.instance.getUserFollowers(userId, offset: offset)
+            default: break
+        }
+        
+    }
 }

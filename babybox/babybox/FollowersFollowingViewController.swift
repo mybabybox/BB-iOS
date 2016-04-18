@@ -49,7 +49,7 @@ class FollowersFollowingViewController: UICollectionViewController {
         self.setCollectionViewSizesInsets()
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "actionbar_bg_pink"), forBarMetrics: UIBarMetrics.Default)
         
-        SwiftEventBus.onMainThread(self, name: "userFollowersFollowingsSuccess") { result in
+        /*SwiftEventBus.onMainThread(self, name: "userFollowersFollowingsSuccess") { result in
             // UI thread
             if (!ViewUtil.isEmptyResult(result)) {
                 let resultDto: [UserVMLite] = result.object as! [UserVMLite]
@@ -58,20 +58,20 @@ class FollowersFollowingViewController: UICollectionViewController {
                 self.collectionView?.reloadData()
             } else {
                 self.loadedAll = true
+                
+                if (self.followersFollowings.isEmpty) {
+                    let userVM = UserVM()
+                    userVM.id = -1
+                    self.followersFollowings.append(userVM)
+                    self.collectionView?.reloadData()
+                }
+                
             }
             self.loading = false
-            
-            if (self.followersFollowings.isEmpty) {
-                //
-                let userVM = UserVM()
-                userVM.id = -1
-                self.followersFollowings.append(userVM)
-                self.collectionView?.reloadData()
-            }
         }
         
         SwiftEventBus.onMainThread(self, name: "userFollowersFollowingsFailed") { result in
-        }
+        }*/
         
         self.loadFollowingFollowers()
         self.loading = true
@@ -80,7 +80,7 @@ class FollowersFollowingViewController: UICollectionViewController {
         self.collectionView!.backgroundColor = Color.FEED_BG
         
         self.collectionView!.addPullToRefresh({ [weak self] in
-            self?.reloadActivities()
+            self?.reloadList()
         })
         
     }
@@ -147,26 +147,6 @@ class FollowersFollowingViewController: UICollectionViewController {
         
     }
 
-    /*override func collectionView(collectionView: UICollectionView,
-        viewForSupplementaryElementOfKind kind: String,
-        atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
-        switch kind {
-            case UICollectionElementKindSectionHeader:
-                var noItemText = ""
-                switch optionType {
-                    case "followingCalls":
-                        noItemText = Constants.NO_FOLLOWINGS
-                    case "followersCall":
-                        noItemText = Constants.NO_FOLLOWERS
-                    default: break
-                }
-                
-                return ViewUtil.prepareNoItemsHeaderView(collectionView, indexPath: indexPath, noItemText: noItemText)
-                default:
-                assert(false, "Unexpected element kind")
-        }
-    }*/
-    
     func setCollectionViewSizesInsets() {
         collectionViewCellSize = CGSizeMake(self.view.bounds.width , 60)
     }
@@ -180,17 +160,17 @@ class FollowersFollowingViewController: UICollectionViewController {
                 }
                 
                 loading = true
-                switch optionType {
+                /*switch optionType {
                 case "followingCalls":
                     ApiController.instance.getUserFollowings(self.userId, offset:Int64(self.followersFollowings[self.followersFollowings.count - 1].offset))
                 case "followersCall":
                     ApiController.instance.getUserFollowers(self.userId, offset: Int64(self.followersFollowings[self.followersFollowings.count - 1].offset))
                 default: break
-                }
+                }*/
+                ApiFacade.getUserFollowingFollowers(self.userId, offset: Int64(self.followersFollowings[self.followersFollowings.count - 1].offset), optionType: optionType, successCallback: onSuccessGetFollowingFollowers, failureCallback: onFailureGetFollowingFollowers)
             }
         }
     }
-    
     
     override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
         if (identifier == "fUserProfile"){
@@ -213,12 +193,13 @@ class FollowersFollowingViewController: UICollectionViewController {
     
     func loadFollowingFollowers() {
         if ("followingCalls" == optionType) {
-            ApiController.instance.getUserFollowings(self.userId, offset: offset)
             self.navigationItem.title = "Following"
         } else if ("followersCall" == optionType) {
-            ApiController.instance.getUserFollowers(self.userId, offset: offset)
             self.navigationItem.title = "Followers"
         }
+        
+        ApiFacade.getUserFollowingFollowers(self.userId, offset: offset, optionType: optionType, successCallback: onSuccessGetFollowingFollowers, failureCallback: onFailureGetFollowingFollowers)
+        
     }
     
     func clearlist() {
@@ -230,11 +211,34 @@ class FollowersFollowingViewController: UICollectionViewController {
         self.offset = 0
     }
     
-    func reloadActivities() {
+    func reloadList() {
         
         clearlist()
         self.loadFollowingFollowers()
         self.loading = true
-        
     }
+    
+    func onSuccessGetFollowingFollowers(usersVM: [UserVMLite]) {
+        if (!usersVM.isEmpty) {
+            //let resultDto: [UserVMLite] = usersVM.object as! [UserVMLite]
+            self.followersFollowings.appendContentsOf(usersVM)
+            self.offset += 1
+            self.collectionView?.reloadData()
+        } else {
+            self.loadedAll = true
+            
+            if (self.followersFollowings.isEmpty) {
+                let userVM = UserVM()
+                userVM.id = -1
+                self.followersFollowings.append(userVM)
+                self.collectionView?.reloadData()
+            }
+        }
+        self.loading = false
+    }
+    
+    func onFailureGetFollowingFollowers(response: String) {
+        NSLog("Error getting following followers")
+    }
+    
 }

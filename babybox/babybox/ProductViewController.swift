@@ -360,12 +360,9 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("hcell", forIndexPath: indexPath) as! ImageCollectionViewCell
         let imageView = cell.imageView
-        if (self.productInfo!.images.count > 1) {
-            cell.pageControl.numberOfPages = self.productInfo!.images.count
-            cell.pageControl.currentPage = indexPath.row
-        } else {
-            cell.pageControl.hidden = true
-        }
+        cell.pageControl.numberOfPages = self.productInfo!.images.count
+        cell.pageControl.currentPage = indexPath.row
+        cell.pageControl.hidesForSinglePage = true
         ImageUtil.displayOriginalPostImage(Int(self.images[indexPath.row])!, imageView: imageView)
         return cell
     }

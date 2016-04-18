@@ -10,6 +10,7 @@ import UIKit
 
 class HomeReusableView: UICollectionReusableView {
 
+    @IBOutlet weak var bannerHeight: NSLayoutConstraint!
     @IBOutlet weak var homeBannerView: UIView!
     @IBOutlet weak var categoryLbl: UILabel!
     @IBOutlet weak var suggestedFor: UILabel!
