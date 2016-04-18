@@ -271,10 +271,12 @@ class HomeFeedViewController: CustomNavigationController, UICollectionViewDataSo
             let availableWidthForCells: CGFloat = self.view.bounds.width - Constants.HOME_HEADER_ITEMS_MARGIN_TOTAL
             let cellWidth: CGFloat = availableWidthForCells / 3
             let ht = cellWidth * CGFloat(Int(self.categories.count / 3))
+            let extraMargin = CGFloat(60)
             if self.bannerImages.isEmpty {
-                return CGSizeMake(self.view.frame.width, ht + 60)
+                return CGSizeMake(self.view.frame.width, ht + extraMargin)
             } else {
-                return CGSizeMake(self.view.frame.width, ht + 60 + Constants.HOME_BANNER_VIEW_HEIGHT)
+                let bannerHeight = self.view.bounds.width / Constants.HOME_BANNER_WIDTH_HEIGHT_RATIO
+                return CGSizeMake(self.view.frame.width, ht + bannerHeight + extraMargin)
             }
         }
     }

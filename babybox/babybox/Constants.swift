@@ -11,14 +11,8 @@ import UIKit
 
 struct Constants {
     
-    static let BASE_URL = "http://www.baby-box.com.hk"
-    static let BASE_IMAGE_URL = "http://www.baby-box.com.hk"
-    
-    //static let BASE_URL = "http://119.81.228.91"
-    //static let BASE_IMAGE_URL = "http://119.81.228.91"
-    
-    //static let BASE_URL = "http://192.168.1.116:9000"
-    //static let BASE_IMAGE_URL = "http://192.168.1.116:9000"
+    static let BASE_URL = "http://119.81.228.91"
+    static let BASE_IMAGE_URL = "http://119.81.228.91"
     
     static let DEEP_LINK_URL_SCHEME = "babybox://"
     
@@ -53,7 +47,6 @@ struct Constants {
     static let MESSAGE_LOAD_MORE_BTN_HEIGHT = CGFloat(0)
     static let IMAGE_RESIZE_DIMENSION = CGFloat(640)
     static let NO_ITEM_TIP_TEXT_CELL_HEIGHT = CGFloat(70)
-    static let HOME_BANNER_VIEW_HEIGHT = CGFloat(100)
     
     // strings
     static let ACTIVITY_FIRST_POST = NSLocalizedString("now_seller", comment: "") //"You are now a BabyBox seller! Your first product has been listed:\n"
