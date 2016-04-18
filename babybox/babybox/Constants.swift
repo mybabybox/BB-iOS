@@ -11,8 +11,14 @@ import UIKit
 
 struct Constants {
     
-    static let BASE_URL = "http://119.81.228.91"
-    static let BASE_IMAGE_URL = "http://119.81.228.91"
+    static let BASE_URL = "http://www.baby-box.com.hk"
+    static let BASE_IMAGE_URL = "http://www.baby-box.com.hk"
+    
+    //static let BASE_URL = "http://119.81.228.91"
+    //static let BASE_IMAGE_URL = "http://119.81.228.91"
+    
+    //static let BASE_URL = "http://192.168.1.116:9000"
+    //static let BASE_IMAGE_URL = "http://192.168.1.116:9000"
     
     static let DEEP_LINK_URL_SCHEME = "babybox://"
     

@@ -58,7 +58,12 @@ class ApiFacade {
             if failureCallback != nil {
                 var error = "Failed to login by email..."
                 if result.object is NSString {
-                    error = result.object as! String
+                    if error.isEmpty {
+                        error = result.object as! String
+                    } else {
+                        error = NSLocalizedString("email_pwd_incorrect", comment: "")
+                    }
+                    
                 }
                 failureCallback!(error)
             }
