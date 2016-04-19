@@ -91,4 +91,24 @@ class ConversationCache {
         conversations = []
         openedConversation = nil
     }
+    
+    static func updateConversationOrder(conversationId: Int, order: ConversationOrderVM) -> ConversationVM {
+        let conversation = getConversation(conversationId);
+        if (conversation != nil) {
+            conversation!.order = order
+        }
+        return conversation!
+    }
+    
+    static func getConversation(id: Int) -> ConversationVM? {
+        let items = ConversationCache.conversations
+        for i in 0...ConversationCache.conversations.count - 1 {
+            if items[i].id == id {
+                return items[i]
+            }
+        }
+    
+        return nil
+    }
+    
 }
