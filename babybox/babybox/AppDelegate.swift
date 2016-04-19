@@ -44,7 +44,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if isFacebookURL {
             return FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
         } else {
-            let isDeepLinkUrl = url.scheme.hasPrefix("beautypop")
+            let isDeepLinkUrl = url.scheme.hasPrefix(Constants.DEEP_LINK_URL_SCHEME)
             if isDeepLinkUrl {
                 let pathVariables = url.pathComponents
                 if pathVariables?.count == 2 { //assuming the url is of Seller
