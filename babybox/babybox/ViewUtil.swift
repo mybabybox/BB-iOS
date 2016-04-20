@@ -77,6 +77,8 @@ class ViewUtil {
             forState:.Selected)
 
         // segmented control
+        //UISegmentedControl.appearance().layer.borderColor = Color.GRAY.CGColor
+        //UISegmentedControl.appearance().layer.borderWidth = CGFloat(1)
         UISegmentedControl.appearance().backgroundColor = Color.WHITE
         UISegmentedControl.appearance().setTitleTextAttributes(
             [NSFontAttributeName: UIFont.systemFontOfSize(14), NSForegroundColorAttributeName: Color.GRAY],
@@ -87,7 +89,6 @@ class ViewUtil {
         
         UIBarButtonItem.appearance().setBackButtonTitlePositionAdjustment(UIOffsetMake(0, -60), 
 		forBarMetrics:UIBarMetrics.Default)
-        
     }
     
     static func selectSegmentControl(segmentController: UISegmentedControl, view: UIView) {
@@ -95,26 +96,39 @@ class ViewUtil {
             return
         }
         
-        var tab1Color = Color.WHITE
-        var tab2Color = Color.WHITE
+        let backgroundColor = Color.WHITE
+        let thickLineWidth = CGFloat(2)
+        let thinLineWidth = CGFloat(0.3)
+        
+        var tab1Color = Color.GRAY
+        var tab2Color = Color.GRAY
+        var tab1LineWidth = thinLineWidth
+        var tab2LineWidth = thinLineWidth
         if segmentController.selectedSegmentIndex == 0 {
             tab1Color = Color.PINK
+            tab1LineWidth = thickLineWidth
         } else if segmentController.selectedSegmentIndex == 1 {
             tab2Color = Color.PINK
+            tab2LineWidth = thickLineWidth
         }
         
         let y = segmentController.frame.origin.y + CGFloat(segmentController.frame.size.height)
         
+        // reset
+        let start: CGPoint = CGPoint(x: 0, y: y)
+        let end: CGPoint = CGPoint(x: segmentController.frame.size.width, y: y)
+        ViewUtil.drawLineFromPoint(start, toPoint: end, ofColor: backgroundColor, ofLineWidth: thickLineWidth, inView: view)
+        
         let start1: CGPoint = CGPoint(x: 0, y: y)
         let end1: CGPoint = CGPoint(x: segmentController.frame.size.width / 2, y: y)
-        ViewUtil.drawLineFromPoint(start1, toPoint: end1, ofColor: tab1Color, inView: view)
+        ViewUtil.drawLineFromPoint(start1, toPoint: end1, ofColor: tab1Color, ofLineWidth: tab1LineWidth, inView: view)
         
         let start2: CGPoint = CGPoint(x: segmentController.frame.size.width / 2 , y: y)
         let end2: CGPoint = CGPoint(x: segmentController.frame.size.width, y: y)
-        ViewUtil.drawLineFromPoint(start2, toPoint: end2, ofColor: tab2Color, inView: view)
+        ViewUtil.drawLineFromPoint(start2, toPoint: end2, ofColor: tab2Color, ofLineWidth: tab2LineWidth, inView: view)
     }
     
-    static func drawLineFromPoint(start: CGPoint, toPoint end: CGPoint, ofColor lineColor: UIColor, inView view: UIView) {
+    static func drawLineFromPoint(start: CGPoint, toPoint end: CGPoint, ofColor lineColor: UIColor, ofLineWidth lineWidth: CGFloat, inView view: UIView) {
         //design the path
         let path = UIBezierPath()
         path.moveToPoint(start)
@@ -128,7 +142,7 @@ class ViewUtil {
         shapeLayer.fillColor = Color.WHITE.CGColor
         shapeLayer.path = path.CGPath
         shapeLayer.strokeColor = lineColor.CGColor
-        shapeLayer.lineWidth = 2.0
+        shapeLayer.lineWidth = lineWidth
         shapeLayer.allowsEdgeAntialiasing = false
         shapeLayer.allowsGroupOpacity = false
         shapeLayer.autoreverses = false

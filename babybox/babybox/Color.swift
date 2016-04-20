@@ -32,7 +32,7 @@ class Color {
     // Theme colors
     static let MENU_BAR_BG: UIColor = Color.fromRGB(0xFCFAF8)
     static let IMAGE_LOAD_BG: UIColor = Color.fromRGB(0xFFF2EF)
-    static let VIEW_BG: UIColor = Color.fromRGB(0xF6F6F6)
+    static let VIEW_BG: UIColor = Color.fromRGB(0xF5F8FA)
     static let FEED_BG: UIColor = Color.fromRGB(0xF5F8FA)
     //static let FEED_BG: UIColor = LIGHT_PINK_3
     static let FEED_ITEM_BORDER: UIColor = LIGHT_GRAY_2
