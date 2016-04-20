@@ -112,7 +112,7 @@ class HomeFeedViewController: CustomNavigationController, UICollectionViewDataSo
         self.uiCollectionView!.backgroundColor = Color.FEED_BG
         
         self.uiCollectionView.addPullToRefresh({ [weak self] in
-            CategoryCache.refresh(self?.onSuccessGetCategories, failureCallback: nil)
+            CategoryCache.refresh(self!.onSuccessGetCategories, failureCallback: nil)
             self!.feedLoader?.reloadFeedItems()
             })
         

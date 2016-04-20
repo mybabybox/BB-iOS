@@ -16,12 +16,20 @@ class UserInfoCache {
     init() {
     }
 
+    static func refresh() {
+        refresh(nil, failureCallback: nil);
+    }
+    
+    static func refresh(successCallback: ((UserVM) -> Void)?, failureCallback: ((String) -> Void)?) {
+        refresh(AppDelegate.getInstance().sessionId!, successCallback: successCallback, failureCallback: failureCallback);
+    }
+    
     static func refresh(sessionId: String) {
         refresh(sessionId, successCallback: nil, failureCallback: nil)
     }
     
     static func refresh(sessionId: String, successCallback: ((UserVM) -> Void)?, failureCallback: ((String) -> Void)?) {
-        SwiftEventBus.onMainThread(self, name: "userInfoSuccess") { result in
+        SwiftEventBus.onMainThread(self, name: "onSuccessGetUserInfo") { result in
             SwiftEventBus.unregister(self)
             
             if ViewUtil.isEmptyResult(result) {
@@ -35,7 +43,7 @@ class UserInfoCache {
             }
         }
         
-        SwiftEventBus.onMainThread(self, name: "userInfoFailed") { result in
+        SwiftEventBus.onMainThread(self, name: "onFailureGetUserInfo") { result in
             SwiftEventBus.unregister(self)
             
             if failureCallback != nil {

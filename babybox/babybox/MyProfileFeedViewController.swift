@@ -55,10 +55,7 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
     override func viewDidAppear(animated: Bool) {
         self.tabBarController?.tabBar.alpha = CGFloat(Constants.MAIN_BOTTOM_BAR_ALPHA)
         
-        if (self.activeHeaderViewCell != nil) {
-            self.activeHeaderViewCell?.segmentControl.setTitle("Products " + String(self.userInfo!.numProducts), forSegmentAtIndex: 0)
-            self.activeHeaderViewCell?.segmentControl.setTitle("Likes " + String(self.userInfo!.numLikes), forSegmentAtIndex: 1)
-        }
+        setSegmentedControlTitles()
         
         if (currentIndex != nil) {
             let item = vController?.feedItem
@@ -66,8 +63,6 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
             self.uiCollectionView.reloadItemsAtIndexPaths([currentIndex!])
             currentIndex = nil
         }
-        
-        setUserInfo(UserInfoCache.getUser())
         
         //check for flag and if found refresh the data..
         if (self.isRefresh) {
@@ -108,12 +103,16 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
         self.uiCollectionView!.backgroundColor = Color.FEED_BG
         
         self.uiCollectionView.addPullToRefresh({ [weak self] in
+            UserInfoCache.refresh(self!.onSuccessGetUserInfo, failureCallback: nil)
             self?.reloadFeedItems()
         })
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
+    func setSegmentedControlTitles() {
+        if (self.activeHeaderViewCell != nil) {
+            self.activeHeaderViewCell?.segmentControl.setTitle("Products " + String(self.userInfo!.numProducts), forSegmentAtIndex: 0)
+            self.activeHeaderViewCell?.segmentControl.setTitle("Likes " + String(self.userInfo!.numLikes), forSegmentAtIndex: 1)
+        }
     }
     
     //MARK: UICollectionViewDataSource
@@ -324,10 +323,7 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
 
         ViewUtil.selectSegmentControl(segControl!, view: self.uiCollectionView)
         
-        if (self.activeHeaderViewCell != nil) {
-            self.activeHeaderViewCell?.segmentControl.setTitle("Products " + String(self.userInfo!.numProducts), forSegmentAtIndex: 0)
-            self.activeHeaderViewCell?.segmentControl.setTitle("Likes " + String(self.userInfo!.numLikes), forSegmentAtIndex: 1)
-        }
+        //setSegmentedControlTitles()
     }
     
     // MARK: UIImagePickerControllerDelegate Methods
@@ -356,11 +352,21 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
         ViewUtil.displayRoundedCornerView(cell.editProfile)
     }
     
+    func onSuccessGetUserInfo(userInfo: UserVM) {
+        setUserInfo(UserInfoCache.getUser())
+        setSegmentedControlTitles()
+        reloadDataToView()
+    }
+    
     func onSuccessRefreshNotifications(notifcationCounter: NotificationCounterVM) {
         ViewUtil.refreshNotifications((self.tabBarController?.tabBar)!, navigationItem: self.navigationItem)
     }
     
     func onFailureRefreshNotifications(message: String) {
         NSLog(message)
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
     }
 }

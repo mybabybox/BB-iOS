@@ -59,8 +59,8 @@ class ApiController {
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/get-user-info"
         callEvent.resultClass = "UserVM"
-        callEvent.successEventbusName = "userInfoSuccess"
-        callEvent.failedEventbusName = "userInfoFailed"
+        callEvent.successEventbusName = "onSuccessGetUserInfo"
+        callEvent.failedEventbusName = "onFailureGetUserInfo"
         callEvent.apiUrl = Constants.BASE_URL + callEvent.method      //append logged in user id to get the logged in user details.
         
         self.makeApiCall(callEvent)
