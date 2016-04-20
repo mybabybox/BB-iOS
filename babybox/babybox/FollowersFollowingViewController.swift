@@ -12,7 +12,6 @@ import SwiftEventBus
 class FollowersFollowingViewController: UICollectionViewController {
     
     var offset: Int64 = 0
-    var currentIndex: Int = 0
     var reuseIdentifier = "followingCollectionViewCell"
     var followersFollowings: [UserVMLite] = []
     var userId: Int = 0
@@ -23,7 +22,6 @@ class FollowersFollowingViewController: UICollectionViewController {
     var headerView: NoItemsToolTipHeaderView?
     
     @IBAction func onClickFollowings(sender: AnyObject) {
-        
         let button = sender as! UIButton
         let view = button.superview!
         let cell = view.superview! as! FollowingCollectionViewCell
@@ -31,14 +29,15 @@ class FollowersFollowingViewController: UICollectionViewController {
         let indexPath = self.collectionView?.indexPathForCell(cell)
         let item = followersFollowings[indexPath!.row]
         
-        if (self.followersFollowings[self.currentIndex].isFollowing) {
+        NSLog(item.displayName+" isFollowing="+String(item.isFollowing));
+        if (item.isFollowing) {
             ApiController.instance.unfollowUser(item.id)
-            self.followersFollowings[self.currentIndex].isFollowing = false
+            item.isFollowing = false
             cell.followingsBtn.setTitle("Follow", forState: UIControlState.Normal)
             ViewUtil.displayRoundedCornerView(cell.followingsBtn, bgColor: Color.PINK)
         } else {
             ApiController.instance.followUser(item.id)
-            self.followersFollowings[self.currentIndex].isFollowing = true
+            item.isFollowing = true
             cell.followingsBtn.setTitle("Following", forState: UIControlState.Normal)
             ViewUtil.displayRoundedCornerView(cell.followingsBtn, bgColor: Color.LIGHT_GRAY)
         }
@@ -49,30 +48,6 @@ class FollowersFollowingViewController: UICollectionViewController {
         self.setCollectionViewSizesInsets()
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "actionbar_bg_pink"), forBarMetrics: UIBarMetrics.Default)
         
-        /*SwiftEventBus.onMainThread(self, name: "userFollowersFollowingsSuccess") { result in
-            // UI thread
-            if (!ViewUtil.isEmptyResult(result)) {
-                let resultDto: [UserVMLite] = result.object as! [UserVMLite]
-                self.followersFollowings.appendContentsOf(resultDto)
-                self.offset += 1
-                self.collectionView?.reloadData()
-            } else {
-                self.loadedAll = true
-                
-                if (self.followersFollowings.isEmpty) {
-                    let userVM = UserVM()
-                    userVM.id = -1
-                    self.followersFollowings.append(userVM)
-                    self.collectionView?.reloadData()
-                }
-                
-            }
-            self.loading = false
-        }
-        
-        SwiftEventBus.onMainThread(self, name: "userFollowersFollowingsFailed") { result in
-        }*/
-        
         self.loadFollowingFollowers()
         self.loading = true
         
@@ -82,7 +57,6 @@ class FollowersFollowingViewController: UICollectionViewController {
         self.collectionView!.addPullToRefresh({ [weak self] in
             self?.reloadList()
         })
-        
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -193,13 +167,12 @@ class FollowersFollowingViewController: UICollectionViewController {
     
     func loadFollowingFollowers() {
         if ("followingCalls" == optionType) {
-            self.navigationItem.title = "Following"
+            self.navigationItem.title = "Followings"
         } else if ("followersCall" == optionType) {
             self.navigationItem.title = "Followers"
         }
         
         ApiFacade.getUserFollowingFollowers(self.userId, offset: offset, optionType: optionType, successCallback: onSuccessGetFollowingFollowers, failureCallback: onFailureGetFollowingFollowers)
-        
     }
     
     func clearlist() {
@@ -212,21 +185,18 @@ class FollowersFollowingViewController: UICollectionViewController {
     }
     
     func reloadList() {
-        
         clearlist()
         self.loadFollowingFollowers()
         self.loading = true
     }
     
-    func onSuccessGetFollowingFollowers(usersVM: [UserVMLite]) {
-        if (!usersVM.isEmpty) {
-            //let resultDto: [UserVMLite] = usersVM.object as! [UserVMLite]
-            self.followersFollowings.appendContentsOf(usersVM)
+    func onSuccessGetFollowingFollowers(users: [UserVMLite]) {
+        if (!users.isEmpty) {
+            self.followersFollowings.appendContentsOf(users)
             self.offset += 1
             self.collectionView?.reloadData()
         } else {
             self.loadedAll = true
-            
             if (self.followersFollowings.isEmpty) {
                 let userVM = UserVM()
                 userVM.id = -1
@@ -240,5 +210,4 @@ class FollowersFollowingViewController: UICollectionViewController {
     func onFailureGetFollowingFollowers(response: String) {
         NSLog("Error getting following followers")
     }
-    
 }

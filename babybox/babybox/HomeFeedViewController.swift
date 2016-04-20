@@ -378,7 +378,6 @@ class HomeFeedViewController: CustomNavigationController, UICollectionViewDataSo
     }
     
     func scrollHomeBanner() {
-        NSLog("Changing the page")
         if self.pageControl != nil {
             let indexPath = NSIndexPath(forRow: self.currentBannerPage!, inSection: 0)
             self.pageControl?.currentPage = self.currentBannerPage!
@@ -389,6 +388,5 @@ class HomeFeedViewController: CustomNavigationController, UICollectionViewDataSo
             }
         }
     }
-    
 }
 
