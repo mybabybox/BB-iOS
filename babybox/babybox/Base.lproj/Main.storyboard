@@ -589,16 +589,16 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="b1R-Mm-3qW">
-                                                    <rect key="frame" x="10" y="10" width="50" height="50"/>
+                                                    <rect key="frame" x="12" y="10" width="50" height="50"/>
                                                 </imageView>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kg9-Fj-GTr">
-                                                    <rect key="frame" x="10" y="10" width="50" height="50"/>
+                                                    <rect key="frame" x="12" y="10" width="50" height="50"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="50" id="8Q6-kx-atb"/>
                                                         <constraint firstAttribute="height" constant="50" id="fcL-4o-N9u"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <state key="normal" image="2B78BA5D-E783-47C4-86C7-777DD579BFD8">
+                                                    <state key="normal">
                                                         <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                         <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
@@ -607,7 +607,7 @@
                                                     </connections>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IhX-SZ-tHK">
-                                                    <rect key="frame" x="70" y="10" width="7" height="16"/>
+                                                    <rect key="frame" x="72" y="10" width="7" height="16"/>
                                                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -631,7 +631,7 @@
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <state key="normal" title="Follow">
-                                                        <color key="titleColor" red="1" green="0.23137254900000001" blue="0.65566465979999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="titleColor" red="0.98823529409999999" green="0.36078431370000003" blue="0.57647058819999997" alpha="1" colorSpace="calibratedRGB"/>
                                                     </state>
                                                     <connections>
                                                         <action selector="onClickFollowUnfollow:" destination="vWT-TA-JRt" eventType="touchUpInside" id="KIK-nE-5ga"/>
@@ -644,10 +644,10 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2FS-w4-aKr" userLabel="ProdImg1">
-                                                    <rect key="frame" x="10" y="67" width="60" height="60"/>
+                                                    <rect key="frame" x="12" y="67" width="60" height="60"/>
                                                 </imageView>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qzt-NO-U5q" userLabel="ProdBtn1">
-                                                    <rect key="frame" x="10" y="67" width="60" height="60"/>
+                                                    <rect key="frame" x="12" y="67" width="60" height="60"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="60" id="HAB-vc-Qok"/>
                                                         <constraint firstAttribute="height" constant="60" id="mwa-cD-Cdt"/>
@@ -662,10 +662,10 @@
                                                     </connections>
                                                 </button>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="sSh-FP-KRV" userLabel="ProdImg2">
-                                                    <rect key="frame" x="75" y="67" width="60" height="60"/>
+                                                    <rect key="frame" x="77" y="67" width="60" height="60"/>
                                                 </imageView>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="poA-d2-sFF" userLabel="Prodbtn2">
-                                                    <rect key="frame" x="75" y="67" width="60" height="60"/>
+                                                    <rect key="frame" x="77" y="67" width="60" height="60"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <state key="normal">
                                                         <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -676,10 +676,10 @@
                                                     </connections>
                                                 </button>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="htg-DW-egJ" userLabel="ProdImg3">
-                                                    <rect key="frame" x="140" y="67" width="60" height="60"/>
+                                                    <rect key="frame" x="142" y="67" width="60" height="60"/>
                                                 </imageView>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GPs-Bo-m9q" userLabel="ProdBtn3">
-                                                    <rect key="frame" x="140" y="67" width="60" height="60"/>
+                                                    <rect key="frame" x="142" y="67" width="60" height="60"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <state key="normal">
                                                         <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -690,10 +690,10 @@
                                                     </connections>
                                                 </button>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="s8u-5W-9bQ" userLabel="ProdImg4">
-                                                    <rect key="frame" x="205" y="67" width="60" height="60"/>
+                                                    <rect key="frame" x="207" y="67" width="60" height="60"/>
                                                 </imageView>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XLX-sH-4jW" userLabel="ProdBtn4">
-                                                    <rect key="frame" x="205" y="67" width="60" height="60"/>
+                                                    <rect key="frame" x="207" y="67" width="60" height="60"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <state key="normal">
                                                         <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -704,13 +704,11 @@
                                                     </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gJc-f1-Oub" userLabel="MoreText">
-                                                    <rect key="frame" x="205" y="67" width="60" height="60"/>
-                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                                    <rect key="frame" x="207" y="67" width="60" height="60"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                                     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <state key="normal">
-                                                        <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                                        <color key="titleShadowColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                        <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     </state>
                                                     <connections>
                                                         <action selector="onClickMoreProducs:" destination="vWT-TA-JRt" eventType="touchUpInside" id="jgd-a9-v6N"/>
@@ -733,7 +731,7 @@
                                             <constraint firstItem="sSh-FP-KRV" firstAttribute="top" secondItem="poA-d2-sFF" secondAttribute="top" id="6Qx-5S-KBw"/>
                                             <constraint firstItem="GPs-Bo-m9q" firstAttribute="height" secondItem="poA-d2-sFF" secondAttribute="height" id="6fe-JK-LX4"/>
                                             <constraint firstItem="qzt-NO-U5q" firstAttribute="firstBaseline" secondItem="GPs-Bo-m9q" secondAttribute="firstBaseline" id="733-MO-BVA"/>
-                                            <constraint firstItem="qzt-NO-U5q" firstAttribute="leading" secondItem="zGl-Ie-hkI" secondAttribute="leading" constant="10" id="7m5-tK-pg5"/>
+                                            <constraint firstItem="qzt-NO-U5q" firstAttribute="leading" secondItem="zGl-Ie-hkI" secondAttribute="leading" constant="12" id="7m5-tK-pg5"/>
                                             <constraint firstItem="qzt-NO-U5q" firstAttribute="baseline" secondItem="poA-d2-sFF" secondAttribute="baseline" id="8Ur-Qo-2pl"/>
                                             <constraint firstItem="sSh-FP-KRV" firstAttribute="bottom" secondItem="poA-d2-sFF" secondAttribute="bottom" id="93t-uX-fRU"/>
                                             <constraint firstItem="2FS-w4-aKr" firstAttribute="bottom" secondItem="qzt-NO-U5q" secondAttribute="bottom" id="DMZ-PO-27k"/>
@@ -780,7 +778,7 @@
                                             <constraint firstItem="yYJ-va-BJl" firstAttribute="top" secondItem="zGl-Ie-hkI" secondAttribute="topMargin" constant="20" id="o6y-XD-ihJ"/>
                                             <constraint firstItem="MkX-dj-ehv" firstAttribute="top" secondItem="8pG-VA-2cY" secondAttribute="bottom" constant="2" id="ono-3E-0yi"/>
                                             <constraint firstItem="kg9-Fj-GTr" firstAttribute="bottom" secondItem="b1R-Mm-3qW" secondAttribute="bottom" id="pG0-T5-iNH"/>
-                                            <constraint firstItem="kg9-Fj-GTr" firstAttribute="leading" secondItem="zGl-Ie-hkI" secondAttribute="leading" constant="10" id="pYE-a1-hPI"/>
+                                            <constraint firstItem="kg9-Fj-GTr" firstAttribute="leading" secondItem="zGl-Ie-hkI" secondAttribute="leading" constant="12" id="pYE-a1-hPI"/>
                                             <constraint firstItem="htg-DW-egJ" firstAttribute="top" secondItem="GPs-Bo-m9q" secondAttribute="top" id="qyy-90-rde"/>
                                             <constraint firstAttribute="trailingMargin" secondItem="MkX-dj-ehv" secondAttribute="trailing" constant="10" id="rb4-Es-yAA"/>
                                             <constraint firstItem="sSh-FP-KRV" firstAttribute="leading" secondItem="poA-d2-sFF" secondAttribute="leading" id="rj7-fh-QsU"/>
@@ -7524,7 +7522,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="2B78BA5D-E783-47C4-86C7-777DD579BFD8" width="375" height="638"/>
         <image name="actionbar_bg_pink" width="10" height="72"/>
         <image name="arrow_next" width="32" height="32"/>
         <image name="browse" width="70" height="64"/>
