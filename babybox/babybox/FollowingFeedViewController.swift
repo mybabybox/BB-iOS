@@ -13,8 +13,6 @@ import Kingfisher
 class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
     
     @IBOutlet weak var uiCollectionView: UICollectionView!
-    @IBOutlet weak var topSpaceConstraint: NSLayoutConstraint!
-    @IBOutlet weak var followingTips: UIView!
     @IBOutlet weak var activityLoading: UIActivityIndicatorView!
     
     var feedLoader: FeedLoader? = nil
@@ -59,14 +57,6 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
         
         feedViewAdapter = FeedViewAdapter(collectionView: uiCollectionView)
         
-        if (!SharedPreferencesUtil.getInstance().isScreenViewed(SharedPreferencesUtil.Screen.HOME_FOLLOWING_TIPS)) {
-            self.followingTips.hidden = false
-            SharedPreferencesUtil.getInstance().setScreenViewed(SharedPreferencesUtil.Screen.HOME_FOLLOWING_TIPS)
-        } else {
-            self.followingTips.hidden = true
-            self.topSpaceConstraint.constant = 5
-        }
-        
         setCollectionViewSizesInsets()
         
         self.uiCollectionView.collectionViewLayout = FeedViewAdapter.getFeedViewFlowLayout(self)
@@ -78,11 +68,6 @@ class FollowingFeedViewController: UIViewController, UIScrollViewDelegate {
             self!.feedLoader?.reloadFeedItems()
         })
         
-    }
-    
-    @IBAction func onCloseTips(sender: AnyObject) {
-        self.followingTips.hidden = true
-        self.topSpaceConstraint.constant = 5
     }
     
     override func didReceiveMemoryWarning() {

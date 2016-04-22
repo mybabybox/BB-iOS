@@ -13,8 +13,6 @@ import Kingfisher
 
 class HomeFeedViewController: CustomNavigationController, UICollectionViewDataSource, UICollectionViewDelegate {
     
-    @IBOutlet weak var topSpaceConstraint: NSLayoutConstraint!
-    @IBOutlet weak var exploreTip: UIView!
     @IBOutlet weak var uiCollectionView: UICollectionView!
     @IBOutlet weak var activityLoading: UIActivityIndicatorView!
     
@@ -93,14 +91,6 @@ class HomeFeedViewController: CustomNavigationController, UICollectionViewDataSo
         
         feedViewAdapter = FeedViewAdapter(collectionView: uiCollectionView)
         
-        if (!SharedPreferencesUtil.getInstance().isScreenViewed(SharedPreferencesUtil.Screen.HOME_EXPLORE_TIPS)) {
-            self.exploreTip.hidden = false
-            SharedPreferencesUtil.getInstance().setScreenViewed(SharedPreferencesUtil.Screen.HOME_EXPLORE_TIPS)
-        } else {
-            self.exploreTip.hidden = true
-            self.topSpaceConstraint.constant = 5
-        }
-        
         setCollectionViewSizesInsets()
         setCollectionViewSizesInsetsForTopView()
         
@@ -117,11 +107,6 @@ class HomeFeedViewController: CustomNavigationController, UICollectionViewDataSo
             })
         
         ApiFacade.getHomeSliderFeaturedItems(onSuccessGetHomeFeaturedItems, failureCallback: onFailureGetHomeFeaturedItems)
-    }
-    
-    @IBAction func onClicTipClose(sender: AnyObject) {
-        self.exploreTip.hidden = true
-        self.topSpaceConstraint.constant = 5
     }
     
     override func didReceiveMemoryWarning() {
