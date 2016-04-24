@@ -101,7 +101,7 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
         
         SwiftEventBus.onMainThread(self, name: "newProductFailed") { result in
             ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
-            self.view.makeToast(message: NSLocalizedString("error_listing_prod", comment: ""), duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
+            ViewUtil.makeToast(NSLocalizedString("error_listing_prod", comment: ""), view: self.view)
         }
         
         initCategoryOptions()
@@ -319,22 +319,22 @@ class NewProductViewController: UIViewController, UITextFieldDelegate, UITextVie
         }
                 
         if !isImageUploaded {
-            self.view.makeToast(message: NSLocalizedString("upload_photo", comment: ""), duration: ViewUtil.SHOW_TOAST_DURATION_LONG, position: ViewUtil.DEFAULT_TOAST_POSITION)
+            ViewUtil.makeToast(NSLocalizedString("upload_photo", comment: ""), view: self.view)
             valid = false
         } else if StringUtil.trim(self.sellingtext.text).isEmpty {
-            self.view.makeToast(message: NSLocalizedString("fill_title", comment: ""), duration: ViewUtil.SHOW_TOAST_DURATION_LONG, position: ViewUtil.DEFAULT_TOAST_POSITION)
+            ViewUtil.makeToast(NSLocalizedString("fill_title", comment: ""), view: self.view)
             valid = false
         } else if StringUtil.trim(self.prodDescription.text).isEmpty {
-            self.view.makeToast(message: NSLocalizedString("fill_desc", comment: ""), duration: ViewUtil.SHOW_TOAST_DURATION_LONG, position: ViewUtil.DEFAULT_TOAST_POSITION)
+            ViewUtil.makeToast(NSLocalizedString("fill_desc", comment: ""), view: self.view)
             valid = false
         } else if StringUtil.trim(self.pricetxt.text).isEmpty {
-            self.view.makeToast(message: NSLocalizedString("fill_price", comment: ""), duration: ViewUtil.SHOW_TOAST_DURATION_LONG, position: ViewUtil.DEFAULT_TOAST_POSITION)
+            ViewUtil.makeToast(NSLocalizedString("fill_price", comment: ""), view: self.view)
             valid = false
         } else if !ViewUtil.isDropDownSelected(self.conditionTypeDropDown) {
-            self.view.makeToast(message: NSLocalizedString("fill_condition", comment: ""), duration: ViewUtil.SHOW_TOAST_DURATION_LONG, position: ViewUtil.DEFAULT_TOAST_POSITION)
+            ViewUtil.makeToast(NSLocalizedString("fill_condition", comment: ""), view: self.view)
             valid = false
         } else if !ViewUtil.isDropDownSelected(self.categoryOptions) {
-            self.view.makeToast(message: NSLocalizedString("fill_category", comment: ""), duration: ViewUtil.SHOW_TOAST_DURATION_LONG, position: ViewUtil.DEFAULT_TOAST_POSITION)
+            ViewUtil.makeToast(NSLocalizedString("fill_category", comment: ""), view: self.view)
             valid = false
         }
         return valid

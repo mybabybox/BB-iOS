@@ -244,7 +244,7 @@ class MoreCommentsViewController: UIViewController, UITextFieldDelegate, UIScrol
             self.commentsTableView.contentInset =  UIEdgeInsetsZero
             ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
             self.commentsTableView.reloadData()
-            self.view.makeToast(message: NSLocalizedString("delete_confirm_msg", comment: ""), duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
+            ViewUtil.makeToast(NSLocalizedString("delete_confirm_msg", comment: ""), view: self.view)
         } else {
             ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
         }

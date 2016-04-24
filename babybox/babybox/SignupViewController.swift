@@ -62,22 +62,22 @@ class SignupViewController: BaseLoginViewController {
         let tupleFirstName = ValidationUtil.isValidUserName(StringUtil.trim(self.firstNameText.text))
         let tupleLastName = ValidationUtil.isValidUserName(StringUtil.trim(self.lastNameText.text))
         if !tupleFirstName.0 {
-            self.view.makeToast(message: tupleFirstName.1!, duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
+            ViewUtil.makeToast(tupleFirstName.1!, view: self.view)
             valid = false
         } else if tupleLastName.0 {
-            self.view.makeToast(message: tupleLastName.1!, duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
+            ViewUtil.makeToast(tupleLastName.1!, view: self.view)
             valid = false
         } else if StringUtil.trim(self.emailText.text).isEmpty {
-            self.view.makeToast(message: NSLocalizedString("fill_email", comment: ""), duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
+            ViewUtil.makeToast(NSLocalizedString("fill_email", comment: ""), view: self.view)
             valid = false
         }else if StringUtil.trim(self.passwordText.text).isEmpty {
-            self.view.makeToast(message: NSLocalizedString("fill_password", comment: ""), duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
+            ViewUtil.makeToast(NSLocalizedString("fill_password", comment: ""), view: self.view)
             valid = false
         } else if StringUtil.trim(self.confirmPasswordText.text).isEmpty {
-            self.view.makeToast(message: NSLocalizedString("fill_confirm_password", comment: ""), duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
+            ViewUtil.makeToast(NSLocalizedString("fill_confirm_password", comment: ""), view: self.view)
             valid = false
         } else if self.confirmPasswordText.text != self.passwordText.text {
-            self.view.makeToast(message: NSLocalizedString("fill_confirm_password", comment: ""), duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
+            ViewUtil.makeToast(NSLocalizedString("fill_confirm_password", comment: ""), view: self.view)
             valid = false
         }
         return valid

@@ -27,7 +27,7 @@ class NotificationSettingsViewController: UIViewController {
         
         SwiftEventBus.onMainThread(self, name: "editNotificationSettingsFailed") { result in
             SwiftEventBus.unregister(self)
-            self.view.makeToast(message: NSLocalizedString("notification_failed_msg", comment: ""))
+            ViewUtil.makeToast(NSLocalizedString("notification_failed_msg", comment: ""), view: self.view)
         }
     }
     

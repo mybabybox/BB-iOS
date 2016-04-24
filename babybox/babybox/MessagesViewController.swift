@@ -176,7 +176,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
     
     @IBAction func sendButtonClicked(sender: AnyObject) {
         if self.uploadImgSrc.image == nil && StringUtil.trim(self.textField.text).isEmpty {
-            //self.view.makeToast(message: "Please enter a message")
+            //ViewUtil.makeToast("Please enter a message", view: self.view)
             return
         }
         newMessage(StringUtil.trim(textField.text), image: self.uploadImgSrc.image)
@@ -620,7 +620,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
     func doBuyerOrder(conversation: ConversationVM, offeredPrice: Double) {
         let order = conversation.order
         if order != nil && !order!.closed {
-            self.view.makeToast(message: NSLocalizedString("pm_order_already", comment: ""), duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
+            ViewUtil.makeToast(NSLocalizedString("pm_order_already", comment: ""), view: self.view)
             return;
         }
         
@@ -638,7 +638,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
     func doBuyerCancel(conversation: ConversationVM) {
         let order = conversation.order
         if order != nil && order!.closed {
-            self.view.makeToast(message: NSLocalizedString("pm_order_already_closed", comment: ""), duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
+            ViewUtil.makeToast(NSLocalizedString("pm_order_already_closed", comment: ""), view: self.view)
             return
         }
         
@@ -659,7 +659,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
     }
     
     func onFailureConversationOrder(response: String) {
-        self.view.makeToast(message: NSLocalizedString("pm_order_failed", comment: ""), duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
+        ViewUtil.makeToast(NSLocalizedString("pm_order_failed", comment: ""), view: self.view)
         pendingOrder = false
         ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
     }
@@ -675,13 +675,13 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
     func onFailureCancelConversationOrder(response: String) {
         pendingOrder = false
         ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
-        self.view.makeToast(message: NSLocalizedString("pm_order_failed", comment: ""), duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
+        ViewUtil.makeToast(NSLocalizedString("pm_order_failed", comment: ""), view: self.view)
     }
     
     func doSellerAccept(conversation: ConversationVM) {
         let order = conversation.order
         if order != nil && order!.closed {
-            self.view.makeToast(message: NSLocalizedString("pm_order_already_closed", comment: ""), duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
+            ViewUtil.makeToast(NSLocalizedString("pm_order_already_closed", comment: ""), view: self.view)
             return
         }
     
@@ -697,7 +697,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
     func doSellerDecline(conversation: ConversationVM) {
         let order = conversation.order
         if order != nil && order!.closed {
-            self.view.makeToast(message: NSLocalizedString("pm_order_already_closed", comment: ""), duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
+            ViewUtil.makeToast(NSLocalizedString("pm_order_already_closed", comment: ""), view: self.view)
             return
         }
         

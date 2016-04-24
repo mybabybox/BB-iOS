@@ -462,7 +462,7 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
         let cancelAction = UIAlertAction(title: NSLocalizedString("cancel", comment: ""), style: UIAlertActionStyle.Default, handler: nil)
         let confirmAction = UIAlertAction(title: NSLocalizedString("confirm", comment: ""), style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction!) in
             ApiController.instance.soldPost(self.feedItem.id)
-            //self.view.makeToast(message: "Confirm Sold")
+            //ViewUtil.makeToast("Confirm Sold", view: self.view)
         })
     
         _messageDialog.addAction(cancelAction)
@@ -539,7 +539,7 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
     func onClickCopyLinkBtn(sender: AnyObject?) {
         //copy url to cliboard
         ViewUtil.copyToClipboard(UrlUtil.createProductUrl(self.productInfo!))
-        self.view.makeToast(message: NSLocalizedString("link_copy", comment: ""), duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
+        ViewUtil.makeToast(NSLocalizedString("link_copy", comment: ""), view: self.view)
     }
     
     func onClickFacebookLinkBtn(sender: AnyObject?) {

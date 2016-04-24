@@ -84,7 +84,7 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         }
         
         SwiftEventBus.onMainThread(self, name: "editProductFailed") { result in
-            self.view.makeToast(message: "Error when editing product", duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
+            ViewUtil.makeToast("Error when editing product", view: self.view)
         }
         
         SwiftEventBus.onMainThread(self, name: "deletePostSuccess") { result in
@@ -104,7 +104,7 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         
         SwiftEventBus.onMainThread(self, name: "deletePostFailure") { result in
             ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
-            self.view.makeToast(message: "Error when deleting product")
+            ViewUtil.makeToast("Error when deleting product", view: self.view)
         }
         
         self.conditionTypeDropDown.anchorView = conditionDropDown
@@ -230,19 +230,19 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     func isValid() -> Bool {
         var valid = true
         if StringUtil.trim(self.postTitle.text).isEmpty {
-            self.view.makeToast(message: "Please fill title", duration: ViewUtil.SHOW_TOAST_DURATION_LONG, position: ViewUtil.DEFAULT_TOAST_POSITION)
+            ViewUtil.makeToast("Please fill title", view: self.view)
             valid = false
         } else if StringUtil.trim(self.prodDescription.text).isEmpty {
-            self.view.makeToast(message: "Please fill description", duration: ViewUtil.SHOW_TOAST_DURATION_LONG, position: ViewUtil.DEFAULT_TOAST_POSITION)
+            ViewUtil.makeToast("Please fill description", view: self.view)
             valid = false
         } else if StringUtil.trim(self.pricetxt.text).isEmpty {
-            self.view.makeToast(message: "Please enter a price", duration: ViewUtil.SHOW_TOAST_DURATION_LONG, position: ViewUtil.DEFAULT_TOAST_POSITION)
+            ViewUtil.makeToast("Please enter a price", view: self.view)
             valid = false
         } else if StringUtil.trim(self.conditionDropDown.titleLabel?.text).isEmpty {
-            self.view.makeToast(message: "Please select condition type", duration: ViewUtil.SHOW_TOAST_DURATION_LONG, position: ViewUtil.DEFAULT_TOAST_POSITION)
+            ViewUtil.makeToast("Please select condition type", view: self.view)
             valid = false
         } else if StringUtil.trim(self.categoryDropDown.titleLabel?.text).isEmpty {
-            self.view.makeToast(message: "Please select category", duration: ViewUtil.SHOW_TOAST_DURATION_LONG, position: ViewUtil.DEFAULT_TOAST_POSITION)
+            ViewUtil.makeToast("Please select category", view: self.view)
             valid = false
         }
         return valid
@@ -277,7 +277,7 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     }
     
     func onFailureGetPost(error: String) -> Void {
-        self.view.makeToast(message: "Error getting Product.")
+        ViewUtil.makeToast("Error getting Product.", view: self.view)
         ViewUtil.hideActivityLoading(self.activityLoading)
     }
     

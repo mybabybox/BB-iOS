@@ -296,7 +296,7 @@ class UserActivityViewController: CustomNavigationController {
     }
     
     func onFailureGetActivities(response: String) {
-        self.view.makeToast(message: "Error getting User activities data.")
+        ViewUtil.makeToast("Error getting User activities data.", view: self.view)
     }
     
 }

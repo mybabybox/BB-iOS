@@ -91,13 +91,13 @@ class SignupDetailViewController: BaseLoginViewController, UITextFieldDelegate, 
         var valid = true
         let tupleDisplayName = ValidationUtil.isValidDisplayName(StringUtil.trim(self.displayName.text))
         if StringUtil.trim(self.displayName.text).isEmpty {
-            self.view.makeToast(message: NSLocalizedString("enter_displayname", comment: ""), duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
+            ViewUtil.makeToast(NSLocalizedString("enter_displayname", comment: ""), view: self.view)
             valid = false
         } else if !tupleDisplayName.0 {
-            self.view.makeToast(message: tupleDisplayName.1!, duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
+            ViewUtil.makeToast(tupleDisplayName.1!, view: self.view)
             valid = false
         } else if !ViewUtil.isDropDownSelected(self.locationDropDown) {
-            self.view.makeToast(message: NSLocalizedString("enter_location", comment: ""), duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
+            ViewUtil.makeToast(NSLocalizedString("enter_location", comment: ""), view: self.view)
             valid = false
         }
         return valid

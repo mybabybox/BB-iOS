@@ -218,7 +218,7 @@ class ProductChatViewController: UIViewController {
         }
         deleteCellIndex = nil
         self.conversationTableView.reloadData()
-        self.view.makeToast(message: NSLocalizedString("confirm_delete_conversation", comment: ""))
+        ViewUtil.makeToast(NSLocalizedString("confirm_delete_conversation", comment: ""), view: self.view)
     }
     
     func renderPostView() {

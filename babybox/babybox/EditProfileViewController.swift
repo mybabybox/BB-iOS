@@ -53,7 +53,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, UITextVi
         
         SwiftEventBus.onMainThread(self, name: "onEditInfoFailed") { result in
             ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
-            self.view.makeToast(message: "Error updating user info", duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
+            ViewUtil.makeToast("Error updating user info", view: self.view)
         }
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name:UIKeyboardWillShowNotification, object: nil)
@@ -155,7 +155,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, UITextVi
     func isValid() -> Bool {
         var valid = true
         if StringUtil.trim(self.location.titleLabel?.text).isEmpty {
-            self.view.makeToast(message: "Please select location", duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
+            ViewUtil.makeToast("Please select location", view: self.view)
             valid = false
         }
         return valid

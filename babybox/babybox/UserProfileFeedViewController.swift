@@ -46,7 +46,7 @@ class UserProfileFeedViewController: BaseProfileFeedViewController, UINavigation
     }
     
     func onFailureGetUser(error: String) {
-        self.view.makeToast(message: error)
+        ViewUtil.makeToast(error, view: self.view)
     }
 
     override func viewWillAppear(animated: Bool) {

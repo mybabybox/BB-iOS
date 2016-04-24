@@ -35,13 +35,13 @@ class MyProfileFeedViewController: BaseProfileFeedViewController, UIImagePickerC
     
     override func registerMoreEvents() {
         SwiftEventBus.onMainThread(self, name: "profileImgUploadSuccess") { result in
-            self.view.makeToast(message: "Profile image uploaded successfully!")
+            ViewUtil.makeToast("Profile image uploaded successfully!", view: self.view)
             self.activeHeaderViewCell!.userImg.image = self.uploadedImage
             //ImageUtil.displayThumbnailProfileImage(self.userInfo!.id, imageView: self.activeHeaderViewCell!.userImg)
         }
         
         SwiftEventBus.onMainThread(self, name: "profileImgUploadFailed") { result in
-            self.view.makeToast(message: "Error uploading profile image!")
+            ViewUtil.makeToast("Error uploading profile image!", view: self.view)
             self.uploadedImage = nil
         }
     }

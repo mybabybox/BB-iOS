@@ -31,7 +31,7 @@ class RecommendedSellerViewController: UIViewController {
         }
         
         SwiftEventBus.onMainThread(self, name: "recommendedSellerFailed") { result in
-            self.view.makeToast(message: "Error getting Recommended Seller!")
+            ViewUtil.makeToast("Error getting Recommended Seller!", view: self.view)
         }
         
         ViewUtil.showActivityLoading(self.activityLoading)

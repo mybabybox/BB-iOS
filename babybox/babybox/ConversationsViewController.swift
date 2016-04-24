@@ -239,6 +239,6 @@ class ConversationsViewController: UIViewController {
         deleteCellIndex = nil
         self.conversationTableView.reloadData()
         //self.collectionView.reloadData()
-        self.view.makeToast(message: "Conversation Deleted Successfully!")
+        ViewUtil.makeToast("Conversation Deleted Successfully!", view: self.view)
     }
 }
