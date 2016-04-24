@@ -59,11 +59,13 @@ class SignupViewController: BaseLoginViewController {
     
     func isValid() -> Bool {
         var valid = true
-        if StringUtil.trim(self.firstNameText.text).isEmpty {
-            self.view.makeToast(message: NSLocalizedString("fill_first_name", comment: ""), duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
+        let tupleFirstName = ValidationUtil.isValidUserName(StringUtil.trim(self.firstNameText.text))
+        let tupleLastName = ValidationUtil.isValidUserName(StringUtil.trim(self.lastNameText.text))
+        if !tupleFirstName.0 {
+            self.view.makeToast(message: tupleFirstName.1!, duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
             valid = false
-        } else if StringUtil.trim(self.lastNameText.text).isEmpty {
-            self.view.makeToast(message: NSLocalizedString("fill_last_name", comment: ""), duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
+        } else if tupleLastName.0 {
+            self.view.makeToast(message: tupleLastName.1!, duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)
             valid = false
         } else if StringUtil.trim(self.emailText.text).isEmpty {
             self.view.makeToast(message: NSLocalizedString("fill_email", comment: ""), duration: ViewUtil.SHOW_TOAST_DURATION_SHORT, position: ViewUtil.DEFAULT_TOAST_POSITION)

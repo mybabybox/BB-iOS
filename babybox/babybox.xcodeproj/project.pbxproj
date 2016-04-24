@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		04010CBA1CA044DB00CBD3A5 /* SharingUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04010CB91CA044DB00CBD3A5 /* SharingUtil.swift */; };
+		0406CB691CCCDFF500EB9551 /* ValidationUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0406CB681CCCDFF500EB9551 /* ValidationUtil.swift */; };
 		0408F9D81C1362AA00CC8803 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0408F9D71C1362AA00CC8803 /* AppDelegate.swift */; };
 		0408F9DA1C1362AA00CC8803 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0408F9D91C1362AA00CC8803 /* LoginViewController.swift */; };
 		0408F9DF1C1362AA00CC8803 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0408F9DE1C1362AA00CC8803 /* Images.xcassets */; };
@@ -153,6 +154,8 @@
 
 /* Begin PBXFileReference section */
 		04010CB91CA044DB00CBD3A5 /* SharingUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharingUtil.swift; sourceTree = "<group>"; };
+		0406CB681CCCDFF500EB9551 /* ValidationUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidationUtil.swift; sourceTree = "<group>"; };
+		0406CB6B1CCD1A6700EB9551 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		0408F9D21C1362AA00CC8803 /* BabyBox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BabyBox.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0408F9D61C1362AA00CC8803 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0408F9D71C1362AA00CC8803 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -178,7 +181,6 @@
 		0408FA461C13699900CC8803 /* UserVM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserVM.swift; sourceTree = "<group>"; };
 		0408FA581C13FB3C00CC8803 /* WelcomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		0418C2F01CC0CE7E00712F9B /* FeaturedItemVM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedItemVM.swift; sourceTree = "<group>"; };
-		0418C2F51CC3AD5A00712F9B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		0418C2F61CC3AD7B00712F9B /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Main.strings"; sourceTree = "<group>"; };
 		0418C2F81CC3B0F100712F9B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		0418C2FA1CC3B10100712F9B /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
@@ -326,9 +328,9 @@
 			children = (
 				0408F9D41C1362AA00CC8803 /* babybox */,
 				0408F9EA1C1362AA00CC8803 /* babyboxTests */,
-				0408F9D31C1362AA00CC8803 /* Products */,
-				2B6A0A6388BBC35AE5F1A3F2 /* Pods */,
 				34FE2032942976E730A334CC /* Frameworks */,
+				2B6A0A6388BBC35AE5F1A3F2 /* Pods */,
+				0408F9D31C1362AA00CC8803 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
@@ -535,6 +537,7 @@
 				0449B00E1C64CDE60077049C /* ImageUtil.swift */,
 				04691A021C4E4A4600A3EC56 /* SharedPreferencesUtil.swift */,
 				0431232B1C7F3540007EAC4D /* StringUtil.swift */,
+				0406CB681CCCDFF500EB9551 /* ValidationUtil.swift */,
 				0431232C1C7F3540007EAC4D /* UrlUtil.swift */,
 				0449B0101C65B78D0077049C /* ViewUtil.swift */,
 			);
@@ -949,6 +952,7 @@
 				046905801C816DE000BDFFB9 /* ENMBadgedBarButtonItem.swift in Sources */,
 				0408FA1C1C13633B00CC8803 /* CategoryCollectionViewCell.swift in Sources */,
 				0408FA0F1C13632300CC8803 /* FollowingFeedViewController.swift in Sources */,
+				0406CB691CCCDFF500EB9551 /* ValidationUtil.swift in Sources */,
 				0459BB241C755C8C0096A330 /* NSDateExtension.swift in Sources */,
 				8438AF9B1CB03B610082D755 /* EditUserInfoVM.swift in Sources */,
 				04E1AA0E1C4A52B00052FEED /* DropDownCell.swift in Sources */,
@@ -978,8 +982,8 @@
 			isa = PBXVariantGroup;
 			children = (
 				0408F9DC1C1362AA00CC8803 /* Base */,
-				0418C2F51CC3AD5A00712F9B /* en */,
 				0418C2F61CC3AD7B00712F9B /* zh-Hant */,
+				0406CB6B1CCD1A6700EB9551 /* en */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
