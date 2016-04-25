@@ -27,7 +27,7 @@ class FeedViewAdapter {
         cell.title.text = feedItem.title
         
         // load image
-        if (feedItem.hasImage) {
+        if feedItem.hasImage {
             ImageUtil.displayPostImage(feedItem.images[0], imageView: cell.prodImageView)
         }
         
@@ -35,17 +35,17 @@ class FeedViewAdapter {
         cell.soldImage.hidden = !feedItem.sold
         
         // like count
-        cell.likeCountIns.titleLabel?.minimumScaleFactor = 0.01
-        cell.likeCountIns.titleLabel?.adjustsFontSizeToFitWidth = true
-        cell.likeCountIns.titleLabel?.lineBreakMode = NSLineBreakMode.ByClipping
-        cell.likeCountIns.titleLabel?.font = UIFont.systemFontOfSize(14, weight: UIFontWeightLight)
-        cell.likeCountIns.setTitle(String(feedItem.numLikes), forState: UIControlState.Normal)
-        cell.likeCountIns.sizeToFit()
+        cell.likeCount.minimumScaleFactor = 0.01
+        cell.likeCount.adjustsFontSizeToFitWidth = true
+        cell.likeCount.lineBreakMode = NSLineBreakMode.ByClipping
+        cell.likeCount.font = UIFont.systemFontOfSize(14, weight: UIFontWeightLight)
+        cell.likeCount.text = String(feedItem.numLikes)
+        cell.likeCount.sizeToFit()
 
         // liked?
         cell.likeImageIns.tag = index
         //cell.likeImageIns.addTarget(self, action: "onLikeBtnClick:", forControlEvents: UIControlEvents.TouchUpInside)
-        if (!feedItem.isLiked) {
+        if !feedItem.isLiked {
             cell.likeImageIns.setImage(UIImage(named: "ic_like_tips.png"), forState: UIControlState.Normal)
         } else {
             cell.likeImageIns.setImage(UIImage(named: "ic_liked_tips.png"), forState: UIControlState.Normal)
@@ -54,7 +54,7 @@ class FeedViewAdapter {
         // price
         cell.productPrice.font = UIFont.systemFontOfSize(14)
         cell.productPrice.text = "\(Constants.CURRENCY_SYMBOL)\(String(stringInterpolationSegment: Int(feedItem.price)))"
-        if (feedItem.originalPrice != 0 && feedItem.originalPrice != -1 && feedItem.originalPrice != Int(feedItem.price)) {
+        if feedItem.originalPrice != 0 && feedItem.originalPrice != -1 && feedItem.originalPrice != Int(feedItem.price) {
             let attrString = NSAttributedString(string: "\(Constants.CURRENCY_SYMBOL)\(String(stringInterpolationSegment:Int(feedItem.originalPrice)))", attributes: [NSStrikethroughStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue])
             cell.originalPrice.attributedText = attrString
         } else {
@@ -65,9 +65,10 @@ class FeedViewAdapter {
         cell.layer.borderWidth = 0.5
 
         // Owner
-        if (showOwner && cell.userCircleImg != nil) {
+        if showOwner && cell.userCircleImg != nil {
             cell.userCircleImg.layer.borderColor = Color.WHITE.CGColor
-            cell.userCircleImg.layer.borderWidth = CGFloat(1.0)
+            cell.userCircleImg.layer.borderWidth = CGFloat(2.0)
+            cell.userCircleImg.alpha = 0.70
             ImageUtil.displayThumbnailProfileImage(feedItem.ownerId, imageView: cell.userCircleImg)
         }
         
@@ -76,17 +77,17 @@ class FeedViewAdapter {
     }
 
     func onLikeBtnClick(cell: FeedProductCollectionViewCell, feedItem: PostVMLite) {
-        if (feedItem.isLiked) {
+        if feedItem.isLiked {
             feedItem.isLiked = false
             feedItem.numLikes -= 1
-            cell.likeCountIns.setTitle(String(feedItem.numLikes), forState: UIControlState.Normal)
             cell.likeImageIns.setImage(UIImage(named: "ic_like_tips.png"), forState: UIControlState.Normal)
+            cell.likeCount.text = String(feedItem.numLikes)
             ApiController.instance.unlikePost(feedItem.id)
         } else {
             feedItem.isLiked = true
             feedItem.numLikes += 1
-            cell.likeCountIns.setTitle(String(feedItem.numLikes), forState: UIControlState.Normal)
             cell.likeImageIns.setImage(UIImage(named: "ic_liked_tips.png"), forState: UIControlState.Normal)
+            cell.likeCount.text = String(feedItem.numLikes)
             ApiController.instance.likePost(feedItem.id)
         }
     }
