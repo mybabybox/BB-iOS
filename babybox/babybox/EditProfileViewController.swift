@@ -153,12 +153,43 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, UITextVi
     }
     
     func isValid() -> Bool {
-        var valid = true
-        if StringUtil.trim(self.location.titleLabel?.text).isEmpty {
-            ViewUtil.makeToast("Please select location", view: self.view)
-            valid = false
+        
+        /*
+        // Email not editable for now... 
+        let validEmail = ValidationUtil.isValidEmail(StringUtil.trim(self.email.text))
+        if !validEmail.0 {
+            ViewUtil.makeToast(validEmail.1!, view: self.view)
+            return false
         }
-        return valid
+        */
+        
+        let validFirstName = ValidationUtil.isValidUserName(StringUtil.trim(self.firstName.text))
+        if !validFirstName.0 {
+            ViewUtil.makeToast(validFirstName.1!, view: self.view)
+            return false
+        }
+        
+        let validLastName = ValidationUtil.isValidUserName(StringUtil.trim(self.lastName.text))
+        if !validLastName.0 {
+            ViewUtil.makeToast(validLastName.1!, view: self.view)
+            return false
+        }
+
+        let validDisplayName = ValidationUtil.isValidDisplayName(StringUtil.trim(self.displayName.text))
+        if !validDisplayName.0 {
+            ViewUtil.makeToast(validDisplayName.1!, view: self.view)
+            return false
+        }
+        
+        /*
+        // No need to validate location as it must be filled out during signup
+        if !ViewUtil.isDropDownSelected(self.locationDropDown) {
+            ViewUtil.makeToast(NSLocalizedString("enter_location", comment: ""), view: self.view)
+            return false
+        }
+        */
+
+        return true
     }
     
     func keyboardWillHide(notification: NSNotification) {

@@ -21,19 +21,18 @@ class ValidationUtil {
     
     static let ERROR_EMAIL_REQUIRED = "Email is required"
     static let ERROR_EMAIL_FORMAT = "Email format is not correct"
-    static let ERROR_USER_DISPLAYNAME_REQUIRED = "Username is required"
+    static let ERROR_USER_DISPLAYNAME_REQUIRED = NSLocalizedString("enter_displayname", comment: "")
     static let ERROR_USER_DISPLAYNAME_FORMAT = "Username may contain only letters(a-z), numbers(0-9), underscore(_), periods(.) and may not end with a period(.)"
     static let ERROR_USER_DISPLAYNAME_MIN_MAX_CHAR = "Username may be at least 2 characters and at most 30 characters"
     static let ERROR_USER_DISPLAYNAME_NO_SPACE = "Username may not contain space"
     static let ERROR_USER_DISPLAYNAME_PERIODS = "Username may not have 2 periods (.) in a row"
     static let ERROR_USER_NAME_MIN_MAX_CHAR = "Firstname and lastname may be at most 20 characters"
     
-    static func isEmailValid(text: String?) -> (Bool, String?) {
-        if text == nil {
+    static func isValidEmail(text: String?) -> (Bool, String?) {
+        let text = StringUtil.trim(text!)
+        if text.isEmpty {
             return (false, ERROR_EMAIL_REQUIRED)
         }
-        
-        let text = StringUtil.trim(text!)
         
         // whitespace
         if StringUtil.hasWhitespace(text) {
@@ -44,11 +43,10 @@ class ValidationUtil {
     }
     
     static func isValidDisplayName(text: String?) -> (Bool, String?) {
-        if text == nil {
+        let text = StringUtil.trim(text!)
+        if text.isEmpty {
             return (false, ERROR_USER_DISPLAYNAME_REQUIRED)
         }
-        
-        let text = StringUtil.trim(text!)
         
         // char 2-30
         if text.characters.count < USER_DISPLAYNAME_MIN_CHAR || text.characters.count > USER_DISPLAYNAME_MAX_CHAR {
