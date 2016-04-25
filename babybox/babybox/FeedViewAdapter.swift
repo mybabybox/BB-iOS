@@ -68,7 +68,7 @@ class FeedViewAdapter {
         if showOwner && cell.userCircleImg != nil {
             cell.userCircleImg.layer.borderColor = Color.WHITE.CGColor
             cell.userCircleImg.layer.borderWidth = CGFloat(2.0)
-            cell.userCircleImg.alpha = 0.70
+            cell.userCircleImg.alpha = 0.75
             ImageUtil.displayThumbnailProfileImage(feedItem.ownerId, imageView: cell.userCircleImg)
         }
         

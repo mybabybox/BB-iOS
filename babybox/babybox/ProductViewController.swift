@@ -220,11 +220,12 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
                 }
                 
                 if self.productInfo != nil {
-                    cell.prodCategory.text = self.productInfo!.categoryName
                     //cell.prodTimerCount.text = String(self.productInfo.numComments)
                     cell.categoryBtn.hidden = false
+                    cell.categoryBtn.setTitle(self.productInfo!.categoryName, forState: .Normal)
+                    cell.categoryBtn.setTitleColor(Color.PINK, forState: .Normal)
+                    cell.categoryBtn.sizeToFit()
                     cell.prodTimerCount.text = NSDate(timeIntervalSince1970:Double(self.productInfo!.createdDate) / 1000.0).timeAgo
-                    
                 } else {
                     cell.categoryBtn.hidden = true
                 }

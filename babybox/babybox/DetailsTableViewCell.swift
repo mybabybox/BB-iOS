@@ -14,7 +14,6 @@ class DetailsTableViewCell: UITableViewCell {
     @IBOutlet weak var prodOriginalPrice: UILabel!
     @IBOutlet weak var prodLocation: UIImageView!
     @IBOutlet weak var prodPrice: UILabel!
-    @IBOutlet weak var prodCategory: UILabel!
     @IBOutlet weak var prodTimer: UIImageView!
     @IBOutlet weak var prodTimerCount: UILabel!
     
@@ -39,7 +38,5 @@ class DetailsTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
         
         // Configure the view for the selected state
-    }
-
-    
+    }    
 }
