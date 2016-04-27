@@ -10,7 +10,7 @@ import UIKit
 import SwiftEventBus
 import PhotoSlider
 
-class ProductViewController: ProductNavigationController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, PhotoSliderDelegate, UITextFieldDelegate {
+class ProductViewController: ProductNavigationController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, PhotoSliderDelegate {
 
     @IBOutlet weak var buyerSoldButtonsLayout: UIView!
     @IBOutlet weak var buyerButtonsLayout: UIView!
@@ -77,6 +77,7 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
         
         ApiFacade.getPost(feedItem.id, successCallback: onSuccessGetPost, failureCallback: onFailure)
         
+        /*
         NSNotificationCenter.defaultCenter().addObserver(
             self,
             selector: "keyboardWillShow:",
@@ -88,6 +89,7 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
             selector: "keyboardWillHide:",
             name: UIKeyboardWillHideNotification,
             object: nil)
+        */
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -160,9 +162,9 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
                 cell.btnPostComments.addTarget(self, action: "PostComments:", forControlEvents: UIControlEvents.TouchUpInside)
                 ViewUtil.displayRoundedCornerView(cell.btnPostComments)
                 cell.btnPostComments.layer.borderColor = Color.LIGHT_GRAY.CGColor
-                cell.commentTxt.delegate = self
                 cell.commentTxt.layer.cornerRadius = Constants.DEFAULT_CORNER_RADIUS
                 cell.commentTxt.layer.masksToBounds = true
+                //cell.commentTxt.delegate = self
             } else {
                 let comment:CommentVM = self.comments[indexPath.row]
                 cell.lblComments.text = comment.body
@@ -547,6 +549,7 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
         SharingUtil.shareToFacebook(self.productInfo!, vController: self)
     }
  
+    /*
     func textFieldDidBeginEditing(textField: UITextField) {
         activeText = textField
     }
@@ -573,7 +576,6 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
             UIView.commitAnimations()
         }
         
-        /*
         if !isShownKeyboard {
             
             var info = notification.userInfo!
@@ -598,7 +600,6 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
             }
             isShownKeyboard = true
         }
-        */
     }
     
     func keyboardWillHide(notification: NSNotification) {
@@ -613,19 +614,10 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
             UIView.commitAnimations()
         }
     }
-    
-    
+    */
+
     @IBAction func onClickMoreComments(sender: AnyObject) {
         pushMoreCommentsController()
-    }
-    
-    func pushMoreCommentsController() {
-        let vController = self.storyboard!.instantiateViewControllerWithIdentifier("MoreCommentsViewController") as! MoreCommentsViewController
-        if let postId = self.productInfo?.id {
-            vController.postId = postId
-            ViewUtil.resetBackButton(self.navigationItem)
-            self.navigationController?.pushViewController(vController, animated: true)
-        }
     }
     
     @IBAction func onClickPostUser(sender: AnyObject) {
@@ -640,4 +632,12 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
         self.navigationController?.pushViewController(vController, animated: true)
     }
     
+    func pushMoreCommentsController() {
+        let vController = self.storyboard!.instantiateViewControllerWithIdentifier("MoreCommentsViewController") as! MoreCommentsViewController
+        if let postId = self.productInfo?.id {
+            vController.postId = postId
+            ViewUtil.resetBackButton(self.navigationItem)
+            self.navigationController?.pushViewController(vController, animated: true)
+        }
+    }
 }
