@@ -41,7 +41,7 @@ class ChatBubble: UIView {
             //if let chatImage = data.image {
             if (data.buyerId != -1) {
                 let userImgView = UIView()
-                buyerImageView = UIImageView(frame: CGRectMake(0, 0, 45, 45))
+                buyerImageView = UIImageView(frame: CGRectMake(0, 0, 50, 50))
                 ImageUtil.displayThumbnailProfileImage(data.buyerId, imageView: buyerImageView!)
                 userImgView.addSubview(buyerImageView!)
                 self.addSubview(userImgView)
@@ -192,7 +192,7 @@ class ChatBubble: UIView {
             // Need to maintain the minimum left side padding from the left edge of the screen
             newStartX = -CGRectGetMinX(imageViewBG!.frame) + 3.0
         }
-        messageView.frame = CGRectMake(45, 0, CGRectGetWidth(frame), CGRectGetHeight(frame))
+        messageView.frame = CGRectMake(55, 0, CGRectGetWidth(frame), CGRectGetHeight(frame))
         self.frame = CGRectMake(newStartX, CGRectGetMinY(self.frame), CGRectGetWidth(frame), CGRectGetHeight(frame))
         
     }
