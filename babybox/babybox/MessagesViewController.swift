@@ -25,6 +25,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var uploadImgSrc: UIImageView!
+    @IBOutlet weak var cameraBtn: UIButton!
     @IBOutlet weak var footerbtnsHeight: NSLayoutConstraint!
     
     var conversation: ConversationVM? = nil
@@ -43,6 +44,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
     var lastItemPosition = 0
     var bubbleData: ChatBubbleData?
     var pendingOrder = false
+    
     @IBOutlet weak var buyerButtonsLayout: UIView! //Parent Layout
     @IBOutlet weak var buyerOrderLayout: UIView!
     @IBOutlet weak var buyerCancelLayout: UIView!
@@ -183,13 +185,14 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
     }
     
     @IBAction func cameraButtonClicked(sender: AnyObject) {
-        
         let optionMenu = UIAlertController(title: nil, message: "Take Photo:", preferredStyle: .ActionSheet)
         
         let cameraAction = UIAlertAction(title: "Camera", style: .Default, handler: {
             (alert: UIAlertAction!) -> Void in
             let cameraViewController = ALCameraViewController(croppingEnabled: self.croppingEnabled, allowsLibraryAccess: self.libraryEnabled) { (image) -> Void in
-                self.uploadImgSrc.image = image?.retainOrientation()
+                //self.cameraBtn.alpha = 0.0
+                //self.uploadImgSrc.image = image?.retainOrientation()
+                self.cameraBtn.setBackgroundImage(image?.retainOrientation(), forState: .Normal)
                 self.dismissViewControllerAnimated(true, completion: nil)
             }
             
@@ -199,14 +202,18 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         let photoGalleryAction = UIAlertAction(title: "Photo Album", style: .Default, handler: {
             (alert: UIAlertAction!) -> Void in
             let libraryViewController = ALCameraViewController.imagePickerViewController(self.croppingEnabled) { (image) -> Void in
-                self.uploadImgSrc.image = image?.retainOrientation()
+                //self.cameraBtn.alpha = 0.0
+                //self.uploadImgSrc.image = image?.retainOrientation()
+                self.cameraBtn.setBackgroundImage(image?.retainOrientation(), forState: .Normal)
                 self.dismissViewControllerAnimated(true, completion: nil)
             }
             self.presentViewController(libraryViewController, animated: true, completion: nil)
         })
+        
         let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: {
             (alert: UIAlertAction!) -> Void in
         })
+        
         optionMenu.addAction(cameraAction)
         optionMenu.addAction(photoGalleryAction)
         optionMenu.addAction(cancelAction)
@@ -354,10 +361,6 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         vController.userId = (self.conversation?.userId)!
         ViewUtil.resetBackButton(self.navigationItem)
         self.navigationController?.pushViewController(vController, animated: true)
-    }
-    
-    @IBAction func onClickRemoveImage(sender: AnyObject) {
-        self.uploadImgSrc.image = nil
     }
     
     /*func textFieldShouldReturn(textField: UITextField) -> Bool {
