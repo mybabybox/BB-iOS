@@ -139,7 +139,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         
         UIView.animateWithDuration(1.0, animations: { () -> Void in
             self.messageCointainerScroll.frame.size.height = self.messageCointainerScroll.frame.size.height - keyboardFrame.size.height
-            self.bottomSpaceForText.constant = -keyboardFrame.size.height + 45
+            self.bottomSpaceForText.constant = -keyboardFrame.size.height + self.footerbtnsHeight.constant
             }) { (completed: Bool) -> Void in
                 self.moveToFirstMessage()
         }
