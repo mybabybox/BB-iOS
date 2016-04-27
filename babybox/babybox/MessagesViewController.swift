@@ -11,6 +11,7 @@ import PhotoSlider
 
 class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSliderDelegate, UIScrollViewDelegate {
         
+    @IBOutlet weak var bottomSpaceForText: NSLayoutConstraint!
     @IBOutlet weak var activityLoading: UIActivityIndicatorView!
     @IBOutlet weak var prodImg: UIImageView!
     @IBOutlet weak var prodPrice: UILabel!
@@ -122,7 +123,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         
     func addKeyboardNotifications() {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name:UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardDidShow:", name: UIKeyboardDidShowNotification, object: nil)
+        //NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardDidShow:", name: UIKeyboardDidShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name:UIKeyboardWillHideNotification, object: nil)
     }
         
@@ -137,9 +138,8 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         let keyboardFrame: CGRect = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
         
         UIView.animateWithDuration(1.0, animations: { () -> Void in
-            //self.buttomLayoutConstraint = keyboardFrame.size.height
-            //self.buttomLayoutConstraint.constant = keyboardFrame.size.height
-            
+            self.messageCointainerScroll.frame.size.height = self.messageCointainerScroll.frame.size.height - keyboardFrame.size.height
+            self.bottomSpaceForText.constant = -keyboardFrame.size.height + 45
             }) { (completed: Bool) -> Void in
                 self.moveToFirstMessage()
         }
@@ -147,7 +147,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
     
     func keyboardWillHide(notification: NSNotification) {
         UIView.animateWithDuration(1.0, animations: { () -> Void in
-            //self.buttomLayoutConstraint.constant = 0.0
+            self.bottomSpaceForText.constant = 0.0
             }) { (completed: Bool) -> Void in
                 self.moveToFirstMessage()
         }
