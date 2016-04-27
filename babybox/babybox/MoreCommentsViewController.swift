@@ -10,6 +10,7 @@ import UIKit
 
 class MoreCommentsViewController: UIViewController, UITextFieldDelegate, UIScrollViewDelegate {
 
+    @IBOutlet weak var bottomSpaceForText: NSLayoutConstraint!
     @IBOutlet weak var activityLoading: UIActivityIndicatorView!
     @IBOutlet weak var commentsTableView: UITableView!
     
@@ -55,6 +56,12 @@ class MoreCommentsViewController: UIViewController, UITextFieldDelegate, UIScrol
         self.commentsTableView.setNeedsLayout()
         self.commentsTableView.layoutIfNeeded()
         
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(
+            target: self,
+            action: "dismissKeyboard")
+        self.commentsTableView.addGestureRecognizer(tap)
+        
+        self.addKeyboardNotifications()
     }
     
     override func viewWillDisappear(animated : Bool) {
@@ -285,5 +292,35 @@ class MoreCommentsViewController: UIViewController, UITextFieldDelegate, UIScrol
         self.navigationController?.pushViewController(vController, animated: true)
     }
     
+    func addKeyboardNotifications() {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name:UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name:UIKeyboardWillHideNotification, object: nil)
+    }
+    
+    // MARK:- Notification
+    
+    func keyboardWillShow(notification: NSNotification) {
+        var info = notification.userInfo!
+        let keyboardFrame: CGRect = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
+        
+        UIView.animateWithDuration(1.0, animations: { () -> Void in
+            self.bottomSpaceForText.constant = keyboardFrame.size.height
+            }) { (completed: Bool) -> Void in
+                NSLog("keyboard shown")
+        }
+    }
+    
+    func keyboardWillHide(notification: NSNotification) {
+        UIView.animateWithDuration(1.0, animations: { () -> Void in
+            self.bottomSpaceForText.constant = 0.0
+            }) { (completed: Bool) -> Void in
+                NSLog("keyboard hide")
+        }
+    }
+    
+    //Calls this function when the tap is recognized.
+    func dismissKeyboard() {
+        view.endEditing(true)
+    }
     
 }
