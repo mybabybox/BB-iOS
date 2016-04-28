@@ -10,15 +10,17 @@ import UIKit
 
 class MoreCommentsViewController: UIViewController, UITextFieldDelegate, UIScrollViewDelegate, UITextViewDelegate {
 
+    //@IBOutlet weak var commentText: UITextField!
     @IBOutlet weak var commentTextView: UITextView!
+    @IBOutlet weak var postCommentBtn: UIButton!
+    
     @IBOutlet weak var tableViewHtConstraint: NSLayoutConstraint!
     @IBOutlet weak var bottomSpaceForText: NSLayoutConstraint!
     @IBOutlet weak var activityLoading: UIActivityIndicatorView!
     @IBOutlet weak var commentsTableView: UITableView!
     
     @IBOutlet weak var tipText: UILabel!
-    //@IBOutlet weak var commentText: UITextField!
-    @IBOutlet weak var postCommentBtn: UIButton!
+    
     var viewCellIdentifier: String = "commentTableCell"
     var refreshControl = UIRefreshControl()
     var deleteCellIndex: NSIndexPath?
@@ -30,6 +32,7 @@ class MoreCommentsViewController: UIViewController, UITextFieldDelegate, UIScrol
     var postId: Int = 0
     var offset: Int64 = 0
     var lcontentSize = CGFloat(0.0)
+    
     let DEFAULT_SEPERATOR_SPACING = CGFloat(5.0)
     let DEFAULT_TABLEVIEW_CELL_HEIGHT = CGFloat(42.0)
     
@@ -52,8 +55,8 @@ class MoreCommentsViewController: UIViewController, UITextFieldDelegate, UIScrol
         
         self.refreshControl.attributedTitle = NSAttributedString(string: "")
         self.refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
-        self.commentsTableView.addSubview(refreshControl)
         
+        self.commentsTableView.addSubview(refreshControl)
         self.commentsTableView.separatorColor = Color.LIGHT_GRAY
         self.commentsTableView.separatorStyle = .SingleLine
         self.commentsTableView.tableFooterView = UIView(frame: CGRectZero)

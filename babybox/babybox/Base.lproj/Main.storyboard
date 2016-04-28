@@ -5561,8 +5561,8 @@
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="45"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1IR-L1-WIi" userLabel="buyerMessageButton">
-                                                <rect key="frame" x="5" y="0.0" width="198" height="45"/>
-                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
+                                                <rect key="frame" x="10" y="0.0" width="204" height="45"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                                 <state key="normal" title="Seller has accepted your order">
                                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
@@ -5571,8 +5571,12 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yFN-Sa-mtK" userLabel="buyerOrderAgainButton">
-                                                <rect key="frame" x="208" y="5" width="201" height="35"/>
+                                                <rect key="frame" x="224" y="5" width="180" height="35"/>
                                                 <color key="backgroundColor" red="1" green="0.46274509803921571" blue="0.64313725490196072" alpha="1" colorSpace="calibratedRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="180" id="18e-by-YPY"/>
+                                                    <constraint firstAttribute="height" constant="35" id="g5A-ga-Ip5"/>
+                                                </constraints>
                                                 <state key="normal" title="Buy Again"/>
                                                 <connections>
                                                     <action selector="onClickBuyerOrderAgainButton:" destination="89W-J0-Agh" eventType="touchUpInside" id="dXX-k3-qGB"/>
@@ -5583,10 +5587,10 @@
                                         <constraints>
                                             <constraint firstAttribute="bottom" secondItem="yFN-Sa-mtK" secondAttribute="bottom" constant="5" id="Iqq-oi-NNM"/>
                                             <constraint firstItem="yFN-Sa-mtK" firstAttribute="top" secondItem="ehp-Li-qKQ" secondAttribute="top" constant="5" id="Jkf-SN-xn6"/>
-                                            <constraint firstItem="yFN-Sa-mtK" firstAttribute="leading" secondItem="1IR-L1-WIi" secondAttribute="trailing" constant="5" id="P25-LL-UBb"/>
-                                            <constraint firstAttribute="trailing" secondItem="yFN-Sa-mtK" secondAttribute="trailing" constant="5" id="Ulm-5x-CFC"/>
+                                            <constraint firstItem="yFN-Sa-mtK" firstAttribute="leading" secondItem="1IR-L1-WIi" secondAttribute="trailing" constant="10" id="P25-LL-UBb"/>
+                                            <constraint firstAttribute="trailing" secondItem="yFN-Sa-mtK" secondAttribute="trailing" constant="10" id="Ulm-5x-CFC"/>
                                             <constraint firstAttribute="bottom" secondItem="1IR-L1-WIi" secondAttribute="bottom" id="afV-Nd-qw5"/>
-                                            <constraint firstItem="1IR-L1-WIi" firstAttribute="leading" secondItem="ehp-Li-qKQ" secondAttribute="leading" constant="5" id="fey-xM-4ks"/>
+                                            <constraint firstItem="1IR-L1-WIi" firstAttribute="leading" secondItem="ehp-Li-qKQ" secondAttribute="leading" constant="10" id="fey-xM-4ks"/>
                                             <constraint firstItem="1IR-L1-WIi" firstAttribute="top" secondItem="ehp-Li-qKQ" secondAttribute="top" id="h60-Ra-3OF"/>
                                         </constraints>
                                     </view>
@@ -5594,26 +5598,30 @@
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="45"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hBY-XO-zqh" userLabel="buyerCancelButton">
-                                                <rect key="frame" x="62" y="5" width="347" height="35"/>
+                                                <rect key="frame" x="224" y="5" width="180" height="35"/>
                                                 <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="calibratedRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="180" id="dZV-WJ-U9P"/>
+                                                    <constraint firstAttribute="height" constant="35" id="hIf-tM-xp0"/>
+                                                </constraints>
                                                 <state key="normal" title="Cancel Order"/>
                                                 <connections>
                                                     <action selector="onClickBuyerCancelButton:" destination="89W-J0-Agh" eventType="touchUpInside" id="nWG-Yg-AUj"/>
                                                 </connections>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ordered" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BVu-Vp-EsH">
-                                                <rect key="frame" x="5" y="0.0" width="57" height="45"/>
-                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                                                <rect key="frame" x="10" y="0.0" width="204" height="45"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                 <color key="highlightedColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                             </label>
                                         </subviews>
                                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
-                                            <constraint firstItem="BVu-Vp-EsH" firstAttribute="leading" secondItem="i7R-ob-JVe" secondAttribute="leading" constant="5" id="7ZD-gY-X7i"/>
+                                            <constraint firstItem="BVu-Vp-EsH" firstAttribute="leading" secondItem="i7R-ob-JVe" secondAttribute="leading" constant="10" id="7ZD-gY-X7i"/>
                                             <constraint firstAttribute="bottom" secondItem="BVu-Vp-EsH" secondAttribute="bottom" id="NBm-zK-3hv"/>
-                                            <constraint firstAttribute="trailing" secondItem="hBY-XO-zqh" secondAttribute="trailing" constant="5" id="XLB-QN-ieK"/>
-                                            <constraint firstItem="hBY-XO-zqh" firstAttribute="leading" secondItem="BVu-Vp-EsH" secondAttribute="trailing" id="jac-OJ-Chg"/>
+                                            <constraint firstAttribute="trailing" secondItem="hBY-XO-zqh" secondAttribute="trailing" constant="10" id="XLB-QN-ieK"/>
+                                            <constraint firstItem="hBY-XO-zqh" firstAttribute="leading" secondItem="BVu-Vp-EsH" secondAttribute="trailing" constant="10" id="jac-OJ-Chg"/>
                                             <constraint firstItem="hBY-XO-zqh" firstAttribute="top" secondItem="i7R-ob-JVe" secondAttribute="top" constant="5" id="mc4-Ha-tdS"/>
                                             <constraint firstAttribute="bottom" secondItem="hBY-XO-zqh" secondAttribute="bottom" constant="5" id="nZx-yI-vTs"/>
                                             <constraint firstItem="BVu-Vp-EsH" firstAttribute="top" secondItem="i7R-ob-JVe" secondAttribute="top" id="ypf-7y-944"/>
@@ -5623,27 +5631,31 @@
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="45"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="13f-kK-thK" userLabel="buyerOrderButton">
-                                                <rect key="frame" x="90" y="5" width="319" height="35"/>
+                                                <rect key="frame" x="224" y="5" width="180" height="35"/>
                                                 <color key="backgroundColor" red="1" green="0.46274509803921571" blue="0.64313725490196072" alpha="1" colorSpace="calibratedRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="35" id="cVJ-Dq-ibv"/>
+                                                    <constraint firstAttribute="width" constant="180" id="mZf-6F-8t6"/>
+                                                </constraints>
                                                 <state key="normal" title="Buy Now"/>
                                                 <connections>
                                                     <action selector="onClickBuyerOrderButton:" destination="89W-J0-Agh" eventType="touchUpInside" id="kf7-lB-kNH"/>
                                                 </connections>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Interested?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aMl-If-pRF">
-                                                <rect key="frame" x="5" y="0.0" width="80" height="45"/>
-                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                                                <rect key="frame" x="10" y="0.0" width="204" height="45"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
                                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
-                                            <constraint firstAttribute="trailing" secondItem="13f-kK-thK" secondAttribute="trailing" constant="5" id="IB9-J8-j2R"/>
+                                            <constraint firstAttribute="trailing" secondItem="13f-kK-thK" secondAttribute="trailing" constant="10" id="IB9-J8-j2R"/>
                                             <constraint firstAttribute="bottom" secondItem="13f-kK-thK" secondAttribute="bottom" constant="5" id="NmY-3v-BA1"/>
-                                            <constraint firstItem="aMl-If-pRF" firstAttribute="leading" secondItem="Vun-dL-9xa" secondAttribute="leading" constant="5" id="RvH-23-b0f"/>
+                                            <constraint firstItem="aMl-If-pRF" firstAttribute="leading" secondItem="Vun-dL-9xa" secondAttribute="leading" constant="10" id="RvH-23-b0f"/>
                                             <constraint firstItem="13f-kK-thK" firstAttribute="top" secondItem="Vun-dL-9xa" secondAttribute="top" constant="5" id="alb-Hm-bbJ"/>
-                                            <constraint firstItem="13f-kK-thK" firstAttribute="leading" secondItem="aMl-If-pRF" secondAttribute="trailing" constant="5" id="bfq-iK-uTV"/>
+                                            <constraint firstItem="13f-kK-thK" firstAttribute="leading" secondItem="aMl-If-pRF" secondAttribute="trailing" constant="10" id="bfq-iK-uTV"/>
                                             <constraint firstItem="aMl-If-pRF" firstAttribute="top" secondItem="Vun-dL-9xa" secondAttribute="top" id="iQZ-BC-Bjs"/>
                                             <constraint firstAttribute="bottom" secondItem="aMl-If-pRF" secondAttribute="bottom" id="yUz-Fz-h79"/>
                                         </constraints>
@@ -5672,23 +5684,31 @@
                                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jKJ-ej-dAD" userLabel="sellerAcceptDeclineLayout">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="45"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You have new order" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Ou-NF-dq8" userLabel="ordernewtext">
-                                                <rect key="frame" x="5" y="0.0" width="135" height="45"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You have new order" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Ou-NF-dq8" userLabel="ordernewtext">
+                                                <rect key="frame" x="10" y="0.0" width="134" height="45"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5WB-jQ-yuh" userLabel="sellerDeclineButton">
-                                                <rect key="frame" x="145" y="5" width="132" height="35"/>
+                                                <rect key="frame" x="154" y="5" width="120" height="35"/>
                                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="35" id="Kjc-Ba-YwG"/>
+                                                    <constraint firstAttribute="width" constant="120" id="hai-4J-hnn"/>
+                                                </constraints>
                                                 <state key="normal" title="Decline"/>
                                                 <connections>
                                                     <action selector="onClickSellerDeclineButton:" destination="89W-J0-Agh" eventType="touchUpInside" id="jhA-OB-VcD"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l2b-7u-Aio" userLabel="sellerAcceptButton">
-                                                <rect key="frame" x="277" y="5" width="132" height="35"/>
+                                                <rect key="frame" x="284" y="5" width="120" height="35"/>
                                                 <color key="backgroundColor" red="1" green="0.46274509803921571" blue="0.64313725490196072" alpha="1" colorSpace="calibratedRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="120" id="4G0-iQ-AJN"/>
+                                                    <constraint firstAttribute="height" constant="35" id="m5a-ce-70R"/>
+                                                </constraints>
                                                 <state key="normal" title="Accept"/>
                                                 <connections>
                                                     <action selector="onClickSellerAcceptButton:" destination="89W-J0-Agh" eventType="touchUpInside" id="yLu-nP-Zra"/>
@@ -5698,23 +5718,28 @@
                                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstItem="l2b-7u-Aio" firstAttribute="top" secondItem="jKJ-ej-dAD" secondAttribute="top" constant="5" id="47n-TO-QPU"/>
-                                            <constraint firstAttribute="trailing" secondItem="l2b-7u-Aio" secondAttribute="trailing" constant="5" id="7bf-Ma-TTY"/>
-                                            <constraint firstItem="l2b-7u-Aio" firstAttribute="leading" secondItem="5WB-jQ-yuh" secondAttribute="trailing" id="CEM-Jo-FfC"/>
+                                            <constraint firstAttribute="trailing" secondItem="l2b-7u-Aio" secondAttribute="trailing" constant="10" id="7bf-Ma-TTY"/>
+                                            <constraint firstItem="l2b-7u-Aio" firstAttribute="leading" secondItem="5WB-jQ-yuh" secondAttribute="trailing" constant="10" id="CEM-Jo-FfC"/>
                                             <constraint firstAttribute="bottom" secondItem="l2b-7u-Aio" secondAttribute="bottom" constant="5" id="FmT-9d-0nG"/>
                                             <constraint firstItem="1Ou-NF-dq8" firstAttribute="top" secondItem="jKJ-ej-dAD" secondAttribute="top" id="G14-tt-U8j"/>
                                             <constraint firstItem="5WB-jQ-yuh" firstAttribute="leading" secondItem="1Ou-NF-dq8" secondAttribute="trailing" id="HkI-ku-yuF"/>
-                                            <constraint firstItem="1Ou-NF-dq8" firstAttribute="leading" secondItem="jKJ-ej-dAD" secondAttribute="leading" constant="5" id="bk3-D5-TUe"/>
+                                            <constraint firstItem="1Ou-NF-dq8" firstAttribute="width" secondItem="jKJ-ej-dAD" secondAttribute="height" multiplier="3:1" id="UwQ-oI-rEM"/>
+                                            <constraint firstItem="1Ou-NF-dq8" firstAttribute="leading" secondItem="jKJ-ej-dAD" secondAttribute="leading" constant="10" id="bk3-D5-TUe"/>
                                             <constraint firstAttribute="bottom" secondItem="1Ou-NF-dq8" secondAttribute="bottom" id="cQd-62-OBm"/>
                                             <constraint firstItem="5WB-jQ-yuh" firstAttribute="top" secondItem="jKJ-ej-dAD" secondAttribute="top" constant="5" id="ffh-1c-yAE"/>
                                             <constraint firstAttribute="bottom" secondItem="5WB-jQ-yuh" secondAttribute="bottom" constant="5" id="kcr-yf-bFE"/>
-                                            <constraint firstItem="5WB-jQ-yuh" firstAttribute="leading" secondItem="1Ou-NF-dq8" secondAttribute="trailing" constant="5" id="w2e-t2-Yre"/>
+                                            <constraint firstItem="5WB-jQ-yuh" firstAttribute="width" secondItem="jKJ-ej-dAD" secondAttribute="height" multiplier="3:1" id="sHA-Fe-bhT"/>
+                                            <constraint firstItem="5WB-jQ-yuh" firstAttribute="leading" secondItem="1Ou-NF-dq8" secondAttribute="trailing" constant="10" id="w2e-t2-Yre"/>
                                             <constraint firstItem="5WB-jQ-yuh" firstAttribute="leading" secondItem="l2b-7u-Aio" secondAttribute="trailing" id="wX0-pe-wkf"/>
                                             <constraint firstItem="5WB-jQ-yuh" firstAttribute="width" secondItem="l2b-7u-Aio" secondAttribute="width" id="yZk-Dy-ddK"/>
                                         </constraints>
                                         <variation key="default">
                                             <mask key="constraints">
+                                                <exclude reference="UwQ-oI-rEM"/>
                                                 <exclude reference="HkI-ku-yuF"/>
+                                                <exclude reference="sHA-Fe-bhT"/>
                                                 <exclude reference="wX0-pe-wkf"/>
+                                                <exclude reference="yZk-Dy-ddK"/>
                                             </mask>
                                         </variation>
                                     </view>

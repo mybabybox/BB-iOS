@@ -515,7 +515,6 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
         if (self.productInfo!.isOwner) {
             let editProductImg: UIButton = UIButton()
             editProductImg.setTitle(NSLocalizedString("edit", comment: ""), forState: UIControlState.Normal)
-            
             editProductImg.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
             editProductImg.titleLabel!.lineBreakMode = NSLineBreakMode.ByWordWrapping
             editProductImg.frame = CGRectMake(0, 0, 35, 35)

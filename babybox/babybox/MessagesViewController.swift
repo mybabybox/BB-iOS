@@ -445,6 +445,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         ViewUtil.displayRoundedCornerBtnView(self.sellerAcceptButton)
         ViewUtil.displayRoundedCornerBtnView(self.sellerDeclineButton)
         
+        /*
         let buyerMessageLayoutConstraint = ViewUtil.applyWidthConstraints(self.buyerMessageButton, toView: self.view, multiplierValue: 0.70)
         self.view.addConstraint(buyerMessageLayoutConstraint)
         let buyerCancelLayoutConstraint = ViewUtil.applyWidthConstraints(self.ordered, toView: self.view, multiplierValue: 0.30)
@@ -455,7 +456,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         self.view.addConstraint(sellerAcceptDeclineLayoutConstraint)
         let sellerAcceptDeclineBtnConstraint = ViewUtil.applyWidthConstraints(self.sellerDeclineButton, toView: self.view, multiplierValue: 0.50)
         self.view.addConstraint(sellerAcceptDeclineBtnConstraint)
-        
+        */
     }
     
     func initLayout(_conversation: ConversationVM) {
