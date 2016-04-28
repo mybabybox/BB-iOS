@@ -44,7 +44,7 @@ class MoreCommentsViewController: UIViewController, UITextFieldDelegate, UIScrol
         //self.commentText.placeholder = NSLocalizedString("enter_comment", comment: "")
         //self.commentText.delegate = self
         self.commentTextView.delegate = self
-        ViewUtil.displayRoundedCornerView(<#T##view: UIView##UIView#>)
+        
         ApiFacade.getComments(self.postId, offset: offset, successCallback: onSuccessGetComments, failureCallback: onFailureGetComments)
         
         self.loading = true
