@@ -330,6 +330,11 @@ class ApiFacade {
         SwiftEventBus.unregister(self)
         
         SwiftEventBus.onMainThread(self, name: "onSuccessGetComments") { result in
+            if ViewUtil.isEmptyResult(result) {
+                failureCallback!("Comments returned is empty")
+                return
+            }
+
             if successCallback != nil {
                 successCallback!(result.object as! [CommentVM])
             }

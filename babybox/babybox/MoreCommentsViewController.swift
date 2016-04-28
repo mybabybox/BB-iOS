@@ -32,6 +32,7 @@ class MoreCommentsViewController: UIViewController, UITextFieldDelegate, UIScrol
     var lcontentSize = CGFloat(0.0)
     let DEFAULT_SEPERATOR_SPACING = CGFloat(5.0)
     let DEFAULT_TABLEVIEW_CELL_HEIGHT = CGFloat(42.0)
+    
     override func viewWillAppear(animated: Bool) {
         //ViewUtil.hideActivityLoading(self.activityLoading)
     }
@@ -211,7 +212,6 @@ class MoreCommentsViewController: UIViewController, UITextFieldDelegate, UIScrol
                     self.offset += 1
                 }
                 ApiFacade.getComments(self.postId, offset: offset, successCallback: onSuccessGetComments, failureCallback: onFailureGetComments)
-                
             }
         }
     }
