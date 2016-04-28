@@ -9,8 +9,9 @@
 import UIKit
 import PhotoSlider
 
-class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSliderDelegate, UIScrollViewDelegate {
+class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSliderDelegate, UIScrollViewDelegate, UITextViewDelegate {
         
+    @IBOutlet weak var commentTextView: UITextView!
     @IBOutlet weak var bottomSpaceForText: NSLayoutConstraint!
     @IBOutlet weak var activityLoading: UIActivityIndicatorView!
     @IBOutlet weak var prodImg: UIImageView!
@@ -21,8 +22,6 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
     @IBOutlet weak var soldTextLbl: UILabel!
     @IBOutlet weak var messageComposingView: UIView!
     @IBOutlet weak var messageCointainerScroll: UIScrollView!
-    @IBOutlet weak var buttomLayoutConstraint: NSLayoutConstraint!
-    @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var uploadImgSrc: UIImageView!
     @IBOutlet weak var cameraBtn: UIButton!
@@ -78,7 +77,9 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         
         MessagesViewController.instance = self
         messageCointainerScroll.delegate = self
-        
+        self.commentTextView.delegate = self
+        ViewUtil.displayRoundedCornerView(self.commentTextView, bgColor: Color.WHITE, borderColor: Color.LIGHT_GRAY)
+        self.commentTextView.placeholder = NSLocalizedString("enter_comment", comment: "")
         self.navigationItem.title = self.conversation?.userName
         let titleDict: NSDictionary = [NSForegroundColorAttributeName: Color.WHITE]
         self.navigationController!.navigationBar.titleTextAttributes = titleDict as? [String : AnyObject]
@@ -177,11 +178,11 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
     }
     
     @IBAction func sendButtonClicked(sender: AnyObject) {
-        if self.uploadImgSrc.image == nil && StringUtil.trim(self.textField.text).isEmpty {
+        if self.uploadImgSrc.image == nil && StringUtil.trim(self.commentTextView.text).isEmpty {
             //ViewUtil.makeToast("Please enter a message", view: self.view)
             return
         }
-        newMessage(StringUtil.trim(textField.text), image: self.uploadImgSrc.image)
+        newMessage(StringUtil.trim(commentTextView.text), image: self.uploadImgSrc.image)
     }
     
     @IBAction func cameraButtonClicked(sender: AnyObject) {
@@ -231,7 +232,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         self.messageCointainerScroll.contentSize = CGSizeMake(CGRectGetWidth(messageCointainerScroll.frame), lastChatBubbleY + linePadding)
         //self.moveToFirstMessage()
         lastMessageType = data.type
-        textField.text = ""
+        commentTextView.text = ""
     }
     
     func moveToFirstMessage() {
@@ -279,7 +280,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
     }
     
     func reset() {
-        self.textField.text = ""
+        self.commentTextView.text = ""
         self.uploadImgSrc.image = nil
         self.offered = false
         self.offeredPrice = -1
@@ -427,6 +428,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
             self.reset()
         }
         ConversationCache.update(self.conversation!.id, successCallback: nil, failureCallback: nil)
+        self.commentTextView.resignFirstResponder()
     }
     
     func onFailureNewMessage(error: String) {

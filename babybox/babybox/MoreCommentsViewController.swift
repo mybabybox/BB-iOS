@@ -10,7 +10,6 @@ import UIKit
 
 class MoreCommentsViewController: UIViewController, UITextFieldDelegate, UIScrollViewDelegate, UITextViewDelegate {
 
-    //@IBOutlet weak var commentText: UITextField!
     @IBOutlet weak var commentTextView: UITextView!
     @IBOutlet weak var postCommentBtn: UIButton!
     
@@ -45,10 +44,9 @@ class MoreCommentsViewController: UIViewController, UITextFieldDelegate, UIScrol
         
         ViewUtil.showActivityLoading(self.activityLoading)
         ViewUtil.displayRoundedCornerView(self.postCommentBtn, bgColor: Color.LIGHT_GRAY)
-        //self.commentText.placeholder = NSLocalizedString("enter_comment", comment: "")
-        //self.commentText.delegate = self
         self.commentTextView.delegate = self
-        
+        ViewUtil.displayRoundedCornerView(self.commentTextView, bgColor: Color.WHITE, borderColor: Color.LIGHT_GRAY)
+        self.commentTextView.placeholder = NSLocalizedString("enter_comment", comment: "")
         ApiFacade.getComments(self.postId, offset: offset, successCallback: onSuccessGetComments, failureCallback: onFailureGetComments)
         
         self.loading = true
