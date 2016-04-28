@@ -49,14 +49,14 @@ struct Constants {
     static let NO_ITEM_TIP_TEXT_CELL_HEIGHT = CGFloat(70)
     
     // strings
-    static let ACTIVITY_FIRST_POST = NSLocalizedString("now_seller", comment: "") //"You are now a BabyBox seller! Your first product has been listed:\n"
-    static let ACTIVITY_NEW_POST = NSLocalizedString("new_product", comment: "") // "New product listed:\n"
-    static let ACTIVITY_COMMENTED = NSLocalizedString("product_commented", comment: "") // "commented on product:\n"
-    static let ACTIVITY_LIKED = NSLocalizedString("product_liked", comment: "") //"liked your product."
-    static let ACTIVITY_FOLLOWED = NSLocalizedString("started_following", comment: "") //"started following you."
-    static let ACTIVITY_SOLD = NSLocalizedString("sold", comment: "") //"already sold."
-    static let ACTIVITY_GAME_BADGE = NSLocalizedString("new_badge_msg", comment: "") // "Congratulations! You got a new badge:\n"
-    static let SHARING_SELLER_MSG_PREFIX: String = NSLocalizedString("notif_checkout_msg", comment: "") //"Check out BabyBox Seller"
+    static let ACTIVITY_FIRST_POST = NSLocalizedString("activity_now_seller", comment: "") //"You are now a BabyBox seller! Your first product has been listed:\n"
+    static let ACTIVITY_NEW_POST = NSLocalizedString("activity_new_product", comment: "") // "New product listed:\n"
+    static let ACTIVITY_COMMENTED = NSLocalizedString("activity_product_commented", comment: "") // "commented on product:\n"
+    static let ACTIVITY_LIKED = NSLocalizedString("activity_product_liked", comment: "") //"liked your product."
+    static let ACTIVITY_FOLLOWED = NSLocalizedString("activity_started_following", comment: "") //"started following you."
+    static let ACTIVITY_SOLD = NSLocalizedString("activity_sold", comment: "") //"already sold."
+    static let ACTIVITY_GAME_BADGE = NSLocalizedString("activity_new_badge_msg", comment: "") // "Congratulations! You got a new badge:\n"
+    static let ACTIVITY_TIPS_NEW_USER = NSLocalizedString("activity_tips_new_user", comment: "") // "Congratulations! You got a new badge:\n"
     
     static let SETTING_EMAIL_NOTIF_NEW_PRODUCT = NSLocalizedString("product_listed", comment: "") //"Product listed"
     static let SETTING_EMAIL_NOTIF_NEW_CHAT = NSLocalizedString("new_chat", comment: "") //"New chat"
@@ -91,4 +91,6 @@ struct Constants {
     
     static let NO_PRODUCT_TEXT = NSLocalizedString("no_product_text", comment: "") //"~ No Products ~"
     static let NO_FOLLOWING_TEXT = NSLocalizedString("no_following_text", comment: "") //"~ No Followings ~"
+    
+    static let SHARING_SELLER_MSG_PREFIX = NSLocalizedString("notif_checkout_msg", comment: "") //"Check out BabyBox Seller"
 }

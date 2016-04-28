@@ -460,9 +460,8 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
     
     func initLayout(_conversation: ConversationVM) {
         
-        //let order:ConversationOrderVM = conversation.order
-        // action buttons
         let isBuyer = !_conversation.postOwner
+        
         self.buyerButtonsLayout.hidden = !isBuyer
         self.sellerButtonsLayout.hidden = isBuyer
     
@@ -481,51 +480,63 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         self.buyerMessageLayout.hidden = true
         
         let order = _conversation.order
+        
+        // no order yet
         if order == nil {
-            if (_conversation.postSold) {
+            if _conversation.postSold {
                 buyerButtonsLayout.hidden = true
-                sellerButtonsLayout.hidden = true //set the size of block 0
-                footerbtnsHeight.constant = 0
+                sellerButtonsLayout.hidden = true
+                footerbtnsHeight.constant = 0   //set the size of block to 0
             } else {
                 buyerOrderLayout.hidden = false
             }
-        } else if _conversation.order!.closed {
+        }
+        // open orders
+        else if !order!.closed {
             buyerCancelLayout.hidden = false
-        } else {
+        }
+        // closed orders
+        else {
             buyerMessageLayout.hidden = false
-            if (_conversation.postSold) {
+            if _conversation.postSold {
                 buyerOrderAgainButton.hidden = true
             }
             
-            if (order!.cancelled) {
+            if order!.cancelled {
                 buyerMessageButton.setTitle(Constants.PM_ORDER_CANCELLED, forState: .Normal)
-            } else if (order!.accepted) {
+            } else if order!.accepted {
                 buyerMessageButton.setTitle(Constants.PM_ORDER_ACCEPTED_FOR_BUYER, forState: .Normal)
-            } else if (order!.declined) {
+            } else if order!.declined {
                 buyerMessageButton.setTitle(Constants.PM_ORDER_DECLINED_FOR_BUYER, forState: .Normal)
             }
-
         }
     }
     
     func initSellerLayout(_conversation: ConversationVM) {
+        
         sellerAcceptDeclineLayout.hidden = true
         sellerMessageLayout.hidden = true
+        
         let order = _conversation.order
         
-        if (order == nil) {
-            // no actions... hide seller actions //Set the height of the block to 0
+        // no order yet
+        if order == nil {
+            // no actions... hide seller actions
             sellerButtonsLayout.hidden = true
-            footerbtnsHeight.constant = 0
-        } else if (!order!.closed) {
+            footerbtnsHeight.constant = 0   //set the size of block 0
+        }
+        // open orders
+        else if !order!.closed {
             sellerAcceptDeclineLayout.hidden = false
-        } else {    // closed orders
+        }
+        // closed orders
+        else {
             sellerMessageLayout.hidden = false
-            if (order!.accepted) {
+            if order!.accepted {
                 sellerMessageButton.setTitle(Constants.PM_ORDER_ACCEPTED_FOR_SELLER, forState: .Normal)
-            } else if (order!.declined) {
+            } else if order!.declined {
                 sellerMessageButton.setTitle(Constants.PM_ORDER_DECLINED_FOR_SELLER, forState: .Normal)
-            } else if (order!.cancelled) {
+            } else if order!.cancelled {
                 sellerButtonsLayout.hidden = true
             }
         }
@@ -694,7 +705,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
     
         pendingOrder = true
         
-        ApiFacade.acceptConversationOrder(conversation.order!.id, successCallback: onSucessAcceptConversationOrder, failureCallback: onFailureAcceptConversationOrder)
+        ApiFacade.acceptConversationOrder(conversation.order!.id, successCallback: onSuccessAcceptConversationOrder, failureCallback: onFailureAcceptConversationOrder)
     }
     
     func doSellerDecline(conversation: ConversationVM) {
@@ -710,11 +721,10 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         
         pendingOrder = true
         
-        ApiFacade.declineConversationOrder(conversation.order!.id, successCallback: onSucessDeclineConversationOrder, failureCallback: onFailureDeclineConversationOrder)
+        ApiFacade.declineConversationOrder(conversation.order!.id, successCallback: onSuccessDeclineConversationOrder, failureCallback: onFailureDeclineConversationOrder)
     }
-
     
-    func onSucessAcceptConversationOrder(order: ConversationOrderVM) {
+    func onSuccessAcceptConversationOrder(order: ConversationOrderVM) {
         let updatedConversation = ConversationCache.updateConversationOrder(conversation!.id, order: order)
         initLayout(updatedConversation);
         pendingOrder = false
@@ -725,7 +735,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
     }
     
-    func onSucessDeclineConversationOrder(order: ConversationOrderVM) {
+    func onSuccessDeclineConversationOrder(order: ConversationOrderVM) {
         let updatedConversation = ConversationCache.updateConversationOrder(conversation!.id, order: order)
         initLayout(updatedConversation);
         pendingOrder = false
@@ -735,7 +745,4 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
     func onFailureDeclineConversationOrder(response: String) {
         ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
     }
-    
-    //declineConversationOrder
-    
 }
