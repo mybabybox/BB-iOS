@@ -20,7 +20,6 @@ class ViewUtil {
     static var notifMessageType: NotificationType = NotificationType.COMMENT
     static var appOpenByNotification: Bool = false
     
-    
     enum PostConditionType: String {
         case NEW_WITH_TAG = "New(Sealed/with tags)"
         case NEW_WITHOUT_TAG = "New(unsealed/without tags)"
@@ -51,7 +50,6 @@ class ViewUtil {
     }
     
     static func parsePostConditionTypeFromType(type: String) -> String {
-        
         if (type == String(PostConditionType.USED)) {
             return PostConditionType.USED.rawValue
         } else if (type == String(PostConditionType.NEW_WITHOUT_TAG)) {

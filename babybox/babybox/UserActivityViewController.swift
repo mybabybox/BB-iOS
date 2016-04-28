@@ -147,8 +147,11 @@ class UserActivityViewController: CustomNavigationController {
         switch (item.activityType) {
         case "FIRST_POST", "NEW_POST", "NEW_COMMENT", "LIKED", "SOLD":
             ApiFacade.getPost(self.userActivitesItems[indexPath.row].target, successCallback: onSuccessGetPost, failureCallback: onFailure)
+        case "TIPS_NEW_USER":
+            let vController = self.storyboard?.instantiateViewControllerWithIdentifier("NewProductViewController")
+            vController?.hidesBottomBarWhenPushed = true
+            self.navigationController?.pushViewController(vController!, animated: true)
         case "FOLLOWED": fallthrough
-
         default: break
         }
     }
@@ -199,6 +202,8 @@ class UserActivityViewController: CustomNavigationController {
             return Constants.ACTIVITY_SOLD
         case "NEW_GAME_BADGE":
             return Constants.ACTIVITY_GAME_BADGE
+        case "TIPS_NEW_USER":
+            return Constants.ACTIVITY_TIPS_NEW_USER
         default:
             return nil
         }
