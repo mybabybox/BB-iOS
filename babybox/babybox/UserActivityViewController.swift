@@ -85,9 +85,18 @@ class UserActivityViewController: CustomNavigationController {
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier("UserActivity", forIndexPath: indexPath) as! UserActivityViewCell
             cell.contentMode = UIViewContentMode.Redraw
             cell.activityTime.text = NSDate(timeIntervalSince1970:Double(self.userActivitesItems[indexPath.row].createdDate) / 1000.0).timeAgo
-            cell.textMessage.text = self.setMessageText(self.userActivitesItems[indexPath.row])
+            cell.textMessage.text = getMessageText(self.userActivitesItems[indexPath.row])
             cell.textMessage.numberOfLines = 0
             cell.textMessage.sizeToFit()
+            
+            if let desc = getDescText(self.userActivitesItems[indexPath.row]) {
+                cell.desc.text = desc
+            } else {
+                cell.desc.text = ""
+            }
+            cell.desc.numberOfLines = 0
+            cell.desc.sizeToFit()
+            
             ImageUtil.displayThumbnailProfileImage(Int(self.userActivitesItems[indexPath.row].actorImage), imageView: cell.profileImg)
 
             if activityType == "FIRST_POST" {
@@ -118,7 +127,7 @@ class UserActivityViewController: CustomNavigationController {
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier("UserActivityDefault", forIndexPath: indexPath) as! UserActivityDefaultViewCell
             cell.contentMode = UIViewContentMode.Redraw
             cell.activityTime.text = NSDate(timeIntervalSince1970:Double(self.userActivitesItems[indexPath.row].createdDate) / 1000.0).timeAgo
-            cell.textMessage.text = self.setMessageText(self.userActivitesItems[indexPath.row])
+            cell.textMessage.text = getMessageText(self.userActivitesItems[indexPath.row])
             cell.textMessage.numberOfLines = 0
             cell.textMessage.sizeToFit()
             ImageUtil.displayThumbnailProfileImage(Int(self.userActivitesItems[indexPath.row].actorImage), imageView: cell.profileImg)
@@ -174,28 +183,46 @@ class UserActivityViewController: CustomNavigationController {
         ApiFacade.getPost(self.userActivitesItems[indexPath.row].target, successCallback: onSuccessGetPost, failureCallback: onFailure)
     }
     
-    func setMessageText(item: ActivityVM) -> String {
-        
-        var message: String = ""
+    func getMessageText(item: ActivityVM) -> String? {
         switch (item.activityType) {
-            case "FIRST_POST":
-                message = Constants.ACTIVITY_FIRST_POST + item.targetName
-            case "NEW_POST":
-                message = Constants.ACTIVITY_NEW_POST + item.targetName
-            case "NEW_COMMENT":
-                message = Constants.ACTIVITY_COMMENTED + item.targetName
-            case "LIKED":
-                message = Constants.ACTIVITY_LIKED
-            case "FOLLOWED":
-                message = Constants.ACTIVITY_FOLLOWED
-            case "SOLD":
-                message = Constants.ACTIVITY_SOLD
-            case "NEW_GAME_BADGE":
-                message = Constants.ACTIVITY_GAME_BADGE + item.targetName
-            default: break
+        case "FIRST_POST":
+            return Constants.ACTIVITY_FIRST_POST
+        case "NEW_POST":
+            return Constants.ACTIVITY_NEW_POST
+        case "NEW_COMMENT":
+            return Constants.ACTIVITY_COMMENTED
+        case "LIKED":
+            return Constants.ACTIVITY_LIKED
+        case "FOLLOWED":
+            return Constants.ACTIVITY_FOLLOWED
+        case "SOLD":
+            return Constants.ACTIVITY_SOLD
+        case "NEW_GAME_BADGE":
+            return Constants.ACTIVITY_GAME_BADGE
+        default:
+            return nil
         }
-        return message
-        
+    }
+    
+    func getDescText(item: ActivityVM) -> String? {
+        switch (item.activityType) {
+        case "FIRST_POST":
+            return item.targetName
+        case "NEW_POST":
+            return item.targetName
+        case "NEW_COMMENT":
+            return item.targetName
+        case "LIKED":
+            return nil
+        case "FOLLOWED":
+            return nil
+        case "SOLD":
+            return ""
+        case "NEW_GAME_BADGE":
+            return item.targetName
+        default:
+            return nil
+        }
     }
     
     // MARK: UIScrollview Delegate
