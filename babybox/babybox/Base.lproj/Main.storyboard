@@ -7463,7 +7463,6 @@
                                             <constraint firstItem="Ctj-SU-CAd" firstAttribute="leading" secondItem="UEY-rS-MpJ" secondAttribute="leading" constant="15" id="P1t-Bu-yAO"/>
                                             <constraint firstItem="Ctj-SU-CAd" firstAttribute="top" secondItem="UEY-rS-MpJ" secondAttribute="top" constant="10" id="UPT-Ld-cAG"/>
                                             <constraint firstItem="Ctj-SU-CAd" firstAttribute="top" secondItem="UEY-rS-MpJ" secondAttribute="top" constant="10" id="g4o-8T-m1Z"/>
-                                            <constraint firstAttribute="bottom" secondItem="Ctj-SU-CAd" secondAttribute="bottom" constant="10" id="kG5-hp-hSY"/>
                                         </constraints>
                                         <variation key="default">
                                             <mask key="constraints">
@@ -7488,20 +7487,21 @@
                                 <rect key="frame" x="189" y="317" width="37" height="37"/>
                                 <color key="color" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
-                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="~ No Comments ~" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dHk-BC-whB" userLabel="tipText">
-                                <rect key="frame" x="0.0" y="30" width="414" height="18"/>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="~ No Comments ~" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dHk-BC-whB" userLabel="tipText">
+                                <rect key="frame" x="0.0" y="10" width="414" height="18"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fzr-3V-Umz">
-                                <rect key="frame" x="0.0" y="686" width="414" height="50"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fzr-3V-Umz">
+                                <rect key="frame" x="0.0" y="573" width="414" height="50"/>
                                 <subviews>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Yoz-YA-L0a">
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BNq-F5-lIj">
                                         <rect key="frame" x="10" y="5" width="344" height="40"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                    </textField>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d7K-Vy-rqE" userLabel="Post">
                                         <rect key="frame" x="359" y="10" width="50" height="30"/>
                                         <constraints>
@@ -7515,13 +7515,13 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="Yoz-YA-L0a" secondAttribute="bottom" constant="5" id="AgI-aj-FFw"/>
+                                    <constraint firstItem="BNq-F5-lIj" firstAttribute="leading" secondItem="fzr-3V-Umz" secondAttribute="leading" constant="10" id="DcO-gO-VfN"/>
                                     <constraint firstItem="d7K-Vy-rqE" firstAttribute="top" secondItem="fzr-3V-Umz" secondAttribute="top" constant="10" id="O0K-v1-u3H"/>
+                                    <constraint firstAttribute="trailing" secondItem="BNq-F5-lIj" secondAttribute="trailing" constant="60" id="Oqx-42-j6X"/>
+                                    <constraint firstAttribute="bottom" secondItem="BNq-F5-lIj" secondAttribute="bottom" constant="5" id="Tzi-UR-Veo"/>
                                     <constraint firstAttribute="trailing" secondItem="d7K-Vy-rqE" secondAttribute="trailing" constant="5" id="Y96-G5-KRm"/>
-                                    <constraint firstItem="Yoz-YA-L0a" firstAttribute="top" secondItem="fzr-3V-Umz" secondAttribute="top" constant="5" id="bWN-6x-Uch"/>
-                                    <constraint firstItem="Yoz-YA-L0a" firstAttribute="leading" secondItem="fzr-3V-Umz" secondAttribute="leading" constant="10" id="mWF-PQ-TnD"/>
                                     <constraint firstAttribute="bottom" secondItem="d7K-Vy-rqE" secondAttribute="bottom" constant="10" id="qMJ-eZ-d9n"/>
-                                    <constraint firstAttribute="trailing" secondItem="Yoz-YA-L0a" secondAttribute="trailing" constant="60" id="r6A-k9-RV6"/>
+                                    <constraint firstItem="BNq-F5-lIj" firstAttribute="top" secondItem="fzr-3V-Umz" secondAttribute="top" constant="5" id="xN1-Fw-Trg"/>
                                     <constraint firstAttribute="height" constant="50" id="zeO-uu-7Oe"/>
                                 </constraints>
                             </view>
@@ -7547,7 +7547,7 @@
                     <connections>
                         <outlet property="activityLoading" destination="zbL-U6-B0u" id="LBC-Vl-7me"/>
                         <outlet property="bottomSpaceForText" destination="Pdr-0Y-4Yz" id="h3B-HZ-v6n"/>
-                        <outlet property="commentText" destination="Yoz-YA-L0a" id="6m5-jC-vRM"/>
+                        <outlet property="commentTextView" destination="BNq-F5-lIj" id="ylb-Ro-g6U"/>
                         <outlet property="commentsTableView" destination="dAN-en-S3Z" id="rJW-7z-Ocm"/>
                         <outlet property="postCommentBtn" destination="d7K-Vy-rqE" id="qIM-60-FlY"/>
                         <outlet property="tipText" destination="dHk-BC-whB" id="r1B-SO-KdU"/>
