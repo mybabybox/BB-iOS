@@ -11,6 +11,9 @@ class ChatBubble: UIView {
     var imageId: Int?
     var image: UIImage = UIImage()
     
+    let USER_IMAGE_SIZE = CGFloat(40.0)
+    let OTHER_USER_MESSAGE_X_OFFSET = CGFloat(50.0)
+    
     /**
      Initializes a chat bubble view
      
@@ -41,7 +44,7 @@ class ChatBubble: UIView {
             //if let chatImage = data.image {
             if (data.buyerId != -1) {
                 let userImgView = UIView()
-                buyerImageView = UIImageView(frame: CGRectMake(0, 0, 50, 50))
+                buyerImageView = UIImageView(frame: CGRectMake(0, 0, USER_IMAGE_SIZE, USER_IMAGE_SIZE))
                 ImageUtil.displayThumbnailProfileImage(data.buyerId, imageView: buyerImageView!)
                 userImgView.addSubview(buyerImageView!)
                 self.addSubview(userImgView)
@@ -192,9 +195,8 @@ class ChatBubble: UIView {
             // Need to maintain the minimum left side padding from the left edge of the screen
             newStartX = -CGRectGetMinX(imageViewBG!.frame) + 3.0
         }
-        messageView.frame = CGRectMake(55, 0, CGRectGetWidth(frame), CGRectGetHeight(frame))
+        messageView.frame = CGRectMake(OTHER_USER_MESSAGE_X_OFFSET, 0, CGRectGetWidth(frame), CGRectGetHeight(frame))
         self.frame = CGRectMake(newStartX, CGRectGetMinY(self.frame), CGRectGetWidth(frame), CGRectGetHeight(frame))
-        
     }
     
     // 6. View persistance support
