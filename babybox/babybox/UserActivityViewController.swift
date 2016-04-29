@@ -107,7 +107,7 @@ class UserActivityViewController: CustomNavigationController {
                 cell.userName.setTitle(self.userActivitesItems[indexPath.row].actorName, forState: UIControlState.Normal)
                 cell.userName.setTitleColor(Color.PINK, forState: UIControlState.Normal)
             }
-            cell.userName.sizeToFit()
+            //cell.userName.sizeToFit()
             
             if activityType == "FOLLOWED" {
                 cell.postImage.hidden = true
