@@ -564,7 +564,8 @@ class MessagesViewController: UIViewController, PhotoSliderDelegate, UIScrollVie
         
         var inputTextField: UITextField?;
         _messageDialog.addTextFieldWithConfigurationHandler({(textField: UITextField!) in
-            textField.placeholder = ""
+            textField.placeholder = String(self.conversation!.postPrice)
+            textField.text = String(self.conversation!.postPrice)
             inputTextField = textField
         })
         
