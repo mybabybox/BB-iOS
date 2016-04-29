@@ -22,7 +22,7 @@ class UserActivityViewController: CustomNavigationController {
     var loading: Bool = false
     var loadedAll: Bool = false
     var currentIndex = 0
-    let ACTIVITY_DEFAULT_HEIGHT = CGFloat(60.0)
+    
     override func viewWillAppear(animated: Bool) {
         ViewUtil.hideActivityLoading(self.activityLoading)
         NotificationCounter.refresh(onSuccessRefreshNotifications, failureCallback: onFailureRefreshNotifications)
@@ -175,9 +175,7 @@ class UserActivityViewController: CustomNavigationController {
         dummyLbl.text = self.userActivitesItems[indexPath.row].targetName
         dummyLbl.sizeToFit()
         
-        return CGSizeMake(
-            self.view.bounds.width - (Constants.DEFAULT_SPACING * 2),
-            ACTIVITY_DEFAULT_HEIGHT + dummyLbl.bounds.height)
+        return CGSizeMake(self.view.bounds.width, Constants.USER_ACTIVITY_DEFAULT_HEIGHT + dummyLbl.bounds.height)
     }
     
     func setCollectionViewSizesInsetsForTopView() {
