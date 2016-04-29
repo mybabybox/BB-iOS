@@ -181,6 +181,15 @@ class MessagesViewController: UIViewController, PhotoSliderDelegate, UIScrollVie
         ApiFacade.newMessage(self.conversation!.id, message: trimmedMessage, image: image, system: system, successCallback: onSuccessNewMessage, failureCallback: onFailureNewMessage)
     }
     
+    func onImageSelected(image: UIImage?) {
+        //self.cameraBtn.alpha = 0.0
+        let _image = image?.retainOrientation()
+        self.uploadImgSrc.image = _image
+        self.cameraBtn.setBackgroundImage(_image, forState: .Normal)
+        self.dismissViewControllerAnimated(true, completion: nil)
+        self.sendButton.enabled = true
+    }
+    
     @IBAction func sendButtonClicked(sender: AnyObject) {
         newMessage(commentTextView.text, image: self.uploadImgSrc.image)
     }
@@ -191,10 +200,7 @@ class MessagesViewController: UIViewController, PhotoSliderDelegate, UIScrollVie
         let cameraAction = UIAlertAction(title: "Camera", style: .Default, handler: {
             (alert: UIAlertAction!) -> Void in
             let cameraViewController = ALCameraViewController(croppingEnabled: self.croppingEnabled, allowsLibraryAccess: self.libraryEnabled) { (image) -> Void in
-                //self.cameraBtn.alpha = 0.0
-                //self.uploadImgSrc.image = image?.retainOrientation()
-                self.cameraBtn.setBackgroundImage(image?.retainOrientation(), forState: .Normal)
-                self.dismissViewControllerAnimated(true, completion: nil)
+                self.onImageSelected(image)
             }
             
             self.presentViewController(cameraViewController, animated: true, completion: nil)
@@ -203,10 +209,7 @@ class MessagesViewController: UIViewController, PhotoSliderDelegate, UIScrollVie
         let photoGalleryAction = UIAlertAction(title: "Photo Album", style: .Default, handler: {
             (alert: UIAlertAction!) -> Void in
             let libraryViewController = ALCameraViewController.imagePickerViewController(self.croppingEnabled) { (image) -> Void in
-                //self.cameraBtn.alpha = 0.0
-                //self.uploadImgSrc.image = image?.retainOrientation()
-                self.cameraBtn.setBackgroundImage(image?.retainOrientation(), forState: .Normal)
-                self.dismissViewControllerAnimated(true, completion: nil)
+                self.onImageSelected(image)
             }
             self.presentViewController(libraryViewController, animated: true, completion: nil)
         })
@@ -280,7 +283,9 @@ class MessagesViewController: UIViewController, PhotoSliderDelegate, UIScrollVie
     }
     
     func reset() {
+        self.sendButton.enabled = false
         self.commentTextView.text = ""
+        self.cameraBtn.setBackgroundImage(UIImage(named: "ic_camera"), forState: .Normal)
         self.uploadImgSrc.image = nil
         self.offered = false
         self.offeredPrice = nil
@@ -396,14 +401,14 @@ class MessagesViewController: UIViewController, PhotoSliderDelegate, UIScrollVie
     func scrollViewDidScroll(scrollView: UIScrollView) {
     }
     
-    //Calls this function when the tap is recognized.
+    // Calls this function when the tap is recognized.
     func dismissKeyboard() {
-        //Causes the view (or one of its embedded text fields) to resign the first responder status.
+        // Causes the view (or one of its embedded text fields) to resign the first responder status.
         view.endEditing(true)
     }
     
     func textViewDidChange(textView: UITextView) {
-        self.sendButton.enabled = !textView.text.isEmpty
+        self.sendButton.enabled = self.uploadImgSrc != nil || !textView.text.isEmpty
     }
     
     func textViewDidEndEditing(textView: UITextView) {
@@ -491,7 +496,6 @@ class MessagesViewController: UIViewController, PhotoSliderDelegate, UIScrollVie
         if order == nil {
             if _conversation.postSold {
                 buyerButtonsLayout.hidden = true
-                sellerButtonsLayout.hidden = true
                 footerbtnsHeight.constant = 0   //set the size of block to 0
             } else {
                 buyerOrderLayout.hidden = false
@@ -544,6 +548,7 @@ class MessagesViewController: UIViewController, PhotoSliderDelegate, UIScrollVie
                 sellerMessageButton.setTitle(Constants.PM_ORDER_DECLINED_FOR_SELLER, forState: .Normal)
             } else if order!.cancelled {
                 sellerButtonsLayout.hidden = true
+                footerbtnsHeight.constant = 0   //set the size of block 0
             }
         }
     }
