@@ -27,6 +27,7 @@ class MessagesViewController: UIViewController, PhotoSliderDelegate, UIScrollVie
     @IBOutlet weak var cameraBtn: UIButton!
     @IBOutlet weak var footerbtnsHeight: NSLayoutConstraint!
     
+    @IBOutlet weak var sellerMessageLbl: UILabel!
     var conversation: ConversationVM? = nil
     var offered = false
     var offeredPrice: Double? = -1.0
@@ -44,6 +45,7 @@ class MessagesViewController: UIViewController, PhotoSliderDelegate, UIScrollVie
     var bubbleData: ChatBubbleData?
     var pendingOrder = false
     
+    @IBOutlet weak var buyerMessageLbl: UILabel!
     @IBOutlet weak var buyerButtonsLayout: UIView! //Parent Layout
     @IBOutlet weak var buyerOrderLayout: UIView!
     @IBOutlet weak var buyerCancelLayout: UIView!
@@ -53,7 +55,6 @@ class MessagesViewController: UIViewController, PhotoSliderDelegate, UIScrollVie
     @IBOutlet weak var sellerAcceptDeclineLayout: UIView!
     @IBOutlet weak var sellerMessageLayout: UIView!
     
-    @IBOutlet weak var sellerMessageButton: UIButton!
     @IBOutlet weak var orderText: UILabel!
     @IBOutlet weak var sellerDeclineButton: UIButton!
     @IBOutlet weak var sellerAcceptButton: UIButton!
@@ -61,7 +62,6 @@ class MessagesViewController: UIViewController, PhotoSliderDelegate, UIScrollVie
     @IBOutlet weak var ordered: UILabel!
     @IBOutlet weak var buyerOrderButton: UIButton!
     @IBOutlet weak var buyerCancelButton: UIButton!
-    @IBOutlet weak var buyerMessageButton: UIButton!
     @IBOutlet weak var buyerOrderAgainButton: UIButton!
     
     static var instance: MessagesViewController?
@@ -513,11 +513,11 @@ class MessagesViewController: UIViewController, PhotoSliderDelegate, UIScrollVie
             }
             
             if order!.cancelled {
-                buyerMessageButton.setTitle(Constants.PM_ORDER_CANCELLED, forState: .Normal)
+                buyerMessageLbl.text = Constants.PM_ORDER_CANCELLED
             } else if order!.accepted {
-                buyerMessageButton.setTitle(Constants.PM_ORDER_ACCEPTED_FOR_BUYER, forState: .Normal)
+                buyerMessageLbl.text = Constants.PM_ORDER_ACCEPTED_FOR_BUYER
             } else if order!.declined {
-                buyerMessageButton.setTitle(Constants.PM_ORDER_DECLINED_FOR_BUYER, forState: .Normal)
+                buyerMessageLbl.text = Constants.PM_ORDER_DECLINED_FOR_BUYER
             }
         }
     }
@@ -543,9 +543,9 @@ class MessagesViewController: UIViewController, PhotoSliderDelegate, UIScrollVie
         else {
             sellerMessageLayout.hidden = false
             if order!.accepted {
-                sellerMessageButton.setTitle(Constants.PM_ORDER_ACCEPTED_FOR_SELLER, forState: .Normal)
+                sellerMessageLbl.text = Constants.PM_ORDER_ACCEPTED_FOR_SELLER
             } else if order!.declined {
-                sellerMessageButton.setTitle(Constants.PM_ORDER_DECLINED_FOR_SELLER, forState: .Normal)
+                sellerMessageLbl.text = Constants.PM_ORDER_DECLINED_FOR_SELLER
             } else if order!.cancelled {
                 sellerButtonsLayout.hidden = true
                 footerbtnsHeight.constant = 0   //set the size of block 0

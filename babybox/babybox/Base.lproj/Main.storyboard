@@ -5571,16 +5571,12 @@
                                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ehp-Li-qKQ" userLabel="buyerMessageLayout">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="45"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1IR-L1-WIi" userLabel="buyerMessageButton">
-                                                <rect key="frame" x="10" y="0.0" width="204" height="45"/>
-                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                                <state key="normal" title="Seller has accepted your order">
-                                                    <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="onClickBuyerMessageButton:" destination="89W-J0-Agh" eventType="touchUpInside" id="Azx-Us-rjK"/>
-                                                </connections>
-                                            </button>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="733-D7-Sfx" userLabel="buyerMessageLbl">
+                                                <rect key="frame" x="10" y="5" width="204" height="35"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                             <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yFN-Sa-mtK" userLabel="buyerOrderAgainButton">
                                                 <rect key="frame" x="224" y="5" width="180" height="35"/>
                                                 <color key="backgroundColor" red="1" green="0.46274509803921571" blue="0.64313725490196072" alpha="1" colorSpace="calibratedRGB"/>
@@ -5597,11 +5593,11 @@
                                         <constraints>
                                             <constraint firstAttribute="bottom" secondItem="yFN-Sa-mtK" secondAttribute="bottom" constant="5" id="Iqq-oi-NNM"/>
                                             <constraint firstItem="yFN-Sa-mtK" firstAttribute="top" secondItem="ehp-Li-qKQ" secondAttribute="top" constant="5" id="Jkf-SN-xn6"/>
-                                            <constraint firstItem="yFN-Sa-mtK" firstAttribute="leading" secondItem="1IR-L1-WIi" secondAttribute="trailing" constant="10" id="P25-LL-UBb"/>
+                                            <constraint firstItem="733-D7-Sfx" firstAttribute="leading" secondItem="ehp-Li-qKQ" secondAttribute="leading" constant="10" id="Juo-ik-gWK"/>
+                                            <constraint firstItem="yFN-Sa-mtK" firstAttribute="leading" secondItem="733-D7-Sfx" secondAttribute="trailing" constant="10" id="K5b-RW-dhI"/>
+                                            <constraint firstItem="733-D7-Sfx" firstAttribute="top" secondItem="ehp-Li-qKQ" secondAttribute="top" constant="5" id="MhE-6N-6li"/>
                                             <constraint firstAttribute="trailing" secondItem="yFN-Sa-mtK" secondAttribute="trailing" constant="10" id="Ulm-5x-CFC"/>
-                                            <constraint firstAttribute="bottom" secondItem="1IR-L1-WIi" secondAttribute="bottom" id="afV-Nd-qw5"/>
-                                            <constraint firstItem="1IR-L1-WIi" firstAttribute="leading" secondItem="ehp-Li-qKQ" secondAttribute="leading" constant="10" id="fey-xM-4ks"/>
-                                            <constraint firstItem="1IR-L1-WIi" firstAttribute="top" secondItem="ehp-Li-qKQ" secondAttribute="top" id="h60-Ra-3OF"/>
+                                            <constraint firstAttribute="bottom" secondItem="733-D7-Sfx" secondAttribute="bottom" constant="5" id="igW-Dx-3R5"/>
                                         </constraints>
                                     </view>
                                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="i7R-ob-JVe" userLabel="buyerCancelLayout">
@@ -5762,21 +5758,18 @@
                                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="azs-Nl-fq1" userLabel="sellerMessageLayout">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="45"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wa7-AP-cnw" userLabel="sellerMessageButton">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c85-Xt-rsm" userLabel="sellerMessageLbl">
                                                 <rect key="frame" x="5" y="5" width="404" height="35"/>
-                                                <state key="normal" title="Order has been accepted">
-                                                    <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="onClickSellerMessageButton:" destination="89W-J0-Agh" eventType="touchUpInside" id="uTr-ws-427"/>
-                                                </connections>
-                                            </button>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                         </subviews>
                                         <constraints>
-                                            <constraint firstAttribute="bottom" secondItem="wa7-AP-cnw" secondAttribute="bottom" constant="5" id="4og-5C-eSa"/>
-                                            <constraint firstAttribute="trailing" secondItem="wa7-AP-cnw" secondAttribute="trailing" constant="5" id="7lH-9P-F0r"/>
-                                            <constraint firstItem="wa7-AP-cnw" firstAttribute="top" secondItem="azs-Nl-fq1" secondAttribute="top" constant="5" id="ThA-Md-emh"/>
-                                            <constraint firstItem="wa7-AP-cnw" firstAttribute="leading" secondItem="azs-Nl-fq1" secondAttribute="leading" constant="5" id="Tsn-p8-Jbw"/>
+                                            <constraint firstAttribute="bottom" secondItem="c85-Xt-rsm" secondAttribute="bottom" constant="5" id="7eE-5E-Zwn"/>
+                                            <constraint firstItem="c85-Xt-rsm" firstAttribute="leading" secondItem="azs-Nl-fq1" secondAttribute="leading" constant="5" id="99y-iX-Tt4"/>
+                                            <constraint firstItem="c85-Xt-rsm" firstAttribute="top" secondItem="azs-Nl-fq1" secondAttribute="top" constant="5" id="Yar-g7-IwV"/>
+                                            <constraint firstAttribute="trailing" secondItem="c85-Xt-rsm" secondAttribute="trailing" constant="5" id="xPo-Sa-K08"/>
                                         </constraints>
                                     </view>
                                 </subviews>
@@ -5890,8 +5883,8 @@
                         <outlet property="buyerButtonsLayout" destination="SRR-fR-QBA" id="tqJ-PF-ffY"/>
                         <outlet property="buyerCancelButton" destination="hBY-XO-zqh" id="imP-Dr-GR5"/>
                         <outlet property="buyerCancelLayout" destination="i7R-ob-JVe" id="Y3N-A1-H3V"/>
-                        <outlet property="buyerMessageButton" destination="1IR-L1-WIi" id="pd9-ew-LNx"/>
                         <outlet property="buyerMessageLayout" destination="ehp-Li-qKQ" id="Qnn-LF-nNf"/>
+                        <outlet property="buyerMessageLbl" destination="733-D7-Sfx" id="0Co-4e-9ip"/>
                         <outlet property="buyerOrderAgainButton" destination="yFN-Sa-mtK" id="30L-sh-xte"/>
                         <outlet property="buyerOrderButton" destination="13f-kK-thK" id="4sw-aM-jWN"/>
                         <outlet property="buyerOrderLayout" destination="Vun-dL-9xa" id="vBc-3x-1HL"/>
@@ -5911,8 +5904,8 @@
                         <outlet property="sellerAcceptDeclineLayout" destination="jKJ-ej-dAD" id="DWn-DX-I99"/>
                         <outlet property="sellerButtonsLayout" destination="kCC-OU-TfJ" id="FXn-DR-1Jj"/>
                         <outlet property="sellerDeclineButton" destination="5WB-jQ-yuh" id="DpT-0q-0xh"/>
-                        <outlet property="sellerMessageButton" destination="wa7-AP-cnw" id="FaD-xu-zaY"/>
                         <outlet property="sellerMessageLayout" destination="azs-Nl-fq1" id="SRI-Wu-w0t"/>
+                        <outlet property="sellerMessageLbl" destination="c85-Xt-rsm" id="Pld-SF-K9g"/>
                         <outlet property="sendButton" destination="od8-i0-Cxw" id="zK6-Yg-5fV"/>
                         <outlet property="soldTextLbl" destination="YyM-AO-4a1" id="3Nw-MP-vEr"/>
                         <outlet property="uploadImgSrc" destination="8ws-wO-QRr" id="eaZ-xF-4M6"/>
