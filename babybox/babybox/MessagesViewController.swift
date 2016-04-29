@@ -29,7 +29,7 @@ class MessagesViewController: UIViewController, PhotoSliderDelegate, UIScrollVie
     
     var conversation: ConversationVM? = nil
     var offered = false
-    var offeredPrice: Double = -1
+    var offeredPrice: Double? = -1.0
     
     var offset: Int64 = 0
     var selectedImage : UIImage?
@@ -283,7 +283,7 @@ class MessagesViewController: UIViewController, PhotoSliderDelegate, UIScrollVie
         self.commentTextView.text = ""
         self.uploadImgSrc.image = nil
         self.offered = false
-        self.offeredPrice = -1
+        self.offeredPrice = nil
     }
     
     //MARK: Delegates
@@ -414,7 +414,7 @@ class MessagesViewController: UIViewController, PhotoSliderDelegate, UIScrollVie
         self.handleChatMessageResponse(response)
 
         if self.offered {
-            self.newMessage("New offer: \(Int(self.offeredPrice))", image: nil, system: true)
+            self.newMessage("New offer: \(Int(self.offeredPrice!))", image: nil, system: true)
         }
     }
     
@@ -554,8 +554,8 @@ class MessagesViewController: UIViewController, PhotoSliderDelegate, UIScrollVie
         NSLog("onClickBuyerMessageButton")
     }
     
-    @IBAction func onClickBuyerOrderAgainButton(sender: AnyObject) {
-        NSLog("onClickBuyerOrderAgainButton")
+    @IBAction func onClickBuyerOrderButton(sender: AnyObject) {
+        NSLog("onClickBuyerOrderButton")
         
         let _messageDialog = UIAlertController(
             title: "Buy Now",
@@ -576,8 +576,11 @@ class MessagesViewController: UIViewController, PhotoSliderDelegate, UIScrollVie
             title: "Confirm",
             style: UIAlertActionStyle.Default,
             handler: { (action: UIAlertAction!) in
-                if Int(inputTextField!.text!) == -1 {
-                    self.doBuyerOrder(self.conversation!, offeredPrice: Double((inputTextField?.text)!)!)
+                self.offeredPrice = Double(inputTextField!.text!)
+                if self.offeredPrice != nil && self.offeredPrice != -1 {
+                    self.doBuyerOrder(self.conversation!, offeredPrice: self.offeredPrice!)
+                } else {
+                    ViewUtil.makeToast("Please enter an offer price", view: self.view)
                 }
         })
         
@@ -602,38 +605,6 @@ class MessagesViewController: UIViewController, PhotoSliderDelegate, UIScrollVie
             style: UIAlertActionStyle.Default,
             handler: { (action: UIAlertAction!) in
                 self.doBuyerCancel(self.conversation!)
-        })
-        
-        _messageDialog.addAction(cancelAction)
-        _messageDialog.addAction(confirmAction)
-        self.presentViewController(_messageDialog, animated: true, completion: nil)
-    }
-    
-    @IBAction func onClickBuyerOrderButton(sender: AnyObject) {
-        NSLog("onClickBuyerOrderButton")
-        
-        let _messageDialog = UIAlertController(
-            title: "Buy Now",
-            message: "Make an offer to Seller",
-            preferredStyle: UIAlertControllerStyle.Alert)
-        
-        var inputTextField: UITextField?
-        _messageDialog.addTextFieldWithConfigurationHandler({(textField: UITextField!) in
-            textField.placeholder = ""
-            inputTextField = textField
-        })
-        
-        let cancelAction = UIAlertAction(
-            title: "Cancel",
-            style: UIAlertActionStyle.Default,
-            handler: nil)
-        let confirmAction = UIAlertAction(
-            title: "Confirm",
-            style: UIAlertActionStyle.Default,
-            handler: { (action: UIAlertAction!) in
-                if Int(inputTextField!.text!) == -1 {
-                    self.doBuyerOrder(self.conversation!, offeredPrice: Double((inputTextField?.text)!)!)
-                }
         })
         
         _messageDialog.addAction(cancelAction)
@@ -710,10 +681,10 @@ class MessagesViewController: UIViewController, PhotoSliderDelegate, UIScrollVie
     }
     
     func onSuccessNewConversationOrder(order: ConversationOrderVM) {
-        self.newMessage("New offer: $"+String(self.offeredPrice), image: nil, system: true)
+        self.newMessage("New offer: \(Int(self.offeredPrice!))", image: nil, system: true)
         
-        let updatedConversation = ConversationCache.updateConversationOrder(conversation!.id, order: order)
-        initLayout(updatedConversation)
+        self.conversation = ConversationCache.updateConversationOrder(conversation!.id, order: order)
+        initLayout(self.conversation!)
         
         pendingOrder = false
         ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
@@ -744,8 +715,8 @@ class MessagesViewController: UIViewController, PhotoSliderDelegate, UIScrollVie
     func onSuccessCancelConversationOrder(order: ConversationOrderVM) {
         self.newMessage("Offer is cancelled", image: nil, system: true)
         
-        let updatedConversation = ConversationCache.updateConversationOrder(conversation!.id, order: order)
-        initLayout(updatedConversation)
+        self.conversation = ConversationCache.updateConversationOrder(conversation!.id, order: order)
+        initLayout(self.conversation!)
         
         pendingOrder = false
         ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
@@ -775,8 +746,8 @@ class MessagesViewController: UIViewController, PhotoSliderDelegate, UIScrollVie
     func onSuccessAcceptConversationOrder(order: ConversationOrderVM) {
         self.newMessage("Offer is accepted", image: nil, system: true)
         
-        let updatedConversation = ConversationCache.updateConversationOrder(conversation!.id, order: order)
-        initLayout(updatedConversation);
+        self.conversation = ConversationCache.updateConversationOrder(conversation!.id, order: order)
+        initLayout(self.conversation!);
         
         pendingOrder = false
         ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
@@ -804,8 +775,8 @@ class MessagesViewController: UIViewController, PhotoSliderDelegate, UIScrollVie
     func onSuccessDeclineConversationOrder(order: ConversationOrderVM) {
         self.newMessage("Offer is declined", image: nil, system: true)
         
-        let updatedConversation = ConversationCache.updateConversationOrder(conversation!.id, order: order)
-        initLayout(updatedConversation);
+        self.conversation = ConversationCache.updateConversationOrder(conversation!.id, order: order)
+        initLayout(self.conversation!);
         
         pendingOrder = false
         ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
