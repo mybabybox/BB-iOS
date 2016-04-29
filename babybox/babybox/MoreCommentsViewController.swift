@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MoreCommentsViewController: UIViewController, UITextFieldDelegate, UIScrollViewDelegate, UITextViewDelegate {
+class MoreCommentsViewController: UIViewController, UIScrollViewDelegate, UITextViewDelegate {
 
     @IBOutlet weak var commentTextView: UITextView!
     @IBOutlet weak var postCommentBtn: UIButton!
@@ -43,12 +43,15 @@ class MoreCommentsViewController: UIViewController, UITextFieldDelegate, UIScrol
         super.viewDidLoad()
         
         ViewUtil.showActivityLoading(self.activityLoading)
-        ViewUtil.displayRoundedCornerView(self.postCommentBtn, bgColor: Color.LIGHT_GRAY)
-        self.commentTextView.delegate = self
-        ViewUtil.displayRoundedCornerView(self.commentTextView, bgColor: Color.WHITE, borderColor: Color.LIGHT_GRAY)
-        self.commentTextView.placeholder = NSLocalizedString("enter_comment", comment: "")
-        ApiFacade.getComments(self.postId, offset: offset, successCallback: onSuccessGetComments, failureCallback: onFailureGetComments)
         
+        //ViewUtil.displayRoundedCornerView(self.postCommentBtn, bgColor: Color.LIGHT_GRAY)
+        //ViewUtil.displayRoundedCornerView(self.commentTextView, bgColor: Color.WHITE, borderColor: Color.LIGHT_GRAY)
+        
+        self.postCommentBtn.enabled = false
+        self.commentTextView.delegate = self
+        self.commentTextView.placeholder = NSLocalizedString("enter_text", comment: "")
+        
+        ApiFacade.getComments(self.postId, offset: offset, successCallback: onSuccessGetComments, failureCallback: onFailureGetComments)
         self.loading = true
         
         self.refreshControl.attributedTitle = NSAttributedString(string: "")
@@ -341,7 +344,7 @@ class MoreCommentsViewController: UIViewController, UITextFieldDelegate, UIScrol
     }
     
     func textViewDidChange(textView: UITextView) {
-        print("text change of TextView")
+        self.postCommentBtn.enabled = !textView.text.isEmpty
         //self.tableViewHtConstraint.constant = self.tableViewHtConstraint.constant - 20
     }
     

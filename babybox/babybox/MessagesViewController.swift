@@ -9,7 +9,7 @@
 import UIKit
 import PhotoSlider
 
-class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSliderDelegate, UIScrollViewDelegate, UITextViewDelegate {
+class MessagesViewController: UIViewController, PhotoSliderDelegate, UIScrollViewDelegate, UITextViewDelegate {
         
     @IBOutlet weak var commentTextView: UITextView!
     @IBOutlet weak var bottomSpaceForText: NSLayoutConstraint!
@@ -78,8 +78,11 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         MessagesViewController.instance = self
         messageCointainerScroll.delegate = self
         self.commentTextView.delegate = self
-        ViewUtil.displayRoundedCornerView(self.commentTextView, bgColor: Color.WHITE, borderColor: Color.LIGHT_GRAY)
-        self.commentTextView.placeholder = NSLocalizedString("enter_comment", comment: "")
+        
+        //ViewUtil.displayRoundedCornerView(self.commentTextView, bgColor: Color.WHITE, borderColor: Color.LIGHT_GRAY)
+        self.commentTextView.placeholder = NSLocalizedString("enter_text", comment: "")
+        self.sendButton.enabled = false
+        
         self.navigationItem.title = self.conversation?.userName
         let titleDict: NSDictionary = [NSForegroundColorAttributeName: Color.WHITE]
         self.navigationController!.navigationBar.titleTextAttributes = titleDict as? [String : AnyObject]
@@ -88,8 +91,6 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
             target: self,
             action: "dismissKeyboard")
         self.messageCointainerScroll.addGestureRecognizer(tap)
-        
-        sendButton.enabled = true
         
         ViewUtil.showActivityLoading(self.activityLoading)
         ApiFacade.getMessages((self.conversation?.id)!, offset: offset, successCallback: onSuccessGetMessages, failureCallback: onFailureGetMessages)
@@ -112,8 +113,7 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
         let userProfileBarBtn = UIBarButtonItem(customView: userProfileBtn)
         self.navigationItem.rightBarButtonItems = [userProfileBarBtn]
         
-        ViewUtil.displayRoundedCornerView(self.sendButton)
-        self.sendButton.layer.borderWidth = 0
+        //ViewUtil.displayRoundedCornerView(self.sendButton, bgColor: Color.LIGHT_GRAY.CGColor)
         
         self.initButtonsLayout()
         self.initLayout(self.conversation!)
@@ -405,6 +405,14 @@ class MessagesViewController: UIViewController, UITextFieldDelegate, PhotoSlider
     func dismissKeyboard() {
         //Causes the view (or one of its embedded text fields) to resign the first responder status.
         view.endEditing(true)
+    }
+    
+    func textViewDidChange(textView: UITextView) {
+        self.sendButton.enabled = !textView.text.isEmpty
+    }
+    
+    func textViewDidEndEditing(textView: UITextView) {
+    
     }
     
     func onSuccessGetMessages(response: MessageResponseVM) {
