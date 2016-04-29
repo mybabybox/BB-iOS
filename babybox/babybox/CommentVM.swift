@@ -19,6 +19,7 @@ class CommentVM: BaseArgVM {
     var body: String = ""
     var isOwner: Bool = false
     var deviceType: String = ""
+    var isNew: Bool = false
     
     override func mapping(map: ObjectMapper.Map) {
         id<-map["id"]

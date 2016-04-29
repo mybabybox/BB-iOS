@@ -298,16 +298,16 @@ class ApiFacade {
         ApiController.instance.newMessage(conversationId, message: message, image: image, system: system)
     }
     
-    static func newComment(postId: Int, commentText: String, successCallback: ((String) -> Void)?, failureCallback: ((String) -> Void)?) {
+    static func newComment(postId: Int, commentText: String, successCallback: ((ResponseVM) -> Void)?, failureCallback: ((String) -> Void)?) {
         
         SwiftEventBus.unregister(self)
         
         SwiftEventBus.onMainThread(self, name: "onSuccessNewComment") { result in
             if successCallback != nil {
-                if result.object is NSString {
-                    successCallback!(result.object as! String)
+                if result.object is ResponseVM {
+                    successCallback!(result.object as! ResponseVM)
                 } else {
-                    successCallback!("")
+                    //successCallback!("")
                 }
             }
         }

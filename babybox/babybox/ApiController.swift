@@ -568,7 +568,7 @@ class ApiController {
         
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/comment/new"
-        callEvent.resultClass = "String"
+        callEvent.resultClass = "ResponseVM"
         callEvent.body = parameter
         callEvent.successEventbusName = "onSuccessNewComment"
         callEvent.failedEventbusName = "onFailureNewComment"
@@ -884,6 +884,7 @@ class ApiController {
         case "[SellerVM]": result = Mapper<SellerVM>().mapArray(inputStr)!
         case "[FeaturedItemVM]": result = Mapper<FeaturedItemVM>().mapArray(inputStr)!
         case "ConversationOrderVM": result = Mapper<ConversationOrderVM>().map(inputStr)!
+        case "ResponseVM": result = Mapper<ResponseVM>().map(inputStr)!
         case "String": result = inputStr
         default: NSLog("calling default object resolver")
         }

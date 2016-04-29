@@ -128,7 +128,7 @@ class MoreCommentsViewController: UIViewController, UIScrollViewDelegate, UIText
         cell.commentText.sizeToFit()
         self.lcontentSize = cell.commentText.frame.size.height
         //cell.commentText.clipsToBounds = true
-        if (comment.id != -1) {
+        if (!comment.isNew) {
             cell.commentTime.text = NSDate(timeIntervalSince1970:Double(comment.createdDate) / 1000.0).timeAgo
         } else {
             cell.commentTime.text = NSDate(timeIntervalSinceNow: comment.createdDate / 1000.0).timeAgo
@@ -248,14 +248,15 @@ class MoreCommentsViewController: UIViewController, UIScrollViewDelegate, UIText
         self.refreshControl.endRefreshing()
     }
     
-    func onSuccessNewComment(response: String) {
+    func onSuccessNewComment(response: ResponseVM) {
         let comment = CommentVM()
         comment.ownerId = UserInfoCache.getUser()!.id
         comment.body = self.commentTextView.text!
         comment.ownerName = UserInfoCache.getUser()!.displayName
         comment.deviceType = "iOS"
         comment.createdDate = NSDate().timeIntervalSinceNow
-        comment.id = -1
+        comment.id = response.objId!
+        comment.isNew = true
         self.comments!.append(comment)
         self.commentTextView.text = ""
         self.commentsTableView.reloadData()
