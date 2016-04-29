@@ -616,8 +616,8 @@ class ApiController {
         let callEvent = ApiCallEvent()
         callEvent.method = "/api/conversation-order/decline/\(conversationOrderId)"
         callEvent.resultClass = "ConversationOrderVM"
-        callEvent.successEventbusName = "onSuccessAcceptConversationOrder"
-        callEvent.failedEventbusName = "onFailureAcceptConversationOrder"
+        callEvent.successEventbusName = "onSuccessDeclineConversationOrder"
+        callEvent.failedEventbusName = "onFailureDeclineConversationOrder"
         callEvent.apiUrl = Constants.BASE_URL + callEvent.method
         self.makeApiCall(callEvent)
     }

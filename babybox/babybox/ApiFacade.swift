@@ -581,7 +581,6 @@ class ApiFacade {
                 ApiController.instance.getUserFollowers(userId, offset: offset)
             default: break
         }
-        
     }
     
     static func getUserActivities(offset: Int64, successCallback: (([ActivityVM]) -> Void)?, failureCallback: ((String) -> Void)?) {
@@ -607,6 +606,7 @@ class ApiFacade {
                 failureCallback!(error)
             }
         }
+        
         ApiController.instance.getUserActivities(offset)
     }
     
@@ -633,6 +633,7 @@ class ApiFacade {
                 failureCallback!(error)
             }
         }
+        
         ApiController.instance.newConversationOrder(conversationId, offeredPrice: offeredPrice)
     }
     
@@ -659,6 +660,7 @@ class ApiFacade {
                 failureCallback!(error)
             }
         }
+        
         ApiController.instance.cancelConversationOrder(conversationId)
     }
     
@@ -712,6 +714,7 @@ class ApiFacade {
                 failureCallback!(error)
             }
         }
+        
         ApiController.instance.declineConversationOrder(conversationId)
     }
     

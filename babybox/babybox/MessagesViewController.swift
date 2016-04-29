@@ -548,13 +548,19 @@ class MessagesViewController: UIViewController, PhotoSliderDelegate, UIScrollVie
         }
     }
     
+    // order actions
+    
     @IBAction func onClickBuyerMessageButton(sender: AnyObject) {
         NSLog("onClickBuyerMessageButton")
     }
     
     @IBAction func onClickBuyerOrderAgainButton(sender: AnyObject) {
         NSLog("onClickBuyerOrderAgainButton")
-        let _messageDialog = UIAlertController(title: "Buy Now", message: "Make an offer to Seller", preferredStyle: UIAlertControllerStyle.Alert)
+        
+        let _messageDialog = UIAlertController(
+            title: "Buy Now",
+            message: "Make an offer to Seller",
+            preferredStyle: UIAlertControllerStyle.Alert)
         
         var inputTextField: UITextField?;
         _messageDialog.addTextFieldWithConfigurationHandler({(textField: UITextField!) in
@@ -562,12 +568,19 @@ class MessagesViewController: UIViewController, PhotoSliderDelegate, UIScrollVie
             inputTextField = textField
         })
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: nil)
-        let confirmAction = UIAlertAction(title: "Confirm", style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction!) in
-            if Int(inputTextField!.text!) == -1 {
-                self.doBuyerOrder(self.conversation!, offeredPrice: Double((inputTextField?.text)!)!)
-            }
+        let cancelAction = UIAlertAction(
+            title: "Cancel",
+            style: UIAlertActionStyle.Default,
+            handler: nil)
+        let confirmAction = UIAlertAction(
+            title: "Confirm",
+            style: UIAlertActionStyle.Default,
+            handler: { (action: UIAlertAction!) in
+                if Int(inputTextField!.text!) == -1 {
+                    self.doBuyerOrder(self.conversation!, offeredPrice: Double((inputTextField?.text)!)!)
+                }
         })
+        
         _messageDialog.addAction(cancelAction)
         _messageDialog.addAction(confirmAction)
         self.presentViewController(_messageDialog, animated: true, completion: nil)
@@ -576,11 +589,21 @@ class MessagesViewController: UIViewController, PhotoSliderDelegate, UIScrollVie
     @IBAction func onClickBuyerCancelButton(sender: AnyObject) {
         NSLog("onClickBuyerCancelButton")
         
-        let _messageDialog = UIAlertController(title: "Buy Now", message: NSLocalizedString("pm_order_cancel_confirm", comment: ""), preferredStyle: UIAlertControllerStyle.Alert)
-        let cancelAction = UIAlertAction(title: NSLocalizedString("cancel", comment: ""), style: UIAlertActionStyle.Default, handler: nil)
-        let confirmAction = UIAlertAction(title: NSLocalizedString("confirm", comment: ""), style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction!) in
-            self.doBuyerCancel(self.conversation!)
+        let _messageDialog = UIAlertController(
+            title: "Buy Now",
+            message: NSLocalizedString("pm_order_cancel_confirm", comment: ""),
+            preferredStyle: UIAlertControllerStyle.Alert)
+        let cancelAction = UIAlertAction(
+            title: NSLocalizedString("cancel", comment: ""),
+            style: UIAlertActionStyle.Default,
+            handler: nil)
+        let confirmAction = UIAlertAction(
+            title: NSLocalizedString("confirm", comment: ""),
+            style: UIAlertActionStyle.Default,
+            handler: { (action: UIAlertAction!) in
+                self.doBuyerCancel(self.conversation!)
         })
+        
         _messageDialog.addAction(cancelAction)
         _messageDialog.addAction(confirmAction)
         self.presentViewController(_messageDialog, animated: true, completion: nil)
@@ -589,33 +612,53 @@ class MessagesViewController: UIViewController, PhotoSliderDelegate, UIScrollVie
     @IBAction func onClickBuyerOrderButton(sender: AnyObject) {
         NSLog("onClickBuyerOrderButton")
         
-        let _messageDialog = UIAlertController(title: "Buy Now", message: "Make an offer to Seller", preferredStyle: UIAlertControllerStyle.Alert)
+        let _messageDialog = UIAlertController(
+            title: "Buy Now",
+            message: "Make an offer to Seller",
+            preferredStyle: UIAlertControllerStyle.Alert)
         
-        var inputTextField: UITextField?;
+        var inputTextField: UITextField?
         _messageDialog.addTextFieldWithConfigurationHandler({(textField: UITextField!) in
             textField.placeholder = ""
             inputTextField = textField
         })
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: nil)
-        let confirmAction = UIAlertAction(title: "Confirm", style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction!) in
-            if Int(inputTextField!.text!) == -1 {
-                self.doBuyerOrder(self.conversation!, offeredPrice: Double((inputTextField?.text)!)!)
-            }
+        let cancelAction = UIAlertAction(
+            title: "Cancel",
+            style: UIAlertActionStyle.Default,
+            handler: nil)
+        let confirmAction = UIAlertAction(
+            title: "Confirm",
+            style: UIAlertActionStyle.Default,
+            handler: { (action: UIAlertAction!) in
+                if Int(inputTextField!.text!) == -1 {
+                    self.doBuyerOrder(self.conversation!, offeredPrice: Double((inputTextField?.text)!)!)
+                }
         })
+        
         _messageDialog.addAction(cancelAction)
         _messageDialog.addAction(confirmAction)
         self.presentViewController(_messageDialog, animated: true, completion: nil)
-        
     }
     
     @IBAction func onClickSellerAcceptButton(sender: AnyObject) {
         NSLog("onClickSellerAcceptButton")
-        let _messageDialog = UIAlertController(title: "Accept", message: NSLocalizedString("pm_order_accept_confirm", comment: ""), preferredStyle: UIAlertControllerStyle.Alert)
-        let cancelAction = UIAlertAction(title: NSLocalizedString("cancel", comment: ""), style: UIAlertActionStyle.Default, handler: nil)
-        let confirmAction = UIAlertAction(title: NSLocalizedString("confirm", comment: ""), style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction!) in
-            self.doSellerAccept(self.conversation!)
+        
+        let _messageDialog = UIAlertController(
+            title: "Accept",
+            message: NSLocalizedString("pm_order_accept_confirm", comment: ""),
+            preferredStyle: UIAlertControllerStyle.Alert)
+        let cancelAction = UIAlertAction(
+            title: NSLocalizedString("cancel", comment: ""),
+            style: UIAlertActionStyle.Default,
+            handler: nil)
+        let confirmAction = UIAlertAction(
+            title: NSLocalizedString("confirm", comment: ""),
+            style: UIAlertActionStyle.Default,
+            handler: { (action: UIAlertAction!) in
+                self.doSellerAccept(self.conversation!)
         })
+        
         _messageDialog.addAction(cancelAction)
         _messageDialog.addAction(confirmAction)
         self.presentViewController(_messageDialog, animated: true, completion: nil)
@@ -623,11 +666,22 @@ class MessagesViewController: UIViewController, PhotoSliderDelegate, UIScrollVie
     
     @IBAction func onClickSellerDeclineButton(sender: AnyObject) {
         NSLog("onClickSellerDeclineButton")
-        let _messageDialog = UIAlertController(title: "Accept", message: NSLocalizedString("pm_order_decline_confirm", comment: ""), preferredStyle: UIAlertControllerStyle.Alert)
-        let cancelAction = UIAlertAction(title: NSLocalizedString("cancel", comment: ""), style: UIAlertActionStyle.Default, handler: nil)
-        let confirmAction = UIAlertAction(title: NSLocalizedString("confirm", comment: ""), style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction!) in
-            self.doSellerDecline(self.conversation!)
+        
+        let _messageDialog = UIAlertController(
+            title: "Accept",
+            message: NSLocalizedString("pm_order_decline_confirm", comment: ""),
+            preferredStyle: UIAlertControllerStyle.Alert)
+        let cancelAction = UIAlertAction(
+            title: NSLocalizedString("cancel", comment: ""),
+            style: UIAlertActionStyle.Default,
+            handler: nil)
+        let confirmAction = UIAlertAction(
+            title: NSLocalizedString("confirm", comment: ""),
+            style: UIAlertActionStyle.Default,
+            handler: { (action: UIAlertAction!) in
+                self.doSellerDecline(self.conversation!)
         })
+        
         _messageDialog.addAction(cancelAction)
         _messageDialog.addAction(confirmAction)
         self.presentViewController(_messageDialog, animated: true, completion: nil)
@@ -655,6 +709,22 @@ class MessagesViewController: UIViewController, PhotoSliderDelegate, UIScrollVie
         ApiFacade.newConversationOrder(conversation.id, offeredPrice: offeredPrice, successCallback: onSuccessNewConversationOrder, failureCallback: onFailureConversationOrder)
     }
     
+    func onSuccessNewConversationOrder(order: ConversationOrderVM) {
+        self.newMessage("New offer: $"+String(self.offeredPrice), image: nil, system: true)
+        
+        let updatedConversation = ConversationCache.updateConversationOrder(conversation!.id, order: order)
+        initLayout(updatedConversation)
+        
+        pendingOrder = false
+        ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
+    }
+    
+    func onFailureConversationOrder(response: String) {
+        ViewUtil.makeToast(NSLocalizedString("pm_order_failed", comment: ""), view: self.view)
+        pendingOrder = false
+        ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
+    }
+    
     func doBuyerCancel(conversation: ConversationVM) {
         let order = conversation.order
         if order != nil && order!.closed {
@@ -667,25 +737,14 @@ class MessagesViewController: UIViewController, PhotoSliderDelegate, UIScrollVie
         }
         
         pendingOrder = true
-        ApiFacade.cancelConversationOrder(conversation.order!.id, successCallback: onSucessCancelConversationOrder, failureCallback: onFailureCancelConversationOrder)
+        ApiFacade.cancelConversationOrder(conversation.order!.id, successCallback: onSuccessCancelConversationOrder, failureCallback: onFailureCancelConversationOrder)
         
     }
     
-    func onSuccessNewConversationOrder(order: ConversationOrderVM) {
-        let updatedConversation:ConversationVM = ConversationCache.updateConversationOrder(conversation!.id, order: order)
-        initLayout(updatedConversation)
-        pendingOrder = false
-        ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
-    }
-    
-    func onFailureConversationOrder(response: String) {
-        ViewUtil.makeToast(NSLocalizedString("pm_order_failed", comment: ""), view: self.view)
-        pendingOrder = false
-        ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
-    }
-    
-    func onSucessCancelConversationOrder(order: ConversationOrderVM) {
-        let updatedConversation = ConversationCache.updateConversationOrder(conversation!.id,order:  order)
+    func onSuccessCancelConversationOrder(order: ConversationOrderVM) {
+        self.newMessage("Offer is cancelled", image: nil, system: true)
+        
+        let updatedConversation = ConversationCache.updateConversationOrder(conversation!.id, order: order)
         initLayout(updatedConversation)
         
         pendingOrder = false
@@ -710,8 +769,21 @@ class MessagesViewController: UIViewController, PhotoSliderDelegate, UIScrollVie
         }
     
         pendingOrder = true
-        
         ApiFacade.acceptConversationOrder(conversation.order!.id, successCallback: onSuccessAcceptConversationOrder, failureCallback: onFailureAcceptConversationOrder)
+    }
+    
+    func onSuccessAcceptConversationOrder(order: ConversationOrderVM) {
+        self.newMessage("Offer is accepted", image: nil, system: true)
+        
+        let updatedConversation = ConversationCache.updateConversationOrder(conversation!.id, order: order)
+        initLayout(updatedConversation);
+        
+        pendingOrder = false
+        ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
+    }
+    
+    func onFailureAcceptConversationOrder(response: String) {
+        ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
     }
     
     func doSellerDecline(conversation: ConversationVM) {
@@ -726,24 +798,15 @@ class MessagesViewController: UIViewController, PhotoSliderDelegate, UIScrollVie
         }
         
         pendingOrder = true
-        
         ApiFacade.declineConversationOrder(conversation.order!.id, successCallback: onSuccessDeclineConversationOrder, failureCallback: onFailureDeclineConversationOrder)
     }
     
-    func onSuccessAcceptConversationOrder(order: ConversationOrderVM) {
-        let updatedConversation = ConversationCache.updateConversationOrder(conversation!.id, order: order)
-        initLayout(updatedConversation);
-        pendingOrder = false
-        ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
-    }
-    
-    func onFailureAcceptConversationOrder(response: String) {
-        ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
-    }
-    
     func onSuccessDeclineConversationOrder(order: ConversationOrderVM) {
+        self.newMessage("Offer is declined", image: nil, system: true)
+        
         let updatedConversation = ConversationCache.updateConversationOrder(conversation!.id, order: order)
         initLayout(updatedConversation);
+        
         pendingOrder = false
         ViewUtil.showNormalView(self, activityLoading: self.activityLoading)
     }
