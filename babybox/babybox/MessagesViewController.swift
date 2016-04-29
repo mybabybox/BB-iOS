@@ -109,7 +109,7 @@ class MessagesViewController: UIViewController, PhotoSliderDelegate, UIScrollVie
         let userProfileBtn: UIButton = UIButton()
         userProfileBtn.setImage(UIImage(named: "w_profile"), forState: UIControlState.Normal)
         userProfileBtn.addTarget(self, action: "onClickProfileBtn:", forControlEvents: UIControlEvents.TouchUpInside)
-        userProfileBtn.frame = CGRectMake(0, 0, 35, 35)
+        userProfileBtn.frame = CGRectMake(0, 0, 30, 30)
         let userProfileBarBtn = UIBarButtonItem(customView: userProfileBtn)
         self.navigationItem.rightBarButtonItems = [userProfileBarBtn]
         
@@ -157,32 +157,32 @@ class MessagesViewController: UIViewController, PhotoSliderDelegate, UIScrollVie
     }
     
     func newMessage(message: String, image: UIImage?, system: Bool = false) {
+        let trimmedMessage = StringUtil.trim(message)
+        if self.uploadImgSrc.image == nil && trimmedMessage.isEmpty {
+            ViewUtil.makeToast(NSLocalizedString("enter_text_msg", comment: ""), view: self.view)
+            return
+        }
+        
         let date = NSDate(timeIntervalSinceNow: NSDate().timeIntervalSinceNow / 1000.0)
         
-        self.bubbleData = ChatBubbleData(text: message, image: image, date: date, type: .Me, buyerId: -1, imageId: -1, system: system)
+        self.bubbleData = ChatBubbleData(text: trimmedMessage, image: image, date: date, type: .Me, buyerId: -1, imageId: -1, system: system)
         
-        //if self.conversationViewController != nil {
-            if conversationViewController.isKindOfClass(ConversationsViewController) {
-                let cView = conversationViewController as? ConversationsViewController
-                cView!.updateOpenedConversation = true
-            } else if conversationViewController.isKindOfClass(ProductChatViewController) {
-                let cView = conversationViewController as? ProductChatViewController
-                cView!.updateOpenedConversation = true
-            }
-        //}
+        if conversationViewController.isKindOfClass(ConversationsViewController) {
+            let cView = conversationViewController as? ConversationsViewController
+            cView!.updateOpenedConversation = true
+        } else if conversationViewController.isKindOfClass(ProductChatViewController) {
+            let cView = conversationViewController as? ProductChatViewController
+            cView!.updateOpenedConversation = true
+        }
         
-        NSLog("newMessage=\(message)");
+        NSLog("newMessage=\(trimmedMessage)");
         
         ViewUtil.showGrayOutView(self, activityLoading: self.activityLoading)
-        ApiFacade.newMessage(self.conversation!.id, message: message, image: image, system: system, successCallback: onSuccessNewMessage, failureCallback: onFailureNewMessage)
+        ApiFacade.newMessage(self.conversation!.id, message: trimmedMessage, image: image, system: system, successCallback: onSuccessNewMessage, failureCallback: onFailureNewMessage)
     }
     
     @IBAction func sendButtonClicked(sender: AnyObject) {
-        if self.uploadImgSrc.image == nil && StringUtil.trim(self.commentTextView.text).isEmpty {
-            //ViewUtil.makeToast("Please enter a message", view: self.view)
-            return
-        }
-        newMessage(StringUtil.trim(commentTextView.text), image: self.uploadImgSrc.image)
+        newMessage(commentTextView.text, image: self.uploadImgSrc.image)
     }
     
     @IBAction func cameraButtonClicked(sender: AnyObject) {

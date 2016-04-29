@@ -221,13 +221,14 @@ class MoreCommentsViewController: UIViewController, UIScrollViewDelegate, UIText
     }
     
     @IBAction func onClickSaveBtn(sender: AnyObject) {
-        
-        if self.commentTextView.text!.isEmpty {
-            ViewUtil.makeToast(NSLocalizedString("enter_comment_msg", comment: ""), view: self.view)
+        let trimmedMessage = StringUtil.trim(self.commentTextView.text!)
+        if trimmedMessage.isEmpty {
+            ViewUtil.makeToast(NSLocalizedString("enter_text_msg", comment: ""), view: self.view)
             return
         }
+        
         ViewUtil.showGrayOutView(self)
-        ApiFacade.newComment(self.postId, commentText: StringUtil.trim(self.commentTextView.text), successCallback: onSuccessNewComment, failureCallback: onFailureNewComment)
+        ApiFacade.newComment(self.postId, commentText: trimmedMessage, successCallback: onSuccessNewComment, failureCallback: onFailureNewComment)
     }
     
     func onSuccessGetComments(comments: [CommentVM]) {
