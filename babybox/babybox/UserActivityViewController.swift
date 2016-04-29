@@ -22,7 +22,7 @@ class UserActivityViewController: CustomNavigationController {
     var loading: Bool = false
     var loadedAll: Bool = false
     var currentIndex = 0
-    
+    let ACTIVITY_DEFAULT_HEIGHT = CGFloat(60.0)
     override func viewWillAppear(animated: Bool) {
         ViewUtil.hideActivityLoading(self.activityLoading)
         NotificationCounter.refresh(onSuccessRefreshNotifications, failureCallback: onFailureRefreshNotifications)
@@ -167,7 +167,17 @@ class UserActivityViewController: CustomNavigationController {
         if ("FIRST_POST" == self.userActivitesItems[indexPath.row].activityType) {
             return CGSizeMake(self.view.bounds.width, 90)
         }
-        return collectionViewCellSize!
+        //return collectionViewCellSize!
+        
+        // this code is used to dynamically specify the height to CellView without this code contents get overlapped
+        let dummyLbl = UILabel(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 0))
+        dummyLbl.numberOfLines = 2
+        dummyLbl.text = self.userActivitesItems[indexPath.row].targetName
+        dummyLbl.sizeToFit()
+        
+        return CGSizeMake(
+            self.view.bounds.width - (Constants.DEFAULT_SPACING * 2),
+            ACTIVITY_DEFAULT_HEIGHT + dummyLbl.bounds.height)
     }
     
     func setCollectionViewSizesInsetsForTopView() {
