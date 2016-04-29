@@ -13,7 +13,6 @@ class MoreCommentsViewController: UIViewController, UIScrollViewDelegate, UIText
     @IBOutlet weak var commentTextView: UITextView!
     @IBOutlet weak var postCommentBtn: UIButton!
     
-    @IBOutlet weak var tableViewHtConstraint: NSLayoutConstraint!
     @IBOutlet weak var bottomSpaceForText: NSLayoutConstraint!
     @IBOutlet weak var activityLoading: UIActivityIndicatorView!
     @IBOutlet weak var commentsTableView: UITableView!
@@ -296,13 +295,7 @@ class MoreCommentsViewController: UIViewController, UIScrollViewDelegate, UIText
         ViewUtil.showDialog(NSLocalizedString("error", comment: ""), message: message, view: self)
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool { // called when 'return' key pressed. return NO to ignore.
-        textField.resignFirstResponder()
-        return true
-    }
-    
     @IBAction func onClickUser(sender: AnyObject) {
-        
         let button = sender as! UIButton
         let view = button.superview!
         let cell = view.superview! as! CommentTableViewCell

@@ -364,11 +364,6 @@ class MessagesViewController: UIViewController, PhotoSliderDelegate, UIScrollVie
         self.navigationController?.pushViewController(vController, animated: true)
     }
     
-    /*func textFieldShouldReturn(textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
-    }*/
-    
     // MARK: - PhotoSliderDelegate
     
     func photoSliderControllerWillDismiss(viewController: PhotoSlider.ViewController) {

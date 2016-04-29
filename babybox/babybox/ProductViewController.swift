@@ -64,7 +64,7 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
         //view.addGestureRecognizer(tap)
         
         self.detailTableView.separatorColor = Color.WHITE
-        self.detailTableView.estimatedRowHeight = 300.0
+        //self.detailTableView.estimatedRowHeight = Constants.PRODUCT_TABLE_ESTIMATED_HEIGHT
         self.detailTableView.rowHeight = UITableViewAutomaticDimension
         
         self.detailTableView.setNeedsLayout()
@@ -243,14 +243,13 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
                     
                     if self.productInfo!.ownerId != -1 {
                         ImageUtil.displayThumbnailProfileImage(self.productInfo!.ownerId, imageView: cell.postedUserImg)
-                        cell.postedUserImg.layer.cornerRadius = cell.postedUserImg.frame.height/2
+                        cell.postedUserImg.layer.cornerRadius = cell.postedUserImg.frame.height / 2
                         cell.postedUserImg.layer.masksToBounds = true
                     }
                 }
                 
                 ViewUtil.displayRoundedCornerView(cell.viewBtnIns, bgColor: Color.PINK)
             case 3:
-                
                 if let commentCount = productInfo?.numComments {
                     cell.commentsCount.text = String(commentCount)
                 }
@@ -265,9 +264,9 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
     }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        if section == 0{
+        if section == 0 {
             return nil
-        }else{
+        } else {
             let returnedView = UIView(frame: CGRectMake(0, 0, self.detailTableView.bounds.width, 15.0))
             returnedView.backgroundColor = Color.DARK_GRAY
             return returnedView
@@ -284,17 +283,22 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         switch indexPath.section {
-        case 0: return ViewUtil.getScreenWidth(self.view)
+        case 0:
+            // image slider
+            return ViewUtil.getScreenWidth(self.view)
         case 1:
+            // Product info
             if self.productInfo != nil {
-                return CGFloat(200.0) + self.lcontentSize
+                return Constants.PRODUCT_INFO_HEIGHT + self.lcontentSize
             }
-            return CGFloat(200.0)
+            return Constants.PRODUCT_INFO_HEIGHT
         case 2:
-            return CGFloat(95.0)
+            // seller
+            return Constants.PRODUCT_SELLER_HEIGHT
         case 4:
-            return CGFloat(70.0)
-        default:    
+            // comments
+            return Constants.PRODUCT_COMMENTS_HEIGHT
+        default:
             return UITableViewAutomaticDimension
         }
     }
@@ -304,10 +308,9 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        //on click of User section show the User profile screen.
+        // on click of User section show the User profile screen.
         if indexPath.section == 2  {
             self.performSegueWithIdentifier("userprofile", sender: nil)
-        //} else if indexPath.section == 4 && indexPath.row == self.comments.count {
         } else if (indexPath.section == 4 && indexPath.row == self.comments.count) || indexPath.section == 3 {
             pushMoreCommentsController()
         }
@@ -322,8 +325,8 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
             self.feedItem.isLiked = false
             
             self.likeImgBtn.setImage(UIImage(named: "ic_like.png"), forState: UIControlState.Normal)
-            ApiController.instance.unlikePost(self.productInfo!.id)
             self.likeCountTxt.setTitle(String(self.productInfo!.numLikes), forState: UIControlState.Normal)
+            ApiController.instance.unlikePost(self.productInfo!.id)
         } else {
             self.productInfo!.numLikes += 1
             self.productInfo!.isLiked = true
@@ -332,8 +335,8 @@ class ProductViewController: ProductNavigationController, UICollectionViewDelega
             self.feedItem.isLiked = true
             
             self.likeImgBtn.setImage(UIImage(named: "ic_liked.png"), forState: UIControlState.Normal)
-            ApiController.instance.likePost(self.productInfo!.id)
             self.likeCountTxt.setTitle(String(self.productInfo!.numLikes), forState: UIControlState.Normal)
+            ApiController.instance.likePost(self.productInfo!.id)
         }
     }
     
